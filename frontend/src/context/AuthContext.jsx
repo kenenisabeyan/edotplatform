@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
-import { checkAuth, loginUser, registerUser, logoutUser } from '../utils/api';
+import { checkAuth, loginUser, registerUser, logoutUser, socialLoginUser } from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -38,6 +38,13 @@ export const AuthProvider = ({ children }) => {
         return data;
     };
 
+    const socialLogin = async (providerData) => {
+        const data = await socialLoginUser(providerData);
+        setUser(data.user || data);
+        setIsAuthenticated(true);
+        return data;
+    };
+
     const register = async (userData) => {
         const data = await registerUser(userData);
         return data;
@@ -54,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, loading, login, register, logout, updateUser }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, loading, login, socialLogin, register, logout, updateUser }}>
             {children}
         </AuthContext.Provider>
     );

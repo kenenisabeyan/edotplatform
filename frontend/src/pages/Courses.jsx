@@ -122,7 +122,7 @@ const CentralEDOTLogo = () => {
     <div className="absolute inset-0 bg-gradient-to-b from-[#FFD700] to-[#F97316] opacity-30 blur-2xl rounded-full"></div>
     {/* Hexagon Shape */}
     <div 
-       className="w-full h-full bg-gradient-to-b from-[#008A32] to-[#00A13B] shadow-[0_0_50px_rgba(0,138,50,0.6)] flex flex-col items-center justify-center p-[4px] relative z-10"
+       className="w-full h-full bg-gradient-to-b from-[#00D4FF] to-[#0099CC] shadow-[0_0_50px_rgba(0,212,255,0.6)] flex flex-col items-center justify-center p-[4px] relative z-10"
        style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
     >
        <div 
@@ -527,19 +527,19 @@ export default function Courses() {
 
 
       {/* 1. HERO SECTION */}
-      <section className="relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b border-white/10">
-         <div className="absolute inset-0 z-0 bg-[#0B1120]">
-            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80" alt="Students actively learning" className="w-full h-full object-cover opacity-30 mix-blend-overlay" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0f48b9]/40 via-[#0B1120]/80 to-[#0B1120]"></div>
+      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+         <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-50'}`}>
+            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80" alt="Students actively learning" className={`w-full h-full object-cover ${isDarkMode ? 'opacity-30 mix-blend-overlay' : 'opacity-10 mix-blend-multiply'}`} />
+            <div className={`absolute inset-0 bg-gradient-to-b ${isDarkMode ? 'from-[#0f48b9]/40 via-[#0B1120]/80 to-[#0B1120]' : 'from-blue-100/40 via-slate-50/80 to-slate-50'}`}></div>
          </div>
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 ${isDarkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white/20 border-white/30 text-white shadow-lg backdrop-blur-md'} font-bold text-sm tracking-wider uppercase`}>
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 font-bold text-sm tracking-wider uppercase ${isDarkMode ? 'bg-white/10 border-white/20 text-white shadow-lg backdrop-blur-md' : 'bg-white/60 border-slate-300 text-slate-800 shadow-sm backdrop-blur-md'}`}>
                <BookOpen className="w-4 h-4" /> Structured Paths
             </div>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.1] tracking-tight text-white">
-               Explore Structured <span className="text-[#00D4FF]">Learning Paths</span>
+            <h1 className={`text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+               Explore Structured <span className={`${isDarkMode ? 'text-[#00D4FF]' : 'text-blue-600'}`}>Learning Paths</span>
             </h1>
-            <p className="text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed text-slate-300">
+            <p className={`text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                From foundational education to advanced professional skills, EDOT provides guided learning designed for real progress and real outcomes.
             </p>
          </div>

@@ -119,7 +119,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
         {/* Header */}
         <div className={`p-6 border-b flex justify-between items-center shrink-0 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
            <h2 className={`text-xl font-bold flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              <Calendar className="w-5 h-5 text-[#FFD700]" /> Create New Agenda
+              <Calendar className="w-5 h-5 text-[#F97316]" /> Create New Agenda
            </h2>
            <button onClick={onClose} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
              <X className="w-5 h-5" />
@@ -155,7 +155,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
                    <input 
                      type="text" required 
                      value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})}
-                     className={`w-full px-4 py-3 bg-[#0B0E14]/50 border rounded-xl text-sm focus:border-[#FFD700]/50 focus:ring-1 focus:ring-[#FFD700]/50 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
+                     className={`w-full px-4 py-3 bg-[#0B0E14]/50 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
                      placeholder="e.g., Parent-Teacher Meeting, Final Math Exam"
                    />
                  </div>
@@ -213,7 +213,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
                    <textarea 
                      rows="3"
                      value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
-                     className={`w-full px-4 py-3 bg-[#0B0E14]/50 border rounded-xl text-sm focus:border-[#FFD700]/50 focus:ring-1 focus:ring-[#FFD700]/50 font-medium resize-none outline-none placeholder:text-slate-300 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
+                     className={`w-full px-4 py-3 bg-[#0B0E14]/50 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium resize-none outline-none placeholder:text-slate-300 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
                      placeholder="Add any specific advice, support contexts, links, or instructions here..."
                    ></textarea>
                  </div>

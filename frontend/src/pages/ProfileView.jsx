@@ -148,7 +148,7 @@ export default function ProfileView() {
 
       <div className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden ${isDarkMode ? 'bg-[#0B0E14]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div 
-          className={`h-48 border-b relative group ${isDarkMode ? 'bg-gradient-to-tr from-[#11151F] to-[#008A32]/20 border-white/10' : 'bg-gradient-to-tr from-slate-100 to-slate-200 border-slate-200'}`}
+          className={`h-48 border-b relative group ${isDarkMode ? 'bg-gradient-to-tr from-[#11151F] to-[#00D4FF]/20 border-white/10' : 'bg-gradient-to-tr from-slate-100 to-slate-200 border-slate-200'}`}
           style={{ 
             backgroundImage: formData.coverPhoto ? `url(http://localhost:5000${formData.coverPhoto})` : 'none',
             backgroundSize: 'cover',

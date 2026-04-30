@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 
 const homePageImg = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/tdqdi93rhrzcnoipobz2';
-const heroVideoUrl = 'https://res.cloudinary.com/dacck6udl/video/upload/v1777442042/edot_uploads/gtvmcbs5km7gjwoab7cf.mp4';
+const heroVideoUrl = 'https://res.cloudinary.com/dacck6udl/video/upload/q_auto:best,f_auto/v1777442042/edot_uploads/gtvmcbs5km7gjwoab7cf.mp4';
 
 export default function Home() {
   const isDarkMode = useThemeMode();
@@ -38,70 +38,111 @@ export default function Home() {
     <div className={`min-h-screen w-full transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-white text-slate-900'}`}>
       
       {/* 1. HERO SECTION */}
-      <section className="relative w-full min-h-[95vh] flex items-center overflow-hidden">
-         <div className="absolute inset-0 bg-gradient-to-r from-[#020b1f] via-[#0f48b9] to-[#00d4ff] z-0"></div>
-         <div className={`absolute right-0 top-0 bottom-0 w-[45%] z-0 hidden lg:block ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`} style={{ clipPath: 'polygon(15% 0, 100% 0, 100% 100%, 0 100%)' }}></div>
-         <div className="absolute top-[15%] right-[10%] text-white/40 text-9xl font-black font-mono tracking-widest z-10 rotate-12 hidden lg:block opacity-30">&lt;/&gt;</div>
-         
-         <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full relative z-20 flex flex-col lg:flex-row items-center pt-32 pb-20 gap-16">
-            <div className="flex-1 text-left lg:pr-10">
-               <div className={`inline-flex items-center gap-3 mb-8 px-5 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md shadow-lg`}>
-                  <div className="flex items-center gap-1 text-[#FF7A00]">
-                    {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-[#FF7A00] text-[#FF7A00]" />)}
-                  </div>
-                  <span className={`text-sm font-bold ml-2 text-white/95`}>Trusted by {totalUsers} learners worldwide</span>
+      <div className="relative w-full">
+         <section className={`relative w-full pt-40 pb-48 lg:pt-48 lg:pb-56 flex items-center overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
+            
+            {/* RIGHT SIDE FULL-BLEED VIDEO WITH DIAGONAL CUT */}
+            <div 
+               className="absolute right-0 top-0 bottom-0 w-full lg:w-[50%] z-0 hidden lg:block overflow-hidden shadow-[-20px_0_50px_rgba(0,0,0,0.1)]" 
+               style={{ clipPath: 'polygon(15% 0, 100% 0, 100% 100%, 0% 100%)' }}
+            >
+               <video 
+                  src={heroVideoUrl} 
+                  autoPlay loop muted playsInline 
+                  className="absolute inset-0 w-full h-full object-cover" 
+               />
+               <div className={`absolute inset-0 bg-gradient-to-r ${isDarkMode ? 'from-[#0B1120] via-[#0B1120]/60 to-transparent' : 'from-[#FAFAFA] via-[#FAFAFA]/60 to-transparent'} w-[40%] -ml-1`}></div>
+               
+               {/* Floating elements mimicking the image over the video */}
+               <div className="absolute top-[20%] right-[30%] bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '4s' }}>
+                  <Handshake className="w-8 h-8 text-[#F97316]" />
                </div>
-
-               <h1 className="text-white font-black text-5xl md:text-6xl lg:text-[4.2rem] leading-[1.1] mb-8 tracking-tight">
-                  Education Should Be Accessible to Everyone — <span className="text-[#00D4FF] relative whitespace-nowrap">
-                     <span className="relative z-10">Not Just the Privileged</span>
-                     <svg className="absolute w-full h-4 -bottom-1 left-0 text-[#FF7A00] opacity-80 z-0" viewBox="0 0 100 10" preserveAspectRatio="none">
-                        <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="3" fill="transparent" />
-                     </svg>
-                  </span>
-               </h1>
-               <p className="text-white/90 text-xl max-w-[650px] mb-6 leading-relaxed font-medium">
-                  EDOT is a full-stack learning platform that connects learners, instructors, parents, and sponsors into one powerful ecosystem — delivering structured education, real skills, and real opportunities.
-               </p>
-               <p className="text-[#FF7A00] font-bold text-2xl mb-12 flex items-center gap-3">
-                  <Sparkles className="w-6 h-6" /> Learn. Teach. Support. Sponsor a Future.
-               </p>
-               <div className="flex gap-5 flex-wrap">
-                  <Link to="/register?role=student" className="bg-[#F97316] text-white border-2 border-[#F97316] px-10 py-4 rounded-xl font-bold text-lg hover:bg-[#e66a00] hover:border-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_10px_30px_rgba(249,115,22,0.3)] flex items-center gap-2">
-                     Start Learning <ArrowRight className="w-5 h-5" />
-                  </Link>
-                  <button className="bg-transparent text-white border-2 border-white/60 px-10 py-4 rounded-xl font-bold text-lg hover:bg-white/10 hover:border-white transition-all duration-300 flex items-center gap-2">
-                     Sponsor a Student <Heart className="w-5 h-5" />
-                  </button>
+               <div className="absolute top-[45%] right-[10%] bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '1s' }}>
+                  <GraduationCap className="w-8 h-8 text-[#0940B5] dark:text-[#00D4FF]" />
+               </div>
+               <div className="absolute bottom-[25%] left-[25%] bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '3s', animationDelay: '0.5s' }}>
+                  <Heart className="w-8 h-8 text-red-500 fill-red-500" />
                </div>
             </div>
-            
-            <div className="flex-1 w-full mt-16 lg:mt-0 flex justify-center relative">
-               <div className="relative w-full max-w-[550px] lg:max-w-[600px] aspect-[4/5] rounded-[32px] flex items-center justify-center overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.4)] border-[6px] border-white/10 group">
+
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full relative z-20 flex flex-col lg:flex-row items-center gap-16">
+               
+               {/* LEFT SIDE TEXT */}
+               <div className="flex-1 text-left lg:pr-6 lg:max-w-[650px]">
+
+                  {/* Heading */}
+                  <h1 className={`font-black text-5xl md:text-6xl lg:text-[4.4rem] leading-[1.12] mb-6 tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                     Education Should Be Accessible to Everyone <br className="hidden lg:block" />
+                     <span className="text-[#F97316] relative inline-block mt-1">
+                        <span className="relative z-10">Not Just the Privileged</span>
+                        {/* Orange Underline */}
+                        <svg className="absolute w-full h-3 -bottom-1 left-0 text-[#F97316] z-0" viewBox="0 0 100 10" preserveAspectRatio="none">
+                           <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="4" fill="transparent" />
+                        </svg>
+                     </span>
+                  </h1>
+
+                  {/* Paragraph */}
+                  <p className={`text-lg md:text-xl max-w-[600px] mb-6 leading-relaxed font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                     EDOT is a full-stack learning platform that connects learners, instructors, parents, and sponsors into one powerful ecosystem, delivering structured education, real skills, and real opportunities.
+                  </p>
+
+                  {/* Sub paragraph */}
+                  <p className="text-[#F97316] font-bold text-xl mb-10 flex items-center gap-2">
+                     <Sparkles className="w-5 h-5" /> Learn. Teach. Support. Sponsor a Future.
+                  </p>
+
+                  {/* Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-4">
+                     <Link to="/register?role=student" className="bg-[#F97316] text-white px-8 py-4 rounded-[14px] font-bold text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_8px_20px_rgba(249,115,22,0.3)] flex items-center justify-center gap-2">
+                        Start Learning <ArrowRight className="w-5 h-5" />
+                     </Link>
+                     <Link to="/register?role=sponsor" className={`px-8 py-4 rounded-[14px] font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 border-2 ${isDarkMode ? 'border-[#F97316] text-[#F97316] hover:bg-[#F97316]/10' : 'border-[#F97316] text-[#F97316] hover:bg-orange-50'}`}>
+                        Sponsor a Student <Heart className="w-5 h-5" />
+                     </Link>
+                  </div>
+               </div>
+               
+               {/* RIGHT SIDE SPACER FOR DESKTOP */}
+               <div className="hidden lg:block flex-1 w-full"></div>
+
+               {/* MOBILE VIDEO (shown only on small screens) */}
+               <div className="lg:hidden w-full mt-12 rounded-[32px] overflow-hidden shadow-2xl relative aspect-video border-[6px] border-white dark:border-[#1E293B]">
                   <video 
-                    src={heroVideoUrl} 
-                    autoPlay loop muted playsInline 
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
+                     src={heroVideoUrl} 
+                     autoPlay loop muted playsInline 
+                     className="w-full h-full object-cover" 
                   />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#F97316]/20 to-[#00D4FF]/20 mix-blend-overlay pointer-events-none"></div>
-                  
-                  {/* Floating badge */}
-                  <div className="absolute bottom-8 right-8 bg-white/90 backdrop-blur-sm text-slate-900 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4">
-                     <div className="w-12 h-12 bg-[#00D4FF]/20 rounded-full flex items-center justify-center">
-                        <MonitorPlay className="w-6 h-6 text-[#0940B5]" />
+               </div>
+
+            </div>
+         </section>
+
+         {/* 4-COLUMN FLOATING CARD AT BOTTOM */}
+         <div className="absolute bottom-0 left-0 w-full transform translate-y-1/2 z-30 px-6">
+            <div className={`max-w-[1200px] mx-auto rounded-[24px] shadow-[0_15px_40px_rgba(0,0,0,0.08)] p-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x ${isDarkMode ? 'bg-[#1E293B] divide-white/10 border border-white/10' : 'bg-white divide-slate-100'}`}>
+               {[
+                 { title: "Learn", desc: "Access quality courses anytime, anywhere.", icon: BookOpen, color: "bg-[#0940B5]" },
+                 { title: "Teach", desc: "Empower others with your knowledge.", icon: Users, color: "bg-[#10B981]" },
+                 { title: "Support", desc: "Help learners grow and succeed.", icon: Heart, color: "bg-[#FBBF24]" },
+                 { title: "Sponsor", desc: "Sponsor education, change a life.", icon: Gift, color: "bg-[#8B5CF6]" }
+               ].map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-4 p-5 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors rounded-xl cursor-pointer">
+                     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-sm text-white ${item.color}`}>
+                        <item.icon className="w-6 h-6" />
                      </div>
                      <div>
-                        <div className="font-black text-xl">100%</div>
-                        <div className="text-sm font-semibold text-slate-600">Structured Learning</div>
+                        <h3 className={`font-black text-[18px] mb-0.5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{item.title}</h3>
+                        <p className={`text-[13px] leading-tight font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{item.desc}</p>
                      </div>
                   </div>
-               </div>
+               ))}
             </div>
          </div>
-      </section>
+      </div>
 
       {/* 2. THE REALITY OF EDUCATION TODAY */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`pt-48 pb-32 px-6 border-t ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto">
             <div className="flex flex-col lg:flex-row gap-16 items-center">
                <div className="flex-1 w-full relative rounded-[40px] overflow-hidden shadow-2xl h-[500px]">
@@ -116,7 +157,7 @@ export default function Home() {
                      <AlertTriangle className="w-4 h-4" /> The Problem
                   </div>
                   <h2 className={`text-4xl md:text-5xl font-black mb-8 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                     Education Is Available — <span className="text-red-500">But Not Equal</span>
+                     Education Is Available <span className="text-red-500">But Not Equal</span>
                   </h2>
                   <p className={`text-xl leading-relaxed mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                      Many learners struggle to find clear, structured, and high-quality education. Resources are scattered, guidance is limited, and opportunities are not equally accessible.
@@ -153,7 +194,7 @@ export default function Home() {
                      EDOT Changes How Learning Works
                   </h2>
                   <p className={`text-xl leading-relaxed mb-10 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-                     EDOT transforms education into a structured, guided, and interactive experience — built to support learners at every stage.
+                     EDOT transforms education into a structured, guided, and interactive experience, built to support learners at every stage.
                   </p>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

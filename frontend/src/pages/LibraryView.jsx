@@ -300,7 +300,7 @@ export default function LibraryView() {
       
       {/* Header */}
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-center gap-6 rounded-3xl p-6 md:p-8 bg-gradient-to-br from-white/5 to-transparent border backdrop-blur-xl shadow-2xl relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#008A32]/10 via-transparent to-[#FFD700]/10 opacity-30 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#00D4FF]/10 via-transparent to-[#F97316]/10 opacity-30 pointer-events-none"></div>
         <div className="relative z-10">
           <h1 className={`text-3xl font-display font-bold mb-2 tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Digital Library</h1>
           <p className={`font-medium text-lg ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Explore books, research papers, and documents.</p>
@@ -500,7 +500,7 @@ export default function LibraryView() {
                 <button 
                   type="submit" 
                   disabled={submitting}
-                  className={`hover:shadow-[#008A32]/20 px-6 py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all w-full sm:w-auto disabled:opacity-70 bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                  className={`hover:shadow-[#00D4FF]/20 px-6 py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all w-full sm:w-auto disabled:opacity-70 bg-[#F97316] hover:bg-[#CF711F] shadow-md border border-[#F97316] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                 >
                   {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Plus className="w-5 h-5" /> Save to Library</>}
                 </button>
@@ -571,7 +571,7 @@ export default function LibraryView() {
                             href={resource.fileUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`block text-center py-2.5 rounded-xl bg-gradient-to-r from-[#008A32] to-[#006622] font-bold hover:shadow-[0_0_15px_rgba(0,138,50,0.4)] transition-all border border-[#E67E22]/50 hover:-translate-y-0.5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                            className={`block text-center py-2.5 rounded-xl bg-gradient-to-r from-[#00D4FF] to-[#0099CC] font-bold hover:shadow-[0_0_15px_rgba(0,212,255,0.4)] transition-all border border-[#F97316]/50 hover:-translate-y-0.5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                           >
                             <Download className="w-4 h-4 inline-block mr-2" /> Download Document
                           </a>

@@ -127,7 +127,7 @@ export default function InstructorDashboard() {
     if (loading) {
       return (
         <div className="flex justify-center items-center h-64">
-          <div className={`w-12 h-12 border-4 border-t-[#FFD700] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+          <div className={`w-12 h-12 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
         </div>
       );
     }

@@ -354,7 +354,7 @@ export default function AdminDashboard() {
     if (status === 'approved') return 'bg-emerald-500/100/20 text-emerald-300 border border-emerald-300';
     if (status === 'pending') return 'bg-amber-500/100/20 text-amber-300 border border-amber-300';
     if (status === 'rejected') return 'bg-rose-500/100/20 text-rose-300 border border-rose-300';
-    if (status === 'blocked') return 'bg-[#FFD700]/20 text-[#FFD700] border border-[#FFD700]';
+    if (status === 'blocked') return 'bg-[#F97316]/20 text-[#F97316] border border-[#F97316]';
     return 'bg-[#11151F]/40 backdrop-blur-xl0/20 text-slate-200 border border-slate-400';
   };
 
@@ -926,12 +926,12 @@ export default function AdminDashboard() {
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: 450, opacity: 0 }}
                 transition={{ type: 'spring', stiffness: 240, damping: 30 }}
-                className={`relative w-full max-w-6xl rounded-3xl border border-[#FFD700] p-5 shadow-2xl backdrop-blur-2xl ${isDarkMode ? 'bg-[#0B0E14]/90' : 'bg-white/95'}`}
+                className={`relative w-full max-w-6xl rounded-3xl border border-[#00D4FF] p-5 shadow-2xl backdrop-blur-2xl ${isDarkMode ? 'bg-[#0B0E14]/90' : 'bg-white/95'}`}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex justify-between items-start gap-4 mb-5">
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-full border border-[#FFD700] bg-gradient-to-br from-slate-700 via-slate-800 to-slate-600 overflow-hidden shadow-lg">
+                    <div className="w-16 h-16 rounded-full border border-[#00D4FF] bg-gradient-to-br from-slate-700 via-slate-800 to-slate-600 overflow-hidden shadow-lg">
                       <img
                         src={selectedUser.avatar?.startsWith('http') ? selectedUser.avatar : selectedUser.avatar ? `/uploads/${selectedUser.avatar}` : 'https://via.placeholder.com/150'}
                         alt={selectedUser.name}
@@ -970,7 +970,7 @@ export default function AdminDashboard() {
                               <button
                                 key={parent.id}
                                 onClick={() => openManagePanel(parent.id)}
-                                className="px-2 py-1 text-xs font-semibold text-[#0B0E14] bg-[#FFD700] rounded-full hover:bg-yellow-400 transition-colors"
+                                className="px-2 py-1 text-xs font-semibold text-[#0B0E14] bg-[#00D4FF] rounded-full hover:bg-cyan-400 transition-colors"
                               >
                                 {parent.name}
                               </button>
@@ -1073,7 +1073,7 @@ export default function AdminDashboard() {
                   <div className={`p-4 rounded-2xl border bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                     <h4 className={`text-sm font-bold mb-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Performance Snapshot</h4>
                     <div className="flex items-center justify-center mb-3">
-                      <RadialBarChart width={200} height={200} cx="50%" cy="50%" innerRadius="62%" outerRadius="100%" barSize={12} data={[{ name: 'Progress', value: selectedUserCompletion, fill: '#008A32' }]}>
+                      <RadialBarChart width={200} height={200} cx="50%" cy="50%" innerRadius="62%" outerRadius="100%" barSize={12} data={[{ name: 'Progress', value: selectedUserCompletion, fill: '#00D4FF' }]}>
                         <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
                         <RadialBar background clockWise dataKey="value" cornerRadius={10} />
                       </RadialBarChart>
@@ -1096,7 +1096,7 @@ export default function AdminDashboard() {
                                   <button onClick={() => removeEnrollment(courseId)} className="text-[11px] text-rose-300 px-2 py-1 rounded bg-slate-700 hover:bg-slate-600">Remove</button>
                                 </div>
                                 <div className="h-2 w-full bg-slate-700 rounded-full overflow-hidden">
-                                  <div style={{ width: `${en.progress || 0}%`, backgroundColor: '#008A32' }} className="h-full rounded-full transition-all duration-700" aria-valuenow={en.progress || 0} aria-valuemin="0" aria-valuemax="100" />
+                                  <div style={{ width: `${en.progress || 0}%`, backgroundColor: '#00D4FF' }} className="h-full rounded-full transition-all duration-700" aria-valuenow={en.progress || 0} aria-valuemin="0" aria-valuemax="100" />
                                 </div>
                                 <p className={`text-xs ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Progress: {en.progress || 0}% • {en.status}</p>
                               </div>

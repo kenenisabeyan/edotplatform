@@ -4,13 +4,13 @@
 :root {
   --bg-base: #0B0E14;
   --bg-sidebar: #11151F;
-  --brand-primary: #EBC176;
-  --brand-primary-hover: #C48828;
-  --brand-green: #008A32;
-  --brand-yellow: #EBC176; /* Mapped to new primary */
+  --brand-primary: #F97316;
+  --brand-primary-hover: #E66A00;
+  --brand-green: #00D4FF;
+  --brand-yellow: #F97316; /* Mapped to new primary */
   --brand-red: #E30A17;
   --border-glass: rgba(255, 255, 255, 0.05);
-  --shadow-glow-primary: 0 0 15px rgba(235, 193, 118, 0.3);
+  --shadow-glow-primary: 0 0 15px rgba(249, 115, 22, 0.3);
   --text-main: #FFFFFF;
   --text-secondary: #94A3B8;
   --text-muted: #64748B;
@@ -18,8 +18,8 @@
   --bg-elevated: #232B3A;
   --border-radius: 12px; /* Sleek SaaS borders */
   --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --accent-blue: #EBC176; /* Replaced with primary */
-  --accent-orange: #C48828; /* Replaced with primary hover */
+  --accent-blue: #00D4FF; /* Replaced with primary */
+  --accent-orange: #F97316; /* Replaced with primary hover */
   --gray-50: #F8FAFC;
   --gray-100: #F1F5F9;
   --gray-200: #E2E8F0;
@@ -39,12 +39,12 @@
   --text-main: #0F172A; /* High readability */
   --text-secondary: #475569;
   --text-muted: #94A3B8;
-  --accent-blue: #EBC176; 
-  --accent-orange: #C48828; 
-  --brand-primary: #EBC176;
-  --brand-primary-hover: #C48828;
-  --brand-green: #008A32;
-  --brand-yellow: #EBC176; 
+  --accent-blue: #00D4FF; 
+  --accent-orange: #F97316; 
+  --brand-primary: #F97316;
+  --brand-primary-hover: #E66A00;
+  --brand-green: #00D4FF;
+  --brand-yellow: #F97316; 
   --brand-red: #E30A17;
   --border-radius: 12px;
   --gray-50: #f8fafc;
@@ -164,9 +164,9 @@ body {
 }
 
 /* Light Theme EDOT brand contrast fixes */
-[data-theme="light"] .text-\[\#008A32\] { color: #006020 !important; }
-[data-theme="light"] .text-\[\#FFD700\] { color: var(--brand-primary) !important; }
-[data-theme="light"] .hover\:text-\[\#FFD700\]:hover { color: var(--brand-primary-hover) !important; }
+[data-theme="light"] .text-\[\#00D4FF\] { color: #0088CC !important; }
+[data-theme="light"] .text-\[\#F97316\] { color: var(--brand-primary) !important; }
+[data-theme="light"] .hover\:text-\[\#F97316\]:hover { color: var(--brand-primary-hover) !important; }
 
 /* Force hide all hardcoded background wrapper meshes in alternate themes */
 [data-theme="light"] div[style*="radial-gradient"],
@@ -346,25 +346,25 @@ button, .btn, .cta {
 }
 
 /* Force override EDOT Green/Yellow/Red brands to match the SaaS Portfolio in Dark Mode */
-[data-theme="extra-dark"] .text-\[\#008A32\], 
-[data-theme="extra-dark"] .text-\[\#FFD700\], 
+[data-theme="extra-dark"] .text-\[\#00D4FF\], 
+[data-theme="extra-dark"] .text-\[\#F97316\], 
 [data-theme="extra-dark"] .text-\[\#E30A17\] {
   color: var(--brand-primary) !important;
 }
-[data-theme="extra-dark"] .bg-\[\#008A32\], 
-[data-theme="extra-dark"] .bg-\[\#FFD700\], 
+[data-theme="extra-dark"] .bg-\[\#00D4FF\], 
+[data-theme="extra-dark"] .bg-\[\#F97316\], 
 [data-theme="extra-dark"] .bg-\[\#E30A17\] {
   background-color: var(--brand-primary) !important;
 }
-[data-theme="extra-dark"] .border-\[\#008A32\]\/20, 
-[data-theme="extra-dark"] .border-\[\#008A32\]\/30, 
-[data-theme="extra-dark"] .border-\[\#FFD700\]\/20, 
-[data-theme="extra-dark"] .border-\[\#FFD700\]\/30 {
-  border-color: rgba(235, 193, 118, 0.3) !important;
+[data-theme="extra-dark"] .border-\[\#00D4FF\]\/20, 
+[data-theme="extra-dark"] .border-\[\#00D4FF\]\/30, 
+[data-theme="extra-dark"] .border-\[\#F97316\]\/20, 
+[data-theme="extra-dark"] .border-\[\#F97316\]\/30 {
+  border-color: rgba(249, 115, 22, 0.3) !important;
 }
-[data-theme="extra-dark"] .bg-\[\#008A32\]\/10,
-[data-theme="extra-dark"] .bg-\[\#FFD700\]\/10 {
-  background-color: rgba(235, 193, 118, 0.15) !important;
+[data-theme="extra-dark"] .bg-\[\#00D4FF\]\/10,
+[data-theme="extra-dark"] .bg-\[\#F97316\]\/10 {
+  background-color: rgba(249, 115, 22, 0.15) !important;
 }
 
 /* Card Solidification for Max Readability */

@@ -21,19 +21,19 @@ export default function About() {
     <div className={`min-h-screen w-full transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-white text-slate-900'}`}>
       
       {/* 1. HERO SECTION */}
-      <section className="relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b border-white/10">
-         <div className="absolute inset-0 z-0 bg-slate-900">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80" alt="Global Education" className="w-full h-full object-cover opacity-40 mix-blend-overlay" />
-            <div className="absolute inset-0 bg-gradient-to-b from-blue-900/50 via-slate-900/80 to-slate-900"></div>
+      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+         <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-slate-900' : 'bg-blue-50'}`}>
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80" alt="Global Education" className={`w-full h-full object-cover ${isDarkMode ? 'opacity-40 mix-blend-overlay' : 'opacity-[0.07] mix-blend-multiply'}`} />
+            <div className={`absolute inset-0 bg-gradient-to-b ${isDarkMode ? 'from-blue-900/50 via-slate-900/80 to-slate-900' : 'from-white/50 via-blue-50/80 to-blue-50'}`}></div>
          </div>
-         <div className="relative z-10 max-w-[1000px] mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 bg-white/20 border-white/30 text-white shadow-lg backdrop-blur-md font-bold text-sm tracking-wider uppercase">
+         <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 font-bold text-sm tracking-wider uppercase ${isDarkMode ? 'bg-white/20 border-white/30 text-white shadow-lg backdrop-blur-md' : 'bg-white/80 border-slate-300 text-slate-800 shadow-sm backdrop-blur-md'}`}>
                <Globe className="w-4 h-4" /> Discover EDOT
             </div>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.1] tracking-tight text-white">
-               Building a Better Future Through <span className="text-[#00D4FF]">Education</span>
+            <h1 className={`text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+               Building a Better Future Through <span className={`${isDarkMode ? 'text-[#00D4FF]' : 'text-blue-600'}`}>Education</span>
             </h1>
-            <p className="text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed text-slate-200">
+            <p className={`text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
                EDOT is more than a learning platform — it is a structured system designed to make education accessible, guided, and impactful for everyone.
             </p>
          </div>

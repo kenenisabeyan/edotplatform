@@ -120,13 +120,13 @@ export default function CertificatesView() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {completedCourses.map((enrolled) => (
             <div key={enrolled.course?.id} className={`rounded-3xl border shadow-2xl overflow-hidden group transition-colors ${isDarkMode ? 'bg-[#0B0E14]/90 backdrop-blur-xl border-white/10 hover:border-[#FFD700]/30' : 'bg-white/95 border-slate-200 hover:border-indigo-300 hover:shadow-lg'}`}>
-              <div className={`aspect-[4/3] border-b p-8 flex flex-col items-center justify-center relative ${isDarkMode ? 'bg-gradient-to-br from-[#008A32]/5 to-[#0B0E14] border-white/10' : 'bg-gradient-to-br from-indigo-50 to-white border-slate-200'}`}>
+              <div className={`aspect-[4/3] border-b p-8 flex flex-col items-center justify-center relative ${isDarkMode ? 'bg-gradient-to-br from-[#00D4FF]/5 to-[#0B0E14] border-white/10' : 'bg-gradient-to-br from-indigo-50 to-white border-slate-200'}`}>
                 <Award className={`w-16 h-16 mb-4 drop-shadow-sm ${isDarkMode ? 'text-[#FFD700]' : 'text-indigo-500'}`} />
                 <h3 className={`font-bold text-center line-clamp-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{enrolled.course?.title}</h3>
                 <div className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                   <button 
                     onClick={() => handleDownloadCertificate(enrolled.course?.title)}
-                    className={`flex items-center gap-2 bg-gradient-to-r from-[#008A32] to-[#006622] px-6 py-3 rounded-full font-bold shadow-[0_0_15px_rgba(0,138,50,0.5)] hover:-translate-y-0.5 transition-all transform scale-95 group-hover:scale-100 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                    className={`flex items-center gap-2 bg-gradient-to-r from-[#00D4FF] to-[#0099CC] px-6 py-3 rounded-full font-bold shadow-[0_0_15px_rgba(0,212,255,0.5)] hover:-translate-y-0.5 transition-all transform scale-95 group-hover:scale-100 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                   >
                     <Download className="w-4 h-4" /> Download PDF
                   </button>

@@ -222,6 +222,7 @@ router.post('/', protect, authorize('instructor', 'admin'), async (req, res) => 
             level: req.body.level || 'Beginner',
             duration: Number(req.body.duration) || 1,
             thumbnail: req.body.thumbnail || 'default-course.jpg',
+            videoUrl: req.body.videoUrl || '',
             price: Number(req.body.price) || 0,
             requirements: req.body.requirements || [],
             whatYouWillLearn: req.body.whatYouWillLearn || [],
@@ -290,6 +291,7 @@ router.put('/:id', protect, authorize('instructor', 'admin'), async (req, res) =
         if (req.body.requirements !== undefined) validUpdateFields.requirements = req.body.requirements;
         if (req.body.whatYouWillLearn !== undefined) validUpdateFields.whatYouWillLearn = req.body.whatYouWillLearn;
         if (req.body.tags !== undefined) validUpdateFields.tags = req.body.tags;
+        if (req.body.videoUrl !== undefined) validUpdateFields.videoUrl = req.body.videoUrl;
         if (req.body.isExamRequired !== undefined) validUpdateFields.isExamRequired = Boolean(req.body.isExamRequired);
         if (req.body.finalExam !== undefined) validUpdateFields.finalExam = req.body.finalExam;
 

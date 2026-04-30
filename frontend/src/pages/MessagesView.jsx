@@ -507,7 +507,7 @@ export default function MessagesView() {
                    className={`px-3 py-3 mb-1.5 rounded-xl flex items-center gap-4 cursor-pointer transition-all duration-300 border ${activeContact?.id === contact.id ? 'bg-[#11151F] border-[#FFD700]/30 shadow-[0_0_15px_rgba(255,215,0,0.05)] ' : 'bg-transparent border-transparent hover:bg-[#11151F]/40 hover:border-white/5'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                  >
                    <div className="relative">
-                     <div className={`w-12 h-12 rounded-[14px] flex items-center justify-center font-bold text-lg shrink-0 overflow-hidden shadow-inner ${activeContact?.id === contact.id ? 'bg-gradient-to-br from-[#FFD700]/20 to-[#008A32]/20 text-[#FFD700]' : 'bg-[#11151F] border '} ${isDarkMode ? 'text-slate-300 border-white/5' : 'text-slate-500 border-slate-100'}`}>
+                     <div className={`w-12 h-12 rounded-[14px] flex items-center justify-center font-bold text-lg shrink-0 overflow-hidden shadow-inner ${activeContact?.id === contact.id ? 'bg-gradient-to-br from-[#F97316]/20 to-[#00D4FF]/20 text-[#F97316]' : 'bg-[#11151F] border '} ${isDarkMode ? 'text-slate-300 border-white/5' : 'text-slate-500 border-slate-100'}`}>
                        {contact.avatar && contact.avatar !== 'default-avatar.png' ? (
                           <img src={`http://localhost:5000${contact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
                        ) : (
@@ -649,7 +649,7 @@ export default function MessagesView() {
 
                           <div className={`flex flex-col max-w-[85%] md:max-w-[65%] ${isMine ? 'items-end' : 'items-start'}`}>
                             {/* Message Bubble Glassmorphic */}
-                            <div className={`p-4 shadow-lg text-[15px] leading-relaxed relative border backdrop-blur-xl ${isMine ? 'bg-gradient-to-br from-[#008A32]/80 to-[#006622]/90 border-[#E67E22] rounded-2xl rounded-br-sm' : 'bg-[#11151F]/80 rounded-2xl rounded-bl-sm'} ${isDarkMode ? 'text-white text-slate-200 border-white/10' : 'text-slate-900 text-slate-600 border-slate-200'}`} style={{ wordBreak: 'break-word' }}>
+                            <div className={`p-4 shadow-lg text-[15px] leading-relaxed relative border backdrop-blur-xl ${isMine ? 'bg-gradient-to-br from-[#00D4FF]/80 to-[#0099CC]/90 border-[#F97316] rounded-2xl rounded-br-sm' : 'bg-[#11151F]/80 rounded-2xl rounded-bl-sm'} ${isDarkMode ? 'text-white text-slate-200 border-white/10' : 'text-slate-900 text-slate-600 border-slate-200'}`} style={{ wordBreak: 'break-word' }}>
                               <button onClick={() => setMessageMenuOpenId(prev => prev === msg.id ? null : msg.id)} className={`absolute top-3 right-3 w-8 h-8 hover:text-white rounded-full bg-black/20 flex items-center justify-center transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                                 <MoreVertical className="w-4 h-4" />
                               </button>

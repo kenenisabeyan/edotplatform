@@ -105,7 +105,7 @@ export default function CourseDetails() {
       <div className="absolute inset-0 pointer-events-none z-0">
          <div className={`absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b opacity-80 mix-blend-screen ${isDarkMode ? 'from-[#0B1221]' : 'from-slate-200/50'} to-transparent`} />
          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#E67E22]/10 blur-[120px] mix-blend-screen" />
-         <div className="absolute top-[20%] right-[-5%] w-[40%] h-[40%] rounded-full bg-[#FFD700]/10 blur-[120px] mix-blend-screen" />
+         <div className="absolute top-[20%] right-[-5%] w-[40%] h-[40%] rounded-full bg-[#F97316]/10 blur-[120px] mix-blend-screen" />
          <div className="absolute bottom-[-10%] left-[20%] w-[30%] h-[40%] rounded-full bg-indigo-500/10 blur-[150px] mix-blend-screen" />
       </div>
       
@@ -113,23 +113,23 @@ export default function CourseDetails() {
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <Link to="/courses" className="inline-flex items-center gap-2 text-xs font-black text-[#FFD700] hover:text-white transition-colors mb-10   bg-[#FFD700]/10 px-4 py-2 rounded-full border border-[#FFD700]/20 hover:shadow-[0_0_15px_rgba(255,215,0,0.3)]">
+          <Link to="/courses" className="inline-flex items-center gap-2 text-xs font-black text-[#F97316] hover:text-white transition-colors mb-10   bg-[#F97316]/10 px-4 py-2 rounded-full border border-[#F97316]/20 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)]">
             <ArrowLeft className="w-4 h-4" /> Back to Catalog
           </Link>
 
           <div className="flex flex-col lg:flex-row gap-16 lg:items-center">
               {/* Left Hero */}
              <div className="lg:w-7/12">
-                <div className="mb-4 flex flex-wrap items-center gap-2 text-[#FFD700] font-black text-[10px] sm:text-xs drop-shadow-[0_0_10px_rgba(255,215,0,0.5)]">
+                <div className="mb-4 flex flex-wrap items-center gap-2 text-[#F97316] font-black text-[10px] sm:text-xs drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]">
                    <span>{course.mainCategory || 'SaaS Application'}</span>
                    {course.subCategory && (
                      <>
-                        <ChevronRight className="w-4 h-4 text-[#FFD700]/40" />
+                        <ChevronRight className="w-4 h-4 text-[#F97316]/40" />
                         <span>{course.subCategory}</span>
                      </>
                    )}
                 </div>
-                <h1 className={`text-5xl md:text-7xl font-black mb-6 leading-tight text-transparent bg-clip-text drop-shadow-[0_0_25px_rgba(255,215,0,0.3)] ${isDarkMode ? 'bg-gradient-to-r from-white via-amber-100 to-[#FFD700]' : 'bg-gradient-to-r from-slate-900 via-amber-600 to-[#E67E22]'}`}>
+                <h1 className={`text-5xl md:text-7xl font-black mb-6 leading-tight text-transparent bg-clip-text drop-shadow-[0_0_25px_rgba(249,115,22,0.3)] ${isDarkMode ? 'bg-gradient-to-r from-white via-amber-100 to-[#F97316]' : 'bg-gradient-to-r from-slate-900 via-amber-600 to-[#E67E22]'}`}>
                   {course.title}
                 </h1>
                 <p className={`text-lg md:text-xl font-medium leading-relaxed max-w-2xl mb-10 border-l-2 border-[#E67E22]/50 pl-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -141,7 +141,7 @@ export default function CourseDetails() {
                      Instructor: <span className={`ml-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.instructor?.name || 'Kenenisa'}</span>
                    </div>
                    <div className="flex items-center gap-3">
-                     <MonitorPlay className="w-5 h-5 text-[#FFD700] drop-shadow-[0_0_10px_rgba(255,215,0,0.4)]" />
+                     <MonitorPlay className="w-5 h-5 text-[#F97316] drop-shadow-[0_0_10px_rgba(249,115,22,0.4)]" />
                      Delivery: <span className={`ml-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Hybrid / Online</span>
                    </div>
                 </div>
@@ -150,7 +150,7 @@ export default function CourseDetails() {
              {/* Right Hero (Floating 3D Mockup Container) */}
              <div className="hidden lg:block lg:w-5/12 perspective-1000">
                  <div className="relative group w-full transform perspective-1000 rotate-y-[-5deg] rotate-x-[5deg] hover:rotate-y-0 hover:rotate-x-0 transition-transform duration-700 ease-out">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-[#008A32] to-[#FFD700] rounded-2xl blur-3xl opacity-30 group-hover:opacity-50 transition duration-700"></div>
+                    <div className="absolute inset-0 bg-gradient-to-tr from-[#00D4FF] to-[#F97316] rounded-2xl blur-3xl opacity-30 group-hover:opacity-50 transition duration-700"></div>
                     <div className="relative border border-white/20 bg-white/5 backdrop-blur-2xl rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
                        <img 
                          src={course.thumbnail || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"} 
@@ -159,8 +159,8 @@ export default function CourseDetails() {
                        />
                        
                        {/* Floating Decorative Elements */}
-                       <div className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-tr from-[#FFD700] to-yellow-300 rounded-full blur-[10px] animate-pulse opacity-60"></div>
-                       <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-tr from-[#008A32] to-emerald-400 rounded-full blur-[15px] animate-pulse opacity-60 delay-300"></div>
+                       <div className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-tr from-[#F97316] to-orange-300 rounded-full blur-[10px] animate-pulse opacity-60"></div>
+                       <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-tr from-[#00D4FF] to-cyan-400 rounded-full blur-[15px] animate-pulse opacity-60 delay-300"></div>
                     </div>
                  </div>
              </div>
@@ -183,7 +183,7 @@ export default function CourseDetails() {
                       onClick={() => setActiveTab(tab)}
                       className={`flex-1 min-w-fit py-4 px-8 font-black text-[11px] transition-all duration-300 rounded-full whitespace-nowrap border ${
                         activeTab === tab 
-                        ? 'border-[#E67E22]/50 bg-gradient-to-r from-[#008A32]/20 to-transparent text-[#FFD700] shadow-[inset_0_0_20px_rgba(0,138,50,0.5)]' 
+                        ? 'border-[#F97316]/50 bg-gradient-to-r from-[#00D4FF]/20 to-transparent text-[#F97316] shadow-[inset_0_0_20px_rgba(0,212,255,0.5)]' 
                         : (isDarkMode ? 'border-white/5 bg-[#11151F]/40 text-slate-400 hover:border-white/20 hover:text-white' : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-800')
                       }`}
                     >
@@ -207,11 +207,11 @@ export default function CourseDetails() {
                      </div>
                   </div>
 
-                  <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#FFD700]/30 to-transparent shadow-[0_0_50px_rgba(255,215,0,0.05)]">
+                  <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#F97316]/30 to-transparent shadow-[0_0_50px_rgba(249,115,22,0.05)]">
                      <div className={`backdrop-blur-2xl p-10 rounded-3xl h-full border relative overflow-hidden ${isDarkMode ? 'bg-[#05070A]/80 text-white border-white/5' : 'bg-white/80 text-slate-900 border-slate-100'}`}>
-                        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#FFD700]/5 rounded-full blur-[80px] pointer-events-none"></div>
+                        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#F97316]/5 rounded-full blur-[80px] pointer-events-none"></div>
                         <h3 className="text-xl font-black flex items-center gap-4 mb-8 relative z-10">
-                          <CheckCircle className="w-6 h-6 text-[#FFD700] drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]" /> 
+                          <CheckCircle className="w-6 h-6 text-[#F97316] drop-shadow-[0_0_8px_rgba(249,115,22,0.4)]" /> 
                           What You'll Learn
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
@@ -222,7 +222,7 @@ export default function CourseDetails() {
                              'Receive a formalized digital certification upon passing.',
                            ].map((point, i) => (
                               <div key={i} className={`flex gap-4 group ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                                 <ChevronRight className="w-5 h-5 text-[#FFD700] shrink-0 group-hover:translate-x-1 transition-transform" />
+                                 <ChevronRight className="w-5 h-5 text-[#F97316] shrink-0 group-hover:translate-x-1 transition-transform" />
                                  <span className="font-bold text-sm leading-relaxed">{point}</span>
                               </div>
                            ))}
@@ -266,7 +266,7 @@ export default function CourseDetails() {
                                          <h4 className={`font-bold text-xl leading-tight mb-3 transition-colors tracking-tight ${isDarkMode ? 'text-white group-hover:text-indigo-300' : 'text-slate-800 group-hover:text-indigo-600'}`}>{lesson.title}</h4>
                                          <div className={`flex flex-wrap items-center gap-3 text-xs font-black ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                                            <span className="flex items-center gap-1.5"><PlayCircle className="w-3 h-3 text-[#E67E22]" /> {lesson.duration}m Video</span>
-                                           {lesson.readingMaterials && <span className="flex items-center gap-1.5"><FileText className="w-3 h-3 text-[#FFD700]" /> Docs</span>}
+                                           {lesson.readingMaterials && <span className="flex items-center gap-1.5"><FileText className="w-3 h-3 text-[#F97316]" /> Docs</span>}
                                            {lesson.quiz?.length > 0 && <span className="flex items-center gap-1.5"><BadgeAlert className="w-3 h-3 text-rose-500" /> Audit</span>}
                                          </div>
                                       </div>
@@ -290,7 +290,7 @@ export default function CourseDetails() {
 
               {/* Tab: Instructor */}
               {activeTab === 'instructor' && (
-                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#008A32]/30 to-transparent animate-in fade-in duration-500">
+                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#F97316]/30 to-transparent animate-in fade-in duration-500">
                   <div className={`backdrop-blur-2xl p-10 rounded-3xl flex flex-col md:flex-row items-center gap-10 text-center md:text-left border shadow-xl ${isDarkMode ? 'bg-[#05070A]/80 border-white/5' : 'bg-white/90 border-slate-200'}`}>
                      <div className={`w-36 h-36 rounded-full overflow-hidden shrink-0 border-4 border-[#E67E22] shadow-[0_0_30px_rgba(230,126,34,0.3)] ${isDarkMode ? 'bg-[#0B0E14]' : 'bg-slate-100'}`}>
                        <img src="https://ui-avatars.com/api/?name=Instructor&background=008A32&color=FFFFFF" alt="Instructor" className="w-full h-full object-cover" />
@@ -309,13 +309,13 @@ export default function CourseDetails() {
 
            {/* Sticky Interaction Sidebar (Order Box) */}
            <div className="w-full lg:w-5/12 lg:-mt-24 z-20">
-              <div className="relative p-[1px] rounded-[32px] bg-gradient-to-b from-[#FFD700]/30 via-white/5 to-transparent shadow-[0_30px_60px_rgba(0,0,0,0.1)] sticky top-32">
+              <div className="relative p-[1px] rounded-[32px] bg-gradient-to-b from-[#F97316]/30 via-white/5 to-transparent shadow-[0_30px_60px_rgba(0,0,0,0.1)] sticky top-32">
                  <div className={`backdrop-blur-3xl p-8 lg:p-12 relative overflow-hidden rounded-[32px] border ${isDarkMode ? 'bg-[#0B1221]/90 border-white/5' : 'bg-white/90 border-slate-200 shadow-lg'}`}>
-                    <div className="absolute top-[-50px] right-[-50px] w-64 h-64 bg-[#FFD700]/10 rounded-full blur-[80px] pointer-events-none"></div>
+                    <div className="absolute top-[-50px] right-[-50px] w-64 h-64 bg-[#F97316]/10 rounded-full blur-[80px] pointer-events-none"></div>
                     
                     <div className={`text-center mb-8 border-b pb-8 relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                        <h3 className={`font-black text-[11px] mb-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Program Value</h3>
-                       <div className="text-5xl font-black text-[#FFD700] drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]">
+                       <div className="text-5xl font-black text-[#F97316] drop-shadow-[0_0_15px_rgba(249,115,22,0.3)]">
                          ETB {course.price || '4.94'}
                        </div>
                     </div>
@@ -340,12 +340,12 @@ export default function CourseDetails() {
                         {enrollmentStatus === 'active' ? (
                           <Link 
                             to={`/lesson/${course.lessons[0]?.id}?courseId=${course.id}`}
-                            className="w-full relative z-10 flex border-[1px] border-amber-300 items-center justify-center bg-gradient-to-r from-amber-500/10 to-[#FFD700] text-[#05070A] font-black   py-5 rounded-2xl hover:scale-[1.03] transition-all shadow-[0_0_30px_rgba(255,215,0,0.4)] text-sm"
+                            className="w-full relative z-10 flex border-[1px] border-orange-300 items-center justify-center bg-gradient-to-r from-orange-500/10 to-[#F97316] text-[#05070A] font-black   py-5 rounded-2xl hover:scale-[1.03] transition-all shadow-[0_0_30px_rgba(249,115,22,0.4)] text-sm"
                           >
                             Start Learning
                           </Link>
                         ) : enrollmentStatus === 'pending' ? (
-                          <div className="w-full relative z-10 flex items-center justify-center gap-3 bg-[#FFD700]/10 text-[#FFD700] border border-[#FFD700]/30 font-black   py-5 rounded-2xl opacity-90 cursor-wait shadow-[inset_0_0_20px_rgba(255,215,0,0.2)] text-sm">
+                          <div className="w-full relative z-10 flex items-center justify-center gap-3 bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/30 font-black   py-5 rounded-2xl opacity-90 cursor-wait shadow-[inset_0_0_20px_rgba(249,115,22,0.2)] text-sm">
                             <Clock className="w-5 h-5" /> Pending Approval
                           </div>
                         ) : enrollmentStatus === 'rejected' ? (
@@ -356,7 +356,7 @@ export default function CourseDetails() {
                           <button 
                             onClick={handleEnroll}
                             disabled={enrolling}
-                            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-transparent to-[#008A32]/20 border border-[#E67E22] text-[#E67E22] font-semibold py-5 rounded-2xl hover:bg-[#E67E22] hover:text-[#0B0E14] transition-all shadow-[0_0_30px_rgba(0,138,50,0.3)] disabled:opacity-50 hover:scale-[1.03] text-sm"
+                            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-transparent to-[#00D4FF]/20 border border-[#F97316] text-[#F97316] font-semibold py-5 rounded-2xl hover:bg-[#F97316] hover:text-[#0B0E14] transition-all shadow-[0_0_30px_rgba(0,212,255,0.3)] disabled:opacity-50 hover:scale-[1.03] text-sm"
                           >
                             {enrolling ? 'Processing...' : 'Enroll Now'} <ArrowRight className="w-5 h-5"/>
                           </button>

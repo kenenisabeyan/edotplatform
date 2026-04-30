@@ -8,7 +8,7 @@ import api from '../utils/api';
 const StatBox = ({ title, value, percentage, type }) => {
   const isDarkMode = useThemeMode();
   return (
-  <div className={`p-6 rounded-3xl border shadow-sm ${type === 'primary' ? 'bg-gradient-to-r from-[#008A32] to-[#006622] border-[#E67E22]/50' : (isDarkMode ? 'bg-[#0B0E14]/90 backdrop-blur-xl' : 'bg-white')} ${isDarkMode ? 'text-white border-white/10' : 'text-slate-900 border-slate-200'}`}>
+  <div className={`p-6 rounded-3xl border shadow-sm ${type === 'primary' ? 'bg-gradient-to-r from-[#00D4FF] to-[#0099CC] border-[#F97316]/50' : (isDarkMode ? 'bg-[#0B0E14]/90 backdrop-blur-xl' : 'bg-white')} ${isDarkMode ? 'text-white border-white/10' : 'text-slate-900 border-slate-200'}`}>
     <div className="flex justify-between items-start mb-4">
       <h3 className={`font-black text-[10px] ${type === 'primary' ? 'text-white/80' : (isDarkMode ? 'text-slate-200' : 'text-slate-500')}`}>{title}</h3>
       {percentage && (

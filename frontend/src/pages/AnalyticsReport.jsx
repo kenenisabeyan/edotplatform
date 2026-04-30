@@ -60,7 +60,7 @@ export default function AnalyticsReport() {
           </button>
           <div>
             <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Detailed Data Report</h1>
-            <p className="text-[#FFD700] text-xs font-bold   mt-1">Comprehensive overview of platform analytics</p>
+            <p className="text-[#F97316] text-xs font-bold   mt-1">Comprehensive overview of platform analytics</p>
           </div>
         </div>
         <div className="flex gap-3">
@@ -75,13 +75,13 @@ export default function AnalyticsReport() {
 
       {loading ? (
         <div className="flex items-center justify-center p-20">
-           <div className={`w-12 h-12 border-4 border-t-[#FFD700] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+           <div className={`w-12 h-12 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
         </div>
       ) : (
         <div className="space-y-6">
            {/* Report Summary Cards */}
            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-             <div className="bg-gradient-to-br from-[#FFD700] to-yellow-600 rounded-3xl p-6 text-black shadow-[0_0_30px_rgba(255,215,0,0.2)] relative overflow-hidden group hover:-translate-y-1 transition-all cursor-pointer">
+             <div className="bg-gradient-to-br from-[#F97316] to-orange-600 rounded-3xl p-6 text-black shadow-[0_0_30px_rgba(249,115,22,0.2)] relative overflow-hidden group hover:-translate-y-1 transition-all cursor-pointer">
                <div className={`absolute right-0 top-0 w-32 h-32 rounded-full blur-2xl group-hover:bg-[#11151F]/30 transition-all ${isDarkMode ? 'bg-[#11151F]/20' : 'bg-slate-100'}`}></div>
                <div className="relative z-10">
                  <div className="flex justify-between items-center mb-4">
@@ -125,15 +125,15 @@ export default function AnalyticsReport() {
                     <AreaChart data={reportData.revenueData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                       <defs>
                         <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#FFD700" stopOpacity={0.8}/>
-                          <stop offset="95%" stopColor="#FFD700" stopOpacity={0.1}/>
+                          <stop offset="5%" stopColor="#F97316" stopOpacity={0.8}/>
+                          <stop offset="95%" stopColor="#F97316" stopOpacity={0.1}/>
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.1} />
                       <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
                       <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
                       <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B0E14', color: '#fff', fontWeight: 'bold' }} />
-                      <Area type="monotone" dataKey="revenue" stroke="#FFD700" strokeWidth={4} fillOpacity={1} fill="url(#colorRevenue)" />
+                      <Area type="monotone" dataKey="revenue" stroke="#F97316" strokeWidth={4} fillOpacity={1} fill="url(#colorRevenue)" />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -148,7 +148,7 @@ export default function AnalyticsReport() {
                       <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
                       <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
                       <Tooltip cursor={{fill: 'rgba(255, 255, 255, 0.05)'}} contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B0E14', color: '#fff', fontWeight: 'bold' }} />
-                      <Bar dataKey="students" fill="#008A32" radius={[6, 6, 0, 0]} name="Students" barSize={20} />
+                      <Bar dataKey="students" fill="#00D4FF" radius={[6, 6, 0, 0]} name="Students" barSize={20} />
                       <Bar dataKey="teachers" fill="#4B5563" radius={[6, 6, 0, 0]} name="Teachers" barSize={20} />
                     </BarChart>
                   </ResponsiveContainer>
@@ -189,7 +189,7 @@ export default function AnalyticsReport() {
 
              <div className={`bg-gradient-to-br from-[#1a1f2e] to-[#0B0E14] p-8 rounded-3xl border shadow-inner flex flex-col justify-center relative overflow-hidden ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none"></div>
-               <h3 className="text-xl font-bold text-[#FFD700] mb-3 relative z-10">Automated Insight AI</h3>
+               <h3 className="text-xl font-bold text-[#F97316] mb-3 relative z-10">Automated Insight AI</h3>
                <p className={`font-medium leading-relaxed text-sm mb-6 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
                  Platform performance is actively monitored. Automated insights will generate here automatically once enough interaction data aligns with algorithmic thresholds.
                </p>

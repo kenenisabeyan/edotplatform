@@ -150,6 +150,68 @@ router.post('/login', [
   }
 });
 
+router.post('/social', async (req, res) => {
+  const { provider, email, name } = req.body;
+  if (!email || !provider) {
+    return res.status(400).json({ message: 'Provider and email are required' });
+  }
+
+  try {
+    let user = await prisma.user.findFirst({ 
+      where: { 
+        email: { equals: email, mode: 'insensitive' } 
+      } 
+    });
+
+    if (!user) {
+      const randomPassword = await hashPassword(Math.random().toString(36).slice(-10) + 'Xy9!');
+      user = await prisma.user.create({
+        data: {
+          name: name || `${provider} User`,
+          email,
+          password: randomPassword,
+          role: 'student',
+          status: 'approved'
+        }
+      });
+    }
+
+    if (user.status === 'pending') return res.status(403).json({ message: 'Account pending.' });
+    if (user.status === 'blocked' || user.status === 'rejected') return res.status(403).json({ message: 'Account unavailable.' });
+
+    const token = generateToken(user.id);
+    
+    await logActivity(
+      user.id, 
+      `Logged in via ${provider}`, 
+      'auth', 
+      'Social authentication', 
+      null, 
+      'public', 
+      null, 
+      { ip: req.ip, userAgent: req.headers['user-agent'] }
+    );
+
+    res.cookie('token', token, {
+        httpOnly: true,  
+        secure: process.env.NODE_ENV === 'production',   
+        sameSite: 'lax', 
+        maxAge: 7 * 24 * 60 * 60 * 1000  
+    });
+
+    res.json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      status: user.status
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'Server error during social login' });
+  }
+});
+
 router.get('/me', protect, async (req, res) => {
   try {
     const userId = req.user.id;

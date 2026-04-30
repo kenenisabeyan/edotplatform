@@ -127,7 +127,7 @@ export default function ParentLearners() {
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="show" className="space-y-8 pb-10 min-h-screen">
       <motion.div variants={itemVariants} className={`bg-gradient-to-br from-white/5 to-transparent border rounded-3xl p-8 lg:p-10 relative overflow-hidden shadow-2xl backdrop-blur-xl ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#008A32]/10 via-transparent to-[#FFD700]/10 opacity-30 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#00D4FF]/10 via-transparent to-[#F97316]/10 opacity-30 pointer-events-none"></div>
         <div className="relative z-10 lg:flex lg:justify-between lg:items-center">
           <div>
             <h1 className={`text-2xl md:text-3xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Learner Profiles</h1>
@@ -310,7 +310,7 @@ export default function ParentLearners() {
                                       initial={{ width: 0 }}
                                       animate={{ width: `${enrollment.progress || 0}%` }}
                                       transition={{ duration: 1, delay: 0.2 + (idx * 0.1), ease: "easeOut" }}
-                                      className={`h-full rounded-full shadow-[0_0_10px_rgba(255,215,0,0.5)] ${enrollment.progress === 100 ? 'bg-gradient-to-r from-[#008A32] to-[#00b341]' : 'bg-gradient-to-r from-[#FFD700] to-[#EAB308]'}`}
+                                      className={`h-full rounded-full shadow-[0_0_10px_rgba(249,115,22,0.5)] ${enrollment.progress === 100 ? 'bg-gradient-to-r from-[#00D4FF] to-[#00b3ff]' : 'bg-gradient-to-r from-[#F97316] to-[#EAB308]'}`}
                                     />
                                   </div>
                                 </div>
@@ -355,7 +355,7 @@ export default function ParentLearners() {
                                 iconColor = 'text-[#FFD700]';
                              } else if (insight.insightFlag === 'Positive') {
                                 colorTheme = 'border-[#E67E22]/30 bg-[#E67E22]/5 text-white hover:border-[#E67E22]/50';
-                                ringColor = 'ring-[#008A32]/30 border-[#E67E22]';
+                                ringColor = 'ring-[#00D4FF]/30 border-[#F97316]';
                                 iconColor = 'text-[#E67E22]';
                              }
 

@@ -26,6 +26,11 @@ export const registerUser = async (userData) => {
     return data;
 };
 
+export const socialLoginUser = async (providerData) => {
+    const { data } = await api.post('/auth/social', providerData);
+    return data;
+};
+
 export const logoutUser = async () => {
     const { data } = await api.post('/auth/logout');
     return data;

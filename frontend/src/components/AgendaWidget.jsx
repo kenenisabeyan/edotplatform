@@ -70,7 +70,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
             <div className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B0E14] bg-rose-500/100 overflow-hidden flex items-center justify-center shrink-0 relative z-10`}><span className={`font-bold ${isModal ? 'text-xs' : 'text-[10px]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>A</span></div>
           </>
         )}
-        <div className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B0E14] bg-gradient-to-br from-[#008A32] to-[#00A13B] flex items-center justify-center z-0 font-black shrink-0 relative ${isModal ? 'text-[8px]' : 'text-[7px]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+        <div className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B0E14] bg-gradient-to-br from-[#00D4FF] to-[#0099CC] flex items-center justify-center z-0 font-black shrink-0 relative ${isModal ? 'text-[8px]' : 'text-[7px]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
           {totalUsers}
         </div>
       </div>
@@ -152,7 +152,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
                             </span>
                           )}
                        </div>
-                       <h4 className={`text-sm font-bold group-hover:text-[#FFD700] transition-colors ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{evt.title}</h4>
+                       <h4 className={`text-sm font-bold group-hover:text-[#F97316] transition-colors ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{evt.title}</h4>
                        
                        <div className="flex items-center gap-1.5 mt-2">
                          {renderAvatarStack(evt)}

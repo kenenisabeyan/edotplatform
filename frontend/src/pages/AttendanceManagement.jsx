@@ -159,13 +159,13 @@ export default function AttendanceManagement() {
 
               return (
                  <div key={userItem.userId} className={`flex flex-col bg-[#11151F]/5 border border-white/5 p-4 rounded-3xl backdrop-blur-md transition-all duration-300 shadow-md ${
-                    currentStatus === 'present' ? 'border-b-4 border-b-[#008A32]' : 
-                    currentStatus === 'late' ? 'border-b-4 border-b-[#FFD700]' : 
+                    currentStatus === 'present' ? 'border-b-4 border-b-[#00D4FF]' : 
+                    currentStatus === 'late' ? 'border-b-4 border-b-[#F97316]' : 
                     'border-b-4 border-b-[#E30A17]'
                  }`}>
                     <div className="flex items-center gap-3 mb-4">
                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-sm
-                          ${listRole === 'Instructor' ? 'bg-[#FFD700]/20 text-[#FFD700] border border-[#FFD700]/30' : 'bg-[#11151F]/10 text-white border border-white/20'}
+                          ${listRole === 'Instructor' ? 'bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30' : 'bg-[#11151F]/10 text-white border border-white/20'}
                        `}>
                           {userItem.name.charAt(0).toUpperCase()}
                        </div>
@@ -192,7 +192,7 @@ export default function AttendanceManagement() {
                         </label>
 
                         <label className={`flex-1 flex justify-center items-center gap-1.5 py-2 rounded-lg cursor-pointer transition-all duration-200 ${
-                           currentStatus === 'late' ? 'bg-[#FFD700]/20 text-[#FFD700] shadow-[0_0_10px_rgba(255,215,0,0.3)]' : 'text-slate-300 hover:bg-[#11151F]/5 hover:text-slate-300'
+                           currentStatus === 'late' ? 'bg-[#F97316]/20 text-[#F97316] shadow-[0_0_10px_rgba(249,115,22,0.3)]' : 'text-slate-300 hover:bg-[#11151F]/5 hover:text-slate-300'
                         }`}>
                            <input 
                               type="radio" 
@@ -233,7 +233,7 @@ export default function AttendanceManagement() {
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-             <UserCheck className="w-8 h-8 text-[#FFD700]"/>
+             <UserCheck className="w-8 h-8 text-[#F97316]"/>
              Roster Status
           </h1>
           <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Dynamically register course attendance for students & instructos</p>
@@ -247,7 +247,7 @@ export default function AttendanceManagement() {
       </div>
 
       <div className={`bg-[#0B0E14]/70 backdrop-blur-xl p-8 rounded-3xl border shadow-2xl flex flex-col md:flex-row gap-6 mt-4 relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-         <div className="absolute top-0 right-0 w-64 h-64 bg-[#FFD700]/5 blur-[120px] rounded-full pointer-events-none"></div>
+         <div className="absolute top-0 right-0 w-64 h-64 bg-[#F97316]/5 blur-[120px] rounded-full pointer-events-none"></div>
          
          <div className="w-full md:w-[40%]">
             <label className={`block text-xs font-bold mb-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Target Course</label>
@@ -295,9 +295,9 @@ export default function AttendanceManagement() {
                  type="date" 
                  value={date}
                  onChange={(e) => setDate(e.target.value)}
-                 className={`w-full pl-12 pr-4 py-3 bg-black/40 border rounded-xl text-sm font-bold focus:outline-none focus:border-[#FFD700] hover:bg-black/60 transition-colors ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                 className={`w-full pl-12 pr-4 py-3 bg-black/40 border rounded-xl text-sm font-bold focus:outline-none focus:border-[#F97316] hover:bg-black/60 transition-colors ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               />
-              <Calendar className="absolute left-4 top-3.5 w-4 h-4 text-[#FFD700]" />
+              <Calendar className="absolute left-4 top-3.5 w-4 h-4 text-[#F97316]" />
             </div>
          </div>
       </div>
@@ -310,7 +310,7 @@ export default function AttendanceManagement() {
          </div>
       ) : loading ? (
          <div className="flex-1 flex justify-center items-center py-20">
-            <div className={`w-12 h-12 border-4 border-t-[#FFD700] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+            <div className={`w-12 h-12 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
          </div>
       ) : attendanceRecords.length === 0 ? (
          <div className="flex-1 flex flex-col items-center justify-center opacity-40 py-24">
@@ -324,7 +324,7 @@ export default function AttendanceManagement() {
             {/* Instructors Row */}
             <div>
                <h2 className={`text-xl font-display font-black mb-6 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  <ShieldAlert className="w-5 h-5 text-[#FFD700]" />
+                  <ShieldAlert className="w-5 h-5 text-[#00D4FF]" />
                   Instructors Roster
                   <span className={`text-xs px-2 py-0.5 rounded-full ml-auto ${isDarkMode ? 'bg-[#11151F]/20 text-white' : 'bg-slate-100 text-slate-900'}`}>{instructorsList.length}</span>
                </h2>
@@ -334,7 +334,7 @@ export default function AttendanceManagement() {
             {/* Students Row */}
             <div>
                <h2 className={`text-xl font-display font-black mb-6 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  <GraduationCap className="w-5 h-5 text-[#FFD700]" />
+                  <GraduationCap className="w-5 h-5 text-[#00D4FF]" />
                   Students Roster
                   <span className={`text-xs px-2 py-0.5 rounded-full ml-auto ${isDarkMode ? 'bg-[#11151F]/20 text-white' : 'bg-slate-100 text-slate-900'}`}>{studentsList.length}</span>
                </h2>

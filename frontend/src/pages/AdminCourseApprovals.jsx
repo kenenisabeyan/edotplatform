@@ -78,7 +78,7 @@ export default function AdminCourseApprovals() {
   if (loading && courses.length === 0 && pendingEnrollments.length === 0 && activeEnrollments.length === 0) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="w-12 h-12 border-4 border-white/20 border-t-[#FFD700] rounded-full animate-spin shadow-[0_0_15px_rgba(255,215,0,0.4)]"></div>
+        <div className="w-12 h-12 border-4 border-white/20 border-t-[#F97316] rounded-full animate-spin shadow-[0_0_15px_rgba(249,115,22,0.4)]"></div>
       </div>
     );
   }
@@ -92,7 +92,7 @@ export default function AdminCourseApprovals() {
       className="max-w-7xl mx-auto space-y-6 pb-10 font-sans"
     >
       <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center rounded-3xl p-6 md:p-8 bg-gradient-to-br from-white/5 to-transparent border backdrop-blur-xl shadow-2xl relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700]/10 via-transparent to-[#E30A17]/10 opacity-30 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#F97316]/10 via-transparent to-[#00D4FF]/10 opacity-30 pointer-events-none"></div>
         <div className="relative z-10 mb-4 sm:mb-0">
           <h2 className={`text-3xl font-black mb-2 tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Approvals Management</h2>
           <p className={`mt-1 font-medium text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Review courses and administer student enrollment placements.</p>
@@ -100,7 +100,7 @@ export default function AdminCourseApprovals() {
         <div className={`relative z-10 bg-[#11151F] flex rounded-xl border p-1 shadow-lg ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
            <button 
              onClick={() => setActiveTab('pending')}
-             className={`px-6 py-2.5 rounded-lg text-xs font-black   transition-all ${activeTab === 'pending' ? 'bg-[#FFD700]/20 text-[#FFD700] shadow-[0_0_15px_rgba(255,215,0,0.2)]' : 'text-slate-300 hover:text-white'}`}
+             className={`px-6 py-2.5 rounded-lg text-xs font-black   transition-all ${activeTab === 'pending' ? 'bg-[#F97316]/20 text-[#F97316] shadow-[0_0_15px_rgba(249,115,22,0.2)]' : 'text-slate-300 hover:text-white'}`}
            >
              Pending Queue
            </button>
@@ -125,7 +125,7 @@ export default function AdminCourseApprovals() {
           <div className="grid grid-cols-1 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {courses.length > 0 && (
               <div className={`rounded-3xl p-6 border backdrop-blur-xl shadow-2xl ${isDarkMode ? 'bg-[#11151F]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
-                <h3 className={`font-black text-lg mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><AlertCircle className="w-5 h-5 text-[#FFD700]"/> New Course Approvals ({courses.length})</h3>
+                <h3 className={`font-black text-lg mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><AlertCircle className="w-5 h-5 text-[#F97316]"/> New Course Approvals ({courses.length})</h3>
                 <div className="grid gap-6">
                   <AnimatePresence>
                   {courses.map(c => (
@@ -144,7 +144,7 @@ export default function AdminCourseApprovals() {
                           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14] via-transparent to-transparent opacity-80 md:opacity-50"></div>
-                        <div className={`absolute top-4 left-4 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-black text-[#FFD700] shadow-sm border ${isDarkMode ? 'bg-[#0B0E14]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+                        <div className={`absolute top-4 left-4 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-black text-[#F97316] shadow-sm border ${isDarkMode ? 'bg-[#0B0E14]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
                           {c.mainCategory || 'General'}
                         </div>
                       </div>
@@ -153,7 +153,7 @@ export default function AdminCourseApprovals() {
                           <h3 className={`text-xl font-black leading-snug break-words mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</h3>
                           <div className={`flex flex-wrap gap-4 mb-4 text-[10px] font-black ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
                              <span className={`flex items-center gap-1 border px-2 py-1 rounded ${isDarkMode ? 'border-white/5 bg-[#11151F]/5' : 'border-slate-100 bg-slate-50'}`}>Instructor: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{c.instructor?.name || 'Unknown'}</span></span>
-                             <span className={`flex items-center gap-1 border bg-[#FFD700]/10 text-[#FFD700] px-2 py-1 rounded ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Status: Pending</span>
+                             <span className={`flex items-center gap-1 border bg-[#F97316]/10 text-[#F97316] px-2 py-1 rounded ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Status: Pending</span>
                           </div>
                           <p className={`line-clamp-2 md:line-clamp-3 mb-0 text-sm font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{c.description}</p>
                         </div>
@@ -170,7 +170,7 @@ export default function AdminCourseApprovals() {
                             <button 
                               disabled={processing === c.id}
                               onClick={() => handleStatusUpdate(c.id, 'approved')} 
-                              className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#008A32] to-[#00A13B] font-black text-xs rounded-xl hover:shadow-[0_0_20px_rgba(0,138,50,0.4)] transition-all shadow-md disabled:opacity-50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                              className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00D4FF] to-[#0099CC] font-black text-xs rounded-xl hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all shadow-md disabled:opacity-50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                             >
                               <CheckCircle2 className="w-4 h-4" /> Approve & Publish
                             </button>
@@ -186,7 +186,7 @@ export default function AdminCourseApprovals() {
 
             {pendingEnrollments.length > 0 && (
               <div className={`rounded-3xl p-6 border backdrop-blur-xl shadow-2xl mt-4 ${isDarkMode ? 'bg-[#11151F]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
-                <h3 className={`font-black text-lg mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><Users className="w-5 h-5 text-[#FFD700]"/> Enrollment Requests ({pendingEnrollments.length})</h3>
+                <h3 className={`font-black text-lg mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><Users className="w-5 h-5 text-[#F97316]"/> Enrollment Requests ({pendingEnrollments.length})</h3>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   <AnimatePresence>
                   {pendingEnrollments.map(en => (
@@ -196,13 +196,13 @@ export default function AdminCourseApprovals() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
                       key={en.id} 
-                      className={`rounded-2xl border p-5 flex flex-col justify-between hover:border-[#FFD700]/30 transition-colors group shadow-lg relative overflow-hidden ${isDarkMode ? 'border-white/10 bg-[#0B0E14]' : 'border-slate-200 bg-white'}`}
+                      className={`rounded-2xl border p-5 flex flex-col justify-between hover:border-[#F97316]/30 transition-colors group shadow-lg relative overflow-hidden ${isDarkMode ? 'border-white/10 bg-[#0B0E14]' : 'border-slate-200 bg-white'}`}
                     >
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#FFD700]/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-[#FFD700]/10 transition-colors duration-500"></div>
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#F97316]/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-[#F97316]/10 transition-colors duration-500"></div>
                       
                       <div className="relative z-10">
                         <div className="flex items-start justify-between mb-2">
-                           <h4 className={`font-black tracking-tight text-lg mb-1 break-words line-clamp-1 group-hover:text-[#FFD700] transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{en.courseTitle}</h4>
+                           <h4 className={`font-black tracking-tight text-lg mb-1 break-words line-clamp-1 group-hover:text-[#F97316] transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{en.courseTitle}</h4>
                            <span className={`text-[9px] font-black border px-2 py-0.5 rounded whitespace-nowrap ${isDarkMode ? 'text-slate-300 bg-[#11151F]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>ID: {en.id.slice(0,6)}</span>
                         </div>
                         
@@ -231,7 +231,7 @@ export default function AdminCourseApprovals() {
                         <button
                           disabled={processing === en.id}
                           onClick={() => handleEnrollmentStatusUpdate(en.id, 'active')}
-                          className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#008A32] to-[#00A13B] text-xs font-black hover:shadow-[0_0_20px_rgba(0,138,50,0.4)] transition-all disabled:opacity-50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                          className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#00D4FF] to-[#0099CC] text-xs font-black hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all disabled:opacity-50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                         ><CheckCircle2 className="w-4 h-4"/> Ensure Access</button>
                       </div>
                     </motion.div>

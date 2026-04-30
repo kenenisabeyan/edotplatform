@@ -70,6 +70,7 @@ router.post('/courses', async (req, res) => {
             level: req.body.level || 'Beginner',
             duration: Number(req.body.duration) || 1,
             thumbnail: req.body.thumbnail || 'default-course.jpg',
+            videoUrl: req.body.videoUrl || '',
             price: Number(req.body.price) || 0,
             requirements: req.body.requirements || [],
             whatYouWillLearn: req.body.whatYouWillLearn || [],
@@ -119,6 +120,7 @@ router.put('/courses/:id', async (req, res) => {
         if (req.body.level !== undefined) validUpdateFields.level = req.body.level;
         if (req.body.duration !== undefined) validUpdateFields.duration = Number(req.body.duration);
         if (req.body.thumbnail !== undefined) validUpdateFields.thumbnail = req.body.thumbnail;
+        if (req.body.videoUrl !== undefined) validUpdateFields.videoUrl = req.body.videoUrl;
         if (req.body.price !== undefined) validUpdateFields.price = Number(req.body.price);
         if (req.body.requirements !== undefined) validUpdateFields.requirements = req.body.requirements;
         if (req.body.whatYouWillLearn !== undefined) validUpdateFields.whatYouWillLearn = req.body.whatYouWillLearn;

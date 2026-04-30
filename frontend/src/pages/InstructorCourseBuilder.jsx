@@ -35,6 +35,7 @@ export default function InstructorCourseBuilder() {
     level: 'Beginner',
     duration: 1,
     thumbnail: '',
+    videoUrl: '',
     price: 0,
     requirements: [''],
     whatYouWillLearn: [''],
@@ -76,7 +77,7 @@ export default function InstructorCourseBuilder() {
   const fetchCourseDetails = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await api.get(`/courses/${courseId}`);
+      const { data } = await api.get(`/courses/${courseId}/content`);
       if (data.course) {
         setFormData({
           title: data.course.title || '',
@@ -85,6 +86,7 @@ export default function InstructorCourseBuilder() {
           level: data.course.level || 'Beginner',
           duration: data.course.duration || 1,
           thumbnail: data.course.thumbnail || '',
+          videoUrl: data.course.videoUrl || '',
           price: data.course.price || 0,
           requirements: data.course.requirements?.length ? data.course.requirements : [''],
           whatYouWillLearn: data.course.whatYouWillLearn?.length ? data.course.whatYouWillLearn : [''],
@@ -231,7 +233,14 @@ export default function InstructorCourseBuilder() {
         }
       });
       if (data.success) {
-        if (field === 'videoUrl') {
+        if (field === 'courseVideoUrl') {
+          // Course level videoUrl
+          setFormData(prev => ({ 
+            ...prev, 
+            videoUrl: data.secure_url
+          }));
+        } else if (field === 'videoUrl') {
+          // Lesson form videoUrl
           setLessonForm(prev => ({ 
             ...prev, 
             videoUrl: data.secure_url,
@@ -314,7 +323,7 @@ export default function InstructorCourseBuilder() {
           </div>
           <div className="flex items-center gap-4">
             <span className={`text-xs font-medium flex items-center gap-1.5 hidden sm:flex ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-              {saving ? 'Saving...' : 'Draft saved'} {!saving && <CheckCircle2 className="w-3.5 h-3.5 text-[#008A32]" />}
+              {saving ? 'Saving...' : 'Draft saved'} {!saving && <CheckCircle2 className="w-3.5 h-3.5 text-[#00D4FF]" />}
             </span>
             <button 
               onClick={saveCourseData}
@@ -489,6 +498,41 @@ export default function InstructorCourseBuilder() {
                     {formData.thumbnail && (
                       <div className={`mt-4 rounded-xl overflow-hidden shadow-sm border max-w-sm h-48 bg-black/50 relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                         <img src={formData.thumbnail} alt="Thumbnail Preview" className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' }} />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Course Video URL */}
+                  <div>
+                    <label className={`block text-sm font-bold mb-2 flex items-center justify-between ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                      <span className="flex items-center gap-2"><PlayCircle className="w-4 h-4 text-[#FFD700]" /> Course Video URL (Intro)</span>
+                      <label 
+                        className={`cursor-pointer text-xs font-bold transition-all px-3 py-1 rounded-md border flex items-center gap-1 ${dragActive.courseVideoUrl ? 'border-[#FFD700] bg-[#FFD700]/10 text-[#FFD700]' : 'border-transparent text-[#FFD700] hover:text-white'}`}
+                        onDragEnter={(e) => handleDrag(e, 'courseVideoUrl')}
+                        onDragLeave={(e) => handleDrag(e, 'courseVideoUrl')}
+                        onDragOver={(e) => handleDrag(e, 'courseVideoUrl')}
+                        onDrop={(e) => handleDrop(e, 'courseVideoUrl')}
+                      >
+                        {uploadProgress.courseVideoUrl ? `Uploading... ${uploadProgress.courseVideoUrl}%` : 'Upload Video / Drop'}
+                        <input 
+                          type="file" 
+                          accept="video/*"
+                          className="hidden" 
+                          onChange={(e) => handleFileUpload(e, 'courseVideoUrl')} 
+                          disabled={saving}
+                        />
+                      </label>
+                    </label>
+                    <input 
+                      type="url" 
+                      value={formData.videoUrl} 
+                      onChange={e => setFormData({...formData, videoUrl: e.target.value})} 
+                      className={`w-full px-4 py-3 rounded-xl border focus:ring-1 focus:ring-[#FFD700] focus:border-[#FFD700] outline-none transition-all placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B0E14] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                      placeholder="https://res.cloudinary.com/.../video.mp4" 
+                    />
+                    {formData.videoUrl && (
+                      <div className={`mt-4 rounded-xl overflow-hidden shadow-sm border aspect-video bg-black/50 relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                        <video src={resolveVideoUrl(formData.videoUrl)} controls className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none' }} />
                       </div>
                     )}
                   </div>
@@ -804,7 +848,7 @@ export default function InstructorCourseBuilder() {
                           <button 
                             type="submit" 
                             disabled={saving}
-                            className={`flex-1 py-3 px-4 font-semibold rounded-lg hover:shadow-lg hover:shadow-[#008A32]/20 border transition-colors disabled:opacity-50 bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                            className={`flex-1 py-3 px-4 font-semibold rounded-lg hover:shadow-lg hover:shadow-[#00D4FF]/20 border transition-colors disabled:opacity-50 bg-[#F97316] hover:bg-[#CF711F] shadow-md border-[#F97316] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                           >
                             Save Lesson
                           </button>
@@ -840,7 +884,7 @@ export default function InstructorCourseBuilder() {
                             step="0.01"
                             value={formData.price}
                             onChange={e => setFormData({...formData, price: Number(e.target.value)})}
-                            className={`w-full pl-10 pr-4 py-4 text-2xl font-bold rounded-xl border-2 border-[#E67E22]/30 focus:ring-1 focus:ring-[#008A32] focus:border-[#E67E22] outline-none transition-all shadow-inner ${isDarkMode ? 'bg-[#0B0E14] text-white' : 'bg-white text-slate-900'}`}
+                            className={`w-full pl-10 pr-4 py-4 text-2xl font-bold rounded-xl border-2 border-[#F97316]/30 focus:ring-1 focus:ring-[#00D4FF] focus:border-[#F97316] outline-none transition-all shadow-inner ${isDarkMode ? 'bg-[#0B0E14] text-white' : 'bg-white text-slate-900'}`}
                           />
                         </div>
                         <p className={`mt-3 text-sm ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Set to 0 to make this course free for all students.</p>
@@ -858,7 +902,7 @@ export default function InstructorCourseBuilder() {
                         type="checkbox" 
                         checked={formData.isExamRequired}
                         onChange={e => setFormData({...formData, isExamRequired: e.target.checked})}
-                        className={`w-5 h-5 text-[#E67E22] border-white/20 rounded focus:ring-[#008A32] focus:ring-offset-[#0B0E14] ${isDarkMode ? 'bg-[#0B0E14]' : 'bg-white'}`}
+                        className={`w-5 h-5 text-[#F97316] border-white/20 rounded focus:ring-[#00D4FF] focus:ring-offset-[#0B0E14] ${isDarkMode ? 'bg-[#0B0E14]' : 'bg-white'}`}
                       />
                       <span className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Require Final Exam for Certification</span>
                     </label>

@@ -61,14 +61,14 @@ export default function CalendarView() {
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-2 border-b pb-6 mt-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h1 className={`text-3xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-             <CalendarIcon className={`w-8 h-8 ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-700'}`} /> Calendar
+             <CalendarIcon className={`w-8 h-8 ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`} /> Calendar
           </h1>
           <p className={`font-medium text-sm mt-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Manage events, live sessions, and schedules.</p>
         </div>
         {(user?.role === 'admin' || user?.role === 'instructor') && (
           <button 
             onClick={() => setShowModal(true)}
-            className={`flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-[#008A32] to-[#006622] font-black text-[11px] rounded-xl hover:shadow-[0_0_20px_rgba(0,138,50,0.4)] hover:-translate-y-0.5 transition-all shadow-sm w-full md:w-auto outline-none focus:ring-2 focus:ring-[#008A32]/50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+            className={`flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-[#00D4FF] to-[#0099CC] font-black text-[11px] rounded-xl hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] hover:-translate-y-0.5 transition-all shadow-sm w-full md:w-auto outline-none focus:ring-2 focus:ring-[#00D4FF]/50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
           >
             <Plus className="w-4 h-4" /> Add New Event
           </button>
@@ -76,18 +76,18 @@ export default function CalendarView() {
       </div>
 
       <div className={`rounded-3xl border backdrop-blur-3xl shadow-2xl overflow-hidden flex-1 flex flex-col relative z-10 ${isDarkMode ? 'bg-[#0B0E14]/80 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-         <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-[#008A32]/5 to-[#FFD700]/5 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+         <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-[#00D4FF]/5 to-[#F97316]/5 rounded-full blur-[120px] pointer-events-none -z-10"></div>
          
          {/* Command Bar */}
          <div className={`p-6 border-b flex flex-col sm:flex-row justify-between items-center backdrop-blur-md gap-4 ${isDarkMode ? 'border-white/10 bg-[#11151F]/40' : 'border-slate-200 bg-slate-50/80'}`}>
            <div className="flex items-center gap-6">
              <h2 className={`text-2xl font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                {monthNames[currentDate.getMonth()]} <span className={isDarkMode ? 'text-[#FFD700]' : 'text-indigo-600'}>{currentDate.getFullYear()}</span>
+                {monthNames[currentDate.getMonth()]} <span className={isDarkMode ? 'text-[#F97316]' : 'text-indigo-600'}>{currentDate.getFullYear()}</span>
              </h2>
              <div className={`hidden md:flex items-center rounded-xl border overflow-hidden shadow-inner flex-shrink-0 ${isDarkMode ? 'bg-[#0B0E14] border-white/10' : 'bg-white border-slate-300'}`}>
-               <button onClick={handlePrevMonth} className={`p-2.5 border-r transition-colors text-sm ${isDarkMode ? 'text-slate-300 hover:bg-[#11151F]/5 hover:text-[#FFD700] border-white/10' : 'text-slate-600 hover:bg-slate-100 hover:text-indigo-600 border-slate-300'}`}><ChevronLeft className="w-5 h-5" /></button>
-               <button onClick={handleToday} className={`px-5 py-2.5 text-[10px] font-medium transition-colors ${isDarkMode ? 'text-slate-200 hover:bg-[#11151F]/5 hover:text-[#FFD700]' : 'text-slate-700 hover:bg-slate-100 hover:text-indigo-600'}`}>Jump to Today</button>
-               <button onClick={handleNextMonth} className={`p-2.5 border-l transition-colors text-sm ${isDarkMode ? 'text-slate-300 hover:bg-[#11151F]/5 hover:text-[#FFD700] border-white/10' : 'text-slate-600 hover:bg-slate-100 hover:text-indigo-600 border-slate-300'}`}><ChevronRight className="w-5 h-5" /></button>
+               <button onClick={handlePrevMonth} className={`p-2.5 border-r transition-colors text-sm ${isDarkMode ? 'text-slate-300 hover:bg-[#11151F]/5 hover:text-[#F97316] border-white/10' : 'text-slate-600 hover:bg-slate-100 hover:text-indigo-600 border-slate-300'}`}><ChevronLeft className="w-5 h-5" /></button>
+               <button onClick={handleToday} className={`px-5 py-2.5 text-[10px] font-medium transition-colors ${isDarkMode ? 'text-slate-200 hover:bg-[#11151F]/5 hover:text-[#F97316]' : 'text-slate-700 hover:bg-slate-100 hover:text-indigo-600'}`}>Jump to Today</button>
+               <button onClick={handleNextMonth} className={`p-2.5 border-l transition-colors text-sm ${isDarkMode ? 'text-slate-300 hover:bg-[#11151F]/5 hover:text-[#F97316] border-white/10' : 'text-slate-600 hover:bg-slate-100 hover:text-indigo-600 border-slate-300'}`}><ChevronRight className="w-5 h-5" /></button>
              </div>
            </div>
            
@@ -126,15 +126,15 @@ export default function CalendarView() {
                 return (
                   <div key={index} className={`min-h-[120px] p-2.5 rounded-2xl border transition-all duration-300 relative group overflow-hidden ${
                       isCurrentMonth 
-                      ? (isDarkMode ? 'bg-[#11151F]/40 border-white/5 hover:border-[#FFD700]/30 hover:bg-[#11151F]/80 shadow-sm' : 'bg-slate-50 border-slate-200 hover:border-slate-300 hover:bg-slate-100 hover:shadow-md') 
+                      ? (isDarkMode ? 'bg-[#11151F]/40 border-white/5 hover:border-[#F97316]/30 hover:bg-[#11151F]/80 shadow-sm' : 'bg-slate-50 border-slate-200 hover:border-slate-300 hover:bg-slate-100 hover:shadow-md') 
                       : 'bg-transparent border-transparent'
                   }`}>
                      {isCurrentMonth && (
                        <>
                          <div className={`text-sm font-black w-8 h-8 flex items-center justify-center rounded-xl mb-3 transition-colors ${
                            isToday 
-                           ? (isDarkMode ? 'bg-[#FFD700] text-[#0B0E14] shadow-[0_0_15px_rgba(255,215,0,0.4)]' : 'bg-indigo-600 text-white shadow-md') 
-                           : (isDarkMode ? 'bg-[#0B0E14] text-white border border-white/5 group-hover:border-[#FFD700]/30 group-hover:text-[#FFD700]' : 'bg-white text-slate-700 border border-slate-200 group-hover:border-indigo-300 group-hover:text-indigo-600 shadow-sm')
+                           ? (isDarkMode ? 'bg-[#F97316] text-[#0B0E14] shadow-[0_0_15px_rgba(249,115,22,0.4)]' : 'bg-indigo-600 text-white shadow-md') 
+                           : (isDarkMode ? 'bg-[#0B0E14] text-white border border-white/5 group-hover:border-[#F97316]/30 group-hover:text-[#F97316]' : 'bg-white text-slate-700 border border-slate-200 group-hover:border-indigo-300 group-hover:text-indigo-600 shadow-sm')
                          }`}>
                            {displayDate}
                          </div>

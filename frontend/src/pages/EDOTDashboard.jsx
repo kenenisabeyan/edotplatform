@@ -68,15 +68,15 @@ export default function EDOTDashboard() {
   }, [user, userRole]);
 
   const SmartCard = ({ title, value, icon: Icon }) => {
-    let glowClass = 'hover:shadow-[0_0_25px_rgba(0,138,50,0.15)]'; // Admin fallback
+    let glowClass = 'hover:shadow-[0_0_25px_rgba(0,212,255,0.2)]'; // Cyan glow for admin
     if (userRole === 'admin') {
-      glowClass = 'hover:shadow-glow-green'; // low-opacity Green glow
+      glowClass = 'hover:shadow-[0_0_25px_rgba(0,212,255,0.2)]'; // Cyan glow
     } else if (userRole === 'instructor') {
-      glowClass = 'hover:shadow-glow-green'; // Green glow
+      glowClass = 'hover:shadow-[0_0_25px_rgba(249,115,22,0.2)]'; // Orange glow
     } else if (userRole === 'student') {
-      glowClass = 'hover:shadow-glow-yellow'; // Adey Abeba Yellow
+      glowClass = 'hover:shadow-[0_0_25px_rgba(249,115,22,0.2)]'; // Orange glow
     } else if (userRole === 'parent') {
-      glowClass = 'hover:shadow-[0_0_25px_rgba(0,138,50,0.2)_0_0_25px_rgba(255,215,0,0.2)]'; // Mixed Green/Yellow
+      glowClass = 'hover:shadow-[0_0_25px_rgba(0,212,255,0.2)]'; // Cyan glow
     }
 
     return (
@@ -137,7 +137,7 @@ export default function EDOTDashboard() {
 
   if (userRole === 'admin') {
     headerConfig = {
-      gradient: 'bg-gradient-to-r from-[#008A32]/10 to-[#FFD700]/10',
+      gradient: 'bg-gradient-to-r from-[#020b1f] via-[#0f48b9] to-[#00d4ff]',
       title: 'Welcome back, Admin Kenenisa Beyan 👋',
       subtitle: ''
     };
@@ -151,26 +151,26 @@ export default function EDOTDashboard() {
       title: 'Global Attendance',
       valStr: '100%',
       valNum: 100,
-      ringColor: '#008A32' // Lush Highland Green
+      ringColor: '#00D4FF' // Cyan accent from Home/About
     };
     areaConfig = {
       title: 'Performance Insights',
       data: stats?.studentPerformanceData || [
          { name: 'Jan', value1: 20, value2: 10 }, { name: 'Feb', value1: 40, value2: 30 }, { name: 'Mar', value1: 35, value2: 25 }, { name: 'Apr', value1: 80, value2: 50 }, { name: 'May', value1: 60, value2: 80 }, { name: 'Aug', value1: 90, value2: 60 }
       ],
-      lines: [{ key: 'value1', name: 'Subject', color: '#008A32' }, { key: 'value2', name: 'Podcast', color: '#FFD700' }]
+      lines: [{ key: 'value1', name: 'Subject', color: '#00D4FF' }, { key: 'value2', name: 'Podcast', color: '#F97316' }]
     };
     widgetConfig = {
       type: 'agenda',
       title: 'Agenda',
       subtitle: 'Upcoming sample data',
       items: [
-        { label: 'SUPPORT', title: 'concept', desc: 'Event', badge: 'Apr 2', color: '#FFD700' }
+        { label: 'SUPPORT', title: 'concept', desc: 'Event', badge: 'Apr 2', color: '#F97316' }
       ]
     };
   } else if (userRole === 'instructor') {
     headerConfig = {
-      gradient: 'bg-gradient-to-r from-[#008A32]/10 to-[#FFD700]/10',
+      gradient: 'bg-gradient-to-r from-[#020b1f] via-[#0f48b9] to-[#00d4ff]',
       title: 'Hello, Instructor Kenenisa! 🎓',
       subtitle: ''
     };
@@ -184,26 +184,26 @@ export default function EDOTDashboard() {
       title: 'Course Health Score',
       valStr: '100%\nHEALTHY',
       valNum: 100,
-      ringColor: '#008A32' // Lush Highland Green
+      ringColor: '#00D4FF' // Cyan accent from Home/About
     };
     areaConfig = {
       title: 'Student Engagement Insights',
       data: [
          { name: 'Jan', value1: 20, value2: 10, value3: 30 }, { name: 'Feb', value1: 40, value2: 30, value3: 45 }, { name: 'Mar', value1: 35, value2: 25, value3: 60 }, { name: 'Apr', value1: 80, value2: 50, value3: 70 }, { name: 'May', value1: 60, value2: 80, value3: 90 }, { name: 'Aug', value1: 90, value2: 60, value3: 100 }
       ],
-      lines: [{ key: 'value1', name: 'Math 101', color: '#008A32' }, { key: 'value2', name: 'History 202', color: '#FFD700' }, { key: 'value3', name: 'Bio 303', color: '#E30A17' }]
+      lines: [{ key: 'value1', name: 'Math 101', color: '#00D4FF' }, { key: 'value2', name: 'History 202', color: '#F97316' }, { key: 'value3', name: 'Bio 303', color: '#E30A17' }]
     };
     widgetConfig = {
       type: 'agenda',
       title: 'Agenda',
       subtitle: 'Upcoming teaching events',
       items: [
-        { label: 'Class', title: 'conceptual card', desc: 'Event', badge: 'Apr 2', color: '#008A32' }
+        { label: 'Class', title: 'conceptual card', desc: 'Event', badge: 'Apr 2', color: '#00D4FF' }
       ]
     };
   } else if (userRole === 'student') {
     headerConfig = {
-      gradient: 'bg-gradient-to-r from-[#FFD700]/10 via-[#008A32]/10 to-[#E30A17]/10',
+      gradient: 'bg-gradient-to-r from-[#020b1f] via-[#0f48b9] to-[#00d4ff]',
       title: 'Welcome back, kenokana beyan! 💡\nReady to learn?',
       subtitle: ''
     };
@@ -217,12 +217,12 @@ export default function EDOTDashboard() {
       title: 'Academic Progress Ring',
       valStr: '0%\nPROGRESS',
       valNum: 0,
-      ringColor: '#FFD700' // Adey Abeba Yellow
+      ringColor: '#F97316' // Orange accent for student
     };
     areaConfig = {
       title: 'Weekly Study Goal',
       data: [ { name: 'Jan', value1: 0 }, { name: 'Feb', value1: 0 }, { name: 'Mar', value1: 0 }, { name: 'Apr', value1: 0 }, { name: 'May', value1: 0 }, { name: 'Aug', value1: 0 } ],
-      lines: [{ key: 'value1', name: 'Adey Abeba Yellow', color: '#FFD700' }]
+      lines: [{ key: 'value1', name: 'Study Progress', color: '#F97316' }]
     };
     widgetConfig = {
       type: 'claim',
@@ -231,7 +231,7 @@ export default function EDOTDashboard() {
     };
   } else {
     headerConfig = {
-      gradient: 'bg-gradient-to-r from-[#008A32]/10 to-[#FFD700]/10',
+      gradient: 'bg-gradient-to-r from-[#020b1f] via-[#0f48b9] to-[#00d4ff]',
       title: 'Welcome, Family Guardian! 🛡️\nHeart-centered follow-up for student success.',
       subtitle: ''
     };
@@ -245,14 +245,14 @@ export default function EDOTDashboard() {
       title: 'Family Growth Circle',
       valStr: '100%\nGrowth',
       valNum: 100,
-      ringColor: '#008A32' // Mixed Green
+      ringColor: '#00D4FF' // Cyan for parent
     };
     areaConfig = {
       title: 'Milestone Timeline',
       data: [
          { name: 'Jan', value1: 0, value2: 0 }, { name: 'Feb', value1: 40, value2: 30 }, { name: 'Mar', value1: 40, value2: 35 }, { name: 'Apr', value1: 85, value2: 60 }, { name: 'May', value1: 65, value2: 60 }, { name: 'Aug', value1: 95, value2: 100 }
       ],
-      lines: [{ key: 'value1', name: 'Lush Highland Green', color: '#008A32' }, { key: 'value2', name: 'Adey Ababa Yellow', color: '#FFD700' }]
+      lines: [{ key: 'value1', name: 'Growth', color: '#00D4FF' }, { key: 'value2', name: 'Progress', color: '#F97316' }]
     };
     widgetConfig = {
       type: 'communication',
@@ -302,7 +302,7 @@ export default function EDOTDashboard() {
             {userRole === 'admin' && (
               <button 
                 onClick={() => setIsAgendaModalOpen(true)}
-                className="px-4 py-2 rounded-lg border border-[#FFD700] text-[#FFD700] font-semibold hover:bg-[#FFD700]/20 shadow-glow-yellow transition-all"
+                className="px-4 py-2 rounded-lg border border-[#00D4FF] text-[#00D4FF] font-semibold hover:bg-[#00D4FF]/20 shadow-[0_0_20px_rgba(0,212,255,0.3)] transition-all"
               >
                 + Broadcast Notice
               </button>
@@ -310,7 +310,7 @@ export default function EDOTDashboard() {
             {userRole === 'instructor' && (
               <button 
                 onClick={() => navigate('/dashboard/builder')}
-                className="px-4 py-2 rounded-lg border border-[#E67E22] text-[#E67E22] font-semibold hover:bg-[#E67E22]/20 shadow-glow-green transition-all"
+                className="px-4 py-2 rounded-lg border border-[#F97316] text-[#F97316] font-semibold hover:bg-[#F97316]/20 shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all"
               >
                 + Create New Course
               </button>
@@ -318,7 +318,7 @@ export default function EDOTDashboard() {
             {userRole === 'student' && (
               <button 
                 onClick={() => navigate('/dashboard/courses')}
-                className="px-4 py-2 rounded-lg border border-[#FFD700] text-[#FFD700] font-semibold hover:bg-[#FFD700]/10 shadow-glow-yellow transition-all"
+                className="px-4 py-2 rounded-lg border border-[#F97316] text-[#F97316] font-semibold hover:bg-[#F97316]/10 shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all"
               >
                 + Start a Lesson
               </button>
@@ -326,7 +326,7 @@ export default function EDOTDashboard() {
             {userRole === 'parent' && (
               <button 
                 onClick={() => navigate('/dashboard/messages')}
-                className="px-4 py-2 rounded-lg border border-[#FFD700] text-[#FFD700] font-semibold hover:bg-[#FFD700]/20 shadow-glow-yellow transition-all"
+                className="px-4 py-2 rounded-lg border border-[#00D4FF] text-[#00D4FF] font-semibold hover:bg-[#00D4FF]/20 shadow-[0_0_20px_rgba(0,212,255,0.3)] transition-all"
               >
                 ✉️ Message Instructor
               </button>
@@ -470,7 +470,7 @@ export default function EDOTDashboard() {
                   <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />
                 </div>
                 <div className="flex-1 flex flex-col items-center justify-center text-center">
-                  <div className="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-[#008A32]/20 to-[#FFD700]/20 flex items-center justify-center border border-[#E67E22]/30">
+                  <div className="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-[#00D4FF]/20 to-[#F97316]/20 flex items-center justify-center border border-[#F97316]/30">
                      <Mail className="w-10 h-10 text-[#FFD700]" />
                   </div>
                   <button 

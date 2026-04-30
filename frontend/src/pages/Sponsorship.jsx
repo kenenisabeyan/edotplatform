@@ -14,19 +14,19 @@ export default function Sponsorship() {
     <div className={`min-h-screen w-full font-sans overflow-x-hidden relative transition-colors duration-300 ${isDarkMode ? 'bg-[#0B0F19] text-slate-100' : 'bg-[#ffffff] text-slate-800'}`}>
       
       {/* 1. HERO SECTION */}
-      <section className="relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b border-white/10">
-         <div className="absolute inset-0 z-0 bg-[#0B1120]">
-            <img src="https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1600&q=80" alt="Mentor helping student" className="w-full h-full object-cover opacity-30 mix-blend-overlay" />
-            <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 via-[#0B1120]/80 to-[#0B1120]"></div>
+      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+         <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-50'}`}>
+            <img src="https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1600&q=80" alt="Mentor helping student" className={`w-full h-full object-cover ${isDarkMode ? 'opacity-30 mix-blend-overlay' : 'opacity-[0.07] mix-blend-multiply'}`} />
+            <div className={`absolute inset-0 bg-gradient-to-b ${isDarkMode ? 'from-orange-500/20 via-[#0B1120]/80 to-[#0B1120]' : 'from-white/40 via-slate-50/80 to-slate-50'}`}></div>
          </div>
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 ${isDarkMode ? 'bg-white/10 border-white/20 text-white' : 'bg-white/20 border-white/30 text-white shadow-lg backdrop-blur-md'} font-bold text-sm tracking-wider uppercase`}>
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 font-bold text-sm tracking-wider uppercase ${isDarkMode ? 'bg-white/10 border-white/20 text-white shadow-lg backdrop-blur-md' : 'bg-white/80 border-slate-300 text-slate-800 shadow-sm backdrop-blur-md'}`}>
                <Heart className="w-4 h-4" /> Direct Impact
             </div>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.1] tracking-tight text-white">
+            <h1 className={`text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                Give the Gift of <span className="text-[#F97316]">Education</span>
             </h1>
-            <p className="text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed text-slate-300">
+            <p className={`text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                Connect directly with learners in need. Track their progress, see their results, and watch your support transform their future.
             </p>
          </div>

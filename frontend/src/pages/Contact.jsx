@@ -33,8 +33,7 @@ export default function Contact() {
         {/* 1. HERO SECTION */}
         <section className={`relative w-full py-20 lg:py-32 px-6 overflow-hidden flex flex-col items-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
           <div className="absolute inset-0 z-0">
-             <div className="absolute inset-0 bg-gradient-to-r from-[#0B1120] via-[#0B1120]/90 to-transparent z-10 hidden lg:block"></div>
-             <div className={`absolute inset-0 bg-[#0B1120]/80 z-10 lg:hidden ${isDarkMode ? 'bg-[#0B1120]/90' : 'bg-white/90'}`}></div>
+             <div className={`absolute inset-0 bg-gradient-to-r z-10 ${isDarkMode ? 'from-[#0B1120] via-[#0B1120]/90 to-transparent' : 'from-slate-50 via-slate-50/95 to-slate-50/40'}`}></div>
              <img 
                src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80" 
                alt="Friendly customer support team" 
@@ -43,15 +42,15 @@ export default function Contact() {
           </div>
 
           <div className="max-w-[1200px] w-full mx-auto relative z-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className={`text-left ${isDarkMode ? 'text-white' : 'text-slate-900 lg:text-white'}`}>
-               <div className={`inline-flex items-center gap-3 px-4 py-1.5 rounded-full border mb-6 ${isDarkMode ? 'bg-white/10 border-white/20' : 'bg-[#EBC176]/20 border-[#EBC176]/30 lg:bg-white/10 lg:border-white/20'}`}>
-                  <Mail className={`w-4 h-4 ${isDarkMode ? 'text-[#EBC176]' : 'text-[#D97706] lg:text-[#EBC176]'}`} />
-                  <span className={`text-[11px] font-bold tracking-wider uppercase ${isDarkMode ? 'text-white' : 'text-slate-900 lg:text-white'}`}>We'd Love to Hear From You</span>
+            <div className={`text-left ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+               <div className={`inline-flex items-center gap-3 px-4 py-1.5 rounded-full border mb-6 ${isDarkMode ? 'bg-white/10 border-white/20' : 'bg-[#EBC176]/10 border-[#EBC176]/30'}`}>
+                  <Mail className={`w-4 h-4 ${isDarkMode ? 'text-[#EBC176]' : 'text-[#D97706]'}`} />
+                  <span className={`text-[11px] font-bold tracking-wider uppercase ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>We'd Love to Hear From You</span>
                </div>
                <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1]">
-                 Let’s Connect and Build the <span className="text-[#EBC176]">Future of Education</span>
+                 Let’s Connect and Build the <span className={`${isDarkMode ? 'text-[#EBC176]' : 'text-[#D97706]'}`}>Future of Education</span>
                </h1>
-               <p className={`text-lg md:text-xl font-normal leading-relaxed max-w-xl ${isDarkMode ? 'text-slate-300' : 'text-slate-700 lg:text-slate-300'}`}>
+               <p className={`text-lg md:text-xl font-normal leading-relaxed max-w-xl ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                  Have questions, ideas, or want to collaborate? Reach out — we’re here to support you whether you're a learner, instructor, parent, sponsor, or partner.
                </p>
             </div>
