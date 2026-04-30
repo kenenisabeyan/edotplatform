@@ -1,0 +1,132 @@
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+
+dotenv.config();
+
+import authRoutes from './routes/authRoutes.js';
+import courseRoutes from './routes/courseRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
+import instructorRoutes from './routes/instructorRoutes.js';
+import studentRoutes from './routes/studentRoutes.js';
+import noticeRoutes from './routes/noticeRoutes.js';
+import libraryRoutes from './routes/libraryRoutes.js';
+import calendarRoutes from './routes/calendarRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
+import progressRoutes from './routes/progressRoutes.js';
+import messageRoutes from './routes/messageRoutes.js';
+import parentRoutes from './routes/parentRoutes.js';
+import attendanceRoutes from './routes/attendanceRoutes.js';
+import activityRoutes from './routes/activityRoutes.js';
+import settingsRoutes from './routes/settingsRoutes.js';
+import achievementRoutes from './routes/achievementRoutes.js';
+import searchRoutes from './routes/searchRoutes.js';
+import sectionRoutes from './routes/sectionRoutes.js';
+import supportRoutes from './routes/supportRoutes.js';
+import connectionRoutes from './routes/connectionRoutes.js';
+import materialRoutes from './routes/materialRoutes.js';
+import quizRoutes from './routes/quizRoutes.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+const httpServer = createServer(app);
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: ["http://127.0.0.1:5500", "http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174", "http://127.0.0.1:5174", "http://localhost:5175", "http://127.0.0.1:5175"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true
+  }
+});
+
+io.on('connection', (socket) => {
+  console.log(`🔌 Socket connected: ${socket.id}`);
+  
+  socket.on('join_room', (roomId) => {
+    socket.join(roomId);
+  });
+
+  socket.on('send_message', (data) => {
+    io.to(data.roomId).emit('receive_message', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`🔌 Socket disconnected: ${socket.id}`);
+  });
+});
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(cors({
+  origin: ["http://127.0.0.1:5500", "http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174", "http://127.0.0.1:5174", "http://localhost:5175", "http://127.0.0.1:5175"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true
+}));
+
+app.use('/api/auth', authRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/instructor', instructorRoutes);
+app.use('/api/student', studentRoutes);
+app.use('/api/notices', noticeRoutes);
+app.use('/api/library', libraryRoutes);
+app.use('/api/calendar', calendarRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/progress', progressRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/parent', parentRoutes);
+app.use('/api/attendance', attendanceRoutes);
+app.use('/api/activity', activityRoutes);
+app.use('/api/settings', settingsRoutes);
+app.use('/api/achievements', achievementRoutes);
+app.use('/api/search', searchRoutes);
+app.use('/api/sections', sectionRoutes);
+app.use('/api/support', supportRoutes);
+app.use('/api/connections', connectionRoutes);
+app.use('/api/materials', materialRoutes);
+app.use('/api/quizzes', quizRoutes);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Welcome to EDOT API',
+    version: '1.0.0',
+    endpoints: {
+      auth: '/api/auth',
+      courses: '/api/courses',
+      users: '/api/users'
+    }
+  });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Server Error'
+  });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ success: false, message: 'Route not found' });
+});
+
+const PORT = process.env.PORT || 5000;
+
+httpServer.listen(PORT, () => console.log(`🚀 Server running on port ${PORT} with WebSockets`));

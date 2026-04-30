@@ -1,0 +1,480 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                   String   @id @default(uuid())
+  name                 String
+  email                String   @unique
+  password             String
+  role                 String   @default("student")
+  
+  parentId             String?
+  parent               User?    @relation("UserChildren", fields: [parentId], references: [id])
+  children             User[]   @relation("UserChildren")
+
+  phone                String?
+  gender               String   @default("")
+  dateOfBirth          String?
+  batch                String?
+  section              String?
+  address              String?
+  emergencyContact     String?
+  department           String?
+  specialization       String?
+  occupation           String?
+  paymentStatus        String   @default("none")
+  outstandingBalance   Float    @default(0)
+
+  userCourseProgress   UserCourseProgress[]
+
+  avatar               String   @default("default-avatar.png")
+  coverPhoto           String   @default("")
+  bio                  String?
+  status               String   @default("pending")
+
+  assignedInstructorId String?
+  assignedInstructor   User?    @relation("UserInstructor", fields: [assignedInstructorId], references: [id])
+  assignedStudents     User[]   @relation("UserInstructor")
+
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  coursesTaught        Course[]             @relation("CourseInstructor")
+  enrollments          Enrollment[]         @relation("EnrollmentStudent")
+  settings             UserSetting?
+  messagesSent         Message[]            @relation("MessageSender")
+  messagesReceived     Message[]            @relation("MessageReceiver")
+  progressLogs         ProgressLog[]
+  certificates         Certificate[]
+  achievements         Achievement?
+  activities           Activity[]
+  courseReports        CourseReport[]       @relation("CourseReportInstructor")
+  courseReportRecords  CourseReportRecord[] @relation("CourseReportStudent")
+  eventsCreated        Event[]              @relation("EventCreator")
+  libraryUploads       Library[]            @relation("LibraryUploader")
+  notices              Notice[]             @relation("NoticeAuthor")
+  resources            Resource[]           @relation("ResourceAddedBy")
+  sectionsTaught       Section[]            @relation("SectionInstructor")
+  sectionsJoined       Section[]            @relation("SectionStudents")
+  
+  sponsorships         Sponsorship[]        @relation("StudentSponsorships")
+  sponsoredStudents    Sponsorship[]        @relation("SponsorSponsorships")
+
+  adminGroups          MessageGroup[]       @relation("GroupAdmin")
+  memberGroups         MessageGroup[]       @relation("GroupMembers")
+
+  connectionRequestsSent     ConnectionRequest[] @relation("Requester")
+  connectionRequestsReceived ConnectionRequest[] @relation("Target")
+}
+
+model UserCourseProgress {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  courseId         String
+  course           Course   @relation(fields: [courseId], references: [id])
+  enrolledAt       DateTime @default(now())
+  status           String   @default("pending")
+  progress         Float    @default(0)
+  completedLessons Json?
+  watchedVideos    Json?
+  passedQuizzes    Json?
+  passedFinalExam  Boolean  @default(false)
+  score            Float    @default(0)
+  completed        Boolean  @default(false)
+}
+
+model Course {
+  id                 String   @id @default(uuid())
+  title              String
+  slug               String   @unique
+  description        String
+  instructorId       String
+  instructor         User     @relation("CourseInstructor", fields: [instructorId], references: [id])
+  mainCategory       String
+  subCategory        String
+  level              String   @default("Beginner")
+  duration           Float
+  thumbnail          String   @default("default-course.jpg")
+  imageUrl           String?
+  videoUrl           String?
+  price              Float    @default(0)
+  rating             Float    @default(4.5)
+  totalStudents      Int      @default(0)
+  
+  materials          Json?
+  lessonsEmbedded    Json?
+  lessons            Lesson[] @relation("CourseLessons")
+  
+  requirements       String[]
+  whatYouWillLearn   String[]
+  isExamRequired     Boolean  @default(false)
+  finalExam          Json?
+  isPublished        Boolean  @default(false)
+  status             String   @default("draft")
+  tags               String[]
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  sections           Section[]
+  enrollments        Enrollment[]
+  progressLogs       ProgressLog[]
+  certificates       Certificate[]
+  userProgress       UserCourseProgress[]
+  libraryItems       Library[]
+  courseReports      CourseReport[]
+}
+
+model Lesson {
+  id               String   @id @default(uuid())
+  title            String
+  description      String
+  videoUrl         String
+  duration         Float
+  courseId         String
+  course           Course   @relation("CourseLessons", fields: [courseId], references: [id])
+  order            Int
+  resources        Json?
+  quiz             Json?
+  readingMaterials String   @default("")
+  phase            String?  // Allows grouping lessons by phase/module
+  isPreview        Boolean  @default(false)
+  
+  materials        Material[] @relation("LessonMaterials")
+  quizzes          Quiz[]     @relation("LessonQuizzes")
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([courseId, order])
+}
+
+model Section {
+  id             String   @id @default(uuid())
+  name           String
+  courseId       String
+  course         Course   @relation(fields: [courseId], references: [id])
+  instructorId   String?
+  instructor     User?    @relation("SectionInstructor", fields: [instructorId], references: [id])
+  students       User[]   @relation("SectionStudents")
+  
+  scheduleDays   String[]
+  scheduleTime   String?
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Enrollment {
+  id             String   @id @default(uuid())
+  studentId      String
+  student        User     @relation("EnrollmentStudent", fields: [studentId], references: [id])
+  courseId       String
+  course         Course   @relation(fields: [courseId], references: [id])
+  status         String   @default("pending")
+  reason         String   @default("")
+  requestedAt    DateTime @default(now())
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([studentId, courseId])
+}
+
+model ProgressLog {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id])
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id])
+  lessonId          String
+  videoSegments     Int[]
+  isVideoComplete   Boolean  @default(false)
+  examScores        Json?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([userId, lessonId])
+}
+
+model UserSetting {
+  id                        String   @id @default(uuid())
+  userId                    String   @unique
+  user                      User     @relation(fields: [userId], references: [id])
+  
+  timezone                  String   @default("(GMT+03:00) East Africa Time")
+  notifySystem              Boolean  @default(true)
+  notifyMessages            Boolean  @default(true)
+  notifyDigest              Boolean  @default(false)
+  
+  shareMilestones           Boolean  @default(true)
+  shareGrades               Boolean  @default(true)
+  privateMode               Boolean  @default(false)
+  
+  billingMethod             String   @default("unlinked")
+  alertGradeBelow           Float    @default(70)
+  alertAbsenceCount         Int      @default(3)
+  
+  consultationHours         String   @default("Mon-Wed 3PM-5PM")
+  courseVisibility          String   @default("public")
+  autoTags                  Boolean  @default(true)
+  autoGrade                 Boolean  @default(false)
+  
+  primaryColor              String   @default("#0B0E14")
+  feePercentage             Float    @default(10)
+  autoInterventionTriggers  Boolean  @default(true)
+  apiKey                    String   @default("")
+  
+  blockedUsers              String[] // Telegram Block System
+
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+}
+
+model Attendance {
+  id             String   @id @default(uuid())
+  courseId       String
+  section        String
+  date           DateTime
+  records        Json?
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([courseId, section, date])
+}
+
+model Certificate {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  courseId         String
+  course           Course   @relation(fields: [courseId], references: [id])
+  issueDate        DateTime @default(now())
+  verificationHash String   @unique
+  isSeen           Boolean  @default(false)
+  issued           Boolean  @default(true)
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Message {
+  id             String   @id @default(uuid())
+  senderId       String
+  sender         User     @relation("MessageSender", fields: [senderId], references: [id])
+  receiverId     String?
+  receiver       User?    @relation("MessageReceiver", fields: [receiverId], references: [id])
+  content        String
+  
+  attachmentUrl  String?
+  attachmentType String?
+  
+  groupId        String?
+  group          MessageGroup? @relation(fields: [groupId], references: [id])
+
+  isRead         Boolean  @default(false)
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model MessageGroup {
+  id             String   @id @default(uuid())
+  name           String
+  description    String?
+  isChannel      Boolean  @default(false)
+  avatar         String   @default("default-group.png")
+  
+  adminId        String
+  admin          User     @relation("GroupAdmin", fields: [adminId], references: [id])
+  members        User[]   @relation("GroupMembers")
+  messages       Message[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Achievement {
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id])
+  learningPoints Float    @default(0)
+  badges         Json?
+  rank           String   @default("Novice")
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Activity {
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  action         String
+  type           String   @default("system")
+  details        String?
+  relatedId      String?
+  visibility     String   @default("public")
+  insightFlag    String?
+  metadata       Json?
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model CourseReport {
+  id             String   @id @default(uuid())
+  courseId       String
+  course         Course   @relation(fields: [courseId], references: [id])
+  instructorId   String
+  instructor     User     @relation("CourseReportInstructor", fields: [instructorId], references: [id])
+  term           String   @default("Fall Term")
+  status         String   @default("submitted")
+  records        CourseReportRecord[]
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model CourseReportRecord {
+  id                   String   @id @default(uuid())
+  courseReportId       String
+  courseReport         CourseReport @relation(fields: [courseReportId], references: [id])
+  studentId            String
+  student              User     @relation("CourseReportStudent", fields: [studentId], references: [id])
+  attendancePercentage Float    @default(0)
+  finalGrade           String   @default("Pending")
+  remarks              String   @default("")
+}
+
+model Event {
+  id              String   @id @default(uuid())
+  title           String
+  description     String?
+  date            DateTime
+  type            String   @default("announcement")
+  color           String   @default("bg-indigo-500")
+  targetAudiences String[]
+  createdById     String
+  createdBy       User     @relation("EventCreator", fields: [createdById], references: [id])
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Library {
+  id             String   @id @default(uuid())
+  title          String
+  author         String
+  category       String   @default("General")
+  fileUrl        String
+  uploadedById   String
+  uploadedBy     User     @relation("LibraryUploader", fields: [uploadedById], references: [id])
+  courseId       String?
+  course         Course?  @relation(fields: [courseId], references: [id])
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Notice {
+  id             String   @id @default(uuid())
+  title          String
+  content        String
+  date           DateTime @default(now())
+  audience       String   @default("all")
+  authorId       String?
+  author         User?    @relation("NoticeAuthor", fields: [authorId], references: [id])
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Resource {
+  id             String   @id @default(uuid())
+  title          String
+  author         String
+  category       String   @default("Other")
+  status         String   @default("available")
+  addedById      String?
+  addedBy        User?    @relation("ResourceAddedBy", fields: [addedById], references: [id])
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Sponsorship {
+  id              String   @id @default(uuid())
+  sponsorName     String
+  sponsorId       String?
+  sponsor         User?    @relation("SponsorSponsorships", fields: [sponsorId], references: [id])
+  amount          Float
+  targetStudentId String?
+  targetStudent   User?    @relation("StudentSponsorships", fields: [targetStudentId], references: [id])
+  status          String   @default("pending_consent")
+  isAnonymous     Boolean  @default(false)
+  termsAccepted   Boolean  @default(false)
+  messageChannelId String? @unique
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ImpactLog {
+  id              String   @id @default(uuid())
+  sponsorName     String
+  studentName     String
+  type            String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ConnectionRequest {
+  id               String   @id @default(uuid())
+  requesterId      String
+  requester        User     @relation("Requester", fields: [requesterId], references: [id])
+  targetId         String
+  target           User     @relation("Target", fields: [targetId], references: [id])
+  type             String   @default("parent") // 'parent', 'admin_mentorship', etc.
+  status           String   @default("pending_consent")
+  termsAccepted    Boolean  @default(false)
+  messageChannelId String?  @unique
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Material {
+  id          String   @id @default(uuid())
+  lessonId    String
+  lesson      Lesson   @relation("LessonMaterials", fields: [lessonId], references: [id])
+  title       String
+  fileUrl     String
+  fileType    String   // video, pdf, ppt, doc, quiz
+  duration    Float?   // for videos
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Quiz {
+  id          String   @id @default(uuid())
+  lessonId    String
+  lesson      Lesson   @relation("LessonQuizzes", fields: [lessonId], references: [id])
+  title       String
+  questions   Json     // Array of { question, options, correctAnswer, score }
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

@@ -1,0 +1,453 @@
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../utils/api';
+import { 
+  BookOpen, CheckCircle2, Award, Search, LayoutDashboard, 
+  Settings, LogOut, Target, Plus, Bell, Monitor, TrendingUp, MoreHorizontal,
+  PlayCircle, Download, ShieldCheck, Globe, ShoppingCart, Users, Coins, Package, Banknote, Wallet, FileText, Moon, Sun
+} from 'lucide-react';
+import { jsPDF } from 'jspdf';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
+import ProfileView from './ProfileView';
+import ActivityFeed from '../components/ActivityFeed';
+import StudentDashboardCourses from '../components/StudentDashboardCourses';
+import PackageCard from '../components/student/PackageCard';
+import ThemeDropdown from '../components/ThemeDropdown';
+import useThemeMode from '../hooks/useThemeMode';
+import { PACKAGES } from '../constants/packages';
+
+const CAT_COLORS = {
+  "Social Science": { main: "#F97316", dark: "#C2410C" }, 
+  "Mathematics & Natural Science": { main: "#3B82F6", dark: "#1D4ED8" }, 
+  "Natural Language": { main: "#A855F7", dark: "#7E22CE" }, 
+  "Programming & Technology": { main: "#6366F1", dark: "#4338CA" }, 
+  "Business & Entrepreneurship": { main: "#FFD700", dark: "#CA8A04" }, 
+  "Personal Development": { main: "#22C55E", dark: "#15803D" }
+};
+
+const DEFAULT_COLOR = { main: "#3b82f6", dark: "#2563eb" };
+
+
+const CAT_DESCRIPTIONS = {
+  "Social Science": "This curriculum path is designed to enable learners to travel inside human society, increasing awareness to grow understanding of history, behavior, and structural consciousness.",
+  "Mathematics & Natural Science": "This training curriculum allows people to develop a step-by-step rigorous analytical system to build the required logic for the purpose, dreams, and advanced scientific goals they designed.",
+  "Natural Language": "This language path is engineered to empower seamless global communication. The training lets learners balance their social, professional, and cultural interactions elegantly.",
+  "Programming & Technology": "This curriculum is the track to tech mastery. It's designed to create 'Aha' moments and increase awareness to grow into highly sought-after software architectures and development mindsets.",
+  "Business & Entrepreneurship": "This premium curriculum enables future leaders to navigate markets independently. It helps construct financial stability, leadership, and powerful entrepreneurial ecosystems.",
+  "Personal Development": "This training empowers individuals to unlock self-mastery. Develop habits and physical, mental, and social goals that directly translate to long-term prosperity."
+};
+
+export default function StudentDashboard() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('overview');
+  const isDarkMode = useThemeMode();
+  const [growthNote, setGrowthNote] = useState('');
+  const [privateLogs, setPrivateLogs] = useState([]);
+  const [achievements, setAchievements] = useState(null);
+  const [pendingSponsorships, setPendingSponsorships] = useState([]);
+  const [pendingConnections, setPendingConnections] = useState([]);
+  const [dbCourses, setDbCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchEnrollments = async () => {
+      try {
+        const { data } = await api.get('/student/enrollments');
+        setEnrolledCourses(data.data || []);
+      } catch (err) {
+        console.error('Failed to fetch enrollments', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    const fetchPendingSponsorships = async () => {
+      try {
+        const { data } = await api.get('/support/pending');
+        setPendingSponsorships(data.data || []);
+      } catch (err) {
+        console.error('Failed to fetch pending sponsorships', err);
+      }
+    };
+    
+    const fetchPendingConnections = async () => {
+      try {
+        const { data } = await api.get('/connections/pending');
+        setPendingConnections(data.data || []);
+      } catch (err) {
+        console.error('Failed to fetch pending connections', err);
+      }
+    };
+
+    const fetchAllCourses = async () => {
+      try {
+        const { data } = await api.get('/courses', { params: { limit: 100 } });
+        setDbCourses(data.courses || []);
+      } catch (err) {
+        console.error('Failed to fetch courses', err);
+      }
+    };
+    
+    fetchEnrollments();
+    fetchPendingSponsorships();
+    fetchPendingConnections();
+    fetchAllCourses();
+  }, []);
+
+  const handleConnectionRequest = async (id, action) => {
+    if (window.confirm(`Are you sure you want to ${action} this explicit connection?`)) {
+      try {
+        await api.post(`/connections/${id}/${action}`);
+        alert(`Connection definitively ${action}ed.`);
+        setPendingConnections(pendingConnections.filter(c => c.id !== id));
+      } catch (err) {
+        alert("Action failed: " + (err.response?.data?.message || err.message));
+      }
+    }
+  };
+
+  const handleSponsorship = async (id, action) => {
+    if (window.confirm(`Are you sure you want to ${action} this proxy connection?`)) {
+      try {
+        await api.post(`/support/${id}/${action}`);
+        alert(`Sponsorship definitively ${action}ed.`);
+        setPendingSponsorships(pendingSponsorships.filter(s => s.id !== id));
+      } catch (err) {
+        alert("Authorization failed: " + (err.response?.data?.message || err.message));
+      }
+    }
+  };
+
+  const fetchPrivateLogs = async () => {
+    try {
+      const { data } = await api.get('/activity');
+      const filtered = data.data.filter(log => log.visibility === 'private');
+      setPrivateLogs(filtered);
+    } catch(err) { console.error('Failed to fetch private logs', err); }
+  };
+
+  const fetchAchievements = async () => {
+    try {
+      const { data } = await api.get('/achievements/me');
+      setAchievements(data.data);
+    } catch(err) { console.error('Failed to fetch achievements', err); }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'growth') {
+       fetchPrivateLogs();
+       fetchAchievements();
+    }
+  }, [activeTab]);
+
+  const handleAddGoal = async (e) => {
+    e.preventDefault();
+    if (!growthNote.trim()) return;
+    try {
+      await api.post('/activity', {
+        action: 'Set a new personal micro-goal',
+        type: 'learning',
+        visibility: 'private',
+        metadata: { goal: growthNote }
+      });
+      setGrowthNote('');
+      fetchPrivateLogs();
+    } catch(err) { console.error('Failed to log personal goal', err); }
+  };
+
+  const totalEnrolled = enrolledCourses.length;
+  const totalLessonsCompleted = enrolledCourses.reduce((total, course) => total + (course.completedLessons?.length || 0), 0);
+  const completedCourses = enrolledCourses.filter(c => c.progress === 100);
+  const averageProgress = totalEnrolled > 0 ? Math.round(enrolledCourses.reduce((sum, course) => sum + (course.progress || 0), 0) / totalEnrolled) : 0;
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
+
+  const handleDownloadCertificate = async (courseName) => {
+    const img = new Image();
+    img.src = '/edot-logo.png';
+    await new Promise(resolve => {
+      img.onload = resolve;
+      img.onerror = resolve; // Continue even if logo fails
+    });
+
+    const doc = new jsPDF('landscape');
+    const dateCompleted = new Date().toLocaleDateString();
+    
+    doc.setFillColor(248, 250, 252);
+    doc.rect(0, 0, 297, 210, 'F');
+    
+    doc.setDrawColor(59, 130, 246);
+    doc.setLineWidth(2);
+    doc.rect(10, 10, 277, 190);
+
+    try {
+      doc.addImage(img, 'PNG', 133.5, 20, 30, 25);
+    } catch {
+    }
+    
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(15, 23, 42);
+    doc.setFontSize(40);
+    doc.text('Certificate of Completion', 148.5, 60, { align: 'center' });
+    
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'normal');
+    doc.text('This is proudly presented to', 148.5, 90, { align: 'center' });
+    
+    doc.setFontSize(30);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(59, 130, 246);
+    doc.text(user?.name || 'Amazing Student', 148.5, 110, { align: 'center' });
+    
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(15, 23, 42);
+    doc.text('For successfully completing the course:', 148.5, 130, { align: 'center' });
+    
+    doc.setFontSize(24);
+    doc.setFont('helvetica', 'bold');
+    doc.text(courseName || 'Course', 148.5, 150, { align: 'center' });
+    
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(100, 116, 139);
+    doc.text(`Date: ${dateCompleted}`, 148.5, 180, { align: 'center' });
+    
+    doc.save(`${courseName.replace(/\\s+/g, '_')}_Certificate.pdf`);
+  };
+
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <div className="flex justify-center items-center h-64">
+          <div className={`w-12 h-12 border-4 border-t-[#FFD700] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+        </div>
+      );
+    }
+
+    switch (activeTab) {
+      case 'overview':
+      case 'courses': {
+        return (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 pt-1 font-sans">
+            <div className="mb-10 text-white/90">
+              <span className="text-sm font-medium tracking-tight">Explore our courses below</span>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-[1200px]">
+              {PACKAGES.map((pkg, idx) => {
+                const categoryKey = pkg.title.replace(" Courses", "").trim();
+                const matchedCourses = dbCourses.filter(c => c.mainCategory === categoryKey);
+                return <PackageCard key={idx} pkg={{...pkg, courses: matchedCourses}} isEnrolled={pkg.isEnrolled} isDarkMode={isDarkMode} />
+              })}
+            </div>
+          </div>
+        );
+      }
+
+      case 'certificates':
+        return (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-slate-800 tracking-tight">My Credentials</h2>
+            </div>
+            
+            {completedCourses.length === 0 ? (
+               <div className={`p-12 text-center rounded-2xl border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}`}>
+                 <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-500 border-blue-100'}`}>
+                   <Award className="w-8 h-8" />
+                 </div>
+                 <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>No credentials yet</h3>
+                 <p className={`text-sm mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Complete courses to 100% to earn your official certificates.</p>
+                 <button 
+                  onClick={() => setActiveTab('courses')}
+                  className={`px-6 py-3 bg-blue-500 hover:bg-blue-600 font-bold text-sm rounded-xl shadow-md transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                 >
+                   Continue Learning
+                 </button>
+               </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {completedCourses.map((enrolled) => (
+                    <div 
+                      key={enrolled.id || enrolled.course?.id} 
+                      className={`rounded-2xl border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-slate-800 border-slate-700 hover:border-blue-500/50' : 'bg-white border-slate-200 hover:border-blue-300'}`}
+                    >
+                      <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-500 border-blue-100'}`}>
+                        <Award className="w-8 h-8" />
+                      </div>
+                      <h3 className={`text-lg font-bold text-center mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                        {enrolled.course?.title || 'Unknown Course'}
+                      </h3>
+                      <p className={`text-[11px] font-medium text-center mb-8 flex-1 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`}>
+                        Completed 100% Core Curriculum
+                      </p>
+                      
+                      <button 
+                        onClick={() => handleDownloadCertificate(enrolled.course?.title)}
+                        className={`w-full inline-flex justify-center items-center gap-2 px-6 py-3 font-bold text-sm rounded-xl border transition-colors shadow-sm ${isDarkMode ? 'bg-slate-700/50 hover:bg-blue-600 text-white border-slate-600' : 'bg-slate-50 hover:bg-blue-500 hover:text-white text-slate-700 border-slate-200'}`}
+                      >
+                        <Download className="w-4 h-4" /> Export PDF
+                      </button>
+                    </div>
+                  ))}
+                </div>
+            )}
+          </div>
+        );
+      case 'growth':
+         return (
+             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 font-sans">
+                <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Personal Growth Lab</h2>
+                <div className={`p-6 rounded-2xl border mb-6 shadow-sm ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}`}>
+                    <p className={`mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Set isolated growth objectives away from course structures.</p>
+                    <form onSubmit={handleAddGoal} className="flex gap-4">
+                        <input 
+                            type="text" value={growthNote} onChange={e => setGrowthNote(e.target.value)}
+                            placeholder="Set a new objective..."
+                            className={`flex-1 px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-[#f97316]/50 transition-all ${isDarkMode ? 'bg-slate-900 border-slate-700 text-white placeholder:text-slate-500' : 'bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400'}`}
+                        />
+                        <button type="submit" className={`px-6 py-2 rounded-lg text-sm font-semibold bg-[#f97316] hover:bg-[#ea580c] shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Add</button>
+                    </form>
+                </div>
+             </div>
+         );
+      case 'settings':
+        return <ProfileView />;
+      default:
+        return null;
+    }
+  };
+
+  const navItemClass = (tabName, isActive) => `
+    w-full flex items-center justify-between px-3 py-2.5 transition-all duration-200 font-medium text-[13px] rounded-lg mb-1
+    ${isActive 
+      ? 'bg-[#f97316] text-white shadow-sm' 
+      : 'bg-transparent text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+    }
+  `;
+
+  return (
+    <div className={`min-h-screen flex flex-col font-sans h-screen ${isDarkMode ? 'bg-slate-900 text-slate-200' : 'bg-[#f0f4f8] text-slate-700'}`}>
+      {/* Top Header Bar */}
+      <header className={`bg-[#f97316] h-[60px] flex items-center justify-between px-4 shrink-0 z-50 shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+        <div className="flex items-center gap-4 h-full">
+          <div className="flex items-center gap-3 font-black text-lg tracking-tight uppercase">
+            <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center border-2 border-white/20 overflow-hidden shadow-inner">
+               <img src={edotLogo} alt="Logo" className="w-full h-full object-cover" />
+            </div>
+            BREAKTHROUGH
+          </div>
+          <div className="flex items-center gap-1 border-l border-white/20 pl-4 ml-2">
+            <button className="hover:bg-white/10 p-1.5 rounded transition-colors">
+               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" /></svg>
+            </button>
+            <button className="hover:bg-white/10 p-1.5 rounded transition-colors">
+               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+            </button>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <ThemeDropdown />
+          <div className={`relative cursor-pointer hover:bg-white/10 p-2 rounded-full transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <Bell className="w-5 h-5" />
+            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-[#f97316]"></span>
+          </div>
+          <div className="flex items-center gap-2 cursor-pointer hover:bg-white/10 py-1 px-2 rounded-lg transition-colors border-l border-white/20 pl-4">
+            <div className={`w-8 h-8 rounded-full bg-blue-500 font-bold flex items-center justify-center border border-white/30 overflow-hidden ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+              <img src={`https://ui-avatars.com/api/?name=${user?.name?.replace(/ /g, '+') || 'User'}&background=3b82f6&color=fff`} alt="User" className="w-full h-full object-cover" />
+            </div>
+            <span className={`text-sm font-semibold flex items-center gap-1.5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+               {user?.name || 'Kenenisa Beyan'} 
+               <svg className="w-3.5 h-3.5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex flex-1 overflow-hidden relative">
+        {/* Sidebar */}
+        <aside className={`w-[250px] shrink-0 flex flex-col h-full border-r overflow-y-auto ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+          {/* User Profile in Sidebar */}
+          <div className={`bg-gradient-to-b from-[#93c5fd] to-[#60a5fa] p-8 flex flex-col items-center justify-center pb-6 shadow-inner ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <div className={`w-16 h-16 rounded-full bg-blue-500 font-bold flex items-center justify-center border-[3px] border-white/50 mb-3 shadow-md overflow-hidden ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+              <img src={`https://ui-avatars.com/api/?name=${user?.name?.replace(/ /g, '+') || 'User'}&background=3b82f6&color=fff`} alt="User" className="w-full h-full object-cover" />
+            </div>
+            <div className="text-[13px] font-bold flex items-center gap-1.5 drop-shadow-sm">
+               {user?.name || 'Kenenisa Beyan'} <span className="text-[9px] opacity-80">▼</span>
+            </div>
+            <div className="text-[10px] text-blue-50 mt-0.5 font-bold tracking-widest uppercase drop-shadow-sm">IBO</div>
+          </div>
+          
+          <div className="p-3 border-b border-slate-100">
+            <div className="relative w-full">
+              <Search className={`w-4 h-4 absolute left-2 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
+              <input type="text" placeholder="Search Downlines" 
+                className="w-full pl-8 pr-4 py-2 bg-transparent border-none text-xs outline-none text-slate-700 placeholder:text-slate-400" />
+            </div>
+          </div>
+
+          <div className="px-3 py-4">
+             <p className="px-2 text-[10px] font-bold text-[#f97316] mb-2">Shortcuts</p>
+             <nav className="mb-4">
+               <button onClick={() => setActiveTab('overview')} className={navItemClass('overview', activeTab === 'overview')}>
+                 <div className="flex items-center gap-3"><LayoutDashboard className="w-[18px] h-[18px] shrink-0 opacity-70" /> Dashboard</div>
+               </button>
+             </nav>
+
+             <p className="px-2 text-[10px] font-bold text-[#f97316] mb-2">My Office</p>
+             <nav className="space-y-0.5">
+               {[
+                 { name: 'Members', icon: Users },
+                 { name: 'Points', icon: Coins },
+                 { name: 'E-Learning', icon: Globe, id: 'courses' },
+                 { name: 'Products', icon: Package },
+                 { name: 'Earnings', icon: Banknote },
+                 { name: 'Wallets', icon: Wallet },
+                 { name: 'Reports', icon: FileText }
+               ].map(item => (
+                 <button key={item.name} onClick={() => item.id && setActiveTab(item.id)} className={navItemClass(item.id || item.name, activeTab === item.id)}>
+                   <div className="flex items-center gap-3">
+                     <item.icon className="w-[18px] h-[18px] shrink-0 opacity-70" /> {item.name}
+                   </div>
+                   <span className={`font-light text-lg leading-none ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>+</span>
+                 </button>
+               ))}
+             </nav>
+          </div>
+        </aside>
+
+        {/* Main Content Area */}
+        <main className={`flex-1 overflow-y-auto relative ${isDarkMode ? 'bg-slate-900' : 'bg-[#f0f4f8]'}`}>
+          {/* Blue Header area behind courses */}
+          {(activeTab === 'courses' || activeTab === 'overview') && (
+            <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-r from-[#93c5fd] to-[#60a5fa] -z-10 overflow-hidden flex items-start border-b border-blue-200">
+               <div className="absolute right-0 top-0 w-1/3 h-full opacity-20">
+                  <svg width="100%" height="100%" viewBox="0 0 200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="10" y1="10" x2="100" y2="80" stroke="#1e3a8a" strokeWidth="1" />
+                    <line x1="100" y1="80" x2="200" y2="40" stroke="#1e3a8a" strokeWidth="1" />
+                    <line x1="50" y1="50" x2="150" y2="20" stroke="#1e3a8a" strokeWidth="1" />
+                    <circle cx="10" cy="10" r="3" fill="#1e3a8a" />
+                    <circle cx="100" cy="80" r="4" fill="#1e3a8a" />
+                    <circle cx="200" cy="40" r="3" fill="#1e3a8a" />
+                    <circle cx="50" cy="50" r="3" fill="#1e3a8a" />
+                    <circle cx="150" cy="20" r="3" fill="#1e3a8a" />
+                  </svg>
+               </div>
+            </div>
+          )}
+          
+          <div className="max-w-[1400px] mx-auto p-6 md:p-8 relative z-10">
+            {renderContent()}
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}

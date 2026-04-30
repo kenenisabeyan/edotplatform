@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+!.env.example
+
+uploads/
+/generated/prisma/
+*.log
+*.txt
+scratch_*.js
+test_*.js
+test2.js
+test.json
+error.json

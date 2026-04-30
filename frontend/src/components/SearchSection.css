@@ -1,0 +1,75 @@
+.search-section {
+  background: #181f2a;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+}
+
+.search-badge {
+  background: #232b3b;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.search-section h1 {
+  color: #fff;
+  font-weight: 700;
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.search-section .highlight {
+  color: #ffe600;
+}
+
+.search-section p {
+  color: #bfc9da;
+  margin: 1rem 0 2rem;
+  text-align: center;
+  max-width: 600px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #101624;
+  border-radius: 40px;
+  box-shadow: 0 0 32px 0 #ffe60033;
+  padding: 0.5rem 1rem;
+  width: 420px;
+  max-width: 90%;
+}
+
+.search-icon {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.search-bar input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.1rem;
+  outline: none;
+}
+
+.search-btn {
+  background: #ff8800;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.7rem 2rem;
+  font-weight: 700;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+}

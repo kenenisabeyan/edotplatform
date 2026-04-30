@@ -1,0 +1,6 @@
+# Ignore auto-downloaded HTML bundle pages from GitHub Language Statistics (Linguist)
+frontend/src/assets/collaboration* linguist-vendored
+
+# Just in case you saved other static webpages to the project
+*.html linguist-vendored=false
+frontend/src/assets/**/*.html linguist-vendored

@@ -1,0 +1,497 @@
+import React, { useState, useRef, useEffect } from 'react';
+import useThemeMode from '../hooks/useThemeMode';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import api from '../utils/api';
+import { 
+  Home, 
+  Users, 
+  UserSquare, 
+  ClipboardCheck, 
+  Wallet, 
+  BellRing, 
+  CalendarDays, 
+  BookOpen, 
+  MessageSquare, 
+  User, 
+  Settings, 
+  LogOut,
+  ChevronDown,
+  Search,
+  Menu,
+  X,
+  Award,
+  Plus,
+  Moon,
+  Sun,
+  PanelLeftClose,
+  PanelLeftOpen,
+  TrendingUp,
+  HeartHandshake
+} from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import NotificationBell from './NotificationBell';
+import UserAvatar from './UserAvatar';
+import CommandK from './CommandK';
+const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
+import ThemeDropdown from './ThemeDropdown';
+
+function NavItem({ item, metrics, role, sidebarCollapsed, onLinkClick }) {
+  let badgeCount = 0;
+  let badgeColor = 'bg-blue-500/100 text-white';
+
+  if (item.path.includes('/messages')) {
+    badgeCount = metrics.unreadMessages;
+  } else if (item.path.includes('/dashboard/users') && role === 'admin') {
+    badgeCount = metrics.pendingUsers;
+    badgeColor = 'bg-rose-500/100 text-white';
+  } else if (item.path.includes('/approvals')) {
+    badgeCount = (metrics.pendingApprovals || 0) + (metrics.pendingEnrollments || 0);
+    badgeColor = 'bg-amber-500/100 text-white';
+  } else if (item.path.includes('/my-courses')) {
+    badgeCount = metrics.pendingCourses;
+    badgeColor = 'bg-amber-500/100 text-white';
+  } else if (item.path.includes('/certificates')) {
+    badgeCount = metrics.newCertificates;
+    badgeColor = 'bg-emerald-500/100 text-white';
+  }
+
+  return (
+    <NavLink
+      to={item.path}
+      end={item.exact}
+      onClick={() => onLinkClick(false)}
+      className={({ isActive }) =>
+        `group relative flex items-center justify-between px-4 py-3 xl:py-3.5 rounded-xl transition-all duration-300 text-sm ${
+          isActive
+            ? `font-semibold ${role === 'admin' ? 'bg-[#FACC15]/10 border border-[#FACC15]/30 shadow-glow-yellow text-[#FACC15]' : 'bg-[#4ade80]/10 border border-[#4ade80]/30 shadow-glow-green text-[#4ade80]'}`
+            : 'font-medium text-slate-300 hover:bg-[#11151F]/5 hover:text-white'
+        }`
+      }
+    >
+      <div className="flex items-center gap-3">
+        <item.icon className="w-5 h-5 shrink-0 transition-transform group-hover:scale-110 duration-300" />
+        {!sidebarCollapsed && <span className="animate-in fade-in slide-in-from-left-2 duration-300">{item.name}</span>}
+      </div>
+      {badgeCount > 0 && !sidebarCollapsed && (
+        <span className={`${badgeColor} text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 shadow-sm animate-in zoom-in duration-300`}>
+          {badgeCount > 99 ? '99+' : badgeCount}
+        </span>
+      )}
+      {badgeCount > 0 && sidebarCollapsed && (
+        <span className={`absolute top-2 right-2 w-2 h-2 rounded-full ${badgeColor}`}></span>
+      )}
+    </NavLink>
+  );
+}
+
+export default function EDOTLayout() {
+  const isDarkMode = useThemeMode();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [financeOpen, setFinanceOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [quickActionsOpen, setQuickActionsOpen] = useState(false);
+  const profileDropdownRef = useRef(null);
+  const quickActionsRef = useRef(null);
+  
+  const [metrics, setMetrics] = useState({
+    unreadMessages: 0,
+    pendingApprovals: 0,
+    pendingCourses: 0,
+    newCertificates: 0,
+    pendingUsers: 0
+  });
+
+  useEffect(() => {
+    const fetchMetrics = async () => {
+      try {
+        const { data } = await api.get('/users/dashboard-metrics');
+        if (data.success && data.metrics) {
+          setMetrics(data.metrics);
+        }
+      } catch (err) {
+        console.error('Failed to fetch dashboard metrics', err);
+      }
+    };
+    if (user) {
+      fetchMetrics();
+      const intervalId = setInterval(fetchMetrics, 5000);
+      return () => clearInterval(intervalId);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
+        setProfileOpen(false);
+      }
+      if (quickActionsRef.current && !quickActionsRef.current.contains(event.target)) {
+        setQuickActionsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
+
+  const role = user?.role ? user.role.toLowerCase().trim() : 'student';
+  const dashboardTitle =
+    role === 'admin'
+      ? 'Edot Admin Dashboard'
+      : role === 'instructor'
+      ? 'Edot Instructor Dashboard'
+      : role === 'parent'
+      ? 'Edot Parent Dashboard'
+      : role === 'sponsor'
+      ? 'Sponsor Dashboard'
+      : 'Edot Student Dashboard';
+
+  const roleNavConfig = {
+    admin: {
+      menu1: [
+        { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
+        { name: 'Create Course', icon: BookOpen, path: '/dashboard/builder' },
+        { name: 'Manage All Courses', icon: ClipboardCheck, path: '/dashboard/my-courses' },
+        { name: 'Approvals (Courses + Enrollments)', icon: ClipboardCheck, path: '/dashboard/approvals' },
+        { name: 'All Users (Admin)', icon: Users, path: '/dashboard/users' },
+        { name: 'Teachers', icon: UserSquare, path: '/dashboard/teachers' },
+        { name: 'Students', icon: Users, path: '/dashboard/students' },
+        { name: 'Attendance', icon: ClipboardCheck, path: '/dashboard/attendance' },
+        { name: 'Revenue', icon: TrendingUp, path: '/dashboard/revenue' },
+        { name: 'Performance', icon: Award, path: '/dashboard/performance' },
+        { name: 'Teaching Trends', icon: BookOpen, path: '/dashboard/teaching' },
+      ],
+      menu2: [
+        { name: 'Notice', icon: BellRing, path: '/dashboard/notice' },
+        { name: 'Calendar', icon: CalendarDays, path: '/dashboard/calendar' },
+        { name: 'Library', icon: BookOpen, path: '/dashboard/library' },
+        { name: 'Message', icon: MessageSquare, path: '/dashboard/messages' },
+        { name: 'Sponsorships', icon: HeartHandshake, path: '/dashboard/support' },
+      ],
+      showFinance: true,
+      quickActions: [
+        { name: 'Add Student', icon: Users, path: '/dashboard/students' },
+        { name: 'Send Announcement', icon: BellRing, path: '/dashboard/notice' }
+      ]
+    },
+    instructor: {
+      menu1: [
+        { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
+        { name: 'Create Course', icon: BookOpen, path: '/dashboard/builder' },
+        { name: 'Manage Courses', icon: ClipboardCheck, path: '/dashboard/my-courses' },
+        { name: 'My Classes', icon: BookOpen, path: '/dashboard/classes' },
+        { name: 'Students', icon: Users, path: '/dashboard/students' },
+        { name: 'Attendance', icon: ClipboardCheck, path: '/dashboard/attendance' },
+        { name: 'Performance', icon: Award, path: '/dashboard/performance' },
+        { name: 'Teaching Activity', icon: TrendingUp, path: '/dashboard/teaching' },
+      ],
+      menu2: [
+        { name: 'Library', icon: BookOpen, path: '/dashboard/library' },
+        { name: 'Notice', icon: BellRing, path: '/dashboard/notice' },
+        { name: 'Calendar', icon: CalendarDays, path: '/dashboard/calendar' },
+        { name: 'Message', icon: MessageSquare, path: '/dashboard/messages' },
+        { name: 'Sponsorships', icon: HeartHandshake, path: '/dashboard/support' },
+      ],
+      showFinance: false,
+      quickActions: [
+        { name: 'Create Course', icon: BookOpen, path: '/dashboard/builder' },
+        { name: 'Mark Attendance', icon: ClipboardCheck, path: '/dashboard/attendance' }
+      ]
+    },
+    student: {
+      menu1: [
+        { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
+        { name: 'My Courses', icon: BookOpen, path: '/dashboard/courses' },
+        { name: 'Schedule', icon: CalendarDays, path: '/dashboard/schedule' },
+      ],
+      menu2: [
+        { name: 'Notice', icon: BellRing, path: '/dashboard/notice' },
+        { name: 'Library', icon: BookOpen, path: '/dashboard/library' },
+        { name: 'Message', icon: MessageSquare, path: '/dashboard/messages' },
+        { name: 'Certificates', icon: Award, path: '/dashboard/certificates' },
+        { name: 'Sponsorships', icon: HeartHandshake, path: '/dashboard/support' },
+      ],
+      showFinance: false,
+      quickActions: []
+    },
+    parent: {
+      menu1: [
+        { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
+        { name: 'My Child', icon: Users, path: '/dashboard/child' },
+        { name: 'Progress Report', icon: ClipboardCheck, path: '/dashboard/progress' },
+        { name: 'Schedule', icon: CalendarDays, path: '/dashboard/schedule' },
+      ],
+      menu2: [
+        { name: 'Messages', icon: MessageSquare, path: '/dashboard/messages' },
+        { name: 'Notifications', icon: BellRing, path: '/dashboard/notice' },
+        { name: 'Library', icon: BookOpen, path: '/dashboard/library' },
+        { name: 'Sponsorships', icon: HeartHandshake, path: '/dashboard/support' },
+      ],
+      quickActions: []
+    },
+    sponsor: {
+      menu1: [
+        { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
+      ],
+      menu2: [
+        { name: 'Notice', icon: BellRing, path: '/dashboard/notice' },
+        { name: 'Library', icon: BookOpen, path: '/dashboard/library' },
+        { name: 'Messages', icon: MessageSquare, path: '/dashboard/messages' },
+      ],
+      showFinance: false,
+      quickActions: []
+    }
+  };
+
+  const currentConfig = roleNavConfig[role] || roleNavConfig.student;
+  const navItemsMenu1 = currentConfig.menu1;
+  const navItemsMenu2 = currentConfig.menu2;
+  const showFinance = currentConfig.showFinance || false;
+  const quickActions = currentConfig.quickActions || [];
+
+
+  return (
+    <div style={{ backgroundColor: isDarkMode ? '#0B0F19' : '#F8FAFC' }} className={`h-screen w-full flex flex-col md:flex-row transition-colors duration-300 relative overflow-hidden ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}>
+      <CommandK />
+      {/* Animated Background Mesh */}
+      
+      {/* Mobile Header */}
+      <div className={`md:hidden glass-card rounded-none border-t-0 border-l-0 border-r-0 border-b p-3 flex items-center justify-between sticky top-0 z-50 shadow-sm transition-colors duration-300 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={`dark:text-slate-200 p-2 rounded-lg hover:bg-[#11151F]/5 backdrop-blur-xl/30 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+          <Menu className="w-6 h-6" />
+        </button>
+
+        <p className="text-sm font-semibold text-slate-100 dark:text-white">{dashboardTitle}</p>
+
+        {!mobileMenuOpen ? (
+          <img src={edotLogo} alt="EDOT Campaign Logo" className="h-8 w-8 rounded-full object-cover" />
+        ) : (
+          <span className="h-8 w-8" />
+        )}
+      </div>
+
+      {/* Sidebar */}
+      <aside className={`dashboard-sidebar tilet-border-sidebar shadow-[4px_0_24px_rgba(0,0,0,0.02)] fixed md:sticky top-0 left-0 h-screen md:h-full z-60 transition-colors duration-300
+        ${mobileMenuOpen ? 'translate-x-0 w-80 bg-slate-900/95 text-white shadow-xl' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B0F19]' : 'bg-white'}`}
+        ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-80 md:w-64'}
+      `}>
+        {mobileMenuOpen && (
+          <button onClick={() => setMobileMenuOpen(false)} className={`absolute top-3 right-3 md:hidden dark:text-slate-300 p-1.5 rounded-lg hover:bg-[#11151F]/5 backdrop-blur-xl/40 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+            <X className="w-5 h-5" />
+          </button>
+        )}
+        <div className={`p-6 pb-2 flex flex-col gap-2 md:flex-row md:items-center md:justify-between ${mobileMenuOpen ? 'items-center' : ''}`}>
+          <div className={`flex flex-col items-center gap-3 transition-all ${sidebarCollapsed ? 'mx-auto' : ''}`}>
+            <img src={edotLogo} alt="EDOT Logo" className="h-14 w-14 rounded-full shadow-sm border border-white/20" />
+            {!sidebarCollapsed && (
+              <div className="text-center">
+                <p className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{dashboardTitle}</p>
+              </div>
+            )}
+          </div>
+
+          {!mobileMenuOpen && (
+            <button 
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className={`hidden md:flex dark:text-slate-300 hover:text-[#FFD700] transition-colors p-1.5 rounded-lg hover:bg-[#11151F]/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
+            >
+              {sidebarCollapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
+            </button>
+          )}
+        </div>
+
+        <div className="overflow-y-auto overflow-x-hidden p-4 space-y-8 flex-1 scrollbar-hide mt-4">
+           
+           {/* Section: MAIN */}
+           <div>
+             {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>MAIN</p>}
+             <nav className="space-y-2">
+               {navItemsMenu1.map(item => (
+                 <NavItem key={item.name} item={item} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} />
+               ))}
+               
+               {/* Finance Accordion */}
+               {showFinance && (
+               <div>
+                 <button 
+                   onClick={() => setFinanceOpen(!financeOpen)}
+                   className={`w-full flex items-center justify-between px-4 py-3 xl:py-3.5 rounded-xl transition-all duration-300 text-sm font-medium hover:bg-[#11151F]/5 hover:text-white ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
+                 >
+                   <div className="flex items-center gap-3">
+                     <Wallet className="w-5 h-5 shrink-0 transition-transform hover:scale-110 duration-300" />
+                     {!sidebarCollapsed && <span className="animate-in fade-in slide-in-from-left-2">Finance</span>}
+                   </div>
+                   {!sidebarCollapsed && <ChevronDown className={`w-4 h-4 transition-transform ${financeOpen ? 'rotate-180' : ''}`} />}
+                 </button>
+                 {financeOpen && !sidebarCollapsed && (
+                   <div className="pl-12 pr-4 py-2 space-y-1 animate-in slide-in-from-top-2 duration-200">
+                     <NavLink to="/dashboard/finance/fees" className={({isActive}) => `block py-2.5 text-sm transition-colors ${isActive ? 'text-[#FFD700] font-semibold' : 'text-slate-200 hover:text-white font-medium'}`}>
+                       Fees Collection
+                     </NavLink>
+                     <NavLink to="/dashboard/finance/expenses" className={({isActive}) => `block py-2.5 text-sm transition-colors ${isActive ? 'text-[#FFD700] font-semibold' : 'text-slate-200 hover:text-white font-medium'}`}>
+                       Expenses
+                     </NavLink>
+                   </div>
+                 )}
+               </div>
+               )}
+             </nav>
+           </div>
+
+           {/* Section: MANAGEMENT */}
+           <div>
+             {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>MANAGEMENT</p>}
+             <nav className="space-y-2">
+               {navItemsMenu2.map(item => (
+                 <NavItem key={item.name} item={item} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} />
+               ))}
+             </nav>
+           </div>
+
+           {/* Section: COMMUNICATION */}
+           <div>
+             {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>SETTINGS</p>}
+             <nav className="space-y-2">
+               <NavItem item={{ name: 'Profile', icon: User, path: '/dashboard/profile' }} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} />
+               <NavItem item={{ name: 'Setting', icon: Settings, path: '/dashboard/settings' }} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} />
+             </nav>
+           </div>
+        </div>
+
+        {/* Bottom area (Logout) */}
+        <div className={`p-4 border-t mt-auto ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+          <button 
+            onClick={handleLogout}
+            className={`w-full flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl hover:bg-rose-500/100/10 hover:text-rose-400 transition-colors font-medium ${sidebarCollapsed ? 'md:px-0' : ''} ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
+          >
+            <LogOut className="w-5 h-5 shrink-0" />
+            {!sidebarCollapsed && <span className="animate-in fade-in">Log out</span>}
+          </button>
+        </div>
+      </aside>
+
+      {/* Mobile Overlay */}
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 md:hidden" 
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Main Content Area */}
+      <main className="flex-1 flex flex-col min-w-0 h-screen max-h-screen bg-transparent transition-colors duration-300">
+        
+        {/* Top Header */}
+        <header className={`h-[88px] tilet-border-header border-b px-4 md:px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 transition-colors duration-300 shadow-sm border-transparent ${isDarkMode ? 'bg-[#0B0F19]' : 'bg-[#1e3a8a]'}`}>
+          
+
+          
+          {/* Right side actions */}
+          <div className="flex items-center gap-4 ml-auto">
+            
+            {/* Quick Actions (Admin/Instructor) */}
+            {quickActions.length > 0 && (
+              <div className="relative hidden md:block" ref={quickActionsRef}>
+                <button 
+                  onClick={() => setQuickActionsOpen(!quickActionsOpen)}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${role === 'admin' ? 'bg-[#FACC15] hover:bg-[#EAB308] text-[#020617] shadow-glow-yellow' : 'bg-[#EAB308] hover:bg-[#FACC15] shadow-glow-yellow'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                >
+                  <Plus className="w-4 h-4" />
+                  Quick Action
+                </button>
+                
+                {quickActionsOpen && (
+                  <div className={`absolute right-0 mt-3 w-56 glass-card rounded-2xl shadow-xl shadow-indigo-500/10 border overflow-hidden z-[100] animate-in slide-in-from-top-2 duration-200 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                    <div className="p-2 space-y-1">
+                      <p className={`px-3 py-1.5 text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Create New</p>
+                      {quickActions.map(action => (
+                        <button key={action.name} onClick={() => { setQuickActionsOpen(false); navigate(action.path); }} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-[#11151F]/5 hover:text-[#FFD700] transition-colors text-left group ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+                           <div className={`p-1.5 rounded-lg text-[#FFD700] group-hover:scale-110 transition-transform ${isDarkMode ? 'bg-[#11151F]/10' : 'bg-slate-50'}`}>
+                             <action.icon className="w-4 h-4" />
+                           </div>
+                           {action.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Theme Toggle */}
+            <ThemeDropdown />
+
+            {/* Notifications */}
+            <NotificationBell />
+
+            {/* Profile Dropdown */}
+            <div className={`relative pl-3 border-l ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`} ref={profileDropdownRef}>
+              <button 
+                onClick={() => setProfileOpen(!profileOpen)}
+                className="flex items-center gap-3 focus:outline-none cursor-pointer group"
+              >
+                <div className="hidden lg:block text-right">
+                  <p className="text-sm font-bold transition-colors text-white">{user?.name || 'Test User'}</p>
+                  <p className="text-xs font-medium capitalize text-slate-200">{user?.role || role}</p>
+                </div>
+                <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-[#008A32] to-[#FFD700] p-0.5 shadow-md shadow-[#008A32]/20 group-hover:shadow-[#FFD700]/40 transition-shadow">
+                  <UserAvatar user={user} className="w-full h-full text-base border-2 border-white" />
+                </div>
+              </button>
+
+              {profileOpen && (
+                <div className="absolute right-0 mt-4 w-72 glass-card overflow-hidden z-[100] animate-in slide-in-from-top-2 duration-200">
+                  <div className={`p-5 border-b flex flex-col items-center gap-3 bg-transparent/50 text-center ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-[#008A32] to-[#FFD700] p-0.5 shadow-sm">
+                      <UserAvatar user={user} className="w-full h-full text-xl border-[3px] border-white" />
+                    </div>
+                    <div>
+                      <h3 className={`font-bold text-lg leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.name || 'Admin User'}</h3>
+                      <p className="text-sm font-semibold text-[#FFD700] mt-1 capitalize">{user?.role || 'Admin'}</p>
+                      <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{user?.email || 'admin@edot.com'}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="p-3 space-y-1">
+                    <button 
+                      onClick={() => { setProfileOpen(false); navigate('/dashboard/profile'); }}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#11151F]/5 hover:text-[#FFD700] transition-colors text-left ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
+                    >
+                      <User className="w-4 h-4" /> My Profile
+                    </button>
+                    <button 
+                      onClick={() => { setProfileOpen(false); navigate('/dashboard/settings'); }}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#11151F]/5 hover:text-[#FFD700] transition-colors text-left ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
+                    >
+                      <Settings className="w-4 h-4" /> Account Settings
+                    </button>
+                    <div className={`h-px my-2 mx-2 ${isDarkMode ? 'bg-[#11151F]/10' : 'bg-slate-50'}`}></div>
+                    <button 
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-rose-400 hover:bg-rose-500/100/10 transition-colors text-left"
+                    >
+                      <LogOut className="w-4 h-4" /> Log Out
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </header>
+
+        {/* Page Content */}
+         <div className={`flex-1 overflow-y-auto overflow-x-hidden mb-16 md:mb-0 relative z-10 transition-colors duration-300 flex flex-col ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+           <div className="flex-1 p-4 md:p-8">
+             <Outlet />
+           </div>
+        </div>
+      </main>
+    </div>
+  );
+}

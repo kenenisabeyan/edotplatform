@@ -1,0 +1,39 @@
+node_modules/
+.env
+.env.*
+!.env.example
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Project specific
+backend/uploads/
+backend/error.log
+backend/out.log
+backend/*.txt
+backend/test.json
+backend/test2.js
+backend/test_*.js
+
+frontend/dist/
+frontend/dist-ssr/
+frontend/node_modules/
+backend/node_modules/node_modules/
+dist/
+build/
+.env
