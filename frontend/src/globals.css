@@ -3,7 +3,7 @@
 
 :root {
   --bg-base: #0B1120;
-  --bg-sidebar: #11151F;
+  --bg-sidebar: #0B1120;
   --brand-primary: #F97316;
   --brand-primary-hover: #E66A00;
   --brand-green: #00D4FF;
@@ -25,7 +25,7 @@
   --gray-200: #E2E8F0;
   --gray-300: #CBD5E1;
   --gray-400: #94A3B8;
-  --gray-900: #0F172A;
+  --gray-900: #0B1120;
   --font-sans: 'Inter', 'Poppins', 'Roboto', system-ui, -apple-system, sans-serif;
 }
 
@@ -36,7 +36,7 @@
   --bg-card: #FFFFFF; 
   --bg-elevated: #FFFFFF; 
   --border-glass: rgba(0, 0, 0, 0.05);
-  --text-main: #0F172A; /* High readability */
+  --text-main: #0B1120; /* High readability */
   --text-secondary: #475569;
   --text-muted: #94A3B8;
   --accent-blue: #00D4FF; 
@@ -52,7 +52,7 @@
   --gray-200: #e2e8f0;
   --gray-300: #cbd5e1;
   --gray-400: #94a3b8;
-  --gray-900: #0f172a;
+  --gray-900: #0B1120;
 }
 
 body {
@@ -176,14 +176,14 @@ body {
 }
 
 /* Card & container backgrounds for light mode */
-[data-theme="light"] .bg-\[\#11151F\]\/20, 
-[data-theme="light"] .bg-\[\#11151F\]\/30, 
-[data-theme="light"] .bg-\[\#11151F\]\/40, 
-[data-theme="light"] .bg-\[\#11151F\]\/50, 
-[data-theme="light"] .bg-\[\#11151F\]\/60,
-[data-theme="light"] .bg-\[\#11151F\]\/80,
-[data-theme="light"] .bg-\[\#11151F\]\/90,
-[data-theme="light"] .bg-\[\#11151F\],
+[data-theme="light"] .bg-\[\#0B1120\]\/20, 
+[data-theme="light"] .bg-\[\#0B1120\]\/30, 
+[data-theme="light"] .bg-\[\#0B1120\]\/40, 
+[data-theme="light"] .bg-\[\#0B1120\]\/50, 
+[data-theme="light"] .bg-\[\#0B1120\]\/60,
+[data-theme="light"] .bg-\[\#0B1120\]\/80,
+[data-theme="light"] .bg-\[\#0B1120\]\/90,
+[data-theme="light"] .bg-\[\#0B1120\],
 [data-theme="light"] .bg-\[\#111111\],
 [data-theme="light"] .bg-\[\#18181A\],
 [data-theme="light"] .bg-\[\#1C1C1C\],
@@ -214,11 +214,11 @@ body {
 }
 
 /* Card gradient overrides for light mode */
-[data-theme="light"] .from-\[\#11151F\],
-[data-theme="light"] .from-\[\#11151F\]\/80,
 [data-theme="light"] .from-\[\#0B1120\],
-[data-theme="light"] .from-\[\#13161B\],
-[data-theme="light"] .from-\[\#13161B\]\/40 {
+[data-theme="light"] .from-\[\#0B1120\]\/80,
+[data-theme="light"] .from-\[\#0B1120\],
+[data-theme="light"] .from-\[\#0B1120\],
+[data-theme="light"] .from-\[\#0B1120\]\/40 {
   --tw-gradient-from: var(--bg-card) var(--tw-gradient-from-position) !important;
   --tw-gradient-to: var(--bg-elevated) var(--tw-gradient-to-position) !important;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
@@ -227,12 +227,12 @@ body {
 
 [data-theme="light"] .to-\[\#0B1120\],
 [data-theme="light"] .to-\[\#1a1f2e\],
-[data-theme="light"] .to-\[\#11151F\],
+[data-theme="light"] .to-\[\#0B1120\],
 [data-theme="light"] .to-black {
   --tw-gradient-to: var(--bg-card) var(--tw-gradient-to-position) !important;
 }
 
-[data-theme="light"] .via-\[\#11151F\]\/40,
+[data-theme="light"] .via-\[\#0B1120\]\/40,
 [data-theme="light"] .via-\[\#0B1120\]\/40,
 [data-theme="light"] .via-\[\#0B1120\]\/30,
 [data-theme="light"] .via-\[\#0B1120\]\/70 {
@@ -320,15 +320,15 @@ button, .btn, .cta {
 [data-theme="light"] header .text-slate-200,
 [data-theme="light"] header .text-slate-300,
 [data-theme="light"] header span {
-  color: #0F172A !important;
+  color: #0B1120 !important;
 }
 [data-theme="light"] header .hover\:text-\[\#FFD700\]:hover {
   color: var(--brand-primary) !important;
 }
-[data-theme="light"] header .bg-\[\#11151F\] {
+[data-theme="light"] header .bg-\[\#0B1120\] {
   background-color: #ffffff !important;
 }
-[data-theme="light"] header .bg-\[\#11151F\]\/40 {
+[data-theme="light"] header .bg-\[\#0B1120\]\/40 {
   background-color: #F8FAFC !important;
 }
 [data-theme="light"] .glass-card {
@@ -340,7 +340,7 @@ button, .btn, .cta {
 
 [data-theme="extra-dark"] {
   --bg-base: #0B1120;
-  --bg-sidebar: #0F172A;
+  --bg-sidebar: #0B1120;
   --border-glass: rgba(255, 255, 255, 0.1); 
   --text-main: #F8FAFC;
 }
@@ -368,10 +368,10 @@ button, .btn, .cta {
 }
 
 /* Card Solidification for Max Readability */
-[data-theme="extra-dark"] .bg-\[\#11151F\]\/40,
-[data-theme="extra-dark"] .bg-\[\#11151F\]\/50,
-[data-theme="extra-dark"] .bg-\[\#11151F\]\/60,
-[data-theme="extra-dark"] .bg-\[\#11151F\] {
+[data-theme="extra-dark"] .bg-\[\#0B1120\]\/40,
+[data-theme="extra-dark"] .bg-\[\#0B1120\]\/50,
+[data-theme="extra-dark"] .bg-\[\#0B1120\]\/60,
+[data-theme="extra-dark"] .bg-\[\#0B1120\] {
   background-color: #111827 !important;
   backdrop-filter: none !important;
   border-color: rgba(255, 255, 255, 0.05) !important;
@@ -588,7 +588,7 @@ button, .btn, .cta {
   }
 
   .dark .dashboard-sidebar {
-    background-color: #0F172A;
+    background-color: #0B1120;
     color: #f8fafc;
     border-right: 1px solid rgba(255,255,255,0.05);
   }

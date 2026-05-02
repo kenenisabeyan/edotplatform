@@ -113,7 +113,7 @@ export default function InstructorManageCourses() {
         </div>
         <button 
           onClick={() => navigate('/dashboard/builder')} 
-          className="relative z-10 inline-flex items-center gap-2 px-6 py-3 bg-[#F97316] text-[#0f172a] font-bold rounded-xl hover:bg-[#F97316] hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,215,0,0.3)] hover:shadow-[0_0_30px_rgba(255,215,0,0.5)]"
+          className="relative z-10 inline-flex items-center gap-2 px-6 py-3 bg-[#F97316] text-[#0B1120] font-bold rounded-xl hover:bg-[#F97316] hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,215,0,0.3)] hover:shadow-[0_0_30px_rgba(255,215,0,0.5)]"
         >
           <Sparkles className="w-5 h-5" /> 
           <span>Create New Course</span>
@@ -121,9 +121,9 @@ export default function InstructorManageCourses() {
       </div>
       
       {courses.length === 0 ? (
-          <div className={`p-16 text-center rounded-3xl border shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden group ${isDarkMode ? 'border-white/10 bg-[#1E293B]/90' : 'border-slate-200 bg-white/95'}`}>
+          <div className={`p-16 text-center rounded-3xl border shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden group ${isDarkMode ? 'border-white/10 bg-[#0B1120]/90' : 'border-slate-200 bg-white/95'}`}>
             <div className="absolute inset-0 bg-gradient-to-t from-[#008A32]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-            <div className={`w-24 h-24 border rounded-full flex items-center justify-center mb-6 relative group-hover:scale-110 transition-transform duration-500 group-hover:border-[#00D4FF]/30 group-hover:text-[#00D4FF] ${isDarkMode ? 'bg-[#1E293B]/5 text-slate-200 border-white/10' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+            <div className={`w-24 h-24 border rounded-full flex items-center justify-center mb-6 relative group-hover:scale-110 transition-transform duration-500 group-hover:border-[#00D4FF]/30 group-hover:text-[#00D4FF] ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200 border-white/10' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
               <FolderOpen className="w-12 h-12" />
             </div>
             <h3 className={`text-2xl font-display font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Your Digital Vault is Empty</h3>
@@ -153,11 +153,11 @@ export default function InstructorManageCourses() {
                        whileHover={{ y: -6 }}
                        transition={{ duration: 0.2 }}
                        key={c.id} 
-                       className={`rounded-3xl border shadow-2xl backdrop-blur-xl flex flex-col group transition-all h-full relative ${isDarkMode ? 'border-white/10 bg-[#1E293B]/90' : 'border-slate-200 bg-white/95'}`}
+                       className={`rounded-3xl border shadow-2xl backdrop-blur-xl flex flex-col group transition-all h-full relative ${isDarkMode ? 'border-white/10 bg-[#0B1120]/90' : 'border-slate-200 bg-white/95'}`}
                      >
                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#F97316] opacity-5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform"></div>
                        
-                       <div className="w-full h-48 relative overflow-hidden bg-[#1E293B] rounded-t-3xl">
+                       <div className="w-full h-48 relative overflow-hidden bg-[#0B1120] rounded-t-3xl">
                            <img 
                              src={c.thumbnail === 'default-course.jpg' || !c.thumbnail ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' : c.thumbnail} 
                              alt={c.title} 
@@ -170,7 +170,7 @@ export default function InstructorManageCourses() {
                                c.status === 'approved' ? 'bg-[#00D4FF]/20 text-[#00D4FF] border-[#00D4FF]/30 shadow-[0_0_15px_rgba(0,138,50,0.2)]' : 
                                (c.status === 'pending' ? 'bg-[#F97316]/20 text-[#F97316] border-[#F97316]/30 shadow-[0_0_15px_rgba(255,215,0,0.2)]' : 
                                (c.status === 'rejected' ? 'bg-[#E30A17]/20 text-[#E30A17] border-[#E30A17]/30 shadow-[0_0_15px_rgba(227,10,23,0.2)]' : 
-                               'bg-[#1E293B]/5 text-slate-300 border-white/10'))
+                               'bg-[#0B1120]/5 text-slate-300 border-white/10'))
                              }`}>
                                {c.status}
                              </span>
@@ -180,7 +180,7 @@ export default function InstructorManageCourses() {
                        <div className="flex flex-col flex-1 relative z-10 -mt-8 px-6 pb-6">
                          <h3 className={`text-xl font-bold leading-snug mb-4 line-clamp-2 drop-shadow-md group-hover:text-[#F97316] transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</h3>
                          
-                         <div className={`flex flex-wrap items-center gap-3 text-xs font-semibold mb-5 p-3 rounded-xl border shadow-inner ${isDarkMode ? 'text-slate-300 bg-[#1E293B]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>
+                         <div className={`flex flex-wrap items-center gap-3 text-xs font-semibold mb-5 p-3 rounded-xl border shadow-inner ${isDarkMode ? 'text-slate-300 bg-[#0B1120]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>
                            {(() => {
                              const totalMins = c.lessons?.reduce((acc, l) => acc + (l.duration || 0), 0) || 0;
                              const hasLessons = Array.isArray(c.lessons) && c.lessons.length > 0;
@@ -191,12 +191,12 @@ export default function InstructorManageCourses() {
                              return (
                                <>
                                  <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-[#F97316]" /> {displayTime}</span>
-                                 <div className={`w-1 h-1 rounded-full ${isDarkMode ? 'bg-[#1E293B]/20' : 'bg-slate-100'}`}></div>
+                                 <div className={`w-1 h-1 rounded-full ${isDarkMode ? 'bg-[#0B1120]/20' : 'bg-slate-100'}`}></div>
                                  
                                  <button onClick={() => openLessons(c)} className="flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer group/btn">
                                    <PlayCircle className="w-3.5 h-3.5 text-[#00D4FF] group-hover/btn:scale-110 transition-transform" /> {c.lessons?.length || 0} lessons
                                  </button>
-                                 <div className={`w-1 h-1 rounded-full ${isDarkMode ? 'bg-[#1E293B]/20' : 'bg-slate-100'}`}></div>
+                                 <div className={`w-1 h-1 rounded-full ${isDarkMode ? 'bg-[#0B1120]/20' : 'bg-slate-100'}`}></div>
                                  
                                  <button onClick={() => openStudents(c)} className="flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer group/btn">
                                    <Users className="w-3.5 h-3.5 text-indigo-400 group-hover/btn:scale-110 transition-transform" /> {c.totalStudents || 0} students
@@ -219,7 +219,7 @@ export default function InstructorManageCourses() {
                            {c.status !== 'pending' && (
                              <button 
                                onClick={() => navigate('/dashboard/builder/' + c.id)} 
-                               className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 font-bold rounded-xl border hover:bg-[#F97316] hover:text-[#0B1120] hover:border-[#F97316] transition-colors shadow-sm text-xs ${isDarkMode ? 'bg-[#1E293B]/5 text-white border-white/10' : 'bg-slate-50 text-slate-900 border-slate-200'}`}
+                               className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 font-bold rounded-xl border hover:bg-[#F97316] hover:text-[#0B1120] hover:border-[#F97316] transition-colors shadow-sm text-xs ${isDarkMode ? 'bg-[#0B1120]/5 text-white border-white/10' : 'bg-slate-50 text-slate-900 border-slate-200'}`}
                              >
                                <Edit3 className="w-3.5 h-3.5" /> Edit Content
                              </button>
@@ -227,7 +227,7 @@ export default function InstructorManageCourses() {
                            
                            <button 
                              onClick={() => navigate('/dashboard/library', { state: { courseId: c.id } })} 
-                             className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-cyan-400 font-bold rounded-xl border hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-colors shadow-sm text-xs ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}
+                             className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-cyan-400 font-bold rounded-xl border hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-colors shadow-sm text-xs ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}
                            >
                               <FolderOpen className="w-3.5 h-3.5" /> Course Resources
                            </button>
@@ -248,13 +248,13 @@ export default function InstructorManageCourses() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className={`fixed inset-0 z-50 backdrop-blur-md flex items-center justify-center p-4 ${isDarkMode ? 'bg-[#1E293B]/80' : 'bg-white/90'}`}
+            className={`fixed inset-0 z-50 backdrop-blur-md flex items-center justify-center p-4 ${isDarkMode ? 'bg-[#0B1120]/80' : 'bg-white/90'}`}
           >
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className={`w-full max-w-2xl border border-[#F97316]/20 rounded-3xl p-6 shadow-[0_0_50px_rgba(255,215,0,0.1)] relative overflow-hidden flex flex-col max-h-[85vh] ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}
+              className={`w-full max-w-2xl border border-[#F97316]/20 rounded-3xl p-6 shadow-[0_0_50px_rgba(255,215,0,0.1)] relative overflow-hidden flex flex-col max-h-[85vh] ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
             >
               <div className={`flex justify-between items-center mb-6 border-b pb-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <div>
@@ -264,7 +264,7 @@ export default function InstructorManageCourses() {
                   </h3>
                   <p className="text-sm text-[#F97316] font-semibold mt-1">{activeCourse.title}</p>
                 </div>
-                <button onClick={() => setModalType(null)} className={`p-2 hover:bg-[#E30A17]/20 hover:text-[#E30A17] rounded-xl transition-colors ${isDarkMode ? 'bg-[#1E293B]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
+                <button onClick={() => setModalType(null)} className={`p-2 hover:bg-[#E30A17]/20 hover:text-[#E30A17] rounded-xl transition-colors ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
                   <X className="w-6 h-6" />
                 </button>
               </div>
@@ -272,10 +272,10 @@ export default function InstructorManageCourses() {
               <div className="overflow-y-auto overflow-x-hidden pr-2 space-y-3 custom-scrollbar flex-1">
                 {modalType === 'lessons' && (
                   activeCourse.lessons?.length === 0 ? (
-                    <div className={`text-center p-8 italic rounded-2xl border ${isDarkMode ? 'text-slate-200 bg-[#1E293B]/5 border-white/5' : 'text-slate-600 bg-slate-50 border-slate-100'}`}>No lessons have been added to this course yet.</div>
+                    <div className={`text-center p-8 italic rounded-2xl border ${isDarkMode ? 'text-slate-200 bg-[#0B1120]/5 border-white/5' : 'text-slate-600 bg-slate-50 border-slate-100'}`}>No lessons have been added to this course yet.</div>
                   ) : (
                     activeCourse.lessons.map((l, index) => (
-                      <div key={l.id || index} className={`flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-2xl border hover:border-[#F97316]/30 transition-colors group ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                      <div key={l.id || index} className={`flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-2xl border hover:border-[#F97316]/30 transition-colors group ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                         <div className="w-10 h-10 rounded-xl bg-[#00D4FF]/20 text-[#00D4FF] flex items-center justify-center font-bold font-display shrink-0 group-hover:scale-110 transition-transform">{index + 1}</div>
                         <div className="flex-1">
                           <h4 className={`font-bold text-lg leading-tight mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{l.title}</h4>
@@ -293,10 +293,10 @@ export default function InstructorManageCourses() {
                   loadingStudents ? (
                     <div className="flex justify-center p-12"><div className="w-10 h-10 border-4 border-white/20 border-t-[#F97316] rounded-full animate-spin"></div></div>
                   ) : courseStudents.length === 0 ? (
-                    <div className={`text-center p-8 italic rounded-2xl border ${isDarkMode ? 'text-slate-200 bg-[#1E293B]/5 border-white/5' : 'text-slate-600 bg-slate-50 border-slate-100'}`}>No students are currently enrolled in this course.</div>
+                    <div className={`text-center p-8 italic rounded-2xl border ${isDarkMode ? 'text-slate-200 bg-[#0B1120]/5 border-white/5' : 'text-slate-600 bg-slate-50 border-slate-100'}`}>No students are currently enrolled in this course.</div>
                   ) : (
                     courseStudents.map((stu) => (
-                      <div key={stu.id} className={`flex items-center gap-4 p-4 rounded-2xl border hover:border-indigo-500/30 transition-colors group ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                      <div key={stu.id} className={`flex items-center gap-4 p-4 rounded-2xl border hover:border-indigo-500/30 transition-colors group ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                         <div className="w-12 h-12 rounded-full bg-indigo-500/100/20 text-indigo-400 flex items-center justify-center font-bold text-lg  shadow-inner border border-indigo-500/20 group-hover:scale-110 transition-transform shrink-0">
                           {stu.name.charAt(0)}
                         </div>

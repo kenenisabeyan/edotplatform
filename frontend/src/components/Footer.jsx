@@ -6,7 +6,7 @@ import { Phone, Linkedin, Github, Send, GraduationCap, Facebook, Youtube, Instag
 export default function Footer() {
   const isDarkMode = useThemeMode();
   return (
-    <footer className={`relative z-20 bg-gradient-to-b from-[#11151F] to-[#0A1930] py-10 border-t ${isDarkMode ? 'text-slate-200 border-white/10' : 'text-slate-600 border-slate-200'}`} role="contentinfo">
+    <footer className={`relative z-20 bg-gradient-to-b from-[#0B1120] to-[#0A1930] py-10 border-t ${isDarkMode ? 'text-slate-200 border-white/10' : 'text-slate-600 border-slate-200'}`} role="contentinfo">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Top Section */}

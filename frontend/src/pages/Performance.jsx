@@ -84,7 +84,7 @@ export default function Performance() {
 
   return (
     <div className="space-y-6">
-      <div className={`flex justify-between items-center mb-6 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <div className={`flex justify-between items-center mb-6 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div>
           <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Performance Insights</h1>
           <p className="text-[#F97316] text-xs font-bold   mt-1">Analyze learner growth, attendance accuracy, and engagement</p>
@@ -123,7 +123,7 @@ export default function Performance() {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Engagement Trend */}
-        <div className={`xl:col-span-2 backdrop-blur-xl p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+        <div className={`xl:col-span-2 backdrop-blur-xl p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
           <h3 className={`text-xl font-bold mb-8 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Engagement vs Enrollment Timeline</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
@@ -140,27 +140,27 @@ export default function Performance() {
         </div>
 
         {/* Top Performers Table */}
-        <div className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden flex flex-col ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-          <div className={`p-6 border-b ${isDarkMode ? 'border-white/10 bg-[#1E293B]/5' : 'border-slate-200 bg-slate-50'}`}>
+        <div className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden flex flex-col ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+          <div className={`p-6 border-b ${isDarkMode ? 'border-white/10 bg-[#0B1120]/5' : 'border-slate-200 bg-slate-50'}`}>
              <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Top Course Performers</h3>
              <p className={`text-[10px] font-bold mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Based on aggregated historic metrics</p>
           </div>
           <div className="flex-1 overflow-y-auto custom-scrollbar p-6 flex flex-col gap-4">
              {topPerformers.length > 0 ? (
                 topPerformers.map((student, idx) => (
-                   <div key={idx} className={`flex justify-between items-center bg-[#1E293B] border px-4 py-3 rounded-2xl hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                   <div key={idx} className={`flex justify-between items-center bg-[#0B1120] border px-4 py-3 rounded-2xl hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                       <div>
                          <h4 className={`font-bold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{student.name}</h4>
                          <p className="text-[10px] font-bold   text-[#F97316]">{student.course}</p>
                       </div>
                       <div className="flex flex-col items-end">
                          <span className="text-[#00D4FF] font-black text-sm">{student.score}%</span>
-                         <span className={`text-[9px] font-bold px-2 py-0.5 rounded border mt-1 ${isDarkMode ? 'text-slate-300 bg-[#1E293B]/5 border-white/5' : 'text-slate-500 bg-slate-50 border-slate-100'}`}>{student.grade}</span>
+                         <span className={`text-[9px] font-bold px-2 py-0.5 rounded border mt-1 ${isDarkMode ? 'text-slate-300 bg-[#0B1120]/5 border-white/5' : 'text-slate-500 bg-slate-50 border-slate-100'}`}>{student.grade}</span>
                       </div>
                    </div>
                 ))
              ) : (
-                <div className={`flex flex-col items-center justify-center p-4 border-2 border-dashed rounded-2xl w-full h-full shadow-inner ${isDarkMode ? 'border-white/10 bg-[#1E293B]/5' : 'border-slate-200 bg-slate-50'}`}>
+                <div className={`flex flex-col items-center justify-center p-4 border-2 border-dashed rounded-2xl w-full h-full shadow-inner ${isDarkMode ? 'border-white/10 bg-[#0B1120]/5' : 'border-slate-200 bg-slate-50'}`}>
                     <p className={`font-bold text-xs text-center ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No historic performance data recorded yet</p>
                 </div>
              )}

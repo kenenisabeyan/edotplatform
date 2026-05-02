@@ -158,14 +158,14 @@ export default function AttendanceManagement() {
               const currentStatus = currentRecord ? currentRecord.status : 'present';
 
               return (
-                 <div key={userItem.userId} className={`flex flex-col bg-[#1E293B]/5 border border-white/5 p-4 rounded-3xl backdrop-blur-md transition-all duration-300 shadow-md ${
+                 <div key={userItem.userId} className={`flex flex-col border p-4 rounded-3xl backdrop-blur-md transition-all duration-300 shadow-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'} ${
                     currentStatus === 'present' ? 'border-b-4 border-b-[#00D4FF]' : 
                     currentStatus === 'late' ? 'border-b-4 border-b-[#F97316]' : 
                     'border-b-4 border-b-[#E30A17]'
                  }`}>
                     <div className="flex items-center gap-3 mb-4">
                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-sm
-                          ${listRole === 'Instructor' ? 'bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30' : 'bg-[#1E293B]/10 text-white border border-white/20'}
+                          ${listRole === 'Instructor' ? 'bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30' : 'bg-[#0B1120]/10 text-white border border-white/20'}
                        `}>
                           {userItem.name.charAt(0).toUpperCase()}
                        </div>
@@ -175,9 +175,9 @@ export default function AttendanceManagement() {
                        </div>
                     </div>
                     
-                    <div className={`flex bg-black/40 rounded-xl p-1 gap-1 w-full mt-auto border ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                    <div className={`flex rounded-xl p-1 gap-1 w-full mt-auto border ${isDarkMode ? 'bg-black/40 border-white/5' : 'bg-slate-50 border-slate-200'}`}>
                         <label className={`flex-1 flex justify-center items-center gap-1.5 py-2 rounded-lg cursor-pointer transition-all duration-200 ${
-                           currentStatus === 'present' ? 'bg-[#00D4FF]/20 text-[#00D4FF] shadow-[0_0_10px_rgba(0,138,50,0.3)]' : 'text-slate-300 hover:bg-[#1E293B]/5 hover:text-slate-300'
+                           currentStatus === 'present' ? 'bg-[#00D4FF]/20 text-[#00D4FF] shadow-[0_0_10px_rgba(0,138,50,0.3)]' : (isDarkMode ? 'text-slate-300 hover:bg-white/5/5 hover:text-slate-300' : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700')
                         }`}>
                            <input 
                               type="radio" 
@@ -192,7 +192,7 @@ export default function AttendanceManagement() {
                         </label>
 
                         <label className={`flex-1 flex justify-center items-center gap-1.5 py-2 rounded-lg cursor-pointer transition-all duration-200 ${
-                           currentStatus === 'late' ? 'bg-[#F97316]/20 text-[#F97316] shadow-[0_0_10px_rgba(249,115,22,0.3)]' : 'text-slate-300 hover:bg-[#1E293B]/5 hover:text-slate-300'
+                           currentStatus === 'late' ? 'bg-[#F97316]/20 text-[#F97316] shadow-[0_0_10px_rgba(249,115,22,0.3)]' : (isDarkMode ? 'text-slate-300 hover:bg-white/5/5 hover:text-slate-300' : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700')
                         }`}>
                            <input 
                               type="radio" 
@@ -207,7 +207,7 @@ export default function AttendanceManagement() {
                         </label>
 
                         <label className={`flex-1 flex justify-center items-center gap-1.5 py-2 rounded-lg cursor-pointer transition-all duration-200 ${
-                           currentStatus === 'absent' ? 'bg-[#E30A17]/20 text-[#E30A17] shadow-[0_0_10px_rgba(227,10,23,0.3)]' : 'text-slate-300 hover:bg-[#1E293B]/5 hover:text-slate-300'
+                           currentStatus === 'absent' ? 'bg-[#E30A17]/20 text-[#E30A17] shadow-[0_0_10px_rgba(227,10,23,0.3)]' : (isDarkMode ? 'text-slate-300 hover:bg-white/5/5 hover:text-slate-300' : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700')
                         }`}>
                            <input 
                               type="radio" 
@@ -246,7 +246,7 @@ export default function AttendanceManagement() {
         )}
       </div>
 
-      <div className={`bg-[#1E293B]/70 backdrop-blur-xl p-8 rounded-3xl border shadow-2xl flex flex-col md:flex-row gap-6 mt-4 relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <div className={`backdrop-blur-xl p-8 rounded-3xl border shadow-2xl flex flex-col md:flex-row gap-6 mt-4 relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/70 border-white/10' : 'bg-white border-slate-200'}`}>
          <div className="absolute top-0 right-0 w-64 h-64 bg-[#F97316]/5 blur-[120px] rounded-full pointer-events-none"></div>
          
          <div className="w-full md:w-[40%]">
@@ -295,7 +295,7 @@ export default function AttendanceManagement() {
                  type="date" 
                  value={date}
                  onChange={(e) => setDate(e.target.value)}
-                 className={`w-full pl-12 pr-4 py-3 bg-black/40 border rounded-xl text-sm font-bold focus:outline-none focus:border-[#F97316] hover:bg-black/60 transition-colors ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                 className={`w-full pl-12 pr-4 py-3 border rounded-xl text-sm font-bold focus:outline-none focus:border-[#F97316] transition-colors ${isDarkMode ? 'bg-black/40 border-white/10 text-white hover:bg-black/60' : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'}`}
               />
               <Calendar className="absolute left-4 top-3.5 w-4 h-4 text-[#F97316]" />
             </div>
@@ -326,7 +326,7 @@ export default function AttendanceManagement() {
                <h2 className={`text-xl font-display font-black mb-6 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                   <ShieldAlert className="w-5 h-5 text-[#00D4FF]" />
                   Instructors Roster
-                  <span className={`text-xs px-2 py-0.5 rounded-full ml-auto ${isDarkMode ? 'bg-[#1E293B]/20 text-white' : 'bg-slate-100 text-slate-900'}`}>{instructorsList.length}</span>
+                  <span className={`text-xs px-2 py-0.5 rounded-full ml-auto ${isDarkMode ? 'bg-[#0B1120]/20 text-white' : 'bg-slate-100 text-slate-900'}`}>{instructorsList.length}</span>
                </h2>
                {renderUserCards(instructorsList, 'Instructor')}
             </div>
@@ -336,7 +336,7 @@ export default function AttendanceManagement() {
                <h2 className={`text-xl font-display font-black mb-6 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                   <GraduationCap className="w-5 h-5 text-[#00D4FF]" />
                   Students Roster
-                  <span className={`text-xs px-2 py-0.5 rounded-full ml-auto ${isDarkMode ? 'bg-[#1E293B]/20 text-white' : 'bg-slate-100 text-slate-900'}`}>{studentsList.length}</span>
+                  <span className={`text-xs px-2 py-0.5 rounded-full ml-auto ${isDarkMode ? 'bg-[#0B1120]/20 text-white' : 'bg-slate-100 text-slate-900'}`}>{studentsList.length}</span>
                </h2>
                {renderUserCards(studentsList, 'Student')}
             </div>

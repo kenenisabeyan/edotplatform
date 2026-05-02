@@ -46,6 +46,7 @@ import SettingsView from './pages/SettingsView';
 import UsersManagement from './pages/UsersManagement';
 import SectionManagement from './pages/SectionManagement';
 import SupportDashboard from './pages/SupportDashboard';
+import EcosystemView from './pages/EcosystemView';
 import { Outlet } from 'react-router-dom';
 
 import ErrorBoundary from './components/ErrorBoundary';
@@ -163,6 +164,7 @@ export default function App() {
           <Route path="certificates" element={<CertificatesView />} />
           <Route path="profile" element={<ProfileView />} />
           <Route path="settings" element={<SettingsView />} />
+          <Route path="ecosystem" element={<EcosystemView />} />
         </Route>
       </Route>
     </Routes>

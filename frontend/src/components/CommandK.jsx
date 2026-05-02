@@ -131,7 +131,7 @@ export default function CommandK() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed inset-x-0 top-[12vh] mx-auto z-[201] w-full max-w-3xl px-4 sm:px-0"
           >
-            <div className="overflow-hidden rounded-3xl bg-[#1E293B]/95 shadow-2xl shadow-[#F97316]/10 border border-[#F97316]/30 backdrop-blur-2xl">
+            <div className="overflow-hidden rounded-3xl bg-[#0B1120]/95 shadow-2xl shadow-[#F97316]/10 border border-[#F97316]/30 backdrop-blur-2xl">
               
               {/* Search Header */}
               <div className={`relative flex items-center px-5 py-4 border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
@@ -147,7 +147,7 @@ export default function CommandK() {
                 {isSearching ? <Loader2 className="w-5 h-5 text-[#F97316] animate-spin" /> : (
                 <button
                   onClick={() => setIsOpen(false)}
-                  className={`px-2.5 py-1 text-[10px] font-black rounded-lg border hover:text-white transition-colors ${isDarkMode ? 'text-slate-200 bg-[#1E293B]/5 border-white/10' : 'text-slate-600 bg-slate-50 border-slate-200'}`}
+                  className={`px-2.5 py-1 text-[10px] font-black rounded-lg border hover:text-white transition-colors ${isDarkMode ? 'text-slate-200 bg-[#0B1120]/5 border-white/10' : 'text-slate-600 bg-slate-50 border-slate-200'}`}
                 >
                   ESC
                 </button>
@@ -188,10 +188,10 @@ export default function CommandK() {
                                   className={`flex w-full items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 ${
                                     isSelected 
                                       ? 'bg-[#F97316]/10 border border-[#F97316]/20 text-white shadow-[0_0_15px_rgba(249,115,22,0.1)]' 
-                                      : 'border border-transparent text-slate-200 hover:bg-[#1E293B]/5'
+                                      : 'border border-transparent text-slate-200 hover:bg-white/5/5'
                                   }`}
                                 >
-                                  <div className={`p-2 rounded-xl transition-colors ${isSelected ? 'bg-[#F97316] text-[#0B1120]' : 'bg-[#1E293B]/5 '} ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                                  <div className={`p-2 rounded-xl transition-colors ${isSelected ? 'bg-[#F97316] text-[#0B1120]' : 'bg-[#0B1120]/5 '} ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                                      <Icon className="w-4 h-4" />
                                   </div>
                                   <div className="flex flex-col items-start flex-1 overflow-hidden">
@@ -214,7 +214,7 @@ export default function CommandK() {
               {/* Footer Tooltip */}
               <div className="flex items-center justify-between px-6 py-3 border-t border-[#F97316]/20 bg-black/40 backdrop-blur-md shrink-0">
                 <span className={`text-[10px] flex items-center gap-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                  Navigate <span className={`px-1.5 py-0.5 rounded border ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>&uarr;</span> <span className={`px-1.5 py-0.5 rounded border ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>&darr;</span>
+                  Navigate <span className={`px-1.5 py-0.5 rounded border ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>&uarr;</span> <span className={`px-1.5 py-0.5 rounded border ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>&darr;</span>
                 </span>
                 <span className="text-[10px] text-[#F97316]/70 flex items-center gap-1.5 font-bold  ">
                   Open Selected <span className="px-2 py-0.5 rounded bg-[#F97316]/10 border border-[#F97316]/30 text-[#F97316]">Enter</span>

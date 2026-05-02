@@ -81,9 +81,9 @@ export default function EDOTDashboard() {
 
     return (
       <motion.div whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-        <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl flex flex-col justify-between group relative overflow-hidden transition-all duration-300 ${glowClass} ${isDarkMode ? 'bg-[#1E293B]/5 border-white/5' : 'bg-white border-slate-200 shadow-sm'}`}>
+        <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl flex flex-col justify-between group relative overflow-hidden transition-all duration-300 ${glowClass} ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200 shadow-sm'}`}>
           <div className="flex items-center gap-4 mb-6">
-            <div className={`w-10 h-10 rounded-xl border flex items-center justify-center ${isDarkMode ? 'bg-[#1E293B]/10 border-white/20 text-white' : 'bg-slate-100 border-slate-200 text-slate-800'}`}>
+            <div className={`w-10 h-10 rounded-xl border flex items-center justify-center ${isDarkMode ? 'bg-[#0B1120]/10 border-white/20 text-white' : 'bg-slate-100 border-slate-200 text-slate-800'}`}>
               {Icon && <Icon className="w-5 h-5" />}
             </div>
             <h3 className={`text-sm font-medium ${isDarkMode ? 'text-gray-500' : 'text-slate-500'}`}>{title}</h3>
@@ -99,7 +99,7 @@ export default function EDOTDashboard() {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className={`backdrop-blur-xl p-4 rounded-xl border relative shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/95 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+        <div className={`backdrop-blur-xl p-4 rounded-xl border relative shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/95 border-white/10' : 'bg-white/95 border-slate-200'}`}>
           <p className={`font-bold mb-3 text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{label}</p>
           <div className="space-y-2">
             {payload.map((entry, index) => (
@@ -263,7 +263,7 @@ export default function EDOTDashboard() {
 
   const gaugeData = [
     { name: 'Active', value: gaugeConfig.valNum, color: gaugeConfig.ringColor },
-    { name: 'Empty', value: 100 - gaugeConfig.valNum, color: isDarkMode ? '#1E293B' : '#E2E8F0' }
+    { name: 'Empty', value: 100 - gaugeConfig.valNum, color: isDarkMode ? '#0B1120' : '#E2E8F0' }
   ];
 
   if (loading) {
@@ -287,7 +287,7 @@ export default function EDOTDashboard() {
       className="space-y-6 max-w-[1600px] mx-auto pb-10"
     >
       {/* 1. Welcome Banner (Heritage Glow) */}
-      <div className={`rounded-2xl p-8 border relative overflow-hidden backdrop-blur-xl ${isDarkMode ? 'bg-[#1E293B]/5 border-white/5' : 'bg-white border-slate-200 shadow-sm'}`}>
+      <div className={`rounded-2xl p-8 border relative overflow-hidden backdrop-blur-xl ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200 shadow-sm'}`}>
         {/* Heritage Mesh Glow placed completely underneath text */}
         <div className={`absolute inset-0 opacity-10 pointer-events-none ${headerConfig.gradient}`}></div>
         <div className="relative z-10">
@@ -346,7 +346,7 @@ export default function EDOTDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left Widget: Radial Gauge */}
-        <Card hover={false} className={`lg:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col items-center justify-center relative min-h-[350px] ${isDarkMode ? 'bg-[#1E293B]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+        <Card hover={false} className={`lg:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col items-center justify-center relative min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
           <h3 className={`font-semibold text-sm absolute top-6 left-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{gaugeConfig.title}</h3>
           
           <div className="w-full flex-1 flex flex-col justify-center items-center relative mt-8">
@@ -382,10 +382,10 @@ export default function EDOTDashboard() {
         </Card>
 
         {/* Right Widget: Line/Area Chart */}
-        <Card hover={false} className={`lg:col-span-6 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#1E293B]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+        <Card hover={false} className={`lg:col-span-6 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
           <div className="flex justify-between items-center mb-6 shrink-0">
             <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{areaConfig.title}</h3>
-            <div className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded ${isDarkMode ? 'text-slate-200 bg-[#1E293B]/5' : 'text-slate-600 bg-slate-100'}`}>
+            <div className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded ${isDarkMode ? 'text-slate-200 bg-[#0B1120]/5' : 'text-slate-600 bg-slate-100'}`}>
               Recharts <MoreHorizontal className="w-3 h-3" />
             </div>
           </div>
@@ -435,7 +435,7 @@ export default function EDOTDashboard() {
            )}
 
            {widgetConfig.type === 'claim' && (
-             <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#1E293B]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+             <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
                 <div className="flex justify-between items-start mb-6">
                   <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>{widgetConfig.title}</h3>
                   <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />
@@ -464,7 +464,7 @@ export default function EDOTDashboard() {
            )}
 
            {widgetConfig.type === 'communication' && (
-             <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#1E293B]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+             <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
                 <div className="flex justify-between items-start mb-6">
                   <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{widgetConfig.title}</h3>
                   <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />

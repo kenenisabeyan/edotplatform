@@ -99,7 +99,7 @@ const MaterialUpload = ({ lessonId, onUploadSuccess }) => {
   };
 
   return (
-    <div className="bg-[#0f172a] p-6 rounded-xl border border-gray-800 shadow-xl w-full max-w-3xl">
+    <div className="bg-[#0B1120] p-6 rounded-xl border border-gray-800 shadow-xl w-full max-w-3xl">
       <h3 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Upload Course Materials</h3>
       
       <div 

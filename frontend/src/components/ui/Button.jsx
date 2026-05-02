@@ -16,11 +16,11 @@ export function Button({
 
   const variants = {
     primary: 'bg-gradient-primary text-white shadow-lg shadow-indigo-500/25 focus:ring-indigo-500',
-    secondary: isDarkMode ? 'bg-[#1E293B] text-white border border-slate-700 shadow-md hover:bg-[#1E293B]' : 'bg-[#1E293B] text-white shadow-md hover:bg-slate-700 border border-slate-700',
-    outline: isDarkMode ? 'bg-[#1E293B]/50 backdrop-blur-sm border-indigo-200/20 text-indigo-400 hover:bg-indigo-500/20 border focus:ring-indigo-500' : 'bg-white/50 backdrop-blur-sm border-indigo-200 text-indigo-600 hover:bg-indigo-500/10 border focus:ring-indigo-500',
+    secondary: isDarkMode ? 'bg-[#0B1120] text-white border border-slate-700 shadow-md hover:bg-white/5' : 'bg-[#0B1120] text-white shadow-md hover:bg-slate-700 border border-slate-700',
+    outline: isDarkMode ? 'bg-[#0B1120]/50 backdrop-blur-sm border-indigo-200/20 text-indigo-400 hover:bg-indigo-500/20 border focus:ring-indigo-500' : 'bg-white/50 backdrop-blur-sm border-indigo-200 text-indigo-600 hover:bg-indigo-500/10 border focus:ring-indigo-500',
     success: 'bg-emerald-500/100 text-white shadow-lg shadow-emerald-500/25 hover:bg-emerald-600 focus:ring-emerald-500',
     danger: 'bg-rose-500/100 text-white shadow-lg shadow-rose-500/25 hover:bg-rose-600 focus:ring-rose-500',
-    ghost: isDarkMode ? 'bg-transparent text-slate-300 hover:bg-[#1E293B]' : 'bg-transparent text-slate-600 hover:bg-slate-100 backdrop-blur-xl',
+    ghost: isDarkMode ? 'bg-transparent text-slate-300 hover:bg-white/5' : 'bg-transparent text-slate-600 hover:bg-slate-100 backdrop-blur-xl',
   };
   
   const sizes = {

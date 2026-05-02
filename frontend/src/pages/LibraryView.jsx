@@ -280,8 +280,8 @@ export default function LibraryView() {
 
   if (isBlocked) {
     return (
-      <div className={`min-h-screen flex items-center justify-center backdrop-blur-2xl p-4 ${isDarkMode ? 'bg-[#1E293B]/90' : 'bg-white/95'}`}>
-        <div className={`max-w-lg w-full border border-[#F97316] backdrop-blur-xl p-8 rounded-3xl shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/10' : 'bg-slate-50'}`}>
+      <div className={`min-h-screen flex items-center justify-center backdrop-blur-2xl p-4 ${isDarkMode ? 'bg-[#0B1120]/90' : 'bg-white/95'}`}>
+        <div className={`max-w-lg w-full border border-[#F97316] backdrop-blur-xl p-8 rounded-3xl shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/10' : 'bg-slate-50'}`}>
           <h2 className="text-2xl font-bold text-[#F97316] mb-3">Account Suspended</h2>
           <p className="text-sm text-slate-100 mb-4">Your account has been temporarily blocked by the administration. Access to Library, Wiki, and Video Player content is disabled.</p>
           <p className={`text-xs ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>If this is a mistake, contact support or your account administrator for reactivation.</p>
@@ -314,13 +314,13 @@ export default function LibraryView() {
                 placeholder="Search resources..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-11 pr-4 py-3 border backdrop-blur-md rounded-xl outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 transition-all font-semibold placeholder:text-slate-300 shadow-inner ${isDarkMode ? 'border-white/10 bg-[#1E293B]/80 text-white' : 'border-slate-200 bg-white/90 text-slate-900'}`}
+                className={`w-full pl-11 pr-4 py-3 border backdrop-blur-md rounded-xl outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 transition-all font-semibold placeholder:text-slate-300 shadow-inner ${isDarkMode ? 'border-white/10 bg-[#0B1120]/80 text-white' : 'border-slate-200 bg-white/90 text-slate-900'}`}
               />
             </div>
             {canUpload && !showUploadForm && (
               <button 
                 onClick={() => setShowUploadForm(true)}
-                className="flex items-center gap-2 bg-[#F97316] hover:bg-[#F97316] text-[#0f172a] px-6 py-3 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(255,215,0,0.3)] hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] shrink-0 hover:scale-105"
+                className="flex items-center gap-2 bg-[#F97316] hover:bg-[#F97316] text-[#0B1120] px-6 py-3 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(255,215,0,0.3)] hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] shrink-0 hover:scale-105"
               >
                 <Plus className="w-5 h-5" /> Upload File
               </button>
@@ -337,19 +337,19 @@ export default function LibraryView() {
 
       {/* Admin Master Architect Dashboard */}
       {user?.role === 'admin' && (
-        <div className={`rounded-3xl border p-4 mt-4 shadow-xl ${isDarkMode ? 'border-white/10 bg-[#1E293B]/90' : 'border-slate-200 bg-white/95'}`}>
+        <div className={`rounded-3xl border p-4 mt-4 shadow-xl ${isDarkMode ? 'border-white/10 bg-[#0B1120]/90' : 'border-slate-200 bg-white/95'}`}>
           <div className="flex justify-between items-center mb-3">
             <h3 className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Admin Master Controller</h3>
             <span className="text-xs py-1 px-3 rounded-lg bg-[#E30A17]/20 text-[#E30A17]">Pending Verifications</span>
           </div>
 
           <div className="grid gap-3 md:grid-cols-2">
-            <div className={`rounded-2xl border p-3 ${isDarkMode ? 'border-white/10 bg-[#1E293B]' : 'border-slate-200 bg-white'}`}>
+            <div className={`rounded-2xl border p-3 ${isDarkMode ? 'border-white/10 bg-[#0B1120]' : 'border-slate-200 bg-white'}`}>
               <h4 className={`font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Enrollment Requests</h4>
               {enrollmentRequests.length === 0 ? (
                 <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No pending enrollments.</p>
               ) : enrollmentRequests.map((req) => (
-                <div key={req.id} className={`mb-2 p-2 rounded-lg ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}>
+                <div key={req.id} className={`mb-2 p-2 rounded-lg ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}>
                   <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{req.courseTitle}</p>
                   <p className={`text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Student: {req.studentName}</p>
                   <div className="mt-2 flex gap-2">
@@ -360,12 +360,12 @@ export default function LibraryView() {
               ))}
             </div>
 
-            <div className={`rounded-2xl border p-3 ${isDarkMode ? 'border-white/10 bg-[#1E293B]' : 'border-slate-200 bg-white'}`}>
+            <div className={`rounded-2xl border p-3 ${isDarkMode ? 'border-white/10 bg-[#0B1120]' : 'border-slate-200 bg-white'}`}>
               <h4 className={`font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Course Approval & Template</h4>
               {courses.length === 0 ? (
                 <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No courses found.</p>
               ) : courses.map((course) => (
-                <div key={course.id} className={`mb-2 p-2 rounded-lg border ${isDarkMode ? 'bg-[#1E293B]/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                <div key={course.id} className={`mb-2 p-2 rounded-lg border ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
                   <p className={`text-sm font-semibold flex items-center justify-between ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                     {course.title}
                     <span className={`text-[10px] font-bold   px-2 py-0.5 rounded-md ${course.status === 'approved' ? 'bg-[#00D4FF]/20 text-[#00D4FF]' : 'bg-[#F97316]/20 text-[#F97316]'}`}>
@@ -381,7 +381,7 @@ export default function LibraryView() {
                     </button>
                     <button 
                       onClick={() => navigate(`/dashboard/builder/${course.id}`)} 
-                      className={`px-3 py-1.5 text-xs font-bold rounded-lg border hover:border-[#F97316]/50 hover:text-[#F97316] transition-colors ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
+                      className={`px-3 py-1.5 text-xs font-bold rounded-lg border hover:border-[#F97316]/50 hover:text-[#F97316] transition-colors ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
                     >
                       Edit Curriculum
                     </button>
@@ -394,7 +394,7 @@ export default function LibraryView() {
           <div className="mt-3">
             <h4 className={`font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Global Download Permissions</h4>
             {resources.slice(0, 3).map((res) => (
-              <div key={res.id} className={`mb-2 flex items-center justify-between p-2 rounded-lg ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}>
+              <div key={res.id} className={`mb-2 flex items-center justify-between p-2 rounded-lg ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}>
                 <span className={`text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{res.title}</span>
                 <button onClick={() => toggleDownloadPermission(res.id)} className={`px-2 py-1 text-xs rounded-lg ${res.download_permission ? 'bg-[#00D4FF] ' : 'bg-[#E30A17] '} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                   {res.download_permission ? 'Allowed' : 'Blocked'}
@@ -406,12 +406,12 @@ export default function LibraryView() {
       )}
 
       {/* Three-Container Navigation */}
-      <div className={`flex items-center overflow-x-auto scrollbar-hide gap-3 border rounded-2xl p-2 w-max shadow-sm backdrop-blur-md ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+      <div className={`flex items-center overflow-x-auto scrollbar-hide gap-3 border rounded-2xl p-2 w-max shadow-sm backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
         {['download', 'secure', 'wiki'].map((key) => (
           <button
             key={key}
             onClick={() => setActiveContainer(key)}
-            className={`px-6 py-2.5 rounded-xl font-bold transition-all duration-300 shrink-0 ${activeContainer === key ? 'bg-[#F97316] text-[#0f172a] shadow-[0_0_15px_rgba(255,215,0,0.3)]' : 'text-slate-300 hover:bg-[#1E293B]/10 hover:text-white'}`}
+            className={`px-6 py-2.5 rounded-xl font-bold transition-all duration-300 shrink-0 ${activeContainer === key ? 'bg-[#F97316] text-[#0B1120] shadow-[0_0_15px_rgba(255,215,0,0.3)]' : 'text-slate-300 hover:bg-white/5/10 hover:text-white'}`}
           >
             {key === 'download' ? 'Download Vault' : key === 'secure' ? 'Secure Viewer' : 'EDOT Wiki'}
           </button>
@@ -420,7 +420,7 @@ export default function LibraryView() {
 
       {/* Upload Form Engine */}
       {showUploadForm && (
-        <div className={`rounded-3xl border backdrop-blur-xl p-6 shadow-sm relative overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#1E293B]/5' : 'border-slate-100 bg-slate-50'}`}>
+        <div className={`rounded-3xl border backdrop-blur-xl p-6 shadow-sm relative overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
           <div className="flex justify-between items-center mb-6">
              <h2 className={`text-3xl md:text-4xl font-bold flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                  <FileText className="w-8 h-8 text-[#E30A17]" /> Upload New Resource
@@ -441,7 +441,7 @@ export default function LibraryView() {
                     <input 
                       type="text" required placeholder="Advanced Mathematics Vol 2"
                       value={uploadData.title} onChange={(e) => setUploadData({ ...uploadData, title: e.target.value })}
-                      className={`w-full border text-base font-normal rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#F97316] placeholder-slate-500 ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
+                      className={`w-full border text-base font-normal rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#F97316] placeholder-slate-500 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
                     />
                 </div>
                 <div className="space-y-1">
@@ -449,7 +449,7 @@ export default function LibraryView() {
                     <input 
                       type="text" required placeholder="John Doe"
                       value={uploadData.author} onChange={(e) => setUploadData({ ...uploadData, author: e.target.value })}
-                      className={`w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#F97316] font-semibold placeholder-slate-500 ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
+                      className={`w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#F97316] font-semibold placeholder-slate-500 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
                     />
                 </div>
                 <div className="space-y-1">
@@ -472,7 +472,7 @@ export default function LibraryView() {
 
             <div className="space-y-1">
                 <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>File Attachment</label>
-                <div className={`relative border-2 border-dashed rounded-2xl p-6 bg-[#1E293B]/50 hover:bg-[#1E293B]/5 transition-colors group cursor-pointer ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                <div className={`relative border-2 border-dashed rounded-2xl p-6 bg-[#0B1120]/50 hover:bg-white/5/5 transition-colors group cursor-pointer ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                     <input 
                       type="file" 
                       required
@@ -481,7 +481,7 @@ export default function LibraryView() {
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
                     />
                     <div className="flex flex-col items-center justify-center text-center space-y-2">
-                       <div className={`w-12 h-12 rounded-full text-[#E30A17] flex items-center justify-center group-hover:scale-110 transition-transform ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}>
+                       <div className={`w-12 h-12 rounded-full text-[#E30A17] flex items-center justify-center group-hover:scale-110 transition-transform ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}>
                           <Download className="w-6 h-6" />
                        </div>
                        <div>
@@ -513,8 +513,8 @@ export default function LibraryView() {
       {activeContainer === 'download' && (
         <>
           {filteredResources.length === 0 && !showUploadForm ? (
-            <div className={`p-12 text-center rounded-3xl border backdrop-blur-xl shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'border-white/5 bg-[#1E293B]/5' : 'border-slate-100 bg-slate-50'}`}>
-              <div className={`w-20 h-20 border rounded-full flex items-center justify-center mb-4 ${isDarkMode ? 'bg-[#1E293B]/5 text-slate-200 border-white/10' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+            <div className={`p-12 text-center rounded-3xl border backdrop-blur-xl shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
+              <div className={`w-20 h-20 border rounded-full flex items-center justify-center mb-4 ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200 border-white/10' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
                 <BookOpen className="w-10 h-10" />
               </div>
               <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No downloadable resources found</h3>
@@ -535,19 +535,19 @@ export default function LibraryView() {
                     whileHover={{ y: -4 }}
                     transition={{ duration: 0.2 }}
                     key={resource.id} 
-                    className={`rounded-3xl border backdrop-blur-xl shadow-2xl overflow-hidden flex flex-col group hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all relative ${isDarkMode ? 'border-white/10 bg-[#1E293B]/90' : 'border-slate-200 bg-white/95'}`}
+                    className={`rounded-3xl border backdrop-blur-xl shadow-2xl overflow-hidden flex flex-col group hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all relative ${isDarkMode ? 'border-white/10 bg-[#0B1120]/90' : 'border-slate-200 bg-white/95'}`}
                   >
                     {isOwner && (
                       <button
                         onClick={() => handleDelete(resource.id)}
                         title="Delete Resource"
-                        className={`absolute top-3 right-3 hover:bg-[#E30A17]/20 text-[#E30A17] border border-transparent hover:border-[#E30A17]/30 p-2 rounded-xl opacity-0 group-hover:opacity-100 transition-all z-10 shadow-sm backdrop-blur ${isDarkMode ? 'bg-[#1E293B]/10' : 'bg-slate-50'}`}
+                        className={`absolute top-3 right-3 hover:bg-[#E30A17]/20 text-[#E30A17] border border-transparent hover:border-[#E30A17]/30 p-2 rounded-xl opacity-0 group-hover:opacity-100 transition-all z-10 shadow-sm backdrop-blur ${isDarkMode ? 'bg-[#0B1120]/10' : 'bg-slate-50'}`}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     )}
 
-                    <div className={`h-40 flex items-center justify-center relative overflow-hidden group-hover:bg-[#F97316]/5 transition-colors ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}>
+                    <div className={`h-40 flex items-center justify-center relative overflow-hidden group-hover:bg-[#F97316]/5 transition-colors ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
                       <FileText className="w-16 h-16 text-[#F97316]/20 group-hover:scale-110 transition-transform duration-500" />
                       <div className="absolute bottom-3 left-3 bg-[#00D4FF]/20 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-[#00D4FF] shadow-sm border border-[#00D4FF]/20">
                         {resource.fileUrl?.split('.').pop()?.toUpperCase() || 'FILE'}
@@ -597,7 +597,7 @@ export default function LibraryView() {
 
       {activeContainer === 'secure' && (
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-4">
-          <div className={`rounded-3xl border p-4 ${isDarkMode ? 'border-white/10 bg-[#1E293B]/5' : 'border-slate-200 bg-slate-50'}`}>
+          <div className={`rounded-3xl border p-4 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/5' : 'border-slate-200 bg-slate-50'}`}>
             <h2 className={`text-lg font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Secure Viewer Resources</h2>
             {filteredResources.length === 0 ? (
               <p className={isDarkMode ? 'text-slate-200' : 'text-slate-600'}>No secure documents for your account.</p>
@@ -607,14 +607,14 @@ export default function LibraryView() {
                   <button
                     key={resource.id}
                     onClick={() => selectSecureResource(resource)}
-                    className={`w-full text-left px-3 py-2 rounded-lg ${secureResource?.id === resource.id ? 'bg-cyan-500 ' : 'bg-[#1E293B]/10 text-slate-100 hover:bg-[#1E293B]/20'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    className={`w-full text-left px-3 py-2 rounded-lg ${secureResource?.id === resource.id ? 'bg-cyan-500 ' : 'bg-[#0B1120]/10 text-slate-100 hover:bg-white/5/20'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                     {resource.title}
                   </button>
                 ))}
               </div>
             )}
           </div>
-          <div className={`rounded-3xl border p-4 ${isDarkMode ? 'border-white/10 bg-[#1E293B]/5' : 'border-slate-200 bg-slate-50'}`} onContextMenu={(e) => user?.role === 'student' && e.preventDefault()}>
+          <div className={`rounded-3xl border p-4 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/5' : 'border-slate-200 bg-slate-50'}`} onContextMenu={(e) => user?.role === 'student' && e.preventDefault()}>
             <h2 className={`text-lg font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Secure Document Reader</h2>
             {secureResource ? (
               <iframe
@@ -633,8 +633,8 @@ export default function LibraryView() {
 
       {activeContainer === 'wiki' && (
         <div className="flex flex-col lg:flex-row gap-6 items-start">
-          <aside className={`w-full lg:w-72 shrink-0 rounded-3xl border overflow-hidden shadow-2xl sticky top-24 ${isDarkMode ? 'border-white/10 bg-[#1E293B]' : 'border-slate-200 bg-white'}`}>
-            <div className={`p-6 border-b ${isDarkMode ? 'border-white/5 bg-[#1E293B]/50' : 'border-slate-100 bg-slate-50'}`}>
+          <aside className={`w-full lg:w-72 shrink-0 rounded-3xl border overflow-hidden shadow-2xl sticky top-24 ${isDarkMode ? 'border-white/10 bg-[#0B1120]' : 'border-slate-200 bg-white'}`}>
+            <div className={`p-6 border-b ${isDarkMode ? 'border-white/5 bg-[#0B1120]/50' : 'border-slate-100 bg-slate-50'}`}>
               <h2 className={`font-bold text-lg flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                 <BookOpen className="w-5 h-5 text-[#F97316]" />
                 EDOT Wiki
@@ -645,28 +645,28 @@ export default function LibraryView() {
               <p className="text-[10px] font-bold text-slate-500   mb-3 px-3">Topics</p>
               <ul className="space-y-1 text-sm font-medium">
                 <li>
-                  <a href="#overview" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#1E293B]/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                  <a href="#overview" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                     <BookOpen className="w-4 h-4 text-slate-500 group-hover:text-cyan-400" /> 
                     Overview
                     <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
                   </a>
                 </li>
                 <li>
-                  <a href="#workflows" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#1E293B]/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                  <a href="#workflows" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                     <GitMerge className="w-4 h-4 text-slate-500 group-hover:text-[#00D4FF]" /> 
                     Workflows
                     <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
                   </a>
                 </li>
                 <li>
-                  <a href="#roles" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#1E293B]/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                  <a href="#roles" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                     <Shield className="w-4 h-4 text-slate-500 group-hover:text-[#E30A17]" /> 
                     Role Permissions
                     <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
                   </a>
                 </li>
                 <li>
-                  <a href="#submission" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#1E293B]/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                  <a href="#submission" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                     <FileSignature className="w-4 h-4 text-slate-500 group-hover:text-[#F97316]" /> 
                     Submission Rules
                     <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -676,12 +676,12 @@ export default function LibraryView() {
             </div>
           </aside>
           
-          <section className={`flex-1 rounded-3xl border shadow-2xl overflow-hidden ${isDarkMode ? 'border-white/10 bg-[#1E293B]' : 'border-slate-200 bg-white'}`}>
+          <section className={`flex-1 rounded-3xl border shadow-2xl overflow-hidden ${isDarkMode ? 'border-white/10 bg-[#0B1120]' : 'border-slate-200 bg-white'}`}>
             <div className="p-8 lg:p-14 max-w-4xl mx-auto space-y-16">
               
               {/* Header section */}
               <div className={`border-b pb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                <div className={`inline-flex items-center gap-1.5 px-3 py-1 mb-4 rounded-full border text-xs font-semibold ${isDarkMode ? 'bg-[#1E293B]/50 border-white/10 text-slate-300' : 'bg-slate-100 border-slate-200 text-slate-500'}`}>
+                <div className={`inline-flex items-center gap-1.5 px-3 py-1 mb-4 rounded-full border text-xs font-semibold ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10 text-slate-300' : 'bg-slate-100 border-slate-200 text-slate-500'}`}>
                   <Globe className="w-3.5 h-3.5" /> Documentation v2.1
                 </div>
                 <h1 className={`text-4xl lg:text-5xl font-display font-bold tracking-tight mb-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Library & Wiki Architecture</h1>
@@ -730,9 +730,9 @@ export default function LibraryView() {
                   </div>
                   <h2 className={`text-2xl font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Content Workflows</h2>
                 </div>
-                <div className={`p-6 rounded-2xl border leading-relaxed mb-6 ${isDarkMode ? 'bg-[#1E293B]/40 border-white/5 text-slate-300' : 'bg-slate-50 border-slate-100 text-slate-500'}`}>
+                <div className={`p-6 rounded-2xl border leading-relaxed mb-6 ${isDarkMode ? 'bg-[#0B1120]/40 border-white/5 text-slate-300' : 'bg-slate-50 border-slate-100 text-slate-500'}`}>
                   <div className="flex flex-col md:flex-row items-center gap-4 text-sm font-semibold">
-                    <div className={`px-4 py-2 bg-[#1E293B] rounded-lg border border-slate-600 w-full md:w-auto text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Instructor Upload</div>
+                    <div className={`px-4 py-2 bg-[#0B1120] rounded-lg border border-slate-600 w-full md:w-auto text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Instructor Upload</div>
                     <ChevronRight className="w-5 h-5 text-slate-500 hidden md:block" />
                     <div className="px-4 py-2 bg-amber-900/50 rounded-lg text-amber-200 border border-amber-500/30 w-full md:w-auto text-center">Admin Review</div>
                     <ChevronRight className="w-5 h-5 text-slate-500 hidden md:block" />
@@ -754,19 +754,19 @@ export default function LibraryView() {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className={`p-5 rounded-2xl bg-gradient-to-br from-[#11151F] to-[#0B1120] border hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                  <div className={`p-5 rounded-2xl bg-gradient-to-br from-[#0B1120] to-[#0B1120] border hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                     <h3 className={`font-bold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><Lock className="w-4 h-4 text-[#E30A17]" /> Administrators</h3>
                     <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Total system autonomy. Capabilities span across executing global overrides, approving cross-domain enrollments, and permanent deletion of system traces.</p>
                   </div>
-                  <div className={`p-5 rounded-2xl bg-gradient-to-br from-[#11151F] to-[#0B1120] border hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                  <div className={`p-5 rounded-2xl bg-gradient-to-br from-[#0B1120] to-[#0B1120] border hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                     <h3 className={`font-bold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><FileText className="w-4 h-4 text-cyan-400" /> Instructors</h3>
                     <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Content architects. Authorized to originate course materials and manipulate internal asset visibility rules prior to publishing.</p>
                   </div>
-                  <div className={`p-5 rounded-2xl bg-gradient-to-br from-[#11151F] to-[#0B1120] border hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                  <div className={`p-5 rounded-2xl bg-gradient-to-br from-[#0B1120] to-[#0B1120] border hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                     <h3 className={`font-bold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><BookOpen className="w-4 h-4 text-[#F97316]" /> Students</h3>
                     <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Consumption layer. Bound by dynamic visibility parameters. Cannot access raw files if flagged entirely for Secure Display by instructors.</p>
                   </div>
-                  <div className={`p-5 rounded-2xl bg-gradient-to-br from-[#11151F] to-[#0B1120] border hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                  <div className={`p-5 rounded-2xl bg-gradient-to-br from-[#0B1120] to-[#0B1120] border hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                     <h3 className={`font-bold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><Eye className="w-4 h-4 text-[#00D4FF]" /> Parents</h3>
                     <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Telemetry observers. Possess read-only overview access to monitor the progression of connected student nodes in real-time.</p>
                   </div>
@@ -780,12 +780,12 @@ export default function LibraryView() {
 
       {/* Pending Queue for Admin only */}
       {user?.role === 'admin' && (
-        <div className={`rounded-3xl border p-4 mt-4 ${isDarkMode ? 'border-white/10 bg-[#1E293B]/5' : 'border-slate-200 bg-slate-50'}`}>
+        <div className={`rounded-3xl border p-4 mt-4 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/5' : 'border-slate-200 bg-slate-50'}`}>
           <h3 className={`font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Pending Approval Queue</h3>
           {pendingQueue.length === 0 ? (
             <p className={isDarkMode ? 'text-slate-200' : 'text-slate-600'}>No items are pending approval.</p>
           ) : pendingQueue.map((item) => (
-            <div key={item.id} className={`mb-2 p-3 border rounded-xl ${isDarkMode ? 'border-white/10 bg-[#1E293B]/80' : 'border-slate-200 bg-white/90'}`}>
+            <div key={item.id} className={`mb-2 p-3 border rounded-xl ${isDarkMode ? 'border-white/10 bg-[#0B1120]/80' : 'border-slate-200 bg-white/90'}`}>
               <div className="flex justify-between items-center">
                 <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{item.title}</p>
                 <button onClick={() => openReviewModal(item)} className={`px-2 py-1 text-xs rounded-lg bg-[#E30A17] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Review</button>
@@ -798,21 +798,21 @@ export default function LibraryView() {
 
       {reviewModalOpen && reviewTarget && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-          <div className={`w-full max-w-xl border rounded-3xl p-6 ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
+          <div className={`w-full max-w-xl border rounded-3xl p-6 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
             <h4 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Review & Comment</h4>
             <p className={`text-sm mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Resource: {reviewTarget.title}</p>
             <textarea
               value={reviewComment}
               onChange={(e) => setReviewComment(e.target.value)}
-              className={`w-full h-28 p-3 rounded-xl border outline-none mb-3 ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
+              className={`w-full h-28 p-3 rounded-xl border outline-none mb-3 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
               placeholder="Leave feedback or request corrections..."
             />
             <div className="flex gap-2 mb-4">
-              <button onClick={() => setReviewDecision('approved')} className={`px-3 py-2 rounded-lg text-sm ${reviewDecision === 'approved' ? 'bg-[#00D4FF] ' : 'bg-[#1E293B]/10 '} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Approve</button>
-              <button onClick={() => setReviewDecision('rejected')} className={`px-3 py-2 rounded-lg text-sm ${reviewDecision === 'rejected' ? 'bg-[#E30A17] ' : 'bg-[#1E293B]/10 '} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reject</button>
+              <button onClick={() => setReviewDecision('approved')} className={`px-3 py-2 rounded-lg text-sm ${reviewDecision === 'approved' ? 'bg-[#00D4FF] ' : 'bg-[#0B1120]/10 '} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Approve</button>
+              <button onClick={() => setReviewDecision('rejected')} className={`px-3 py-2 rounded-lg text-sm ${reviewDecision === 'rejected' ? 'bg-[#E30A17] ' : 'bg-[#0B1120]/10 '} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reject</button>
             </div>
             <div className="flex justify-end gap-2">
-              <button onClick={() => setReviewModalOpen(false)} className={`px-4 py-2 rounded-lg ${isDarkMode ? 'bg-[#1E293B]/10 text-white' : 'bg-slate-50 text-slate-900'}`}>Cancel</button>
+              <button onClick={() => setReviewModalOpen(false)} className={`px-4 py-2 rounded-lg ${isDarkMode ? 'bg-[#0B1120]/10 text-white' : 'bg-slate-50 text-slate-900'}`}>Cancel</button>
               <button onClick={handleReviewSubmit} className={`px-4 py-2 rounded-lg bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Submit</button>
             </div>
           </div>

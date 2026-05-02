@@ -60,8 +60,8 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
       case 'enrollment': return 'bg-[#00D4FF]/10 border-[#00D4FF]/30 shadow-[0_0_15px_rgba(0,138,50,0.1)]';
       case 'learning': return 'bg-purple-500/100/10 border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.1)]';
       case 'communication': return 'bg-pink-500/10 border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.1)]';
-      case 'system': return 'bg-[#1E293B]/40 backdrop-blur-xl0/10 border-white/5';
-      default: return 'bg-[#1E293B]/40 backdrop-blur-xl0/10 border-white/5';
+      case 'system': return 'bg-[#0B1120]/40 backdrop-blur-xl0/10 border-white/5';
+      default: return 'bg-[#0B1120]/40 backdrop-blur-xl0/10 border-white/5';
     }
   };
 
@@ -75,8 +75,8 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
 
   if (activities.length === 0) {
     return (
-      <div className={`bg-[#1E293B]/40 rounded-2xl border p-8 text-center flex flex-col items-center ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-        <div className={`w-12 h-12 border rounded-full flex items-center justify-center mb-3 ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+      <div className={`bg-[#0B1120]/40 rounded-2xl border p-8 text-center flex flex-col items-center ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+        <div className={`w-12 h-12 border rounded-full flex items-center justify-center mb-3 ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
           <Activity className={`w-6 h-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
         </div>
         <p className={`font-bold text-xs ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No recent activities found.</p>
@@ -90,15 +90,15 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
       {activities.map((activity, index) => (
         <div key={activity.id || index} className="flex gap-4 items-start relative group">
           {index !== activities.length - 1 && (
-            <div className={`absolute left-6 top-10 bottom-[-1rem] w-px -z-10 group-hover:bg-[#F97316]/20 transition-colors ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}></div>
+            <div className={`absolute left-6 top-10 bottom-[-1rem] w-px -z-10 group-hover:bg-[#F97316]/20 transition-colors ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}></div>
           )}
           <div className={`w-12 h-12 shrink-0 rounded-2xl border flex items-center justify-center shadow-sm transition-transform group-hover:scale-110 duration-300 relative z-10 ${getBgColorForType(activity.type)}`}>
             {getIconForType(activity.type)}
           </div>
-          <div className={`flex-1 bg-[#1E293B]/80 p-4 rounded-2xl border shadow-lg shadow-black/20 hover:border-white/10 transition-colors backdrop-blur-sm ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+          <div className={`flex-1 bg-[#0B1120]/80 p-4 rounded-2xl border shadow-lg shadow-black/20 hover:border-white/10 transition-colors backdrop-blur-sm ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
             <div className="flex justify-between items-start gap-2 mb-2">
               <h4 className={`font-bold leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activity.action}</h4>
-              <span className={`text-[10px] font-black shrink-0 whitespace-nowrap px-2.5 py-1 rounded-md border ${isDarkMode ? 'text-slate-300 bg-[#1E293B]/5 border-white/5' : 'text-slate-500 bg-slate-50 border-slate-100'}`}>
+              <span className={`text-[10px] font-black shrink-0 whitespace-nowrap px-2.5 py-1 rounded-md border ${isDarkMode ? 'text-slate-300 bg-[#0B1120]/5 border-white/5' : 'text-slate-500 bg-slate-50 border-slate-100'}`}>
                 {new Date(activity.createdAt).toLocaleDateString()} {new Date(activity.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </span>
             </div>
@@ -108,7 +108,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
               </p>
             )}
             {activity.details && (
-              <p className={`text-xs font-medium mt-2 p-3 rounded-xl border shadow-inner ${isDarkMode ? 'text-slate-300 bg-[#1E293B] border-white/5' : 'text-slate-500 bg-white border-slate-100'}`}>
+              <p className={`text-xs font-medium mt-2 p-3 rounded-xl border shadow-inner ${isDarkMode ? 'text-slate-300 bg-[#0B1120] border-white/5' : 'text-slate-500 bg-white border-slate-100'}`}>
                 {activity.details}
               </p>
             )}
@@ -116,7 +116,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
             {/* Privacy & Insight indicators */}
             <div className="flex items-center justify-between mt-4">
                <div className="flex items-center gap-2">
-                 {activity.visibility === 'private' && <span className={`text-[9px] font-black border px-2 py-1 rounded-md shadow-sm ${isDarkMode ? 'text-slate-300 bg-[#1E293B]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>Private</span>}
+                 {activity.visibility === 'private' && <span className={`text-[9px] font-black border px-2 py-1 rounded-md shadow-sm ${isDarkMode ? 'text-slate-300 bg-[#0B1120]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>Private</span>}
                  {activity.visibility === 'insight' && (
                    <span className={`text-[9px]  font-black  px-2 py-1 rounded-md shadow-sm flex items-center gap-1 border ${activity.insightFlag === 'achievement' ? 'text-[#00D4FF] bg-[#00D4FF]/10 border-[#00D4FF]/20' : activity.insightFlag === 'concern' ? 'text-[#E30A17] bg-[#E30A17]/10 border-[#E30A17]/20' : 'text-blue-400 bg-blue-500/100/10 border-blue-500/20'}`}>
                      {activity.insightFlag === 'achievement' ? <TrendingUp className="w-3 h-3"/> : activity.insightFlag === 'concern' ? <AlertTriangle className="w-3 h-3"/> : null}

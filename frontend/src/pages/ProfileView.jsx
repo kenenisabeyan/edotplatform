@@ -146,9 +146,9 @@ export default function ProfileView() {
         </div>
       </div>
 
-      <div className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <div className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div 
-          className={`h-48 border-b relative group ${isDarkMode ? 'bg-gradient-to-tr from-[#11151F] to-[#00D4FF]/20 border-white/10' : 'bg-gradient-to-tr from-slate-100 to-slate-200 border-slate-200'}`}
+          className={`h-48 border-b relative group ${isDarkMode ? 'bg-gradient-to-tr from-[#0B1120] to-[#00D4FF]/20 border-white/10' : 'bg-gradient-to-tr from-slate-100 to-slate-200 border-slate-200'}`}
           style={{ 
             backgroundImage: formData.coverPhoto ? `url(http://localhost:5000${formData.coverPhoto})` : 'none',
             backgroundSize: 'cover',
@@ -169,7 +169,7 @@ export default function ProfileView() {
         </div>
         <div className="px-8 pb-8 relative">
            
-           <div className={`absolute -top-20 border-4 rounded-full w-36 h-36 flex items-center justify-center overflow-hidden group shadow-[0_0_20px_rgba(255,215,0,0.2)] ${isDarkMode ? 'border-[#0B1120] bg-[#1E293B]' : 'border-white bg-slate-100'}`}>
+           <div className={`absolute -top-20 border-4 rounded-full w-36 h-36 flex items-center justify-center overflow-hidden group shadow-[0_0_20px_rgba(255,215,0,0.2)] ${isDarkMode ? 'border-[#0B1120] bg-[#0B1120]' : 'border-white bg-slate-100'}`}>
               {formData.avatar && formData.avatar !== 'default-avatar.png' ? (
                 <img src={`http://localhost:5000${formData.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
@@ -204,7 +204,7 @@ export default function ProfileView() {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#1E293B] text-white' : 'bg-white text-slate-900'}`} 
+                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                       required 
                     />
                   </div>
@@ -235,7 +235,7 @@ export default function ProfileView() {
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="+251 9XX XXX XXX"
-                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#1E293B] text-white' : 'bg-white text-slate-900'}`} 
+                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                     />
                   </div>
                 </div>
@@ -254,7 +254,7 @@ export default function ProfileView() {
                         { label: 'Other', value: 'Other' },
                         { label: 'Prefer not to say', value: 'Prefer not to say' }
                       ]}
-                      className={`w-full [&>button]:pl-12 [&>button]:py-3 [&>button]:border-none [&>button]:font-medium ${isDarkMode ? '[&>button]:bg-[#1E293B] [&>button]:text-white' : '[&>button]:bg-white [&>button]:text-slate-900'}`}
+                      className={`w-full [&>button]:pl-12 [&>button]:py-3 [&>button]:border-none [&>button]:font-medium ${isDarkMode ? '[&>button]:bg-[#0B1120] [&>button]:text-white' : '[&>button]:bg-white [&>button]:text-slate-900'}`}
                     />
                   </div>
                 </div>
@@ -268,7 +268,7 @@ export default function ProfileView() {
                       name="dateOfBirth"
                       value={formData.dateOfBirth}
                       onChange={handleChange}
-                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none ${isDarkMode ? 'bg-[#1E293B] text-white color-scheme-dark' : 'bg-white text-slate-900'}`} 
+                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none ${isDarkMode ? 'bg-[#0B1120] text-white color-scheme-dark' : 'bg-white text-slate-900'}`} 
                     />
                   </div>
                 </div>
@@ -283,7 +283,7 @@ export default function ProfileView() {
                       value={formData.address}
                       onChange={handleChange}
                       placeholder="e.g. Bole, Addis Ababa"
-                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#1E293B] text-white' : 'bg-white text-slate-900'}`} 
+                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                     />
                   </div>
                 </div>
@@ -299,7 +299,7 @@ export default function ProfileView() {
                         value={formData.emergencyContact}
                         onChange={handleChange}
                         placeholder="Name and Phone number"
-                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#1E293B] text-white' : 'bg-white text-slate-900'}`} 
+                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                       />
                     </div>
                   </div>
@@ -316,7 +316,7 @@ export default function ProfileView() {
                         value={formData.department}
                         onChange={handleChange}
                         placeholder="e.g. Computer Science"
-                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#1E293B] text-white' : 'bg-white text-slate-900'}`} 
+                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                       />
                     </div>
                   </div>
@@ -333,7 +333,7 @@ export default function ProfileView() {
                         value={formData.specialization}
                         onChange={handleChange}
                         placeholder="e.g. Web Development"
-                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#1E293B] text-white' : 'bg-white text-slate-900'}`} 
+                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                       />
                     </div>
                   </div>
@@ -350,7 +350,7 @@ export default function ProfileView() {
                         value={formData.occupation}
                         onChange={handleChange}
                         placeholder="e.g. Engineer"
-                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#1E293B] text-white' : 'bg-white text-slate-900'}`} 
+                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                       />
                     </div>
                   </div>
@@ -364,7 +364,7 @@ export default function ProfileView() {
                     onChange={handleChange}
                     rows="4" 
                     placeholder="Tell us a little about yourself"
-                    className={`w-full p-4 border rounded-xl outline-none focus:ring-1 font-medium resize-none placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500'}`}
+                    className={`w-full p-4 border rounded-xl outline-none focus:ring-1 font-medium resize-none placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500'}`}
                   ></textarea>
                 </div>
 

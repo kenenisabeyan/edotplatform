@@ -436,22 +436,22 @@ export default function MessagesView() {
 
   return (
     <div className="h-[calc(100vh-88px)] md:h-[calc(100vh-88px)] flex flex-col md:-mx-8 lg:-mx-12 -mt-4 md:-mt-8 -mb-4 md:-mb-8 -mx-4 font-sans">
-      <div className={`shadow-sm flex-1 flex h-full relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}>
+      <div className={`shadow-sm flex-1 flex h-full relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
          {/* Subtle EDOT Background ambient glow */}
          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00D4FF]/10 blur-[120px] rounded-full pointer-events-none"></div>
          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#F97316]/5 blur-[150px] rounded-full pointer-events-none"></div>
          
          {/* Left Sidebar - EDOT Innovative Contact List */}
-         <div className={`w-full md:w-[320px] lg:w-[350px] border-r flex-col shrink-0 /60 backdrop-blur-2xl z-10 ${activeContact ? 'hidden md:flex' : 'flex'} ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-white border-slate-100'}`}>
+         <div className={`w-full md:w-[320px] lg:w-[350px] border-r flex-col shrink-0 /60 backdrop-blur-2xl z-10 ${activeContact ? 'hidden md:flex' : 'flex'} ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
            {/* Sidebar Header */}
            <div className={`p-4 flex items-center gap-4 border-b shrink-0 bg-transparent ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
              <div className="relative">
-               <button onClick={() => setShowLeftMenu(prev => !prev)} className={`w-10 h-10 border rounded-xl flex items-center justify-center hover:text-[#F97316] hover:border-[#F97316]/50 transition-all shadow-sm ${isDarkMode ? 'bg-[#1E293B]/40 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
+               <button onClick={() => setShowLeftMenu(prev => !prev)} className={`w-10 h-10 border rounded-xl flex items-center justify-center hover:text-[#F97316] hover:border-[#F97316]/50 transition-all shadow-sm ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
                   <Menu className="w-5 h-5" />
                </button>
                {/* Elite EDOT Dropdown Menu */}
                {showLeftMenu && (
-                 <div className={`absolute left-0 top-full mt-2 w-64 bg-[#1E293B]/90 backdrop-blur-2xl rounded-2xl shadow-2xl py-2 z-50 border ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                 <div className={`absolute left-0 top-full mt-2 w-64 bg-[#0B1120]/90 backdrop-blur-2xl rounded-2xl shadow-2xl py-2 z-50 border ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                    <div className={`px-4 py-2 text-xs font-bold text-slate-500 border-b mb-1 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Collaboration</div>
                    <button onClick={() => {
                       resetGroupForm();
@@ -487,7 +487,7 @@ export default function MessagesView() {
                  placeholder="Search network..." 
                  value={searchQuery}
                  onChange={(e) => setSearchQuery(e.target.value)}
-                 className={`w-full pl-10 pr-4 py-2.5 border placeholder-slate-500 rounded-xl text-[13px] font-medium focus:outline-none focus:ring-1 focus:ring-[#F97316]/50 focus:border-[#F97316]/50 transition-all shadow-inner ${isDarkMode ? 'bg-[#1E293B]/40 border-white/5 text-white' : 'bg-slate-50 border-slate-100 text-slate-900'}`}
+                 className={`w-full pl-10 pr-4 py-2.5 border placeholder-slate-500 rounded-xl text-[13px] font-medium focus:outline-none focus:ring-1 focus:ring-[#F97316]/50 focus:border-[#F97316]/50 transition-all shadow-inner ${isDarkMode ? 'bg-[#0B1120]/40 border-white/5 text-white' : 'bg-slate-50 border-slate-100 text-slate-900'}`}
                />
                <Search className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-[16px] h-[16px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
              </div>
@@ -504,10 +504,10 @@ export default function MessagesView() {
                  <div 
                    key={contact.id} 
                    onClick={() => setActiveContact(contact)}
-                   className={`px-3 py-3 mb-1.5 rounded-xl flex items-center gap-4 cursor-pointer transition-all duration-300 border ${activeContact?.id === contact.id ? 'bg-[#1E293B] border-[#F97316]/30 shadow-[0_0_15px_rgba(255,215,0,0.05)] ' : 'bg-transparent border-transparent hover:bg-[#1E293B]/40 hover:border-white/5'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                   className={`px-3 py-3 mb-1.5 rounded-xl flex items-center gap-4 cursor-pointer transition-all duration-300 border ${activeContact?.id === contact.id ? 'bg-[#0B1120] border-[#F97316]/30 shadow-[0_0_15px_rgba(255,215,0,0.05)] ' : 'bg-transparent border-transparent hover:bg-white/5/40 hover:border-white/5'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                  >
                    <div className="relative">
-                     <div className={`w-12 h-12 rounded-[14px] flex items-center justify-center font-bold text-lg shrink-0 overflow-hidden shadow-inner ${activeContact?.id === contact.id ? 'bg-gradient-to-br from-[#F97316]/20 to-[#00D4FF]/20 text-[#F97316]' : 'bg-[#1E293B] border '} ${isDarkMode ? 'text-slate-300 border-white/5' : 'text-slate-500 border-slate-100'}`}>
+                     <div className={`w-12 h-12 rounded-[14px] flex items-center justify-center font-bold text-lg shrink-0 overflow-hidden shadow-inner ${activeContact?.id === contact.id ? 'bg-gradient-to-br from-[#F97316]/20 to-[#00D4FF]/20 text-[#F97316]' : 'bg-[#0B1120] border '} ${isDarkMode ? 'text-slate-300 border-white/5' : 'text-slate-500 border-slate-100'}`}>
                        {contact.avatar && contact.avatar !== 'default-avatar.png' ? (
                           <img src={`http://localhost:5000${contact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
                        ) : (
@@ -546,7 +546,7 @@ export default function MessagesView() {
               <div className={`flex-1 flex flex-col items-center justify-center relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                 <div className="w-24 h-24 mb-6 relative">
                   <div className="absolute inset-0 bg-[#F97316] blur-xl opacity-20 rounded-full animate-pulse"></div>
-                  <div className={`relative w-full h-full bg-[#1E293B] border shadow-xl rounded-full flex items-center justify-center ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div className={`relative w-full h-full border shadow-xl rounded-full flex items-center justify-center ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                     <span className="text-3xl">✨</span>
                   </div>
                 </div>
@@ -556,7 +556,7 @@ export default function MessagesView() {
             ) : (
               <>
                 {/* Elite Hub Header */}
-                <div className={`h-[72px] border-b flex justify-between items-center px-6 backdrop-blur-2xl shrink-0 z-20 ${isDarkMode ? 'border-white/5 bg-[#1E293B]/80' : 'border-slate-100 bg-white/90'}`}>
+                <div className={`h-[72px] border-b flex justify-between items-center px-6 backdrop-blur-2xl shrink-0 z-20 ${isDarkMode ? 'border-white/5 bg-[#0B1120]/80' : 'border-slate-100 bg-white/90'}`}>
                   <div className="flex items-center gap-4">
                     <button 
                       onClick={() => setActiveContact(null)}
@@ -565,7 +565,7 @@ export default function MessagesView() {
                       <ArrowLeft className="w-5 h-5" />
                     </button>
                     <div className="relative cursor-pointer group">
-                      <div className={`w-11 h-11 rounded-xl bg-[#1E293B] border text-[#F97316] flex items-center justify-center font-bold text-[16px] shadow-sm shrink-0 overflow-hidden transition-transform group-hover:scale-105 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                      <div className={`w-11 h-11 rounded-xl border text-[#F97316] flex items-center justify-center font-bold text-[16px] shadow-sm shrink-0 overflow-hidden transition-transform group-hover:scale-105 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
                         {activeContact.avatar && activeContact.avatar !== 'default-avatar.png' ? (
                           <img src={`http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
                         ) : (
@@ -585,21 +585,21 @@ export default function MessagesView() {
                     <button onClick={handleOpenScheduleMeet} className={`px-3 py-1.5 hidden lg:flex items-center gap-2 rounded-lg text-sm font-semibold transition-colors border max-h-9 mr-1 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                       <span>Schedule Meet</span>
                     </button>
-                    <button onClick={() => handleStartCall('audio')} className="w-9 h-9 flex items-center justify-center hover:bg-[#1E293B] hover:text-[#00D4FF] rounded-lg transition-colors border border-transparent hover:border-white/10"><Phone className="w-[18px] h-[18px]" /></button>
-                    <button onClick={() => handleStartCall('video')} className="w-9 h-9 flex items-center justify-center hover:bg-[#1E293B] hover:text-[#00D4FF] rounded-lg transition-colors border border-transparent hover:border-white/10"><Video className="w-[18px] h-[18px]" /></button>
+                    <button onClick={() => handleStartCall('audio')} className="w-9 h-9 flex items-center justify-center hover:bg-white/5 hover:text-[#00D4FF] rounded-lg transition-colors border border-transparent hover:border-white/10"><Phone className="w-[18px] h-[18px]" /></button>
+                    <button onClick={() => handleStartCall('video')} className="w-9 h-9 flex items-center justify-center hover:bg-white/5 hover:text-[#00D4FF] rounded-lg transition-colors border border-transparent hover:border-white/10"><Video className="w-[18px] h-[18px]" /></button>
                     <div className="w-px h-5 bg-white/10 mx-1"></div>
                     {activeContact?.type === 'user' && (
-                      <button onClick={handleBlockUser} className={`w-9 h-9 flex items-center justify-center hover:bg-[#1E293B] ${isBlocked ? 'text-red-500 hover:text-red-400' : 'text-slate-400 hover:text-red-500'} rounded-lg transition-colors border border-transparent hover:border-white/10 hidden sm:flex`} title="Block User">
+                      <button onClick={handleBlockUser} className={`w-9 h-9 flex items-center justify-center hover:bg-white/5 ${isBlocked ? 'text-red-500 hover:text-red-400' : 'text-slate-400 hover:text-red-500'} rounded-lg transition-colors border border-transparent hover:border-white/10 hidden sm:flex`} title="Block User">
                          <Ban className="w-[18px] h-[18px]" />
                       </button>
                     )}
-                    <button className="w-9 h-9 flex items-center justify-center hover:bg-[#1E293B] hover:text-[#F97316] rounded-lg transition-colors border border-transparent hover:border-white/10 hidden sm:flex"><Search className="w-[18px] h-[18px]" /></button>
+                    <button className="w-9 h-9 flex items-center justify-center hover:bg-white/5 hover:text-[#F97316] rounded-lg transition-colors border border-transparent hover:border-white/10 hidden sm:flex"><Search className="w-[18px] h-[18px]" /></button>
                     <div className="relative hidden sm:flex">
-                      <button onClick={() => setShowMoreMenu(prev => !prev)} className={`w-9 h-9 flex items-center justify-center hover:bg-[#1E293B] rounded-lg transition-colors border border-transparent hover:border-white/10 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                      <button onClick={() => setShowMoreMenu(prev => !prev)} className={`w-9 h-9 flex items-center justify-center hover:bg-white/5 rounded-lg transition-colors border border-transparent hover:border-white/10 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                         <MoreVertical className="w-[18px] h-[18px]" />
                       </button>
                       {showMoreMenu && (
-                        <div className={`absolute right-0 mt-2 w-56 bg-[#1E293B]/95 backdrop-blur-2xl rounded-2xl shadow-2xl border overflow-hidden z-[100] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                        <div className={`absolute right-0 mt-2 w-56 bg-[#0B1120]/95 backdrop-blur-2xl rounded-2xl shadow-2xl border overflow-hidden z-[100] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                           <button onClick={() => { handleOpenScheduleMeet(); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Schedule Meet</button>
                           <button onClick={() => { handleStartCall('audio'); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Start Audio</button>
                           <button onClick={() => { handleStartCall('video'); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Start Video</button>
@@ -622,7 +622,7 @@ export default function MessagesView() {
                     <div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-[#F97316]" /></div>
                   ) : messages.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full mt-10">
-                       <div className={`backdrop-blur-md border rounded-2xl p-6 max-w-sm text-center shadow-lg ${isDarkMode ? 'bg-[#1E293B]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                       <div className={`backdrop-blur-md border rounded-2xl p-6 max-w-sm text-center shadow-lg ${isDarkMode ? 'bg-[#0B1120]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
                           <span className="text-3xl mb-3 block">💬</span>
                           <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Start Collaborating</h4>
                           <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Send a message, an assignment file, or schedule a meet directly here.</p>
@@ -638,7 +638,7 @@ export default function MessagesView() {
                           
                           {/* Received Avatar */}
                           {!isMine && (
-                            <div className={`w-8 h-8 rounded-lg bg-[#1E293B] border flex items-center justify-center font-bold text-[12px] shadow-sm shrink-0 overflow-hidden mt-auto mb-1 hidden md:flex ${isDarkMode ? 'border-white/10 text-slate-300' : 'border-slate-200 text-slate-500'}`}>
+                            <div className={`w-8 h-8 rounded-lg border flex items-center justify-center font-bold text-[12px] shadow-sm shrink-0 overflow-hidden mt-auto mb-1 hidden md:flex ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-slate-300' : 'bg-slate-100 border-slate-200 text-slate-500'}`}>
                               {activeContact.avatar && activeContact.avatar !== 'default-avatar.png' ? (
                                 <img src={`http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
                               ) : (
@@ -649,13 +649,13 @@ export default function MessagesView() {
 
                           <div className={`flex flex-col max-w-[85%] md:max-w-[65%] ${isMine ? 'items-end' : 'items-start'}`}>
                             {/* Message Bubble Glassmorphic */}
-                            <div className={`p-4 shadow-lg text-[15px] leading-relaxed relative border backdrop-blur-xl ${isMine ? 'bg-gradient-to-br from-[#00D4FF]/80 to-[#0099CC]/90 border-[#F97316] rounded-2xl rounded-br-sm' : 'bg-[#1E293B]/80 rounded-2xl rounded-bl-sm'} ${isDarkMode ? 'text-white text-slate-200 border-white/10' : 'text-slate-900 text-slate-600 border-slate-200'}`} style={{ wordBreak: 'break-word' }}>
-                              <button onClick={() => setMessageMenuOpenId(prev => prev === msg.id ? null : msg.id)} className={`absolute top-3 right-3 w-8 h-8 hover:text-white rounded-full bg-black/20 flex items-center justify-center transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                            <div className={`p-4 shadow-lg text-[15px] leading-relaxed relative border backdrop-blur-xl ${isMine ? 'bg-gradient-to-br from-[#00D4FF]/80 to-[#0099CC]/90 border-[#F97316] rounded-2xl rounded-br-sm' : (isDarkMode ? 'bg-[#0B1120]/80 rounded-2xl rounded-bl-sm border-white/10' : 'bg-slate-100 rounded-2xl rounded-bl-sm border-slate-200')} ${isDarkMode ? 'text-white' : 'text-slate-900'}`} style={{ wordBreak: 'break-word' }}>
+                              <button onClick={() => setMessageMenuOpenId(prev => prev === msg.id ? null : msg.id)} className={`absolute top-3 right-3 w-8 h-8 hover:text-white rounded-full flex items-center justify-center transition-colors ${isDarkMode ? 'bg-black/20 text-slate-300' : 'bg-white/50 text-slate-500'}`}>
                                 <MoreVertical className="w-4 h-4" />
                               </button>
                               {messageMenuOpenId === msg.id && (
-                                <div className={`absolute top-12 right-3 w-36 bg-[#1E293B]/95 border rounded-2xl shadow-xl z-40 overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                                  <button onClick={() => handleEditMessage(msg)} className={`w-full text-left px-3 py-2 hover:bg-white/5 transition-colors flex items-center gap-2 text-[13px] ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}> <Edit className="w-4 h-4" /> Edit</button>
+                                <div className={`absolute top-12 right-3 w-36 border rounded-2xl shadow-xl z-40 overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/95 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+                                  <button onClick={() => handleEditMessage(msg)} className={`w-full text-left px-3 py-2 transition-colors flex items-center gap-2 text-[13px] ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-100 text-slate-600'}`}> <Edit className="w-4 h-4" /> Edit</button>
                                   <button onClick={() => handleDeleteMessage(msg.id)} className={`w-full text-left px-3 py-2 hover:bg-white/5 transition-colors flex items-center gap-2 text-[13px] ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}> <Trash2 className="w-4 h-4" /> Delete</button>
                                 </div>
                               )}
@@ -683,7 +683,7 @@ export default function MessagesView() {
                                   <textarea
                                     value={editMessageContent}
                                     onChange={(e) => setEditMessageContent(e.target.value)}
-                                    className={`w-full min-h-[120px] resize-none rounded-2xl border p-3 text-sm focus:outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
+                                    className={`w-full min-h-[120px] resize-none rounded-2xl border p-3 text-sm focus:outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
                                   />
                                   <div className="flex justify-end gap-2">
                                     <button type="button" onClick={handleCancelEdit} className={`px-3 py-2 text-sm font-medium hover:text-white ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Cancel</button>
@@ -717,9 +717,9 @@ export default function MessagesView() {
                   
                   {/* Selected File Preview Box */}
                   {selectedFile && (
-                     <div className={`w-full max-w-4xl bg-[#1E293B]/90 backdrop-blur-xl border rounded-t-2xl p-4 flex items-center justify-between mb-0 shadow-xl relative z-0 transform translate-y-2 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                     <div className={`w-full max-w-4xl backdrop-blur-xl border rounded-t-2xl p-4 flex items-center justify-between mb-0 shadow-xl relative z-0 transform translate-y-2 ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-slate-50/90 border-slate-200'}`}>
                         <div className="flex items-center gap-4 min-w-0">
-                           <div className={`w-12 h-12 rounded-xl border border-[#F97316]/20 flex items-center justify-center shrink-0 overflow-hidden shadow-inner font-bold text-[#F97316] ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}>
+                           <div className={`w-12 h-12 rounded-xl border border-[#F97316]/20 flex items-center justify-center shrink-0 overflow-hidden shadow-inner font-bold text-[#F97316] ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
                               {selectedFile.type.startsWith('image/') ? (
                                   <img src={URL.createObjectURL(selectedFile)} alt="preview" className="w-full h-full object-cover" />
                               ) : (
@@ -737,8 +737,8 @@ export default function MessagesView() {
                      </div>
                   )}
 
-                  <div className={`flex items-end gap-2 bg-[#1E293B]/80 backdrop-blur-2xl border ${selectedFile ? 'border-white/10 rounded-b-2xl rounded-t-none' : 'border-white/5 rounded-3xl'} p-2 w-full max-w-4xl shadow-2xl relative z-10 focus-within:border-[#F97316]/30 focus-within:shadow-[0_0_20px_rgba(255,215,0,0.05)] transition-all duration-300`}>
-                      <button type="button" className={`p-3 hover:text-[#F97316] rounded-xl hover:bg-white/5 transition-colors shrink-0 outline-none ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><Smile className="w-6 h-6" /></button>
+                  <div className={`flex items-end gap-2 backdrop-blur-2xl border ${selectedFile ? (isDarkMode ? 'border-white/10' : 'border-slate-200') + ' rounded-b-2xl rounded-t-none' : (isDarkMode ? 'border-white/5' : 'border-slate-200') + ' rounded-3xl'} p-2 w-full max-w-4xl shadow-2xl relative z-10 focus-within:border-[#F97316]/30 focus-within:shadow-[0_0_20px_rgba(255,215,0,0.05)] transition-all duration-300 ${isDarkMode ? 'bg-[#0B1120]/80' : 'bg-slate-50'}`}>
+                      <button type="button" className={`p-3 hover:text-[#F97316] rounded-xl transition-colors shrink-0 outline-none ${isDarkMode ? 'text-slate-400 hover:bg-white/5' : 'text-slate-500 hover:bg-slate-200'}`}><Smile className="w-6 h-6" /></button>
                       <textarea 
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
@@ -809,10 +809,10 @@ export default function MessagesView() {
 
       {showCallModal && (
          <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-            <div className={`bg-[#1E293B] border w-full max-w-sm rounded-[32px] overflow-hidden shadow-2xl relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+            <div className={`bg-[#0B1120] border w-full max-w-sm rounded-[32px] overflow-hidden shadow-2xl relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#008A32]/20 to-transparent pointer-events-none"></div>
                <div className="p-8 flex flex-col items-center relative z-10">
-                  <div className={`w-24 h-24 rounded-2xl border border-[#F97316]/30 text-[#F97316] flex items-center justify-center text-4xl font-bold shadow-[0_0_30px_rgba(255,215,0,0.15)] mb-6 overflow-hidden relative ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}>
+                  <div className={`w-24 h-24 rounded-2xl border border-[#F97316]/30 text-[#F97316] flex items-center justify-center text-4xl font-bold shadow-[0_0_30px_rgba(255,215,0,0.15)] mb-6 overflow-hidden relative ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
                      {activeContact?.avatar && activeContact.avatar !== 'default-avatar.png' ? (
                         <img src={`http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
                      ) : (
@@ -843,12 +843,12 @@ export default function MessagesView() {
       {/* Group Creation Inline Modal */}
       {showGroupModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-2xl z-[100] flex items-center justify-center p-4">
-          <div className={`w-full max-w-6xl rounded-[32px] border border-[#F97316]/20 bg-[#09121A]/95 shadow-[0_30px_90px_rgba(0,0,0,0.55)] overflow-hidden ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-            <div className={`flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 px-8 py-6 border-b bg-[#08111A]/90 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+          <div className={`w-full max-w-6xl rounded-[32px] border border-[#F97316]/20 bg-[#0B1120]/95 shadow-[0_30px_90px_rgba(0,0,0,0.55)] overflow-hidden ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <div className={`flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 px-8 py-6 border-b bg-[#0B1120]/90 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <div className="space-y-3">
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-[28px] bg-gradient-to-br from-[#F97316] to-[#008A32] p-[2px] shadow-lg shadow-[#008A32]/25">
-                    <div className={`w-full h-full rounded-[26px] bg-[#1E293B] flex items-center justify-center text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><Users className="w-7 h-7" /></div>
+                    <div className={`w-full h-full rounded-[26px] bg-[#0B1120] flex items-center justify-center text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><Users className="w-7 h-7" /></div>
                   </div>
                   <div>
                     <h2 className="text-3xl font-bold tracking-tight">{groupType === 'channel' ? 'Create Channel' : 'Create Group'}</h2>
@@ -862,10 +862,10 @@ export default function MessagesView() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <button type="button" onClick={() => setGroupType('group')} className={`rounded-full px-5 py-3 text-sm font-semibold transition ${groupType === 'group' ? 'bg-[#F97316]/15 border border-[#F97316] text-[#F97316]' : 'bg-[#111922] border hover:border-[#F97316]/40'} ${isDarkMode ? 'text-slate-300 border-white/10' : 'text-slate-500 border-slate-200'}`}>
+                <button type="button" onClick={() => setGroupType('group')} className={`rounded-full px-5 py-3 text-sm font-semibold transition ${groupType === 'group' ? 'bg-[#F97316]/15 border border-[#F97316] text-[#F97316]' : 'bg-[#0B1120] border hover:border-[#F97316]/40'} ${isDarkMode ? 'text-slate-300 border-white/10' : 'text-slate-500 border-slate-200'}`}>
                   Group
                 </button>
-                <button type="button" onClick={() => setGroupType('channel')} className={`rounded-full px-5 py-3 text-sm font-semibold transition ${groupType === 'channel' ? 'bg-[#00D4FF]/15 border border-[#00D4FF] text-[#8CFFB3]' : 'bg-[#111922] border hover:border-[#00D4FF]/40'} ${isDarkMode ? 'text-slate-300 border-white/10' : 'text-slate-500 border-slate-200'}`}>
+                <button type="button" onClick={() => setGroupType('channel')} className={`rounded-full px-5 py-3 text-sm font-semibold transition ${groupType === 'channel' ? 'bg-[#00D4FF]/15 border border-[#00D4FF] text-[#8CFFB3]' : 'bg-[#0B1120] border hover:border-[#00D4FF]/40'} ${isDarkMode ? 'text-slate-300 border-white/10' : 'text-slate-500 border-slate-200'}`}>
                   Channel
                 </button>
                 <button onClick={() => { resetGroupForm(); setShowGroupModal(false); }} className={`hover:text-white text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Close</button>
@@ -874,7 +874,7 @@ export default function MessagesView() {
 
             <form onSubmit={handleCreateGroup} className="grid gap-6 xl:grid-cols-[1.2fr_0.85fr] px-8 py-8">
               <div className="space-y-6">
-                <div className={`rounded-[28px] border bg-[#0B121C]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                <div className={`rounded-[28px] border bg-[#0B1120]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                   <div className={`text-sm tracking-[0.18em] mb-5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Chat Settings</div>
                   <div className="space-y-5">
                     <div>
@@ -884,7 +884,7 @@ export default function MessagesView() {
                         required
                         value={newGroupName}
                         onChange={(e) => setNewGroupName(e.target.value)}
-                        className={`w-full rounded-3xl border bg-[#111922] px-4 py-3 outline-none transition focus:border-[#F97316]/40 focus:ring-1 focus:ring-[#F97316]/10 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                        className={`w-full rounded-3xl border bg-[#0B1120] px-4 py-3 outline-none transition focus:border-[#F97316]/40 focus:ring-1 focus:ring-[#F97316]/10 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
                         placeholder="e.g. Computer Science Cohort A"
                       />
                     </div>
@@ -893,7 +893,7 @@ export default function MessagesView() {
                       <textarea
                         value={newGroupDescription}
                         onChange={(e) => setNewGroupDescription(e.target.value)}
-                        className={`w-full min-h-[120px] rounded-3xl border bg-[#111922] px-4 py-3 outline-none transition focus:border-[#F97316]/40 focus:ring-1 focus:ring-[#F97316]/10 resize-none ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                        className={`w-full min-h-[120px] rounded-3xl border bg-[#0B1120] px-4 py-3 outline-none transition focus:border-[#F97316]/40 focus:ring-1 focus:ring-[#F97316]/10 resize-none ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
                         placeholder="Optional group description"
                       />
                     </div>
@@ -907,7 +907,7 @@ export default function MessagesView() {
                   </div>
                 </div>
 
-                <div className={`rounded-[28px] border bg-[#0B121C]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                <div className={`rounded-[28px] border bg-[#0B1120]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <div className={`text-sm tracking-[0.18em] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Add Participants</div>
@@ -920,7 +920,7 @@ export default function MessagesView() {
                     value={groupSearch}
                     onChange={(e) => setGroupSearch(e.target.value)}
                     placeholder="Search contacts to add"
-                    className={`w-full rounded-3xl border bg-[#111922] px-4 py-3 outline-none transition focus:border-[#F97316]/40 focus:ring-1 focus:ring-[#F97316]/10 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                    className={`w-full rounded-3xl border bg-[#0B1120] px-4 py-3 outline-none transition focus:border-[#F97316]/40 focus:ring-1 focus:ring-[#F97316]/10 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
                   />
                   <div className="max-h-[300px] overflow-y-auto mt-5 space-y-3 pr-1 custom-scrollbar">
                     {groupableContacts.filter(contact => contact.name.toLowerCase().includes(groupSearch.toLowerCase())).map(contact => (
@@ -928,7 +928,7 @@ export default function MessagesView() {
                         type="button"
                         key={contact.id}
                         onClick={() => handleToggleGroupMember(contact)}
-                        className={`w-full text-left rounded-[24px] border px-4 py-3 flex items-center justify-between transition ${selectedGroupMembers.some(member => member.id === contact.id) ? 'border-[#F97316] bg-[#F97316]/10 text-[#F97316]' : 'border-white/10 bg-[#111922] hover:border-[#F97316]/30'} ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
+                        className={`w-full text-left rounded-[24px] border px-4 py-3 flex items-center justify-between transition ${selectedGroupMembers.some(member => member.id === contact.id) ? 'border-[#F97316] bg-[#F97316]/10 text-[#F97316]' : 'border-white/10 bg-[#0B1120] hover:border-[#F97316]/30'} ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
                       >
                         <div>
                           <div className="font-semibold">{contact.name}</div>
@@ -938,16 +938,16 @@ export default function MessagesView() {
                       </button>
                     ))}
                     {groupableContacts.filter(contact => contact.name.toLowerCase().includes(groupSearch.toLowerCase())).length === 0 && (
-                      <div className={`rounded-[24px] border bg-[#111922] p-4 text-slate-500 text-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>No contacts found.</div>
+                      <div className={`rounded-[24px] border bg-[#0B1120] p-4 text-slate-500 text-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>No contacts found.</div>
                     )}
                   </div>
                 </div>
               </div>
 
               <div className="space-y-6">
-                <div className={`rounded-[28px] border bg-[#0B121C]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                <div className={`rounded-[28px] border bg-[#0B1120]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                   <div className="flex items-center gap-4 mb-4">
-                    <div className={`w-14 h-14 rounded-3xl bg-[#111922] border flex items-center justify-center text-2xl font-bold ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}>{user?.name?.charAt(0).toUpperCase()}</div>
+                    <div className={`w-14 h-14 rounded-3xl bg-[#0B1120] border flex items-center justify-center text-2xl font-bold ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}>{user?.name?.charAt(0).toUpperCase()}</div>
                     <div>
                       <div className={`text-sm tracking-[0.18em] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Creator</div>
                       <div className={`text-lg font-semibold mt-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.name || 'You'}</div>
@@ -955,25 +955,25 @@ export default function MessagesView() {
                     </div>
                   </div>
                   <div className={`grid gap-4 text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                    <div className={`rounded-[24px] border bg-[#111922] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                    <div className={`rounded-[24px] border bg-[#0B1120] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                       <div className={`text-[11px] tracking-[0.18em] mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Group Type</div>
                       <div>{groupType === 'channel' ? 'Channel — owner-only posts' : 'Group — everyone can chat'}</div>
                     </div>
-                    <div className={`rounded-[24px] border bg-[#111922] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                    <div className={`rounded-[24px] border bg-[#0B1120] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                       <div className={`text-[11px] tracking-[0.18em] mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Visibility</div>
                       <div>Members are added by you. Invitations are managed by the owner.</div>
                     </div>
                   </div>
                 </div>
 
-                <div className={`rounded-[28px] border bg-[#0B121C]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                <div className={`rounded-[28px] border bg-[#0B1120]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                   <div className={`text-sm tracking-[0.18em] mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Summary</div>
                   <div className="grid gap-4">
-                    <div className={`rounded-[24px] border bg-[#111922] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                    <div className={`rounded-[24px] border bg-[#0B1120] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                       <div className={`text-[11px] tracking-[0.18em] mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Name</div>
                       <div className={`font-semibold truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{newGroupName || 'Untitled group'}</div>
                     </div>
-                    <div className={`rounded-[24px] border bg-[#111922] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                    <div className={`rounded-[24px] border bg-[#0B1120] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                       <div className={`text-[11px] tracking-[0.18em] mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Participants</div>
                       <div className="flex flex-wrap gap-2">
                         {selectedGroupMembers.length > 0 ? selectedGroupMembers.map(member => (
@@ -985,7 +985,7 @@ export default function MessagesView() {
                 </div>
 
                 <div className="flex justify-end gap-3">
-                  <button type="button" onClick={() => { resetGroupForm(); setShowGroupModal(false); }} className={`rounded-3xl border bg-[#111922] px-6 py-3 text-sm font-semibold hover:text-white transition ${isDarkMode ? 'border-white/10 text-slate-300' : 'border-slate-200 text-slate-500'}`}>Cancel</button>
+                  <button type="button" onClick={() => { resetGroupForm(); setShowGroupModal(false); }} className={`rounded-3xl border bg-[#0B1120] px-6 py-3 text-sm font-semibold hover:text-white transition ${isDarkMode ? 'border-white/10 text-slate-300' : 'border-slate-200 text-slate-500'}`}>Cancel</button>
                   <button type="submit" className={`rounded-3xl px-6 py-3 text-sm font-semibold bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Create {groupType === 'channel' ? 'Channel' : 'Group'}</button>
                 </div>
               </div>
@@ -997,7 +997,7 @@ export default function MessagesView() {
       {/* Privacy / Block User Inline Modal */}
       {showPrivacyModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-           <div className="bg-[#1E293B] border border-red-500/20 w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden font-sans text-center p-8 relative">
+           <div className="bg-[#0B1120] border border-red-500/20 w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden font-sans text-center p-8 relative">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-red-400"></div>
               <div className="w-20 h-20 bg-red-500/10 rounded-full mx-auto flex items-center justify-center mb-6">
                  <Ban className="w-10 h-10 text-red-500" />
@@ -1015,8 +1015,8 @@ export default function MessagesView() {
 
       {showBlockedModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className={`w-full max-w-2xl bg-[#1E293B] border rounded-[32px] overflow-hidden shadow-2xl ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-            <div className={`flex items-center justify-between px-6 py-5 border-b ${isDarkMode ? 'border-white/10 bg-[#1E293B]/80' : 'border-slate-200 bg-white/90'}`}>
+          <div className={`w-full max-w-2xl bg-[#0B1120] border rounded-[32px] overflow-hidden shadow-2xl ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+            <div className={`flex items-center justify-between px-6 py-5 border-b ${isDarkMode ? 'border-white/10 bg-[#0B1120]/80' : 'border-slate-200 bg-white/90'}`}>
               <div>
                 <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Blocked Users</h2>
                 <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Manage people you have blocked from sending messages.</p>
@@ -1030,9 +1030,9 @@ export default function MessagesView() {
                 </div>
               ) : (
                 blockedUsers.map(user => (
-                  <div key={user.id} className={`flex items-center justify-between gap-3 p-4 rounded-3xl bg-[#1E293B]/70 border ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div key={user.id} className={`flex items-center justify-between gap-3 p-4 rounded-3xl bg-[#0B1120]/70 border ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                     <div className="flex items-center gap-3">
-                      <div className={`w-12 h-12 rounded-2xl bg-[#1E293B] border flex items-center justify-center font-bold text-lg ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}>
+                      <div className={`w-12 h-12 rounded-2xl bg-[#0B1120] border flex items-center justify-center font-bold text-lg ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}>
                         {user.name?.charAt(0).toUpperCase() || 'U'}
                       </div>
                       <div>

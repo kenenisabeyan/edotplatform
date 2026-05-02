@@ -8,12 +8,12 @@ import api from '../utils/api';
 const StatBox = ({ title, value, percentage, type }) => {
   const isDarkMode = useThemeMode();
   return (
-  <div className={`p-6 rounded-3xl border shadow-sm ${type === 'primary' ? 'bg-gradient-to-r from-[#00D4FF] to-[#0099CC] border-[#F97316]/50' : (isDarkMode ? 'bg-[#1E293B]/90 backdrop-blur-xl' : 'bg-white')} ${isDarkMode ? 'text-white border-white/10' : 'text-slate-900 border-slate-200'}`}>
+  <div className={`p-6 rounded-3xl border shadow-sm ${type === 'primary' ? 'bg-gradient-to-r from-[#00D4FF] to-[#0099CC] border-[#F97316]/50' : (isDarkMode ? 'bg-[#0B1120]/90 backdrop-blur-xl' : 'bg-white')} ${isDarkMode ? 'text-white border-white/10' : 'text-slate-900 border-slate-200'}`}>
     <div className="flex justify-between items-start mb-4">
       <h3 className={`font-black text-[10px] ${type === 'primary' ? 'text-white/80' : (isDarkMode ? 'text-slate-200' : 'text-slate-500')}`}>{title}</h3>
       {percentage && (
         <span className={`text-[10px]  font-black  px-2 py-0.5 rounded-md border ${
-          type === 'primary' ? 'bg-[#1E293B]/20 border-white/30 text-white' : 
+          type === 'primary' ? 'bg-[#0B1120]/20 border-white/30 text-white' : 
           percentage.startsWith('+') ? 'bg-[#00D4FF]/20 border-[#00D4FF]/30 text-[#00D4FF]' : 'bg-[#E30A17]/20 border-[#E30A17]/30 text-[#E30A17]'
         }`}>
           {percentage}%
@@ -68,7 +68,7 @@ export default function FinanceFees() {
 
   return (
     <div className="space-y-6">
-      <div className={`flex justify-between items-center mb-8 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <div className={`flex justify-between items-center mb-8 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div>
           <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Institution Financials</h1>
           <p className="text-[#F97316] text-xs font-bold   mt-1">Manage global fee ledgers & financial flows</p>
@@ -76,7 +76,7 @@ export default function FinanceFees() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className={`lg:col-span-2 backdrop-blur-xl p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+        <div className={`lg:col-span-2 backdrop-blur-xl p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
            <div className="flex justify-between items-center mb-6">
              <h3 className={`font-bold text-xl ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>System Collection Trajectory</h3>
              <button className={`flex items-center gap-1 font-semibold px-3 py-1.5 rounded-lg border transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
@@ -119,8 +119,8 @@ export default function FinanceFees() {
         </div>
       </div>
 
-      <div className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-        <div className={`p-6 border-b flex flex-col md:flex-row justify-between items-center gap-4 ${isDarkMode ? 'border-white/10 bg-[#1E293B]/5' : 'border-slate-200 bg-slate-50'}`}>
+      <div className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+        <div className={`p-6 border-b flex flex-col md:flex-row justify-between items-center gap-4 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/5' : 'border-slate-200 bg-slate-50'}`}>
           <h3 className={`font-bold text-xl ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Active Financial Enrollments</h3>
           
           <div className="flex gap-4 w-full md:w-auto">
@@ -129,7 +129,7 @@ export default function FinanceFees() {
               <input 
                 type="text" 
                 placeholder="Search ledger..." 
-                className={`w-full pl-11 pr-4 py-2.5 bg-[#1E293B] border rounded-xl text-sm font-medium outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 placeholder:text-slate-300 transition-all shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                className={`w-full pl-11 pr-4 py-2.5 bg-[#0B1120] border rounded-xl text-sm font-medium outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 placeholder:text-slate-300 transition-all shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               />
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function FinanceFees() {
         <div className="overflow-x-auto custom-scrollbar">
           <table className="w-full text-left whitespace-nowrap">
             <thead>
-              <tr className={`bg-[#1E293B] text-sm font-semibold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+              <tr className={`bg-[#0B1120] text-sm font-semibold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
                 <th className={`px-6 py-5 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Ledger Entity (Course)</th>
                 <th className={`px-6 py-5 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Instructor</th>
                 <th className={`px-6 py-5 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Base Tuition Fee</th>
@@ -151,7 +151,7 @@ export default function FinanceFees() {
               {courses.length > 0 ? courses.map(c => {
                  const volume = c.enrolledStudents?.length || c.totalStudents || 0;
                  return (
-                <tr key={c.id} className="hover:bg-[#1E293B]/5 transition-colors">
+                <tr key={c.id} className="hover:bg-white/5/5 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/30 flex items-center justify-center font-black text-[10px] shrink-0   shadow-sm">
@@ -171,7 +171,7 @@ export default function FinanceFees() {
                     <span className={`inline-flex items-center justify-center px-3 py-1 border rounded-[4px] text-[9px] font-black   shadow-sm
                       ${c.status === 'approved' ? 'bg-[#00D4FF]/20 text-[#00D4FF] border-[#00D4FF]/30' : 
                         c.status === 'pending' ? 'bg-[#E30A17]/20 text-[#E30A17] border-[#E30A17]/30' : 
-                        'bg-[#1E293B] text-slate-200 border-slate-700'}`}>
+                        'bg-[#0B1120] text-slate-200 border-slate-700'}`}>
                       {c.status || 'draft'}
                     </span>
                   </td>

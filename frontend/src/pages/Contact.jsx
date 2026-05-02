@@ -63,7 +63,7 @@ export default function Contact() {
              
              {/* LEFT: Contact Form */}
              <div className="lg:col-span-7">
-               <div className={`p-8 md:p-12 rounded-3xl border shadow-xl relative overflow-hidden h-full ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
+               <div className={`p-8 md:p-12 rounded-3xl border shadow-xl relative overflow-hidden h-full ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
                   
                   {submitted ? (
                     <div className="flex flex-col items-center justify-center text-center py-24 relative z-10 w-full h-full animate-in fade-in zoom-in duration-500">
@@ -246,11 +246,11 @@ export default function Contact() {
         </section>
 
         {/* 3. PARTNERSHIP & QUICK HELP (Split Grid) */}
-        <section className={`py-24 px-6 border-b ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+        <section className={`py-24 px-6 border-b ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
            <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
               
               {/* Partnership */}
-              <div className={`p-10 rounded-3xl border flex flex-col justify-between relative overflow-hidden group ${isDarkMode ? 'bg-[#1E293B] border-white/10 hover:border-white/20' : 'bg-white border-slate-200 hover:border-[#EBC176]/50'} transition-colors`}>
+              <div className={`p-10 rounded-3xl border flex flex-col justify-between relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/10 hover:border-white/20' : 'bg-white border-slate-200 hover:border-[#EBC176]/50'} transition-colors`}>
                  <div className="relative z-10">
                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${isDarkMode ? 'bg-[#EBC176]/10 text-[#EBC176]' : 'bg-[#EBC176]/10 text-[#D97706]'}`}>
                      <Handshake className="w-7 h-7" />
@@ -271,7 +271,7 @@ export default function Contact() {
               </div>
 
               {/* Quick Help */}
-              <div className={`p-10 rounded-3xl border flex flex-col justify-between relative overflow-hidden group ${isDarkMode ? 'bg-[#1E293B] border-white/10 hover:border-white/20' : 'bg-white border-slate-200 hover:border-blue-500/50'} transition-colors`}>
+              <div className={`p-10 rounded-3xl border flex flex-col justify-between relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/10 hover:border-white/20' : 'bg-white border-slate-200 hover:border-blue-500/50'} transition-colors`}>
                  <div className="relative z-10">
                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${isDarkMode ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-500/10 text-blue-600'}`}>
                      <HelpCircle className="w-7 h-7" />

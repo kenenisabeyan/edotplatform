@@ -22,7 +22,7 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
   const description = CATEGORY_DESCRIPTIONS[categoryKey] || pkg.description;
 
   return (
-    <div className={`${isDarkMode ? 'bg-[#1E293B] border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.3)]' : 'bg-white border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]'} rounded-[24px] flex flex-col w-full hover:shadow-md transition-all hover:-translate-y-1 duration-300 relative overflow-hidden group border`}>
+    <div className={`${isDarkMode ? 'bg-[#0B1120] border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.3)]' : 'bg-white border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]'} rounded-[24px] flex flex-col w-full hover:shadow-md transition-all hover:-translate-y-1 duration-300 relative overflow-hidden group border`}>
       {/* Theme Top Border */}
       <div className="absolute top-0 left-0 right-0 h-1.5 z-50" style={{ backgroundColor: pkg.color || '#6366f1' }}></div>
       {/* Top Graphic */}
@@ -111,7 +111,7 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
 
       {/* Content */}
       <div className="flex-1 px-6 py-6 flex flex-col">
-        <h3 className="text-[14px] font-bold mb-1" style={{ color: isDarkMode ? '#f8fafc' : (pkg.color || '#1e293b') }}>{pkg.title}</h3>
+        <h3 className="text-[14px] font-bold mb-1" style={{ color: isDarkMode ? '#f8fafc' : (pkg.color || '#0B1120') }}>{pkg.title}</h3>
         <p className="text-[10px] font-bold tracking-widest uppercase mb-3" style={{ color: pkg.color || '#6366f1' }}>{pkg.category}</p>
         
         {/* Course Description */}

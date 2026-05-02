@@ -50,11 +50,11 @@ export default function AnalyticsReport() {
   return (
     <div className="space-y-6">
       {/* Header section with back button */}
-      <div className={`flex flex-col md:flex-row md:items-center justify-between gap-4 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <div className={`flex flex-col md:flex-row md:items-center justify-between gap-4 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div className="flex items-center gap-4">
           <button 
             onClick={() => navigate(-1)} 
-            className={`p-3 hover:bg-[#1E293B]/10 rounded-full transition-colors hover:text-white border ${isDarkMode ? 'bg-[#1E293B]/5 text-slate-200 border-white/5' : 'bg-slate-50 text-slate-600 border-slate-100'}`}
+            className={`p-3 hover:bg-white/5/10 rounded-full transition-colors hover:text-white border ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200 border-white/5' : 'bg-slate-50 text-slate-600 border-slate-100'}`}
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
@@ -82,7 +82,7 @@ export default function AnalyticsReport() {
            {/* Report Summary Cards */}
            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
              <div className="bg-gradient-to-br from-[#F97316] to-orange-600 rounded-3xl p-6 text-black shadow-[0_0_30px_rgba(249,115,22,0.2)] relative overflow-hidden group hover:-translate-y-1 transition-all cursor-pointer">
-               <div className={`absolute right-0 top-0 w-32 h-32 rounded-full blur-2xl group-hover:bg-[#1E293B]/30 transition-all ${isDarkMode ? 'bg-[#1E293B]/20' : 'bg-slate-100'}`}></div>
+               <div className={`absolute right-0 top-0 w-32 h-32 rounded-full blur-2xl group-hover:bg-white/5/30 transition-all ${isDarkMode ? 'bg-[#0B1120]/20' : 'bg-slate-100'}`}></div>
                <div className="relative z-10">
                  <div className="flex justify-between items-center mb-4">
                    <div className="p-2 bg-black/10 rounded-xl backdrop-blur-sm shadow-inner"><CircleDollarSign className="w-6 h-6" /></div>
@@ -93,7 +93,7 @@ export default function AnalyticsReport() {
                </div>
              </div>
              
-             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex flex-col justify-between group hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex flex-col justify-between group hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
                <div className="absolute right-[-10%] top-[-10%] w-32 h-32 bg-[#00D4FF]/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                <div className="flex justify-between items-center mb-4 relative z-10">
                  <div className="p-3 bg-[#00D4FF]/10 border border-[#00D4FF]/30 text-[#00D4FF] rounded-xl"><Users className="w-6 h-6" /></div>
@@ -104,7 +104,7 @@ export default function AnalyticsReport() {
                </div>
              </div>
 
-             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex flex-col justify-between group hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex flex-col justify-between group hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
                <div className="absolute right-[-10%] top-[-10%] w-32 h-32 bg-blue-500/100/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                <div className="flex justify-between items-center mb-4 relative z-10">
                  <div className="p-3 bg-blue-500/100/10 border border-blue-500/30 text-blue-400 rounded-xl"><BookOpen className="w-6 h-6" /></div>
@@ -118,7 +118,7 @@ export default function AnalyticsReport() {
 
            {/* Detailed Charts */}
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
                 <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Revenue Trajectory</h3>
                 <div className="h-72">
                   <ResponsiveContainer width="100%" height="100%">
@@ -139,7 +139,7 @@ export default function AnalyticsReport() {
                 </div>
              </div>
 
-             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
                 <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Platform Engagement</h3>
                 <div className="h-72">
                   <ResponsiveContainer width="100%" height="100%">
@@ -158,7 +158,7 @@ export default function AnalyticsReport() {
 
            {/* Footer Stats Grid */}
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex items-center ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex items-center ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
                 <div className="h-48 w-1/2">
                    <ResponsiveContainer width="100%" height="100%">
                      <PieChart>

@@ -11,7 +11,7 @@ export default function Sponsorship() {
   const isDarkMode = useThemeMode();
 
   return (
-    <div className={`min-h-screen w-full font-sans overflow-x-hidden relative transition-colors duration-300 ${isDarkMode ? 'bg-[#0B0F19] text-slate-100' : 'bg-[#ffffff] text-slate-800'}`}>
+    <div className={`min-h-screen w-full font-sans overflow-x-hidden relative transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-[#ffffff] text-slate-800'}`}>
       
       {/* 1. HERO SECTION */}
       <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
@@ -33,7 +33,7 @@ export default function Sponsorship() {
       </section>
 
       {/* 2. THE NEED SECTION */}
-      <section className={`py-32 px-6 border-y ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 border-y ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 relative rounded-[40px] overflow-hidden shadow-2xl h-[500px]">
                <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80" alt="Students in need" className="w-full h-full object-cover" />
@@ -86,7 +86,7 @@ export default function Sponsorship() {
       </section>
 
       {/* 4. TRANSPARENCY & TRACKING */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-[#00D4FF] font-bold text-sm mb-6 uppercase tracking-wider">
@@ -135,7 +135,7 @@ export default function Sponsorship() {
       </section>
 
       {/* 6. FINAL CTA */}
-      <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-gradient-to-b from-white to-orange-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-orange-50 border-slate-200'}`}>
          <div className="max-w-[1000px] mx-auto text-center">
             <h2 className={`text-5xl md:text-6xl font-black mb-8 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                Ready to <span className="text-[#F97316]">Change a Life?</span>

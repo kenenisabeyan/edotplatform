@@ -12,7 +12,7 @@ export default function Impact() {
   const isDarkMode = useThemeMode();
 
   return (
-    <div className={`min-h-screen w-full font-sans overflow-x-hidden relative transition-colors duration-300 ${isDarkMode ? 'bg-[#0B0F19] text-slate-100' : 'bg-[#ffffff] text-slate-800'}`}>
+    <div className={`min-h-screen w-full font-sans overflow-x-hidden relative transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-[#ffffff] text-slate-800'}`}>
       
       {/* 1. HERO SECTION */}
       <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
@@ -34,7 +34,7 @@ export default function Impact() {
       </section>
 
       {/* 2. THE REALITY WE ARE CHANGING */}
-      <section className={`py-32 px-6 border-y ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 border-y ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 relative rounded-[40px] overflow-hidden shadow-2xl h-[500px]">
                <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80" alt="Education inequality" className="w-full h-full object-cover" />
@@ -98,7 +98,7 @@ export default function Impact() {
       </section>
 
       {/* 4. BEFORE AND AFTER EDOT */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-[#f8fafc] border-slate-200'}`}>
+      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-[#f8fafc] border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto">
             <h2 className={`text-4xl md:text-5xl font-black text-center mb-16 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>A Shift in How Education Works</h2>
             
@@ -187,7 +187,7 @@ export default function Impact() {
       </section>
 
       {/* 6. EXPANDING ACCESS & SPONSORSHIP */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto text-center mb-16">
             <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Opportunity, <span className="text-[#00D4FF]">Not Just Access</span></h2>
             <p className={`text-xl max-w-3xl mx-auto ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -268,7 +268,7 @@ export default function Impact() {
       </section>
 
       {/* 8. BUILT THROUGH INNOVATION (MiNT) */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1000px] mx-auto text-center">
             <div className="w-20 h-20 mx-auto bg-gradient-to-br from-[#00D4FF] to-blue-600 text-white rounded-full flex items-center justify-center mb-8 shadow-xl">
                <Lightbulb className="w-10 h-10" />
@@ -294,7 +294,7 @@ export default function Impact() {
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-               <Link to="/courses" className="bg-[#1E293B] text-white dark:bg-white dark:text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:bg-slate-700 dark:hover:bg-slate-200 hover:-translate-y-1 transition-all duration-300 shadow-xl">
+               <Link to="/courses" className="bg-[#0B1120] text-white dark:bg-white dark:text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:bg-slate-700 dark:hover:bg-slate-200 hover:-translate-y-1 transition-all duration-300 shadow-xl">
                  Explore the Ecosystem
                </Link>
                <Link to="/register" className="bg-[#F97316] text-[#ffffff] px-10 py-4 rounded-xl font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">

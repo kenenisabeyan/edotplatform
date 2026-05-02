@@ -12,6 +12,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } fro
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 import ProfileView from './ProfileView';
 import ActivityFeed from '../components/ActivityFeed';
+import EcosystemNexus from '../components/EcosystemNexus';
 import StudentDashboardCourses from '../components/StudentDashboardCourses';
 import PackageCard from '../components/student/PackageCard';
 import ThemeDropdown from '../components/ThemeDropdown';
@@ -259,7 +260,7 @@ export default function StudentDashboard() {
             </div>
             
             {completedCourses.length === 0 ? (
-               <div className={`p-12 text-center rounded-2xl border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#1E293B] border-slate-700' : 'bg-white border-slate-200'}`}>
+               <div className={`p-12 text-center rounded-2xl border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
                  <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-500 border-blue-100'}`}>
                    <Award className="w-8 h-8" />
                  </div>
@@ -277,7 +278,7 @@ export default function StudentDashboard() {
                   {completedCourses.map((enrolled) => (
                     <div 
                       key={enrolled.id || enrolled.course?.id} 
-                      className={`rounded-2xl border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#1E293B] border-slate-700 hover:border-blue-500/50' : 'bg-white border-slate-200 hover:border-blue-300'}`}
+                      className={`rounded-2xl border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-slate-700 hover:border-blue-500/50' : 'bg-white border-slate-200 hover:border-blue-300'}`}
                     >
                       <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-500 border-blue-100'}`}>
                         <Award className="w-8 h-8" />
@@ -305,7 +306,7 @@ export default function StudentDashboard() {
          return (
              <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 font-sans">
                 <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Personal Growth Lab</h2>
-                <div className={`p-6 rounded-2xl border mb-6 shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-slate-700' : 'bg-white border-slate-200'}`}>
+                <div className={`p-6 rounded-2xl border mb-6 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
                     <p className={`mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Set isolated growth objectives away from course structures.</p>
                     <form onSubmit={handleAddGoal} className="flex gap-4">
                         <input 
@@ -320,6 +321,8 @@ export default function StudentDashboard() {
          );
       case 'settings':
         return <ProfileView />;
+      case 'ecosystem':
+        return <EcosystemNexus />;
       default:
         return null;
     }
@@ -398,6 +401,9 @@ export default function StudentDashboard() {
              <nav className="mb-4">
                <button onClick={() => setActiveTab('overview')} className={navItemClass('overview', activeTab === 'overview')}>
                  <div className="flex items-center gap-3"><LayoutDashboard className="w-[18px] h-[18px] shrink-0 opacity-70" /> Dashboard</div>
+               </button>
+               <button onClick={() => setActiveTab('ecosystem')} className={navItemClass('ecosystem', activeTab === 'ecosystem')}>
+                 <div className="flex items-center gap-3"><ShieldCheck className="w-[18px] h-[18px] shrink-0 opacity-70" /> Ecosystem Nexus</div>
                </button>
              </nav>
 

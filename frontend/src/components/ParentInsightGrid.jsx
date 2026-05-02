@@ -38,7 +38,7 @@ export default function ParentInsightGrid({ studentId }) {
 
   if (loading || !insights) {
     return <div className="animate-pulse space-y-6">
-       <div className={`h-64 backdrop-blur-xl dark:bg-[#1E293B] rounded-3xl ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}></div>
+       <div className={`h-64 backdrop-blur-xl dark:bg-[#0B1120] rounded-3xl ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}></div>
     </div>;
   }
 
@@ -46,13 +46,13 @@ export default function ParentInsightGrid({ studentId }) {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-in fade-in zoom-in-95 duration-500">
       
       {/* Activity Timeline Stepper */}
-      <Card hover={false} className={`lg:col-span-1 dark:bg-[#0F172A] shadow-xl ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <Card hover={false} className={`lg:col-span-1 dark:bg-[#0B1120] shadow-xl ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <CardHeader>
            <h3 className="font-display font-extrabold text-lg text-slate-100 dark:text-white">Activity Timeline</h3>
            <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Milestones for {insights.studentName}</p>
         </CardHeader>
         <CardContent className="pt-0 relative">
-           <div className={`absolute left-9 top-0 bottom-6 w-0.5 backdrop-blur-xl dark:bg-[#1E293B] z-0 ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}></div>
+           <div className={`absolute left-9 top-0 bottom-6 w-0.5 backdrop-blur-xl dark:bg-[#0B1120] z-0 ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}></div>
            <div className="space-y-6 relative z-10">
              {insights.timeline.map((item, i) => (
                 <motion.div 
@@ -62,7 +62,7 @@ export default function ParentInsightGrid({ studentId }) {
                   key={item.id} 
                   className="flex items-start gap-4"
                 >
-                   <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border-2 border-white dark:border-[#0F172A] shadow-sm ${item.status === 'Completed' ? 'bg-[#10B981] ' : 'bg-[#1E293B]/10 dark:bg-slate-700 '} ${isDarkMode ? 'text-white text-slate-200' : 'text-slate-900 text-slate-600'}`}>
+                   <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border-2 border-white dark:border-[#0B1120] shadow-sm ${item.status === 'Completed' ? 'bg-[#10B981] ' : 'bg-[#0B1120]/10 dark:bg-slate-700 '} ${isDarkMode ? 'text-white text-slate-200' : 'text-slate-900 text-slate-600'}`}>
                      {item.status === 'Completed' ? <CheckCircle2 className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
                    </div>
                    <div className="flex-1 pt-1">
@@ -79,7 +79,7 @@ export default function ParentInsightGrid({ studentId }) {
 
       <div className="lg:col-span-2 flex flex-col gap-6">
         {/* Support Connector */}
-        <Card hover={false} className={`dark:bg-[#0F172A] shadow-xl bg-gradient-to-br from-indigo-50/50 to-white dark:from-[#6366F1]/5 dark:to-[#0F172A] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+        <Card hover={false} className={`dark:bg-[#0B1120] shadow-xl bg-gradient-to-br from-indigo-50/50 to-white dark:from-[#6366F1]/5 dark:to-[#0B1120] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
           <CardHeader>
              <h3 className="font-display font-extrabold text-lg text-slate-100 dark:text-white flex items-center gap-2">
                 <Send className="w-5 h-5 text-[#6366F1]" /> Request Advice
@@ -88,7 +88,7 @@ export default function ParentInsightGrid({ studentId }) {
           </CardHeader>
           <CardContent className="pt-0">
              <textarea 
-               className={`w-full bg-[#1E293B] dark:bg-[#0F172A]/50 border dark:border-slate-800 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-[#6366F1] focus:border-transparent outline-none transition-all shadow-inner resize-none h-24 dark:text-slate-300 ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}
+               className={`w-full bg-[#0B1120] dark:bg-[#0B1120]/50 border dark:border-slate-800 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-[#6366F1] focus:border-transparent outline-none transition-all shadow-inner resize-none h-24 dark:text-slate-300 ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}
                placeholder={`Hello, I'd like an update regarding ${insights.studentName}'s recent performance in...`}
              ></textarea>
              <div className="flex justify-end mt-4">
@@ -99,7 +99,7 @@ export default function ParentInsightGrid({ studentId }) {
 
         {/* Financial Summary */}
         {invoice && (
-          <Card hover={false} className={`dark:bg-[#0F172A] shadow-xl relative overflow-hidden group ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+          <Card hover={false} className={`dark:bg-[#0B1120] shadow-xl relative overflow-hidden group ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/10 rounded-full blur-2xl group-hover:bg-[#10B981]/20 transition-colors"></div>
             <CardHeader className="flex flex-row justify-between items-start">
                <div>

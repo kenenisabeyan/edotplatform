@@ -60,13 +60,13 @@ export default function Navbar() {
     }`;
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? (isDarkMode ? 'bg-[#0B0F19]/90 backdrop-blur-xl border-b border-white/5' : 'bg-white/95 backdrop-blur-xl border-b border-slate-200') : (isDarkMode ? 'bg-[#0B0F19]' : 'bg-transparent')} py-4`}>
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? (isDarkMode ? 'bg-[#0B1120]/90 backdrop-blur-xl border-b border-white/5' : 'bg-white/95 backdrop-blur-xl border-b border-slate-200') : (isDarkMode ? 'bg-[#0B1120]' : 'bg-transparent')} py-4`}>
       <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
         
         {/* LEFT: Logo */}
         <div className="flex items-center">
           <Link to="/" className="flex items-center gap-3 transition-transform hover:scale-105 group">
-            <div className={`w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center shadow-sm ${isDarkMode ? 'bg-[#1E293B] border border-white/10' : 'bg-white border border-slate-200'}`}>
+            <div className={`w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center shadow-sm ${isDarkMode ? 'bg-[#0B1120] border border-white/10' : 'bg-white border border-slate-200'}`}>
                <img src={edotLogo} alt="EDOT" className="w-7 h-7 object-contain" />
             </div>
             <span className={`text-lg font-bold transition-colors ${isDarkMode || isTransparentDarkBg ? 'text-white' : 'text-slate-900'}`}>EDOT</span>
@@ -104,8 +104,8 @@ export default function Navbar() {
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform ${userDropdownOpen ? 'rotate-180' : ''} ${isDarkMode ? 'text-white' : 'text-slate-700'}`} />
                 </button>
 
-                <div className={`absolute top-[calc(100%+1rem)] right-0 w-64 bg-white dark:bg-[#1E293B] border rounded-xl shadow-lg transition-all duration-200 origin-top-right overflow-hidden ${userDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <div className={`p-4 border-b ${isDarkMode ? 'border-white/5 bg-[#1E293B]/40' : 'border-slate-100 bg-slate-50'}`}>
+                <div className={`absolute top-[calc(100%+1rem)] right-0 w-64 bg-white dark:bg-[#0B1120] border rounded-xl shadow-lg transition-all duration-200 origin-top-right overflow-hidden ${userDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div className={`p-4 border-b ${isDarkMode ? 'border-white/5 bg-[#0B1120]/40' : 'border-slate-100 bg-slate-50'}`}>
                     <p className={`text-[14px] font-semibold truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.name || 'User'}</p>
                     <p className="text-[12px] text-slate-500 truncate mt-0.5">{user?.email || 'user@example.com'}</p>
                   </div>
@@ -147,7 +147,7 @@ export default function Navbar() {
 
       {/* Mobile Nav Menu */}
       {mobileMenuOpen && (
-        <div className={`lg:hidden absolute top-full left-0 w-full bg-white dark:bg-[#1E293B] border-b shadow-xl max-h-[calc(100vh-70px)] overflow-y-auto ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+        <div className={`lg:hidden absolute top-full left-0 w-full bg-white dark:bg-[#0B1120] border-b shadow-xl max-h-[calc(100vh-70px)] overflow-y-auto ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
           <div className="p-4 flex flex-col space-y-1">
             <NavLink to="/" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#EBC176]/10 text-[#EBC176]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Home</NavLink>
             <NavLink to="/courses" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#EBC176]/10 text-[#EBC176]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Courses</NavLink>
@@ -159,7 +159,7 @@ export default function Navbar() {
             <div className={`mt-4 pt-4 border-t ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               {isAuthenticated ? (
                 <div className="flex flex-col gap-2">
-                  <div className={`px-4 py-3 flex items-center gap-3 rounded-lg border ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                  <div className={`px-4 py-3 flex items-center gap-3 rounded-lg border ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-100'}`}>
                     <div className="w-10 h-10 rounded-full bg-[#EBC176] flex items-center justify-center text-white font-bold text-sm">{user?.name?.charAt(0) || 'U'}</div>
                     <div>
                       <p className={`text-[14px] font-medium ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.name}</p>
