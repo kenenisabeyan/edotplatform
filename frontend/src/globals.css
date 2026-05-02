@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 :root {
-  --bg-base: #0B0E14;
+  --bg-base: #0B1120;
   --bg-sidebar: #11151F;
   --brand-primary: #F97316;
   --brand-primary-hover: #E66A00;
@@ -198,14 +198,14 @@ body {
   transition: var(--transition-main);
 }
 
-[data-theme="light"] .bg-\[\#0B0E14\]\/20,
-[data-theme="light"] .bg-\[\#0B0E14\]\/30,
-[data-theme="light"] .bg-\[\#0B0E14\]\/40,
-[data-theme="light"] .bg-\[\#0B0E14\]\/50,
-[data-theme="light"] .bg-\[\#0B0E14\]\/60,
-[data-theme="light"] .bg-\[\#0B0E14\]\/80,
-[data-theme="light"] .bg-\[\#0B0E14\]\/90,
-[data-theme="light"] .bg-\[\#0B0E14\] {
+[data-theme="light"] .bg-\[\#0B1120\]\/20,
+[data-theme="light"] .bg-\[\#0B1120\]\/30,
+[data-theme="light"] .bg-\[\#0B1120\]\/40,
+[data-theme="light"] .bg-\[\#0B1120\]\/50,
+[data-theme="light"] .bg-\[\#0B1120\]\/60,
+[data-theme="light"] .bg-\[\#0B1120\]\/80,
+[data-theme="light"] .bg-\[\#0B1120\]\/90,
+[data-theme="light"] .bg-\[\#0B1120\] {
   background-color: var(--bg-elevated) !important;
   border-radius: var(--border-radius);
   border: 1px solid var(--gray-100) !important;
@@ -216,7 +216,7 @@ body {
 /* Card gradient overrides for light mode */
 [data-theme="light"] .from-\[\#11151F\],
 [data-theme="light"] .from-\[\#11151F\]\/80,
-[data-theme="light"] .from-\[\#0B0E14\],
+[data-theme="light"] .from-\[\#0B1120\],
 [data-theme="light"] .from-\[\#13161B\],
 [data-theme="light"] .from-\[\#13161B\]\/40 {
   --tw-gradient-from: var(--bg-card) var(--tw-gradient-from-position) !important;
@@ -225,7 +225,7 @@ body {
   background-color: var(--bg-card) !important;
 }
 
-[data-theme="light"] .to-\[\#0B0E14\],
+[data-theme="light"] .to-\[\#0B1120\],
 [data-theme="light"] .to-\[\#1a1f2e\],
 [data-theme="light"] .to-\[\#11151F\],
 [data-theme="light"] .to-black {
@@ -233,9 +233,9 @@ body {
 }
 
 [data-theme="light"] .via-\[\#11151F\]\/40,
-[data-theme="light"] .via-\[\#0B0E14\]\/40,
-[data-theme="light"] .via-\[\#0B0E14\]\/30,
-[data-theme="light"] .via-\[\#0B0E14\]\/70 {
+[data-theme="light"] .via-\[\#0B1120\]\/40,
+[data-theme="light"] .via-\[\#0B1120\]\/30,
+[data-theme="light"] .via-\[\#0B1120\]\/70 {
   --tw-gradient-stops: var(--tw-gradient-from), rgba(255,255,255,0.7) var(--tw-gradient-via-position), var(--tw-gradient-to) !important;
 }
 
@@ -376,8 +376,8 @@ button, .btn, .cta {
   backdrop-filter: none !important;
   border-color: rgba(255, 255, 255, 0.05) !important;
 }
-[data-theme="extra-dark"] .bg-\[\#0B0E14\]\/40,
-[data-theme="extra-dark"] .bg-\[\#0B0E14\] {
+[data-theme="extra-dark"] .bg-\[\#0B1120\]\/40,
+[data-theme="extra-dark"] .bg-\[\#0B1120\] {
   background-color: #1F2937 !important;
 }
 

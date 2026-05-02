@@ -70,7 +70,7 @@ export default function StudentsList() {
       value: inst.id,
       render: (
         <div className="flex items-center gap-3 w-full py-0.5">
-          <div className="w-8 h-8 rounded-full bg-[#E67E22]/20 text-[#E67E22] flex items-center justify-center font-bold text-xs shrink-0 border border-[#E67E22]/30 shadow-sm ">
+          <div className="w-8 h-8 rounded-full bg-[#00D4FF]/20 text-[#00D4FF] flex items-center justify-center font-bold text-xs shrink-0 border border-[#00D4FF]/30 shadow-sm ">
             {inst.name.charAt(0)}
           </div>
           <div className="flex flex-col text-left flex-1 min-w-0">
@@ -99,13 +99,13 @@ export default function StudentsList() {
         <div className={`flex gap-4 border-b pb-2 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
           <button 
             onClick={() => setTab('pending')}
-            className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'pending' ? 'text-[#FFD700] border-b-2 border-[#FFD700]' : 'text-slate-200 hover:text-white'}`}
+            className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'pending' ? 'text-[#F97316] border-b-2 border-[#F97316]' : 'text-slate-200 hover:text-white'}`}
           >
             Pending Approval ({students.filter(s => s.status === 'pending').length})
           </button>
           <button 
             onClick={() => setTab('approved')}
-            className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'approved' ? 'text-[#E67E22] border-b-2 border-[#E67E22]' : 'text-slate-200 hover:text-white'}`}
+            className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'approved' ? 'text-[#00D4FF] border-b-2 border-[#00D4FF]' : 'text-slate-200 hover:text-white'}`}
           >
             Approved ({students.filter(s => s.status === 'approved' || !s.status).length})
           </button>
@@ -138,9 +138,9 @@ export default function StudentsList() {
                   <td className={`p-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{stu.email}</td>
                   <td className="p-4">
                      {stu.status === 'pending' ? (
-                        <span className="px-3 py-1 bg-[#FFD700]/10 text-[#FFD700] border border-[#FFD700]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><ShieldAlert className="w-3 h-3"/> Pending</span>
+                        <span className="px-3 py-1 bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><ShieldAlert className="w-3 h-3"/> Pending</span>
                      ) : (
-                        <span className="px-3 py-1 bg-[#E67E22]/10 text-[#E67E22] border border-[#E67E22]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><BadgeCheck className="w-3 h-3"/> Approved</span>
+                        <span className="px-3 py-1 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><BadgeCheck className="w-3 h-3"/> Approved</span>
                      )}
                   </td>
                   {isAdmin && (
@@ -162,7 +162,7 @@ export default function StudentsList() {
                   )}
                   {isAdmin && tab === 'pending' && (
                     <td className="p-4 flex gap-2">
-                      <button onClick={() => handleApprove(stu.id)} className="p-2 bg-[#E67E22]/10 text-[#E67E22] hover:bg-[#E67E22]/20 border border-[#E67E22]/20 rounded-lg transition" title="Approve">
+                      <button onClick={() => handleApprove(stu.id)} className="p-2 bg-[#00D4FF]/10 text-[#00D4FF] hover:bg-[#00D4FF]/20 border border-[#00D4FF]/20 rounded-lg transition" title="Approve">
                         <Check className="w-4 h-4" />
                       </button>
                       <button onClick={() => handleReject(stu.id)} className="p-2 bg-[#E30A17]/10 text-[#E30A17] hover:bg-[#E30A17]/20 border border-[#E30A17]/20 rounded-lg transition" title="Reject">

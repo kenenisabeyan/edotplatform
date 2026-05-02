@@ -14,13 +14,13 @@ const StatBox = ({ title, value, percentage, type }) => {
       {percentage && (
         <span className={`text-[10px]  font-black  px-2 py-0.5 rounded-md border ${
           type === 'primary' ? 'bg-[#1E293B]/20 border-white/30 text-white' : 
-          percentage.startsWith('+') ? 'bg-[#E67E22]/20 border-[#E67E22]/30 text-[#E67E22]' : 'bg-[#E30A17]/20 border-[#E30A17]/30 text-[#E30A17]'
+          percentage.startsWith('+') ? 'bg-[#00D4FF]/20 border-[#00D4FF]/30 text-[#00D4FF]' : 'bg-[#E30A17]/20 border-[#E30A17]/30 text-[#E30A17]'
         }`}>
           {percentage}%
         </span>
       )}
     </div>
-    <h2 className={`text-4xl font-black ${type === 'primary' ? 'text-white' : (isDarkMode ? 'text-[#FFD700]' : 'text-slate-900')}`}>{value}</h2>
+    <h2 className={`text-4xl font-black ${type === 'primary' ? 'text-white' : (isDarkMode ? 'text-[#F97316]' : 'text-slate-900')}`}>{value}</h2>
     <p className={`text-[10px] mt-2 font-bold ${type === 'primary' ? 'text-white/70' : (isDarkMode ? 'text-slate-300' : 'text-slate-500')}`}>Total Computed Ledger</p>
   </div>
 );
@@ -63,7 +63,7 @@ export default function FinanceFees() {
   ];
 
   if (loading) {
-     return <div className="flex justify-center items-center h-64"><div className={`w-10 h-10 border-4 border-t-[#FFD700] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
+     return <div className="flex justify-center items-center h-64"><div className={`w-10 h-10 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
   }
 
   return (
@@ -71,7 +71,7 @@ export default function FinanceFees() {
       <div className={`flex justify-between items-center mb-8 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div>
           <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Institution Financials</h1>
-          <p className="text-[#FFD700] text-xs font-bold   mt-1">Manage global fee ledgers & financial flows</p>
+          <p className="text-[#F97316] text-xs font-bold   mt-1">Manage global fee ledgers & financial flows</p>
         </div>
       </div>
 
@@ -79,13 +79,13 @@ export default function FinanceFees() {
         <div className={`lg:col-span-2 backdrop-blur-xl p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
            <div className="flex justify-between items-center mb-6">
              <h3 className={`font-bold text-xl ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>System Collection Trajectory</h3>
-             <button className={`flex items-center gap-1 font-semibold px-3 py-1.5 rounded-lg border transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+             <button className={`flex items-center gap-1 font-semibold px-3 py-1.5 rounded-lg border transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                Year-to-Date <ChevronDown className="w-3 h-3" />
              </button>
            </div>
            
            <div className="text-center mb-4">
-             <p className="text-[#E67E22] text-[10px] font-black  ">Active Computed Ledger Projection</p>
+             <p className="text-[#00D4FF] text-[10px] font-black  ">Active Computed Ledger Projection</p>
            </div>
            
            <div className="h-64">
@@ -93,15 +93,15 @@ export default function FinanceFees() {
                <AreaChart data={collectionData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
                  <defs>
                    <linearGradient id="colorColor" x1="0" y1="0" x2="0" y2="1">
-                     <stop offset="5%" stopColor="#FFD700" stopOpacity={0.3}/>
-                     <stop offset="95%" stopColor="#FFD700" stopOpacity={0}/>
+                     <stop offset="5%" stopColor="#F97316" stopOpacity={0.3}/>
+                     <stop offset="95%" stopColor="#F97316" stopOpacity={0}/>
                    </linearGradient>
                  </defs>
                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.05} />
                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
                  <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
-                 <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B0E14', color: '#fff', fontWeight: 'bold' }} />
-                 <Area type="monotone" dataKey="collection" stroke="#FFD700" strokeWidth={3} fillOpacity={1} fill="url(#colorColor)" />
+                 <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B1120', color: '#fff', fontWeight: 'bold' }} />
+                 <Area type="monotone" dataKey="collection" stroke="#F97316" strokeWidth={3} fillOpacity={1} fill="url(#colorColor)" />
                </AreaChart>
              </ResponsiveContainer>
            </div>
@@ -129,7 +129,7 @@ export default function FinanceFees() {
               <input 
                 type="text" 
                 placeholder="Search ledger..." 
-                className={`w-full pl-11 pr-4 py-2.5 bg-[#1E293B] border rounded-xl text-sm font-medium outline-none focus:border-[#FFD700]/50 focus:ring-1 focus:ring-[#FFD700]/50 placeholder:text-slate-300 transition-all shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                className={`w-full pl-11 pr-4 py-2.5 bg-[#1E293B] border rounded-xl text-sm font-medium outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 placeholder:text-slate-300 transition-all shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               />
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function FinanceFees() {
                 <tr key={c.id} className="hover:bg-[#1E293B]/5 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#FFD700]/10 text-[#FFD700] border border-[#FFD700]/30 flex items-center justify-center font-black text-[10px] shrink-0   shadow-sm">
+                      <div className="w-8 h-8 rounded-full bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/30 flex items-center justify-center font-black text-[10px] shrink-0   shadow-sm">
                         {c.title.charAt(0)}
                       </div>
                       <div>
@@ -164,12 +164,12 @@ export default function FinanceFees() {
                     </div>
                   </td>
                   <td className={`px-6 py-4 text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{c.instructor?.name || 'Assigned Instructor'}</td>
-                  <td className="px-6 py-4 text-[#FFD700] font-black ">${c.price || 0}</td>
+                  <td className="px-6 py-4 text-[#F97316] font-black ">${c.price || 0}</td>
                   <td className={`px-6 py-4 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{volume}</td>
-                  <td className="px-6 py-4 text-[#E67E22] font-black ">${(c.price || 0) * volume}</td>
+                  <td className="px-6 py-4 text-[#00D4FF] font-black ">${(c.price || 0) * volume}</td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex items-center justify-center px-3 py-1 border rounded-[4px] text-[9px] font-black   shadow-sm
-                      ${c.status === 'approved' ? 'bg-[#E67E22]/20 text-[#E67E22] border-[#E67E22]/30' : 
+                      ${c.status === 'approved' ? 'bg-[#00D4FF]/20 text-[#00D4FF] border-[#00D4FF]/30' : 
                         c.status === 'pending' ? 'bg-[#E30A17]/20 text-[#E30A17] border-[#E30A17]/30' : 
                         'bg-[#1E293B] text-slate-200 border-slate-700'}`}>
                       {c.status || 'draft'}

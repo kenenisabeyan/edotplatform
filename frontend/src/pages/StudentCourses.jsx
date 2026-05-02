@@ -22,7 +22,7 @@ export default function StudentCourses() {
       </div>
 
       {/* Theme-Aware Header area behind courses */}
-      <div className={`absolute top-0 left-0 right-0 h-40 -z-10 overflow-hidden flex items-start border-b transition-colors duration-500 ${isDarkMode ? 'bg-gradient-to-r from-slate-800 to-[#0B0E14] border-slate-700' : 'bg-gradient-to-r from-[#93c5fd] to-[#60a5fa] border-blue-200'}`}>
+      <div className={`absolute top-0 left-0 right-0 h-40 -z-10 overflow-hidden flex items-start border-b transition-colors duration-500 ${isDarkMode ? 'bg-gradient-to-r from-slate-800 to-[#0B1120] border-slate-700' : 'bg-gradient-to-r from-[#93c5fd] to-[#60a5fa] border-blue-200'}`}>
          <div className="absolute right-0 top-0 w-1/3 h-full opacity-20">
             <svg width="100%" height="100%" viewBox="0 0 200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
               <line x1="10" y1="10" x2="100" y2="80" stroke={isDarkMode ? "#475569" : "#1e3a8a"} strokeWidth="1" />

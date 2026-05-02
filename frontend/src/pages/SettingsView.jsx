@@ -114,17 +114,17 @@ export default function SettingsView() {
   };
 
   const ToggleSwitch = ({ label, description, checked, onChange }) => (
-    <div className={`flex items-center justify-between p-5 rounded-2xl border transition-all group shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5 hover:border-[#FFD700]/30' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
+    <div className={`flex items-center justify-between p-5 rounded-2xl border transition-all group shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5 hover:border-[#F97316]/30' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
       <div className="flex items-start gap-4 pr-6">
         <div>
-          <h4 className={`font-bold text-sm transition-colors ${isDarkMode ? 'text-white group-hover:text-[#FFD700]' : 'text-slate-800 group-hover:text-indigo-600'}`}>{label}</h4>
+          <h4 className={`font-bold text-sm transition-colors ${isDarkMode ? 'text-white group-hover:text-[#F97316]' : 'text-slate-800 group-hover:text-indigo-600'}`}>{label}</h4>
           <p className={`text-xs leading-relaxed mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>{description}</p>
         </div>
       </div>
       <button 
         type="button" 
         onClick={() => onChange(!checked)}
-        className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors shrink-0 outline-none focus:ring-2 focus:ring-offset-2 ${isDarkMode ? 'focus:ring-offset-[#0B0E14] focus:ring-[#FFD700]' : 'focus:ring-offset-white focus:ring-indigo-500'} ${checked ? (isDarkMode ? 'bg-[#E67E22]' : 'bg-indigo-600') : (isDarkMode ? 'bg-slate-700' : 'bg-slate-300')}`}
+        className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors shrink-0 outline-none focus:ring-2 focus:ring-offset-2 ${isDarkMode ? 'focus:ring-offset-[#0B1120] focus:ring-[#F97316]' : 'focus:ring-offset-white focus:ring-indigo-500'} ${checked ? (isDarkMode ? 'bg-[#00D4FF]' : 'bg-indigo-600') : (isDarkMode ? 'bg-slate-700' : 'bg-slate-300')}`}
       >
         <span className={`inline-block h-5 w-5 transform rounded-full shadow-md transition-transform ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'} ${checked ? 'translate-x-6' : 'translate-x-1'}`} />
       </button>
@@ -138,13 +138,13 @@ export default function SettingsView() {
           <h4 className={`font-bold text-sm ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{label}</h4>
           <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>{description}</p>
         </div>
-        <span className={`font-black text-lg px-3 py-1 rounded-lg shrink-0 shadow-inner ${isDarkMode ? 'text-[#E67E22] bg-[#E67E22]/10 border border-[#E67E22]/30' : 'text-indigo-600 bg-indigo-50 border border-indigo-200'}`}>{value}{unit}</span>
+        <span className={`font-black text-lg px-3 py-1 rounded-lg shrink-0 shadow-inner ${isDarkMode ? 'text-[#00D4FF] bg-[#00D4FF]/10 border border-[#00D4FF]/30' : 'text-indigo-600 bg-indigo-50 border border-indigo-200'}`}>{value}{unit}</span>
       </div>
       <div className="px-1">
         <input 
           type="range" min={min} max={max} value={value} 
           onChange={(e) => onChange(Number(e.target.value))}
-          className={`w-full h-1.5 rounded-lg appearance-none cursor-pointer ${isDarkMode ? 'bg-slate-700 accent-[#FFD700]' : 'bg-slate-200 accent-indigo-600'}`}
+          className={`w-full h-1.5 rounded-lg appearance-none cursor-pointer ${isDarkMode ? 'bg-slate-700 accent-[#F97316]' : 'bg-slate-200 accent-indigo-600'}`}
         />
         <div className={`flex justify-between text-[10px] font-black mt-3 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
           <span>{min}{unit}</span>
@@ -156,7 +156,7 @@ export default function SettingsView() {
 
   const InputField = ({ label, description, type = "text", value, onChange, placeholder, icon: Icon }) => (
     <div className={`p-5 rounded-2xl border transition-all shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5 hover:border-white/10' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
-      <label className={`block text-xs font-black mb-2 flex items-center gap-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-700'}`}>
+      <label className={`block text-xs font-black mb-2 flex items-center gap-2 ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>
         {Icon && <Icon className="w-4 h-4" />} {label}
       </label>
       {description && <p className={`text-xs mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>{description}</p>}
@@ -166,7 +166,7 @@ export default function SettingsView() {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className={`w-full p-3.5 border rounded-xl font-medium text-sm outline-none focus:ring-2 focus:border-transparent transition-all shadow-inner ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white focus:ring-[#FFD700] placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:ring-indigo-500 placeholder:text-slate-400'}`}
+          className={`w-full p-3.5 border rounded-xl font-medium text-sm outline-none focus:ring-2 focus:border-transparent transition-all shadow-inner ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white focus:ring-[#F97316] placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:ring-indigo-500 placeholder:text-slate-400'}`}
         />
       </div>
     </div>
@@ -174,7 +174,7 @@ export default function SettingsView() {
 
   if (loading || !settings) return (
     <div className="flex justify-center items-center h-[60vh]">
-      <div className={`w-12 h-12 border-4 border-t-[#FFD700] rounded-full animate-spin shadow-[0_0_15px_rgba(255,215,0,0.5)] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+      <div className={`w-12 h-12 border-4 border-t-[#F97316] rounded-full animate-spin shadow-[0_0_15px_rgba(255,215,0,0.5)] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
     </div>
   );
 
@@ -208,22 +208,22 @@ export default function SettingsView() {
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8 border-b pb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h2 className={`text-3xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-             <Sliders className={`w-8 h-8 ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-700'}`} /> Configuration Hub
+             <Sliders className={`w-8 h-8 ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`} /> Configuration Hub
           </h2>
           <p className={`font-medium text-sm mt-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Manage preferences, security protocols, and platform mechanics.</p>
         </div>
         <div className="flex items-center gap-4 w-full md:w-auto">
           {successMsg && (
-            <span className="text-[#E67E22] font-bold   text-[10px] bg-[#E67E22]/10 px-3 py-1.5 rounded-md border border-[#E67E22]/20 animate-in slide-in-from-right-4 flex items-center gap-2">
+            <span className="text-[#00D4FF] font-bold   text-[10px] bg-[#00D4FF]/10 px-3 py-1.5 rounded-md border border-[#00D4FF]/20 animate-in slide-in-from-right-4 flex items-center gap-2">
               <CheckCircle2 className="w-3.5 h-3.5"/> {successMsg}
             </span>
           )}
           <button 
             onClick={handleSave} 
             disabled={saving}
-            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-xl hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-xl hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
           >
-            {saving ? <div className="w-4 h-4 border-2 border-[#0B0E14]/30 border-t-[#0B0E14] rounded-full animate-spin"></div> : <Save className="w-4 h-4" />}
+            {saving ? <div className="w-4 h-4 border-2 border-[#0B1120]/30 border-t-[#0B1120] rounded-full animate-spin"></div> : <Save className="w-4 h-4" />}
             {saving ? 'Comitting...' : 'Apply Changes'}
           </button>
         </div>
@@ -240,8 +240,8 @@ export default function SettingsView() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-left font-bold text-sm transition-all whitespace-nowrap outline-none ${
                   activeTab === tab.id 
-                  ? (isDarkMode ? 'bg-[#FFD700]/10 text-[#FFD700] border border-[#FFD700]/20 shadow-inner' : 'bg-indigo-50 text-indigo-600 border border-indigo-200 shadow-inner') 
-                  : (isDarkMode ? 'text-slate-200 hover:bg-[#1E293B]/5 hover:text-white border border-transparent focus:ring-2 focus:ring-[#FFD700]/50' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-transparent focus:ring-2 focus:ring-indigo-500/50')
+                  ? (isDarkMode ? 'bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/20 shadow-inner' : 'bg-indigo-50 text-indigo-600 border border-indigo-200 shadow-inner') 
+                  : (isDarkMode ? 'text-slate-200 hover:bg-[#1E293B]/5 hover:text-white border border-transparent focus:ring-2 focus:ring-[#F97316]/50' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-transparent focus:ring-2 focus:ring-indigo-500/50')
                 }`}
               >
                 <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'opacity-100' : 'opacity-70'}`} /> {tab.label}
@@ -253,7 +253,7 @@ export default function SettingsView() {
         {/* Configuration Panel */}
         <div className={`flex-1 backdrop-blur-xl border p-6 md:p-8 rounded-3xl shadow-2xl min-h-[500px] relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/80 border-white/10' : 'bg-white/95 border-slate-200'}`}>
           
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-[#FFD700]/3 to-[#008A32]/3 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-[#F97316]/3 to-[#008A32]/3 rounded-full blur-[100px] pointer-events-none -z-10"></div>
 
           <div className="animate-in fade-in slide-in-from-right-4 duration-300 z-10 relative space-y-8">
             
@@ -269,7 +269,7 @@ export default function SettingsView() {
                   <InputField label="Primary Email Route" value={profileData.email} onChange={(v) => setProfileData(p => ({...p, email: v}))} placeholder="Email" type="email" />
                 </div>
                 <div className="space-y-4">
-                  <label className={`block text-xs font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-700'}`}>Timezone Protocol</label>
+                  <label className={`block text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Timezone Protocol</label>
                   <CustomDropdown
                     value={commonConfig.timezone || '(GMT+03:00) East Africa Time'}
                     onChange={(v) => handleCommonChange('timezone', v)}
@@ -309,17 +309,17 @@ export default function SettingsView() {
                 </div>
                 <div className={`p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
                   <div>
-                    <h4 className={`font-bold text-sm flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}><Fingerprint className={`w-4 h-4 ${isDarkMode ? 'text-[#FFD700]' : 'text-indigo-600'}`}/> Biometric / Two-Factor Protocol</h4>
+                    <h4 className={`font-bold text-sm flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}><Fingerprint className={`w-4 h-4 ${isDarkMode ? 'text-[#F97316]' : 'text-indigo-600'}`}/> Biometric / Two-Factor Protocol</h4>
                     <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Currently utilizing standard credential validation. We recommend enabling 2FA.</p>
                   </div>
-                  <button type="button" className={`px-5 py-2.5 border font-semibold rounded-lg transition-all shrink-0 bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Enable 2FA</button>
+                  <button type="button" className={`px-5 py-2.5 border font-semibold rounded-lg transition-all shrink-0 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Enable 2FA</button>
                 </div>
                 <div className={`p-6 rounded-2xl border flex flex-col justify-center gap-4 shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
                   <div>
                     <h4 className="font-bold text-rose-500 text-sm ">Device Sessions</h4>
                     <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>1 active session on Windows NT 10.0; Win64.</p>
                   </div>
-                  <button type="button" className={`w-max px-5 py-2.5 border font-semibold rounded-lg transition-all bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Terminate All Other Sessions</button>
+                  <button type="button" className={`w-max px-5 py-2.5 border font-semibold rounded-lg transition-all bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Terminate All Other Sessions</button>
                 </div>
               </>
             )}
@@ -328,7 +328,7 @@ export default function SettingsView() {
             {activeTab === 'pedagogy' && (
               <>
                 <div className={`border-b pb-4 mb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-900'}`}>Pedagogy Logic</h3>
+                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-900'}`}>Pedagogy Logic</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Configure instructional defaults and visibility parameters.</p>
                 </div>
                 <div className="space-y-6">
@@ -338,7 +338,7 @@ export default function SettingsView() {
                     type="text" value={roleConfig.consultationHours || ''} onChange={(v) => handleChange('consultationHours', v)} placeholder="e.g. Mon-Wed 3PM-5PM (GMT+3)" 
                   />
                   <div className={`p-5 rounded-2xl border transition-all shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5 hover:border-white/10' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
-                    <label className={`block text-xs font-black mb-2 flex items-center gap-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-700'}`}>
+                    <label className={`block text-xs font-black mb-2 flex items-center gap-2 ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>
                        <BookOpen className="w-4 h-4" /> Catalog Autonomy
                     </label>
                     <p className={`text-xs mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Default visibility protocol for unapproved drafted courses.</p>
@@ -360,7 +360,7 @@ export default function SettingsView() {
             {activeTab === 'ai' && (
               <>
                 <div className={`border-b pb-4 mb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-900'}`}>Automation & AI</h3>
+                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-900'}`}>Automation & AI</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Algorithmic generation toggles.</p>
                 </div>
                 <div className="grid gap-4">
@@ -382,20 +382,20 @@ export default function SettingsView() {
             {activeTab === 'platform' && (
               <>
                 <div className={`border-b pb-4 mb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-900'}`}>Platform DNA</h3>
+                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-900'}`}>Platform DNA</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Global branding and root configurations.</p>
                 </div>
                 <div className={`p-8 rounded-2xl border flex flex-col justify-center mb-6 shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                  <label className={`block text-xs font-black mb-4 flex items-center gap-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-700'}`}><Palette className="w-4 h-4"/> Global Hex Code</label>
+                  <label className={`block text-xs font-black mb-4 flex items-center gap-2 ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}><Palette className="w-4 h-4"/> Global Hex Code</label>
                   <p className={`text-xs mb-6 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>This cascades the color injection across the SCSS variables.</p>
                   <div className={`flex gap-4 items-center p-3 rounded-xl border w-max shadow-inner ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                     <input 
                       type="color" 
-                      value={roleConfig.primaryColor || '#0B0E14'}
+                      value={roleConfig.primaryColor || '#0B1120'}
                       onChange={(e) => handleChange('primaryColor', e.target.value)}
                       className="w-10 h-10 p-0 border-none rounded-lg cursor-pointer bg-transparent"
                     />
-                    <span className={`font-mono font-black pr-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{roleConfig.primaryColor || '#0B0E14'}</span>
+                    <span className={`font-mono font-black pr-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{roleConfig.primaryColor || '#0B1120'}</span>
                   </div>
                 </div>
                 <InputField 
@@ -410,7 +410,7 @@ export default function SettingsView() {
             {activeTab === 'ledger' && (
               <>
                 <div className={`border-b pb-4 mb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-900'}`}>Ledger & Intelligence</h3>
+                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-900'}`}>Ledger & Intelligence</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Financial logic and automated interventions.</p>
                 </div>
                 <div className="grid gap-6">
@@ -435,7 +435,7 @@ export default function SettingsView() {
             {activeTab === 'privacy' && (
               <>
                 <div className={`border-b pb-4 mb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-900'}`}>Transparency Matrix</h3>
+                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-900'}`}>Transparency Matrix</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Control your data visibility to guardians and peers.</p>
                 </div>
                 <div className="grid gap-4">
@@ -462,7 +462,7 @@ export default function SettingsView() {
             {activeTab === 'family' && (
               <>
                 <div className={`border-b pb-4 mb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-900'}`}>Family Supporter Link</h3>
+                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-900'}`}>Family Supporter Link</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Connect your account securely via email validation.</p>
                 </div>
                 <div className={`p-8 rounded-2xl border border-l-4 shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5 border-l-[#008A32]' : 'bg-slate-50 border-slate-200 border-l-[#008A32]'}`}>
@@ -480,12 +480,12 @@ export default function SettingsView() {
                       type="button"
                       onClick={handleConnectParent}
                       disabled={connecting}
-                      className={`px-6 py-3.5 font-semibold rounded-xl hover:shadow-[0_0_15px_rgba(0,138,50,0.4)] hover:-translate-y-0.5 transition-all disabled:opacity-50 shrink-0 bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                      className={`px-6 py-3.5 font-semibold rounded-xl hover:shadow-[0_0_15px_rgba(0,138,50,0.4)] hover:-translate-y-0.5 transition-all disabled:opacity-50 shrink-0 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                     >
                       {connecting ? 'Linking...' : 'Establish Link'}
                     </button>
                   </div>
-                  {connectMsg && <p className={`mt-4 text-xs font-bold   ${(connectMsg.includes('Error') || connectMsg.includes('Failed') || connectMsg.includes('not found') || connectMsg.includes('Already')) ? 'text-[#E30A17]' : 'text-[#E67E22]'}`}>{connectMsg}</p>}
+                  {connectMsg && <p className={`mt-4 text-xs font-bold   ${(connectMsg.includes('Error') || connectMsg.includes('Failed') || connectMsg.includes('not found') || connectMsg.includes('Already')) ? 'text-[#E30A17]' : 'text-[#00D4FF]'}`}>{connectMsg}</p>}
                 </div>
               </>
             )}
@@ -494,11 +494,11 @@ export default function SettingsView() {
             {activeTab === 'billing' && (
               <>
                 <div className={`border-b pb-4 mb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-900'}`}>Subscriptions & Billing</h3>
+                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-900'}`}>Subscriptions & Billing</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Manage payment sources for dependent enrollments.</p>
                 </div>
                 <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                  <label className={`block text-xs font-black mb-4 flex items-center gap-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-700'}`}><CreditCard className="w-4 h-4"/> Default Payment Protocol</label>
+                  <label className={`block text-xs font-black mb-4 flex items-center gap-2 ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}><CreditCard className="w-4 h-4"/> Default Payment Protocol</label>
                   <CustomDropdown
                     value={roleConfig.billingMethod || 'unlinked'}
                     onChange={(val) => handleChange('billingMethod', val)}
@@ -517,7 +517,7 @@ export default function SettingsView() {
             {activeTab === 'alerts' && (
               <>
                 <div className={`border-b pb-4 mb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-900'}`}>Support Thresholds</h3>
+                  <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-900'}`}>Support Thresholds</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Algorithmic danger alerts based on real student data.</p>
                 </div>
                 <div className="grid lg:grid-cols-2 gap-6">

@@ -61,7 +61,7 @@ export default function Revenue() {
   }, [user]);
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64"><div className={`w-8 h-8 border-4 border-t-[#FFD700] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
+    return <div className="flex justify-center items-center h-64"><div className={`w-8 h-8 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
   }
 
   return (
@@ -69,7 +69,7 @@ export default function Revenue() {
       <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex justify-between items-center mb-6 ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div>
           <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Finance & Revenue</h1>
-          <p className="text-[#FFD700] text-xs font-bold   mt-1">Track platform monetization and subscription flow</p>
+          <p className="text-[#F97316] text-xs font-bold   mt-1">Track platform monetization and subscription flow</p>
         </div>
       </div>
 
@@ -112,7 +112,7 @@ export default function Revenue() {
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.05} />
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
               <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
-              <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B0E14', color: '#fff', fontWeight: 'bold' }} />
+              <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B1120', color: '#fff', fontWeight: 'bold' }} />
               <Area type="monotone" dataKey="revenue" stroke="#008A32" strokeWidth={4} fillOpacity={1} fill="url(#colorRev)" />
             </AreaChart>
           </ResponsiveContainer>
@@ -140,8 +140,8 @@ export default function Revenue() {
                     <tr key={idx} className={`border-b hover:bg-[#1E293B]/5 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                       <td className={`p-5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{new Date(course.createdAt).toLocaleDateString()}</td>
                       <td className="p-5 font-bold">{course.title}</td>
-                      <td className="p-5 text-[#FFD700] ">${(course.price * course.totalStudents).toLocaleString()}</td>
-                      <td className="p-5"><span className="bg-[#E67E22]/20 text-[#E67E22] border border-[#E67E22]/30 px-3 py-1 rounded-lg text-xs font-black  ">Settled</span></td>
+                      <td className="p-5 text-[#F97316] ">${(course.price * course.totalStudents).toLocaleString()}</td>
+                      <td className="p-5"><span className="bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30 px-3 py-1 rounded-lg text-xs font-black  ">Settled</span></td>
                     </tr>
                  ))
               ) : (

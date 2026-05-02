@@ -177,7 +177,7 @@ export default function AttendanceManagement() {
                     
                     <div className={`flex bg-black/40 rounded-xl p-1 gap-1 w-full mt-auto border ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                         <label className={`flex-1 flex justify-center items-center gap-1.5 py-2 rounded-lg cursor-pointer transition-all duration-200 ${
-                           currentStatus === 'present' ? 'bg-[#E67E22]/20 text-[#E67E22] shadow-[0_0_10px_rgba(0,138,50,0.3)]' : 'text-slate-300 hover:bg-[#1E293B]/5 hover:text-slate-300'
+                           currentStatus === 'present' ? 'bg-[#00D4FF]/20 text-[#00D4FF] shadow-[0_0_10px_rgba(0,138,50,0.3)]' : 'text-slate-300 hover:bg-[#1E293B]/5 hover:text-slate-300'
                         }`}>
                            <input 
                               type="radio" 
@@ -240,7 +240,7 @@ export default function AttendanceManagement() {
         </div>
         
         {message && (
-          <div className="px-6 py-2.5 rounded-2xl font-bold text-sm bg-[#E67E22]/10 border border-[#E67E22]/30 text-[#E67E22] shadow-lg animate-in slide-in-from-right">
+          <div className="px-6 py-2.5 rounded-2xl font-bold text-sm bg-[#00D4FF]/10 border border-[#00D4FF]/30 text-[#00D4FF] shadow-lg animate-in slide-in-from-right">
              {message}
           </div>
         )}
@@ -346,7 +346,7 @@ export default function AttendanceManagement() {
                <button 
                   onClick={handleSave}
                   disabled={saving}
-                  className={`hover:shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:-translate-y-1 px-10 py-4 rounded-2xl font-semibold transition-all disabled:opacity-50 disabled:hover:translate-y-0 flex items-center gap-3 bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                  className={`hover:shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:-translate-y-1 px-10 py-4 rounded-2xl font-semibold transition-all disabled:opacity-50 disabled:hover:translate-y-0 flex items-center gap-3 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                >
                   {saving ? <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div> : <Save className="w-5 h-5" />}
                   {saving ? 'Syncing...' : 'Commit Daily Log'}

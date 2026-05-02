@@ -104,7 +104,7 @@ export default function CourseDetails() {
       {/* Deep Space Background with Nebulas & Glowing Orbs */}
       <div className="absolute inset-0 pointer-events-none z-0">
          <div className={`absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b opacity-80 mix-blend-screen ${isDarkMode ? 'from-[#0B1221]' : 'from-slate-200/50'} to-transparent`} />
-         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#E67E22]/10 blur-[120px] mix-blend-screen" />
+         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/10 blur-[120px] mix-blend-screen" />
          <div className="absolute top-[20%] right-[-5%] w-[40%] h-[40%] rounded-full bg-[#F97316]/10 blur-[120px] mix-blend-screen" />
          <div className="absolute bottom-[-10%] left-[20%] w-[30%] h-[40%] rounded-full bg-indigo-500/10 blur-[150px] mix-blend-screen" />
       </div>
@@ -129,15 +129,15 @@ export default function CourseDetails() {
                      </>
                    )}
                 </div>
-                <h1 className={`text-5xl md:text-7xl font-black mb-6 leading-tight text-transparent bg-clip-text drop-shadow-[0_0_25px_rgba(249,115,22,0.3)] ${isDarkMode ? 'bg-gradient-to-r from-white via-amber-100 to-[#F97316]' : 'bg-gradient-to-r from-slate-900 via-amber-600 to-[#E67E22]'}`}>
+                <h1 className={`text-5xl md:text-7xl font-black mb-6 leading-tight text-transparent bg-clip-text drop-shadow-[0_0_25px_rgba(249,115,22,0.3)] ${isDarkMode ? 'bg-gradient-to-r from-white via-amber-100 to-[#F97316]' : 'bg-gradient-to-r from-slate-900 via-amber-600 to-[#00D4FF]'}`}>
                   {course.title}
                 </h1>
-                <p className={`text-lg md:text-xl font-medium leading-relaxed max-w-2xl mb-10 border-l-2 border-[#E67E22]/50 pl-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                <p className={`text-lg md:text-xl font-medium leading-relaxed max-w-2xl mb-10 border-l-2 border-[#00D4FF]/50 pl-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                    {course.description}
                 </p>
                 <div className={`flex flex-wrap items-center gap-8 text-xs font-black ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                    <div className="flex items-center gap-3">
-                     <Users className="w-5 h-5 text-[#E67E22] drop-shadow-[0_0_10px_rgba(230,126,34,0.4)]" />
+                     <Users className="w-5 h-5 text-[#00D4FF] drop-shadow-[0_0_10px_rgba(230,126,34,0.4)]" />
                      Instructor: <span className={`ml-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.instructor?.name || 'Kenenisa'}</span>
                    </div>
                    <div className="flex items-center gap-3">
@@ -198,7 +198,7 @@ export default function CourseDetails() {
                   <div className={`relative p-[1px] rounded-3xl bg-gradient-to-b ${isDarkMode ? 'from-white/10' : 'from-slate-200'} to-transparent`}>
                      <div className={`backdrop-blur-2xl p-10 rounded-3xl h-full shadow-[0_0_40px_rgba(0,0,0,0.1)] border ${isDarkMode ? 'bg-[#05070A]/80 border-white/5' : 'bg-white/80 border-slate-100'}`}>
                         <h2 className={`text-2xl font-black mb-6 flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                           <FileText className="w-6 h-6 text-[#E67E22] drop-shadow-[0_0_8px_rgba(230,126,34,0.4)]"/> 
+                           <FileText className="w-6 h-6 text-[#00D4FF] drop-shadow-[0_0_8px_rgba(230,126,34,0.4)]"/> 
                            Program Details
                         </h2>
                         <div className={`prose max-w-none text-sm md:text-base leading-loose whitespace-pre-wrap font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -265,7 +265,7 @@ export default function CourseDetails() {
                                       <div className="flex-1 min-w-0">
                                          <h4 className={`font-bold text-xl leading-tight mb-3 transition-colors tracking-tight ${isDarkMode ? 'text-white group-hover:text-indigo-300' : 'text-slate-800 group-hover:text-indigo-600'}`}>{lesson.title}</h4>
                                          <div className={`flex flex-wrap items-center gap-3 text-xs font-black ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                                           <span className="flex items-center gap-1.5"><PlayCircle className="w-3 h-3 text-[#E67E22]" /> {lesson.duration}m Video</span>
+                                           <span className="flex items-center gap-1.5"><PlayCircle className="w-3 h-3 text-[#00D4FF]" /> {lesson.duration}m Video</span>
                                            {lesson.readingMaterials && <span className="flex items-center gap-1.5"><FileText className="w-3 h-3 text-[#F97316]" /> Docs</span>}
                                            {lesson.quiz?.length > 0 && <span className="flex items-center gap-1.5"><BadgeAlert className="w-3 h-3 text-rose-500" /> Audit</span>}
                                          </div>
@@ -292,12 +292,12 @@ export default function CourseDetails() {
               {activeTab === 'instructor' && (
                 <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#F97316]/30 to-transparent animate-in fade-in duration-500">
                   <div className={`backdrop-blur-2xl p-10 rounded-3xl flex flex-col md:flex-row items-center gap-10 text-center md:text-left border shadow-xl ${isDarkMode ? 'bg-[#05070A]/80 border-white/5' : 'bg-white/90 border-slate-200'}`}>
-                     <div className={`w-36 h-36 rounded-full overflow-hidden shrink-0 border-4 border-[#E67E22] shadow-[0_0_30px_rgba(230,126,34,0.3)] ${isDarkMode ? 'bg-[#1E293B]' : 'bg-slate-100'}`}>
+                     <div className={`w-36 h-36 rounded-full overflow-hidden shrink-0 border-4 border-[#00D4FF] shadow-[0_0_30px_rgba(230,126,34,0.3)] ${isDarkMode ? 'bg-[#1E293B]' : 'bg-slate-100'}`}>
                        <img src="https://ui-avatars.com/api/?name=Instructor&background=008A32&color=FFFFFF" alt="Instructor" className="w-full h-full object-cover" />
                      </div>
                      <div>
                        <h2 className={`text-3xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.instructor?.name || 'Kenenisa'}</h2>
-                       <p className="text-[#E67E22] font-black text-xs mb-6 bg-[#E67E22]/10 inline-block px-4 py-1.5 rounded-full border border-[#E67E22]/30 shadow-[0_0_10px_rgba(230,126,34,0.1)]">Lead Authority</p>
+                       <p className="text-[#00D4FF] font-black text-xs mb-6 bg-[#00D4FF]/10 inline-block px-4 py-1.5 rounded-full border border-[#00D4FF]/30 shadow-[0_0_10px_rgba(230,126,34,0.1)]">Lead Authority</p>
                        <p className={`font-medium leading-loose max-w-lg mx-auto md:mx-0 text-sm md:text-base ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                           Instructor is a certified professional with extensive verifiable experience in building out large-scale technical systems and leading dynamic teams across the globe.
                        </p>
@@ -322,15 +322,15 @@ export default function CourseDetails() {
 
                     <div className="space-y-6 mb-10 relative z-10">
                        <div className={`flex justify-between items-center text-xs font-black border-b pb-4 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><Clock className="w-4 h-4 text-[#E67E22]"/> Duration</span>
+                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><Clock className="w-4 h-4 text-[#00D4FF]"/> Duration</span>
                           <span className={isDarkMode ? 'text-white' : 'text-slate-800'}>{totalDuration} Mins Runtime</span>
                        </div>
                        <div className={`flex justify-between items-center text-xs font-black border-b pb-4 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><BookOpen className="w-4 h-4 text-[#E67E22]"/> Syllabus Length</span>
+                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><BookOpen className="w-4 h-4 text-[#00D4FF]"/> Syllabus Length</span>
                           <span className={isDarkMode ? 'text-white' : 'text-slate-800'}>{course.lessons?.length || 0} Modules</span>
                        </div>
                        <div className={`flex justify-between items-center text-xs font-black border-b pb-4 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><MapPin className="w-4 h-4 text-[#E67E22]"/> Location</span>
+                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><MapPin className="w-4 h-4 text-[#00D4FF]"/> Location</span>
                           <span className={isDarkMode ? 'text-white' : 'text-slate-800'}>Global Digital</span>
                        </div>
                     </div>
@@ -356,7 +356,7 @@ export default function CourseDetails() {
                           <button 
                             onClick={handleEnroll}
                             disabled={enrolling}
-                            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-transparent to-[#00D4FF]/20 border border-[#F97316] text-[#F97316] font-semibold py-5 rounded-2xl hover:bg-[#F97316] hover:text-[#0B0E14] transition-all shadow-[0_0_30px_rgba(0,212,255,0.3)] disabled:opacity-50 hover:scale-[1.03] text-sm"
+                            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-transparent to-[#00D4FF]/20 border border-[#F97316] text-[#F97316] font-semibold py-5 rounded-2xl hover:bg-[#F97316] hover:text-[#0B1120] transition-all shadow-[0_0_30px_rgba(0,212,255,0.3)] disabled:opacity-50 hover:scale-[1.03] text-sm"
                           >
                             {enrolling ? 'Processing...' : 'Enroll Now'} <ArrowRight className="w-5 h-5"/>
                           </button>

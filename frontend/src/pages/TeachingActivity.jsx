@@ -68,7 +68,7 @@ export default function TeachingActivity() {
   }, [user]);
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64"><div className={`w-8 h-8 border-4 border-t-[#FFD700] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
+    return <div className="flex justify-center items-center h-64"><div className={`w-8 h-8 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
   }
 
   return (
@@ -76,7 +76,7 @@ export default function TeachingActivity() {
       <div className={`flex justify-between items-center mb-6 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div>
           <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Teaching Activity</h1>
-          <p className="text-[#FFD700] text-xs font-bold   mt-1">Track instructor hours, enrollments, and platform engagement</p>
+          <p className="text-[#F97316] text-xs font-bold   mt-1">Track instructor hours, enrollments, and platform engagement</p>
         </div>
       </div>
 
@@ -116,10 +116,10 @@ export default function TeachingActivity() {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.1} />
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
                 <YAxis yAxisId="left" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
-                <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} tick={{fill: '#FFD700', fontSize: 12, fontWeight: 'bold'}} />
-                <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B0E14', color: '#fff', fontWeight: 'bold' }} />
-                <Line yAxisId="left" type="monotone" dataKey="hours" name="Teaching Hours" stroke="#008A32" strokeWidth={4} activeDot={{ r: 8, fill: '#0B0E14', stroke: '#008A32', strokeWidth: 3 }} />
-                <Line yAxisId="right" type="monotone" dataKey="engagements" name="Student Engagements" stroke="#FFD700" strokeWidth={4} strokeDasharray="5 5" activeDot={{ r: 8, fill: '#0B0E14', stroke: '#FFD700', strokeWidth: 3 }} />
+                <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} tick={{fill: '#F97316', fontSize: 12, fontWeight: 'bold'}} />
+                <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B1120', color: '#fff', fontWeight: 'bold' }} />
+                <Line yAxisId="left" type="monotone" dataKey="hours" name="Teaching Hours" stroke="#008A32" strokeWidth={4} activeDot={{ r: 8, fill: '#0B1120', stroke: '#008A32', strokeWidth: 3 }} />
+                <Line yAxisId="right" type="monotone" dataKey="engagements" name="Student Engagements" stroke="#F97316" strokeWidth={4} strokeDasharray="5 5" activeDot={{ r: 8, fill: '#0B1120', stroke: '#F97316', strokeWidth: 3 }} />
               </LineChart>
             </ResponsiveContainer>
           ) : (

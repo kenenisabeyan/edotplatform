@@ -26,7 +26,7 @@ export default function InstructorClasses() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className={`w-12 h-12 border-4 border-t-[#FFD700] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+        <div className={`w-12 h-12 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
       </div>
     );
   }
@@ -35,7 +35,7 @@ export default function InstructorClasses() {
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <h2 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>My Classes</h2>
-        <Link to="/dashboard/builder" className={`inline-flex items-center gap-2 px-6 py-3 font-black rounded-xl hover:-translate-y-0.5 transition-transform bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+        <Link to="/dashboard/builder" className={`inline-flex items-center gap-2 px-6 py-3 font-black rounded-xl hover:-translate-y-0.5 transition-transform bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
           <PlusCircle className="w-4 h-4" /> Create New Course
         </Link>
       </div>
@@ -47,7 +47,7 @@ export default function InstructorClasses() {
             </div>
             <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No classes yet</h3>
             <p className={`max-w-sm mb-6 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Create your first course to start teaching.</p>
-            <Link to="/dashboard/builder" className={`px-8 py-3.5 font-black text-xs rounded-xl hover:-translate-y-0.5 transition-transform bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <Link to="/dashboard/builder" className={`px-8 py-3.5 font-black text-xs rounded-xl hover:-translate-y-0.5 transition-transform bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
               Create Course
             </Link>
           </div>
@@ -56,9 +56,9 @@ export default function InstructorClasses() {
             {courses.map((course) => (
               <div 
                 key={course.id} 
-                className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden flex flex-col md:flex-row p-6 items-start md:items-center gap-6 hover:border-[#FFD700]/30 transition-all relative group ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}
+                className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden flex flex-col md:flex-row p-6 items-start md:items-center gap-6 hover:border-[#F97316]/30 transition-all relative group ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#FFD700] opacity-5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#F97316] opacity-5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform"></div>
                 <img 
                   src={course.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80' : course.thumbnail} 
                   alt={course.title} 
@@ -69,7 +69,7 @@ export default function InstructorClasses() {
                   <h3 className={`text-xl font-bold leading-snug mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.title}</h3>
                   <div className="flex items-center gap-4 mb-4 text-[10px] font-black  ">
                     <span className={`px-3 py-1.5 rounded-sm border ${
-                        course.status === 'approved' ? 'bg-[#E67E22]/20 text-[#E67E22] border-[#E67E22]/30' :
+                        course.status === 'approved' ? 'bg-[#00D4FF]/20 text-[#00D4FF] border-[#00D4FF]/30' :
                         course.status === 'pending' ? 'bg-amber-500/100/20 text-amber-500 border-amber-500/30' :
                         course.status === 'rejected' ? 'bg-red-500/20 text-red-500 border-red-500/30' :
                         'bg-[#1E293B]/5 text-slate-200 border-white/10'
@@ -84,7 +84,7 @@ export default function InstructorClasses() {
                 <div className="w-full md:w-auto md:pl-6 md:border-l md:border-white/10 shrink-0 pt-4 md:pt-0 relative z-10">
                   <Link 
                     to={`/dashboard/builder/${course.id}`} 
-                    className={`w-full inline-flex justify-center items-center gap-2 px-6 py-3 font-black rounded-xl border transition-colors drop-shadow-md bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                    className={`w-full inline-flex justify-center items-center gap-2 px-6 py-3 font-black rounded-xl border transition-colors drop-shadow-md bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                   >
                     Edit Course
                   </Link>

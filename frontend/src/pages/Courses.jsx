@@ -50,7 +50,7 @@ const CATEGORY_DETAILS = {
   },
   "Business & Entrepreneurship": {
     icon: Target,
-    color: "#FFD700", // Yellow
+    color: "#F97316", // Yellow
     darkColor: "#CA8A04",
     ribbon: "BUSINESS",
     description: "This premium curriculum enables future leaders to navigate markets independently. It helps construct financial stability, leadership, and powerful entrepreneurial ecosystems.",
@@ -119,7 +119,7 @@ const CentralEDOTLogo = () => {
   const isDarkMode = useThemeMode();
   return (
   <div className="flex flex-col items-center justify-center relative w-full h-full z-20 scale-[0.88] hover:scale-[0.93] transition-transform duration-500">
-    <div className="absolute inset-0 bg-gradient-to-b from-[#FFD700] to-[#F97316] opacity-30 blur-2xl rounded-full"></div>
+    <div className="absolute inset-0 bg-gradient-to-b from-[#F97316] to-[#F97316] opacity-30 blur-2xl rounded-full"></div>
     {/* Hexagon Shape */}
     <div 
        className="w-full h-full bg-gradient-to-b from-[#00D4FF] to-[#0099CC] shadow-[0_0_50px_rgba(0,212,255,0.6)] flex flex-col items-center justify-center p-[4px] relative z-10"
@@ -133,7 +133,7 @@ const CentralEDOTLogo = () => {
          <div className={`absolute right-0 top-0 w-1/2 h-full bg-white/5 pointer-events-none border-l ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}></div>
          
          <div className="relative z-10 text-center flex flex-col items-center justify-center mt-3">
-           <span className={`font-black text-2xl md:text-4xl tracking-[0.1em] drop-shadow-md pb-1 border-b-2 border-[#FFD700] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>EDOT</span>
+           <span className={`font-black text-2xl md:text-4xl tracking-[0.1em] drop-shadow-md pb-1 border-b-2 border-[#F97316] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>EDOT</span>
            <div className={`w-20 h-20 md:w-[120px] md:h-[120px] rounded-full mt-4 mx-auto shadow-xl flex items-center justify-center overflow-hidden border-[4px] ${isDarkMode ? 'bg-white border-[#11151F]' : 'bg-white border-slate-100'}`}>
              <img src={edotLogo} alt="EDOT Hub" className="w-full h-full object-contain scale-90" />
            </div>
@@ -703,7 +703,7 @@ export default function Courses() {
                  <Search className="w-12 h-12 text-slate-500 mx-auto mb-4" />
                  <h3 className={`text-2xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>No courses found</h3>
                  <p className={`font-medium max-w-md mx-auto ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>We couldn't find any courses matching your search or filter. Try a different term or browse all categories.</p>
-                 <button onClick={() => {setSearchTerm(''); setCategoryFilter('All');}} className={`mt-8 px-8 py-3 border rounded-xl font-bold text-sm transition-colors ${isDarkMode ? 'bg-white border-white text-[#0B0E14] hover:bg-slate-200' : 'bg-[#1E293B] border-slate-800 text-white hover:bg-slate-700'}`}>
+                 <button onClick={() => {setSearchTerm(''); setCategoryFilter('All');}} className={`mt-8 px-8 py-3 border rounded-xl font-bold text-sm transition-colors ${isDarkMode ? 'bg-white border-white text-[#0B1120] hover:bg-slate-200' : 'bg-[#1E293B] border-slate-800 text-white hover:bg-slate-700'}`}>
                    Clear Filters
                  </button>
                </div>

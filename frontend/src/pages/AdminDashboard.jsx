@@ -369,7 +369,7 @@ export default function AdminDashboard() {
       value: inst.id,
       render: (
         <div className="flex items-center gap-3 w-full py-0.5">
-          <div className="w-8 h-8 rounded-full bg-[#E67E22]/20 text-[#E67E22] flex items-center justify-center font-bold text-xs shrink-0 border border-[#E67E22]/30 shadow-sm ">
+          <div className="w-8 h-8 rounded-full bg-[#00D4FF]/20 text-[#00D4FF] flex items-center justify-center font-bold text-xs shrink-0 border border-[#00D4FF]/30 shadow-sm ">
               {inst.name ? inst.name.charAt(0) : '?'}
           </div>
           <div className="flex flex-col text-left flex-1 min-w-0">
@@ -676,7 +676,7 @@ export default function AdminDashboard() {
                         </td>
                         <td className="px-6 py-4">
                           <button
-                            className={`px-3 py-1.5 rounded-lg border text-sm font-semibold flex items-center gap-1 bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                            className={`px-3 py-1.5 rounded-lg border text-sm font-semibold flex items-center gap-1 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                             onClick={() => openManagePanel(u.id)}
                           >
                             <Eye className="w-3.5 h-3.5" /> Details
@@ -796,7 +796,7 @@ export default function AdminDashboard() {
             <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                 <div className="flex justify-between items-center mb-6">
                   <span className={`font-semibold flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><Activity className="w-5 h-5" /> All Platform Activity</span>
-                  <button className={`text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Export CSV</button>
+                  <button className={`text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Export CSV</button>
                 </div>
                 <ActivityFeed isAdmin={true} limit={20} />
             </div>
@@ -893,11 +893,11 @@ export default function AdminDashboard() {
             <div className="flex items-center gap-6 w-full sm:w-auto justify-end">
               <div className="relative cursor-pointer hover:bg-white/5 p-2 rounded-full transition-colors">
                 <Bell className={`w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
-                <span className={`absolute top-1.5 right-1.5 w-3.5 h-3.5 bg-[#E30A17] rounded-full border-2 border-[#0d0f12] text-[7px] flex items-center justify-center font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>1</span>
+                <span className={`absolute top-1.5 right-1.5 w-3.5 h-3.5 bg-[#E30A17] rounded-full border-2 border-[#0B1120] text-[7px] flex items-center justify-center font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>1</span>
               </div>
               
               <div className="flex items-center gap-3 cursor-pointer p-1 pr-3 rounded-full hover:bg-white/5 transition-colors">
-                 <div className="w-9 h-9 rounded-full bg-white text-[#0B0E14] font-black flex items-center justify-center shadow-sm">
+                 <div className="w-9 h-9 rounded-full bg-white text-[#0B1120] font-black flex items-center justify-center shadow-sm">
                    {user?.name?.charAt(0) || 'A'}
                  </div>
                  <div className="text-left hidden sm:block">
@@ -970,7 +970,7 @@ export default function AdminDashboard() {
                               <button
                                 key={parent.id}
                                 onClick={() => openManagePanel(parent.id)}
-                                className="px-2 py-1 text-xs font-semibold text-[#0B0E14] bg-[#00D4FF] rounded-full hover:bg-cyan-400 transition-colors"
+                                className="px-2 py-1 text-xs font-semibold text-[#0B1120] bg-[#00D4FF] rounded-full hover:bg-cyan-400 transition-colors"
                               >
                                 {parent.name}
                               </button>
@@ -1105,11 +1105,11 @@ export default function AdminDashboard() {
                         </div>
                         <div className="mt-3 flex flex-wrap gap-2">
                           <button onClick={() => manualEnrollment(allCourses[0]?.id || '', 'active')} className={`px-3 py-2 bg-blue-600 rounded-lg text-xs ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Force Enroll</button>
-                          <button onClick={resetUserProgress} className={`px-3 py-2 rounded-lg text-sm bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reset Progress</button>
+                          <button onClick={resetUserProgress} className={`px-3 py-2 rounded-lg text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reset Progress</button>
                           {selectedUser.status === 'blocked' ? (
                             <button onClick={async () => { await updateUserStatus(selectedUser.id, 'approved'); await openManagePanel(selectedUser.id); }} className={`px-3 py-2 bg-emerald-600 rounded-lg text-xs ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Unblock Service</button>
                           ) : (
-                            <button onClick={blockService} className={`px-3 py-2 rounded-lg text-sm bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Block Service</button>
+                            <button onClick={blockService} className={`px-3 py-2 rounded-lg text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Block Service</button>
                           )}
                         </div>
                       </>
@@ -1126,7 +1126,7 @@ export default function AdminDashboard() {
                           {(selectedUser.adminFeedback || []).length > 0 ? selectedUser.adminFeedback.map((f, index) => (
                             <p key={index} className={`text-xs ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>• {f}</p>
                           )) : <p className={`text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No feedback yet</p>}
-                          <button onClick={toggleInstructorAccess} className={`px-3 py-2 rounded-lg text-sm bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedUser.status === 'approved' ? 'Disable Upload/Edit' : 'Reactivate Instructor'}</button>
+                          <button onClick={toggleInstructorAccess} className={`px-3 py-2 rounded-lg text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedUser.status === 'approved' ? 'Disable Upload/Edit' : 'Reactivate Instructor'}</button>
                         </div>
                       </>
                     ) : selectedUser.role === 'parent' ? (
@@ -1238,7 +1238,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className={`mt-5 p-4 rounded-2xl border bg-black/40 grid grid-cols-1 md:grid-cols-2 gap-3 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <button onClick={saveUserUpdates} className={`px-4 py-2 rounded-lg font-semibold text-sm bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Save changes</button>
+                  <button onClick={saveUserUpdates} className={`px-4 py-2 rounded-lg font-semibold text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Save changes</button>
                   <button onClick={() => deleteAdminUser(selectedUser.id)} className={`px-4 py-2 rounded-lg bg-rose-500/100 font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Delete user</button>
                 </div>
               </motion.div>

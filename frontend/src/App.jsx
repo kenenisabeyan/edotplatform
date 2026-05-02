@@ -53,7 +53,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 function MainLayout() {
   const isDarkMode = useThemeMode();
   return (
-    <div className={`flex flex-col min-h-screen ${isDarkMode ? 'bg-[#0B0E14]' : 'bg-white'}`}>
+    <div className={`flex flex-col min-h-screen ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
       <Navbar />
       <main id="main-content" className="flex-1">
         <Outlet />

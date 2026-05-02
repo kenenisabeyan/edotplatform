@@ -191,7 +191,7 @@ export default function CommandK() {
                                       : 'border border-transparent text-slate-200 hover:bg-[#1E293B]/5'
                                   }`}
                                 >
-                                  <div className={`p-2 rounded-xl transition-colors ${isSelected ? 'bg-[#F97316] text-[#0B0E14]' : 'bg-[#1E293B]/5 '} ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                                  <div className={`p-2 rounded-xl transition-colors ${isSelected ? 'bg-[#F97316] text-[#0B1120]' : 'bg-[#1E293B]/5 '} ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                                      <Icon className="w-4 h-4" />
                                   </div>
                                   <div className="flex flex-col items-start flex-1 overflow-hidden">

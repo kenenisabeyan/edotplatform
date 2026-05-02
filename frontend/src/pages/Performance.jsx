@@ -79,7 +79,7 @@ export default function Performance() {
   }, [user]);
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64"><div className={`w-8 h-8 border-4 border-t-[#FFD700] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
+    return <div className="flex justify-center items-center h-64"><div className={`w-8 h-8 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
   }
 
   return (
@@ -87,9 +87,9 @@ export default function Performance() {
       <div className={`flex justify-between items-center mb-6 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div>
           <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Performance Insights</h1>
-          <p className="text-[#FFD700] text-xs font-bold   mt-1">Analyze learner growth, attendance accuracy, and engagement</p>
+          <p className="text-[#F97316] text-xs font-bold   mt-1">Analyze learner growth, attendance accuracy, and engagement</p>
         </div>
-        <button className={`flex items-center gap-2 border px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+        <button className={`flex items-center gap-2 border px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
           <Filter className="w-4 h-4" /> Filter Analytics
         </button>
       </div>
@@ -131,9 +131,9 @@ export default function Performance() {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.1} />
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
                 <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
-                <Tooltip cursor={{fill: 'rgba(255, 255, 255, 0.05)'}} contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B0E14', color: '#fff', fontWeight: 'bold' }} />
+                <Tooltip cursor={{fill: 'rgba(255, 255, 255, 0.05)'}} contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B1120', color: '#fff', fontWeight: 'bold' }} />
                 <Bar dataKey="students" name="Active Students" fill="#4B5563" radius={[6, 6, 0, 0]} />
-                <Bar dataKey="teachers" name="Active Instructors" fill="#FFD700" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="teachers" name="Active Instructors" fill="#F97316" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -151,10 +151,10 @@ export default function Performance() {
                    <div key={idx} className={`flex justify-between items-center bg-[#1E293B] border px-4 py-3 rounded-2xl hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                       <div>
                          <h4 className={`font-bold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{student.name}</h4>
-                         <p className="text-[10px] font-bold   text-[#FFD700]">{student.course}</p>
+                         <p className="text-[10px] font-bold   text-[#F97316]">{student.course}</p>
                       </div>
                       <div className="flex flex-col items-end">
-                         <span className="text-[#E67E22] font-black text-sm">{student.score}%</span>
+                         <span className="text-[#00D4FF] font-black text-sm">{student.score}%</span>
                          <span className={`text-[9px] font-bold px-2 py-0.5 rounded border mt-1 ${isDarkMode ? 'text-slate-300 bg-[#1E293B]/5 border-white/5' : 'text-slate-500 bg-slate-50 border-slate-100'}`}>{student.grade}</span>
                       </div>
                    </div>

@@ -119,7 +119,7 @@ export default function NotificationBell() {
     <div className="relative" ref={dropdownRef}>
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-10 h-10 rounded-full border flex items-center justify-center hover:text-white hover:border-[#FFD700]/30 hover:shadow-[0_0_15px_rgba(255,215,0,0.2)] transition-all relative focus:outline-none backdrop-blur-md ${isDarkMode ? 'border-white/10 bg-[#1E293B]/5 text-slate-300' : 'border-white/20 bg-white/10 text-white'}`}
+        className={`w-10 h-10 rounded-full border flex items-center justify-center hover:text-white hover:border-[#F97316]/30 hover:shadow-[0_0_15px_rgba(255,215,0,0.2)] transition-all relative focus:outline-none backdrop-blur-md ${isDarkMode ? 'border-white/10 bg-[#1E293B]/5 text-slate-300' : 'border-white/20 bg-white/10 text-white'}`}
       >
         <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
@@ -136,7 +136,7 @@ export default function NotificationBell() {
             {unreadCount > 0 && (
               <button 
                 onClick={markAllAsRead}
-                className="text-sm font-semibold text-[#FFD700] hover:text-[#EAB308] hover:underline transition-all"
+                className="text-sm font-semibold text-[#F97316] hover:text-[#F97316] hover:underline transition-all"
               >
                 Mark all as read
               </button>
@@ -159,15 +159,15 @@ export default function NotificationBell() {
                     onClick={() => handleNotificationClick(notif.link)}
                     className={`p-4 border-b text-left transition-colors flex gap-4 group ${notif.unread ? 'bg-[#1E293B]/5 hover:bg-[#1E293B]/10' : 'hover:bg-[#1E293B]/5'} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}
                   >
-                    <div className={`w-10 h-10 rounded-full shrink-0 flex items-center justify-center border transition-colors ${notif.unread ? 'bg-[#FFD700]/10 border-[#FFD700]/30 shadow-[0_0_15px_rgba(255,215,0,0.1)]' : 'bg-[#1E293B]/5 group-hover:border-white/20'} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                    <div className={`w-10 h-10 rounded-full shrink-0 flex items-center justify-center border transition-colors ${notif.unread ? 'bg-[#F97316]/10 border-[#F97316]/30 shadow-[0_0_15px_rgba(255,215,0,0.1)]' : 'bg-[#1E293B]/5 group-hover:border-white/20'} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                       {notif.icon}
                     </div>
                     <div>
-                      <h4 className={`text-sm ${notif.unread ? 'font-bold group-hover:text-[#FFD700]' : 'font-semibold '} transition-colors ${isDarkMode ? 'text-white text-slate-300' : 'text-slate-900 text-slate-500'}`}>
+                      <h4 className={`text-sm ${notif.unread ? 'font-bold group-hover:text-[#F97316]' : 'font-semibold '} transition-colors ${isDarkMode ? 'text-white text-slate-300' : 'text-slate-900 text-slate-500'}`}>
                         {notif.title}
                       </h4>
                       <p className={`text-sm mt-1 line-clamp-2 leading-snug ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{notif.message}</p>
-                      <p className="text-xs text-[#E67E22] mt-2 font-bold  ">{notif.time}</p>
+                      <p className="text-xs text-[#00D4FF] mt-2 font-bold  ">{notif.time}</p>
                     </div>
                     {notif.unread && (
                       <div className="w-2.5 h-2.5 rounded-full bg-[#E30A17] mt-1.5 shrink-0 ml-auto shadow-[0_0_10px_rgba(227,10,23,0.5)]"></div>

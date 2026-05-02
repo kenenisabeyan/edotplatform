@@ -299,7 +299,7 @@ export default function EDOTLayout() {
           {!mobileMenuOpen && (
             <button 
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className={`hidden md:flex dark:text-slate-300 hover:text-[#FFD700] transition-colors p-1.5 rounded-lg hover:bg-[#1E293B]/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
+              className={`hidden md:flex dark:text-slate-300 hover:text-[#F97316] transition-colors p-1.5 rounded-lg hover:bg-[#1E293B]/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
             >
               {sidebarCollapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
             </button>
@@ -331,10 +331,10 @@ export default function EDOTLayout() {
                  </button>
                  {financeOpen && !sidebarCollapsed && (
                    <div className="pl-12 pr-4 py-2 space-y-1 animate-in slide-in-from-top-2 duration-200">
-                     <NavLink to="/dashboard/finance/fees" className={({isActive}) => `block py-2.5 text-sm transition-colors ${isActive ? 'text-[#FFD700] font-semibold' : 'text-slate-200 hover:text-white font-medium'}`}>
+                     <NavLink to="/dashboard/finance/fees" className={({isActive}) => `block py-2.5 text-sm transition-colors ${isActive ? 'text-[#F97316] font-semibold' : 'text-slate-200 hover:text-white font-medium'}`}>
                        Fees Collection
                      </NavLink>
-                     <NavLink to="/dashboard/finance/expenses" className={({isActive}) => `block py-2.5 text-sm transition-colors ${isActive ? 'text-[#FFD700] font-semibold' : 'text-slate-200 hover:text-white font-medium'}`}>
+                     <NavLink to="/dashboard/finance/expenses" className={({isActive}) => `block py-2.5 text-sm transition-colors ${isActive ? 'text-[#F97316] font-semibold' : 'text-slate-200 hover:text-white font-medium'}`}>
                        Expenses
                      </NavLink>
                    </div>
@@ -400,7 +400,7 @@ export default function EDOTLayout() {
               <div className="relative hidden md:block" ref={quickActionsRef}>
                 <button 
                   onClick={() => setQuickActionsOpen(!quickActionsOpen)}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${role === 'admin' ? 'bg-[#FACC15] hover:bg-[#EAB308] text-[#020617] shadow-glow-yellow' : 'bg-[#EAB308] hover:bg-[#FACC15] shadow-glow-yellow'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${role === 'admin' ? 'bg-[#FACC15] hover:bg-[#F97316] text-[#020617] shadow-glow-yellow' : 'bg-[#F97316] hover:bg-[#FACC15] shadow-glow-yellow'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                 >
                   <Plus className="w-4 h-4" />
                   Quick Action
@@ -411,8 +411,8 @@ export default function EDOTLayout() {
                     <div className="p-2 space-y-1">
                       <p className={`px-3 py-1.5 text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Create New</p>
                       {quickActions.map(action => (
-                        <button key={action.name} onClick={() => { setQuickActionsOpen(false); navigate(action.path); }} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-[#1E293B]/5 hover:text-[#FFD700] transition-colors text-left group ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-                           <div className={`p-1.5 rounded-lg text-[#FFD700] group-hover:scale-110 transition-transform ${isDarkMode ? 'bg-[#1E293B]/10' : 'bg-slate-50'}`}>
+                        <button key={action.name} onClick={() => { setQuickActionsOpen(false); navigate(action.path); }} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-[#1E293B]/5 hover:text-[#F97316] transition-colors text-left group ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+                           <div className={`p-1.5 rounded-lg text-[#F97316] group-hover:scale-110 transition-transform ${isDarkMode ? 'bg-[#1E293B]/10' : 'bg-slate-50'}`}>
                              <action.icon className="w-4 h-4" />
                            </div>
                            {action.name}
@@ -440,7 +440,7 @@ export default function EDOTLayout() {
                   <p className="text-sm font-bold transition-colors text-white">{user?.name || 'Test User'}</p>
                   <p className="text-xs font-medium capitalize text-slate-200">{user?.role || role}</p>
                 </div>
-                <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-[#008A32] to-[#FFD700] p-0.5 shadow-md shadow-[#008A32]/20 group-hover:shadow-[#FFD700]/40 transition-shadow">
+                <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-[#008A32] to-[#F97316] p-0.5 shadow-md shadow-[#008A32]/20 group-hover:shadow-[#F97316]/40 transition-shadow">
                   <UserAvatar user={user} className="w-full h-full text-base border-2 border-white" />
                 </div>
               </button>
@@ -448,12 +448,12 @@ export default function EDOTLayout() {
               {profileOpen && (
                 <div className="absolute right-0 mt-4 w-72 glass-card overflow-hidden z-[100] animate-in slide-in-from-top-2 duration-200">
                   <div className={`p-5 border-b flex flex-col items-center gap-3 bg-transparent/50 text-center ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-[#008A32] to-[#FFD700] p-0.5 shadow-sm">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-[#008A32] to-[#F97316] p-0.5 shadow-sm">
                       <UserAvatar user={user} className="w-full h-full text-xl border-[3px] border-white" />
                     </div>
                     <div>
                       <h3 className={`font-bold text-lg leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.name || 'Admin User'}</h3>
-                      <p className="text-sm font-semibold text-[#FFD700] mt-1 capitalize">{user?.role || 'Admin'}</p>
+                      <p className="text-sm font-semibold text-[#F97316] mt-1 capitalize">{user?.role || 'Admin'}</p>
                       <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{user?.email || 'admin@edot.com'}</p>
                     </div>
                   </div>
@@ -461,13 +461,13 @@ export default function EDOTLayout() {
                   <div className="p-3 space-y-1">
                     <button 
                       onClick={() => { setProfileOpen(false); navigate('/dashboard/profile'); }}
-                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#1E293B]/5 hover:text-[#FFD700] transition-colors text-left ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#1E293B]/5 hover:text-[#F97316] transition-colors text-left ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
                     >
                       <User className="w-4 h-4" /> My Profile
                     </button>
                     <button 
                       onClick={() => { setProfileOpen(false); navigate('/dashboard/settings'); }}
-                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#1E293B]/5 hover:text-[#FFD700] transition-colors text-left ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#1E293B]/5 hover:text-[#F97316] transition-colors text-left ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
                     >
                       <Settings className="w-4 h-4" /> Account Settings
                     </button>

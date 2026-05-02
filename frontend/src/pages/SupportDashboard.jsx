@@ -211,7 +211,7 @@ export default function SupportDashboard() {
                   { label: "Completed", completed: currentCycle.progress === 100, active: currentCycle.progress === 100 }
                 ].map((step, idx) => (
                   <div key={idx} className="relative z-10 flex flex-col items-center">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border-4 transition-all duration-500 ${step.completed ? `bg-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)] scale-110 ${isDarkMode ? 'border-[#0d0f12]' : 'border-slate-50'}` : (isDarkMode ? 'bg-[#1E293B] border-[#0d0f12]' : 'bg-slate-200 border-slate-50')}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border-4 transition-all duration-500 ${step.completed ? `bg-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)] scale-110 ${isDarkMode ? 'border-[#0B1120]' : 'border-slate-50'}` : (isDarkMode ? 'bg-[#1E293B] border-[#0B1120]' : 'bg-slate-200 border-slate-50')}`}>
                       {step.completed && <CheckCircle2 className={`w-4 h-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`} />}
                     </div>
                     {/* Node Text */}
@@ -344,7 +344,7 @@ export default function SupportDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
         
         {/* Trust & Transparency Banner */}
-        <div className={`p-8 rounded-[2rem] border flex gap-6 relative overflow-hidden group ${isDarkMode ? 'bg-gradient-to-r from-emerald-900/30 to-[#0d0f12] border-0 shadow-2xl' : 'bg-gradient-to-r from-emerald-50 to-white border-slate-200 shadow-xl'}`}>
+        <div className={`p-8 rounded-[2rem] border flex gap-6 relative overflow-hidden group ${isDarkMode ? 'bg-gradient-to-r from-emerald-900/30 to-[#0B1120] border-0 shadow-2xl' : 'bg-gradient-to-r from-emerald-50 to-white border-slate-200 shadow-xl'}`}>
           <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/20 transition-all duration-700" />
           
           <div className="w-16 h-16 shrink-0 rounded-2xl bg-emerald-500/10 flex items-center justify-center border-0 text-emerald-500 shadow-inner">
@@ -357,7 +357,7 @@ export default function SupportDashboard() {
         </div>
 
         {/* The Impact Panel (Secret Weapon 🔥) */}
-        <div className={`p-8 rounded-[2rem] border relative overflow-hidden group ${isDarkMode ? 'bg-gradient-to-l from-indigo-900/30 to-[#0d0f12] border-0 shadow-2xl' : 'bg-gradient-to-l from-indigo-50 to-white border-slate-200 shadow-xl'}`}>
+        <div className={`p-8 rounded-[2rem] border relative overflow-hidden group ${isDarkMode ? 'bg-gradient-to-l from-indigo-900/30 to-[#0B1120] border-0 shadow-2xl' : 'bg-gradient-to-l from-indigo-50 to-white border-slate-200 shadow-xl'}`}>
           <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-indigo-500/20 transition-all duration-700" />
           
           <div className="relative z-10">

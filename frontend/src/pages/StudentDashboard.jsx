@@ -23,7 +23,7 @@ const CAT_COLORS = {
   "Mathematics & Natural Science": { main: "#3B82F6", dark: "#1D4ED8" }, 
   "Natural Language": { main: "#A855F7", dark: "#7E22CE" }, 
   "Programming & Technology": { main: "#6366F1", dark: "#4338CA" }, 
-  "Business & Entrepreneurship": { main: "#FFD700", dark: "#CA8A04" }, 
+  "Business & Entrepreneurship": { main: "#F97316", dark: "#CA8A04" }, 
   "Personal Development": { main: "#22C55E", dark: "#15803D" }
 };
 

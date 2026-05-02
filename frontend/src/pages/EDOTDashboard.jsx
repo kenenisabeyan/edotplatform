@@ -447,15 +447,15 @@ export default function EDOTDashboard() {
                         <rect x="20" y="25" width="40" height="50" rx="4" fill="#E2E8F0" />
                         <rect x="30" y="15" width="45" height="55" rx="4" fill="#CBD5E1" />
                         <rect x="40" y="20" width="50" height="60" rx="4" fill="#F8FAFC" />
-                        <circle cx="65" cy="50" r="12" fill="#FFD700" />
+                        <circle cx="65" cy="50" r="12" fill="#F97316" />
                         <circle cx="65" cy="50" r="9" fill="#FDE047" />
                         <circle cx="65" cy="50" r="6" fill="#FEF08A" />
-                        <path d="M57 60 L61 75 L65 70 L69 75 L73 60" fill="#FFD700" />
+                        <path d="M57 60 L61 75 L65 70 L69 75 L73 60" fill="#F97316" />
                      </svg>
                   </div>
                   <button 
                     onClick={() => navigate('/dashboard/certificates')}
-                    className="w-full py-3 bg-[#FFD700] hover:bg-[#EAB308] text-[#0B0E14] font-bold rounded-xl transition-colors text-sm shadow-[0_0_15px_rgba(255,215,0,0.3)]"
+                    className="w-full py-3 bg-[#F97316] hover:bg-[#F97316] text-[#0B1120] font-bold rounded-xl transition-colors text-sm shadow-[0_0_15px_rgba(255,215,0,0.3)]"
                   >
                     {widgetConfig.action}
                   </button>
@@ -471,11 +471,11 @@ export default function EDOTDashboard() {
                 </div>
                 <div className="flex-1 flex flex-col items-center justify-center text-center">
                   <div className="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-[#00D4FF]/20 to-[#F97316]/20 flex items-center justify-center border border-[#F97316]/30">
-                     <Mail className="w-10 h-10 text-[#FFD700]" />
+                     <Mail className="w-10 h-10 text-[#F97316]" />
                   </div>
                   <button 
                     onClick={() => navigate('/dashboard/messages')}
-                    className="w-full py-3 border-2 border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-[#0B0E14] font-bold rounded-xl transition-all text-sm shadow-[inset_0_0_15px_rgba(255,215,0,0.1)]"
+                    className="w-full py-3 border-2 border-[#F97316] text-[#F97316] hover:bg-[#F97316] hover:text-[#0B1120] font-bold rounded-xl transition-all text-sm shadow-[inset_0_0_15px_rgba(255,215,0,0.1)]"
                   >
                     {widgetConfig.action}
                   </button>

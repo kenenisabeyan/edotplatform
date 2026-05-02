@@ -106,7 +106,7 @@ export default function AdminCourseApprovals() {
            </button>
            <button 
              onClick={() => setActiveTab('active')}
-             className={`px-6 py-2.5 rounded-lg text-xs font-black   transition-all ${activeTab === 'active' ? 'bg-[#E67E22]/20 text-[#E67E22] shadow-[0_0_15px_rgba(0,138,50,0.2)]' : 'text-slate-300 hover:text-white'}`}
+             className={`px-6 py-2.5 rounded-lg text-xs font-black   transition-all ${activeTab === 'active' ? 'bg-[#00D4FF]/20 text-[#00D4FF] shadow-[0_0_15px_rgba(0,138,50,0.2)]' : 'text-slate-300 hover:text-white'}`}
            >
              Active Enrollments
            </button>
@@ -115,7 +115,7 @@ export default function AdminCourseApprovals() {
       
       {activeTab === 'pending' && (courses.length === 0 && pendingEnrollments.length === 0) ? (
           <div className={`p-16 text-center rounded-3xl border shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-500 ${isDarkMode ? 'border-white/10 bg-[#1E293B]/90' : 'border-slate-200 bg-white/95'}`}>
-            <div className={`w-24 h-24 border rounded-full flex items-center justify-center mb-6 relative group border border-[#E67E22]/30 text-[#E67E22] ${isDarkMode ? 'bg-[#1E293B]/5 text-slate-200 border-white/10' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+            <div className={`w-24 h-24 border rounded-full flex items-center justify-center mb-6 relative group border border-[#00D4FF]/30 text-[#00D4FF] ${isDarkMode ? 'bg-[#1E293B]/5 text-slate-200 border-white/10' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
               <ClipboardCheck className="w-12 h-12" />
             </div>
             <h3 className={`text-2xl font-black mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Queue Clear</h3>
@@ -143,7 +143,7 @@ export default function AdminCourseApprovals() {
                           alt={c.title} 
                           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14] via-transparent to-transparent opacity-80 md:opacity-50"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-80 md:opacity-50"></div>
                         <div className={`absolute top-4 left-4 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-black text-[#F97316] shadow-sm border ${isDarkMode ? 'bg-[#1E293B]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
                           {c.mainCategory || 'General'}
                         </div>
@@ -251,7 +251,7 @@ export default function AdminCourseApprovals() {
           </div>
       ) : (
           <div className={`rounded-3xl p-6 border backdrop-blur-xl shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-500 ${isDarkMode ? 'bg-[#1E293B]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
-            <h3 className={`font-black text-lg mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><CheckCircle2 className="w-5 h-5 text-[#E67E22]"/> Active Authorized Enrollments ({activeEnrollments.length})</h3>
+            <h3 className={`font-black text-lg mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><CheckCircle2 className="w-5 h-5 text-[#00D4FF]"/> Active Authorized Enrollments ({activeEnrollments.length})</h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
               <AnimatePresence>
               {activeEnrollments.map(en => (
@@ -261,14 +261,14 @@ export default function AdminCourseApprovals() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   key={en.id} 
-                  className={`rounded-2xl border border-[#E67E22]/20 p-5 flex flex-col justify-between hover:border-[#E67E22]/50 transition-colors group shadow-lg relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}
+                  className={`rounded-2xl border border-[#00D4FF]/20 p-5 flex flex-col justify-between hover:border-[#00D4FF]/50 transition-colors group shadow-lg relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}
                 >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#E67E22]/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-[#E67E22]/10 transition-colors duration-500"></div>
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#00D4FF]/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-[#00D4FF]/10 transition-colors duration-500"></div>
                   
                   <div className="relative z-10">
                     <div className="flex items-start justify-between mb-2">
                        <h4 className={`font-black tracking-tight text-lg mb-1 break-words line-clamp-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{en.courseTitle}</h4>
-                       <span className="text-[9px] font-black  text-[#E67E22] bg-[#E67E22]/10 border border-[#E67E22]/30 px-2 py-0.5 rounded  whitespace-nowrap">Active</span>
+                       <span className="text-[9px] font-black  text-[#00D4FF] bg-[#00D4FF]/10 border border-[#00D4FF]/30 px-2 py-0.5 rounded  whitespace-nowrap">Active</span>
                     </div>
                     
                     <div className={`bg-[#1E293B] border p-3 rounded-xl mb-6 flex flex-col gap-1.5 mt-4 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>

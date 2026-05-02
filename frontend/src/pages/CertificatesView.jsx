@@ -94,7 +94,7 @@ export default function CertificatesView() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className={`w-10 h-10 border-4 border-t-[#FFD700] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+        <div className={`w-10 h-10 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
       </div>
     );
   }
@@ -104,7 +104,7 @@ export default function CertificatesView() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
         <div>
           <h1 className={`text-3xl font-display font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>My Certificates</h1>
-          <p className={`text-sm mt-1 font-semibold ${isDarkMode ? 'text-[#FFD700]' : 'text-indigo-600'}`}>Download and share your achievements.</p>
+          <p className={`text-sm mt-1 font-semibold ${isDarkMode ? 'text-[#F97316]' : 'text-indigo-600'}`}>Download and share your achievements.</p>
         </div>
       </div>
 
@@ -119,9 +119,9 @@ export default function CertificatesView() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {completedCourses.map((enrolled) => (
-            <div key={enrolled.course?.id} className={`rounded-3xl border shadow-2xl overflow-hidden group transition-colors ${isDarkMode ? 'bg-[#1E293B]/90 backdrop-blur-xl border-white/10 hover:border-[#FFD700]/30' : 'bg-white/95 border-slate-200 hover:border-indigo-300 hover:shadow-lg'}`}>
-              <div className={`aspect-[4/3] border-b p-8 flex flex-col items-center justify-center relative ${isDarkMode ? 'bg-gradient-to-br from-[#00D4FF]/5 to-[#0B0E14] border-white/10' : 'bg-gradient-to-br from-indigo-50 to-white border-slate-200'}`}>
-                <Award className={`w-16 h-16 mb-4 drop-shadow-sm ${isDarkMode ? 'text-[#FFD700]' : 'text-indigo-500'}`} />
+            <div key={enrolled.course?.id} className={`rounded-3xl border shadow-2xl overflow-hidden group transition-colors ${isDarkMode ? 'bg-[#1E293B]/90 backdrop-blur-xl border-white/10 hover:border-[#F97316]/30' : 'bg-white/95 border-slate-200 hover:border-indigo-300 hover:shadow-lg'}`}>
+              <div className={`aspect-[4/3] border-b p-8 flex flex-col items-center justify-center relative ${isDarkMode ? 'bg-gradient-to-br from-[#00D4FF]/5 to-[#0B1120] border-white/10' : 'bg-gradient-to-br from-indigo-50 to-white border-slate-200'}`}>
+                <Award className={`w-16 h-16 mb-4 drop-shadow-sm ${isDarkMode ? 'text-[#F97316]' : 'text-indigo-500'}`} />
                 <h3 className={`font-bold text-center line-clamp-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{enrolled.course?.title}</h3>
                 <div className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                   <button 
@@ -134,7 +134,7 @@ export default function CertificatesView() {
               </div>
               <div className={`p-4 flex justify-between items-center ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}>
                 <div className={`text-xs font-black ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Issued to</div>
-                <div className={`text-sm font-bold truncate ml-4 ${isDarkMode ? 'text-[#FFD700]' : 'text-indigo-600'}`}>{user?.name}</div>
+                <div className={`text-sm font-bold truncate ml-4 ${isDarkMode ? 'text-[#F97316]' : 'text-indigo-600'}`}>{user?.name}</div>
               </div>
             </div>
           ))}

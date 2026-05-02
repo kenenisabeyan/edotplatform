@@ -238,7 +238,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
     if (status === 'approved') return 'bg-emerald-500/100/20 text-emerald-300 border border-emerald-300';
     if (status === 'pending') return 'bg-amber-500/100/20 text-amber-300 border border-amber-300';
     if (status === 'rejected') return 'bg-rose-500/100/20 text-rose-300 border border-rose-300';
-    if (status === 'blocked') return 'bg-[#FFD700]/20 text-[#FFD700] border border-[#FFD700]';
+    if (status === 'blocked') return 'bg-[#F97316]/20 text-[#F97316] border border-[#F97316]';
     return 'bg-[#1E293B]/40 backdrop-blur-xl0/20 text-slate-200 border border-slate-400';
   };
 
@@ -260,7 +260,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
         >
           {loading ? (
              <div className="flex justify-center items-center h-64 mt-20" onClick={(e) => e.stopPropagation()}>
-               <div className={`w-10 h-10 border-4 border-t-[#FFD700] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+               <div className={`w-10 h-10 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
              </div>
           ) : selectedUser ? (
             <motion.div
@@ -268,13 +268,13 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 450, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 240, damping: 30 }}
-              className={`relative w-full max-w-6xl rounded-3xl border border-[#FFD700] p-5 md:p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl max-h-[85vh] overflow-y-auto custom-scrollbar ${isDarkMode ? 'bg-[#1E293B]/40' : 'bg-slate-50'}`}
+              className={`relative w-full max-w-6xl rounded-3xl border border-[#F97316] p-5 md:p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl max-h-[85vh] overflow-y-auto custom-scrollbar ${isDarkMode ? 'bg-[#1E293B]/40' : 'bg-slate-50'}`}
               onClick={(e) => e.stopPropagation()}
             >
             <div className="flex justify-between items-start gap-4 mb-6">
               <div className="flex items-center gap-5">
                 <div className="flex items-center justify-center shrink-0">
-                  <UserAvatar user={selectedUser} className="w-16 h-16 md:w-20 md:h-20 text-3xl shadow-lg border-2 border-[#FFD700]" />
+                  <UserAvatar user={selectedUser} className="w-16 h-16 md:w-20 md:h-20 text-3xl shadow-lg border-2 border-[#F97316]" />
                 </div>
                 <div>
                   <h3 className={`text-2xl md:text-3xl font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedUser.name}</h3>
@@ -284,7 +284,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                   </span>
                 </div>
               </div>
-              <button onClick={onClose} className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close Detial</button>
+              <button onClick={onClose} className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close Detial</button>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5 shrink-0">
@@ -322,9 +322,9 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                       <div className="flex flex-wrap gap-2 mb-3">
                         {(selectedUser.parents || []).length > 0 ?
                           selectedUser.parents.map((parent) => (
-                            <div key={parent.id} className="flex items-center gap-1 px-3 py-1.5 text-[11px] font-bold text-[#0B0E14] bg-[#FFD700] rounded-lg shadow-sm">
+                            <div key={parent.id} className="flex items-center gap-1 px-3 py-1.5 text-[11px] font-bold text-[#0B1120] bg-[#F97316] rounded-lg shadow-sm">
                               <span>{parent.name}</span>
-                              <button onClick={() => untieParentFromStudent(parent.id)} className="ml-1 text-[#0B0E14]/60 hover:text-red-700 text-[10px]  font-black transition-colors">X</button>
+                              <button onClick={() => untieParentFromStudent(parent.id)} className="ml-1 text-[#0B1120]/60 hover:text-red-700 text-[10px]  font-black transition-colors">X</button>
                             </div>
                           )) : <p className={`text-sm italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No parents connected</p>
                         }
@@ -377,7 +377,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                          <p className={`font-medium leading-relaxed ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{activity.action}</p>
                          {activity.metadata?.ip && <span className={`text-[9px] font-mono tracking-tighter border px-1.5 py-0.5 rounded ${isDarkMode ? 'text-slate-300 bg-[#1E293B]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>{activity.metadata.ip}</span>}
                       </div>
-                      <p className="text-[#FFD700]/70 mt-1.5 text-[10px] font-bold  ">{activity.type || 'action'} • {new Date(activity.createdAt).toLocaleString()} {activity.metadata?.userAgent && (activity.metadata.userAgent.includes('Mobi') ? '📱' : '💻')}</p>
+                      <p className="text-[#F97316]/70 mt-1.5 text-[10px] font-bold  ">{activity.type || 'action'} • {new Date(activity.createdAt).toLocaleString()} {activity.metadata?.userAgent && (activity.metadata.userAgent.includes('Mobi') ? '📱' : '💻')}</p>
                     </div>
                   )) : <p className={`text-sm italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No recent activity recorded.</p>}
                 </div>
@@ -508,7 +508,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                                 <div className="flex flex-col text-left flex-1 min-w-0">
                                   <span className={`font-bold truncate text-xs ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</span>
                                   <span className={`text-[9px] capitalize flex items-center gap-1.5 mt-0.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-                                    <span className="px-1.5 py-0.5 bg-[#FFD700]/10 text-[#FFD700] rounded text-[8px] font-black   border border-[#FFD700]/20">{c.category || 'Course'}</span>
+                                    <span className="px-1.5 py-0.5 bg-[#F97316]/10 text-[#F97316] rounded text-[8px] font-black   border border-[#F97316]/20">{c.category || 'Course'}</span>
                                     <span className="truncate font-medium">{c.level ? `${c.level}` : 'All Levels'} {c.duration ? `• ${c.duration}h` : ''}</span>
                                   </span>
                                 </div>
@@ -521,11 +521,11 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                         <button onClick={() => manualEnrollment(courseToEnroll, 'active')} className="px-4 py-2 font-bold   bg-blue-600/20 text-blue-300 border border-blue-600/30 hover:bg-blue-600/40 rounded-xl text-[10px] transition-colors shrink-0">Force Enroll</button>
                       </div>
                       <div className={`flex flex-wrap gap-2 pt-2 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                        <button onClick={resetUserProgress} className={`px-4 py-2 font-semibold border rounded-xl transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reset Progress</button>
+                        <button onClick={resetUserProgress} className={`px-4 py-2 font-semibold border rounded-xl transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reset Progress</button>
                         {selectedUser.status === 'blocked' ? (
                           <button onClick={async () => await updateUserStatus('approved')} className="px-4 py-2 font-bold   bg-emerald-500/100/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/100/40 rounded-xl text-[10px] transition-colors">Unblock Service</button>
                         ) : (
-                          <button onClick={blockService} className={`px-4 py-2 font-semibold border rounded-xl transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Block Service</button>
+                          <button onClick={blockService} className={`px-4 py-2 font-semibold border rounded-xl transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Block Service</button>
                         )}
                       </div>
                     </div>
@@ -574,7 +574,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           placeholder="Search student..." 
                           value={childSearch} 
                           onChange={(e) => setChildSearch(e.target.value)} 
-                          className={`w-1/3 px-3 py-2 rounded-xl bg-black/60 border text-xs outline-none focus:border-[#FFD700]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                          className={`w-1/3 px-3 py-2 rounded-xl bg-black/60 border text-xs outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
                         />
                         <CustomDropdown
                           value={selectedChildId}
@@ -605,7 +605,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     type="email"
                     value={selectedUser.email || ''}
                     onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
-                    className={`w-full px-4 py-2.5 text-sm rounded-xl border bg-black/60 focus:border-[#FFD700] outline-none transition-colors ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                    className={`w-full px-4 py-2.5 text-sm rounded-xl border bg-black/60 focus:border-[#F97316] outline-none transition-colors ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
                   />
                 </div>
                 <div>
@@ -629,7 +629,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     value={selectedUserPassword}
                     onChange={(e) => setSelectedUserPassword(e.target.value)}
                     placeholder="New password (min 6)"
-                    className={`w-full px-4 py-2.5 text-sm rounded-xl border bg-black/60 focus:border-[#FFD700] outline-none transition-colors ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                    className={`w-full px-4 py-2.5 text-sm rounded-xl border bg-black/60 focus:border-[#F97316] outline-none transition-colors ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
                   />
                 </div>
                 <div>
@@ -648,8 +648,8 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                 </div>
               </div>
               <div className={`mt-5 pt-5 border-t flex justify-between items-center gap-3 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                <button onClick={saveUserUpdates} className={`px-6 py-2.5 rounded-xl font-semibold transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Commit Changes</button>
-                <button onClick={deleteAdminUser} className={`px-6 py-2.5 rounded-xl font-semibold transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Purge Data</button>
+                <button onClick={saveUserUpdates} className={`px-6 py-2.5 rounded-xl font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Commit Changes</button>
+                <button onClick={deleteAdminUser} className={`px-6 py-2.5 rounded-xl font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Purge Data</button>
               </div>
             </div>
 
@@ -657,7 +657,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
           ) : (
             <div className={`p-8 text-center bg-black/80 rounded-2xl border mt-20 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`} onClick={(e) => e.stopPropagation()}>
                <p className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Failed to load user details.</p>
-               <button onClick={onClose} className={`mt-4 px-4 py-2 rounded-lg text-sm bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close</button>
+               <button onClick={onClose} className={`mt-4 px-4 py-2 rounded-lg text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close</button>
             </div>
           )}
         </motion.div>

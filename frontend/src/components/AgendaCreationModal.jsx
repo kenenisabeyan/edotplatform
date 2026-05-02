@@ -121,7 +121,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
            <h2 className={`text-xl font-bold flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
               <Calendar className="w-5 h-5 text-[#F97316]" /> Create New Agenda
            </h2>
-           <button onClick={onClose} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+           <button onClick={onClose} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
              <X className="w-5 h-5" />
            </button>
         </div>
@@ -167,7 +167,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
                         <input 
                           type="date" required 
                           value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})}
-                          className={`w-full pl-10 pr-4 py-3 bg-[#1E293B]/50 border rounded-xl text-sm focus:border-[#FFD700]/50 focus:ring-1 focus:ring-[#FFD700]/50 font-medium outline-none color-scheme-dark ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
+                          className={`w-full pl-10 pr-4 py-3 bg-[#1E293B]/50 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium outline-none color-scheme-dark ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
                         />
                         <Calendar className={`absolute left-3 top-3.5 w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                      </div>
@@ -178,7 +178,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
                         <input 
                           type="time" required 
                           value={formData.time} onChange={e => setFormData({...formData, time: e.target.value})}
-                          className={`w-full pl-10 pr-4 py-3 bg-[#1E293B]/50 border rounded-xl text-sm focus:border-[#FFD700]/50 focus:ring-1 focus:ring-[#FFD700]/50 font-medium outline-none color-scheme-dark ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
+                          className={`w-full pl-10 pr-4 py-3 bg-[#1E293B]/50 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium outline-none color-scheme-dark ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
                         />
                         <Clock className={`absolute left-3 top-3.5 w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                      </div>
@@ -230,9 +230,9 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
              type="submit" 
              form="agendaForm" 
              disabled={loading}
-             className={`px-8 py-2.5 rounded-xl font-semibold transition-colors disabled:opacity-50 flex items-center gap-2 bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+             className={`px-8 py-2.5 rounded-xl font-semibold transition-colors disabled:opacity-50 flex items-center gap-2 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
            >
-              {loading && <div className="w-4 h-4 border-2 border-[#0B0E14] border-t-transparent rounded-full animate-spin"></div>}
+              {loading && <div className="w-4 h-4 border-2 border-[#0B1120] border-t-transparent rounded-full animate-spin"></div>}
               Broadcast
            </button>
         </div>

@@ -214,7 +214,7 @@ export default function Lesson() {
         <div className={`bg-[#1E293B] border p-10 rounded-2xl shadow-2xl text-center max-w-md w-full ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
           <Lock className="w-16 h-16 text-red-500 mx-auto mb-6" />
           <p className="font-black mb-8 text-xl  ">{error || 'Clearance error.'}</p>
-          <Link to="/student/courses" className={`px-6 py-4 ] font-black rounded-xl hover:] inline-flex items-center gap-2 transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+          <Link to="/student/courses" className={`px-6 py-4 ] font-black rounded-xl hover:] inline-flex items-center gap-2 transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             <ArrowLeft className="w-5 h-5" /> Return to Dashboard
           </Link>
         </div>
@@ -231,15 +231,15 @@ export default function Lesson() {
       <div className={`w-full bg-[#1E293B]/90 backdrop-blur-xl border-b sticky top-0 z-50 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <div className="flex items-center gap-6">
-                <Link to="/student/courses" className={`flex items-center gap-2 font-bold sm:text-white transition-colors px-4 py-2 rounded-lg border bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                <Link to="/student/courses" className={`flex items-center gap-2 font-bold sm:text-white transition-colors px-4 py-2 rounded-lg border bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                    <ArrowLeft className="w-4 h-4" /> Dashboard
                 </Link>
-                <Link to={`/course/${course.id}`} className={`flex items-center gap-2 font-bold sm:text-white transition-colors px-4 py-2 rounded-lg border bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                <Link to={`/course/${course.id}`} className={`flex items-center gap-2 font-bold sm:text-white transition-colors px-4 py-2 rounded-lg border bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                    Course Info
                 </Link>
             </div>
             <div className={`hidden md:flex font-black text-lg ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               EDOT <span className="text-[#E67E22] ml-2">Learning Protocol</span>
+               EDOT <span className="text-[#00D4FF] ml-2">Learning Protocol</span>
             </div>
          </div>
       </div>
@@ -248,14 +248,14 @@ export default function Lesson() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-8 relative z-10">
          
          {/* Course Header Banner */}
-         <div className={`bg-gradient-to-r from-[#11151F] to-[#0B0E14] rounded-3xl border p-8 sm:p-12 mb-10 relative overflow-hidden shadow-2xl ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+         <div className={`bg-gradient-to-r from-[#11151F] to-[#0B1120] rounded-3xl border p-8 sm:p-12 mb-10 relative overflow-hidden shadow-2xl ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
             <div className="absolute top-[-50px] right-[-50px] w-48 h-48 bg-[#FFC107]/10 rounded-full blur-[60px] pointer-events-none"></div>
-            <div className="absolute bottom-[-50px] left-[-50px] w-48 h-48 bg-[#E67E22]/10 rounded-full blur-[60px] pointer-events-none"></div>
+            <div className="absolute bottom-[-50px] left-[-50px] w-48 h-48 bg-[#00D4FF]/10 rounded-full blur-[60px] pointer-events-none"></div>
             
             <div className="flex flex-col items-center text-center relative z-10">
                <h1 className={`text-3xl sm:text-4xl font-display font-medium mb-4 leading-snug break-words max-w-2xl ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                   {course.title.split(',')[0]} <br className="hidden sm:block" />
-                  <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-[#008A32] px-2">
+                  <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#008A32] px-2">
                      {course.title.includes(',') ? course.title.substring(course.title.indexOf(',') + 1) : 'EDOT Masterclass'}
                   </span>
                </h1>
@@ -302,19 +302,19 @@ export default function Lesson() {
                         className={`w-full p-5 sm:p-6 flex justify-between items-center transition-colors ${isPhaseExp ? 'bg-[#1E293B]/5' : 'hover:bg-[#1E293B]/5'}`}
                      >
                         <div className="flex items-center gap-6 text-left">
-                           <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-inner ${lCompleted ? 'bg-[#E67E22]/20 text-[#E67E22] border border-[#E67E22]/30' : 'bg-[#1E293B] text-[#FFD700] border '} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                           <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-inner ${lCompleted ? 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30' : 'bg-[#1E293B] text-[#F97316] border '} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                               {lCompleted ? <CheckCircle2 className="w-6 h-6"/> : (idx + 1)}
                            </div>
                            <h2 className={`text-xl sm:text-2xl font-bold tracking-tight leading-snug ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Phase {idx + 1}: {lesson.title}</h2>
                         </div>
                         <div className={`shrink-0 ml-4 hidden sm:block p-2 rounded-full border ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-white border-slate-100'}`}>
-                           {isPhaseExp ? <ChevronUp className="w-5 h-5 text-[#FFD700]" /> : <ChevronDown className={`w-5 h-5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />}
+                           {isPhaseExp ? <ChevronUp className="w-5 h-5 text-[#F97316]" /> : <ChevronDown className={`w-5 h-5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />}
                         </div>
                      </button>
                      
                      {/* Phase Expanded Content */}
                      {isPhaseExp && (
-                        <div className={`p-4 sm:p-8 bg-gradient-to-b from-[#11151F] to-[#0B0E14] border-t space-y-4 animate-in slide-in-from-top-2 duration-300 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                        <div className={`p-4 sm:p-8 bg-gradient-to-b from-[#11151F] to-[#0B1120] border-t space-y-4 animate-in slide-in-from-top-2 duration-300 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                            
                            {/* Category: Mission Objectives (To-Do) */}
                            <div className={`rounded-2xl border overflow-hidden bg-[#1E293B] shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
@@ -353,8 +353,8 @@ export default function Lesson() {
                                           {lesson.title} - Visual Feed
                                        </span>
                                        <div className="flex items-center gap-4">
-                                          {lCompleted ? <Unlock className="w-4 h-4 text-[#E67E22]" /> : <Lock className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />}
-                                          <div className={`p-1.5 rounded-full ${playingVideoId === lId ? 'bg-[#FFD700]/10 text-[#FFD700]' : 'bg-[#1E293B]/5 group-hover:text-white'} ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+                                          {lCompleted ? <Unlock className="w-4 h-4 text-[#00D4FF]" /> : <Lock className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />}
+                                          <div className={`p-1.5 rounded-full ${playingVideoId === lId ? 'bg-[#F97316]/10 text-[#F97316]' : 'bg-[#1E293B]/5 group-hover:text-white'} ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
                                             {playingVideoId === lId ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                                           </div>
                                        </div>
@@ -389,7 +389,7 @@ export default function Lesson() {
                                           )}
                                           
                                           {/* Disable Warning Text */}
-                                          <div className="bg-[#FFD700]/10 border border-[#FFD700]/20 rounded-xl p-4 mt-6 text-xs font-black   text-[#FFD700] text-center flex items-center justify-center gap-3">
+                                          <div className="bg-[#F97316]/10 border border-[#F97316]/20 rounded-xl p-4 mt-6 text-xs font-black   text-[#F97316] text-center flex items-center justify-center gap-3">
                                              <Lock className="w-4 h-4" /> Protected Stream: Direct URL access and downloading are disabled
                                           </div>
                                        </div>
@@ -483,7 +483,7 @@ export default function Lesson() {
                                  }}
                                  disabled={!isActive || lCompleted || completingPhase[lId] || (!videoProgress[lId] && lesson.videoUrl)}
                                  className={`w-full md:w-auto px-8 py-5 font-black   text-xs rounded-2xl transition-all flex items-center justify-center gap-3 ${
-                                    lCompleted ? 'bg-[#E67E22] text-white shadow-[0_0_20px_rgba(0,138,50,0.3)]' 
+                                    lCompleted ? 'bg-[#00D4FF] text-white shadow-[0_0_20px_rgba(0,138,50,0.3)]' 
                                     : (!isActive || (!videoProgress[lId] && lesson.videoUrl)) ? 'bg-[#1E293B] text-slate-300 border-2 border-white/5 cursor-not-allowed' 
                                     : completingPhase[lId] ? 'bg-[#1e48bc] text-white animate-pulse'
                                     : 'bg-[#1e48bc] hover:bg-[#295ce8] text-white shadow-lg'
@@ -507,9 +507,9 @@ export default function Lesson() {
 
          {/* Course Completion / Certificate Generation */}
          {course.lessons?.length > 0 && completedList.length >= course.lessons.length && (
-            <div className="mt-12 bg-gradient-to-r from-[#008A32]/20 to-[#00A13B]/10 rounded-3xl border border-[#E67E22]/30 p-8 sm:p-12 text-center animate-in zoom-in duration-500 shadow-[0_0_40px_rgba(0,138,50,0.15)] relative overflow-hidden">
-               <div className="absolute top-0 right-0 w-64 h-64 bg-[#E67E22]/20 rounded-full blur-[80px] pointer-events-none"></div>
-               <Award className={`w-20 h-20 mx-auto mb-6 drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] ${certificateData ? 'text-[#E67E22]' : 'text-[#FFD700]'}`} />
+            <div className="mt-12 bg-gradient-to-r from-[#008A32]/20 to-[#00A13B]/10 rounded-3xl border border-[#00D4FF]/30 p-8 sm:p-12 text-center animate-in zoom-in duration-500 shadow-[0_0_40px_rgba(0,138,50,0.15)] relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/20 rounded-full blur-[80px] pointer-events-none"></div>
+               <Award className={`w-20 h-20 mx-auto mb-6 drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] ${certificateData ? 'text-[#00D4FF]' : 'text-[#F97316]'}`} />
                <h2 className={`text-3xl font-black mb-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                   {certificateData ? 'Certificate Secured' : 'Course Protocol Completed'}
                </h2>
@@ -524,7 +524,7 @@ export default function Lesson() {
                   course.isExamRequired && !enrollmentProgress?.passedFinalExam ? (
                      <Link 
                         to={`/quiz/${course.id}`}
-                        className={`px-10 py-5 font-black rounded-xl hover:scale-105 transition-all flex items-center justify-center gap-3 mx-auto bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                        className={`px-10 py-5 font-black rounded-xl hover:scale-105 transition-all flex items-center justify-center gap-3 mx-auto bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                      >
                         <CheckCircle2 className="w-6 h-6" /> Take Final Challenge
                      </Link>
@@ -532,15 +532,15 @@ export default function Lesson() {
                      <button 
                         onClick={handleClaimCertificate}
                         disabled={generatingCertificate}
-                        className={`px-10 py-5 font-black   rounded-xl transition-all flex items-center justify-center gap-3 mx-auto shadow-xl ${generatingCertificate ? 'bg-[#FFD700]/50 text-black/50 cursor-not-allowed' : 'bg-gradient-to-r from-[#FFD700] to-yellow-500 text-black hover:scale-105'}`}
+                        className={`px-10 py-5 font-black   rounded-xl transition-all flex items-center justify-center gap-3 mx-auto shadow-xl ${generatingCertificate ? 'bg-[#F97316]/50 text-black/50 cursor-not-allowed' : 'bg-gradient-to-r from-[#F97316] to-orange-500 text-black hover:scale-105'}`}
                      >
                         <Award className={`w-6 h-6 ${generatingCertificate ? 'animate-pulse' : ''}`} /> 
                         {generatingCertificate ? 'Synthesizing...' : 'Claim Official Certificate'}
                      </button>
                   )
                ) : (
-                  <Link to="/student/profile" className={`px-10 py-5 ] font-black rounded-xl hover:] transition-colors flex items-center justify-center gap-3 mx-auto max-w-xs cursor-pointer inline-flex bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                     <CheckCircle2 className="w-5 h-5 text-[#E67E22] group-hover:text-white" /> View Certificate
+                  <Link to="/student/profile" className={`px-10 py-5 ] font-black rounded-xl hover:] transition-colors flex items-center justify-center gap-3 mx-auto max-w-xs cursor-pointer inline-flex bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                     <CheckCircle2 className="w-5 h-5 text-[#00D4FF] group-hover:text-white" /> View Certificate
                   </Link>
                )}
             </div>

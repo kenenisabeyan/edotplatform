@@ -141,7 +141,7 @@ export default function UsersManagement() {
             Approve registrations and promote user roles across the platform.
           </p>
         </div>
-        <div className="bg-[#E67E22]/10 px-4 py-2 rounded-xl text-sm font-bold text-[#E67E22] flex items-center gap-2 border border-[#E67E22]/20 shadow-sm">
+        <div className="bg-[#00D4FF]/10 px-4 py-2 rounded-xl text-sm font-bold text-[#00D4FF] flex items-center gap-2 border border-[#00D4FF]/20 shadow-sm">
           <ShieldCheck className="w-4 h-4" /> Super Admin Access Active
         </div>
       </div>
@@ -155,12 +155,12 @@ export default function UsersManagement() {
               placeholder="Search users..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full pl-9 pr-4 py-2 border rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#FFD700] transition-shadow placeholder-slate-400 ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
+              className={`w-full pl-9 pr-4 py-2 border rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#F97316] transition-shadow placeholder-slate-400 ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
             />
           </div>
           <button
             onClick={() => setShowAddForm((prev) => !prev)}
-            className="px-4 py-2 rounded-lg border border-[#FFD700]/50 bg-[#FFD700]/15 text-[#FFD700] font-semibold hover:bg-[#FFD700]/30"
+            className="px-4 py-2 rounded-lg border border-[#F97316]/50 bg-[#F97316]/15 text-[#F97316] font-semibold hover:bg-[#F97316]/30"
           >
             {showAddForm ? 'Close Add User' : 'Add New User'}
           </button>
@@ -205,7 +205,7 @@ export default function UsersManagement() {
             />
             <button
               type="submit"
-              className={`col-span-1 md:col-span-1 px-4 py-2 rounded-lg font-semibold bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 px-4 py-2 rounded-lg font-semibold bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
             >
               Create User
             </button>
@@ -213,7 +213,7 @@ export default function UsersManagement() {
         )}
 
         {notice && (
-          <div className="mb-4 p-3 rounded-lg bg-[#FFD700]/15 border border-[#FFD700]/25 text-[#FFD700] text-sm font-semibold">{notice}</div>
+          <div className="mb-4 p-3 rounded-lg bg-[#F97316]/15 border border-[#F97316]/25 text-[#F97316] text-sm font-semibold">{notice}</div>
         )}
 
         <div className="overflow-x-auto">
@@ -251,12 +251,12 @@ export default function UsersManagement() {
                     <td className="px-6 py-4">
                       {u.status === 'pending' ? (
                         <div className="flex gap-2 relative z-10 w-max">
-                            <button onClick={() => updateUserStatus(u.id, 'approved')} className="text-xs font-bold bg-[#E67E22]/10 text-[#E67E22] hover:bg-[#E67E22]/20 px-3 py-1.5 rounded-lg border border-[#E67E22]/20 transition-colors shadow-sm">Approve</button>
+                            <button onClick={() => updateUserStatus(u.id, 'approved')} className="text-xs font-bold bg-[#00D4FF]/10 text-[#00D4FF] hover:bg-[#00D4FF]/20 px-3 py-1.5 rounded-lg border border-[#00D4FF]/20 transition-colors shadow-sm">Approve</button>
                             <button onClick={() => updateUserStatus(u.id, 'rejected')} className="text-xs font-bold bg-[#E30A17]/10 text-[#E30A17] hover:bg-[#E30A17]/20 px-3 py-1.5 rounded-lg border border-[#E30A17]/20 transition-colors shadow-sm">Reject</button>
                         </div>
                       ) : (
                         <span className={`inline-flex w-max items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold   border ${
-                          u.status === 'approved' ? 'bg-[#E67E22]/10 text-[#E67E22] border-[#E67E22]/20' : 
+                          u.status === 'approved' ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20' : 
                           u.status === 'rejected' ? 'bg-[#E30A17]/10 text-[#E30A17] border-[#E30A17]/20' : 
                           'bg-[#1E293B]/5 text-slate-300 border-white/10'
                         }`}>
@@ -304,7 +304,7 @@ export default function UsersManagement() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex flex-wrap gap-2">
-                      <button onClick={() => resetUserPassword(u.id)} className="text-xs px-2.5 py-1 rounded-lg bg-yellow-500/15 text-yellow-300 hover:bg-yellow-500/25 border border-yellow-500/20">Reset PW</button>
+                      <button onClick={() => resetUserPassword(u.id)} className="text-xs px-2.5 py-1 rounded-lg bg-orange-500/15 text-yellow-300 hover:bg-orange-500/25 border border-orange-500/20">Reset PW</button>
                       <button onClick={() => deleteUser(u.id)} className="text-xs px-2.5 py-1 rounded-lg bg-red-500/15 text-red-300 hover:bg-red-500/25 border border-red-500/20">Delete</button>
                       <button onClick={() => showUserDetails(u)} className={`text-xs px-2.5 py-1 rounded-lg backdrop-blur-xl0/15 hover:bg-[#1E293B]/40 backdrop-blur-xl0/25 border border-slate-500/20 ${isDarkMode ? 'bg-[#1E293B]/40 text-slate-300' : 'bg-slate-50 text-slate-500'}`}>Details</button>
                     </div>

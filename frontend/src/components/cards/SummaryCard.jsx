@@ -30,7 +30,7 @@ export default function SummaryCard({ title, value, percentage, isPositive, icon
           <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{title}</h3>
         </div>
         {percentage && (
-           <div className={`flex items-center gap-1 text-[10px] font-black px-2.5 py-1 rounded-md   shadow-sm ${isPositive ? 'bg-[#E67E22]/20 text-[#E67E22]' : 'bg-[#E30A17]/20 text-[#E30A17]'}`}>
+           <div className={`flex items-center gap-1 text-[10px] font-black px-2.5 py-1 rounded-md   shadow-sm ${isPositive ? 'bg-[#00D4FF]/20 text-[#00D4FF]' : 'bg-[#E30A17]/20 text-[#E30A17]'}`}>
              {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
              {percentage}%
            </div>

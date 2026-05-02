@@ -92,7 +92,7 @@ export default function CalendarView() {
            </div>
            
            <div className={`flex gap-2 p-1.5 rounded-xl border shadow-inner ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
-              <button className={`px-5 py-2 font-semibold rounded-lg bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Month</button>
+              <button className={`px-5 py-2 font-semibold rounded-lg bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Month</button>
               <button className={`px-5 py-2 text-[10px] font-medium rounded-lg transition-colors text-sm ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>Week</button>
            </div>
          </div>
@@ -133,7 +133,7 @@ export default function CalendarView() {
                        <>
                          <div className={`text-sm font-black w-8 h-8 flex items-center justify-center rounded-xl mb-3 transition-colors ${
                            isToday 
-                           ? (isDarkMode ? 'bg-[#F97316] text-[#0B0E14] shadow-[0_0_15px_rgba(249,115,22,0.4)]' : 'bg-indigo-600 text-white shadow-md') 
+                           ? (isDarkMode ? 'bg-[#F97316] text-[#0B1120] shadow-[0_0_15px_rgba(249,115,22,0.4)]' : 'bg-indigo-600 text-white shadow-md') 
                            : (isDarkMode ? 'bg-[#1E293B] text-white border border-white/5 group-hover:border-[#F97316]/30 group-hover:text-[#F97316]' : 'bg-white text-slate-700 border border-slate-200 group-hover:border-indigo-300 group-hover:text-indigo-600 shadow-sm')
                          }`}>
                            {displayDate}
@@ -156,7 +156,7 @@ export default function CalendarView() {
                          {(user?.role === 'admin' || user?.role === 'instructor') && (
                            <button 
                              onClick={() => setShowModal(true)} 
-                             className={`absolute top-2 right-2 w-7 h-7 rounded-lg border items-center justify-center opacity-0 group-hover:opacity-100 transition-all hidden md:flex shadow-inner ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-slate-200 hover:bg-[#E67E22]/20 hover:text-[#E67E22] hover:border-[#E67E22]/30' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-indigo-600 hover:border-slate-300'}`}
+                             className={`absolute top-2 right-2 w-7 h-7 rounded-lg border items-center justify-center opacity-0 group-hover:opacity-100 transition-all hidden md:flex shadow-inner ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-slate-200 hover:bg-[#00D4FF]/20 hover:text-[#00D4FF] hover:border-[#00D4FF]/30' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-indigo-600 hover:border-slate-300'}`}
                            >
                              <Plus className="w-4 h-4" />
                            </button>

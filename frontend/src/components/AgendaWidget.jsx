@@ -54,7 +54,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
             const zIndexes = ['z-30', 'z-20', 'z-10'];
             const avatar = getAvatarUrl(u.avatar);
             return (
-              <div key={u.id || i} className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B0E14] ${colors[i % colors.length]} overflow-hidden flex items-center justify-center shrink-0 relative ${zIndexes[i]}`}>
+              <div key={u.id || i} className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B1120] ${colors[i % colors.length]} overflow-hidden flex items-center justify-center shrink-0 relative ${zIndexes[i]}`}>
                 {avatar ? (
                   <img src={avatar} alt={u.name || "User Avatar"} className="w-full h-full object-cover" />
                 ) : (
@@ -65,12 +65,12 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
           })
         ) : (
           <>
-            <div className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B0E14] bg-blue-500/100 overflow-hidden flex items-center justify-center shrink-0 relative z-30`}><span className={`font-bold ${isModal ? 'text-xs' : 'text-[10px]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>K</span></div>
-            <div className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B0E14] bg-emerald-500/100 overflow-hidden flex items-center justify-center shrink-0 relative z-20`}><span className={`font-bold ${isModal ? 'text-xs' : 'text-[10px]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>N</span></div>
-            <div className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B0E14] bg-rose-500/100 overflow-hidden flex items-center justify-center shrink-0 relative z-10`}><span className={`font-bold ${isModal ? 'text-xs' : 'text-[10px]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>A</span></div>
+            <div className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B1120] bg-blue-500/100 overflow-hidden flex items-center justify-center shrink-0 relative z-30`}><span className={`font-bold ${isModal ? 'text-xs' : 'text-[10px]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>K</span></div>
+            <div className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B1120] bg-emerald-500/100 overflow-hidden flex items-center justify-center shrink-0 relative z-20`}><span className={`font-bold ${isModal ? 'text-xs' : 'text-[10px]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>N</span></div>
+            <div className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B1120] bg-rose-500/100 overflow-hidden flex items-center justify-center shrink-0 relative z-10`}><span className={`font-bold ${isModal ? 'text-xs' : 'text-[10px]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>A</span></div>
           </>
         )}
-        <div className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B0E14] bg-gradient-to-br from-[#00D4FF] to-[#0099CC] flex items-center justify-center z-0 font-black shrink-0 relative ${isModal ? 'text-[8px]' : 'text-[7px]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+        <div className={`${isModal ? 'w-8 h-8 border-2' : 'w-5 h-5 border'} rounded-full border-[#0B1120] bg-gradient-to-br from-[#00D4FF] to-[#0099CC] flex items-center justify-center z-0 font-black shrink-0 relative ${isModal ? 'text-[8px]' : 'text-[7px]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
           {totalUsers}
         </div>
       </div>
@@ -185,7 +185,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
           <div className={`shrink-0 pt-4 mt-1 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
             <button 
               onClick={onCreateClick} 
-              className={`w-full py-2.5 text-sm font-semibold rounded-xl border transition-all hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`w-full py-2.5 text-sm font-semibold rounded-xl border transition-all hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
             >
               + Create Agenda Event
             </button>

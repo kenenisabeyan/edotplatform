@@ -45,7 +45,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
     switch (type) {
       case 'auth': return <LogIn className="w-5 h-5 text-[#F97316]" />;
       case 'course': return <BookOpen className="w-5 h-5 text-blue-400" />;
-      case 'enrollment': return <CheckCircle className="w-5 h-5 text-[#E67E22]" />;
+      case 'enrollment': return <CheckCircle className="w-5 h-5 text-[#00D4FF]" />;
       case 'learning': return <Activity className="w-5 h-5 text-purple-400" />;
       case 'communication': return <MessageSquare className="w-5 h-5 text-pink-400" />;
       case 'system': return <Settings className={`w-5 h-5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />;
@@ -57,7 +57,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
     switch (type) {
       case 'auth': return 'bg-[#F97316]/10 border-[#F97316]/30 shadow-[0_0_15px_rgba(249,115,22,0.1)]';
       case 'course': return 'bg-blue-500/100/10 border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.1)]';
-      case 'enrollment': return 'bg-[#E67E22]/10 border-[#E67E22]/30 shadow-[0_0_15px_rgba(0,138,50,0.1)]';
+      case 'enrollment': return 'bg-[#00D4FF]/10 border-[#00D4FF]/30 shadow-[0_0_15px_rgba(0,138,50,0.1)]';
       case 'learning': return 'bg-purple-500/100/10 border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.1)]';
       case 'communication': return 'bg-pink-500/10 border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.1)]';
       case 'system': return 'bg-[#1E293B]/40 backdrop-blur-xl0/10 border-white/5';
@@ -118,7 +118,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
                <div className="flex items-center gap-2">
                  {activity.visibility === 'private' && <span className={`text-[9px] font-black border px-2 py-1 rounded-md shadow-sm ${isDarkMode ? 'text-slate-300 bg-[#1E293B]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>Private</span>}
                  {activity.visibility === 'insight' && (
-                   <span className={`text-[9px]  font-black  px-2 py-1 rounded-md shadow-sm flex items-center gap-1 border ${activity.insightFlag === 'achievement' ? 'text-[#E67E22] bg-[#E67E22]/10 border-[#E67E22]/20' : activity.insightFlag === 'concern' ? 'text-[#E30A17] bg-[#E30A17]/10 border-[#E30A17]/20' : 'text-blue-400 bg-blue-500/100/10 border-blue-500/20'}`}>
+                   <span className={`text-[9px]  font-black  px-2 py-1 rounded-md shadow-sm flex items-center gap-1 border ${activity.insightFlag === 'achievement' ? 'text-[#00D4FF] bg-[#00D4FF]/10 border-[#00D4FF]/20' : activity.insightFlag === 'concern' ? 'text-[#E30A17] bg-[#E30A17]/10 border-[#E30A17]/20' : 'text-blue-400 bg-blue-500/100/10 border-blue-500/20'}`}>
                      {activity.insightFlag === 'achievement' ? <TrendingUp className="w-3 h-3"/> : activity.insightFlag === 'concern' ? <AlertTriangle className="w-3 h-3"/> : null}
                      Insight: {activity.insightFlag || 'Curated'}
                    </span>
@@ -128,7 +128,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
                {/* Instructor/Admin Flag controls */}
                {(user?.role === 'instructor' || user?.role === 'admin') && filterType === 'all' && activity.visibility !== 'insight' && (
                  <div className="flex gap-2">
-                   <button onClick={() => handleFlag(activity.id, 'achievement')} className="text-[10px] font-black   text-[#E67E22] hover:bg-[#E67E22]/20 bg-[#E67E22]/10 border border-[#E67E22]/20 px-3 py-1 rounded-md transition-colors">Flag Achievement</button>
+                   <button onClick={() => handleFlag(activity.id, 'achievement')} className="text-[10px] font-black   text-[#00D4FF] hover:bg-[#00D4FF]/20 bg-[#00D4FF]/10 border border-[#00D4FF]/20 px-3 py-1 rounded-md transition-colors">Flag Achievement</button>
                    <button onClick={() => handleFlag(activity.id, 'concern')} className="text-[10px] font-black   text-[#E30A17] hover:bg-[#E30A17]/20 bg-[#E30A17]/10 border border-[#E30A17]/20 px-3 py-1 rounded-md transition-colors">Flag Concern</button>
                  </div>
                )}

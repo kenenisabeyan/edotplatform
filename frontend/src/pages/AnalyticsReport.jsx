@@ -64,10 +64,10 @@ export default function AnalyticsReport() {
           </div>
         </div>
         <div className="flex gap-3">
-          <button className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors border bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+          <button className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors border bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             <Filter className="w-4 h-4" /> Filter
           </button>
-          <button className={`flex items-center gap-2 hover:shadow-[0_0_15px_rgba(0,138,50,0.4)] px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:-translate-y-0.5 bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+          <button className={`flex items-center gap-2 hover:shadow-[0_0_15px_rgba(0,138,50,0.4)] px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:-translate-y-0.5 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             <Download className="w-4 h-4" /> Export PDF
           </button>
         </div>
@@ -94,13 +94,13 @@ export default function AnalyticsReport() {
              </div>
              
              <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex flex-col justify-between group hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-               <div className="absolute right-[-10%] top-[-10%] w-32 h-32 bg-[#E67E22]/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+               <div className="absolute right-[-10%] top-[-10%] w-32 h-32 bg-[#00D4FF]/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                <div className="flex justify-between items-center mb-4 relative z-10">
-                 <div className="p-3 bg-[#E67E22]/10 border border-[#E67E22]/30 text-[#E67E22] rounded-xl"><Users className="w-6 h-6" /></div>
+                 <div className="p-3 bg-[#00D4FF]/10 border border-[#00D4FF]/30 text-[#00D4FF] rounded-xl"><Users className="w-6 h-6" /></div>
                </div>
                <div className="relative z-10">
                  <h2 className={`text-4xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{reportData.totalActiveLearners || 0}</h2>
-                 <p className="text-[#E67E22] font-bold text-xs  ">Active Learners</p>
+                 <p className="text-[#00D4FF] font-bold text-xs  ">Active Learners</p>
                </div>
              </div>
 
@@ -132,7 +132,7 @@ export default function AnalyticsReport() {
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.1} />
                       <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
                       <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
-                      <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B0E14', color: '#fff', fontWeight: 'bold' }} />
+                      <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B1120', color: '#fff', fontWeight: 'bold' }} />
                       <Area type="monotone" dataKey="revenue" stroke="#F97316" strokeWidth={4} fillOpacity={1} fill="url(#colorRevenue)" />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -147,7 +147,7 @@ export default function AnalyticsReport() {
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.1} />
                       <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
                       <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
-                      <Tooltip cursor={{fill: 'rgba(255, 255, 255, 0.05)'}} contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B0E14', color: '#fff', fontWeight: 'bold' }} />
+                      <Tooltip cursor={{fill: 'rgba(255, 255, 255, 0.05)'}} contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B1120', color: '#fff', fontWeight: 'bold' }} />
                       <Bar dataKey="students" fill="#00D4FF" radius={[6, 6, 0, 0]} name="Students" barSize={20} />
                       <Bar dataKey="teachers" fill="#4B5563" radius={[6, 6, 0, 0]} name="Teachers" barSize={20} />
                     </BarChart>
@@ -167,7 +167,7 @@ export default function AnalyticsReport() {
                            <Cell key={`cell-${index}`} fill={entry.color || COLORS[index % COLORS.length]} />
                          ))}
                        </Pie>
-                       <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: '#0B0E14', color: '#fff' }} />
+                       <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: '#0B1120', color: '#fff' }} />
                      </PieChart>
                    </ResponsiveContainer>
                 </div>
@@ -187,13 +187,13 @@ export default function AnalyticsReport() {
                 </div>
              </div>
 
-             <div className={`bg-gradient-to-br from-[#1a1f2e] to-[#0B0E14] p-8 rounded-3xl border shadow-inner flex flex-col justify-center relative overflow-hidden ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+             <div className={`bg-gradient-to-br from-[#1a1f2e] to-[#0B1120] p-8 rounded-3xl border shadow-inner flex flex-col justify-center relative overflow-hidden ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none"></div>
                <h3 className="text-xl font-bold text-[#F97316] mb-3 relative z-10">Automated Insight AI</h3>
                <p className={`font-medium leading-relaxed text-sm mb-6 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
                  Platform performance is actively monitored. Automated insights will generate here automatically once enough interaction data aligns with algorithmic thresholds.
                </p>
-               <button className={`self-start text-sm font-semibold px-6 py-3 rounded-xl transition-all border relative z-10 hover:shadow-lg bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+               <button className={`self-start text-sm font-semibold px-6 py-3 rounded-xl transition-all border relative z-10 hover:shadow-lg bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                  Generate Briefing
                </button>
              </div>

@@ -109,12 +109,12 @@ export default function CustomDropdown({
           if (!isOpen) setSearchQuery('');
           setIsOpen(!isOpen);
         }}
-        className={`w-full flex items-center justify-between px-4 py-2.5 bg-black/40 border rounded-xl text-sm focus:outline-none focus:border-[#FFD700]/50 focus:ring-1 focus:ring-[#FFD700]/30 transition-all shadow-sm hover:border-white/20 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+        className={`w-full flex items-center justify-between px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/30 transition-all shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white hover:border-white/20' : 'bg-white border-slate-200 text-slate-900 hover:border-slate-300'}`}
       >
-        <span className={`truncate ${!value || value === '' ? 'text-slate-200' : 'text-white font-medium'}`}>
+        <span className={`truncate ${!value || value === '' ? (isDarkMode ? 'text-slate-400' : 'text-slate-500') : (isDarkMode ? 'text-white' : 'text-slate-900') + ' font-medium'}`}>
           {getSelectedLabel()}
         </span>
-        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''} ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />
+        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''} ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
       </button>
 
       {typeof document !== 'undefined' && createPortal(
@@ -133,18 +133,18 @@ export default function CustomDropdown({
                 width: dropdownPos.width,
                 zIndex: 99999
               }}
-              className={`bg-[#11151F]/95 backdrop-blur-2xl border rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-72 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}
+              className={`border rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-72 ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}
             >
             {searchable && (
-              <div className={`p-2 border-b shrink-0 bg-black/20 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+              <div className={`p-2 border-b shrink-0 ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-slate-50 border-slate-100'}`}>
                 <div className="relative">
-                  <Search className={`w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
+                  <Search className={`w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search..."
-                    className={`w-full pl-9 pr-3 py-1.5 border rounded-lg text-xs placeholder-slate-500 focus:outline-none focus:border-[#FFD700]/50 ${isDarkMode ? 'bg-[#11151F]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
+                    className={`w-full pl-9 pr-3 py-1.5 border rounded-lg text-xs focus:outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'bg-[#0B1120] placeholder-slate-500 border-white/10 text-white' : 'bg-white placeholder-slate-400 border-slate-200 text-slate-900'}`}
                   />
                 </div>
               </div>
@@ -152,12 +152,12 @@ export default function CustomDropdown({
             
             <div className="overflow-y-auto custom-scrollbar p-1 flex-1">
               {filteredOptions.length === 0 ? (
-                <div className={`p-3 text-center text-xs italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No options found</div>
+                <div className={`p-3 text-center text-xs italic ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No options found</div>
               ) : isGrouped ? (
                 filteredOptions.map((group, gIdx) => (
                   <div key={gIdx} className="mb-1 last:mb-0">
                     {group.category && (
-                      <div className={`px-3 py-1.5 text-[10px] font-black sticky top-0 z-10 backdrop-blur-md ${isDarkMode ? 'text-slate-300 bg-[#11151F]/5' : 'text-slate-500 bg-slate-50'}`}>
+                      <div className={`px-3 py-1.5 text-[10px] font-black sticky top-0 z-10 ${isDarkMode ? 'text-slate-400 bg-[#1E293B]' : 'text-slate-500 bg-white'}`}>
                         {group.category}
                       </div>
                     )}
@@ -174,15 +174,15 @@ export default function CustomDropdown({
                             }}
                             className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-all text-left ${
                               selected 
-                              ? 'bg-[#FFD700]/10 text-[#FFD700] font-bold shadow-[0_0_10px_rgba(255,215,0,0.1)]' 
-                              : 'text-slate-300 hover:bg-[#11151F]/10 hover:text-white font-medium'
+                              ? `bg-[#F97316]/10 text-[#F97316] font-bold` 
+                              : (isDarkMode ? 'text-slate-300 hover:bg-[#0B1120] hover:text-white font-medium' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium')
                             }`}
                           >
                             <span className="truncate flex items-center gap-2">
                               {opt.icon && <span className="shrink-0">{opt.icon}</span>}
                               {opt.render ? opt.render : opt.label}
                             </span>
-                            {selected && <Check className="w-4 h-4 ml-2 shrink-0 text-[#FFD700]" />}
+                            {selected && <Check className="w-4 h-4 ml-2 shrink-0 text-[#F97316]" />}
                           </button>
                         );
                       })}
@@ -202,15 +202,15 @@ export default function CustomDropdown({
                       }}
                       className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-all text-left ${
                         selected 
-                        ? 'bg-[#FFD700]/10 text-[#FFD700] font-bold shadow-[0_0_10px_rgba(255,215,0,0.1)]' 
-                        : 'text-slate-300 hover:bg-[#11151F]/10 hover:text-white font-medium'
+                        ? `bg-[#F97316]/10 text-[#F97316] font-bold` 
+                        : (isDarkMode ? 'text-slate-300 hover:bg-[#0B1120] hover:text-white font-medium' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium')
                       }`}
                     >
                       <span className="truncate flex items-center gap-2 w-full">
                         {opt.icon && <span className="shrink-0">{opt.icon}</span>}
                         {opt.render ? opt.render : opt.label}
                       </span>
-                      {selected && <Check className="w-4 h-4 ml-2 shrink-0 text-[#FFD700]" />}
+                      {selected && <Check className="w-4 h-4 ml-2 shrink-0 text-[#F97316]" />}
                     </button>
                   );
                 })
