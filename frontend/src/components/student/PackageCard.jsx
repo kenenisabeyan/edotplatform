@@ -121,23 +121,15 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
         
         {/* Available courses pills */}
         <div className={`mb-3 p-4 rounded-xl border flex-1 ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-[#f8fafc] border-slate-100'}`}>
-          <div 
-            className="flex items-center justify-between mb-3 cursor-pointer group"
-            onClick={() => setShowCourses(!showCourses)}
-          >
+          <div className="flex items-center justify-between mb-3 group">
             <div className="flex items-center gap-1.5">
                <Globe className="w-3.5 h-3.5" style={{ color: pkg.color || '#6366f1' }} />
                <span className={`text-[11px] font-bold transition-colors ${isDarkMode ? 'text-slate-400 group-hover:text-slate-200' : 'text-slate-500 group-hover:text-slate-800'}`}>Available courses</span>
             </div>
-            {((pkg.courses && pkg.courses.length > 0) || (pkg.languages && pkg.languages.length > 0)) && (
-              <div className="bg-slate-200/50 p-1 rounded-full group-hover:bg-slate-200 transition-colors">
-                {showCourses ? <ChevronUp size={14} className="text-slate-500" /> : <ChevronDown size={14} className="text-slate-500" />}
-              </div>
-            )}
           </div>
           
-          {/* Courses & Languages List Container - Animated */}
-          <div className={`transition-all duration-300 overflow-hidden ${showCourses ? 'max-h-[350px] opacity-100 overflow-y-auto pr-1' : 'max-h-0 opacity-0'}`}>
+          {/* Courses & Languages List Container */}
+          <div className="transition-all duration-300">
             <div className="flex flex-col gap-4 pt-2 pb-1">
               
               {/* Courses Section */}
@@ -149,12 +141,13 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
                        onClick={() => {
                          if (isEnrolled) navigate('/courses');
                        }}
-                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 ${isEnrolled ? 'cursor-pointer' : 'cursor-pointer'}`}
+                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 ${isEnrolled ? 'cursor-pointer' : 'cursor-default opacity-80'}`}
                        style={{ 
                          background: `linear-gradient(135deg, ${pkg.color || '#6366f1'}, ${pkg.darkColor || '#4338ca'})`,
                          color: '#ffffff'
                        }}
                      >
+                       {!isEnrolled && <Lock className="w-3 h-3 text-white/80" />}
                        <span>{c.title || c}</span>
                      </div>
                   ))
@@ -164,28 +157,28 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
               </div>
 
               {/* Languages Section */}
-              <div>
-                <div className="flex items-center gap-1.5 mb-2 mt-1">
-                   <span className={`text-[10px] font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Available Languages</span>
+              {pkg.languages && pkg.languages.length > 0 && (
+                <div>
+                  <div className="flex items-center gap-1.5 mb-2 mt-1">
+                     <span className={`text-[10px] font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Available Languages</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {pkg.languages.map((lang, i) => (
+                         <div 
+                           key={i}
+                           className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold shadow-sm cursor-default`}
+                           style={{ 
+                             background: `linear-gradient(135deg, ${pkg.color || '#6366f1'}, ${pkg.darkColor || '#4338ca'})`,
+                             color: '#ffffff',
+                             opacity: 0.9
+                           }}
+                         >
+                           <span>{lang}</span>
+                         </div>
+                      ))}
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {pkg.languages && pkg.languages.length > 0 && (
-                    pkg.languages.map((lang, i) => (
-                       <div 
-                         key={i}
-                         className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold shadow-sm cursor-default`}
-                         style={{ 
-                           background: `linear-gradient(135deg, ${pkg.color || '#6366f1'}, ${pkg.darkColor || '#4338ca'})`,
-                           color: '#ffffff',
-                           opacity: 0.9
-                         }}
-                       >
-                         <span>{lang}</span>
-                       </div>
-                    ))
-                  )}
-                </div>
-              </div>
+              )}
 
             </div>
           </div>

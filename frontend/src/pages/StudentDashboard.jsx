@@ -245,7 +245,7 @@ export default function StudentDashboard() {
               {PACKAGES.map((pkg, idx) => {
                 const categoryKey = pkg.title.replace(" Courses", "").trim();
                 const matchedCourses = dbCourses.filter(c => c.mainCategory === categoryKey);
-                return <PackageCard key={idx} pkg={{...pkg, courses: matchedCourses}} isEnrolled={pkg.isEnrolled} isDarkMode={isDarkMode} />
+                return <PackageCard key={idx} pkg={{...pkg, courses: matchedCourses.length > 0 ? matchedCourses : pkg.courses}} isEnrolled={pkg.isEnrolled} isDarkMode={isDarkMode} />
               })}
             </div>
           </div>

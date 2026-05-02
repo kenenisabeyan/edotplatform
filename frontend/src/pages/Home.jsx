@@ -6,7 +6,8 @@ import { getRecentPublicUsers } from '../utils/api';
 import { 
   ArrowRight, BookOpen, BrainCircuit, Rocket, LineChart, Laptop, Target, UserCheck, Calculator, Globe, 
   PlayCircle, MessageSquare, Code, Cpu, Shield, Users, Gift, Star, ChevronDown, CheckCircle, Heart, Handshake, 
-  LayoutDashboard, Languages, Briefcase, Zap, Newspaper, Quote, GitBranch, AlertTriangle, MonitorPlay, Sparkles, GraduationCap
+  LayoutDashboard, Languages, Briefcase, Zap, Newspaper, Quote, GitBranch, AlertTriangle, MonitorPlay, Sparkles, GraduationCap,
+  Award, Key, TrendingUp
 } from 'lucide-react';
 
 const homePageImg = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/tdqdi93rhrzcnoipobz2';
@@ -33,6 +34,23 @@ export default function Home() {
     };
     fetchUsers();
   }, []);
+
+  const [formData, setFormData] = useState({ name: '', email: '', role: 'Learner', subject: '', message: '' });
+  const [submitted, setSubmitted] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoadingSubmit(true);
+    setTimeout(() => {
+      setSubmitted(true);
+      setLoadingSubmit(false);
+      setTimeout(() => {
+        setFormData({ name: '', email: '', role: 'Learner', subject: '', message: '' });
+        setSubmitted(false);
+      }, 5000);
+    }, 1500);
+  };
 
   return (
     <div className={`min-h-screen w-full transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-white text-slate-900'}`}>
@@ -140,6 +158,25 @@ export default function Home() {
             </div>
          </div>
       </div>
+
+      {/* ABOUT SECTION */}
+      <section id="about" className={`relative w-full pt-32 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+         <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-blue-50'}`}>
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80" alt="Global Education" className={`w-full h-full object-cover ${isDarkMode ? 'opacity-40 mix-blend-overlay' : 'opacity-[0.07] mix-blend-multiply'}`} />
+            <div className={`absolute inset-0 bg-gradient-to-b ${isDarkMode ? 'from-blue-900/50 via-slate-900/80 to-slate-900' : 'from-white/50 via-blue-50/80 to-blue-50'}`}></div>
+         </div>
+         <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 font-bold text-sm tracking-wider uppercase ${isDarkMode ? 'bg-white/20 border-white/30 text-white shadow-lg backdrop-blur-md' : 'bg-white/80 border-slate-300 text-slate-800 shadow-sm backdrop-blur-md'}`}>
+               <Globe className="w-4 h-4" /> Discover EDOT
+            </div>
+            <h1 className={`text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+               Building a Better Future Through <span className={`${isDarkMode ? 'text-[#00D4FF]' : 'text-blue-600'}`}>Education</span>
+            </h1>
+            <p className={`text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+               EDOT is more than a learning platform — it is a structured system designed to make education accessible, guided, and impactful for everyone.
+            </p>
+         </div>
+      </section>
 
       {/* 2. THE REALITY OF EDUCATION TODAY */}
       <section className={`pt-48 pb-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
@@ -463,6 +500,7 @@ export default function Home() {
             <h2 className={`text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                Be Part of the <span className="text-[#00D4FF]">Future of Education</span>
             </h2>
+
             <p className={`text-2xl mb-16 max-w-3xl mx-auto font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                Whether you want to learn, teach, guide, or support — EDOT gives you the tools to make a real difference.
             </p>
@@ -481,48 +519,7 @@ export default function Home() {
          </div>
       </section>
 
-      {/* 12. FOOTER */}
-      <footer className={`py-16 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-[#0B1120] text-white'}`}>
-         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-            <div>
-               <div className="text-3xl font-black text-[#00D4FF] tracking-tighter mb-6">EDOT.</div>
-               <p className="text-slate-400 leading-relaxed font-medium">Delivering structured education, real skills, and real opportunities for everyone.</p>
-            </div>
-            
-            <div>
-               <h4 className="font-bold text-lg mb-6 text-white uppercase tracking-wider">Platform</h4>
-               <ul className="space-y-4">
-                  <li><Link to="/about" className="text-slate-400 hover:text-[#00D4FF] transition-colors font-medium">About EDOT</Link></li>
-                  <li><Link to="/courses" className="text-slate-400 hover:text-[#00D4FF] transition-colors font-medium">Courses</Link></li>
-                  <li><a href="#impact" className="text-slate-400 hover:text-[#00D4FF] transition-colors font-medium">Impact</a></li>
-               </ul>
-            </div>
-            
-            <div>
-               <h4 className="font-bold text-lg mb-6 text-white uppercase tracking-wider">Support</h4>
-               <ul className="space-y-4">
-                  <li><Link to="/contact" className="text-slate-400 hover:text-[#00D4FF] transition-colors font-medium">Contact Us</Link></li>
-                  <li><Link to="/help" className="text-slate-400 hover:text-[#00D4FF] transition-colors font-medium">Help Center</Link></li>
-                  <li><Link to="/privacy" className="text-slate-400 hover:text-[#00D4FF] transition-colors font-medium">Privacy & Terms</Link></li>
-               </ul>
-            </div>
-            
-            <div>
-               <h4 className="font-bold text-lg mb-6 text-white uppercase tracking-wider">Contact</h4>
-               <ul className="space-y-4 text-slate-400 font-medium">
-                  <li>+251 900 000 000</li>
-                  <li>support@edot.com</li>
-                  <li className="pt-4 flex gap-4">
-                     <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#F97316] transition-colors cursor-pointer"><Globe className="w-5 h-5" /></div>
-                     <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#F97316] transition-colors cursor-pointer"><MessageSquare className="w-5 h-5" /></div>
-                  </li>
-               </ul>
-            </div>
-         </div>
-         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/10 text-center text-slate-500 font-medium">
-            &copy; {new Date().getFullYear()} EDOT Platform. All rights reserved.
-         </div>
-      </footer>
+
 
       {/* Floating Action Button (Chat) */}
       <div className="fixed bottom-8 right-8 z-50">

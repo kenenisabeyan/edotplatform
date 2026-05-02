@@ -506,29 +506,14 @@ export default function InstructorCourseBuilder() {
                   <div>
                     <label className={`block text-sm font-bold mb-2 flex items-center justify-between ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                       <span className="flex items-center gap-2"><PlayCircle className="w-4 h-4 text-[#F97316]" /> Course Video URL (Intro)</span>
-                      <label 
-                        className={`cursor-pointer text-xs font-bold transition-all px-3 py-1 rounded-md border flex items-center gap-1 ${dragActive.courseVideoUrl ? 'border-[#F97316] bg-[#F97316]/10 text-[#F97316]' : 'border-transparent text-[#F97316] hover:text-white'}`}
-                        onDragEnter={(e) => handleDrag(e, 'courseVideoUrl')}
-                        onDragLeave={(e) => handleDrag(e, 'courseVideoUrl')}
-                        onDragOver={(e) => handleDrag(e, 'courseVideoUrl')}
-                        onDrop={(e) => handleDrop(e, 'courseVideoUrl')}
-                      >
-                        {uploadProgress.courseVideoUrl ? `Uploading... ${uploadProgress.courseVideoUrl}%` : 'Upload Video / Drop'}
-                        <input 
-                          type="file" 
-                          accept="video/*"
-                          className="hidden" 
-                          onChange={(e) => handleFileUpload(e, 'courseVideoUrl')} 
-                          disabled={saving}
-                        />
-                      </label>
+                      <span className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Recommended: YouTube, Vimeo, Google Drive</span>
                     </label>
                     <input 
                       type="url" 
                       value={formData.videoUrl} 
                       onChange={e => setFormData({...formData, videoUrl: e.target.value})} 
                       className={`w-full px-4 py-3 rounded-xl border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
-                      placeholder="https://res.cloudinary.com/.../video.mp4" 
+                      placeholder="Paste YouTube, Vimeo, or Drive link here for fast loading..." 
                     />
                     {formData.videoUrl && (
                       <div className={`mt-4 rounded-xl overflow-hidden shadow-sm border aspect-video bg-black/50 relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
@@ -741,7 +726,9 @@ export default function InstructorCourseBuilder() {
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4">
                           <div className="flex-1">
-                            <label className={`block text-sm font-bold mb-1.5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Video URL <span className="text-[#E30A17]">*</span></label>
+                            <label className={`block text-sm font-bold mb-1.5 flex items-center justify-between ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                              <span>Video URL <span className="text-[#E30A17]">*</span></span>
+                            </label>
                             <div className="flex gap-2">
                               <input 
                                 type="text" 
@@ -751,25 +738,9 @@ export default function InstructorCourseBuilder() {
                                   setLessonForm({...lessonForm, videoUrl: e.target.value});
                                   if (e.target.value === '') setLastFetchedDurationUrl('');
                                 }}
-                                placeholder="Paste URL or upload file"
+                                placeholder="Paste YouTube, Vimeo, or Drive URL here..."
                                 className={`flex-1 px-4 py-2.5 rounded-lg border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none min-w-0 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                               />
-                              <label 
-                                className={`cursor-pointer hover:bg-white/5/20 text-[#F97316] border px-4 py-2.5 rounded-lg font-bold transition-colors flex items-center shrink-0 ${dragActive.videoUrl ? 'border-[#F97316] bg-[#F97316]/10' : (isDarkMode ? 'bg-[#0B1120]/10 border-white/10' : 'bg-slate-50 border-slate-200')}`}
-                                onDragEnter={(e) => handleDrag(e, 'videoUrl')}
-                                onDragLeave={(e) => handleDrag(e, 'videoUrl')}
-                                onDragOver={(e) => handleDrag(e, 'videoUrl')}
-                                onDrop={(e) => handleDrop(e, 'videoUrl')}
-                              >
-                                {uploadProgress.videoUrl ? `${uploadProgress.videoUrl}%` : 'Upload / Drop'}
-                                <input 
-                                  type="file" 
-                                  accept="video/mp4,video/webm,video/ogg"
-                                  className="hidden" 
-                                  onChange={(e) => handleFileUpload(e, 'videoUrl')} 
-                                  disabled={saving}
-                                />
-                              </label>
                             </div>
                             
                             {/* Hidden ReactPlayer to extract duration automatically */}

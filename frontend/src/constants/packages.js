@@ -7,8 +7,8 @@ export const PACKAGES = [
     darkColor: '#C2410C',
     ribbon: 'SOCIAL SCIENCE',
     description: "This curriculum path is designed to enable learners to travel inside human society, increasing awareness to grow understanding of history, behavior, and structural consciousness.",
-    courses: [],
-    languages: ['Amharic', 'English', 'Afan Oromo', 'Tigregna'],
+    courses: ['History', 'Geography', 'Sociology', 'Economics'],
+    languages: [],
     isEnrolled: false
   },
   {
@@ -19,8 +19,8 @@ export const PACKAGES = [
     darkColor: '#1D4ED8',
     ribbon: 'MATH & SCIENCE',
     description: "This training curriculum allows people to develop a step-by-step rigorous analytical system to build the required logic for the purpose, dreams, and advanced scientific goals they designed.",
-    courses: [],
-    languages: ['Amharic', 'English', 'Afan Oromo', 'Tigregna'],
+    courses: ['Mathematics', 'Physics', 'Chemistry', 'Biology'],
+    languages: [],
     isEnrolled: false
   },
   {
@@ -31,8 +31,8 @@ export const PACKAGES = [
     darkColor: '#7E22CE',
     ribbon: 'NATURAL LANGUAGE',
     description: "This language path is engineered to empower seamless global communication. The training lets learners balance their social, professional, and cultural interactions elegantly.",
-    courses: [],
-    languages: ['Amharic', 'English', 'Afan Oromo', 'Tigregna'],
+    courses: ['English', 'Literature', 'Linguistics'],
+    languages: [],
     isEnrolled: false
   },
   {
@@ -43,8 +43,8 @@ export const PACKAGES = [
     darkColor: '#4338CA',
     ribbon: 'PROGRAMMING',
     description: "This curriculum is the track to tech mastery. It's designed to create 'Aha' moments and increase awareness to grow into highly sought-after software architectures and development mindsets.",
-    courses: [],
-    languages: ['Amharic', 'English', 'Afan Oromo', 'Tigregna'],
+    courses: ['Programming', 'Web Development', 'AI', 'Cybersecurity'],
+    languages: [],
     isEnrolled: false
   },
   {
@@ -55,8 +55,8 @@ export const PACKAGES = [
     darkColor: '#CA8A04',
     ribbon: 'BUSINESS',
     description: "This premium curriculum enables future leaders to navigate markets independently. It helps construct financial stability, leadership, and powerful entrepreneurial ecosystems.",
-    courses: [],
-    languages: ['Amharic', 'English', 'Afan Oromo', 'Tigregna'],
+    courses: ['Entrepreneurship', 'Marketing', 'Finance', 'Management'],
+    languages: [],
     isEnrolled: false
   },
   {
@@ -67,8 +67,8 @@ export const PACKAGES = [
     darkColor: '#15803D',
     ribbon: 'DEVELOPMENT',
     description: "This training empowers individuals to unlock self-mastery. Develop habits and physical, mental, and social goals that directly translate to long-term prosperity.",
-    courses: [],
-    languages: ['Amharic', 'English', 'Afan Oromo', 'Tigregna'],
+    courses: ['Leadership', 'Time Management', 'Public Speaking'],
+    languages: [],
     isEnrolled: false
   }
 ];

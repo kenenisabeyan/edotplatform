@@ -155,7 +155,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
                    <input 
                      type="text" required 
                      value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})}
-                     className={`w-full px-4 py-3 bg-[#0B1120]/50 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
+                     className={`w-full px-4 py-3 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`} 
                      placeholder="e.g., Parent-Teacher Meeting, Final Math Exam"
                    />
                  </div>
@@ -167,7 +167,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
                         <input 
                           type="date" required 
                           value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})}
-                          className={`w-full pl-10 pr-4 py-3 bg-[#0B1120]/50 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium outline-none color-scheme-dark ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
+                          className={`w-full pl-10 pr-4 py-3 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium outline-none color-scheme-dark ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`} 
                         />
                         <Calendar className={`absolute left-3 top-3.5 w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                      </div>
@@ -178,7 +178,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
                         <input 
                           type="time" required 
                           value={formData.time} onChange={e => setFormData({...formData, time: e.target.value})}
-                          className={`w-full pl-10 pr-4 py-3 bg-[#0B1120]/50 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium outline-none color-scheme-dark ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
+                          className={`w-full pl-10 pr-4 py-3 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium outline-none color-scheme-dark ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`} 
                         />
                         <Clock className={`absolute left-3 top-3.5 w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                      </div>
@@ -196,12 +196,12 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
                             key={cat.id}
                             type="button"
                             onClick={() => setFormData({...formData, type: cat.id})}
-                            className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${isSelected ? `bg-[#0B1120]/5 border-${cat.color.split('-')[1]}-500 shadow-sm` : 'bg-[#0B1120]/50 hover:border-white/20'} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}
+                            className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${isSelected ? (isDarkMode ? `bg-[#0B1120]/5 border-${cat.color.split('-')[1]}-500 shadow-sm` : `bg-white border-${cat.color.split('-')[1]}-500 shadow-sm`) : (isDarkMode ? 'bg-[#0B1120]/50 hover:border-white/20' : 'bg-slate-50 hover:border-slate-300')} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}
                           >
-                             <div className={`w-8 h-8 rounded-full mb-1 flex items-center justify-center ${isSelected ? cat.color + ' shadow-md' : 'bg-[#0B1120]/5 '} ${isDarkMode ? 'text-white text-slate-300' : 'text-slate-900 text-slate-500'}`}>
+                             <div className={`w-8 h-8 rounded-full mb-1 flex items-center justify-center ${isSelected ? cat.color + ' shadow-md' : (isDarkMode ? 'bg-[#0B1120]/5 ' : 'bg-slate-200 ')} ${isDarkMode ? (isSelected ? 'text-white' : 'text-slate-300') : (isSelected ? 'text-white' : 'text-slate-500')}`}>
                                <IconComponent className="w-4 h-4" />
                              </div>
-                             <span className={`text-[10px]   font-bold ${isSelected ? 'text-white' : 'text-slate-300'}`}>{cat.label}</span>
+                             <span className={`text-[10px]   font-bold ${isSelected ? (isDarkMode ? 'text-white' : 'text-slate-900') : (isDarkMode ? 'text-slate-300' : 'text-slate-500')}`}>{cat.label}</span>
                           </button>
                         )
                       })}
@@ -213,7 +213,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
                    <textarea 
                      rows="3"
                      value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
-                     className={`w-full px-4 py-3 bg-[#0B1120]/50 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium resize-none outline-none placeholder:text-slate-300 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`} 
+                     className={`w-full px-4 py-3 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium resize-none outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`} 
                      placeholder="Add any specific advice, support contexts, links, or instructions here..."
                    ></textarea>
                  </div>
