@@ -82,7 +82,7 @@ export default function StudentsList() {
     }));
   }, [instructors]);
 
-  if (loading) return <div className="p-8 text-center"><div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto"></div></div>;
+
 
   const filteredStudents = students.filter(s => s.status === tab || (tab === 'approved' && !s.status));
 
@@ -125,7 +125,13 @@ export default function StudentsList() {
               </tr>
             </thead>
             <tbody className={`text-sm font-normal ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              {filteredStudents.length === 0 ? (
+              {loading ? (
+                <tr>
+                   <td colSpan="5" className="p-12 text-center">
+                     <div className="w-8 h-8 border-4 border-[#00D4FF]/30 border-t-[#00D4FF] rounded-full animate-spin mx-auto"></div>
+                   </td>
+                </tr>
+              ) : filteredStudents.length === 0 ? (
                 <tr>
                    <td colSpan="5" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No {tab} students found.</td>
                 </tr>

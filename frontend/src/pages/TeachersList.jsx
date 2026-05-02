@@ -45,7 +45,7 @@ export default function TeachersList() {
     }
   };
 
-  if (loading) return <div className="p-8 text-center"><div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto"></div></div>;
+
 
   const filteredInstructors = instructors.filter(i => i.status === tab || (tab === 'approved' && !i.status));
 
@@ -86,7 +86,13 @@ export default function TeachersList() {
               </tr>
             </thead>
             <tbody className={`text-sm font-normal ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              {filteredInstructors.length === 0 ? (
+              {loading ? (
+                <tr>
+                   <td colSpan="5" className="p-12 text-center">
+                     <div className="w-8 h-8 border-4 border-[#00D4FF]/30 border-t-[#00D4FF] rounded-full animate-spin mx-auto"></div>
+                   </td>
+                </tr>
+              ) : filteredInstructors.length === 0 ? (
                 <tr>
                    <td colSpan="5" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No {tab} instructors found.</td>
                 </tr>

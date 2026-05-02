@@ -116,13 +116,7 @@ export default function UsersManagement() {
     setSelectedUser(user);
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className={`w-10 h-10 border-4 border-t-indigo-600 rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
-      </div>
-    );
-  }
+
 
   const filteredUsers = usersList.filter(u => 
     (u.name || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -229,13 +223,19 @@ export default function UsersManagement() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5 text-sm font-normal">
-                {errorMsg ? (
+                {loading ? (
                   <tr>
-                    <td colSpan="5" className="p-8 text-center text-[#E30A17] font-bold">Error: {errorMsg}</td>
+                    <td colSpan="6" className="p-12 text-center">
+                      <div className="w-8 h-8 border-4 border-[#E30A17]/30 border-t-[#E30A17] rounded-full animate-spin mx-auto"></div>
+                    </td>
+                  </tr>
+                ) : errorMsg ? (
+                  <tr>
+                    <td colSpan="6" className="p-8 text-center text-[#E30A17] font-bold">Error: {errorMsg}</td>
                   </tr>
                 ) : filteredUsers.length === 0 ? (
                   <tr>
-                    <td colSpan="5" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No users found.</td>
+                    <td colSpan="6" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No users found.</td>
                   </tr>
                 ) : filteredUsers.map((u) => (
                   <tr key={u.id} className="hover:bg-white/5/5 transition-colors">

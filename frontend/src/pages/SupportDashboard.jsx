@@ -74,23 +74,7 @@ export default function SupportDashboard() {
     { label: 'Active Support Cycles', key: 'activeCycles', icon: RefreshCw, gradient: 'from-amber-500/20 to-[#0B1120]', color: 'text-amber-400', format: (v) => v },
   ];
 
-  if (loading) {
-    return (
-      <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in duration-500">
-        <div className="flex justify-between items-center mb-4">
-          <div className={`w-1/3 h-10 rounded-lg animate-pulse ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-200'}`} />
-          <div className={`w-40 h-12 rounded-xl animate-pulse ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-200'}`} />
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map(i => (
-            <div key={i} className={`h-32 rounded-3xl animate-pulse ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-200'}`} />
-          ))}
-        </div>
-        <div className={`h-64 rounded-3xl animate-pulse w-full ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-200'}`} />
-        <div className={`h-96 rounded-3xl animate-pulse w-full ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-200'}`} />
-      </div>
-    );
-  }
+
 
   if (error) {
     return (
@@ -142,6 +126,18 @@ export default function SupportDashboard() {
         </div>
       </div>
 
+      {loading ? (
+        <div className="space-y-8 animate-in fade-in duration-500">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className={`h-32 rounded-3xl animate-pulse ${isDarkMode ? 'bg-[#0B1120]/40' : 'bg-slate-200'}`} />
+            ))}
+          </div>
+          <div className={`h-64 rounded-3xl animate-pulse w-full ${isDarkMode ? 'bg-[#0B1120]/40' : 'bg-slate-200'}`} />
+          <div className={`h-96 rounded-3xl animate-pulse w-full ${isDarkMode ? 'bg-[#0B1120]/40' : 'bg-slate-200'}`} />
+        </div>
+      ) : (
+        <>
       {/* Metrics Row (SECTION 1 - SUPPORT POOL) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {staticStatsConfigs.map((stat, idx) => (
@@ -389,6 +385,8 @@ export default function SupportDashboard() {
         </div>
 
       </div>
+      </>
+      )}
 
       {/* Advanced Connection Secure Modal */}
       {showSponsorModal && (

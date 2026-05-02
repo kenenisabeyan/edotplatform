@@ -124,13 +124,6 @@ export default function InstructorDashboard() {
   const activeCourses = courses.filter(c => c.status === 'approved').length;
 
   const renderContent = () => {
-    if (loading) {
-      return (
-        <div className="flex justify-center items-center h-64">
-          <div className={`w-12 h-12 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
-        </div>
-      );
-    }
 
     switch (activeTab) {
       case 'overview': {
@@ -139,7 +132,10 @@ export default function InstructorDashboard() {
 
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className={`text-2xl md:text-3xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Instructor Overview</h2>
+            <h2 className={`text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+              Instructor Overview
+              {loading && <div className={`w-5 h-5 border-2 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>}
+            </h2>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
               <div className={`border rounded-2xl p-6 shadow-sm hover:border-white/10 transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
@@ -222,7 +218,10 @@ export default function InstructorDashboard() {
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-              <h2 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>My Courses</h2>
+              <h2 className={`text-2xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                My Courses
+                {loading && <div className={`w-5 h-5 border-2 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>}
+              </h2>
               <button 
                 onClick={() => navigate('/instructor/builder')} 
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#F97316] to-orange-600 text-white font-black   text-[11px] rounded-xl hover:-translate-y-0.5 transition-transform shadow-[0_0_20px_rgba(255,215,0,0.3)]"
@@ -333,7 +332,10 @@ export default function InstructorDashboard() {
       case 'create':
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-3xl">
-            <h2 className={`text-2xl font-display font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Create Curriculum</h2>
+            <h2 className={`text-2xl font-display font-black mb-6 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+              Create Curriculum
+              {loading && <div className={`w-5 h-5 border-2 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>}
+            </h2>
             <div className={`backdrop-blur-xl p-6 md:p-8 rounded-3xl border shadow-2xl relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
               <div className="absolute top-0 right-0 w-64 h-64 bg-[#F97316] opacity-[0.02] rounded-full blur-3xl pointer-events-none"></div>
               

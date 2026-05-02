@@ -382,13 +382,6 @@ export default function AdminDashboard() {
   }, [usersList]);
 
   const renderContent = () => {
-    if (loading) {
-      return (
-        <div className="flex justify-center items-center h-64">
-          <div className={`w-10 h-10 border-4 border-t-red-500 rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
-        </div>
-      );
-    }
 
     switch (activeTab) {
       case 'overview': {
@@ -401,7 +394,10 @@ export default function AdminDashboard() {
         
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className={`text-2xl md:text-3xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Admin Overview</h2>
+            <h2 className={`text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+              Admin Overview
+              {loading && <div className={`w-5 h-5 border-2 border-t-red-500 rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>}
+            </h2>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
               <div className={`p-6 rounded-2xl border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
@@ -593,7 +589,10 @@ export default function AdminDashboard() {
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-              <h2 className={`text-2xl font-display font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>User Management</h2>
+              <h2 className={`text-2xl font-display font-bold flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                User Management
+                {loading && <div className={`w-5 h-5 border-2 border-t-red-500 rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>}
+              </h2>
               <div className={`px-4 py-2 rounded-lg border text-sm font-medium shadow-sm flex items-center gap-2 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-slate-300' : 'bg-white border-slate-200 text-slate-500'}`}>
                 <ShieldCheck className="w-4 h-4 text-emerald-500" />
                 Super Admin Access
@@ -694,7 +693,10 @@ export default function AdminDashboard() {
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex justify-between items-center mb-6">
-              <h2 className={`text-2xl font-display font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Course Approvals</h2>
+              <h2 className={`text-2xl font-display font-bold flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                Course Approvals
+                {loading && <div className={`w-5 h-5 border-2 border-t-red-500 rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>}
+              </h2>
               <span className="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full  ">
                 {pendingCourses.length} Pending
               </span>

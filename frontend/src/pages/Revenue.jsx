@@ -60,15 +60,16 @@ export default function Revenue() {
     if (user) fetchRevenue();
   }, [user]);
 
-  if (loading) {
-    return <div className="flex justify-center items-center h-64"><div className={`w-8 h-8 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
-  }
+
 
   return (
     <div className="space-y-6">
       <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex justify-between items-center mb-6 ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div>
-          <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Finance & Revenue</h1>
+          <h1 className={`text-2xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            Finance & Revenue
+            {loading && <div className={`w-5 h-5 border-2 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>}
+          </h1>
           <p className="text-[#F97316] text-xs font-bold   mt-1">Track platform monetization and subscription flow</p>
         </div>
       </div>

@@ -75,13 +75,7 @@ export default function AdminCourseApprovals() {
     }
   };
 
-  if (loading && courses.length === 0 && pendingEnrollments.length === 0 && activeEnrollments.length === 0) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="w-12 h-12 border-4 border-white/20 border-t-[#F97316] rounded-full animate-spin shadow-[0_0_15px_rgba(249,115,22,0.4)]"></div>
-      </div>
-    );
-  }
+
 
   return (
     <motion.div 
@@ -113,7 +107,11 @@ export default function AdminCourseApprovals() {
         </div>
       </div>
       
-      {activeTab === 'pending' && (courses.length === 0 && pendingEnrollments.length === 0) ? (
+      {loading && courses.length === 0 && pendingEnrollments.length === 0 && activeEnrollments.length === 0 ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="w-12 h-12 border-4 border-[#F97316]/20 border-t-[#F97316] rounded-full animate-spin shadow-[0_0_15px_rgba(249,115,22,0.4)]"></div>
+        </div>
+      ) : activeTab === 'pending' && (courses.length === 0 && pendingEnrollments.length === 0) ? (
           <div className={`p-16 text-center rounded-3xl border shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/90' : 'border-slate-200 bg-white/95'}`}>
             <div className={`w-24 h-24 border rounded-full flex items-center justify-center mb-6 relative group border border-[#00D4FF]/30 text-[#00D4FF] ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200 border-white/10' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
               <ClipboardCheck className="w-12 h-12" />

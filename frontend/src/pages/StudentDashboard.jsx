@@ -224,21 +224,15 @@ export default function StudentDashboard() {
   };
 
   const renderContent = () => {
-    if (loading) {
-      return (
-        <div className="flex justify-center items-center h-64">
-          <div className={`w-12 h-12 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
-        </div>
-      );
-    }
 
     switch (activeTab) {
       case 'overview':
       case 'courses': {
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 pt-1 font-sans">
-            <div className="mb-10 text-white/90">
+            <div className="mb-10 text-white/90 flex items-center gap-2">
               <span className="text-sm font-medium tracking-tight">Explore our courses below</span>
+              {loading && <div className={`w-4 h-4 border-2 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>}
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-[1200px]">
