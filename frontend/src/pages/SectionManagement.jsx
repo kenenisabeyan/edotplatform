@@ -109,9 +109,14 @@ export default function SectionManagement() {
 
   return (
     <div className={`p-6 md:p-10 max-w-7xl mx-auto ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-      <div className="mb-10">
-        <h1 className={`text-3xl font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Section <span className="text-[#00D4FF]">Management</span></h1>
-        <p className={`font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Create groupings, assign instructors, and organize students tightly into cohorts.</p>
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+        <div>
+          <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+             <Layers className="w-8 h-8 text-[#00D4FF]"/>
+             Section Management
+          </h1>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Create groupings, assign instructors, and organize students tightly into cohorts.</p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

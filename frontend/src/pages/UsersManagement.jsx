@@ -127,18 +127,18 @@ export default function UsersManagement() {
   }, [usersList, searchQuery]);
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
-          <h1 className={`text-2xl font-display font-bold flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-            <Users className="w-6 h-6 text-[#E30A17]" />
+          <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <Users className="w-8 h-8 text-[#00D4FF]" />
             Global User Management
           </h1>
-          <p className={`text-sm mt-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
             Approve registrations and promote user roles across the platform.
           </p>
         </div>
-        <div className="bg-[#00D4FF]/10 px-4 py-2 rounded-xl text-sm font-bold text-[#00D4FF] flex items-center gap-2 border border-[#00D4FF]/20 shadow-sm">
+        <div className="bg-[#00D4FF]/10 px-4 py-2.5 rounded-xl text-sm font-bold text-[#00D4FF] flex items-center gap-2 border border-[#00D4FF]/20 shadow-sm">
           <ShieldCheck className="w-4 h-4" /> Super Admin Access Active
         </div>
       </div>

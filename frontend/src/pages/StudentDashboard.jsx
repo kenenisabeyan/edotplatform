@@ -238,10 +238,16 @@ export default function StudentDashboard() {
       case 'overview':
       case 'courses': {
         return (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 pt-1 font-sans">
-            <div className="mb-10 text-white/90 flex items-center gap-2">
-              <span className="text-sm font-medium tracking-tight">Explore our courses below</span>
-              {loading && <div className={`w-4 h-4 border-2 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>}
+          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
+            <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+              <div>
+                <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                  <BookOpen className="w-8 h-8 text-[#00D4FF]" />
+                  Course Catalog
+                  {loading && <div className={`w-5 h-5 border-2 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'} ml-3`}></div>}
+                </h1>
+                <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Explore our carefully curated course packages below.</p>
+              </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-[1200px]">
@@ -257,9 +263,15 @@ export default function StudentDashboard() {
 
       case 'certificates':
         return (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-slate-800 tracking-tight">My Credentials</h2>
+          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
+            <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+              <div>
+                <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                  <Award className="w-8 h-8 text-[#00D4FF]" />
+                  My Credentials
+                </h1>
+                <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>View and export your achieved course certificates.</p>
+              </div>
             </div>
             
             {completedCourses.length === 0 ? (

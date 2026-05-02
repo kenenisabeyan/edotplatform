@@ -295,15 +295,17 @@ export default function LibraryView() {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-7xl mx-auto flex flex-col space-y-8 pb-10"
+      className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full"
     >
       
       {/* Header */}
-      <div className={`flex flex-col md:flex-row justify-between items-start md:items-center gap-6 rounded-3xl p-6 md:p-8 bg-gradient-to-br from-white/5 to-transparent border backdrop-blur-xl shadow-2xl relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#00D4FF]/10 via-transparent to-[#F97316]/10 opacity-30 pointer-events-none"></div>
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div className="relative z-10">
-          <h1 className={`text-3xl font-display font-bold mb-2 tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Digital Library</h1>
-          <p className={`font-medium text-lg ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Explore books, research papers, and documents.</p>
+          <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <BookOpen className="w-8 h-8 text-[#00D4FF]" />
+            Digital Library
+          </h1>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Explore books, research papers, and documents.</p>
         </div>
         <div className="flex flex-col items-end gap-2 w-full md:w-auto relative z-10">
           <div className="flex items-center gap-4 w-full md:w-auto">

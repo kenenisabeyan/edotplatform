@@ -31,39 +31,33 @@ function resolveCloudinaryUrl(url) {
 
 export default function SmartVideoPlayer({ url, ...props }) {
   const isDarkMode = useThemeMode();
-  const [videoType, setVideoType] = useState('unknown');
   const [resolvedUrl, setResolvedUrl] = useState('');
-  const videoRef = useRef(null);
 
   useEffect(() => {
     if (!url) return;
-    let type = getVideoType(url);
     let resolved = url;
-    if (type === 'cloudinary') resolved = resolveCloudinaryUrl(url);
-    setVideoType(type);
+    if (url.toLowerCase().includes('cloudinary.com')) {
+       resolved = resolveCloudinaryUrl(url);
+    }
     setResolvedUrl(resolved);
   }, [url]);
 
   if (!resolvedUrl) return <div className={`bg-black p-4 rounded ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No video URL provided.</div>;
 
-  // YouTube/Vimeo: Use ReactPlayer
-  if (videoType === 'youtube' || videoType === 'vimeo') {
-    return (
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-gray-800">
-        <ReactPlayer url={resolvedUrl} width="100%" height="100%" controls {...props} />
-      </div>
-    );
-  }
-
-  // Direct/Cloudinary: Use native video
-  if (videoType === 'direct' || videoType === 'cloudinary') {
-    return (
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-gray-800">
-        <video ref={videoRef} src={resolvedUrl} controls className="w-full h-full object-contain" {...props} />
-      </div>
-    );
-  }
-
-  // Unknown type
-  return <div className={`bg-black p-4 rounded ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Unsupported video type or invalid URL.</div>;
+  return (
+    <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-gray-800">
+      <ReactPlayer 
+        url={resolvedUrl} 
+        width="100%" 
+        height="100%" 
+        controls 
+        {...props} 
+        config={{
+          youtube: {
+            playerVars: { showinfo: 1 }
+          }
+        }}
+      />
+    </div>
+  );
 }

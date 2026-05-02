@@ -202,15 +202,16 @@ export default function SettingsView() {
   }
 
   return (
-    <div className="animate-in fade-in max-w-7xl mx-auto space-y-6">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
       
       {/* Page Header */}
-      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8 border-b pb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
-          <h2 className={`text-3xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-             <Sliders className={`w-8 h-8 ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`} /> Configuration Hub
+          <h2 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+             <Sliders className="w-8 h-8 text-[#00D4FF]" />
+             Configuration Hub
           </h2>
-          <p className={`font-medium text-sm mt-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Manage preferences, security protocols, and platform mechanics.</p>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Manage preferences, security protocols, and platform mechanics.</p>
         </div>
         <div className="flex items-center gap-4 w-full md:w-auto">
           {successMsg && (

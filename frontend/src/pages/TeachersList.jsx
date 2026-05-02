@@ -55,11 +55,14 @@ export default function TeachersList() {
   }, [instructors, tab]);
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center mb-6">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
-          <h1 className={`text-2xl font-display font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Instructor Management</h1>
-          <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Approve registrations and manage faculty</p>
+          <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <Users className="w-8 h-8 text-[#00D4FF]" />
+            Instructor Management
+          </h1>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Approve registrations and manage faculty across all active courses.</p>
         </div>
       </div>
 

@@ -230,20 +230,20 @@ export default function AttendanceManagement() {
   };
 
   return (
-    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
       
       {/* Analytics Dashboard */}
       {user && (user.role === 'admin' || user.role === 'instructor') && (
         <AttendanceAnalytics />
       )}
 
-      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-             <UserCheck className="w-8 h-8 text-[#F97316]"/>
+             <UserCheck className="w-8 h-8 text-[#00D4FF]"/>
              Roster Status
           </h1>
-          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Dynamically register course attendance for students & instructos</p>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Dynamically register course attendance for students & instructors.</p>
         </div>
         
         {message && (

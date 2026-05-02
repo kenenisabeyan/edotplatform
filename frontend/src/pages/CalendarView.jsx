@@ -56,14 +56,15 @@ export default function CalendarView() {
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   return (
-    <div className="h-full flex flex-col space-y-6 max-w-7xl mx-auto pb-4">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
       {/* Header Matrix */}
-      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-2 border-b pb-6 mt-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
-          <h1 className={`text-3xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-             <CalendarIcon className={`w-8 h-8 ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`} /> Calendar
+          <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+             <CalendarIcon className="w-8 h-8 text-[#00D4FF]" />
+             Calendar
           </h1>
-          <p className={`font-medium text-sm mt-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Manage events, live sessions, and schedules.</p>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Manage events, live sessions, and schedules.</p>
         </div>
         {(user?.role === 'admin' || user?.role === 'instructor') && (
           <button 

@@ -269,19 +269,17 @@ export default function Lesson() {
       {/* Main Container */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-8 relative z-10">
          
-         {/* Course Header Banner */}
-         <div className={`rounded-3xl border p-8 sm:p-12 mb-10 relative overflow-hidden shadow-2xl ${isDarkMode ? 'bg-gradient-to-r from-[#0B1120] to-[#0B1120] border-white/10' : 'bg-gradient-to-r from-white to-slate-50 border-slate-200'}`}>
-            <div className="absolute top-[-50px] right-[-50px] w-48 h-48 bg-[#F97316]/10 rounded-full blur-[60px] pointer-events-none"></div>
-            <div className="absolute bottom-[-50px] left-[-50px] w-48 h-48 bg-[#00D4FF]/10 rounded-full blur-[60px] pointer-events-none"></div>
-            
-            <div className="flex flex-col items-center text-center relative z-10">
-               <h1 className={`text-3xl sm:text-4xl font-display font-medium mb-4 leading-snug break-words max-w-2xl ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  {course.title.split(',')[0]} <br className="hidden sm:block" />
-                  <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#00D4FF] px-2">
-                     {course.title.includes(',') ? course.title.substring(course.title.indexOf(',') + 1) : 'EDOT Masterclass'}
-                  </span>
-               </h1>
-            </div>
+         {/* Course Header Template */}
+         <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+           <div>
+             <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                <PlayCircle className="w-8 h-8 text-[#00D4FF]"/>
+                {course.title.split(',')[0]}
+             </h1>
+             <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+                {course.title.includes(',') ? course.title.substring(course.title.indexOf(',') + 1) : 'EDOT Intelligence Feed'}
+             </p>
+           </div>
          </div>
 
          {/* The Accordion Phases List */}
@@ -327,7 +325,7 @@ export default function Lesson() {
                            <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-inner ${lCompleted ? 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30' : 'bg-[#0B1120] text-[#F97316] border '} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                               {lCompleted ? <CheckCircle2 className="w-6 h-6"/> : (idx + 1)}
                            </div>
-                           <h2 className={`text-xl sm:text-2xl font-bold tracking-tight leading-snug ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Phase {idx + 1}: {lesson.title}</h2>
+                           <h2 className={`text-2xl sm:text-3xl font-display font-black tracking-tight leading-snug ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Phase {idx + 1}: {lesson.title}</h2>
                         </div>
                         <div className={`shrink-0 ml-4 hidden sm:block p-2 rounded-full border ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
                            {isPhaseExp ? <ChevronUp className="w-5 h-5 text-[#F97316]" /> : <ChevronDown className={`w-5 h-5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />}

@@ -48,9 +48,9 @@ export default function AnalyticsReport() {
   }, [user]);
 
   return (
-    <div className="space-y-6">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
       {/* Header section with back button */}
-      <div className={`flex flex-col md:flex-row md:items-center justify-between gap-4 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div className="flex items-center gap-4">
           <button 
             onClick={() => navigate(-1)} 
@@ -59,8 +59,11 @@ export default function AnalyticsReport() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Detailed Data Report</h1>
-            <p className="text-[#F97316] text-xs font-bold   mt-1">Comprehensive overview of platform analytics</p>
+            <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+              <TrendingUp className="w-8 h-8 text-[#00D4FF]" />
+              Detailed Data Report
+            </h1>
+            <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Comprehensive overview of platform analytics and metrics.</p>
           </div>
         </div>
         <div className="flex gap-3">

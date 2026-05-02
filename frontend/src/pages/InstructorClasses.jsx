@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
-import { PlusCircle, Search } from 'lucide-react';
+import { PlusCircle, Search, BookOpen } from 'lucide-react';
 
 export default function InstructorClasses() {
   const isDarkMode = useThemeMode();
@@ -32,9 +32,15 @@ export default function InstructorClasses() {
   }
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-        <h2 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>My Classes</h2>
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+        <div>
+          <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <BookOpen className="w-8 h-8 text-[#00D4FF]" />
+            My Classes
+          </h1>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Manage and edit your active courses and classes.</p>
+        </div>
         <Link to="/dashboard/builder" className={`inline-flex items-center gap-2 px-6 py-3 font-black rounded-xl hover:-translate-y-0.5 transition-transform bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
           <PlusCircle className="w-4 h-4" /> Create New Course
         </Link>

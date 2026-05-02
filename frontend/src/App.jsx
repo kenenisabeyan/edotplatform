@@ -65,10 +65,13 @@ function MainLayout() {
   );
 }
 
+import CommandK from './components/CommandK';
+
 export default function App() {
   const isDarkMode = useThemeMode();
   return (
     <>
+      <CommandK />
       <Toaster 
         position="top-right" 
         toastOptions={{

@@ -87,40 +87,40 @@ export default function SupportDashboard() {
   const { stats = null, supportedStudents = [], recentImpact = [], currentCycle = null } = data || {};
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
       
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <div className="flex items-center gap-3">
-            <h1 className={`text-3xl font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              <HeartHandshake className="w-8 h-8 text-indigo-500" />
+            <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+              <HeartHandshake className="w-8 h-8 text-[#00D4FF]" />
               Support & Sponsorship
             </h1>
-            <span className="px-2.5 py-1 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px]  font-black  rounded-lg flex items-center gap-1.5 shadow-[0_0_10px_rgba(239,68,68,0.3)]">
+            <span className="px-2.5 py-1 bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-black rounded-lg flex items-center gap-1.5 shadow-[0_0_10px_rgba(239,68,68,0.3)]">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
               LIVE
             </span>
           </div>
-          <p className="text-indigo-400/90 mt-3 font-semibold  text-lg flex items-center gap-3">
+          <div className={`text-sm mt-2 font-medium flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
             “Supporting continuous learning for every student.”
-            <span className={`text-xs font-medium tracking-normal flx items-center ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+            <span className={`text-xs ml-3 font-medium tracking-normal flex items-center ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
               • Updated {lastUpdated}
             </span>
-          </p>
+          </div>
         </div>
         <div className="flex items-center gap-4">
           <button 
             onClick={() => fetchDashboardData(true)} 
             className={`p-3 rounded-full border transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-slate-200 hover:text-white hover:bg-white/5' : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 shadow-sm'}`}
           >
-            <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin text-indigo-400' : ''}`} />
+            <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin text-[#00D4FF]' : ''}`} />
           </button>
           <button 
              onClick={() => setShowSponsorModal(true)}
-             className={`bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-full font-bold transition-all shadow-[0_0_15px_rgba(79,70,229,0.3)] hover:shadow-[0_0_25px_rgba(79,70,229,0.5)] flex items-center gap-2 border-0 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+             className={`inline-flex items-center gap-2 px-6 py-3 font-black rounded-xl hover:-translate-y-0.5 transition-transform bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
           >
-            <HandCoins className="w-5 h-5" />
+            <HandCoins className="w-4 h-4" />
             Become a Sponsor
           </button>
         </div>

@@ -69,11 +69,14 @@ export default function FinanceFees() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className={`flex justify-between items-center mb-8 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
-          <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Institution Financials</h1>
-          <p className="text-[#F97316] text-xs font-bold   mt-1">Manage global fee ledgers & financial flows</p>
+          <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <CircleDollarSign className="w-8 h-8 text-[#00D4FF]" />
+            Institution Financials
+          </h1>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Manage global fee ledgers & financial flows.</p>
         </div>
       </div>
 

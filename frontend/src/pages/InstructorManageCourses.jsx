@@ -101,21 +101,21 @@ export default function InstructorManageCourses() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.5 }}
-      className="max-w-7xl mx-auto space-y-8 pb-10"
+      className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full"
     >
-      <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center rounded-3xl p-6 md:p-8 bg-gradient-to-br from-white/5 to-transparent border backdrop-blur-xl shadow-2xl relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#008A32]/10 via-transparent to-[#F97316]/10 opacity-30 pointer-events-none"></div>
-        <div className="relative z-10 mb-4 sm:mb-0">
-          <h2 className={`text-3xl font-display font-bold mb-2 tracking-tight flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-            <LayoutGrid className="w-7 h-7 text-[#F97316]" /> Manage Courses
-          </h2>
-          <p className={`font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Build, edit, and orchestrate top-tier learning experiences across domains.</p>
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+        <div>
+          <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <LayoutGrid className="w-8 h-8 text-[#00D4FF]" />
+            Manage Courses
+          </h1>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Build, edit, and orchestrate top-tier learning experiences across domains.</p>
         </div>
         <button 
           onClick={() => navigate('/dashboard/builder')} 
-          className="relative z-10 inline-flex items-center gap-2 px-6 py-3 bg-[#F97316] text-[#0B1120] font-bold rounded-xl hover:bg-[#F97316] hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,215,0,0.3)] hover:shadow-[0_0_30px_rgba(255,215,0,0.5)]"
+          className={`inline-flex items-center gap-2 px-6 py-3 font-black rounded-xl hover:-translate-y-0.5 transition-transform bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
         >
-          <Sparkles className="w-5 h-5" /> 
+          <Sparkles className="w-4 h-4" /> 
           <span>Create New Course</span>
         </button>
       </div>

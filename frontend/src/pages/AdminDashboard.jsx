@@ -394,11 +394,17 @@ export default function AdminDashboard() {
         ], [stats, user]);
         
         return (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className={`text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              Admin Overview
-              {loading && <div className={`w-5 h-5 border-2 border-t-red-500 rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>}
-            </h2>
+          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+            <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+              <div>
+                <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                  <Activity className="w-8 h-8 text-[#00D4FF]" />
+                  Admin Overview
+                  {loading && <div className={`w-5 h-5 border-2 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'} ml-3`}></div>}
+                </h1>
+                <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Comprehensive summary of platform metrics and activities.</p>
+              </div>
+            </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
               <div className={`p-6 rounded-2xl border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>

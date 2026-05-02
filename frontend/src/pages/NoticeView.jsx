@@ -64,13 +64,14 @@ export default function NoticeView() {
   }
 
   return (
-    <div className="animate-in fade-in flex flex-col space-y-8 max-w-6xl mx-auto pb-12">
-      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b pb-6 mt-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
-          <h1 className={`text-3xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-             <Radio className={`w-8 h-8 ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`} /> Global Notices
+          <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+             <Radio className="w-8 h-8 text-[#00D4FF]" />
+             Global Notices
           </h1>
-          <p className={`font-medium text-sm mt-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Official announcements and platform-wide updates.</p>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Official announcements and platform-wide updates.</p>
         </div>
         
         <div className="flex items-center gap-4 w-full md:w-auto">
