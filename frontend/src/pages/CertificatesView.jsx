@@ -109,8 +109,8 @@ export default function CertificatesView() {
       </div>
 
       {completedCourses.length === 0 ? (
-        <div className={`p-12 text-center rounded-3xl border shadow-2xl flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#0B0E14]/90 backdrop-blur-xl border-white/10' : 'bg-white/95 border-slate-200'}`}>
-           <div className={`w-20 h-20 border rounded-full flex items-center justify-center mb-4 shadow-sm ${isDarkMode ? 'bg-[#11151F]/5 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
+        <div className={`p-12 text-center rounded-3xl border shadow-2xl flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#1E293B]/90 backdrop-blur-xl border-white/10' : 'bg-white/95 border-slate-200'}`}>
+           <div className={`w-20 h-20 border rounded-full flex items-center justify-center mb-4 shadow-sm ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
              <Award className="w-10 h-10" />
            </div>
            <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No certificates yet</h3>
@@ -119,7 +119,7 @@ export default function CertificatesView() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {completedCourses.map((enrolled) => (
-            <div key={enrolled.course?.id} className={`rounded-3xl border shadow-2xl overflow-hidden group transition-colors ${isDarkMode ? 'bg-[#0B0E14]/90 backdrop-blur-xl border-white/10 hover:border-[#FFD700]/30' : 'bg-white/95 border-slate-200 hover:border-indigo-300 hover:shadow-lg'}`}>
+            <div key={enrolled.course?.id} className={`rounded-3xl border shadow-2xl overflow-hidden group transition-colors ${isDarkMode ? 'bg-[#1E293B]/90 backdrop-blur-xl border-white/10 hover:border-[#FFD700]/30' : 'bg-white/95 border-slate-200 hover:border-indigo-300 hover:shadow-lg'}`}>
               <div className={`aspect-[4/3] border-b p-8 flex flex-col items-center justify-center relative ${isDarkMode ? 'bg-gradient-to-br from-[#00D4FF]/5 to-[#0B0E14] border-white/10' : 'bg-gradient-to-br from-indigo-50 to-white border-slate-200'}`}>
                 <Award className={`w-16 h-16 mb-4 drop-shadow-sm ${isDarkMode ? 'text-[#FFD700]' : 'text-indigo-500'}`} />
                 <h3 className={`font-bold text-center line-clamp-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{enrolled.course?.title}</h3>
@@ -132,7 +132,7 @@ export default function CertificatesView() {
                   </button>
                 </div>
               </div>
-              <div className={`p-4 flex justify-between items-center ${isDarkMode ? 'bg-[#11151F]/5' : 'bg-slate-50'}`}>
+              <div className={`p-4 flex justify-between items-center ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}>
                 <div className={`text-xs font-black ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Issued to</div>
                 <div className={`text-sm font-bold truncate ml-4 ${isDarkMode ? 'text-[#FFD700]' : 'text-indigo-600'}`}>{user?.name}</div>
               </div>

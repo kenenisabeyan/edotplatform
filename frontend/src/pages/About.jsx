@@ -22,7 +22,7 @@ export default function About() {
       
       {/* 1. HERO SECTION */}
       <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-         <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-slate-900' : 'bg-blue-50'}`}>
+         <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-blue-50'}`}>
             <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80" alt="Global Education" className={`w-full h-full object-cover ${isDarkMode ? 'opacity-40 mix-blend-overlay' : 'opacity-[0.07] mix-blend-multiply'}`} />
             <div className={`absolute inset-0 bg-gradient-to-b ${isDarkMode ? 'from-blue-900/50 via-slate-900/80 to-slate-900' : 'from-white/50 via-blue-50/80 to-blue-50'}`}></div>
          </div>

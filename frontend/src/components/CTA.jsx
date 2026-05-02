@@ -12,7 +12,7 @@ export default function CTA({
   const isDarkMode = useThemeMode();
   return (
     <section className="py-24 px-6 max-w-5xl mx-auto relative z-20">
-      <div className={`backdrop-blur-2xl border rounded-[3rem] p-12 md:p-20 text-center shadow-2xl relative overflow-hidden group ${isDarkMode ? 'bg-[#11151F]/40 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+      <div className={`backdrop-blur-2xl border rounded-[3rem] p-12 md:p-20 text-center shadow-2xl relative overflow-hidden group ${isDarkMode ? 'bg-[#1E293B]/40 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
         
         <h2 className={`text-2xl md:text-3xl font-bold leading-tight mb-8 tracking-tight relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
           {title}

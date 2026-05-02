@@ -112,11 +112,11 @@ export default function StudentsList() {
         </div>
       )}
 
-      <div className={`rounded-2xl border backdrop-blur-xl shadow-lg overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#11151F]/5' : 'border-slate-100 bg-slate-50'}`}>
+      <div className={`rounded-2xl border backdrop-blur-xl shadow-lg overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#1E293B]/5' : 'border-slate-100 bg-slate-50'}`}>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#11151F]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
+              <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#1E293B]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
                 <th className="p-4">Student</th>
                 <th className="p-4">Email</th>
                 <th className="p-4">Status</th>
@@ -130,7 +130,7 @@ export default function StudentsList() {
                    <td colSpan="5" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No {tab} students found.</td>
                 </tr>
               ) : filteredStudents.map(stu => (
-                <tr key={stu.id} className={`border-b hover:bg-[#11151F]/5 transition ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                <tr key={stu.id} className={`border-b hover:bg-[#1E293B]/5 transition ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                   <td className={`p-4 flex items-center gap-3 font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                     <UserAvatar user={stu} className="w-10 h-10 text-sm" />
                     {stu.name}

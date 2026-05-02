@@ -118,7 +118,7 @@ export default function SectionManagement() {
          {/* Form & Management */}
          <div className="lg:col-span-1 space-y-8">
             {/* Create Card */}
-            <div className={`backdrop-blur-xl border shadow-2xl rounded-[2.5rem] p-6 lg:p-8 relative overflow-hidden ${isDarkMode ? 'bg-[#11151F]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+            <div className={`backdrop-blur-xl border shadow-2xl rounded-[2.5rem] p-6 lg:p-8 relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
                <div className="absolute top-[-20%] right-[-10%] w-32 h-32 bg-[#E67E22]/10 rounded-full blur-[40px]"></div>
                <h3 className={`text-xl font-bold mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                  <Layers className="w-5 h-5 text-[#FFD700]" /> New Section
@@ -127,13 +127,13 @@ export default function SectionManagement() {
                <form onSubmit={handleCreateSection} className="space-y-5">
                  <div>
                    <label className={`block text-xs font-bold mb-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Section Name</label>
-                   <input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="e.g. Batch 1, Group A" required className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#E67E22]/50 transition-colors ${isDarkMode ? 'bg-[#0B0E14] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
+                   <input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="e.g. Batch 1, Group A" required className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#E67E22]/50 transition-colors ${isDarkMode ? 'bg-[#1E293B] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
                  </div>
                  
                  <div>
                    <label className={`block text-xs font-bold mb-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Target Course</label>
                    <div className="relative">
-                     <select value={formData.course} onChange={e => setFormData({...formData, course: e.target.value})} required className={`w-full border rounded-xl px-4 py-3 text-sm appearance-none focus:outline-none focus:border-[#E67E22]/50 transition-colors ${isDarkMode ? 'bg-[#0B0E14] border-white/5 text-slate-300' : 'bg-white border-slate-100 text-slate-500'}`}>
+                     <select value={formData.course} onChange={e => setFormData({...formData, course: e.target.value})} required className={`w-full border rounded-xl px-4 py-3 text-sm appearance-none focus:outline-none focus:border-[#E67E22]/50 transition-colors ${isDarkMode ? 'bg-[#1E293B] border-white/5 text-slate-300' : 'bg-white border-slate-100 text-slate-500'}`}>
                        <option value="" disabled>Select a course...</option>
                        {courses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
                      </select>
@@ -144,7 +144,7 @@ export default function SectionManagement() {
                  <div>
                    <label className={`block text-xs font-bold mb-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Assign Instructor</label>
                    <div className="relative">
-                     <select value={formData.instructor} onChange={e => setFormData({...formData, instructor: e.target.value})} className={`w-full border rounded-xl px-4 py-3 text-sm appearance-none focus:outline-none focus:border-[#E67E22]/50 transition-colors ${isDarkMode ? 'bg-[#0B0E14] border-white/5 text-slate-300' : 'bg-white border-slate-100 text-slate-500'}`}>
+                     <select value={formData.instructor} onChange={e => setFormData({...formData, instructor: e.target.value})} className={`w-full border rounded-xl px-4 py-3 text-sm appearance-none focus:outline-none focus:border-[#E67E22]/50 transition-colors ${isDarkMode ? 'bg-[#1E293B] border-white/5 text-slate-300' : 'bg-white border-slate-100 text-slate-500'}`}>
                        <option value="">No explicit assignment</option>
                        {validators.instructors.map(ins => <option key={ins.id} value={ins.id}>{ins.name || ins.email}</option>)}
                      </select>
@@ -160,7 +160,7 @@ export default function SectionManagement() {
 
             {/* Selected Section Detail / Enrollment */}
             {selectedSection && (
-              <div className={`backdrop-blur-xl border shadow-2xl rounded-[2.5rem] p-6 lg:p-8 animate-fade-in-up ${isDarkMode ? 'bg-[#11151F]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+              <div className={`backdrop-blur-xl border shadow-2xl rounded-[2.5rem] p-6 lg:p-8 animate-fade-in-up ${isDarkMode ? 'bg-[#1E293B]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
                  <h3 className={`text-xl font-bold mb-6 flex items-center justify-between ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                    <span className="flex items-center gap-2"><UserPlus className="w-5 h-5 text-[#FFD700]" /> Student Roster</span>
                    <span className="text-[10px] bg-emerald-500/100/10 text-emerald-400 px-2 py-1 rounded border border-emerald-500/20">{selectedSection.name}</span>
@@ -168,7 +168,7 @@ export default function SectionManagement() {
                  
                  <form onSubmit={handleAddStudent} className="flex flex-col gap-3 mb-6">
                    <label className={`text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Enroll New Learner</label>
-                   <select value={studentToAdd} onChange={e => setStudentToAdd(e.target.value)} required className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#FFD700]/50 transition-colors appearance-none ${isDarkMode ? 'bg-[#0B0E14] border-white/5 text-slate-300' : 'bg-white border-slate-100 text-slate-500'}`}>
+                   <select value={studentToAdd} onChange={e => setStudentToAdd(e.target.value)} required className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#FFD700]/50 transition-colors appearance-none ${isDarkMode ? 'bg-[#1E293B] border-white/5 text-slate-300' : 'bg-white border-slate-100 text-slate-500'}`}>
                      <option value="" disabled>Search & Select Student...</option>
                      {validators.students.filter(stu => !selectedSection.students.find(s => s.id === stu.id)).map(stu => (
                         <option key={stu.id} value={stu.id}>{stu.name} - {stu.email}</option>
@@ -182,7 +182,7 @@ export default function SectionManagement() {
                  <div className={`max-h-[300px] overflow-y-auto space-y-2 pr-2 scrollbar-hide border-t pt-4 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                    <p className={`text-xs font-bold mb-3 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{selectedSection.students.length} Learners Enrolled</p>
                    {selectedSection.students.map(student => (
-                     <div key={student.id} className={`flex items-center justify-between bg-[#0B0E14]/60 border p-3 rounded-xl hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                     <div key={student.id} className={`flex items-center justify-between bg-[#1E293B]/60 border p-3 rounded-xl hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                        <div className="flex items-center gap-3">
                          <div className="w-8 h-8 rounded-full bg-blue-500/100/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-xs">{student.name?.[0]?.toUpperCase()}</div>
                          <div className="flex flex-col">
@@ -212,7 +212,7 @@ export default function SectionManagement() {
              if (courseSections.length === 0) return null;
 
              return (
-               <div key={course.id} className={`bg-[#11151F]/30 border rounded-3xl p-5 md:p-6 mb-6 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+               <div key={course.id} className={`bg-[#1E293B]/30 border rounded-3xl p-5 md:p-6 mb-6 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                  <h4 className={`text-lg font-black mb-5 tracking-tight flex items-center gap-3 border-b pb-4 ${isDarkMode ? 'text-white border-white/5' : 'text-slate-900 border-slate-100'}`}>
                    {course.title}
                    <span className="text-[10px] font-bold bg-[#FFD700]/10 text-[#FFD700] px-2 py-0.5 rounded-full border border-[#FFD700]/20">{courseSections.length} Sections</span>
@@ -223,7 +223,7 @@ export default function SectionManagement() {
                      <div 
                        key={sec.id} 
                        onClick={() => setSelectedSection(sec)}
-                       className={`p-5 rounded-2xl border transition-all cursor-pointer group relative overflow-hidden ${selectedSection?.id === sec.id ? 'bg-[#E67E22]/10 border-[#E67E22]/40 shadow-[0_0_20px_rgba(0,138,50,0.1)]' : 'bg-[#0B0E14]/60 hover:border-white/10 hover:bg-[#0B0E14]'} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}
+                       className={`p-5 rounded-2xl border transition-all cursor-pointer group relative overflow-hidden ${selectedSection?.id === sec.id ? 'bg-[#E67E22]/10 border-[#E67E22]/40 shadow-[0_0_20px_rgba(0,138,50,0.1)]' : 'bg-[#1E293B]/60 hover:border-white/10 hover:bg-[#1E293B]'} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}
                      >
                         <div className="flex justify-between items-start mb-3">
                            <div>
@@ -232,7 +232,7 @@ export default function SectionManagement() {
                                Instructor: {sec.instructor ? sec.instructor.name : <span className="text-rose-400">Unassigned</span>}
                              </p>
                            </div>
-                           <button onClick={(e) => { e.stopPropagation(); handleDeleteSection(sec.id); }} className={`hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-500/100/10 p-1.5 rounded-lg border border-transparent hover:border-rose-500/30 ${isDarkMode ? 'text-slate-300 bg-[#11151F]/5' : 'text-slate-500 bg-slate-50'}`}>
+                           <button onClick={(e) => { e.stopPropagation(); handleDeleteSection(sec.id); }} className={`hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all hover:bg-rose-500/100/10 p-1.5 rounded-lg border border-transparent hover:border-rose-500/30 ${isDarkMode ? 'text-slate-300 bg-[#1E293B]/5' : 'text-slate-500 bg-slate-50'}`}>
                               <Trash2 className="w-4 h-4" />
                            </button>
                         </div>
@@ -249,7 +249,7 @@ export default function SectionManagement() {
            })}
 
            {sections.length === 0 && (
-              <div className={`bg-[#11151F]/30 border rounded-3xl p-16 text-center font-medium italic ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}>
+              <div className={`bg-[#1E293B]/30 border rounded-3xl p-16 text-center font-medium italic ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}>
                 No sections exist in the database. Construct the first cohort via the form.
               </div>
            )}

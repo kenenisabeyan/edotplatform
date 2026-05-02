@@ -78,7 +78,7 @@ export default function ParentLearners() {
 
   if (loading) {
     return (
-      <div className={`flex items-center justify-center h-full min-h-[60vh] ${isDarkMode ? 'bg-[#0B0E14]' : 'bg-white'}`}>
+      <div className={`flex items-center justify-center h-full min-h-[60vh] ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}>
         <div className="relative w-16 h-16">
            <div className="absolute inset-0 rounded-full border-t-2 border-[#FFD700] animate-spin"></div>
            <div className="absolute inset-2 rounded-full border-r-2 border-[#E67E22] animate-[spin_1.5s_linear_infinite_reverse]"></div>
@@ -89,7 +89,7 @@ export default function ParentLearners() {
 
   if (learners.length === 0) {
     return (
-      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className={`backdrop-blur-xl rounded-3xl p-12 text-center shadow-2xl border max-w-2xl mx-auto mt-12 relative overflow-hidden ${isDarkMode ? 'bg-[#0B0E14]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className={`backdrop-blur-xl rounded-3xl p-12 text-center shadow-2xl border max-w-2xl mx-auto mt-12 relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div className="absolute inset-0 bg-[#FFD700]/5 opacity-20 pointer-events-none blur-3xl"></div>
         <div className="w-24 h-24 bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700] rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner relative z-10">
           <Users className="w-12 h-12" />
@@ -105,7 +105,7 @@ export default function ParentLearners() {
             value={connectEmail}
             onChange={(e) => setConnectEmail(e.target.value)}
             placeholder="Student's registered email"
-            className={`w-full pl-5 pr-32 py-4 bg-[#11151F] border placeholder-slate-500 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-[#FFD700] transition-shadow shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+            className={`w-full pl-5 pr-32 py-4 bg-[#1E293B] border placeholder-slate-500 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-[#FFD700] transition-shadow shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
           />
           <button 
             onClick={handleConnectLearner}
@@ -164,13 +164,13 @@ export default function ParentLearners() {
           const completedCourses = learner.enrolledCourses?.filter(c => c.passedFinalExam).length || 0;
           
           return (
-            <motion.div variants={itemVariants} key={learner.id} className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden flex flex-col xl:flex-row hover:border-white/20 transition-all duration-300 relative group ${isDarkMode ? 'bg-[#0B0E14]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+            <motion.div variants={itemVariants} key={learner.id} className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden flex flex-col xl:flex-row hover:border-white/20 transition-all duration-300 relative group ${isDarkMode ? 'bg-[#1E293B]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
               <div className="absolute top-0 left-0 w-32 h-32 bg-[#FFD700]/5 rounded-br-full pointer-events-none group-hover:scale-110 transition-transform duration-700"></div>
 
               {/* Sidebar Profile Panel */}
-              <div className={`xl:w-[340px] bg-[#11151F]/80 backdrop-blur-md p-8 border-b xl:border-b-0 xl:border-r flex flex-col relative shrink-0 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+              <div className={`xl:w-[340px] bg-[#1E293B]/80 backdrop-blur-md p-8 border-b xl:border-b-0 xl:border-r flex flex-col relative shrink-0 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                 <div className="flex flex-col items-center text-center relative z-10 mb-8 mt-4">
-                  <motion.div whileHover={{ scale: 1.05 }} className={`w-28 h-28 rounded-full border-2 shadow-2xl mb-5 overflow-hidden ring-4 ring-black/40 ${isDarkMode ? 'bg-[#11151F]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                  <motion.div whileHover={{ scale: 1.05 }} className={`w-28 h-28 rounded-full border-2 shadow-2xl mb-5 overflow-hidden ring-4 ring-black/40 ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                     <img 
                       src={`http://localhost:5000/uploads/avatars/${learner.avatar || 'default-avatar.png'}`} 
                       alt={learner.name}
@@ -189,20 +189,20 @@ export default function ParentLearners() {
                 <div className="flex flex-col gap-3 mt-auto relative z-10">
                    <button 
                      onClick={() => setTab(learner.id, 'overview')}
-                     className={`flex items-center gap-3 px-5 py-3.5 rounded-xl text-sm font-bold transition-all ${tab === 'overview' ? 'bg-[#FFD700] text-[#0f172a] shadow-[0_0_20px_rgba(255,215,0,0.3)]' : 'bg-[#11151F]/5 hover:text-white border hover:bg-[#11151F]/10'} ${isDarkMode ? 'text-slate-200 border-white/10' : 'text-slate-600 border-slate-200'}`}
+                     className={`flex items-center gap-3 px-5 py-3.5 rounded-xl text-sm font-bold transition-all ${tab === 'overview' ? 'bg-[#FFD700] text-[#0f172a] shadow-[0_0_20px_rgba(255,215,0,0.3)]' : 'bg-[#1E293B]/5 hover:text-white border hover:bg-[#1E293B]/10'} ${isDarkMode ? 'text-slate-200 border-white/10' : 'text-slate-600 border-slate-200'}`}
                    >
                      <BarChart2 className="w-4 h-4" /> Overview
                    </button>
                    <button 
                      onClick={() => setTab(learner.id, 'courses')}
-                     className={`flex items-center justify-between px-5 py-3.5 rounded-xl text-sm font-bold transition-all ${tab === 'courses' ? 'bg-[#FFD700] text-[#0f172a] shadow-[0_0_20px_rgba(255,215,0,0.3)]' : 'bg-[#11151F]/5 hover:text-white border hover:bg-[#11151F]/10'} ${isDarkMode ? 'text-slate-200 border-white/10' : 'text-slate-600 border-slate-200'}`}
+                     className={`flex items-center justify-between px-5 py-3.5 rounded-xl text-sm font-bold transition-all ${tab === 'courses' ? 'bg-[#FFD700] text-[#0f172a] shadow-[0_0_20px_rgba(255,215,0,0.3)]' : 'bg-[#1E293B]/5 hover:text-white border hover:bg-[#1E293B]/10'} ${isDarkMode ? 'text-slate-200 border-white/10' : 'text-slate-600 border-slate-200'}`}
                    >
                      <div className="flex items-center gap-3"><BookOpen className="w-4 h-4" /> Enrolled</div>
-                     <span className={`text-[10px] font-black px-2 py-0.5 rounded-md ${tab === 'courses' ? 'bg-[#0f172a]/20 text-[#0f172a]' : 'bg-[#11151F]/10 '} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{totalEnrollments}</span>
+                     <span className={`text-[10px] font-black px-2 py-0.5 rounded-md ${tab === 'courses' ? 'bg-[#0f172a]/20 text-[#0f172a]' : 'bg-[#1E293B]/10 '} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{totalEnrollments}</span>
                    </button>
                    <button 
                      onClick={() => setTab(learner.id, 'activity')}
-                     className={`flex items-center gap-3 px-5 py-3.5 rounded-xl text-sm font-bold transition-all relative overflow-hidden group ${tab === 'activity' ? 'bg-[#E30A17]/10 border border-[#E30A17]/50 shadow-[0_0_20px_rgba(227,10,23,0.2)]' : 'bg-[#11151F]/5 hover: border border-rose-500/10 hover:border-rose-500/30'} ${isDarkMode ? 'text-white text-slate-200' : 'text-slate-900 text-slate-600'}`}
+                     className={`flex items-center gap-3 px-5 py-3.5 rounded-xl text-sm font-bold transition-all relative overflow-hidden group ${tab === 'activity' ? 'bg-[#E30A17]/10 border border-[#E30A17]/50 shadow-[0_0_20px_rgba(227,10,23,0.2)]' : 'bg-[#1E293B]/5 hover: border border-rose-500/10 hover:border-rose-500/30'} ${isDarkMode ? 'text-white text-slate-200' : 'text-slate-900 text-slate-600'}`}
                    >
                      {/* Pulsing indicator specifically for Insights */}
                      <div className={`absolute left-0 top-0 bottom-0 w-1 ${tab === 'activity' ? 'bg-[#E30A17] shadow-[0_0_10px_#E30A17]' : 'bg-transparent group-hover:bg-[#E30A17]/50'}`}></div>
@@ -247,7 +247,7 @@ export default function ParentLearners() {
                             </div>
                         </div>
 
-                        <div className={`flex-1 rounded-3xl border p-8 flex flex-col justify-center items-center text-center relative overflow-hidden group ${isDarkMode ? 'bg-[#11151F]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                        <div className={`flex-1 rounded-3xl border p-8 flex flex-col justify-center items-center text-center relative overflow-hidden group ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                            <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                            <CalendarDays className={`w-12 h-12 mb-4 group-hover:scale-110 transition-transform ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                            <h4 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Detailed Analytics Locked</h4>
@@ -269,9 +269,9 @@ export default function ParentLearners() {
                               <motion.div 
                                 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}
                                 key={idx} 
-                                className={`group bg-[#11151F] border p-6 rounded-3xl hover:border-[#FFD700]/30 hover:shadow-[0_10px_30px_rgba(255,215,0,0.05)] transition-all duration-300 relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}
+                                className={`group bg-[#1E293B] border p-6 rounded-3xl hover:border-[#FFD700]/30 hover:shadow-[0_10px_30px_rgba(255,215,0,0.05)] transition-all duration-300 relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}
                               >
-                                <div className={`absolute top-0 right-0 w-24 h-24 rounded-bl-full pointer-events-none group-hover:bg-[#FFD700]/10 transition-colors ${isDarkMode ? 'bg-[#11151F]/5' : 'bg-slate-50'}`}></div>
+                                <div className={`absolute top-0 right-0 w-24 h-24 rounded-bl-full pointer-events-none group-hover:bg-[#FFD700]/10 transition-colors ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}></div>
                                 <div className="flex items-start gap-5 mb-6 relative z-10">
                                   <div className="w-16 h-16 rounded-2xl bg-black overflow-hidden shrink-0 shadow-lg relative group-hover:ring-2 ring-[#FFD700] ring-offset-2 ring-offset-[#11151F] transition-all">
                                     <img 
@@ -318,7 +318,7 @@ export default function ParentLearners() {
                             ))}
                           </div>
                         ) : (
-                          <div className={`h-64 flex flex-col items-center justify-center rounded-3xl border border-dashed border-white/20 ${isDarkMode ? 'bg-[#11151F]/5' : 'bg-slate-50'}`}>
+                          <div className={`h-64 flex flex-col items-center justify-center rounded-3xl border border-dashed border-white/20 ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}>
                              <BookOpen className={`w-12 h-12 mb-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                              <p className={`font-bold text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No courses enrolled yet.</p>
                           </div>
@@ -415,7 +415,7 @@ export default function ParentLearners() {
                                </motion.div>
                              );
                            }) : (
-                               <div className={`p-12 text-center border rounded-3xl ${isDarkMode ? 'bg-[#11151F]/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                               <div className={`p-12 text-center border rounded-3xl ${isDarkMode ? 'bg-[#1E293B]/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
                                   <Activity className={`w-12 h-12 mx-auto mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
                                   <p className={`font-bold text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No insights generated yet.</p>
                                </div>

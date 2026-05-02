@@ -239,7 +239,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
     if (status === 'pending') return 'bg-amber-500/100/20 text-amber-300 border border-amber-300';
     if (status === 'rejected') return 'bg-rose-500/100/20 text-rose-300 border border-rose-300';
     if (status === 'blocked') return 'bg-[#FFD700]/20 text-[#FFD700] border border-[#FFD700]';
-    return 'bg-[#11151F]/40 backdrop-blur-xl0/20 text-slate-200 border border-slate-400';
+    return 'bg-[#1E293B]/40 backdrop-blur-xl0/20 text-slate-200 border border-slate-400';
   };
 
   const selectedUserCompletion = selectedUser?.enrolledCourses?.length ?
@@ -268,7 +268,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 450, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 240, damping: 30 }}
-              className={`relative w-full max-w-6xl rounded-3xl border border-[#FFD700] p-5 md:p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl max-h-[85vh] overflow-y-auto custom-scrollbar ${isDarkMode ? 'bg-[#11151F]/40' : 'bg-slate-50'}`}
+              className={`relative w-full max-w-6xl rounded-3xl border border-[#FFD700] p-5 md:p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl max-h-[85vh] overflow-y-auto custom-scrollbar ${isDarkMode ? 'bg-[#1E293B]/40' : 'bg-slate-50'}`}
               onClick={(e) => e.stopPropagation()}
             >
             <div className="flex justify-between items-start gap-4 mb-6">
@@ -289,7 +289,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5 shrink-0">
               {/* Relationship Map */}
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#11151F]/5' : 'border-slate-100 bg-slate-50'}`}>
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#1E293B]/5' : 'border-slate-100 bg-slate-50'}`}>
                 <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Relationship Map</h4>
                 {selectedUser.role === 'student' && (
                   <div className="space-y-4">
@@ -368,14 +368,14 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
               </div>
 
               {/* Activity Matrix */}
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#11151F]/5' : 'border-slate-100 bg-slate-50'}`}>
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#1E293B]/5' : 'border-slate-100 bg-slate-50'}`}>
                 <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Activity Matrix (Recent)</h4>
                 <div className="max-h-48 overflow-auto space-y-2 custom-scrollbar pr-2">
                   {(selectedUserActivities.length > 0) ? selectedUserActivities.map((activity) => (
                     <div key={activity.id} className="rounded-xl border border-slate-800 bg-black/40 p-3 text-xs shadow-inner">
                       <div className="flex justify-between items-start">
                          <p className={`font-medium leading-relaxed ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{activity.action}</p>
-                         {activity.metadata?.ip && <span className={`text-[9px] font-mono tracking-tighter border px-1.5 py-0.5 rounded ${isDarkMode ? 'text-slate-300 bg-[#11151F]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>{activity.metadata.ip}</span>}
+                         {activity.metadata?.ip && <span className={`text-[9px] font-mono tracking-tighter border px-1.5 py-0.5 rounded ${isDarkMode ? 'text-slate-300 bg-[#1E293B]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>{activity.metadata.ip}</span>}
                       </div>
                       <p className="text-[#FFD700]/70 mt-1.5 text-[10px] font-bold  ">{activity.type || 'action'} • {new Date(activity.createdAt).toLocaleString()} {activity.metadata?.userAgent && (activity.metadata.userAgent.includes('Mobi') ? '📱' : '💻')}</p>
                     </div>
@@ -384,7 +384,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
               </div>
 
               {/* Extended Insights */}
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#11151F]/5' : 'border-slate-100 bg-slate-50'}`}>
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#1E293B]/5' : 'border-slate-100 bg-slate-50'}`}>
                 <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Extended Insights</h4>
                 <div className="flex flex-col gap-4">
                   <div>
@@ -454,7 +454,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5 shrink-0">
               {/* Performance / Completion */}
-              <div className={`p-5 rounded-2xl border flex flex-col items-center justify-center relative overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#11151F]/5' : 'border-slate-100 bg-slate-50'}`}>
+              <div className={`p-5 rounded-2xl border flex flex-col items-center justify-center relative overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#1E293B]/5' : 'border-slate-100 bg-slate-50'}`}>
                 <h4 className={`absolute top-5 left-5 text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Performance Snapshot</h4>
                 <div className="mt-8 flex items-center justify-center">
                   <RadialBarChart width={180} height={180} cx="50%" cy="50%" innerRadius="70%" outerRadius="100%" barSize={10} data={[{ name: 'Progress', value: selectedUserCompletion || 1, fill: '#008A32' }]}>
@@ -469,7 +469,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
               </div>
 
               {/* Role-Specific Manipulators */}
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#11151F]/5' : 'border-slate-100 bg-slate-50'}`}>
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#1E293B]/5' : 'border-slate-100 bg-slate-50'}`}>
                 {(selectedUser.role === 'student') ? (
                   <>
                     <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Student Dossier</h4>
@@ -483,7 +483,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                               <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{courseTitle}</p>
                               <button onClick={() => removeEnrollment(courseId)} className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-rose-300 font-bold   px-2 py-1 rounded bg-rose-500/100/10 hover:bg-rose-500/100/20">Drop</button>
                             </div>
-                            <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden mt-1">
+                            <div className="h-1.5 w-full bg-[#1E293B] rounded-full overflow-hidden mt-1">
                               <div style={{ width: `${en.progress || 0}%`, backgroundColor: '#008A32' }} className="h-full rounded-full transition-all duration-700 shadow-[0_0_10px_rgba(0,138,50,0.8)]" />
                             </div>
                             <p className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Progress: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{en.progress || 0}%</span> • {en.status}</p>
@@ -502,7 +502,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                             value: c.id,
                             render: (
                               <div className="flex items-center gap-3 w-full py-0.5">
-                                <div className={`w-9 h-9 rounded-md overflow-hidden shrink-0 bg-slate-800 border shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                                <div className={`w-9 h-9 rounded-md overflow-hidden shrink-0 bg-[#1E293B] border shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                                   <img src={c.thumbnail && c.thumbnail !== 'default-course.jpg' && c.thumbnail !== '' ? c.thumbnail : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=100&q=80'} alt="" className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=100&q=80' }} />
                                 </div>
                                 <div className="flex flex-col text-left flex-1 min-w-0">
@@ -596,7 +596,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
             </div>
 
             {/* Overrides block */}
-            <div className={`p-5 rounded-2xl border shrink-0 ${isDarkMode ? 'border-white/5 bg-[#11151F]/5' : 'border-slate-100 bg-slate-50'}`}>
+            <div className={`p-5 rounded-2xl border shrink-0 ${isDarkMode ? 'border-white/5 bg-[#1E293B]/5' : 'border-slate-100 bg-slate-50'}`}>
               <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Quick Admin Overrides</h4>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                 <div>

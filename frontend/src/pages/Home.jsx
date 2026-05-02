@@ -54,13 +54,13 @@ export default function Home() {
                <div className={`absolute inset-0 bg-gradient-to-r ${isDarkMode ? 'from-[#0B1120] via-[#0B1120]/60 to-transparent' : 'from-[#FAFAFA] via-[#FAFAFA]/60 to-transparent'} w-[40%] -ml-1`}></div>
                
                {/* Floating elements mimicking the image over the video */}
-               <div className="absolute top-[20%] right-[30%] bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '4s' }}>
+               <div className="absolute top-[20%] right-[30%] bg-white dark:bg-[#1E293B] rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '4s' }}>
                   <Handshake className="w-8 h-8 text-[#F97316]" />
                </div>
-               <div className="absolute top-[45%] right-[10%] bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '1s' }}>
+               <div className="absolute top-[45%] right-[10%] bg-white dark:bg-[#1E293B] rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '1s' }}>
                   <GraduationCap className="w-8 h-8 text-[#0940B5] dark:text-[#00D4FF]" />
                </div>
-               <div className="absolute bottom-[25%] left-[25%] bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '3s', animationDelay: '0.5s' }}>
+               <div className="absolute bottom-[25%] left-[25%] bg-white dark:bg-[#1E293B] rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '3s', animationDelay: '0.5s' }}>
                   <Heart className="w-8 h-8 text-red-500 fill-red-500" />
                </div>
             </div>
@@ -127,7 +127,7 @@ export default function Home() {
                  { title: "Support", desc: "Help learners grow and succeed.", icon: Heart, color: "bg-[#FBBF24]" },
                  { title: "Sponsor", desc: "Sponsor education, change a life.", icon: Gift, color: "bg-[#8B5CF6]" }
                ].map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-4 p-5 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors rounded-xl cursor-pointer">
+                  <div key={idx} className="flex items-center gap-4 p-5 hover:bg-slate-50 dark:hover:bg-[#1E293B]/50 transition-colors rounded-xl cursor-pointer">
                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-sm text-white ${item.color}`}>
                         <item.icon className="w-6 h-6" />
                      </div>
@@ -236,7 +236,7 @@ export default function Home() {
                  { title: "Mathematics & Natural Sciences", icon: Calculator, color: "text-blue-500", bg: "bg-blue-100 dark:bg-blue-900/30" },
                  { title: "Social Sciences", icon: Globe, color: "text-green-500", bg: "bg-green-100 dark:bg-green-900/30" },
                  { title: "Languages", icon: Languages, color: "text-purple-500", bg: "bg-purple-100 dark:bg-purple-900/30" },
-                 { title: "Technology & Development", icon: Laptop, color: "text-[#00D4FF]", bg: "bg-[#001030] dark:bg-slate-800" },
+                 { title: "Technology & Development", icon: Laptop, color: "text-[#00D4FF]", bg: "bg-[#001030] dark:bg-[#1E293B]" },
                  { title: "Business & Entrepreneurship", icon: Briefcase, color: "text-[#F97316]", bg: "bg-orange-100 dark:bg-orange-900/30" },
                  { title: "Personal Development", icon: Target, color: "text-rose-500", bg: "bg-rose-100 dark:bg-rose-900/30" }
                ].map((cat, i) => (
@@ -280,7 +280,7 @@ export default function Home() {
                }].map((item, idx) => (
                   <div key={idx} className={`relative flex flex-col items-center text-center p-10 rounded-[32px] overflow-hidden group border transition-all duration-500 hover:-translate-y-3 ${isDarkMode ? 'bg-[#111827] border-white/10 hover:border-[#F97316]/50' : 'bg-slate-50 border-slate-200 hover:bg-white hover:border-[#F97316]/50 hover:shadow-[0_20px_40px_rgba(249,115,22,0.1)]'}`}>
                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#F97316] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                     <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-8 shadow-inner transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 ${isDarkMode ? 'bg-slate-800' : 'bg-white border border-slate-100'}`}>
+                     <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-8 shadow-inner transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white border border-slate-100'}`}>
                         <item.icon className={`w-10 h-10 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#0940B5]'}`} />
                      </div>
                      <h3 className={`text-2xl font-black mb-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{item.title}</h3>
@@ -330,7 +330,7 @@ export default function Home() {
                   <div className={`relative w-full max-w-[500px] h-[550px] rounded-[40px] overflow-hidden shadow-2xl border-8 ${isDarkMode ? 'border-[#111827]' : 'border-white'}`}>
                      <img src={homePageImg} alt="Mentor helping student" className="w-full h-full object-cover" />
                      {/* Floating badge */}
-                     <div className="absolute bottom-8 right-8 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4">
+                     <div className="absolute bottom-8 right-8 bg-white/90 dark:bg-[#0B1120]/90 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4">
                         <div className="w-12 h-12 bg-[#F97316]/20 rounded-full flex items-center justify-center shrink-0">
                            <Gift className="w-6 h-6 text-[#F97316]" />
                         </div>
@@ -376,7 +376,7 @@ export default function Home() {
       </section>
 
       {/* 8. REAL IMPACT, MEASURABLE GROWTH */}
-      <section className={`py-32 px-6 border-t relative overflow-hidden ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-slate-900 border-slate-800'}`}>
+      <section className={`py-32 px-6 border-t relative overflow-hidden ${isDarkMode ? 'bg-[#0F172A] border-white/5' : 'bg-[#0B1120] border-slate-800'}`}>
          {/* Background Image */}
          <div className="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80" alt="Students celebrating" className="w-full h-full object-cover opacity-20 mix-blend-overlay" />
@@ -482,7 +482,7 @@ export default function Home() {
       </section>
 
       {/* 12. FOOTER */}
-      <footer className={`py-16 px-6 border-t ${isDarkMode ? 'bg-[#0F172A] border-white/10' : 'bg-slate-900 text-white'}`}>
+      <footer className={`py-16 px-6 border-t ${isDarkMode ? 'bg-[#0F172A] border-white/10' : 'bg-[#0B1120] text-white'}`}>
          <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div>
                <div className="text-3xl font-black text-[#00D4FF] tracking-tighter mb-6">EDOT.</div>

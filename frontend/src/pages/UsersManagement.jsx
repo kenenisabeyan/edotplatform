@@ -146,7 +146,7 @@ export default function UsersManagement() {
         </div>
       </div>
 
-      <div className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#11151F]/5' : 'border-slate-100 bg-slate-50'}`}>
+      <div className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#1E293B]/5' : 'border-slate-100 bg-slate-50'}`}>
         <div className={`pb-4 border-b flex flex-wrap justify-between items-center gap-3 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
           <div className="relative w-full sm:w-72">
             <Search className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />
@@ -155,7 +155,7 @@ export default function UsersManagement() {
               placeholder="Search users..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full pl-9 pr-4 py-2 border rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#FFD700] transition-shadow placeholder-slate-400 ${isDarkMode ? 'bg-[#11151F]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
+              className={`w-full pl-9 pr-4 py-2 border rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#FFD700] transition-shadow placeholder-slate-400 ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
             />
           </div>
           <button
@@ -219,7 +219,7 @@ export default function UsersManagement() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[900px]">
             <thead>
-                <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#11151F]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
+                <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#1E293B]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
                   <th className="px-6 py-4">Name</th>
                   <th className="px-6 py-4">Email</th>
                   <th className="px-6 py-4">Status</th>
@@ -238,7 +238,7 @@ export default function UsersManagement() {
                     <td colSpan="5" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No users found.</td>
                   </tr>
                 ) : filteredUsers.map((u) => (
-                  <tr key={u.id} className="hover:bg-[#11151F]/5 transition-colors">
+                  <tr key={u.id} className="hover:bg-[#1E293B]/5 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <UserAvatar user={u} className="w-8 h-8 text-xs" />
@@ -258,7 +258,7 @@ export default function UsersManagement() {
                         <span className={`inline-flex w-max items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold   border ${
                           u.status === 'approved' ? 'bg-[#E67E22]/10 text-[#E67E22] border-[#E67E22]/20' : 
                           u.status === 'rejected' ? 'bg-[#E30A17]/10 text-[#E30A17] border-[#E30A17]/20' : 
-                          'bg-[#11151F]/5 text-slate-300 border-white/10'
+                          'bg-[#1E293B]/5 text-slate-300 border-white/10'
                         }`}>
                           {u.status === 'approved' ? <CheckCircle2 className="w-3.5 h-3.5" /> : u.status === 'rejected' ? <XCircle className="w-3.5 h-3.5" /> : null}
                           {u.status}
@@ -306,7 +306,7 @@ export default function UsersManagement() {
                     <div className="flex flex-wrap gap-2">
                       <button onClick={() => resetUserPassword(u.id)} className="text-xs px-2.5 py-1 rounded-lg bg-yellow-500/15 text-yellow-300 hover:bg-yellow-500/25 border border-yellow-500/20">Reset PW</button>
                       <button onClick={() => deleteUser(u.id)} className="text-xs px-2.5 py-1 rounded-lg bg-red-500/15 text-red-300 hover:bg-red-500/25 border border-red-500/20">Delete</button>
-                      <button onClick={() => showUserDetails(u)} className={`text-xs px-2.5 py-1 rounded-lg backdrop-blur-xl0/15 hover:bg-[#11151F]/40 backdrop-blur-xl0/25 border border-slate-500/20 ${isDarkMode ? 'bg-[#11151F]/40 text-slate-300' : 'bg-slate-50 text-slate-500'}`}>Details</button>
+                      <button onClick={() => showUserDetails(u)} className={`text-xs px-2.5 py-1 rounded-lg backdrop-blur-xl0/15 hover:bg-[#1E293B]/40 backdrop-blur-xl0/25 border border-slate-500/20 ${isDarkMode ? 'bg-[#1E293B]/40 text-slate-300' : 'bg-slate-50 text-slate-500'}`}>Details</button>
                     </div>
                   </td>
                 </tr>

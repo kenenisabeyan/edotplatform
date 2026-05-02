@@ -85,7 +85,7 @@ const CategoryHexagon = ({ cat, idx, translate, onClick }) => {
          style={{ backgroundColor: details.color, clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
        >
           <div 
-             className={`w-[97%] h-[97%] flex flex-col items-center justify-center relative p-2 md:p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#11151F] hover:bg-[#1a1f2e]' : 'bg-white hover:bg-slate-50'}`}
+             className={`w-[97%] h-[97%] flex flex-col items-center justify-center relative p-2 md:p-6 transition-colors duration-300 ${isDarkMode ? 'bg-[#1E293B] hover:bg-[#1a1f2e]' : 'bg-white hover:bg-slate-50'}`}
              style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
           >
              <div className="absolute top-0 left-0 w-full h-full bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -126,7 +126,7 @@ const CentralEDOTLogo = () => {
        style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
     >
        <div 
-         className={`w-full h-full flex flex-col items-center justify-center relative ${isDarkMode ? 'bg-[#11151F]' : 'bg-white'}`}
+         className={`w-full h-full flex flex-col items-center justify-center relative ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}
          style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
        >
          {/* Inner geometric accent */}
@@ -231,7 +231,7 @@ const CoursePopover = ({ course, rect, onMouseEnter, onMouseLeave, isDarkMode })
 
   return createPortal(
     <div 
-      className={`fixed z-[100] w-[330px] border shadow-[0_8px_30px_rgba(0,0,0,0.5)] rounded-lg p-5 animate-in fade-in zoom-in-95 duration-200 ${isDarkMode ? 'bg-[#11151F] border-white/10' : 'bg-white border-slate-200'}`}
+      className={`fixed z-[100] w-[330px] border shadow-[0_8px_30px_rgba(0,0,0,0.5)] rounded-lg p-5 animate-in fade-in zoom-in-95 duration-200 ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}
       style={{ top: topPos, left: leftPos }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -241,7 +241,7 @@ const CoursePopover = ({ course, rect, onMouseEnter, onMouseLeave, isDarkMode })
 
        {/* Pointer arrow */}
        <div 
-         className={`absolute w-4 h-4 rotate-45 ${isDarkMode ? 'bg-[#11151F]' : 'bg-white'}`}
+         className={`absolute w-4 h-4 rotate-45 ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}
          style={{
            top: '50px',
            [isRightSide ? 'right' : 'left']: '-8px',
@@ -341,7 +341,7 @@ const CourseCard = ({ course, setHoveredCourse, isDarkMode }) => {
     >
       <Link 
         to={`/course/${course.id}`} 
-        className={`group flex flex-col h-full border rounded-2xl overflow-hidden transition-all duration-300 w-full relative ${isDarkMode ? 'bg-[#11151F] border-white/5' : 'bg-white border-slate-100 hover:border-slate-200'}`}
+        className={`group flex flex-col h-full border rounded-2xl overflow-hidden transition-all duration-300 w-full relative ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-white border-slate-100 hover:border-slate-200'}`}
         style={{ boxShadow: isHovered ? `0 8px 30px ${catColor}25` : (isDarkMode ? 'none' : '0 4px 20px rgba(0,0,0,0.05)') }}
       >
         {/* Theme Top Border */}
@@ -364,7 +364,7 @@ const CourseCard = ({ course, setHoveredCourse, isDarkMode }) => {
         </div>
 
         {/* Content - Coursera Style */}
-        <div className={`p-5 flex flex-col flex-1 relative z-10 ${isDarkMode ? 'bg-[#11151F]' : 'bg-white'}`}>
+        <div className={`p-5 flex flex-col flex-1 relative z-10 ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}>
           {/* Logo and Instructor */}
           <div className="flex items-center gap-3 mb-3">
              <div className="w-8 h-8 rounded bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center shrink-0 p-1 overflow-hidden shadow-sm">
@@ -569,7 +569,7 @@ export default function Courses() {
       <div className="relative z-10">
 
         {/* TOP CATEGORIES SECTION */}
-        <section className={`px-6 py-16 border-y backdrop-blur-3xl relative overflow-hidden transition-colors duration-300 ${isDarkMode ? 'bg-[#11151F]/60 border-white/5' : 'bg-white/40 border-slate-200'}`}>
+        <section className={`px-6 py-16 border-y backdrop-blur-3xl relative overflow-hidden transition-colors duration-300 ${isDarkMode ? 'bg-[#1E293B]/60 border-white/5' : 'bg-white/40 border-slate-200'}`}>
            {/* Subtle background tech pattern to enhance the infographic vibe */}
            <div className={`absolute inset-0 bg-[size:40px_40px] pointer-events-none ${isDarkMode ? 'opacity-20 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)]' : 'opacity-30 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)]'}`}></div>
 
@@ -651,7 +651,7 @@ export default function Courses() {
         </section>
 
         {/* MAIN COURSE CATALOG */}
-        <section id="course-catalog" className={`w-full py-20 border-t transition-colors duration-300 ${isDarkMode ? 'bg-[#0B0E14] border-white/5 text-slate-100' : 'bg-[#f0f4f8] border-slate-200 text-slate-800'}`}>
+        <section id="course-catalog" className={`w-full py-20 border-t transition-colors duration-300 ${isDarkMode ? 'bg-[#1E293B] border-white/5 text-slate-100' : 'bg-[#FAFAFA] border-slate-200 text-slate-800'}`}>
           <div className="max-w-7xl mx-auto px-6 min-h-[60vh]">
             
             {/* Header & Filter Tabs */}
@@ -671,7 +671,7 @@ export default function Courses() {
                          className={`px-5 py-2.5 rounded-full text-[14px] font-bold transition-all duration-300 relative whitespace-nowrap outline-none focus:outline-none snap-start shrink-0 flex items-center gap-2 shadow-sm ${
                            isSelected 
                                 ? (isDarkMode ? 'text-white hover:-translate-y-0.5' : 'text-slate-900 hover:-translate-y-0.5') 
-                                : (isDarkMode ? 'bg-[#11151F] border border-white/10 text-slate-400 hover:bg-white/5 hover:text-white hover:border-white/30 hover:shadow-md hover:-translate-y-0.5' : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:border-slate-300 hover:shadow-md hover:-translate-y-0.5')
+                                : (isDarkMode ? 'bg-[#1E293B] border border-white/10 text-slate-400 hover:bg-white/5 hover:text-white hover:border-white/30 hover:shadow-md hover:-translate-y-0.5' : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:border-slate-300 hover:shadow-md hover:-translate-y-0.5')
                          }`}
                          style={{
                             backgroundColor: isSelected ? catColor : undefined,
@@ -699,11 +699,11 @@ export default function Courses() {
                  <p>{error}</p>
                </div>
             ) : courses.length === 0 ? (
-               <div className={`text-center py-24 rounded-2xl border ${isDarkMode ? 'bg-[#11151F]/50 border-white/5' : 'bg-white border-slate-200 shadow-sm'}`}>
+               <div className={`text-center py-24 rounded-2xl border ${isDarkMode ? 'bg-[#1E293B]/50 border-white/5' : 'bg-white border-slate-200 shadow-sm'}`}>
                  <Search className="w-12 h-12 text-slate-500 mx-auto mb-4" />
                  <h3 className={`text-2xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>No courses found</h3>
                  <p className={`font-medium max-w-md mx-auto ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>We couldn't find any courses matching your search or filter. Try a different term or browse all categories.</p>
-                 <button onClick={() => {setSearchTerm(''); setCategoryFilter('All');}} className={`mt-8 px-8 py-3 border rounded-xl font-bold text-sm transition-colors ${isDarkMode ? 'bg-white border-white text-[#0B0E14] hover:bg-slate-200' : 'bg-slate-800 border-slate-800 text-white hover:bg-slate-700'}`}>
+                 <button onClick={() => {setSearchTerm(''); setCategoryFilter('All');}} className={`mt-8 px-8 py-3 border rounded-xl font-bold text-sm transition-colors ${isDarkMode ? 'bg-white border-white text-[#0B0E14] hover:bg-slate-200' : 'bg-[#1E293B] border-slate-800 text-white hover:bg-slate-700'}`}>
                    Clear Filters
                  </button>
                </div>
@@ -714,7 +714,7 @@ export default function Courses() {
                      {showLeftScroll && (
                        <button 
                           onClick={() => scroll('left')}
-                          className={`absolute left-[-24px] top-1/2 -translate-y-1/2 w-12 h-12 bg-[#11151F] rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:bg-[#1a202c] hover:scale-105 transition-all border z-10 hidden lg:flex opacity-0 group-hover:opacity-100 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                          className={`absolute left-[-24px] top-1/2 -translate-y-1/2 w-12 h-12 bg-[#1E293B] rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:bg-[#1a202c] hover:scale-105 transition-all border z-10 hidden lg:flex opacity-0 group-hover:opacity-100 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
                        >
                           <ChevronRight className="w-6 h-6 rotate-180" strokeWidth={2.5} />
                        </button>
@@ -747,7 +747,7 @@ export default function Courses() {
                      {showRightScroll && (
                        <button 
                           onClick={() => scroll('right')}
-                          className={`absolute right-[-24px] top-1/2 -translate-y-1/2 w-12 h-12 bg-[#11151F] rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:bg-[#1a202c] hover:scale-105 transition-all border z-10 hidden lg:flex opacity-0 group-hover:opacity-100 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                          className={`absolute right-[-24px] top-1/2 -translate-y-1/2 w-12 h-12 bg-[#1E293B] rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:bg-[#1a202c] hover:scale-105 transition-all border z-10 hidden lg:flex opacity-0 group-hover:opacity-100 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
                        >
                           <ChevronRight className="w-6 h-6" strokeWidth={2.5} />
                        </button>
@@ -768,7 +768,7 @@ export default function Courses() {
                        <button 
                          onClick={handleLoadMore}
                          disabled={loadingMore}
-                         className={`px-10 py-3.5 rounded-lg font-bold text-[15px] transition-all flex items-center justify-center gap-3 min-w-[200px] border ${isDarkMode ? 'bg-[#11151F] text-white border-white/10 hover:border-white/30 hover:bg-white/5' : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-sm'}`}
+                         className={`px-10 py-3.5 rounded-lg font-bold text-[15px] transition-all flex items-center justify-center gap-3 min-w-[200px] border ${isDarkMode ? 'bg-[#1E293B] text-white border-white/10 hover:border-white/30 hover:bg-white/5' : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-sm'}`}
                        >
                          {loadingMore ? 'Loading More...' : `Show More Courses (${totalCount - courses.length})`}
                          {!loadingMore && <ChevronDown className="w-4 h-4" />}
@@ -889,7 +889,7 @@ export default function Courses() {
               </p>
 
               <div className="flex flex-col sm:flex-row justify-center gap-6">
-                 <button onClick={() => document.getElementById('course-catalog').scrollIntoView({ behavior: 'smooth' })} className="bg-slate-800 text-white dark:bg-white dark:text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:bg-slate-700 dark:hover:bg-slate-200 hover:-translate-y-1 transition-all duration-300 shadow-xl">
+                 <button onClick={() => document.getElementById('course-catalog').scrollIntoView({ behavior: 'smooth' })} className="bg-[#1E293B] text-white dark:bg-white dark:text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:bg-slate-700 dark:hover:bg-slate-200 hover:-translate-y-1 transition-all duration-300 shadow-xl">
                    Explore Courses
                  </button>
                  <Link to="/register" className="bg-[#F97316] text-[#ffffff] px-10 py-4 rounded-xl font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">

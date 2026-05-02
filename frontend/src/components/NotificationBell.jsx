@@ -119,7 +119,7 @@ export default function NotificationBell() {
     <div className="relative" ref={dropdownRef}>
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-10 h-10 rounded-full border flex items-center justify-center hover:text-white hover:border-[#FFD700]/30 hover:shadow-[0_0_15px_rgba(255,215,0,0.2)] transition-all relative focus:outline-none backdrop-blur-md ${isDarkMode ? 'border-white/10 bg-[#11151F]/5 text-slate-300' : 'border-white/20 bg-white/10 text-white'}`}
+        className={`w-10 h-10 rounded-full border flex items-center justify-center hover:text-white hover:border-[#FFD700]/30 hover:shadow-[0_0_15px_rgba(255,215,0,0.2)] transition-all relative focus:outline-none backdrop-blur-md ${isDarkMode ? 'border-white/10 bg-[#1E293B]/5 text-slate-300' : 'border-white/20 bg-white/10 text-white'}`}
       >
         <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
@@ -130,7 +130,7 @@ export default function NotificationBell() {
       </button>
 
       {isOpen && (
-        <div className={`absolute right-0 mt-3 w-80 sm:w-96 bg-[#0B0E14]/95 backdrop-blur-xl rounded-2xl shadow-2xl border overflow-hidden z-[100] animate-in zoom-in-95 slide-in-from-top-2 duration-200 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+        <div className={`absolute right-0 mt-3 w-80 sm:w-96 bg-[#1E293B]/95 backdrop-blur-xl rounded-2xl shadow-2xl border overflow-hidden z-[100] animate-in zoom-in-95 slide-in-from-top-2 duration-200 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
           <div className={`p-4 border-b flex justify-between items-center bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
             <h3 className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Notifications</h3>
             {unreadCount > 0 && (
@@ -146,7 +146,7 @@ export default function NotificationBell() {
           <div className="max-h-[70vh] overflow-y-auto scrollbar-hide bg-black/20">
             {notifications.length === 0 ? (
               <div className={`p-8 text-center flex flex-col items-center ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                <div className={`w-16 h-16 rounded-full border flex items-center justify-center mb-4 ${isDarkMode ? 'bg-[#11151F]/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                <div className={`w-16 h-16 rounded-full border flex items-center justify-center mb-4 ${isDarkMode ? 'bg-[#1E293B]/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
                   <Bell className={`w-8 h-8 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                 </div>
                 <p className={`font-semibold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No new notifications</p>
@@ -157,9 +157,9 @@ export default function NotificationBell() {
                   <button 
                     key={notif.id}
                     onClick={() => handleNotificationClick(notif.link)}
-                    className={`p-4 border-b text-left transition-colors flex gap-4 group ${notif.unread ? 'bg-[#11151F]/5 hover:bg-[#11151F]/10' : 'hover:bg-[#11151F]/5'} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}
+                    className={`p-4 border-b text-left transition-colors flex gap-4 group ${notif.unread ? 'bg-[#1E293B]/5 hover:bg-[#1E293B]/10' : 'hover:bg-[#1E293B]/5'} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}
                   >
-                    <div className={`w-10 h-10 rounded-full shrink-0 flex items-center justify-center border transition-colors ${notif.unread ? 'bg-[#FFD700]/10 border-[#FFD700]/30 shadow-[0_0_15px_rgba(255,215,0,0.1)]' : 'bg-[#11151F]/5 group-hover:border-white/20'} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                    <div className={`w-10 h-10 rounded-full shrink-0 flex items-center justify-center border transition-colors ${notif.unread ? 'bg-[#FFD700]/10 border-[#FFD700]/30 shadow-[0_0_15px_rgba(255,215,0,0.1)]' : 'bg-[#1E293B]/5 group-hover:border-white/20'} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                       {notif.icon}
                     </div>
                     <div>
@@ -178,7 +178,7 @@ export default function NotificationBell() {
             )}
           </div>
           
-          <div className={`p-3 border-t text-center hover:bg-[#11151F]/5 transition-colors ${isDarkMode ? 'border-white/10 bg-[#0B0E14]' : 'border-slate-200 bg-white'}`}>
+          <div className={`p-3 border-t text-center hover:bg-[#1E293B]/5 transition-colors ${isDarkMode ? 'border-white/10 bg-[#1E293B]' : 'border-slate-200 bg-white'}`}>
             <button 
               onClick={() => { setIsOpen(false); navigate('/dashboard/notice'); }}
               className={`text-sm font-bold hover:text-white transition-colors w-full ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}

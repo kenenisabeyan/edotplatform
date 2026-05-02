@@ -355,7 +355,7 @@ export default function AdminDashboard() {
     if (status === 'pending') return 'bg-amber-500/100/20 text-amber-300 border border-amber-300';
     if (status === 'rejected') return 'bg-rose-500/100/20 text-rose-300 border border-rose-300';
     if (status === 'blocked') return 'bg-[#F97316]/20 text-[#F97316] border border-[#F97316]';
-    return 'bg-[#11151F]/40 backdrop-blur-xl0/20 text-slate-200 border border-slate-400';
+    return 'bg-[#1E293B]/40 backdrop-blur-xl0/20 text-slate-200 border border-slate-400';
   };
 
   const selectedUserCompletion = selectedUser?.enrolledCourses?.length ?
@@ -404,7 +404,7 @@ export default function AdminDashboard() {
             <h2 className={`text-2xl md:text-3xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Admin Overview</h2>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-              <div className={`p-6 rounded-2xl border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+              <div className={`p-6 rounded-2xl border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
                 <div className="flex justify-between items-start mb-4">
                   <div>
@@ -417,7 +417,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className={`p-6 rounded-2xl border border-rose-200 shadow-sm relative overflow-hidden group hover:border-rose-300 ${isDarkMode ? 'bg-[#13161B]' : 'bg-white'}`}>
+              <div className={`p-6 rounded-2xl border border-rose-200 shadow-sm relative overflow-hidden group hover:border-rose-300 ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
                 <div className="flex justify-between items-start mb-4">
                   <div>
@@ -430,7 +430,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className={`p-6 rounded-2xl border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+              <div className={`p-6 rounded-2xl border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
                 <div className="flex justify-between items-start mb-4">
                   <div>
@@ -443,7 +443,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className={`p-6 rounded-2xl border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+              <div className={`p-6 rounded-2xl border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
                 <div className="flex justify-between items-start mb-4">
                   <div>
@@ -458,7 +458,7 @@ export default function AdminDashboard() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-              <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+              <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                 <h3 className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Revenue Overview (YTD)</h3>
                 <div className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -476,7 +476,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+              <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                 <h3 className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>User Distribution</h3>
                 <div className="h-[300px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
@@ -504,7 +504,7 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div className={`p-6 lg:p-8 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className={`p-6 lg:p-8 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Quick Actions</h3>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                  <button 
@@ -534,7 +534,7 @@ export default function AdminDashboard() {
                </div>
             </div>
 
-            <div className={`p-6 lg:p-8 rounded-2xl border shadow-sm mt-8 ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className={`p-6 lg:p-8 rounded-2xl border shadow-sm mt-8 ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                <div className="flex justify-between items-center mb-6">
                  <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Intervention Overview</h3>
                  <span className="text-xs font-bold text-indigo-600 bg-indigo-100 px-2 py-1 rounded-md  ">Live Support Monitor</span>
@@ -594,13 +594,13 @@ export default function AdminDashboard() {
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
               <h2 className={`text-2xl font-display font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>User Management</h2>
-              <div className={`px-4 py-2 rounded-lg border text-sm font-medium shadow-sm flex items-center gap-2 ${isDarkMode ? 'bg-[#13161B] border-white/10 text-slate-300' : 'bg-white border-slate-200 text-slate-500'}`}>
+              <div className={`px-4 py-2 rounded-lg border text-sm font-medium shadow-sm flex items-center gap-2 ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-slate-300' : 'bg-white border-slate-200 text-slate-500'}`}>
                 <ShieldCheck className="w-4 h-4 text-emerald-500" />
                 Super Admin Access
               </div>
             </div>
             
-            <div className={`rounded-2xl border shadow-sm overflow-hidden ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className={`rounded-2xl border shadow-sm overflow-hidden ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse min-w-[800px]">
                   <thead>
@@ -619,7 +619,7 @@ export default function AdminDashboard() {
                       <tr key={u.id} className="hover:bg-transparent/50 transition-colors">
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className={`w-8 h-8 rounded-full backdrop-blur-xl flex flex-shrink-0 items-center justify-center font-bold text-xs ${isDarkMode ? 'bg-[#11151F]/5 text-slate-300' : 'bg-slate-50 text-slate-500'}`}>
+                            <div className={`w-8 h-8 rounded-full backdrop-blur-xl flex flex-shrink-0 items-center justify-center font-bold text-xs ${isDarkMode ? 'bg-[#1E293B]/5 text-slate-300' : 'bg-slate-50 text-slate-500'}`}>
                               {u.name.charAt(0).toUpperCase()}
                             </div>
                             <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{u.name}</span>
@@ -701,7 +701,7 @@ export default function AdminDashboard() {
             </div>
 
             {pendingCourses.length === 0 ? (
-               <div className={`p-12 text-center rounded-2xl border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+               <div className={`p-12 text-center rounded-2xl border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                  <div className="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mb-4">
                    <CheckCircle2 className="w-10 h-10" />
                  </div>
@@ -711,15 +711,15 @@ export default function AdminDashboard() {
             ) : (
                 <div className="grid grid-cols-1 gap-6">
                   {pendingCourses.map(c => (
-                    <div key={c.id} className={`rounded-2xl border shadow-sm overflow-hidden flex flex-col md:flex-row group ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+                    <div key={c.id} className={`rounded-2xl border shadow-sm overflow-hidden flex flex-col md:flex-row group ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                       
-                      <div className={`w-full md:w-64 h-48 md:h-auto shrink-0 relative backdrop-blur-xl ${isDarkMode ? 'bg-[#11151F]/5' : 'bg-slate-50'}`}>
+                      <div className={`w-full md:w-64 h-48 md:h-auto shrink-0 relative backdrop-blur-xl ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}>
                         <img 
                           src={c.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' : c.thumbnail} 
                           alt={c.title} 
                           className="w-full h-full object-cover" 
                         />
-                        <div className={`absolute top-3 left-3 backdrop-blur-sm px-2.5 py-1 rounded-md text-xs font-bold shadow-sm ${isDarkMode ? 'bg-[#13161B]/90 text-slate-200' : 'bg-white/90 text-slate-600'}`}>
+                        <div className={`absolute top-3 left-3 backdrop-blur-sm px-2.5 py-1 rounded-md text-xs font-bold shadow-sm ${isDarkMode ? 'bg-[#1E293B]/90 text-slate-200' : 'bg-white/90 text-slate-600'}`}>
                           {c.category}
                         </div>
                       </div>
@@ -751,7 +751,7 @@ export default function AdminDashboard() {
                            </button>
                            <button 
                             onClick={() => updateCourseStatus(c.id, 'rejected')} 
-                            className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 text-red-600 font-semibold rounded-xl border border-red-200 hover:bg-red-50 hover:-translate-y-0.5 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 ${isDarkMode ? 'bg-[#13161B]' : 'bg-white'}`}
+                            className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 text-red-600 font-semibold rounded-xl border border-red-200 hover:bg-red-50 hover:-translate-y-0.5 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}
                            >
                              <XCircle className="w-5 h-5" /> Reject
                            </button>
@@ -762,7 +762,7 @@ export default function AdminDashboard() {
                 </div>
             )}
 
-            <div className={`mt-8 p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className={`mt-8 p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
               <div className="flex justify-between items-center mb-4">
                 <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Enrollment Approval Queue</h3>
                 <span className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{pendingEnrollments.length} pending</span>
@@ -793,7 +793,7 @@ export default function AdminDashboard() {
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <h2 className={`text-2xl font-display font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>System Logs</h2>
-            <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                 <div className="flex justify-between items-center mb-6">
                   <span className={`font-semibold flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><Activity className="w-5 h-5" /> All Platform Activity</span>
                   <button className={`text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors bg-[#E67E22] hover:bg-[#CF711F] shadow-md border border-[#E67E22] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Export CSV</button>
@@ -813,14 +813,14 @@ export default function AdminDashboard() {
     w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium text-sm text-left
     ${activeTab === tabName 
       ? 'bg-[#1E293B] text-white shadow-sm' 
-      : 'bg-transparent text-slate-400 hover:bg-[#11151F] hover:text-white'
+      : 'bg-transparent text-slate-400 hover:bg-[#1E293B] hover:text-white'
     }
   `;
 
   return (
-    <div className={`min-h-screen bg-[#0d0f12] flex flex-col md:flex-row font-sans ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+    <div className={`min-h-screen ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'} flex flex-col md:flex-row font-sans ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
       {/* Sidebar Layout */}
-      <aside className={`w-full md:w-64 bg-[#0d0f12] shrink-0 flex flex-col md:h-screen border-r sticky top-0 font-sans ${isDarkMode ? 'text-white border-white/5' : 'text-slate-900 border-slate-100'}`}>
+      <aside className={`w-full md:w-64 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'} shrink-0 flex flex-col md:h-screen border-r sticky top-0 font-sans ${isDarkMode ? 'text-white border-white/5' : 'text-slate-900 border-slate-100'}`}>
         <div className={`p-6 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
            <img src={edotLogo} alt="EDOT Logo" className="h-8 w-auto rounded opacity-90" />
         </div>
@@ -884,7 +884,7 @@ export default function AdminDashboard() {
             <div className="relative w-full max-w-sm">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
               <input type="text" placeholder="Global Search (Students, Courses, Messages)..." 
-                className={`w-full pl-10 pr-20 py-2.5 border rounded-xl text-xs outline-none focus:ring-1 focus:ring-white/10 transition-all font-medium placeholder:text-slate-500 shadow-sm ${isDarkMode ? 'bg-[#13161B] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
+                className={`w-full pl-10 pr-20 py-2.5 border rounded-xl text-xs outline-none focus:ring-1 focus:ring-white/10 transition-all font-medium placeholder:text-slate-500 shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
               <div className={`absolute right-2 top-1/2 -translate-y-1/2 bg-[#1A1E26] text-[9px] px-2 py-1 rounded font-bold border ${isDarkMode ? 'text-slate-400 border-white/5' : 'text-slate-500 border-slate-100'}`}>
                 CTRL + K
               </div>
@@ -926,7 +926,7 @@ export default function AdminDashboard() {
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: 450, opacity: 0 }}
                 transition={{ type: 'spring', stiffness: 240, damping: 30 }}
-                className={`relative w-full max-w-6xl rounded-3xl border border-[#00D4FF] p-5 shadow-2xl backdrop-blur-2xl ${isDarkMode ? 'bg-[#0B0E14]/90' : 'bg-white/95'}`}
+                className={`relative w-full max-w-6xl rounded-3xl border border-[#00D4FF] p-5 shadow-2xl backdrop-blur-2xl ${isDarkMode ? 'bg-[#1E293B]/90' : 'bg-white/95'}`}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex justify-between items-start gap-4 mb-5">
@@ -1001,7 +1001,7 @@ export default function AdminDashboard() {
                     <h4 className={`text-sm font-bold mb-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Activity Matrix (Recent)</h4>
                     <div className="max-h-48 overflow-auto space-y-2">
                       {(selectedUserActivities.length > 0) ? selectedUserActivities.map((activity) => (
-                        <div key={activity.id} className="rounded-lg border border-slate-700 bg-slate-900/70 p-2 text-xs">
+                        <div key={activity.id} className="rounded-lg border border-slate-700 bg-[#0B1120]/70 p-2 text-xs">
                           <div className="flex justify-between items-start">
                              <p className={isDarkMode ? 'text-slate-200' : 'text-slate-600'}>{activity.action}</p>
                              {activity.metadata?.ip && <span className={`text-[9px] font-mono tracking-tighter bg-black/50 px-1 rounded ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{activity.metadata.ip}</span>}
@@ -1090,7 +1090,7 @@ export default function AdminDashboard() {
                             const courseId = en.course?.id || en.course;
                             const courseTitle = en.course?.title || (allCourses.find((c) => c.id === courseId)?.title) || 'Unknown';
                             return (
-                              <div key={`${courseId}_${idx}`} className="rounded-lg border border-slate-700 bg-slate-900/70 p-2 flex flex-col gap-2">
+                              <div key={`${courseId}_${idx}`} className="rounded-lg border border-slate-700 bg-[#0B1120]/70 p-2 flex flex-col gap-2">
                                 <div className="flex items-start justify-between gap-3">
                                   <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{courseTitle}</p>
                                   <button onClick={() => removeEnrollment(courseId)} className="text-[11px] text-rose-300 px-2 py-1 rounded bg-slate-700 hover:bg-slate-600">Remove</button>
@@ -1136,7 +1136,7 @@ export default function AdminDashboard() {
                         <div className="space-y-2">
                           {(selectedUser.children || []).length > 0 ?
                             selectedUser.children.map((c) => (
-                              <div key={c.id} className="flex items-center justify-between px-2 py-1 bg-slate-800 rounded-lg">
+                              <div key={c.id} className="flex items-center justify-between px-2 py-1 bg-[#1E293B] rounded-lg">
                                 <span className="text-xs text-emerald-200">{c.name}</span>
                                 <button onClick={() => removeChildFromParent(c.id)} className="text-[10px] px-2 py-1 rounded bg-rose-600 hover:bg-rose-500/100">Remove</button>
                               </div>

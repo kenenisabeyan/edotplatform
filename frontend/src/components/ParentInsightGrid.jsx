@@ -38,7 +38,7 @@ export default function ParentInsightGrid({ studentId }) {
 
   if (loading || !insights) {
     return <div className="animate-pulse space-y-6">
-       <div className={`h-64 backdrop-blur-xl dark:bg-slate-800 rounded-3xl ${isDarkMode ? 'bg-[#11151F]/5' : 'bg-slate-50'}`}></div>
+       <div className={`h-64 backdrop-blur-xl dark:bg-[#1E293B] rounded-3xl ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}></div>
     </div>;
   }
 
@@ -52,7 +52,7 @@ export default function ParentInsightGrid({ studentId }) {
            <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Milestones for {insights.studentName}</p>
         </CardHeader>
         <CardContent className="pt-0 relative">
-           <div className={`absolute left-9 top-0 bottom-6 w-0.5 backdrop-blur-xl dark:bg-slate-800 z-0 ${isDarkMode ? 'bg-[#11151F]/5' : 'bg-slate-50'}`}></div>
+           <div className={`absolute left-9 top-0 bottom-6 w-0.5 backdrop-blur-xl dark:bg-[#1E293B] z-0 ${isDarkMode ? 'bg-[#1E293B]/5' : 'bg-slate-50'}`}></div>
            <div className="space-y-6 relative z-10">
              {insights.timeline.map((item, i) => (
                 <motion.div 
@@ -62,7 +62,7 @@ export default function ParentInsightGrid({ studentId }) {
                   key={item.id} 
                   className="flex items-start gap-4"
                 >
-                   <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border-2 border-white dark:border-[#0F172A] shadow-sm ${item.status === 'Completed' ? 'bg-[#10B981] ' : 'bg-[#11151F]/10 dark:bg-slate-700 '} ${isDarkMode ? 'text-white text-slate-200' : 'text-slate-900 text-slate-600'}`}>
+                   <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border-2 border-white dark:border-[#0F172A] shadow-sm ${item.status === 'Completed' ? 'bg-[#10B981] ' : 'bg-[#1E293B]/10 dark:bg-slate-700 '} ${isDarkMode ? 'text-white text-slate-200' : 'text-slate-900 text-slate-600'}`}>
                      {item.status === 'Completed' ? <CheckCircle2 className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
                    </div>
                    <div className="flex-1 pt-1">
@@ -88,7 +88,7 @@ export default function ParentInsightGrid({ studentId }) {
           </CardHeader>
           <CardContent className="pt-0">
              <textarea 
-               className={`w-full bg-[#11151F] dark:bg-[#0F172A]/50 border dark:border-slate-800 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-[#6366F1] focus:border-transparent outline-none transition-all shadow-inner resize-none h-24 dark:text-slate-300 ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}
+               className={`w-full bg-[#1E293B] dark:bg-[#0F172A]/50 border dark:border-slate-800 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-[#6366F1] focus:border-transparent outline-none transition-all shadow-inner resize-none h-24 dark:text-slate-300 ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}
                placeholder={`Hello, I'd like an update regarding ${insights.studentName}'s recent performance in...`}
              ></textarea>
              <div className="flex justify-end mt-4">

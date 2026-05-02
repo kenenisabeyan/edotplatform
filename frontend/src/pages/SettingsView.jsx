@@ -114,7 +114,7 @@ export default function SettingsView() {
   };
 
   const ToggleSwitch = ({ label, description, checked, onChange }) => (
-    <div className={`flex items-center justify-between p-5 rounded-2xl border transition-all group shadow-sm ${isDarkMode ? 'bg-[#11151F] border-white/5 hover:border-[#FFD700]/30' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
+    <div className={`flex items-center justify-between p-5 rounded-2xl border transition-all group shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5 hover:border-[#FFD700]/30' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
       <div className="flex items-start gap-4 pr-6">
         <div>
           <h4 className={`font-bold text-sm transition-colors ${isDarkMode ? 'text-white group-hover:text-[#FFD700]' : 'text-slate-800 group-hover:text-indigo-600'}`}>{label}</h4>
@@ -126,13 +126,13 @@ export default function SettingsView() {
         onClick={() => onChange(!checked)}
         className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors shrink-0 outline-none focus:ring-2 focus:ring-offset-2 ${isDarkMode ? 'focus:ring-offset-[#0B0E14] focus:ring-[#FFD700]' : 'focus:ring-offset-white focus:ring-indigo-500'} ${checked ? (isDarkMode ? 'bg-[#E67E22]' : 'bg-indigo-600') : (isDarkMode ? 'bg-slate-700' : 'bg-slate-300')}`}
       >
-        <span className={`inline-block h-5 w-5 transform rounded-full shadow-md transition-transform ${isDarkMode ? 'bg-[#11151F]' : 'bg-white'} ${checked ? 'translate-x-6' : 'translate-x-1'}`} />
+        <span className={`inline-block h-5 w-5 transform rounded-full shadow-md transition-transform ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'} ${checked ? 'translate-x-6' : 'translate-x-1'}`} />
       </button>
     </div>
   );
 
   const NumberSlider = ({ label, description, value, onChange, min, max, unit = '' }) => (
-    <div className={`p-5 rounded-2xl border transition-all shadow-sm ${isDarkMode ? 'bg-[#11151F] border-white/5 hover:border-white/10' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
+    <div className={`p-5 rounded-2xl border transition-all shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5 hover:border-white/10' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
       <div className="flex justify-between items-start mb-4">
         <div>
           <h4 className={`font-bold text-sm ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{label}</h4>
@@ -155,7 +155,7 @@ export default function SettingsView() {
   );
 
   const InputField = ({ label, description, type = "text", value, onChange, placeholder, icon: Icon }) => (
-    <div className={`p-5 rounded-2xl border transition-all shadow-sm ${isDarkMode ? 'bg-[#11151F] border-white/5 hover:border-white/10' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
+    <div className={`p-5 rounded-2xl border transition-all shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5 hover:border-white/10' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
       <label className={`block text-xs font-black mb-2 flex items-center gap-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-700'}`}>
         {Icon && <Icon className="w-4 h-4" />} {label}
       </label>
@@ -166,7 +166,7 @@ export default function SettingsView() {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className={`w-full p-3.5 border rounded-xl font-medium text-sm outline-none focus:ring-2 focus:border-transparent transition-all shadow-inner ${isDarkMode ? 'bg-[#0B0E14] border-white/10 text-white focus:ring-[#FFD700] placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:ring-indigo-500 placeholder:text-slate-400'}`}
+          className={`w-full p-3.5 border rounded-xl font-medium text-sm outline-none focus:ring-2 focus:border-transparent transition-all shadow-inner ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white focus:ring-[#FFD700] placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:ring-indigo-500 placeholder:text-slate-400'}`}
         />
       </div>
     </div>
@@ -241,7 +241,7 @@ export default function SettingsView() {
                 className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-left font-bold text-sm transition-all whitespace-nowrap outline-none ${
                   activeTab === tab.id 
                   ? (isDarkMode ? 'bg-[#FFD700]/10 text-[#FFD700] border border-[#FFD700]/20 shadow-inner' : 'bg-indigo-50 text-indigo-600 border border-indigo-200 shadow-inner') 
-                  : (isDarkMode ? 'text-slate-200 hover:bg-[#11151F]/5 hover:text-white border border-transparent focus:ring-2 focus:ring-[#FFD700]/50' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-transparent focus:ring-2 focus:ring-indigo-500/50')
+                  : (isDarkMode ? 'text-slate-200 hover:bg-[#1E293B]/5 hover:text-white border border-transparent focus:ring-2 focus:ring-[#FFD700]/50' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-transparent focus:ring-2 focus:ring-indigo-500/50')
                 }`}
               >
                 <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'opacity-100' : 'opacity-70'}`} /> {tab.label}
@@ -251,7 +251,7 @@ export default function SettingsView() {
         </div>
 
         {/* Configuration Panel */}
-        <div className={`flex-1 backdrop-blur-xl border p-6 md:p-8 rounded-3xl shadow-2xl min-h-[500px] relative overflow-hidden ${isDarkMode ? 'bg-[#0B0E14]/80 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+        <div className={`flex-1 backdrop-blur-xl border p-6 md:p-8 rounded-3xl shadow-2xl min-h-[500px] relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/80 border-white/10' : 'bg-white/95 border-slate-200'}`}>
           
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-[#FFD700]/3 to-[#008A32]/3 rounded-full blur-[100px] pointer-events-none -z-10"></div>
 
@@ -279,7 +279,7 @@ export default function SettingsView() {
                       {label: '(GMT-05:00) Eastern Time', value: '(GMT-05:00) Eastern Time'},
                       {label: '(GMT-08:00) Pacific Time', value: '(GMT-08:00) Pacific Time'},
                     ]}
-                    className={`w-full md:w-1/2 [&>button]:py-3.5 [&>button]:border-white/10 ${isDarkMode ? '[&>button]:bg-[#11151F] [&>button]:text-white' : '[&>button]:bg-white [&>button]:text-slate-900'}`}
+                    className={`w-full md:w-1/2 [&>button]:py-3.5 [&>button]:border-white/10 ${isDarkMode ? '[&>button]:bg-[#1E293B] [&>button]:text-white' : '[&>button]:bg-white [&>button]:text-slate-900'}`}
                   />
                 </div>
               </>
@@ -307,14 +307,14 @@ export default function SettingsView() {
                   <h3 className={`text-lg font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Security & Authentication</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Audit logs, 2FA protocols, and access management.</p>
                 </div>
-                <div className={`p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm ${isDarkMode ? 'bg-[#11151F] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                <div className={`p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
                   <div>
                     <h4 className={`font-bold text-sm flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}><Fingerprint className={`w-4 h-4 ${isDarkMode ? 'text-[#FFD700]' : 'text-indigo-600'}`}/> Biometric / Two-Factor Protocol</h4>
                     <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Currently utilizing standard credential validation. We recommend enabling 2FA.</p>
                   </div>
                   <button type="button" className={`px-5 py-2.5 border font-semibold rounded-lg transition-all shrink-0 bg-[#E67E22] hover:bg-[#CF711F] shadow-md border-[#E67E22] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Enable 2FA</button>
                 </div>
-                <div className={`p-6 rounded-2xl border flex flex-col justify-center gap-4 shadow-sm ${isDarkMode ? 'bg-[#11151F] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                <div className={`p-6 rounded-2xl border flex flex-col justify-center gap-4 shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
                   <div>
                     <h4 className="font-bold text-rose-500 text-sm ">Device Sessions</h4>
                     <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>1 active session on Windows NT 10.0; Win64.</p>
@@ -337,7 +337,7 @@ export default function SettingsView() {
                     description="Define your public schedule for dynamic student booking."
                     type="text" value={roleConfig.consultationHours || ''} onChange={(v) => handleChange('consultationHours', v)} placeholder="e.g. Mon-Wed 3PM-5PM (GMT+3)" 
                   />
-                  <div className={`p-5 rounded-2xl border transition-all shadow-sm ${isDarkMode ? 'bg-[#11151F] border-white/5 hover:border-white/10' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
+                  <div className={`p-5 rounded-2xl border transition-all shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5 hover:border-white/10' : 'bg-slate-50 border-slate-200 hover:border-slate-300'}`}>
                     <label className={`block text-xs font-black mb-2 flex items-center gap-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-700'}`}>
                        <BookOpen className="w-4 h-4" /> Catalog Autonomy
                     </label>
@@ -349,7 +349,7 @@ export default function SettingsView() {
                         { label: 'Public (Requires Approval Algorithm)', value: 'public' },
                         { label: 'Hidden (Private Link Only)', value: 'enrolled_only' }
                       ]}
-                      className={`w-full md:w-3/4 [&>button]:py-3.5 [&>button]:border-white/10 font-bold ${isDarkMode ? '[&>button]:bg-[#0B0E14] [&>button]:text-white' : '[&>button]:bg-white [&>button]:text-slate-900'}`}
+                      className={`w-full md:w-3/4 [&>button]:py-3.5 [&>button]:border-white/10 font-bold ${isDarkMode ? '[&>button]:bg-[#1E293B] [&>button]:text-white' : '[&>button]:bg-white [&>button]:text-slate-900'}`}
                     />
                   </div>
                 </div>
@@ -385,10 +385,10 @@ export default function SettingsView() {
                   <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-900'}`}>Platform DNA</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Global branding and root configurations.</p>
                 </div>
-                <div className={`p-8 rounded-2xl border flex flex-col justify-center mb-6 shadow-sm ${isDarkMode ? 'bg-[#11151F] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                <div className={`p-8 rounded-2xl border flex flex-col justify-center mb-6 shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
                   <label className={`block text-xs font-black mb-4 flex items-center gap-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-700'}`}><Palette className="w-4 h-4"/> Global Hex Code</label>
                   <p className={`text-xs mb-6 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>This cascades the color injection across the SCSS variables.</p>
-                  <div className={`flex gap-4 items-center p-3 rounded-xl border w-max shadow-inner ${isDarkMode ? 'bg-[#0B0E14] border-white/10' : 'bg-white border-slate-200'}`}>
+                  <div className={`flex gap-4 items-center p-3 rounded-xl border w-max shadow-inner ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                     <input 
                       type="color" 
                       value={roleConfig.primaryColor || '#0B0E14'}
@@ -465,7 +465,7 @@ export default function SettingsView() {
                   <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-900'}`}>Family Supporter Link</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Connect your account securely via email validation.</p>
                 </div>
-                <div className={`p-8 rounded-2xl border border-l-4 shadow-sm ${isDarkMode ? 'bg-[#11151F] border-white/5 border-l-[#008A32]' : 'bg-slate-50 border-slate-200 border-l-[#008A32]'}`}>
+                <div className={`p-8 rounded-2xl border border-l-4 shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5 border-l-[#008A32]' : 'bg-slate-50 border-slate-200 border-l-[#008A32]'}`}>
                   <h4 className={`text-sm font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Guardian Email Address</h4>
                   <p className={`text-xs mb-6 font-medium max-w-lg leading-relaxed ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Link your account with a parent's registered email to securely share progress dynamically. Both parties must be registered.</p>
                   <div className="flex flex-col sm:flex-row gap-3">
@@ -474,7 +474,7 @@ export default function SettingsView() {
                       value={connectEmail}
                       onChange={(e) => setConnectEmail(e.target.value)}
                       placeholder="parent@example.com"
-                      className={`flex-1 p-3.5 border rounded-xl font-semibold outline-none focus:ring-2 focus:ring-[#008A32] focus:border-transparent shadow-inner ${isDarkMode ? 'bg-[#0B0E14] border-white/10 text-white placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 placeholder:text-slate-400'}`}
+                      className={`flex-1 p-3.5 border rounded-xl font-semibold outline-none focus:ring-2 focus:ring-[#008A32] focus:border-transparent shadow-inner ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 placeholder:text-slate-400'}`}
                     />
                     <button 
                       type="button"
@@ -497,7 +497,7 @@ export default function SettingsView() {
                   <h3 className={`text-lg font-black ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-900'}`}>Subscriptions & Billing</h3>
                   <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Manage payment sources for dependent enrollments.</p>
                 </div>
-                <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#11151F] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#1E293B] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
                   <label className={`block text-xs font-black mb-4 flex items-center gap-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-slate-700'}`}><CreditCard className="w-4 h-4"/> Default Payment Protocol</label>
                   <CustomDropdown
                     value={roleConfig.billingMethod || 'unlinked'}
@@ -507,7 +507,7 @@ export default function SettingsView() {
                       { label: 'Stored Payment Vault', value: 'card' },
                       { label: 'Direct Bank Wire Interface', value: 'bank_transfer' }
                     ]}
-                    className={`w-full md:w-3/4 [&>button]:py-4 [&>button]:border-white/10 ${isDarkMode ? '[&>button]:bg-[#0B0E14] [&>button]:text-white' : '[&>button]:bg-white [&>button]:text-slate-900'}`}
+                    className={`w-full md:w-3/4 [&>button]:py-4 [&>button]:border-white/10 ${isDarkMode ? '[&>button]:bg-[#1E293B] [&>button]:text-white' : '[&>button]:bg-white [&>button]:text-slate-900'}`}
                   />
                 </div>
               </>

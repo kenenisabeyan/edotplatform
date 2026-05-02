@@ -22,7 +22,7 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
   const description = CATEGORY_DESCRIPTIONS[categoryKey] || pkg.description;
 
   return (
-    <div className={`${isDarkMode ? 'bg-slate-800 border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.3)]' : 'bg-white border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]'} rounded-[24px] flex flex-col w-full hover:shadow-md transition-all hover:-translate-y-1 duration-300 relative overflow-hidden group border`}>
+    <div className={`${isDarkMode ? 'bg-[#1E293B] border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.3)]' : 'bg-white border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]'} rounded-[24px] flex flex-col w-full hover:shadow-md transition-all hover:-translate-y-1 duration-300 relative overflow-hidden group border`}>
       {/* Theme Top Border */}
       <div className="absolute top-0 left-0 right-0 h-1.5 z-50" style={{ backgroundColor: pkg.color || '#6366f1' }}></div>
       {/* Top Graphic */}
@@ -120,7 +120,7 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
         </p>
         
         {/* Available courses pills */}
-        <div className={`mb-3 p-4 rounded-xl border flex-1 ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-[#f8fafc] border-slate-100'}`}>
+        <div className={`mb-3 p-4 rounded-xl border flex-1 ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-[#f8fafc] border-slate-100'}`}>
           <div 
             className="flex items-center justify-between mb-3 cursor-pointer group"
             onClick={() => setShowCourses(!showCourses)}

@@ -73,7 +73,7 @@ export default function TeachingActivity() {
 
   return (
     <div className="space-y-6">
-      <div className={`flex justify-between items-center mb-6 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B0E14]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <div className={`flex justify-between items-center mb-6 backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div>
           <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Teaching Activity</h1>
           <p className="text-[#FFD700] text-xs font-bold   mt-1">Track instructor hours, enrollments, and platform engagement</p>
@@ -107,7 +107,7 @@ export default function TeachingActivity() {
         />
       </div>
 
-      <div className={`backdrop-blur-xl p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B0E14]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <div className={`backdrop-blur-xl p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <h3 className={`text-xl font-bold mb-8 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Teaching Velocity</h3>
         <div className="h-80">
           {activityData && activityData.length > 0 && activityData.some(d => d.hours > 0 || d.engagements > 0) ? (
@@ -123,7 +123,7 @@ export default function TeachingActivity() {
               </LineChart>
             </ResponsiveContainer>
           ) : (
-             <div className={`flex flex-col items-center justify-center p-4 py-8 text-center border-2 border-dashed rounded-2xl w-full h-full shadow-inner ${isDarkMode ? 'border-white/10 bg-[#11151F]/5' : 'border-slate-200 bg-slate-50'}`}>
+             <div className={`flex flex-col items-center justify-center p-4 py-8 text-center border-2 border-dashed rounded-2xl w-full h-full shadow-inner ${isDarkMode ? 'border-white/10 bg-[#1E293B]/5' : 'border-slate-200 bg-slate-50'}`}>
                   <p className={`font-bold text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No teaching velocity data logged</p>
              </div>
           )}

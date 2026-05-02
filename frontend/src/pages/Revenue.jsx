@@ -66,7 +66,7 @@ export default function Revenue() {
 
   return (
     <div className="space-y-6">
-      <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex justify-between items-center mb-6 ${isDarkMode ? 'bg-[#0B0E14]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex justify-between items-center mb-6 ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <div>
           <h1 className={`text-2xl font-display font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Finance & Revenue</h1>
           <p className="text-[#FFD700] text-xs font-bold   mt-1">Track platform monetization and subscription flow</p>
@@ -98,7 +98,7 @@ export default function Revenue() {
         />
       </div>
 
-      <div className={`backdrop-blur-xl p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B0E14]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <div className={`backdrop-blur-xl p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         <h3 className={`text-xl font-bold mb-8 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Revenue Trajectory Timeline</h3>
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
@@ -119,15 +119,15 @@ export default function Revenue() {
         </div>
       </div>
 
-      <div className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden ${isDarkMode ? 'bg-[#0B0E14]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-        <div className={`p-6 border-b ${isDarkMode ? 'border-white/10 bg-[#11151F]/5' : 'border-slate-200 bg-slate-50'}`}>
+      <div className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+        <div className={`p-6 border-b ${isDarkMode ? 'border-white/10 bg-[#1E293B]/5' : 'border-slate-200 bg-slate-50'}`}>
           <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Recent Transactions</h3>
           <p className={`text-[10px] font-bold mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Based on computed active course enrollments</p>
         </div>
         <div className="p-0 overflow-x-auto custom-scrollbar">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className={`bg-[#11151F] text-sm font-semibold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+              <tr className={`bg-[#1E293B] text-sm font-semibold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
                 <th className={`p-5 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Date</th>
                 <th className={`p-5 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Course Allocation</th>
                 <th className={`p-5 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Amount Computed</th>
@@ -137,7 +137,7 @@ export default function Revenue() {
             <tbody className={`text-sm font-normal ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
               {realCourses.length > 0 && realCourses.some(c => c.price > 0 && c.totalStudents > 0) ? (
                  realCourses.filter(c => c.price > 0 && c.totalStudents > 0).map((course, idx) => (
-                    <tr key={idx} className={`border-b hover:bg-[#11151F]/5 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                    <tr key={idx} className={`border-b hover:bg-[#1E293B]/5 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                       <td className={`p-5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{new Date(course.createdAt).toLocaleDateString()}</td>
                       <td className="p-5 font-bold">{course.title}</td>
                       <td className="p-5 text-[#FFD700] ">${(course.price * course.totalStudents).toLocaleString()}</td>

@@ -86,7 +86,7 @@ export default function QuizViewer() {
 
   if (loading) {
     return (
-      <div className={`min-h-screen flex justify-center items-center ${isDarkMode ? 'bg-[#0B0E14]' : 'bg-white'}`}>
+      <div className={`min-h-screen flex justify-center items-center ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}>
         <div className={`w-16 h-16 border-4 border-t-[#FFC107] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
       </div>
     );
@@ -94,7 +94,7 @@ export default function QuizViewer() {
 
   if (error || !course || !course.finalExam || course.finalExam.length === 0) {
     return (
-      <div className={`min-h-screen flex flex-col justify-center items-center p-4 ${isDarkMode ? 'bg-[#0B0E14] text-white' : 'bg-white text-slate-900'}`}>
+      <div className={`min-h-screen flex flex-col justify-center items-center p-4 ${isDarkMode ? 'bg-[#1E293B] text-white' : 'bg-white text-slate-900'}`}>
         <XCircle className="w-16 h-16 text-red-500 mb-4" />
         <h2 className="text-xl font-bold">No Final Exam Available</h2>
         <p className="opacity-70 mt-2 mb-6">This course does not have a final challenge assessment set up.</p>
@@ -108,8 +108,8 @@ export default function QuizViewer() {
     const passed = passedScore;
 
     return (
-      <div className={`min-h-screen flex items-center justify-center p-4 ${isDarkMode ? 'bg-[#0B0E14]' : 'bg-white'}`}>
-        <div className={`backdrop-blur-2xl rounded-3xl shadow-2xl border p-8 sm:p-12 max-w-lg w-full text-center animate-in zoom-in-95 duration-300 relative overflow-hidden ${isDarkMode ? 'bg-[#0B0E14]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <div className={`min-h-screen flex items-center justify-center p-4 ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}>
+        <div className={`backdrop-blur-2xl rounded-3xl shadow-2xl border p-8 sm:p-12 max-w-lg w-full text-center animate-in zoom-in-95 duration-300 relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
           <div className={`absolute inset-0 opacity-10 pointer-events-none ${passed ? 'bg-[#E67E22]' : 'bg-[#E30A17]'}`}></div>
           
           <div className={`w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(0,0,0,0.5)] border-4 relative z-10 ${passed ? 'bg-[#E67E22]/20 text-[#E67E22]' : 'bg-[#E30A17]/20 text-[#E30A17]'} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
@@ -122,11 +122,11 @@ export default function QuizViewer() {
           <p className={`mb-8 font-medium relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>You scored <span className={`font-black  ${passed ? 'text-[#E67E22]' : 'text-[#E30A17]'}`}>{score}%</span> on the Final Challenge.</p>
           
           <div className="space-y-4 relative z-10">
-            <div className={`flex justify-between items-center p-5 backdrop-blur-md rounded-2xl border ${isDarkMode ? 'bg-[#11151F]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+            <div className={`flex justify-between items-center p-5 backdrop-blur-md rounded-2xl border ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
               <span className={`font-bold text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Passing Requirement</span>
               <span className={`font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>50%</span>
             </div>
-            <div className={`flex justify-between items-center p-5 backdrop-blur-md rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#11151F]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+            <div className={`flex justify-between items-center p-5 backdrop-blur-md rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#1E293B]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
               <span className={`font-bold text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Your Score</span>
               <span className={`font-black text-xl shadow-sm ${passed ? 'text-[#E67E22]' : 'text-[#E30A17]'}`}>{score}%</span>
             </div>
@@ -162,7 +162,7 @@ export default function QuizViewer() {
   const allAnswered = questions.length === Object.keys(selectedAnswers).length;
 
   return (
-    <div className={`min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 relative overflow-hidden ${isDarkMode ? 'bg-[#0B0E14]' : 'bg-white'}`}>
+    <div className={`min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}>
       
       {/* Background Ornaments */}
       <div className="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] bg-[#FFD700]/5 rounded-full blur-[100px] pointer-events-none"></div>
@@ -171,7 +171,7 @@ export default function QuizViewer() {
       <div className="w-full max-w-3xl mb-8 flex justify-between items-center relative z-10">
         <button 
           onClick={() => navigate(`/lesson/${course.id}?courseId=${course.id}`)}
-          className={`hover:text-white font-bold text-xs flex items-center gap-2 transition-colors border px-4 py-2 rounded-lg ${isDarkMode ? 'text-slate-200 border-white/10 bg-[#11151F]/5' : 'text-slate-600 border-slate-200 bg-slate-50'}`}
+          className={`hover:text-white font-bold text-xs flex items-center gap-2 transition-colors border px-4 py-2 rounded-lg ${isDarkMode ? 'text-slate-200 border-white/10 bg-[#1E293B]/5' : 'text-slate-600 border-slate-200 bg-slate-50'}`}
         >
           <ArrowLeft className="w-4 h-4" /> Exit
         </button>
@@ -180,15 +180,15 @@ export default function QuizViewer() {
         </span>
       </div>
 
-      <div className={`w-full max-w-3xl backdrop-blur-xl rounded-3xl shadow-2xl border overflow-hidden relative z-10 ${isDarkMode ? 'bg-[#0B0E14]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+      <div className={`w-full max-w-3xl backdrop-blur-xl rounded-3xl shadow-2xl border overflow-hidden relative z-10 ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         
         {/* Progress Bar */}
-        <div className={`p-6 md:px-12 border-b bg-[#11151F] ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+        <div className={`p-6 md:px-12 border-b bg-[#1E293B] ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
           <div className={`flex justify-between text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
             <span>Question {currentQuestion + 1} of {questions.length}</span>
             <span className="text-[#FFD700]">{Math.round(progress)}% Complete</span>
           </div>
-          <div className={`h-1.5 rounded-full overflow-hidden border ${isDarkMode ? 'bg-[#11151F]/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+          <div className={`h-1.5 rounded-full overflow-hidden border ${isDarkMode ? 'bg-[#1E293B]/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
             <div 
               className="h-full bg-gradient-to-r from-[#FFD700] to-[#EAB308] shadow-[0_0_10px_rgba(255,215,0,0.5)] transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
@@ -214,7 +214,7 @@ export default function QuizViewer() {
                   className={`w-full text-left flex items-center p-5 rounded-xl border-2 transition-all ${
                     isSelected 
                       ? 'border-[#FFD700] bg-[#FFD700]/10 shadow-[0_0_15px_rgba(255,215,0,0.15)]' 
-                      : 'border-white/5 hover:border-white/20 hover:bg-[#11151F]/5'
+                      : 'border-white/5 hover:border-white/20 hover:bg-[#1E293B]/5'
                   }`}
                 >
                   <div className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center shrink-0 transition-colors ${
@@ -232,7 +232,7 @@ export default function QuizViewer() {
         </div>
 
         {/* Footer Navigation */}
-        <div className={`p-6 md:px-12 border-t flex gap-4 justify-between items-center bg-[#11151F] ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+        <div className={`p-6 md:px-12 border-t flex gap-4 justify-between items-center bg-[#1E293B] ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
           <button
             onClick={handlePrev}
             disabled={currentQuestion === 0}

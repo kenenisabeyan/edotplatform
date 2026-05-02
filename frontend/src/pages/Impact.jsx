@@ -294,7 +294,7 @@ export default function Impact() {
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-               <Link to="/courses" className="bg-slate-800 text-white dark:bg-white dark:text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:bg-slate-700 dark:hover:bg-slate-200 hover:-translate-y-1 transition-all duration-300 shadow-xl">
+               <Link to="/courses" className="bg-[#1E293B] text-white dark:bg-white dark:text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:bg-slate-700 dark:hover:bg-slate-200 hover:-translate-y-1 transition-all duration-300 shadow-xl">
                  Explore the Ecosystem
                </Link>
                <Link to="/register" className="bg-[#F97316] text-[#ffffff] px-10 py-4 rounded-xl font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">

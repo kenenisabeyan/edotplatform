@@ -15,7 +15,7 @@ export default function StudentCourses() {
   const isDarkMode = useThemeMode();
 
   return (
-    <div className={`min-h-screen relative font-sans animate-in fade-in duration-500 z-0 flex flex-col ${isDarkMode ? 'bg-slate-900 text-slate-200' : 'bg-[#f0f4f8] text-slate-700'}`}>
+    <div className={`min-h-screen relative font-sans animate-in fade-in duration-500 z-0 flex flex-col ${isDarkMode ? 'bg-[#0B1120] text-slate-200' : 'bg-[#FAFAFA] text-slate-700'}`}>
       {/* Dark Mode Toggle */}
       <div className="absolute top-4 right-4 z-50">
         <ThemeDropdown />

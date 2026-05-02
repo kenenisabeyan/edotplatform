@@ -64,7 +64,7 @@ function NavItem({ item, metrics, role, sidebarCollapsed, onLinkClick }) {
         `group relative flex items-center justify-between px-4 py-3 xl:py-3.5 rounded-xl transition-all duration-300 text-sm ${
           isActive
             ? `font-semibold ${role === 'admin' ? 'bg-[#FACC15]/10 border border-[#FACC15]/30 shadow-glow-yellow text-[#FACC15]' : 'bg-[#4ade80]/10 border border-[#4ade80]/30 shadow-glow-green text-[#4ade80]'}`
-            : 'font-medium text-slate-300 hover:bg-[#11151F]/5 hover:text-white'
+            : 'font-medium text-slate-300 hover:bg-[#1E293B]/5 hover:text-white'
         }`
       }
     >
@@ -263,7 +263,7 @@ export default function EDOTLayout() {
       
       {/* Mobile Header */}
       <div className={`md:hidden glass-card rounded-none border-t-0 border-l-0 border-r-0 border-b p-3 flex items-center justify-between sticky top-0 z-50 shadow-sm transition-colors duration-300 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={`dark:text-slate-200 p-2 rounded-lg hover:bg-[#11151F]/5 backdrop-blur-xl/30 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={`dark:text-slate-200 p-2 rounded-lg hover:bg-[#1E293B]/5 backdrop-blur-xl/30 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
           <Menu className="w-6 h-6" />
         </button>
 
@@ -278,11 +278,11 @@ export default function EDOTLayout() {
 
       {/* Sidebar */}
       <aside className={`dashboard-sidebar tilet-border-sidebar shadow-[4px_0_24px_rgba(0,0,0,0.02)] fixed md:sticky top-0 left-0 h-screen md:h-full z-60 transition-colors duration-300
-        ${mobileMenuOpen ? 'translate-x-0 w-80 bg-slate-900/95 text-white shadow-xl' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B0F19]' : 'bg-white'}`}
+        ${mobileMenuOpen ? 'translate-x-0 w-80 bg-[#0B1120]/95 text-white shadow-xl' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B0F19]' : 'bg-white'}`}
         ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-80 md:w-64'}
       `}>
         {mobileMenuOpen && (
-          <button onClick={() => setMobileMenuOpen(false)} className={`absolute top-3 right-3 md:hidden dark:text-slate-300 p-1.5 rounded-lg hover:bg-[#11151F]/5 backdrop-blur-xl/40 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+          <button onClick={() => setMobileMenuOpen(false)} className={`absolute top-3 right-3 md:hidden dark:text-slate-300 p-1.5 rounded-lg hover:bg-[#1E293B]/5 backdrop-blur-xl/40 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
             <X className="w-5 h-5" />
           </button>
         )}
@@ -299,7 +299,7 @@ export default function EDOTLayout() {
           {!mobileMenuOpen && (
             <button 
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className={`hidden md:flex dark:text-slate-300 hover:text-[#FFD700] transition-colors p-1.5 rounded-lg hover:bg-[#11151F]/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
+              className={`hidden md:flex dark:text-slate-300 hover:text-[#FFD700] transition-colors p-1.5 rounded-lg hover:bg-[#1E293B]/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
             >
               {sidebarCollapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
             </button>
@@ -321,7 +321,7 @@ export default function EDOTLayout() {
                <div>
                  <button 
                    onClick={() => setFinanceOpen(!financeOpen)}
-                   className={`w-full flex items-center justify-between px-4 py-3 xl:py-3.5 rounded-xl transition-all duration-300 text-sm font-medium hover:bg-[#11151F]/5 hover:text-white ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
+                   className={`w-full flex items-center justify-between px-4 py-3 xl:py-3.5 rounded-xl transition-all duration-300 text-sm font-medium hover:bg-[#1E293B]/5 hover:text-white ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
                  >
                    <div className="flex items-center gap-3">
                      <Wallet className="w-5 h-5 shrink-0 transition-transform hover:scale-110 duration-300" />
@@ -379,7 +379,7 @@ export default function EDOTLayout() {
       {/* Mobile Overlay */}
       {mobileMenuOpen && (
         <div 
-          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 md:hidden" 
+          className="fixed inset-0 bg-[#0B1120]/40 backdrop-blur-sm z-30 md:hidden" 
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
@@ -411,8 +411,8 @@ export default function EDOTLayout() {
                     <div className="p-2 space-y-1">
                       <p className={`px-3 py-1.5 text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Create New</p>
                       {quickActions.map(action => (
-                        <button key={action.name} onClick={() => { setQuickActionsOpen(false); navigate(action.path); }} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-[#11151F]/5 hover:text-[#FFD700] transition-colors text-left group ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-                           <div className={`p-1.5 rounded-lg text-[#FFD700] group-hover:scale-110 transition-transform ${isDarkMode ? 'bg-[#11151F]/10' : 'bg-slate-50'}`}>
+                        <button key={action.name} onClick={() => { setQuickActionsOpen(false); navigate(action.path); }} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-[#1E293B]/5 hover:text-[#FFD700] transition-colors text-left group ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+                           <div className={`p-1.5 rounded-lg text-[#FFD700] group-hover:scale-110 transition-transform ${isDarkMode ? 'bg-[#1E293B]/10' : 'bg-slate-50'}`}>
                              <action.icon className="w-4 h-4" />
                            </div>
                            {action.name}
@@ -461,17 +461,17 @@ export default function EDOTLayout() {
                   <div className="p-3 space-y-1">
                     <button 
                       onClick={() => { setProfileOpen(false); navigate('/dashboard/profile'); }}
-                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#11151F]/5 hover:text-[#FFD700] transition-colors text-left ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#1E293B]/5 hover:text-[#FFD700] transition-colors text-left ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
                     >
                       <User className="w-4 h-4" /> My Profile
                     </button>
                     <button 
                       onClick={() => { setProfileOpen(false); navigate('/dashboard/settings'); }}
-                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#11151F]/5 hover:text-[#FFD700] transition-colors text-left ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-[#1E293B]/5 hover:text-[#FFD700] transition-colors text-left ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
                     >
                       <Settings className="w-4 h-4" /> Account Settings
                     </button>
-                    <div className={`h-px my-2 mx-2 ${isDarkMode ? 'bg-[#11151F]/10' : 'bg-slate-50'}`}></div>
+                    <div className={`h-px my-2 mx-2 ${isDarkMode ? 'bg-[#1E293B]/10' : 'bg-slate-50'}`}></div>
                     <button 
                       onClick={handleLogout}
                       className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-rose-400 hover:bg-rose-500/100/10 transition-colors text-left"

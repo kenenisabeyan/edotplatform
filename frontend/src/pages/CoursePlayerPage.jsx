@@ -44,10 +44,10 @@ const CoursePlayerPage = () => {
   const videoMaterial = materials.find(m => m.fileType === 'video');
   const otherMaterials = materials.filter(m => m.fileType !== 'video');
 
-  if (loading) return <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? 'bg-[#0B0E14]' : 'bg-white'}`}><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div></div>;
+  if (loading) return <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div></div>;
 
   return (
-    <div className={`min-h-screen flex flex-col md:flex-row ${isDarkMode ? 'bg-[#0B0E14] text-white' : 'bg-white text-slate-900'}`}>
+    <div className={`min-h-screen flex flex-col md:flex-row ${isDarkMode ? 'bg-[#1E293B] text-white' : 'bg-white text-slate-900'}`}>
       {/* Sidebar - Course Content */}
       <div className="w-full md:w-80 bg-[#151A23] border-r border-gray-800 flex flex-col">
         <div className="p-6 border-b border-gray-800">

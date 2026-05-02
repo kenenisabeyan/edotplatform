@@ -88,7 +88,7 @@ export default function CourseDetails() {
   if (error || !course) {
     return (
       <div className="min-h-[calc(100vh-80px)] flex justify-center items-center p-4 bg-transparent text-center">
-        <div className={`p-10 border rounded-2xl shadow-xl backdrop-blur-xl ${isDarkMode ? 'bg-[#11151F]/60 border-white/10' : 'bg-white border-slate-200'}`}>
+        <div className={`p-10 border rounded-2xl shadow-xl backdrop-blur-xl ${isDarkMode ? 'bg-[#1E293B]/60 border-white/10' : 'bg-white border-slate-200'}`}>
            <ShieldCheck className="w-16 h-16 mx-auto mb-4 text-[#FFC107]" />
            <p className={`font-black ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{error || 'Data Not Found'}</p>
         </div>
@@ -184,7 +184,7 @@ export default function CourseDetails() {
                       className={`flex-1 min-w-fit py-4 px-8 font-black text-[11px] transition-all duration-300 rounded-full whitespace-nowrap border ${
                         activeTab === tab 
                         ? 'border-[#F97316]/50 bg-gradient-to-r from-[#00D4FF]/20 to-transparent text-[#F97316] shadow-[inset_0_0_20px_rgba(0,212,255,0.5)]' 
-                        : (isDarkMode ? 'border-white/5 bg-[#11151F]/40 text-slate-400 hover:border-white/20 hover:text-white' : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-800')
+                        : (isDarkMode ? 'border-white/5 bg-[#1E293B]/40 text-slate-400 hover:border-white/20 hover:text-white' : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-800')
                       }`}
                     >
                       {tab}
@@ -256,7 +256,7 @@ export default function CourseDetails() {
                                 <div key={pIdx} className="space-y-6">
                                  <h3 className={`text-xl font-black text-indigo-500 dark:text-indigo-400 border-b pb-3 mb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>{phase}</h3>
                                  {phaseLessons.map((lesson) => (
-                                   <div key={lesson.id} className={`w-full border rounded-2xl p-6 transition-all flex flex-col md:flex-row gap-8 items-start md:items-center group ${isDarkMode ? 'bg-[#11151F]/40 border-white/5 hover:border-white/20 hover:bg-[#151a26]/80' : 'bg-slate-50 border-slate-200 hover:border-indigo-200 hover:bg-white shadow-sm'}`}>
+                                   <div key={lesson.id} className={`w-full border rounded-2xl p-6 transition-all flex flex-col md:flex-row gap-8 items-start md:items-center group ${isDarkMode ? 'bg-[#1E293B]/40 border-white/5 hover:border-white/20 hover:bg-[#151a26]/80' : 'bg-slate-50 border-slate-200 hover:border-indigo-200 hover:bg-white shadow-sm'}`}>
                                       <div className={`shrink-0 w-20 h-20 rounded-2xl border flex flex-col items-center justify-center p-2 shadow-inner transition-colors group-hover:border-indigo-500/50 ${isDarkMode ? 'bg-[#05070A] border-white/10' : 'bg-white border-slate-200'}`}>
                                          <span className="text-[10px] font-black text-slate-500 mb-1">Module</span>
                                          <span className="text-2xl font-black text-indigo-500 dark:text-indigo-400 leading-none">{course.lessons.findIndex(l => l.id === lesson.id) + 1}</span>
@@ -281,7 +281,7 @@ export default function CourseDetails() {
                            });
                          })()
                        ) : (
-                         <p className={`text-center py-12 font-black border border-dashed rounded-2xl bg-[#11151F]/30 ${isDarkMode ? 'text-slate-400 border-white/10' : 'text-slate-500 border-slate-200'}`}>System modules currently under construction.</p>
+                         <p className={`text-center py-12 font-black border border-dashed rounded-2xl bg-[#1E293B]/30 ${isDarkMode ? 'text-slate-400 border-white/10' : 'text-slate-500 border-slate-200'}`}>System modules currently under construction.</p>
                        )}
                      </div>
                   </div>
@@ -292,7 +292,7 @@ export default function CourseDetails() {
               {activeTab === 'instructor' && (
                 <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#F97316]/30 to-transparent animate-in fade-in duration-500">
                   <div className={`backdrop-blur-2xl p-10 rounded-3xl flex flex-col md:flex-row items-center gap-10 text-center md:text-left border shadow-xl ${isDarkMode ? 'bg-[#05070A]/80 border-white/5' : 'bg-white/90 border-slate-200'}`}>
-                     <div className={`w-36 h-36 rounded-full overflow-hidden shrink-0 border-4 border-[#E67E22] shadow-[0_0_30px_rgba(230,126,34,0.3)] ${isDarkMode ? 'bg-[#0B0E14]' : 'bg-slate-100'}`}>
+                     <div className={`w-36 h-36 rounded-full overflow-hidden shrink-0 border-4 border-[#E67E22] shadow-[0_0_30px_rgba(230,126,34,0.3)] ${isDarkMode ? 'bg-[#1E293B]' : 'bg-slate-100'}`}>
                        <img src="https://ui-avatars.com/api/?name=Instructor&background=008A32&color=FFFFFF" alt="Instructor" className="w-full h-full object-cover" />
                      </div>
                      <div>

@@ -38,7 +38,7 @@ export default function UserAvatar({ user, className = "w-8 h-8 md:w-9 md:h-9 te
       parent: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/100/20 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20'
   };
 
-  const bgStyle = roleColors[user.role] || 'bg-[#11151F]/5 backdrop-blur-xl text-slate-300 dark:bg-slate-800 dark:text-slate-300 border-white/10 dark:border-slate-700';
+  const bgStyle = roleColors[user.role] || 'bg-[#1E293B]/5 backdrop-blur-xl text-slate-300 dark:bg-[#1E293B] dark:text-slate-300 border-white/10 dark:border-slate-700';
 
   return (
     <div className={`rounded-full shrink-0 flex items-center justify-center font-bold  border shadow-sm ${bgStyle} ${className}`}>

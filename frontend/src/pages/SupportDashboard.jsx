@@ -78,16 +78,16 @@ export default function SupportDashboard() {
     return (
       <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in duration-500">
         <div className="flex justify-between items-center mb-4">
-          <div className={`w-1/3 h-10 rounded-lg animate-pulse ${isDarkMode ? 'bg-[#13161B]' : 'bg-slate-200'}`} />
-          <div className={`w-40 h-12 rounded-xl animate-pulse ${isDarkMode ? 'bg-[#13161B]' : 'bg-slate-200'}`} />
+          <div className={`w-1/3 h-10 rounded-lg animate-pulse ${isDarkMode ? 'bg-[#1E293B]' : 'bg-slate-200'}`} />
+          <div className={`w-40 h-12 rounded-xl animate-pulse ${isDarkMode ? 'bg-[#1E293B]' : 'bg-slate-200'}`} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className={`h-32 rounded-3xl animate-pulse ${isDarkMode ? 'bg-[#13161B]' : 'bg-slate-200'}`} />
+            <div key={i} className={`h-32 rounded-3xl animate-pulse ${isDarkMode ? 'bg-[#1E293B]' : 'bg-slate-200'}`} />
           ))}
         </div>
-        <div className={`h-64 rounded-3xl animate-pulse w-full ${isDarkMode ? 'bg-[#13161B]' : 'bg-slate-200'}`} />
-        <div className={`h-96 rounded-3xl animate-pulse w-full ${isDarkMode ? 'bg-[#13161B]' : 'bg-slate-200'}`} />
+        <div className={`h-64 rounded-3xl animate-pulse w-full ${isDarkMode ? 'bg-[#1E293B]' : 'bg-slate-200'}`} />
+        <div className={`h-96 rounded-3xl animate-pulse w-full ${isDarkMode ? 'bg-[#1E293B]' : 'bg-slate-200'}`} />
       </div>
     );
   }
@@ -128,7 +128,7 @@ export default function SupportDashboard() {
         <div className="flex items-center gap-4">
           <button 
             onClick={() => fetchDashboardData(true)} 
-            className={`p-3 rounded-full border transition-all ${isDarkMode ? 'bg-[#13161B] border-white/5 text-slate-200 hover:text-white hover:bg-white/5' : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 shadow-sm'}`}
+            className={`p-3 rounded-full border transition-all ${isDarkMode ? 'bg-[#1E293B] border-white/5 text-slate-200 hover:text-white hover:bg-white/5' : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 shadow-sm'}`}
           >
             <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin text-indigo-400' : ''}`} />
           </button>
@@ -162,7 +162,7 @@ export default function SupportDashboard() {
       </div>
 
       {currentCycle && (
-      <div className={`rounded-3xl p-8 relative overflow-hidden group mb-8 ${isDarkMode ? 'bg-[#13161B] border-0 shadow-2xl shadow-indigo-900/10' : 'bg-white border border-slate-200 shadow-xl shadow-slate-200/50'}`}>
+      <div className={`rounded-3xl p-8 relative overflow-hidden group mb-8 ${isDarkMode ? 'bg-[#1E293B] border-0 shadow-2xl shadow-indigo-900/10' : 'bg-white border border-slate-200 shadow-xl shadow-slate-200/50'}`}>
         {/* SECTION 3 - SUPPORT CYCLE TRACKING */}
         {/* Soft immersive background flare */}
         <div className="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px] pointer-events-none group-hover:bg-indigo-500/20 transition-colors duration-700" />
@@ -182,7 +182,7 @@ export default function SupportDashboard() {
           </div>
         </div>
 
-        <div className={`flex flex-col xl:flex-row gap-8 items-center rounded-2xl p-6 relative z-10 shadow-lg ${isDarkMode ? 'bg-[#0d0f12] border-0' : 'bg-slate-50 border border-slate-200'}`}>
+        <div className={`flex flex-col xl:flex-row gap-8 items-center rounded-2xl p-6 relative z-10 shadow-lg ${isDarkMode ? 'bg-[#0B1120] border-0' : 'bg-slate-50 border border-slate-200'}`}>
           {/* Student Focus */}
           <div className="flex items-center gap-5 min-w-[280px]">
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500/20 to-indigo-600/20 flex items-center justify-center font-black text-2xl text-indigo-500 border-0 shadow-inner">
@@ -199,7 +199,7 @@ export default function SupportDashboard() {
           <div className="flex-1 w-full pt-6 pb-2 px-2 sm:px-8">
              <div className="relative flex justify-between items-center w-full">
                 {/* Background Track */}
-                <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-full h-1.5 rounded-full z-0 ${isDarkMode ? 'bg-[#13161B] border border-white/5' : 'bg-slate-200 border-0'}`}></div>
+                <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-full h-1.5 rounded-full z-0 ${isDarkMode ? 'bg-[#1E293B] border border-white/5' : 'bg-slate-200 border-0'}`}></div>
                 {/* Active Progress Track */}
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1.5 bg-indigo-500 rounded-full z-0 shadow-[0_0_15px_rgba(99,102,241,0.6)] transition-all duration-1000" style={{ width: `${Math.max(10, currentCycle.progress)}%` }}></div>
 
@@ -211,7 +211,7 @@ export default function SupportDashboard() {
                   { label: "Completed", completed: currentCycle.progress === 100, active: currentCycle.progress === 100 }
                 ].map((step, idx) => (
                   <div key={idx} className="relative z-10 flex flex-col items-center">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border-4 transition-all duration-500 ${step.completed ? `bg-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)] scale-110 ${isDarkMode ? 'border-[#0d0f12]' : 'border-slate-50'}` : (isDarkMode ? 'bg-[#13161B] border-[#0d0f12]' : 'bg-slate-200 border-slate-50')}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border-4 transition-all duration-500 ${step.completed ? `bg-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)] scale-110 ${isDarkMode ? 'border-[#0d0f12]' : 'border-slate-50'}` : (isDarkMode ? 'bg-[#1E293B] border-[#0d0f12]' : 'bg-slate-200 border-slate-50')}`}>
                       {step.completed && <CheckCircle2 className={`w-4 h-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`} />}
                     </div>
                     {/* Node Text */}
@@ -231,7 +231,7 @@ export default function SupportDashboard() {
       )}
 
       {/* Content Tabs */}
-      <div className={`rounded-3xl overflow-hidden shadow-lg ${isDarkMode ? 'bg-[#13161B] border border-white/5' : 'bg-white border border-slate-200'}`}>
+      <div className={`rounded-3xl overflow-hidden shadow-lg ${isDarkMode ? 'bg-[#1E293B] border border-white/5' : 'bg-white border border-slate-200'}`}>
         
         {/* Tab Navigation */}
         <div className={`flex items-center gap-8 border-b px-8 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
@@ -262,14 +262,14 @@ export default function SupportDashboard() {
                 <input 
                   type="text" 
                   placeholder="Search learners securely..."
-                  className={`w-full pl-12 pr-4 py-3 border rounded-full focus:outline-none transition-colors ${isDarkMode ? 'bg-[#0d0f12] border-white/5 text-white focus:border-indigo-500/50' : 'bg-slate-50 border-slate-200 text-slate-900 focus:border-indigo-500'}`}
+                  className={`w-full pl-12 pr-4 py-3 border rounded-full focus:outline-none transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white focus:border-indigo-500/50' : 'bg-slate-50 border-slate-200 text-slate-900 focus:border-indigo-500'}`}
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
               {supportedStudents.map((student) => (
-                <div key={student.id} className={`p-6 rounded-[2rem] hover:-translate-y-2 transition-all group duration-300 flex flex-col h-full ${isDarkMode ? 'bg-[#0d0f12] border-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(79,70,229,0.15)] bg-gradient-to-b from-[#13161B]/40 to-transparent' : 'bg-white border border-slate-200 shadow-md hover:shadow-xl'}`}>
+                <div key={student.id} className={`p-6 rounded-[2rem] hover:-translate-y-2 transition-all group duration-300 flex flex-col h-full ${isDarkMode ? 'bg-[#0B1120] border-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(79,70,229,0.15)] bg-gradient-to-b from-[#13161B]/40 to-transparent' : 'bg-white border border-slate-200 shadow-md hover:shadow-xl'}`}>
                   
                   {/* Top Row: Avatar & Metadata */}
                   <div className="flex justify-between items-start mb-6 w-full">
@@ -300,7 +300,7 @@ export default function SupportDashboard() {
                       <span className={`text-[10px] ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Academic Progress</span>
                       <span className={`${student.progress === 100 ? 'text-cyan-500' : (isDarkMode ? 'text-slate-300' : 'text-slate-600')}`}>{student.progress}%</span>
                     </div>
-                    <div className={`h-3 w-full border-0 rounded-full overflow-hidden shadow-inner ${isDarkMode ? 'bg-[#13161B]' : 'bg-slate-100'}`}>
+                    <div className={`h-3 w-full border-0 rounded-full overflow-hidden shadow-inner ${isDarkMode ? 'bg-[#1E293B]' : 'bg-slate-100'}`}>
                       <div 
                         className={`h-full rounded-full transition-all duration-[1500ms] ease-out ${student.status === 'active' ? 'bg-emerald-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : student.status === 'at-risk' ? 'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]' : 'bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]'}`} 
                         style={{ width: `${student.progress}%` }} 
@@ -318,7 +318,7 @@ export default function SupportDashboard() {
           <div className="p-8">
              <div className="space-y-4">
                {recentImpact.map((log) => (
-                 <div key={log.id} className={`flex items-center justify-between p-5 rounded-2xl hover:border-emerald-500/30 transition-colors ${isDarkMode ? 'bg-[#0d0f12] border border-white/5' : 'bg-white border border-slate-200 shadow-sm'}`}>
+                 <div key={log.id} className={`flex items-center justify-between p-5 rounded-2xl hover:border-emerald-500/30 transition-colors ${isDarkMode ? 'bg-[#0B1120] border border-white/5' : 'bg-white border border-slate-200 shadow-sm'}`}>
                    <div className="flex items-center gap-5">
                      <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
                        <CheckCircle2 className="w-6 h-6 text-emerald-400" />
@@ -367,19 +367,19 @@ export default function SupportDashboard() {
             </h3>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <div className={`p-5 border rounded-2xl flex flex-col items-center text-center hover:-translate-y-1 transition-transform ${isDarkMode ? 'bg-[#13161B] border-0 shadow-lg' : 'bg-white border-slate-200 shadow-md'}`}>
+              <div className={`p-5 border rounded-2xl flex flex-col items-center text-center hover:-translate-y-1 transition-transform ${isDarkMode ? 'bg-[#1E293B] border-0 shadow-lg' : 'bg-white border-slate-200 shadow-md'}`}>
                 <Users className="w-6 h-6 text-indigo-500 mb-2 opacity-80" />
                 <h4 className={`text-3xl font-black mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.supportedStudents || 0}</h4>
                 <p className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Students Supported</p>
               </div>
 
-              <div className={`p-5 border rounded-2xl flex flex-col items-center text-center hover:-translate-y-1 transition-transform ${isDarkMode ? 'bg-[#13161B] border-0 shadow-lg' : 'bg-white border-slate-200 shadow-md'}`}>
+              <div className={`p-5 border rounded-2xl flex flex-col items-center text-center hover:-translate-y-1 transition-transform ${isDarkMode ? 'bg-[#1E293B] border-0 shadow-lg' : 'bg-white border-slate-200 shadow-md'}`}>
                 <GraduationCap className="w-6 h-6 text-cyan-500 mb-2 opacity-80" />
                 <h4 className={`text-3xl font-black mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{supportedStudents?.filter(s => s.status === 'completed').length || 0}</h4>
                 <p className={`text-[10px] font-bold leading-tight ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Courses Completed</p>
               </div>
 
-              <div className={`p-5 border rounded-2xl flex flex-col items-center text-center hover:-translate-y-1 transition-transform ${isDarkMode ? 'bg-[#13161B] border-0 shadow-lg' : 'bg-white border-slate-200 shadow-md'}`}>
+              <div className={`p-5 border rounded-2xl flex flex-col items-center text-center hover:-translate-y-1 transition-transform ${isDarkMode ? 'bg-[#1E293B] border-0 shadow-lg' : 'bg-white border-slate-200 shadow-md'}`}>
                 <RefreshCw className="w-6 h-6 text-emerald-500 mb-2 opacity-80" />
                 <h4 className={`text-3xl font-black mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.activeCycles || 0}</h4>
                 <p className={`text-[10px] font-bold leading-tight ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Lives In Progress</p>
@@ -393,7 +393,7 @@ export default function SupportDashboard() {
       {/* Advanced Connection Secure Modal */}
       {showSponsorModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-           <div className={`rounded-[2rem] border shadow-2xl w-full max-w-lg p-8 relative overflow-hidden ${isDarkMode ? 'bg-[#13161B] border-white/10' : 'bg-white border-slate-200'}`}>
+           <div className={`rounded-[2rem] border shadow-2xl w-full max-w-lg p-8 relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 blur-3xl pointer-events-none rounded-full" />
               
               <div className="flex justify-between items-center mb-6">
@@ -415,7 +415,7 @@ export default function SupportDashboard() {
                        type="text" 
                        value={sponsorForm.studentId}
                        onChange={e => setSponsorForm({...sponsorForm, studentId: e.target.value})}
-                       className={`w-full border px-4 py-3 rounded-full focus:outline-none focus:border-indigo-500/50 ${isDarkMode ? 'bg-[#0d0f12] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
+                       className={`w-full border px-4 py-3 rounded-full focus:outline-none focus:border-indigo-500/50 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
                        placeholder="Enter the UUID of the student..."
                     />
                  </div>
@@ -428,17 +428,17 @@ export default function SupportDashboard() {
                        min="1"
                        value={sponsorForm.amount}
                        onChange={e => setSponsorForm({...sponsorForm, amount: e.target.value})}
-                       className={`w-full border px-4 py-3 rounded-full focus:outline-none focus:border-indigo-500/50 ${isDarkMode ? 'bg-[#0d0f12] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
+                       className={`w-full border px-4 py-3 rounded-full focus:outline-none focus:border-indigo-500/50 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
                     />
                  </div>
                  
-                 <div className={`border rounded-xl p-4 space-y-3 ${isDarkMode ? 'border-white/5 bg-[#0d0f12]' : 'border-slate-200 bg-slate-50'}`}>
+                 <div className={`border rounded-xl p-4 space-y-3 ${isDarkMode ? 'border-white/5 bg-[#0B1120]' : 'border-slate-200 bg-slate-50'}`}>
                     <label className="flex items-start gap-3 cursor-pointer group">
                        <input 
                           type="checkbox" 
                           checked={sponsorForm.isAnonymous}
                           onChange={e => setSponsorForm({...sponsorForm, isAnonymous: e.target.checked})}
-                          className={`mt-1 w-4 h-4 rounded text-indigo-500 focus:ring-0 focus:ring-offset-0 ${isDarkMode ? 'border-white/20 bg-[#13161B]' : 'border-slate-300 bg-white'}`}
+                          className={`mt-1 w-4 h-4 rounded text-indigo-500 focus:ring-0 focus:ring-offset-0 ${isDarkMode ? 'border-white/20 bg-[#1E293B]' : 'border-slate-300 bg-white'}`}
                        />
                        <div>
                           <span className={`block text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-200 group-hover:text-white' : 'text-slate-700 group-hover:text-slate-900'}`}>Ghost Protocol (Anonymous)</span>
@@ -454,7 +454,7 @@ export default function SupportDashboard() {
                           type="checkbox" 
                           checked={sponsorForm.termsAccepted}
                           onChange={e => setSponsorForm({...sponsorForm, termsAccepted: e.target.checked})}
-                          className={`mt-1 w-4 h-4 rounded border-indigo-500/50 text-indigo-500 focus:ring-0 focus:ring-offset-0 ${isDarkMode ? 'bg-[#13161B]' : 'bg-white'}`}
+                          className={`mt-1 w-4 h-4 rounded border-indigo-500/50 text-indigo-500 focus:ring-0 focus:ring-offset-0 ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white'}`}
                        />
                        <div>
                           <span className="block text-sm font-bold text-indigo-500 group-hover:text-indigo-400 transition-colors">Legal & Privacy Acknowledgment</span>

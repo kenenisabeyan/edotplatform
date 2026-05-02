@@ -32,7 +32,7 @@ export default function ThemeDropdown() {
   return (
     <button
       onClick={() => setIsDarkMode(!isDarkMode)}
-      className={`p-2 rounded-full transition-colors border shadow-sm ${isDarkMode ? 'hover:bg-[#13161B] bg-[#0d0f12] border-white/10' : 'hover:bg-slate-100 bg-white border-slate-200'}`}
+      className={`p-2 rounded-full transition-colors border shadow-sm ${isDarkMode ? 'hover:bg-[#1E293B] bg-[#0B1120] border-white/10' : 'hover:bg-slate-100 bg-white border-slate-200'}`}
       aria-label="Toggle Theme"
     >
       {isDarkMode ? <Sun className="w-5 h-5 text-[#FFD700]" /> : <Moon className="w-5 h-5 text-indigo-600" />}

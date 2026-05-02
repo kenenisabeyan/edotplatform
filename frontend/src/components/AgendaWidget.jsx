@@ -95,7 +95,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
       case 'announcement': return 'bg-indigo-500/100/20 text-indigo-400 border-indigo-500/30';
       case 'advice': return 'bg-amber-500/100/20 text-amber-400 border-amber-500/30';
       case 'support': return 'bg-emerald-500/100/20 text-emerald-400 border-emerald-500/30';
-      default: return isDarkMode ? 'bg-[#11151F]/40 backdrop-blur-xl text-slate-200 border-slate-500/30' : 'bg-slate-100 text-slate-600 border-slate-200';
+      default: return isDarkMode ? 'bg-[#1E293B]/40 backdrop-blur-xl text-slate-200 border-slate-500/30' : 'bg-slate-100 text-slate-600 border-slate-200';
     }
   };
 
@@ -111,7 +111,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
 
   return (
     <>
-      <div className={`flex flex-col h-full backdrop-blur-xl border rounded-2xl p-5 shadow-lg relative min-h-[350px] ${isDarkMode ? 'bg-[#11151F]/40 border-white/5' : 'bg-white/90 border-slate-200'}`}>
+      <div className={`flex flex-col h-full backdrop-blur-xl border rounded-2xl p-5 shadow-lg relative min-h-[350px] ${isDarkMode ? 'bg-[#1E293B]/40 border-white/5' : 'bg-white/90 border-slate-200'}`}>
         {/* Header */}
         <div className="flex justify-between items-start mb-5 shrink-0">
           <div>
@@ -135,7 +135,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
                  <div 
                    key={evt.id} 
                    onClick={() => setSelectedEvent(evt)}
-                   className={`p-3.5 rounded-xl border transition-all cursor-pointer group flex flex-col gap-2 relative overflow-hidden ${isDarkMode ? 'bg-[#0B0E14]/60 border-white/5 hover:border-white/10 hover:bg-[#0B0E14]/80' : 'bg-slate-50 border-slate-200 hover:border-slate-300 hover:bg-slate-100 shadow-sm'}`}
+                   className={`p-3.5 rounded-xl border transition-all cursor-pointer group flex flex-col gap-2 relative overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/60 border-white/5 hover:border-white/10 hover:bg-[#1E293B]/80' : 'bg-slate-50 border-slate-200 hover:border-slate-300 hover:bg-slate-100 shadow-sm'}`}
                  >
                    <div className="flex justify-between items-start gap-3">
                      <div className="flex-1">
@@ -209,10 +209,10 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
               exit={{ scale: 0.95, y: 20, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
               onClick={(e) => e.stopPropagation()}
-              className={`w-full max-w-lg backdrop-blur-2xl border shadow-2xl rounded-3xl overflow-hidden ${isDarkMode ? 'bg-[#11151F]/90 border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]' : 'bg-white/95 border-slate-200'}`}
+              className={`w-full max-w-lg backdrop-blur-2xl border shadow-2xl rounded-3xl overflow-hidden ${isDarkMode ? 'bg-[#1E293B]/90 border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]' : 'bg-white/95 border-slate-200'}`}
             >
                {/* Modal Header */}
-               <div className={`px-6 py-5 border-b flex justify-between items-center ${isDarkMode ? 'border-white/5 bg-[#0B0E14]/50' : 'border-slate-200 bg-slate-50/80'}`}>
+               <div className={`px-6 py-5 border-b flex justify-between items-center ${isDarkMode ? 'border-white/5 bg-[#1E293B]/50' : 'border-slate-200 bg-slate-50/80'}`}>
                  <div className="flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center border shadow-inner ${getCategoryColor(selectedEvent.type)}`}>
                        {getCategoryIcon(selectedEvent.type)}
@@ -222,7 +222,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
                       <p className={`text-xs mt-0.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>{new Date(selectedEvent.date).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {selectedEvent.time || '12:00 PM'}</p>
                     </div>
                  </div>
-                 <button onClick={() => setSelectedEvent(null)} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${isDarkMode ? 'bg-[#11151F]/5 text-slate-200 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-900'}`}>
+                 <button onClick={() => setSelectedEvent(null)} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${isDarkMode ? 'bg-[#1E293B]/5 text-slate-200 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-900'}`}>
                    <X className="w-4 h-4" />
                  </button>
                </div>
@@ -243,7 +243,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
                </div>
 
                {/* Modal Footer / Acknowledge */}
-               <div className={`p-5 border-t flex justify-end ${isDarkMode ? 'border-white/5 bg-[#0B0E14]/40' : 'border-slate-200 bg-slate-50/80'}`}>
+               <div className={`p-5 border-t flex justify-end ${isDarkMode ? 'border-white/5 bg-[#1E293B]/40' : 'border-slate-200 bg-slate-50/80'}`}>
                  <button 
                    onClick={() => setSelectedEvent(null)}
                    className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500/100/10 text-emerald-400 font-bold rounded-xl border border-emerald-500/20 hover:bg-emerald-500/100 hover:text-white transition-all shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]"
