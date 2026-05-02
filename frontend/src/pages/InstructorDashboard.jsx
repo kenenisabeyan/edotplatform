@@ -120,15 +120,17 @@ export default function InstructorDashboard() {
   };
 
   void stats;
-  const totalStudents = courses.reduce((acc, course) => acc + (course.totalStudents || 0), 0);
-  const activeCourses = courses.filter(c => c.status === 'approved').length;
+  const { totalStudents, activeCourses } = React.useMemo(() => ({
+    totalStudents: courses.reduce((acc, course) => acc + (course.totalStudents || 0), 0),
+    activeCourses: courses.filter(c => c.status === 'approved').length
+  }), [courses]);
 
   const renderContent = () => {
 
     switch (activeTab) {
       case 'overview': {
-        const revenueData = analytics?.revenueData || [];
-        const engagementData = analytics?.engagementData || [];
+        const revenueData = React.useMemo(() => analytics?.revenueData || [], [analytics]);
+        const engagementData = React.useMemo(() => analytics?.engagementData || [], [analytics]);
 
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">

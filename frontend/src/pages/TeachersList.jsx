@@ -47,7 +47,12 @@ export default function TeachersList() {
 
 
 
-  const filteredInstructors = instructors.filter(i => i.status === tab || (tab === 'approved' && !i.status));
+  const pendingCount = React.useMemo(() => instructors.filter(i => i.status === 'pending').length, [instructors]);
+  const approvedCount = React.useMemo(() => instructors.filter(i => i.status === 'approved' || !i.status).length, [instructors]);
+
+  const filteredInstructors = React.useMemo(() => {
+    return instructors.filter(i => i.status === tab || (tab === 'approved' && !i.status));
+  }, [instructors, tab]);
 
   return (
     <div className="space-y-6">
@@ -63,13 +68,13 @@ export default function TeachersList() {
           onClick={() => setTab('pending')}
           className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'pending' ? 'text-[#F97316] border-b-2 border-[#F97316]' : 'text-slate-200 hover:text-white'}`}
         >
-          Pending Approval ({instructors.filter(i => i.status === 'pending').length})
+          Pending Approval ({pendingCount})
         </button>
         <button 
           onClick={() => setTab('approved')}
           className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'approved' ? 'text-[#00D4FF] border-b-2 border-[#00D4FF]' : 'text-slate-200 hover:text-white'}`}
         >
-          Approved Instructors ({instructors.filter(i => i.status === 'approved' || !i.status).length})
+          Approved Instructors ({approvedCount})
         </button>
       </div>
 

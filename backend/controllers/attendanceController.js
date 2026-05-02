@@ -197,43 +197,90 @@ export const getDashboardAggregate = async (req, res) => {
     
     if (req.user.role === 'instructor') {
        whereCondition = { course: { instructorId: userId } };
-    } // admin sees all
+    }
 
     const attendances = await prisma.attendance.findMany({
         where: whereCondition,
-        select: { records: true }
+        select: { records: true, date: true, section: true }
     });
 
     let present = 0;
     let absent = 0;
+    let late = 0;
+    const monthlyTrends = {};
+    const weeklyTrends = { Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0 };
+    const lowAttendanceAlerts = [];
+
+    const studentStats = {};
 
     attendances.forEach(att => {
+        const month = att.date.toISOString().substring(0, 7); // YYYY-MM
+        if (!monthlyTrends[month]) monthlyTrends[month] = { present: 0, absent: 0, late: 0 };
+        
+        const day = att.date.getDay(); // 0 = Sun, 1 = Mon, etc
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const dayName = days[day];
+
         const recs = att.records ? (Array.isArray(att.records) ? att.records : [att.records]) : [];
         recs.forEach(r => {
             if (!r || !r.status) return;
             const s = r.status.toLowerCase();
-            if (s === 'present') present++;
-            else if (s === 'absent') absent++;
-            else if (s === 'late') present++; // Late counts as present for base metric usually
+            const studentId = r.user;
+
+            if (!studentStats[studentId]) studentStats[studentId] = { present: 0, total: 0, role: r.role };
+            if (r.role === 'student') studentStats[studentId].total++;
+
+            if (s === 'present') {
+              present++;
+              monthlyTrends[month].present++;
+              if (day >= 1 && day <= 5) weeklyTrends[dayName]++;
+              if (r.role === 'student') studentStats[studentId].present++;
+            }
+            else if (s === 'absent') {
+              absent++;
+              monthlyTrends[month].absent++;
+            }
+            else if (s === 'late') {
+              late++;
+              monthlyTrends[month].late++;
+              if (day >= 1 && day <= 5) weeklyTrends[dayName]++;
+              if (r.role === 'student') studentStats[studentId].present++; // Count late as present for %
+            }
         });
     });
 
-    const total = present + absent;
+    // Calculate low attendance warnings
+    for (const [studentId, stats] of Object.entries(studentStats)) {
+      if (stats.role === 'student' && stats.total >= 3) {
+        const percentage = (stats.present / stats.total) * 100;
+        if (percentage < 75) {
+          lowAttendanceAlerts.push({ studentId, percentage: Math.round(percentage) });
+        }
+      }
+    }
+
+    const total = present + absent + late;
     
     if (total === 0) {
       return res.status(200).json({ success: true, data: [
-        { name: 'Present', value: 80, color: '#a78bfa' },
-        { name: 'Absent', value: 20, color: '#fcd34d' }
+        { name: 'Present', value: 80, color: '#00D4FF' },
+        { name: 'Absent', value: 20, color: '#E30A17' }
       ]});
     }
 
     res.status(200).json({
       success: true,
       data: [
-         { name: 'Present', value: present, color: '#a78bfa' },
-         { name: 'Absent', value: absent, color: '#fcd34d' }
+         { name: 'Present', value: present, color: '#00D4FF' },
+         { name: 'Late', value: late, color: '#F97316' },
+         { name: 'Absent', value: absent, color: '#E30A17' }
       ],
-      raw: { present, absent, total }
+      raw: { present, late, absent, total },
+      analytics: {
+        monthlyTrends,
+        weeklyTrends,
+        lowAttendanceAlerts
+      }
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

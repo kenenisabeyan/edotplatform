@@ -6,18 +6,25 @@ const router = express.Router();
 
 router.post('/', protect, authorize('admin', 'instructor'), async (req, res) => {
     try {
-        const { name, courseId, instructorId, scheduleDays, scheduleTime } = req.body;
+        const { name, courseId, instructorId, scheduleDays, scheduleTime, capacity, academicYear, semester, status } = req.body;
         
         const courseExists = await prisma.course.findUnique({ where: { id: courseId } });
         if (!courseExists) return res.status(404).json({ success: false, message: 'Course not found' });
 
+        const sectionCode = `${courseExists.slug.toUpperCase().substring(0, 5)}-SEC-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+
         const section = await prisma.section.create({
             data: {
                 name,
+                sectionCode,
                 courseId,
                 instructorId: instructorId || req.user.id,
                 scheduleDays: scheduleDays || [],
-                scheduleTime
+                scheduleTime,
+                capacity: capacity ? parseInt(capacity) : 30,
+                academicYear: academicYear || '2026-2027',
+                semester: semester || '1',
+                status: status || 'active'
             }
         });
 
@@ -79,13 +86,17 @@ router.put('/:id', protect, authorize('admin', 'instructor'), async (req, res) =
             return res.status(403).json({ success: false, message: 'Not authorized to update this section' });
         }
 
-        const { name, courseId, instructorId, scheduleDays, scheduleTime } = req.body;
+        const { name, courseId, instructorId, scheduleDays, scheduleTime, capacity, academicYear, semester, status } = req.body;
         const updateData = {};
         if (name !== undefined) updateData.name = name;
         if (courseId !== undefined) updateData.courseId = courseId;
         if (instructorId !== undefined) updateData.instructorId = instructorId;
         if (scheduleDays !== undefined) updateData.scheduleDays = scheduleDays;
         if (scheduleTime !== undefined) updateData.scheduleTime = scheduleTime;
+        if (capacity !== undefined) updateData.capacity = parseInt(capacity);
+        if (academicYear !== undefined) updateData.academicYear = academicYear;
+        if (semester !== undefined) updateData.semester = semester;
+        if (status !== undefined) updateData.status = status;
 
         section = await prisma.section.update({
             where: { id: req.params.id },
@@ -141,6 +152,10 @@ router.post('/:id/add-student', protect, authorize('admin', 'instructor'), async
 
         if (section.students.some(s => s.id === studentId)) {
             return res.status(400).json({ success: false, message: 'Student is already in this section' });
+        }
+
+        if (section.students.length >= section.capacity) {
+            return res.status(400).json({ success: false, message: 'Section has reached maximum capacity' });
         }
 
         const updatedSection = await prisma.section.update({

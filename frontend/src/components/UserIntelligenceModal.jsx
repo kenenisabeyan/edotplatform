@@ -87,7 +87,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
   }, [isOpen, userId, fetchUserData]);
 
 
-  const filterCandidates = () => {
+  const filterCandidates = useCallback(() => {
     if (!childSearch.trim()) return [];
     const lowercase = childSearch.toLowerCase();
     return globalUsersList.filter(
@@ -95,7 +95,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
       u.name.toLowerCase().includes(lowercase) && 
       !(selectedUser?.children || []).some(c => c.id === u.id)
     );
-  };
+  }, [childSearch, globalUsersList, selectedUser]);
 
   const updateUserStatus = async (status) => {
     if (!selectedUser) return;
@@ -242,8 +242,9 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
     return 'bg-[#0B1120]/40 backdrop-blur-xl0/20 text-slate-200 border border-slate-400';
   };
 
-  const selectedUserCompletion = selectedUser?.enrolledCourses?.length ?
-    Math.round(selectedUser.enrolledCourses.reduce((acc, ec) => acc + (ec.progress || 0), 0) / selectedUser.enrolledCourses.length) : 0;
+  const selectedUserCompletion = React.useMemo(() => {
+    return selectedUser?.enrolledCourses?.length ? Math.round(selectedUser.enrolledCourses.reduce((acc, ec) => acc + (ec.progress || 0), 0) / selectedUser.enrolledCourses.length) : 0;
+  }, [selectedUser]);
 
   if (!isOpen) return null;
 

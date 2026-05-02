@@ -161,11 +161,17 @@ model Lesson {
 model Section {
   id             String   @id @default(uuid())
   name           String
+  sectionCode    String?  @unique
   courseId       String
   course         Course   @relation(fields: [courseId], references: [id])
   instructorId   String?
   instructor     User?    @relation("SectionInstructor", fields: [instructorId], references: [id])
   students       User[]   @relation("SectionStudents")
+  
+  capacity       Int      @default(30)
+  academicYear   String   @default("2026-2027")
+  semester       String   @default("1")
+  status         String   @default("active")
   
   scheduleDays   String[]
   scheduleTime   String?
@@ -180,6 +186,7 @@ model Enrollment {
   student        User     @relation("EnrollmentStudent", fields: [studentId], references: [id])
   courseId       String
   course         Course   @relation(fields: [courseId], references: [id])
+  sectionId      String?
   status         String   @default("pending")
   reason         String   @default("")
   requestedAt    DateTime @default(now())

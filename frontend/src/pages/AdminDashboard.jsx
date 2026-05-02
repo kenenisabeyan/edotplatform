@@ -307,11 +307,11 @@ export default function AdminDashboard() {
     setSelectedUser(data.data);
   };
 
-  const filterCandidates = () => {
+  const filterCandidates = React.useCallback(() => {
     if (!childSearch.trim()) return [];
     const lowercase = childSearch.toLowerCase();
     return usersList.filter((u) => u.role === 'student' && u.name.toLowerCase().includes(lowercase) && !(selectedUser?.children || []).some(c => c.id === u.id));
-  };
+  }, [childSearch, usersList, selectedUser]);
 
   const updateCourseStatus = async (courseId, status) => {
     try {
@@ -358,10 +358,11 @@ export default function AdminDashboard() {
     return 'bg-[#0B1120]/40 backdrop-blur-xl0/20 text-slate-200 border border-slate-400';
   };
 
-  const selectedUserCompletion = selectedUser?.enrolledCourses?.length ?
-    Math.round(selectedUser.enrolledCourses.reduce((acc, ec) => acc + (ec.progress || 0), 0) / selectedUser.enrolledCourses.length) : 0;
+  const selectedUserCompletion = React.useMemo(() => {
+    return selectedUser?.enrolledCourses?.length ? Math.round(selectedUser.enrolledCourses.reduce((acc, ec) => acc + (ec.progress || 0), 0) / selectedUser.enrolledCourses.length) : 0;
+  }, [selectedUser]);
 
-  const instructorsCount = usersList.filter(u => u.role === 'instructor').length;
+  const instructorsCount = React.useMemo(() => usersList.filter(u => u.role === 'instructor').length, [usersList]);
 
   const instructorOptions = React.useMemo(() => {
     return usersList.filter(user => user.role === 'instructor').map(inst => ({
@@ -385,12 +386,12 @@ export default function AdminDashboard() {
 
     switch (activeTab) {
       case 'overview': {
-        const revenueData = analytics?.revenueData || [];
-        const userDistributionData = [
+        const revenueData = React.useMemo(() => analytics?.revenueData || [], [analytics]);
+        const userDistributionData = React.useMemo(() => [
           { name: 'Students', value: stats?.totalStudents || 0, color: '#3b82f6' },
           { name: 'Instructors', value: stats?.totalInstructors || 0, color: '#a855f7' },
           { name: 'Admins', value: (user?.role === 'admin' ? 1 : 0), color: '#ef4444' }, // Just an estimate fallback if explicit admin count wasn't fetched
-        ];
+        ], [stats, user]);
         
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">

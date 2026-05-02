@@ -118,10 +118,13 @@ export default function UsersManagement() {
 
 
 
-  const filteredUsers = usersList.filter(u => 
-    (u.name || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
-    (u.email || '').toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredUsers = React.useMemo(() => {
+    const query = searchQuery.toLowerCase();
+    return usersList.filter(u => 
+      (u.name || '').toLowerCase().includes(query) || 
+      (u.email || '').toLowerCase().includes(query)
+    );
+  }, [usersList, searchQuery]);
 
   return (
     <div className="space-y-6">

@@ -159,14 +159,11 @@ export default function EDOTLayout() {
         { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
         { name: 'Create Course', icon: BookOpen, path: '/dashboard/builder' },
         { name: 'Manage All Courses', icon: ClipboardCheck, path: '/dashboard/my-courses' },
-        { name: 'Approvals (Courses + Enrollments)', icon: ClipboardCheck, path: '/dashboard/approvals' },
-        { name: 'All Users (Admin)', icon: Users, path: '/dashboard/users' },
+        { name: 'Approvals', icon: ClipboardCheck, path: '/dashboard/approvals' },
+        { name: 'All Users', icon: Users, path: '/dashboard/users' },
         { name: 'Teachers', icon: UserSquare, path: '/dashboard/teachers' },
         { name: 'Students', icon: Users, path: '/dashboard/students' },
         { name: 'Attendance', icon: ClipboardCheck, path: '/dashboard/attendance' },
-        { name: 'Revenue', icon: TrendingUp, path: '/dashboard/revenue' },
-        { name: 'Performance', icon: Award, path: '/dashboard/performance' },
-        { name: 'Teaching Trends', icon: BookOpen, path: '/dashboard/teaching' },
       ],
       menu2: [
         { name: 'Notice', icon: BellRing, path: '/dashboard/notice' },
@@ -187,11 +184,8 @@ export default function EDOTLayout() {
         { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
         { name: 'Create Course', icon: BookOpen, path: '/dashboard/builder' },
         { name: 'Manage Courses', icon: ClipboardCheck, path: '/dashboard/my-courses' },
-        { name: 'My Classes', icon: BookOpen, path: '/dashboard/classes' },
         { name: 'Students', icon: Users, path: '/dashboard/students' },
         { name: 'Attendance', icon: ClipboardCheck, path: '/dashboard/attendance' },
-        { name: 'Performance', icon: Award, path: '/dashboard/performance' },
-        { name: 'Teaching Activity', icon: TrendingUp, path: '/dashboard/teaching' },
       ],
       menu2: [
         { name: 'Library', icon: BookOpen, path: '/dashboard/library' },
@@ -276,15 +270,15 @@ export default function EDOTLayout() {
         <p className="text-sm font-semibold text-slate-100 dark:text-white">{dashboardTitle}</p>
 
         {!mobileMenuOpen ? (
-          <img src={edotLogo} alt="EDOT Campaign Logo" className="h-8 w-8 rounded-full object-cover" />
+          <NavLink to="/"><img src={edotLogo} alt="EDOT Campaign Logo" className="h-8 w-8 rounded-full object-cover" /></NavLink>
         ) : (
           <span className="h-8 w-8" />
         )}
       </div>
 
       {/* Sidebar */}
-      <aside className={`dashboard-sidebar tilet-border-sidebar shadow-[4px_0_24px_rgba(0,0,0,0.02)] fixed md:sticky top-0 left-0 h-screen md:h-full z-60 transition-colors duration-300
-        ${mobileMenuOpen ? 'translate-x-0 w-80 bg-[#0B1120]/95 text-white shadow-xl' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
+      <aside className={`dashboard-sidebar tilet-border-sidebar border-r shadow-[4px_0_24px_rgba(0,0,0,0.02)] fixed md:sticky top-0 left-0 h-screen md:h-full z-60 transition-colors duration-300
+        ${mobileMenuOpen ? 'translate-x-0 w-80 bg-[#0B1120]/95 text-white shadow-xl' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-[#FAFAFA] border-slate-200'}`}
         ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-80 md:w-64'}
       `}>
         {mobileMenuOpen && (
@@ -294,7 +288,7 @@ export default function EDOTLayout() {
         )}
         <div className={`p-6 pb-2 flex flex-col gap-2 md:flex-row md:items-center md:justify-between ${mobileMenuOpen ? 'items-center' : ''}`}>
           <div className={`flex flex-col items-center gap-3 transition-all ${sidebarCollapsed ? 'mx-auto' : ''}`}>
-            <img src={edotLogo} alt="EDOT Logo" className="h-14 w-14 rounded-full shadow-sm border border-white/20" />
+            <NavLink to="/"><img src={edotLogo} alt="EDOT Logo" className="h-14 w-14 rounded-full shadow-sm border border-white/20" /></NavLink>
             {!sidebarCollapsed && (
               <div className="text-center">
                 <p className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{dashboardTitle}</p>
@@ -394,7 +388,7 @@ export default function EDOTLayout() {
       <main className="flex-1 flex flex-col min-w-0 h-screen max-h-screen bg-transparent transition-colors duration-300">
         
         {/* Top Header */}
-        <header className={`h-[88px] tilet-border-header border-b px-4 md:px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 transition-colors duration-300 shadow-sm border-transparent ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#1e3a8a]'}`}>
+        <header className={`h-[88px] tilet-border-header border-b px-4 md:px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 transition-colors duration-300 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-[#FAFAFA] border-slate-200'}`}>
           
 
           

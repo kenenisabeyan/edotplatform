@@ -51,16 +51,18 @@ export default function FinanceFees() {
     if (user) fetchFinance();
   }, [user]);
 
-  const totalExpected = courses.reduce((acc, c) => acc + (Number(c.price) * (c.enrolledStudents?.length || c.totalStudents || 0)), 0);
-  const activePaidLearners = courses.reduce((acc, c) => acc + (c.price > 0 ? (c.enrolledStudents?.length || c.totalStudents || 0) : 0), 0);
+  const { totalExpected, activePaidLearners } = React.useMemo(() => ({
+    totalExpected: courses.reduce((acc, c) => acc + (Number(c.price) * (c.enrolledStudents?.length || c.totalStudents || 0)), 0),
+    activePaidLearners: courses.reduce((acc, c) => acc + (c.price > 0 ? (c.enrolledStudents?.length || c.totalStudents || 0) : 0), 0)
+  }), [courses]);
 
-  const collectionData = [
+  const collectionData = React.useMemo(() => [
     { name: 'Jan', collection: totalExpected * 0.1 },
     { name: 'Feb', collection: totalExpected * 0.3 },
     { name: 'Mar', collection: totalExpected * 0.5 },
     { name: 'Apr', collection: totalExpected * 0.7 },
     { name: 'May', collection: totalExpected }
-  ];
+  ], [totalExpected]);
 
   if (loading) {
      return <div className="flex justify-center items-center h-64"><div className={`w-10 h-10 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;

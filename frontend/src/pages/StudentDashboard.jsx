@@ -159,10 +159,19 @@ export default function StudentDashboard() {
     } catch(err) { console.error('Failed to log personal goal', err); }
   };
 
-  const totalEnrolled = enrolledCourses.length;
-  const totalLessonsCompleted = enrolledCourses.reduce((total, course) => total + (course.completedLessons?.length || 0), 0);
-  const completedCourses = enrolledCourses.filter(c => c.progress === 100);
-  const averageProgress = totalEnrolled > 0 ? Math.round(enrolledCourses.reduce((sum, course) => sum + (course.progress || 0), 0) / totalEnrolled) : 0;
+  const { totalEnrolled, totalLessonsCompleted, completedCourses, averageProgress } = React.useMemo(() => {
+    const total = enrolledCourses.length;
+    const lessonsCompleted = enrolledCourses.reduce((sum, course) => sum + (course.completedLessons?.length || 0), 0);
+    const completed = enrolledCourses.filter(c => c.progress === 100);
+    const avgProg = total > 0 ? Math.round(enrolledCourses.reduce((sum, course) => sum + (course.progress || 0), 0) / total) : 0;
+    
+    return {
+      totalEnrolled: total,
+      totalLessonsCompleted: lessonsCompleted,
+      completedCourses: completed,
+      averageProgress: avgProg
+    };
+  }, [enrolledCourses]);
 
   const handleLogout = async () => {
     await logout();

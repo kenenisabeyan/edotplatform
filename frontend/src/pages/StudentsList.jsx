@@ -84,7 +84,12 @@ export default function StudentsList() {
 
 
 
-  const filteredStudents = students.filter(s => s.status === tab || (tab === 'approved' && !s.status));
+  const pendingCount = React.useMemo(() => students.filter(s => s.status === 'pending').length, [students]);
+  const approvedCount = React.useMemo(() => students.filter(s => s.status === 'approved' || !s.status).length, [students]);
+
+  const filteredStudents = React.useMemo(() => {
+    return students.filter(s => s.status === tab || (tab === 'approved' && !s.status));
+  }, [students, tab]);
 
   return (
     <div className="space-y-6">
@@ -101,13 +106,13 @@ export default function StudentsList() {
             onClick={() => setTab('pending')}
             className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'pending' ? 'text-[#F97316] border-b-2 border-[#F97316]' : 'text-slate-200 hover:text-white'}`}
           >
-            Pending Approval ({students.filter(s => s.status === 'pending').length})
+            Pending Approval ({pendingCount})
           </button>
           <button 
             onClick={() => setTab('approved')}
             className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'approved' ? 'text-[#00D4FF] border-b-2 border-[#00D4FF]' : 'text-slate-200 hover:text-white'}`}
           >
-            Approved ({students.filter(s => s.status === 'approved' || !s.status).length})
+            Approved ({approvedCount})
           </button>
         </div>
       )}
