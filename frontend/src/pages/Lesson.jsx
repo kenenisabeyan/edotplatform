@@ -5,6 +5,8 @@ import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import { PlayCircle, FileText, CheckCircle2, Lock, Unlock, ArrowLeft, ChevronDown, ChevronUp, CheckSquare, BadgeAlert, Award, ExternalLink, X } from 'lucide-react';
 import SmartVideoPlayer from '../components/SmartVideoPlayer';
+import ThemeDropdown from '../components/ThemeDropdown';
+import toast from 'react-hot-toast';
 
 export default function Lesson() {
   const isDarkMode = useThemeMode();
@@ -56,20 +58,26 @@ export default function Lesson() {
 
     const fetchCourseData = async () => {
       try {
-        const { data } = await api.get(`/courses/${courseId}`);
-        setCourse(data.course);
-
-
+        let isEnrolledActive = false;
 
         if (user) {
           try {
              const { data: statusData } = await api.get(`/student/courses/${courseId}/status`);
              setEnrollmentStatus(statusData.status);
              setEnrollmentProgress(statusData.progress);
+             isEnrolledActive = statusData.status === 'active';
           } catch {
              setEnrollmentStatus('none');
           }
         }
+
+        const endpoint = (isEnrolledActive || user?.role === 'admin' || user?.role === 'instructor') 
+            ? `/courses/${courseId}/content` 
+            : `/courses/${courseId}`;
+
+        const { data } = await api.get(endpoint);
+        setCourse(data.course);
+
       } catch {
         setError('Transmission failure. Unable to retrieve module resources.');
       } finally {
@@ -100,16 +108,27 @@ export default function Lesson() {
 
   const toggleCat = (phaseId, cat) => {
     const key = `${phaseId}-${cat}`;
-    setExpandedCategory(prev => ({ ...prev, [key]: !prev[key] }));
+    const willExpand = !expandedCategory[key];
+    setExpandedCategory(prev => ({ ...prev, [key]: willExpand }));
+    
+    if (willExpand) {
+       if (cat === 'todo') toast.success('Mission Objectives Accessed');
+       if (cat === 'videos') toast.success('Video Stream Protocol Initiated');
+       if (cat === 'notes') toast.success('Study Notes Decrypted');
+       if (cat === 'docs') toast.success('Documents Accessed');
+       if (cat === 'additional-docs') toast.success('Additional Materials Accessed');
+    }
   };
 
   const verifyPhaseCompletion = async (lessonId) => {
      setCompletingPhase(prev => ({ ...prev, [lessonId]: true }));
      try {
        await api.post(`/student/courses/${courseId}/lessons/${lessonId}/complete`);
-       window.location.reload();
+       toast.success('Phase Successfully Resolved!');
+       setTimeout(() => window.location.reload(), 1000);
      } catch (err) {
        console.error('Failed to complete phase', err);
+       toast.error('Failed to complete phase');
        setCompletingPhase(prev => ({ ...prev, [lessonId]: false }));
      }
   };
@@ -191,10 +210,11 @@ export default function Lesson() {
       const { data } = await api.post('/progress/certificate', { courseId });
       if (data.success && data.data) {
         setCertificateData(data.data);
+        toast.success('Official Certificate Claimed!');
       }
     } catch (err) {
       console.error('Failed to generate certificate:', err);
-      alert(err.response?.data?.message || 'Certificate generation failed. Make sure all requirements are met.');
+      toast.error(err.response?.data?.message || 'Certificate generation failed. Make sure all requirements are met.');
     } finally {
       setGeneratingCertificate(false);
     }
@@ -223,12 +243,12 @@ export default function Lesson() {
   }
 
   return (
-    <div className={`min-h-screen relative font-sans pb-20 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} style={{ backgroundColor: 'rgba(11,14,20,1)' }}>
+    <div className={`min-h-screen relative font-sans pb-20 transition-colors duration-500 ${isDarkMode ? 'bg-[#0B1120] text-slate-200' : 'bg-[#FAFAFA] text-slate-700'}`}>
       {/* Decorative Background */}
-      <div className="fixed inset-0 pointer-events-none z-0" style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(0,138,50,0.30), transparent 35%), radial-gradient(circle at 80% 15%, rgba(255,215,0,0.20), transparent 40%), radial-gradient(circle at 50% 75%, rgba(227,10,23,0.10), transparent 45%), linear-gradient(180deg, rgba(11,14,20,1), rgba(11,14,20,0.95), rgba(11,14,20,1))', backgroundBlendMode: 'screen, screen, screen, normal' }} />
+      <div className={`fixed inset-0 pointer-events-none z-0 ${isDarkMode ? 'opacity-100' : 'opacity-20'}`} style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(0,212,255,0.15), transparent 35%), radial-gradient(circle at 80% 15%, rgba(249,115,22,0.10), transparent 40%), radial-gradient(circle at 50% 75%, rgba(0,212,255,0.05), transparent 45%)' }} />
 
       {/* Global Top Navigation Bar */}
-      <div className={`w-full bg-[#0B1120]/90 backdrop-blur-xl border-b sticky top-0 z-50 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+      <div className={`w-full backdrop-blur-xl border-b sticky top-0 z-50 ${isDarkMode ? 'bg-[#0B1120]/90 border-white/5' : 'bg-white/90 border-slate-200'}`}>
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <div className="flex items-center gap-6">
                 <Link to="/student/courses" className={`flex items-center gap-2 font-bold sm:text-white transition-colors px-4 py-2 rounded-lg border bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
@@ -238,8 +258,10 @@ export default function Lesson() {
                    Course Info
                 </Link>
             </div>
-            <div className={`hidden md:flex font-black text-lg ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               EDOT <span className="text-[#00D4FF] ml-2">Learning Protocol</span>
+            <div className={`hidden md:flex font-black text-lg items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+               <span>EDOT <span className="text-[#00D4FF] ml-1">Learning Protocol</span></span>
+               <div className="h-6 w-px bg-slate-400/30 mx-2"></div>
+               <ThemeDropdown />
             </div>
          </div>
       </div>
@@ -248,14 +270,14 @@ export default function Lesson() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-8 relative z-10">
          
          {/* Course Header Banner */}
-         <div className={`bg-gradient-to-r from-[#0B1120] to-[#0B1120] rounded-3xl border p-8 sm:p-12 mb-10 relative overflow-hidden shadow-2xl ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-            <div className="absolute top-[-50px] right-[-50px] w-48 h-48 bg-[#FFC107]/10 rounded-full blur-[60px] pointer-events-none"></div>
+         <div className={`rounded-3xl border p-8 sm:p-12 mb-10 relative overflow-hidden shadow-2xl ${isDarkMode ? 'bg-gradient-to-r from-[#0B1120] to-[#0B1120] border-white/10' : 'bg-gradient-to-r from-white to-slate-50 border-slate-200'}`}>
+            <div className="absolute top-[-50px] right-[-50px] w-48 h-48 bg-[#F97316]/10 rounded-full blur-[60px] pointer-events-none"></div>
             <div className="absolute bottom-[-50px] left-[-50px] w-48 h-48 bg-[#00D4FF]/10 rounded-full blur-[60px] pointer-events-none"></div>
             
             <div className="flex flex-col items-center text-center relative z-10">
                <h1 className={`text-3xl sm:text-4xl font-display font-medium mb-4 leading-snug break-words max-w-2xl ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                   {course.title.split(',')[0]} <br className="hidden sm:block" />
-                  <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#008A32] px-2">
+                  <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#00D4FF] px-2">
                      {course.title.includes(',') ? course.title.substring(course.title.indexOf(',') + 1) : 'EDOT Masterclass'}
                   </span>
                </h1>
@@ -669,6 +691,7 @@ export default function Lesson() {
                                     }
 
                                     setQuizState(prev => ({ ...prev, [lId]: { submitted: true, score, total, grade, passed } }));
+                                     toast.success('Assessment Submitted!');
                                  }}
                                  className={`px-6 py-2.5 bg-[#1e48bc] font-bold rounded-md hover:bg-blue-700 shadow-sm text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                               >

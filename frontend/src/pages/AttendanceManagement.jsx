@@ -4,6 +4,7 @@ import api from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 import { Calendar, Save, UserCheck, ShieldAlert, GraduationCap, CheckCircle2, XCircle, Clock } from 'lucide-react';
 import CustomDropdown from '../components/CustomDropdown';
+import AttendanceAnalytics from '../components/AttendanceAnalytics';
 
 export default function AttendanceManagement() {
   const isDarkMode = useThemeMode();
@@ -230,6 +231,12 @@ export default function AttendanceManagement() {
 
   return (
     <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen">
+      
+      {/* Analytics Dashboard */}
+      {user && (user.role === 'admin' || user.role === 'instructor') && (
+        <AttendanceAnalytics />
+      )}
+
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>

@@ -13,6 +13,8 @@ import ReactPlayer from 'react-player';
 import CustomDropdown from '../components/CustomDropdown';
 import { useAuth } from '../context/AuthContext';
 import { courseDropdownOptions } from '../constants/courseCategories';
+import toast from 'react-hot-toast';
+import SmartVideoPlayer from '../components/SmartVideoPlayer';
 
 export default function InstructorCourseBuilder() {
   const isDarkMode = useThemeMode();
@@ -144,13 +146,15 @@ export default function InstructorCourseBuilder() {
         const { data } = await api.post('/instructor/courses', cleanedData);
         setCourseId(data.data.id);
         navigate(`/dashboard/builder/${data.data.id}`, { replace: true });
+        toast.success('Course created and saved as draft!');
       } else {
         await api.put(`/instructor/courses/${courseId}`, cleanedData);
+        toast.success('Course details updated successfully!');
       }
       return true;
     } catch (err) {
       console.error('Failed to save course', err);
-      alert(err.response?.data?.message || 'Failed to save course details');
+      toast.error(err.response?.data?.message || 'Failed to save course details');
       return false;
     } finally {
       setSaving(false);
@@ -184,9 +188,10 @@ export default function InstructorCourseBuilder() {
       setLessons([...lessons, data.data]);
       setLessonForm({ title: '', description: '', videoUrl: '', duration: 10, readingMaterials: '', quiz: [], phase: '' });
       setShowLessonFormForPhase(null);
+      toast.success('Lesson successfully added!');
     } catch (err) {
       console.error('Failed to add lesson', err);
-      alert(err.response?.data?.message || 'Failed to add lesson');
+      toast.error(err.response?.data?.message || 'Failed to add lesson');
     } finally {
       setSaving(false);
     }
@@ -206,9 +211,11 @@ export default function InstructorCourseBuilder() {
       setSaving(true);
       try {
         await api.put(`/instructor/courses/${courseId}/submit`);
+        toast.success('Course successfully submitted for review!');
         navigate('/dashboard/my-courses'); // Go back to dashboard after submitting
       } catch (err) {
         console.error('Failed to submit course', err);
+        toast.error('Failed to submit course');
       } finally {
         setSaving(false);
       }
@@ -257,10 +264,11 @@ export default function InstructorCourseBuilder() {
         } else if (field === 'thumbnail') {
           setFormData(prev => ({ ...prev, thumbnail: data.secure_url }));
         }
+        toast.success(`${field === 'thumbnail' ? 'Image' : 'File'} uploaded successfully!`);
       }
     } catch (err) {
       console.error('Upload failed', err);
-      alert(err.response?.data?.message || 'Failed to upload file. Please try again.');
+      toast.error(err.response?.data?.message || 'Failed to upload file. Please try again.');
     } finally {
       setSaving(false);
       setUploadProgress(prev => ({ ...prev, [field]: 0 }));
@@ -517,7 +525,7 @@ export default function InstructorCourseBuilder() {
                     />
                     {formData.videoUrl && (
                       <div className={`mt-4 rounded-xl overflow-hidden shadow-sm border aspect-video bg-black/50 relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                        <video src={resolveVideoUrl(formData.videoUrl)} controls className="w-full h-full object-contain" onError={(e) => { e.target.style.display = 'none' }} />
+                        <SmartVideoPlayer url={formData.videoUrl} controls className="w-full h-full" />
                       </div>
                     )}
                   </div>

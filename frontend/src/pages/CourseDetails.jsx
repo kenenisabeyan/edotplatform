@@ -100,14 +100,7 @@ export default function CourseDetails() {
   const totalDuration = course.lessons?.length ? course.lessons.length * 15 : 0;
 
   return (
-    <div style={{ backgroundColor: isDarkMode ? '#05070A' : '#f0f4f8' }} className={`min-h-[calc(100vh-80px)] w-full font-sans pb-20 relative overflow-hidden transition-colors duration-300 ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}`}>
-      {/* Deep Space Background with Nebulas & Glowing Orbs */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-         <div className={`absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b opacity-80 mix-blend-screen ${isDarkMode ? 'from-[#0B1221]' : 'from-slate-200/50'} to-transparent`} />
-         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/10 blur-[120px] mix-blend-screen" />
-         <div className="absolute top-[20%] right-[-5%] w-[40%] h-[40%] rounded-full bg-[#F97316]/10 blur-[120px] mix-blend-screen" />
-         <div className="absolute bottom-[-10%] left-[20%] w-[30%] h-[40%] rounded-full bg-indigo-500/10 blur-[150px] mix-blend-screen" />
-      </div>
+    <div className={`min-h-[calc(100vh-80px)] w-full font-sans pb-20 relative overflow-hidden transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-[#FAFAFA] text-slate-800'}`}>
       
       {/* Hero Section */}
       <div className="relative z-10 pt-20 pb-16">
@@ -147,20 +140,20 @@ export default function CourseDetails() {
                 </div>
              </div>
 
-             {/* Right Hero (Floating 3D Mockup Container) */}
-             <div className="hidden lg:block lg:w-5/12 perspective-1000">
-                 <div className="relative group w-full transform perspective-1000 rotate-y-[-5deg] rotate-x-[5deg] hover:rotate-y-0 hover:rotate-x-0 transition-transform duration-700 ease-out">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-[#00D4FF] to-[#F97316] rounded-2xl blur-3xl opacity-30 group-hover:opacity-50 transition duration-700"></div>
-                    <div className="relative border border-white/20 bg-white/5 backdrop-blur-2xl rounded-2xl p-4 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
-                       <img 
-                         src={course.thumbnail || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"} 
-                         alt="Course Preview" 
-                         className="w-full aspect-[4/3] object-cover rounded-xl shadow-[0_0_30px_rgba(255,215,0,0.3)] filter contrast-125" 
-                       />
-                       
-                       {/* Floating Decorative Elements */}
-                       <div className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-tr from-[#F97316] to-orange-300 rounded-full blur-[10px] animate-pulse opacity-60"></div>
-                       <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-tr from-[#00D4FF] to-cyan-400 rounded-full blur-[15px] animate-pulse opacity-60 delay-300"></div>
+             {/* Right Hero (Floating Mockup Container) */}
+             <div className="hidden lg:block lg:w-5/12">
+                 <div className="relative group w-full transition-transform duration-500 hover:-translate-y-2">
+                    <div className={`relative border rounded-2xl p-4 shadow-2xl ${isDarkMode ? 'border-white/10 bg-[#151a26]/80 backdrop-blur-md' : 'border-slate-200 bg-white/80 backdrop-blur-md'}`}>
+                       <div className="w-full aspect-[4/3] relative overflow-hidden rounded-xl bg-[#030303]">
+                         <img 
+                           src={(course.thumbnail && course.thumbnail !== 'default-course.jpg') ? (course.thumbnail.startsWith('http') ? course.thumbnail : `http://localhost:5000${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}`) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80'} 
+                           alt="Course Preview" 
+                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                           onError={(e) => { 
+                               e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80';
+                           }}
+                         />
+                       </div>
                     </div>
                  </div>
              </div>
@@ -176,42 +169,44 @@ export default function CourseDetails() {
            <div className="w-full lg:w-7/12">
               
               {/* Tab Navigation Navigation */}
-              <div className="flex overflow-x-auto scrollbar-hide mb-10 gap-4">
-                 {['overview', 'curriculum', 'instructor'].map(tab => (
+              <div className="flex overflow-x-auto scrollbar-hide mb-12 gap-4">
+                 {['Overview', 'Curriculum', 'Instructor'].map(tabLabel => {
+                    const tab = tabLabel.toLowerCase();
+                    return (
                     <button 
                       key={tab}
                       onClick={() => setActiveTab(tab)}
-                      className={`flex-1 min-w-fit py-4 px-8 font-black text-[11px] transition-all duration-300 rounded-full whitespace-nowrap border ${
+                      className={`flex-1 min-w-fit py-4 px-8 font-black text-sm transition-all duration-300 rounded-2xl whitespace-nowrap border tracking-wide uppercase ${
                         activeTab === tab 
-                        ? 'border-[#F97316]/50 bg-gradient-to-r from-[#00D4FF]/20 to-transparent text-[#F97316] shadow-[inset_0_0_20px_rgba(0,212,255,0.5)]' 
-                        : (isDarkMode ? 'border-white/5 bg-[#0B1120]/40 text-slate-400 hover:border-white/20 hover:text-white' : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-800')
+                        ? 'border-[#F97316]/50 bg-gradient-to-r from-[#F97316]/10 to-[#00D4FF]/10 text-[#F97316] shadow-[0_0_25px_rgba(249,115,22,0.15)] scale-[1.02]' 
+                        : (isDarkMode ? 'border-white/5 bg-[#0B1120]/60 text-slate-400 hover:border-white/20 hover:text-white hover:bg-[#0B1120]/80' : 'border-slate-200 bg-white/80 text-slate-500 hover:border-[#F97316]/30 hover:text-slate-800 hover:bg-white')
                       }`}
                     >
-                      {tab}
+                      {tabLabel}
                     </button>
-                 ))}
+                    );
+                 })}
               </div>
 
               {/* Tab: Overview */}
               {activeTab === 'overview' && (
-                <div className="space-y-10 animate-in fade-in duration-500">
-                  <div className={`relative p-[1px] rounded-3xl bg-gradient-to-b ${isDarkMode ? 'from-white/10' : 'from-slate-200'} to-transparent`}>
-                     <div className={`backdrop-blur-2xl p-10 rounded-3xl h-full shadow-[0_0_40px_rgba(0,0,0,0.1)] border ${isDarkMode ? 'bg-[#05070A]/80 border-white/5' : 'bg-white/80 border-slate-100'}`}>
-                        <h2 className={`text-2xl font-black mb-6 flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                           <FileText className="w-6 h-6 text-[#00D4FF] drop-shadow-[0_0_8px_rgba(230,126,34,0.4)]"/> 
+                <div className="space-y-12 animate-in fade-in duration-500 slide-in-from-bottom-4">
+                  <div className={`relative p-[1px] rounded-3xl bg-gradient-to-b ${isDarkMode ? 'from-[#00D4FF]/20' : 'from-slate-200'} to-transparent shadow-[0_0_40px_rgba(0,212,255,0.05)]`}>
+                     <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl h-full border ${isDarkMode ? 'bg-[#0B1120]/90 border-white/5' : 'bg-white/95 border-slate-100'}`}>
+                        <h2 className={`text-3xl font-black mb-8 flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                           <FileText className="w-8 h-8 text-[#00D4FF] drop-shadow-[0_0_15px_rgba(0,212,255,0.4)]"/> 
                            Program Details
                         </h2>
-                        <div className={`prose max-w-none text-sm md:text-base leading-loose whitespace-pre-wrap font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                        <div className={`prose max-w-none text-base md:text-lg leading-loose whitespace-pre-wrap font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                           {course.description}
                         </div>
                      </div>
                   </div>
 
-                  <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#F97316]/30 to-transparent shadow-[0_0_50px_rgba(249,115,22,0.05)]">
-                     <div className={`backdrop-blur-2xl p-10 rounded-3xl h-full border relative overflow-hidden ${isDarkMode ? 'bg-[#05070A]/80 text-white border-white/5' : 'bg-white/80 text-slate-900 border-slate-100'}`}>
-                        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#F97316]/5 rounded-full blur-[80px] pointer-events-none"></div>
-                        <h3 className="text-xl font-black flex items-center gap-4 mb-8 relative z-10">
-                          <CheckCircle className="w-6 h-6 text-[#F97316] drop-shadow-[0_0_8px_rgba(249,115,22,0.4)]" /> 
+                  <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#F97316]/40 to-transparent shadow-[0_0_50px_rgba(249,115,22,0.1)]">
+                     <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl h-full border relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 text-white border-white/5' : 'bg-white/95 text-slate-900 border-slate-100'}`}>
+                        <h3 className="text-3xl font-black flex items-center gap-4 mb-10 relative z-10">
+                          <CheckCircle className="w-8 h-8 text-[#F97316] drop-shadow-[0_0_15px_rgba(249,115,22,0.4)]" /> 
                           What You'll Learn
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
@@ -234,11 +229,11 @@ export default function CourseDetails() {
 
               {/* Tab: Curriculum */}
               {activeTab === 'curriculum' && (
-                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-indigo-500/30 to-transparent animate-in fade-in duration-500">
-                  <div className={`backdrop-blur-2xl p-10 rounded-3xl shadow-xl border ${isDarkMode ? 'bg-[#05070A]/80 border-white/5' : 'bg-white/90 border-slate-200'}`}>
-                     <div className="flex items-center justify-between mb-10">
-                        <h2 className={`text-2xl font-black flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                           <BookOpen className="w-6 h-6 text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.4)]"/> 
+                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#00D4FF]/40 to-transparent animate-in fade-in duration-500 slide-in-from-bottom-4 shadow-[0_0_50px_rgba(0,212,255,0.05)]">
+                  <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl shadow-xl border ${isDarkMode ? 'bg-[#0B1120]/90 border-white/5' : 'bg-white/95 border-slate-200'}`}>
+                     <div className="flex items-center justify-between mb-12">
+                        <h2 className={`text-3xl font-black flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                           <BookOpen className="w-8 h-8 text-[#00D4FF] drop-shadow-[0_0_15px_rgba(0,212,255,0.4)]"/> 
                            Syllabus
                         </h2>
                         <div className="text-[10px] font-black bg-indigo-500/10 px-4 py-2 rounded-full text-indigo-500 dark:text-indigo-300 border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.1)]">
@@ -254,12 +249,12 @@ export default function CourseDetails() {
                              const phaseLessons = course.lessons.filter(l => (l.phase || 'General Content') === phase);
                              return (
                                 <div key={pIdx} className="space-y-6">
-                                 <h3 className={`text-xl font-black text-indigo-500 dark:text-indigo-400 border-b pb-3 mb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>{phase}</h3>
+                                 <h3 className={`text-2xl font-black text-[#00D4FF] border-b pb-4 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>{phase}</h3>
                                  {phaseLessons.map((lesson) => (
-                                   <div key={lesson.id} className={`w-full border rounded-2xl p-6 transition-all flex flex-col md:flex-row gap-8 items-start md:items-center group ${isDarkMode ? 'bg-[#0B1120]/40 border-white/5 hover:border-white/20 hover:bg-[#151a26]/80' : 'bg-slate-50 border-slate-200 hover:border-indigo-200 hover:bg-white shadow-sm'}`}>
-                                      <div className={`shrink-0 w-20 h-20 rounded-2xl border flex flex-col items-center justify-center p-2 shadow-inner transition-colors group-hover:border-indigo-500/50 ${isDarkMode ? 'bg-[#05070A] border-white/10' : 'bg-white border-slate-200'}`}>
-                                         <span className="text-[10px] font-black text-slate-500 mb-1">Module</span>
-                                         <span className="text-2xl font-black text-indigo-500 dark:text-indigo-400 leading-none">{course.lessons.findIndex(l => l.id === lesson.id) + 1}</span>
+                                   <div key={lesson.id} className={`w-full border rounded-3xl p-6 transition-all flex flex-col md:flex-row gap-8 items-start md:items-center group ${isDarkMode ? 'bg-[#0B1120]/60 border-white/5 hover:border-[#00D4FF]/30 hover:bg-[#0B1120] hover:shadow-[0_0_20px_rgba(0,212,255,0.1)]' : 'bg-slate-50 border-slate-200 hover:border-[#00D4FF]/30 hover:bg-white shadow-sm hover:shadow-[0_0_20px_rgba(0,212,255,0.1)]'}`}>
+                                      <div className={`shrink-0 w-24 h-24 rounded-2xl border flex flex-col items-center justify-center p-2 shadow-inner transition-colors group-hover:border-[#00D4FF]/50 ${isDarkMode ? 'bg-[#05070A] border-white/10' : 'bg-white border-slate-200'}`}>
+                                         <span className="text-xs font-black text-slate-500 mb-1 uppercase tracking-wider">Module</span>
+                                         <span className="text-3xl font-black text-[#00D4FF] leading-none">{course.lessons.findIndex(l => l.id === lesson.id) + 1}</span>
                                       </div>
                                       
                                       <div className="flex-1 min-w-0">
@@ -290,13 +285,13 @@ export default function CourseDetails() {
 
               {/* Tab: Instructor */}
               {activeTab === 'instructor' && (
-                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#F97316]/30 to-transparent animate-in fade-in duration-500">
-                  <div className={`backdrop-blur-2xl p-10 rounded-3xl flex flex-col md:flex-row items-center gap-10 text-center md:text-left border shadow-xl ${isDarkMode ? 'bg-[#05070A]/80 border-white/5' : 'bg-white/90 border-slate-200'}`}>
-                     <div className={`w-36 h-36 rounded-full overflow-hidden shrink-0 border-4 border-[#00D4FF] shadow-[0_0_30px_rgba(230,126,34,0.3)] ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-100'}`}>
-                       <img src="https://ui-avatars.com/api/?name=Instructor&background=008A32&color=FFFFFF" alt="Instructor" className="w-full h-full object-cover" />
+                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#F97316]/40 to-transparent animate-in fade-in duration-500 slide-in-from-bottom-4 shadow-[0_0_50px_rgba(249,115,22,0.05)]">
+                  <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl flex flex-col md:flex-row items-center gap-12 text-center md:text-left border shadow-xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/5' : 'bg-white/95 border-slate-200'}`}>
+                     <div className={`w-40 h-40 rounded-full overflow-hidden shrink-0 border-4 border-[#00D4FF] shadow-[0_0_30px_rgba(0,212,255,0.4)] ${isDarkMode ? 'bg-[#05070A]' : 'bg-slate-100'}`}>
+                       <img src="https://ui-avatars.com/api/?name=Instructor&background=0B1120&color=FFFFFF" alt="Instructor" className="w-full h-full object-cover" />
                      </div>
                      <div>
-                       <h2 className={`text-3xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.instructor?.name || 'Kenenisa'}</h2>
+                       <h2 className={`text-4xl font-black mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.instructor?.name || 'Kenenisa'}</h2>
                        <p className="text-[#00D4FF] font-black text-xs mb-6 bg-[#00D4FF]/10 inline-block px-4 py-1.5 rounded-full border border-[#00D4FF]/30 shadow-[0_0_10px_rgba(230,126,34,0.1)]">Lead Authority</p>
                        <p className={`font-medium leading-loose max-w-lg mx-auto md:mx-0 text-sm md:text-base ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                           Instructor is a certified professional with extensive verifiable experience in building out large-scale technical systems and leading dynamic teams across the globe.
@@ -309,11 +304,9 @@ export default function CourseDetails() {
 
            {/* Sticky Interaction Sidebar (Order Box) */}
            <div className="w-full lg:w-5/12 lg:-mt-24 z-20">
-              <div className="relative p-[1px] rounded-[32px] bg-gradient-to-b from-[#F97316]/30 via-white/5 to-transparent shadow-[0_30px_60px_rgba(0,0,0,0.1)] sticky top-32">
-                 <div className={`backdrop-blur-3xl p-8 lg:p-12 relative overflow-hidden rounded-[32px] border ${isDarkMode ? 'bg-[#0B1221]/90 border-white/5' : 'bg-white/90 border-slate-200 shadow-lg'}`}>
-                    <div className="absolute top-[-50px] right-[-50px] w-64 h-64 bg-[#F97316]/10 rounded-full blur-[80px] pointer-events-none"></div>
-                    
-                    <div className={`text-center mb-8 border-b pb-8 relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+               <div className="relative p-[1px] rounded-[32px] shadow-lg sticky top-32 border border-slate-200/50">
+                  <div className={`p-8 lg:p-12 relative overflow-hidden rounded-[32px] border ${isDarkMode ? 'bg-[#0B1221]/95 border-white/10' : 'bg-white/95 border-slate-200 shadow-xl'}`}>
+                     <div className={`text-center mb-8 border-b pb-8 relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                        <h3 className={`font-black text-[11px] mb-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Program Value</h3>
                        <div className="text-5xl font-black text-[#F97316] drop-shadow-[0_0_15px_rgba(249,115,22,0.3)]">
                          ETB {course.price || '4.94'}

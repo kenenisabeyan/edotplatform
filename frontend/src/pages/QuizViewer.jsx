@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { CheckCircle2, XCircle, ArrowLeft, ArrowRight, Award, RefreshCcw } from 'lucide-react';
+import ThemeDropdown from '../components/ThemeDropdown';
 import api from '../utils/api';
 
 export default function QuizViewer() {
@@ -162,7 +163,7 @@ export default function QuizViewer() {
   const allAnswered = questions.length === Object.keys(selectedAnswers).length;
 
   return (
-    <div className={`min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
+    <div className={`min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 relative overflow-hidden transition-colors duration-500 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
       
       {/* Background Ornaments */}
       <div className="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] bg-[#F97316]/5 rounded-full blur-[100px] pointer-events-none"></div>
@@ -175,15 +176,18 @@ export default function QuizViewer() {
         >
           <ArrowLeft className="w-4 h-4" /> Exit
         </button>
-        <span className="font-bold text-[#F97316] bg-[#F97316]/10 px-4 py-2 rounded-lg border border-[#F97316]/20 shadow-[0_0_15px_rgba(255,215,0,0.1)] text-xs  ">
-          {course?.title} - Final Challenge
-        </span>
+        <div className="flex items-center gap-4">
+          <span className="font-bold text-[#F97316] bg-[#F97316]/10 px-4 py-2 rounded-lg border border-[#F97316]/20 shadow-[0_0_15px_rgba(255,215,0,0.1)] text-xs">
+            {course?.title} - Final Challenge
+          </span>
+          <ThemeDropdown />
+        </div>
       </div>
 
       <div className={`w-full max-w-3xl backdrop-blur-xl rounded-3xl shadow-2xl border overflow-hidden relative z-10 ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
         
         {/* Progress Bar */}
-        <div className={`p-6 md:px-12 border-b bg-[#0B1120] ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+        <div className={`p-6 md:px-12 border-b ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
           <div className={`flex justify-between text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
             <span>Question {currentQuestion + 1} of {questions.length}</span>
             <span className="text-[#F97316]">{Math.round(progress)}% Complete</span>
@@ -214,15 +218,15 @@ export default function QuizViewer() {
                   className={`w-full text-left flex items-center p-5 rounded-xl border-2 transition-all ${
                     isSelected 
                       ? 'border-[#F97316] bg-[#F97316]/10 shadow-[0_0_15px_rgba(255,215,0,0.15)]' 
-                      : 'border-white/5 hover:border-white/20 hover:bg-white/5/5'
+                      : (isDarkMode ? 'border-white/5 hover:border-white/20 hover:bg-white/5' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-100')
                   }`}
                 >
                   <div className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center shrink-0 transition-colors ${
-                    isSelected ? 'border-[#F97316]' : 'border-white/20'
+                    isSelected ? 'border-[#F97316]' : (isDarkMode ? 'border-white/20' : 'border-slate-300')
                   }`}>
                     {isSelected && <div className="w-3 h-3 rounded-full bg-[#F97316] shadow-[0_0_5px_rgba(255,215,0,0.8)]"></div>}
                   </div>
-                  <span className={`text-lg font-bold ${isSelected ? 'text-[#F97316]' : 'text-slate-300'}`}>
+                  <span className={`text-lg font-bold ${isSelected ? 'text-[#F97316]' : (isDarkMode ? 'text-slate-300' : 'text-slate-700')}`}>
                     {option}
                   </span>
                 </button>
@@ -232,7 +236,7 @@ export default function QuizViewer() {
         </div>
 
         {/* Footer Navigation */}
-        <div className={`p-6 md:px-12 border-t flex gap-4 justify-between items-center bg-[#0B1120] ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+        <div className={`p-6 md:px-12 border-t flex gap-4 justify-between items-center ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
           <button
             onClick={handlePrev}
             disabled={currentQuestion === 0}

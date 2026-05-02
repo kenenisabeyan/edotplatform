@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -67,7 +68,18 @@ function MainLayout() {
 export default function App() {
   const isDarkMode = useThemeMode();
   return (
-    <Routes>
+    <>
+      <Toaster 
+        position="top-right" 
+        toastOptions={{
+          style: {
+             background: isDarkMode ? '#0B1120' : '#fff',
+             color: isDarkMode ? '#fff' : '#0B1120',
+             border: isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid #E2E8F0'
+          }
+        }} 
+      />
+      <Routes>
       {/* Immersive Pages (No Nav/Footer) */}
       <Route element={<ProtectedRoute />}>
         <Route path="/lesson/:id" element={
@@ -168,6 +180,7 @@ export default function App() {
         </Route>
       </Route>
     </Routes>
+    </>
   );
 }
 
