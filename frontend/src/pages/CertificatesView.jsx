@@ -208,13 +208,13 @@ export default function CertificatesView() {
 
     // Four Columns
     // DATE | DURATION | LEVEL | CREDIT EARNED
-    const colY = 175;
+    const colY = 165;
     // Dividers
     doc.setDrawColor(200, 200, 200);
     doc.setLineWidth(0.5);
-    doc.line(105, 165, 105, 180);
-    doc.line(148.5, 165, 148.5, 180);
-    doc.line(192, 165, 192, 180);
+    doc.line(105, 158, 105, 173);
+    doc.line(148.5, 158, 148.5, 173);
+    doc.line(192, 158, 192, 173);
 
     // DATE
     doc.setFont('helvetica', 'bold');
@@ -257,41 +257,41 @@ export default function CertificatesView() {
     doc.text(ceus, 222, colY + 5, {align: 'center'});
 
     // Signatures
-    const sigY = 195;
+    const sigY = 192;
     
     // Left
     doc.setFont('times', 'italic');
     doc.setFontSize(22);
     doc.setTextColor(11, 17, 32);
-    doc.text(instructorName, 75, sigY - 2, {align: 'center'});
+    doc.text(instructorName, 100, sigY - 2, {align: 'center'});
     
     doc.setDrawColor(249, 115, 22);
-    doc.line(50, sigY, 100, sigY);
+    doc.line(75, sigY, 125, sigY);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
     doc.setTextColor(11, 17, 32);
-    doc.text(instructorName, 75, sigY + 5, {align: 'center'});
+    doc.text(instructorName, 100, sigY + 5, {align: 'center'});
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7);
     doc.setTextColor(100, 100, 100);
-    doc.text('Course Instructor', 75, sigY + 9, {align: 'center'});
+    doc.text('Course Instructor', 100, sigY + 9, {align: 'center'});
 
     // Right
     doc.setFont('times', 'italic');
     doc.setFontSize(22);
     doc.setTextColor(11, 17, 32);
-    doc.text('EDOT Administration', 222, sigY - 2, {align: 'center'});
+    doc.text('EDOT Administration', 197, sigY - 2, {align: 'center'});
     
     doc.setDrawColor(249, 115, 22);
-    doc.line(197, sigY, 247, sigY);
+    doc.line(172, sigY, 222, sigY);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
     doc.setTextColor(11, 17, 32);
-    doc.text('EDOT Administration', 222, sigY + 5, {align: 'center'});
+    doc.text('EDOT Administration', 197, sigY + 5, {align: 'center'});
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7);
     doc.setTextColor(100, 100, 100);
-    doc.text('Academic Director', 222, sigY + 9, {align: 'center'});
+    doc.text('Academic Director', 197, sigY + 9, {align: 'center'});
 
     // Center Gold Badge
     doc.setFillColor(249, 115, 22);

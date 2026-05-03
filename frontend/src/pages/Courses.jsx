@@ -528,18 +528,21 @@ export default function Courses() {
 
       {/* 1. HERO SECTION */}
       <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-         <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-50'}`}>
-            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80" alt="Students actively learning" className={`w-full h-full object-cover ${isDarkMode ? 'opacity-30 mix-blend-overlay' : 'opacity-10 mix-blend-multiply'}`} />
-            <div className={`absolute inset-0 bg-gradient-to-b ${isDarkMode ? 'from-[#0f48b9]/40 via-[#0B1120]/80 to-[#0B1120]' : 'from-blue-100/40 via-slate-50/80 to-slate-50'}`}></div>
+         {/* Premium CSS Background */}
+         <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
+            <div className={`absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]`}></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#00D4FF]/10 dark:bg-[#00D4FF]/10 blur-[120px] rounded-full pointer-events-none"></div>
          </div>
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 font-bold text-sm tracking-wider uppercase ${isDarkMode ? 'bg-white/10 border-white/20 text-white shadow-lg backdrop-blur-md' : 'bg-white/60 border-slate-300 text-slate-800 shadow-sm backdrop-blur-md'}`}>
-               <BookOpen className="w-4 h-4" /> Structured Paths
-            </div>
-            <h1 className={`text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               Explore Structured <span className={`${isDarkMode ? 'text-[#00D4FF]' : 'text-blue-600'}`}>Learning Paths</span>
+            <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-[#1A202C]'}`}>
+               Explore Structured <br className="hidden md:block" />
+               <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+                  <span className="relative z-10">Learning Paths</span>
+                  {/* Orange Underline */}
+                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316] z-0"></div>
+               </span>
             </h1>
-            <p className={`text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+            <p className={`text-xl md:text-[20px] font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                From foundational education to advanced professional skills, EDOT provides guided learning designed for real progress and real outcomes.
             </p>
          </div>

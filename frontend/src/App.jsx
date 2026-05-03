@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import ScrollToTop from './components/ScrollToTop';
 import useThemeMode from './hooks/useThemeMode';
 
 import Home from './pages/Home';
@@ -71,6 +72,7 @@ export default function App() {
   const isDarkMode = useThemeMode();
   return (
     <>
+      <ScrollToTop />
       <CommandK />
       <Toaster 
         position="top-right" 

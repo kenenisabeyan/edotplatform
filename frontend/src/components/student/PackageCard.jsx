@@ -139,7 +139,11 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
                      <div 
                        key={c.id || i}
                        onClick={() => {
-                         if (isEnrolled) navigate('/courses');
+                         if (isEnrolled) {
+                           navigate('/dashboard');
+                         } else {
+                           navigate('/courses');
+                         }
                        }}
                        className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 ${isEnrolled ? 'cursor-pointer' : 'cursor-default opacity-80'}`}
                        style={{ 
@@ -191,7 +195,7 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
         <div className="flex justify-center mt-auto pt-2">
           {isEnrolled ? (
             <button 
-              onClick={() => navigate('/courses')}
+              onClick={() => navigate('/dashboard')}
               className={`px-8 py-2.5 rounded-full font-bold text-[13px] flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-1 text-white`}
               style={{ 
                 backgroundColor: pkg.color || '#3B82F6',

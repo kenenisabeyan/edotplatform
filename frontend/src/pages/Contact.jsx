@@ -31,30 +31,25 @@ export default function Contact() {
       <div className="relative z-10 pt-24">
         
         {/* 1. HERO SECTION */}
-        <section className={`relative w-full py-20 lg:py-32 px-6 overflow-hidden flex flex-col items-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-          <div className="absolute inset-0 z-0">
-             <div className={`absolute inset-0 bg-gradient-to-r z-10 ${isDarkMode ? 'from-[#0B1120] via-[#0B1120]/90 to-transparent' : 'from-slate-50 via-slate-50/95 to-slate-50/40'}`}></div>
-             <img 
-               src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80" 
-               alt="Friendly customer support team" 
-               className="w-full h-full object-cover object-center lg:object-right"
-             />
-          </div>
-
-          <div className="max-w-[1200px] w-full mx-auto relative z-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className={`text-left ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               <div className={`inline-flex items-center gap-3 px-4 py-1.5 rounded-full border mb-6 ${isDarkMode ? 'bg-white/10 border-white/20' : 'bg-[#EBC176]/10 border-[#EBC176]/30'}`}>
-                  <Mail className={`w-4 h-4 ${isDarkMode ? 'text-[#EBC176]' : 'text-[#D97706]'}`} />
-                  <span className={`text-[11px] font-bold tracking-wider uppercase ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>We'd Love to Hear From You</span>
-               </div>
-               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1]">
-                 Let’s Connect and Build the <span className={`${isDarkMode ? 'text-[#EBC176]' : 'text-[#D97706]'}`}>Future of Education</span>
-               </h1>
-               <p className={`text-lg md:text-xl font-normal leading-relaxed max-w-xl ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+        <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+           {/* Premium CSS Background */}
+           <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
+              <div className={`absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]`}></div>
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#EBC176]/10 dark:bg-[#EBC176]/10 blur-[120px] rounded-full pointer-events-none"></div>
+           </div>
+           <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
+              <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-[#1A202C]'}`}>
+                 Let’s Connect and <br className="hidden md:block" />
+                 <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+                    <span className="relative z-10">Build the Future</span>
+                    {/* Orange Underline */}
+                    <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316] z-0"></div>
+                 </span>
+              </h1>
+              <p className={`text-xl md:text-[20px] font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                  Have questions, ideas, or want to collaborate? Reach out — we’re here to support you whether you're a learner, instructor, parent, sponsor, or partner.
-               </p>
-            </div>
-          </div>
+              </p>
+           </div>
         </section>
 
         {/* 2. MAIN CONTACT SECTION (Form + Info) */}
@@ -190,8 +185,8 @@ export default function Contact() {
                         </div>
                         <div>
                           <p className={`text-sm font-semibold mb-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Phone Numbers</p>
-                          <p className="font-bold text-lg">+251 911 234 567</p>
-                          <p className="font-bold text-lg">+251 922 345 678</p>
+                          <p className="font-bold text-lg">+251 941 177 566</p>
+                          <p className="font-bold text-lg">+251 962 343 967</p>
                         </div>
                       </div>
 
@@ -211,7 +206,7 @@ export default function Contact() {
                         </div>
                         <div>
                           <p className={`text-sm font-semibold mb-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Location</p>
-                          <p className="font-bold text-lg">Addis Ababa, Ethiopia</p>
+                          <p className="font-bold text-lg">ADAMA near Adama Science and Technology University</p>
                         </div>
                       </div>
                    </div>

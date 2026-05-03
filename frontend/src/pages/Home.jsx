@@ -57,56 +57,32 @@ export default function Home() {
       
       {/* 1. HERO SECTION */}
       <div className="relative w-full">
-         <section className={`relative w-full pt-40 pb-48 lg:pt-48 lg:pb-56 flex items-center overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
+         <section className={`relative w-full pt-32 pb-32 lg:pt-40 lg:pb-48 flex items-center overflow-visible ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
             
-            {/* RIGHT SIDE FULL-BLEED VIDEO WITH DIAGONAL CUT */}
-            <div 
-               className="absolute right-0 top-0 bottom-0 w-full lg:w-[50%] z-0 hidden lg:block overflow-hidden shadow-[-20px_0_50px_rgba(0,0,0,0.1)]" 
-               style={{ clipPath: 'polygon(15% 0, 100% 0, 100% 100%, 0% 100%)' }}
-            >
-               <video 
-                  src={heroVideoUrl} 
-                  autoPlay loop muted playsInline 
-                  className="absolute inset-0 w-full h-full object-cover" 
-               />
-               <div className={`absolute inset-0 bg-gradient-to-r ${isDarkMode ? 'from-[#0B1120] via-[#0B1120]/60 to-transparent' : 'from-[#FAFAFA] via-[#FAFAFA]/60 to-transparent'} w-[40%] -ml-1`}></div>
-               
-               {/* Floating elements mimicking the image over the video */}
-               <div className="absolute top-[20%] right-[30%] bg-white dark:bg-[#0B1120] rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '4s' }}>
-                  <Handshake className="w-8 h-8 text-[#F97316]" />
-               </div>
-               <div className="absolute top-[45%] right-[10%] bg-white dark:bg-[#0B1120] rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '1s' }}>
-                  <GraduationCap className="w-8 h-8 text-[#0940B5] dark:text-[#00D4FF]" />
-               </div>
-               <div className="absolute bottom-[25%] left-[25%] bg-white dark:bg-[#0B1120] rounded-2xl p-4 shadow-2xl flex items-center justify-center animate-bounce" style={{ animationDuration: '3s', animationDelay: '0.5s' }}>
-                  <Heart className="w-8 h-8 text-red-500 fill-red-500" />
-               </div>
-            </div>
-
-            <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full relative z-20 flex flex-col lg:flex-row items-center gap-16">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full relative z-20 flex flex-col lg:flex-row items-center gap-10">
                
                {/* LEFT SIDE TEXT */}
-               <div className="flex-1 text-left lg:pr-6 lg:max-w-[650px]">
+               <div className="flex-1 text-left lg:pr-6 lg:max-w-[680px] z-20">
 
                   {/* Heading */}
-                  <h1 className={`font-black text-5xl md:text-6xl lg:text-[4.4rem] leading-[1.12] mb-6 tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                     Education Should Be Accessible to Everyone <br className="hidden lg:block" />
-                     <span className="text-[#F97316] relative inline-block mt-1">
+                  <h1 className={`font-black text-[3.8rem] md:text-[4.2rem] lg:text-[4.5rem] leading-[1.1] mb-6 tracking-tight ${isDarkMode ? 'text-white' : 'text-[#1A202C]'}`}>
+                     Education Should Be <br className="hidden md:block" />
+                     Accessible to <br className="hidden md:block" />
+                     Everyone — <br className="hidden lg:block" />
+                     <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
                         <span className="relative z-10">Not Just the Privileged</span>
                         {/* Orange Underline */}
-                        <svg className="absolute w-full h-3 -bottom-1 left-0 text-[#F97316] z-0" viewBox="0 0 100 10" preserveAspectRatio="none">
-                           <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="4" fill="transparent" />
-                        </svg>
+                        <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316] z-0"></div>
                      </span>
                   </h1>
 
                   {/* Paragraph */}
-                  <p className={`text-lg md:text-xl max-w-[600px] mb-6 leading-relaxed font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                     EDOT is a full-stack learning platform that connects learners, instructors, parents, and sponsors into one powerful ecosystem, delivering structured education, real skills, and real opportunities.
+                  <p className={`text-lg md:text-[19px] max-w-[600px] mb-8 leading-relaxed font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                     EDOT is a full-stack learning platform that connects learners, instructors, parents, and sponsors into one powerful ecosystem — delivering structured education, real skills, and real opportunities.
                   </p>
 
                   {/* Sub paragraph */}
-                  <p className="text-[#F97316] font-bold text-xl mb-10 flex items-center gap-2">
+                  <p className="text-[#F97316] font-bold text-lg md:text-xl mb-10 flex items-center gap-2">
                      <Sparkles className="w-5 h-5" /> Learn. Teach. Support. Sponsor a Future.
                   </p>
 
@@ -115,22 +91,24 @@ export default function Home() {
                      <Link to="/register?role=student" className="bg-[#F97316] text-white px-8 py-4 rounded-[14px] font-bold text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_8px_20px_rgba(249,115,22,0.3)] flex items-center justify-center gap-2">
                         Start Learning <ArrowRight className="w-5 h-5" />
                      </Link>
-                     <Link to="/register?role=sponsor" className={`px-8 py-4 rounded-[14px] font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 border-2 ${isDarkMode ? 'border-[#F97316] text-[#F97316] hover:bg-[#F97316]/10' : 'border-[#F97316] text-[#F97316] hover:bg-orange-50'}`}>
+                     <Link to="/register?role=sponsor" className={`px-8 py-4 rounded-[14px] font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 border ${isDarkMode ? 'border-[#F97316] text-[#F97316] hover:bg-[#F97316]/10' : 'border-[#F97316] text-[#F97316] hover:bg-orange-50'}`}>
                         Sponsor a Student <Heart className="w-5 h-5" />
                      </Link>
                   </div>
                </div>
                
-               {/* RIGHT SIDE SPACER FOR DESKTOP */}
-               <div className="hidden lg:block flex-1 w-full"></div>
-
-               {/* MOBILE VIDEO (shown only on small screens) */}
-               <div className="lg:hidden w-full mt-12 rounded-[32px] overflow-hidden shadow-2xl relative aspect-video border-[6px] border-white dark:border-[#0B1120]">
-                  <video 
-                     src={heroVideoUrl} 
-                     autoPlay loop muted playsInline 
-                     className="w-full h-full object-cover" 
-                  />
+               {/* RIGHT SIDE VIDEO */}
+               <div className="flex-1 w-full relative z-10 mt-12 lg:mt-0 lg:-mr-10 xl:-mr-16">
+                  <div className="relative w-full h-full max-w-[850px] ml-auto">
+                     <video 
+                        src={heroVideoUrl}
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                        className="w-full h-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-[24px]"
+                     />
+                  </div>
                </div>
 
             </div>
@@ -138,20 +116,20 @@ export default function Home() {
 
          {/* 4-COLUMN FLOATING CARD AT BOTTOM */}
          <div className="absolute bottom-0 left-0 w-full transform translate-y-1/2 z-30 px-6">
-            <div className={`max-w-[1200px] mx-auto rounded-[24px] shadow-[0_15px_40px_rgba(0,0,0,0.08)] p-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x ${isDarkMode ? 'bg-[#0B1120] divide-white/10 border border-white/10' : 'bg-white divide-slate-100'}`}>
+            <div className={`max-w-[1250px] mx-auto rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.06)] p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 divide-y sm:divide-y-0 lg:divide-x ${isDarkMode ? 'bg-[#111827] divide-white/10 border border-white/10' : 'bg-white divide-slate-100'}`}>
                {[
                  { title: "Learn", desc: "Access quality courses anytime, anywhere.", icon: BookOpen, color: "bg-[#0940B5]" },
                  { title: "Teach", desc: "Empower others with your knowledge.", icon: Users, color: "bg-[#10B981]" },
                  { title: "Support", desc: "Help learners grow and succeed.", icon: Heart, color: "bg-[#FBBF24]" },
                  { title: "Sponsor", desc: "Sponsor education, change a life.", icon: Gift, color: "bg-[#8B5CF6]" }
                ].map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-4 p-5 hover:bg-slate-50 dark:hover:bg-white/5/50 transition-colors rounded-xl cursor-pointer">
-                     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-sm text-white ${item.color}`}>
-                        <item.icon className="w-6 h-6" />
+                  <div key={idx} className="flex items-center gap-5 p-2 lg:px-8 hover:translate-y-[-2px] transition-transform duration-300">
+                     <div className={`w-14 h-14 rounded-[16px] flex items-center justify-center shrink-0 shadow-md text-white ${item.color}`}>
+                        <item.icon className="w-7 h-7" />
                      </div>
                      <div>
-                        <h3 className={`font-black text-[18px] mb-0.5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{item.title}</h3>
-                        <p className={`text-[13px] leading-tight font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{item.desc}</p>
+                        <h3 className={`font-black text-[19px] mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{item.title}</h3>
+                        <p className={`text-[14px] leading-snug font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{item.desc}</p>
                      </div>
                   </div>
                ))}
@@ -161,14 +139,12 @@ export default function Home() {
 
       {/* ABOUT SECTION */}
       <section id="about" className={`relative w-full pt-32 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-         <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-blue-50'}`}>
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80" alt="Global Education" className={`w-full h-full object-cover ${isDarkMode ? 'opacity-40 mix-blend-overlay' : 'opacity-[0.07] mix-blend-multiply'}`} />
-            <div className={`absolute inset-0 bg-gradient-to-b ${isDarkMode ? 'from-blue-900/50 via-slate-900/80 to-slate-900' : 'from-white/50 via-blue-50/80 to-blue-50'}`}></div>
+         {/* Premium CSS Background */}
+         <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
+            <div className={`absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]`}></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#00D4FF]/10 dark:bg-[#00D4FF]/10 blur-[120px] rounded-full pointer-events-none"></div>
          </div>
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 font-bold text-sm tracking-wider uppercase ${isDarkMode ? 'bg-white/20 border-white/30 text-white shadow-lg backdrop-blur-md' : 'bg-white/80 border-slate-300 text-slate-800 shadow-sm backdrop-blur-md'}`}>
-               <Globe className="w-4 h-4" /> Discover EDOT
-            </div>
             <h1 className={`text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                Building a Better Future Through <span className={`${isDarkMode ? 'text-[#00D4FF]' : 'text-blue-600'}`}>Education</span>
             </h1>
@@ -182,10 +158,10 @@ export default function Home() {
       <section className={`pt-48 pb-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto">
             <div className="flex flex-col lg:flex-row gap-16 items-center">
-               <div className="flex-1 w-full relative rounded-[40px] overflow-hidden shadow-2xl h-[500px]">
-                  <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80" alt="Rural classroom" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-8">
-                     <p className="text-white font-medium text-lg leading-relaxed max-w-md">Millions of bright minds lack the structured resources needed to succeed.</p>
+               <div className={`flex-1 w-full relative rounded-[40px] flex items-center justify-center p-8 h-[500px] border transition-all duration-500 hover:-translate-y-2 ${isDarkMode ? 'bg-[#111827] border-white/5 shadow-2xl' : 'bg-white border-slate-100 shadow-[0_20px_50px_rgba(0,0,0,0.06)]'}`}>
+                  <img src="/images/problem_3d.png" alt="Educational challenges" className="w-full h-full object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.15)] transform hover:scale-105 transition-transform duration-700" />
+                  <div className={`absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-[85%] max-w-sm backdrop-blur-xl rounded-2xl p-5 shadow-2xl border text-center ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-100'}`}>
+                     <p className={`font-bold text-[15px] leading-tight ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>Millions of bright minds lack the structured resources needed to succeed.</p>
                   </div>
                </div>
                
@@ -251,8 +227,11 @@ export default function Home() {
                   </div>
                </div>
                
-               <div className="flex-1 w-full rounded-[40px] overflow-hidden shadow-2xl border-[6px] border-[#00D4FF]/10">
-                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Dashboard UI" className="w-full h-auto object-cover" />
+               <div className={`flex-1 w-full relative rounded-[40px] flex items-center justify-center p-8 h-[500px] border transition-all duration-500 hover:-translate-y-2 ${isDarkMode ? 'bg-[#111827] border-white/5 shadow-2xl' : 'bg-white border-slate-100 shadow-[0_20px_50px_rgba(0,0,0,0.06)]'}`}>
+                  <img src="/images/solution_3d.png" alt="Structured Learning Solution" className="w-full h-full object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.15)] transform hover:scale-105 transition-transform duration-700" />
+                  <div className={`absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-[85%] max-w-sm backdrop-blur-xl rounded-2xl p-5 shadow-2xl border text-center ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-100'}`}>
+                     <p className={`font-bold text-[15px] leading-tight ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>A clear, structured path from foundational concepts to mastery.</p>
+                  </div>
                </div>
             </div>
          </div>
@@ -413,11 +392,12 @@ export default function Home() {
       </section>
 
       {/* 8. REAL IMPACT, MEASURABLE GROWTH */}
-      <section className={`py-32 px-6 border-t relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-[#0B1120] border-slate-800'}`}>
-         {/* Background Image */}
+      <section className={`py-32 px-6 relative overflow-hidden bg-[#0B1120]`}>
+         {/* Premium Abstract Background */}
          <div className="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80" alt="Students celebrating" className="w-full h-full object-cover opacity-20 mix-blend-overlay" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120]/90 to-[#0B1120]/95"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+            <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[#F97316]/10 blur-[100px] rounded-full pointer-events-none"></div>
+            <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none"></div>
          </div>
 
          <div className="max-w-[1200px] mx-auto text-center relative z-10">

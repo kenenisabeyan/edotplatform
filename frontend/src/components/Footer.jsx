@@ -1,7 +1,7 @@
 import React from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import { Link } from 'react-router-dom';
-import { Phone, Linkedin, Github, Send, GraduationCap, Facebook, Youtube, Instagram } from 'lucide-react';
+import { Phone, Linkedin, Github, Send, GraduationCap, Facebook, Youtube, Instagram, MapPin } from 'lucide-react';
 
 export default function Footer() {
   const isDarkMode = useThemeMode();
@@ -69,6 +69,7 @@ export default function Footer() {
           <div className={`flex flex-wrap items-center gap-6 text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             <a href="tel:+251941177566" className="flex items-center gap-2 hover:text-[#00D4FF] transition-colors"><Phone className="w-3.5 h-3.5"/> +251 941 177 566</a>
             <a href="tel:+251962343967" className="flex items-center gap-2 hover:text-[#00D4FF] transition-colors"><Phone className="w-3.5 h-3.5"/> +251 962 343 967</a>
+            <span className="flex items-center gap-2 hover:text-[#00D4FF] transition-colors"><MapPin className="w-3.5 h-3.5"/> ADAMA near Adama Science and Technology University</span>
           </div>
           
           <div className="flex items-center gap-3">

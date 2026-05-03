@@ -13,6 +13,19 @@ import { PACKAGES } from '../constants/packages';
 export default function StudentCourses() {
   const navigate = useNavigate();
   const isDarkMode = useThemeMode();
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+  
+  useEffect(() => {
+    const fetchEnrollments = async () => {
+      try {
+        const { data } = await api.get('/student/enrollments');
+        setEnrolledCourses(data.data || []);
+      } catch (err) {
+        console.error('Failed to fetch enrollments', err);
+      }
+    };
+    fetchEnrollments();
+  }, []);
 
   return (
     <div className={`min-h-screen relative font-sans animate-in fade-in duration-500 z-0 flex flex-col ${isDarkMode ? 'bg-[#0B1120] text-slate-200' : 'bg-[#FAFAFA] text-slate-700'}`}>
@@ -44,9 +57,16 @@ export default function StudentCourses() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-10">
-          {PACKAGES.map((pkg, idx) => (
-            <PackageCard key={idx} pkg={pkg} isEnrolled={pkg.isEnrolled} isDarkMode={isDarkMode} />
-          ))}
+          {PACKAGES.map((pkg, idx) => {
+            const isPkgEnrolled = enrolledCourses.some(enrollment => 
+              pkg.courses.includes(enrollment.course?.title) || 
+              pkg.category === enrollment.course?.category ||
+              pkg.title.includes(enrollment.course?.category)
+            );
+            return (
+              <PackageCard key={idx} pkg={pkg} isEnrolled={isPkgEnrolled} isDarkMode={isDarkMode} />
+            );
+          })}
         </div>
       </div>
     </div>
