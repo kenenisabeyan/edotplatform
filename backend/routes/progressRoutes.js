@@ -125,7 +125,9 @@ router.post('/certificate', protect, checkNotBlocked, guardActiveEnrollment, asy
 
         if (course.isExamRequired) {
             const score = userProgress ? (userProgress.score || 0) : 0;
-            if (score >= 50) {
+            const hasPassed = (userProgress && userProgress.passedFinalExam) || score >= 50;
+            
+            if (hasPassed) {
                 if (userProgress && !userProgress.completed) {
                     await prisma.userCourseProgress.update({
                         where: { id: userProgress.id },

@@ -221,7 +221,7 @@ export default function Lesson() {
       console.error('Failed to generate certificate:', err);
       if (err.response?.data?.blocked_by?.length > 0) {
         const reasons = err.response.data.blocked_by.map(b => `${b.lesson}: ${b.reason}`).join('\n');
-        toast.error(`Certificate Denied:\n${reasons}`, { style: { whiteSpace: 'pre-wrap' } });
+        toast.error(`Certificate Denied:\n${reasons}`, { style: { whiteSpace: 'pre-wrap' }, duration: 8000 });
       } else {
         toast.error(err.response?.data?.message || 'Certificate generation failed. Make sure all requirements are met.');
       }

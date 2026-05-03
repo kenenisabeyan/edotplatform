@@ -75,10 +75,28 @@ export default function App() {
       <Toaster 
         position="top-right" 
         toastOptions={{
+          duration: 4000,
           style: {
-             background: isDarkMode ? '#0B1120' : '#fff',
-             color: isDarkMode ? '#fff' : '#0B1120',
-             border: isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid #E2E8F0'
+             background: isDarkMode ? 'rgba(11, 17, 32, 0.85)' : 'rgba(255, 255, 255, 0.85)',
+             backdropFilter: 'blur(16px)',
+             WebkitBackdropFilter: 'blur(16px)',
+             color: isDarkMode ? '#fff' : '#0f172a',
+             border: isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.05)',
+             boxShadow: isDarkMode ? '0 25px 50px -12px rgba(0,0,0,0.7), 0 0 20px rgba(0, 212, 255, 0.15)' : '0 25px 50px -12px rgba(0,0,0,0.15), 0 0 20px rgba(0,0,0,0.05)',
+             padding: '16px 20px',
+             borderRadius: '20px',
+             fontSize: '14px',
+             fontWeight: '600',
+             maxWidth: '450px',
+             lineHeight: '1.6',
+          },
+          success: {
+             iconTheme: { primary: '#10B981', secondary: isDarkMode ? '#0B1120' : '#fff' },
+             style: { borderLeft: '4px solid #10B981' }
+          },
+          error: {
+             iconTheme: { primary: '#EF4444', secondary: isDarkMode ? '#0B1120' : '#fff' },
+             style: { borderLeft: '4px solid #EF4444' }
           }
         }} 
       />

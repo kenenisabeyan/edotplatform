@@ -50,6 +50,34 @@ export default function SmartVideoPlayer({ url, ...props }) {
 
   if (!resolvedUrl) return <div className={`bg-black p-4 rounded ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No video URL provided.</div>;
 
+  const type = getVideoType(resolvedUrl);
+  
+  if (type === 'youtube') {
+    let ytId = '';
+    if (resolvedUrl.includes('youtu.be/')) {
+      ytId = resolvedUrl.split('youtu.be/')[1].split('?')[0];
+    } else if (resolvedUrl.includes('watch?v=')) {
+      ytId = resolvedUrl.split('watch?v=')[1].split('&')[0];
+    }
+    
+    if (ytId) {
+      return (
+        <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-gray-800">
+          <iframe
+            width="100%"
+            height="100%"
+            src={`https://www.youtube.com/embed/${ytId}?rel=0&showinfo=1${props.playing ? '&autoplay=1' : ''}`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute top-0 left-0 w-full h-full"
+          ></iframe>
+        </div>
+      );
+    }
+  }
+
   return (
     <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-gray-800">
       <ReactPlayer 
@@ -58,11 +86,6 @@ export default function SmartVideoPlayer({ url, ...props }) {
         height="100%" 
         controls 
         {...props} 
-        config={{
-          youtube: {
-            playerVars: { showinfo: 1 }
-          }
-        }}
       />
     </div>
   );
