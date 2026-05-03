@@ -13,13 +13,16 @@ router.post('/ping', protect, checkNotBlocked, guardActiveEnrollment, async (req
             return res.status(400).json({ success: false, message: 'Missing required progress data' });
         }
 
-        const course = await prisma.course.findUnique({ where: { id: courseId } });
+        const course = await prisma.course.findUnique({ 
+            where: { id: courseId },
+            include: { lessons: true }
+        });
         if (!course) {
             return res.status(404).json({ success: false, message: 'Course not found' });
         }
         
         const lessons = course.lessons ? (Array.isArray(course.lessons) ? course.lessons : [course.lessons]) : [];
-        const lesson = lessons.find(l => l.lesson_id === lessonId);
+        const lesson = lessons.find(l => l.id === lessonId);
         
         if (!lesson) {
             return res.status(404).json({ success: false, message: 'Lesson not found in this course' });
@@ -89,7 +92,10 @@ router.post('/certificate', protect, checkNotBlocked, guardActiveEnrollment, asy
         const { courseId } = req.body;
         const userId = req.user.id;
 
-        const course = await prisma.course.findUnique({ where: { id: courseId } });
+        const course = await prisma.course.findUnique({ 
+            where: { id: courseId },
+            include: { lessons: true }
+        });
         if (!course) {
             return res.status(404).json({ success: false, message: 'Course not found' });
         }
@@ -103,7 +109,7 @@ router.post('/certificate', protect, checkNotBlocked, guardActiveEnrollment, asy
         const missingLessons = [];
         
         for (const lesson of lessons) {
-            const lessonLog = userLogs.find(log => log.lessonId === lesson.lesson_id);
+            const lessonLog = userLogs.find(log => log.lessonId === lesson.id);
             
             if (!lessonLog) {
                 missingLessons.push({ lesson: lesson.title, reason: 'Video not started' });

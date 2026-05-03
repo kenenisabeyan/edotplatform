@@ -104,15 +104,25 @@ router.post('/courses/:courseId/enroll', async (req, res) => {
             data: {
                 studentId,
                 courseId,
-                status: 'pending'
+                status: 'active'
             }
         });
 
-        await logActivity(studentId, `Requested enrollment for ${course.title}`, 'learning', course.title, courseId);
+        await prisma.userCourseProgress.create({
+            data: {
+                userId: studentId,
+                courseId,
+                status: 'active',
+                progress: 0,
+                completedLessons: []
+            }
+        });
+
+        await logActivity(studentId, `Enrolled in ${course.title}`, 'learning', course.title, courseId);
 
         res.status(201).json({
             success: true,
-            message: 'Enrollment requested successfully. Waiting for admin approval.',
+            message: 'Enrollment successful. You can now access the course.',
             enrollment
         });
     } catch (error) {

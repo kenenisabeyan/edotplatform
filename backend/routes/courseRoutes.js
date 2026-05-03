@@ -190,7 +190,10 @@ router.get('/:id/content', protect, async (req, res) => {
             const enrollment = await prisma.enrollment.findFirst({
                 where: { studentId: userId, courseId: courseId, status: 'active' }
             });
-            isEnrolled = !!enrollment;
+            const progress = await prisma.userCourseProgress.findFirst({
+                where: { userId: userId, courseId: courseId }
+            });
+            isEnrolled = !!enrollment || !!progress;
         }
 
         if (!isInstructorOrAdmin && !isEnrolled) {

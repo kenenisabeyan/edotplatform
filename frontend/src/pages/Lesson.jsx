@@ -87,7 +87,7 @@ export default function Lesson() {
     fetchCourseData();
   }, [courseId, id, user]);
 
-  const isActive = enrollmentStatus === 'active';
+  const isActive = enrollmentStatus === 'active' || user?.role === 'admin' || user?.role === 'instructor';
   const isBlocked = user?.status === 'blocked';
 
   let completedList = [];
