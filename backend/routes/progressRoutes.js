@@ -102,28 +102,26 @@ router.post('/certificate', protect, checkNotBlocked, guardActiveEnrollment, asy
         
         const lessons = course.lessons ? (Array.isArray(course.lessons) ? course.lessons : [course.lessons]) : [];
 
-        const userLogs = await prisma.progressLog.findMany({ 
+        const userProgress = await prisma.userCourseProgress.findFirst({
             where: { userId, courseId }
         });
+
+        let completedLessonIds = [];
+        if (userProgress?.completedLessons) {
+            if (Array.isArray(userProgress.completedLessons)) {
+                completedLessonIds = userProgress.completedLessons;
+            } else if (typeof userProgress.completedLessons === 'string') {
+                try { completedLessonIds = JSON.parse(userProgress.completedLessons); } catch { /* ignore */ }
+            }
+        }
 
         const missingLessons = [];
         
         for (const lesson of lessons) {
-            const lessonLog = userLogs.find(log => log.lessonId === lesson.id);
-            
-            if (!lessonLog) {
-                missingLessons.push({ lesson: lesson.title, reason: 'Video not started' });
-                continue;
-            }
-
-            if (!lessonLog.isVideoComplete) {
-                missingLessons.push({ lesson: lesson.title, reason: 'Video watch time requirement not met. You must watch the video completely.' });
+            if (!completedLessonIds.includes(lesson.id)) {
+                missingLessons.push({ lesson: lesson.title, reason: 'Lesson phase assessment not completed.' });
             }
         }
-
-        const userProgress = await prisma.userCourseProgress.findFirst({
-            where: { userId, courseId }
-        });
 
         if (course.isExamRequired) {
             const score = userProgress ? (userProgress.score || 0) : 0;

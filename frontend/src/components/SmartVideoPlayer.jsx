@@ -36,8 +36,14 @@ export default function SmartVideoPlayer({ url, ...props }) {
   useEffect(() => {
     if (!url) return;
     let resolved = url;
-    if (url.toLowerCase().includes('cloudinary.com')) {
-       resolved = resolveCloudinaryUrl(url);
+    
+    const embedMatch = resolved.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/i);
+    if (embedMatch) {
+      resolved = `https://www.youtube.com/watch?v=${embedMatch[1]}`;
+    }
+    
+    if (resolved.toLowerCase().includes('cloudinary.com')) {
+       resolved = resolveCloudinaryUrl(resolved);
     }
     setResolvedUrl(resolved);
   }, [url]);

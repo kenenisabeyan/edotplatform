@@ -179,6 +179,11 @@ export default function Lesson() {
     
     cleanUrl = cleanUrl.replace(/\\/g, '/');
 
+    const embedMatch = cleanUrl.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/i);
+    if (embedMatch) {
+      cleanUrl = `https://www.youtube.com/watch?v=${embedMatch[1]}`;
+    }
+
     if (cleanUrl.startsWith('http://') || cleanUrl.startsWith('https://')) return cleanUrl;
     if (cleanUrl.startsWith('www.')) return `https://${cleanUrl}`;
     if (cleanUrl.includes('youtube.com') || cleanUrl.includes('youtu.be')) {
@@ -214,7 +219,12 @@ export default function Lesson() {
       }
     } catch (err) {
       console.error('Failed to generate certificate:', err);
-      toast.error(err.response?.data?.message || 'Certificate generation failed. Make sure all requirements are met.');
+      if (err.response?.data?.blocked_by?.length > 0) {
+        const reasons = err.response.data.blocked_by.map(b => `${b.lesson}: ${b.reason}`).join('\n');
+        toast.error(`Certificate Denied:\n${reasons}`, { style: { whiteSpace: 'pre-wrap' } });
+      } else {
+        toast.error(err.response?.data?.message || 'Certificate generation failed. Make sure all requirements are met.');
+      }
     } finally {
       setGeneratingCertificate(false);
     }
@@ -457,11 +467,7 @@ export default function Lesson() {
                               {/* Phase Completion Trigger */}
                               <div className={`pt-8 mt-6 border-t font-sans flex justify-center md:justify-end ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                                  <button
-                                    onClick={() => {
-                                       phaseLessons.forEach(lesson => {
-                                          if (!completedList.includes(lesson.id)) verifyPhaseCompletion(lesson.id);
-                                       });
-                                    }}
+                                    onClick={async () => { for (const lesson of phaseLessons) { if (!completedList.includes(lesson.id)) { await verifyPhaseCompletion(lesson.id); } } }}
                                     disabled={!isActive || lCompleted}
                                     className={`w-full md:w-auto px-8 py-5 font-black text-xs rounded-2xl transition-all flex items-center justify-center gap-3 ${
                                        lCompleted ? 'bg-[#00D4FF] text-white shadow-[0_0_20px_rgba(0,138,50,0.3)]' 
