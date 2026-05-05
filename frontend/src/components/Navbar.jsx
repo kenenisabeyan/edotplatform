@@ -60,7 +60,7 @@ export default function Navbar() {
     }`;
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? (isDarkMode ? 'bg-[#0B1120]/90 backdrop-blur-xl border-b border-white/5' : 'bg-white/95 backdrop-blur-xl border-b border-slate-200') : (isDarkMode ? 'bg-[#0B1120]' : 'bg-transparent')} py-4`}>
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? (isDarkMode ? 'bg-[#0B1120]/90 backdrop-blur-xl border-b border-white/10 shadow-lg' : 'bg-white/95 backdrop-blur-xl border-b border-slate-300 shadow-lg') : (isDarkMode ? (isTransparentDarkBg ? 'bg-transparent border-b border-white/10 shadow-sm' : 'bg-[#0B1120] border-b border-white/10 shadow-sm') : (isTransparentDarkBg ? 'bg-transparent border-b border-slate-300 shadow-sm' : 'bg-white border-b border-slate-300 shadow-sm'))} py-4`}>
       <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
         
         {/* LEFT: Logo */}

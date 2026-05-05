@@ -388,7 +388,7 @@ export default function EDOTLayout() {
       <main className="flex-1 flex flex-col min-w-0 h-screen max-h-screen bg-transparent transition-colors duration-300">
         
         {/* Top Header */}
-        <header className={`h-[88px] tilet-border-header border-b px-4 md:px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 transition-colors duration-300 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-[#FAFAFA] border-slate-200'}`}>
+        <header className={`h-[88px] tilet-border-header border-b-2 px-4 md:px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 transition-colors duration-300 shadow-lg ${isDarkMode ? 'bg-[#0B1120] border-white/20' : 'bg-[#FAFAFA] border-slate-300'}`}>
           
 
           

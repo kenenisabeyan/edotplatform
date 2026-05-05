@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useThemeMode from '../../hooks/useThemeMode';
-import { Globe, ShoppingCart, Lock, PlayCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Globe, ShoppingCart, Lock, Unlock, PlayCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 
@@ -13,7 +13,7 @@ const CATEGORY_DESCRIPTIONS = {
   "Personal Development": "Develop essential life skills like Leadership, Time Management, and Public Speaking. These courses focus on self-growth, productivity, and building a successful personal and professional life."
 };
 
-const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
+const PackageCard = ({ pkg, isEnrolled, enrolledCoursesData = [], isDarkMode }) => {
   const navigate = useNavigate();
   const [showCourses, setShowCourses] = useState(false);
 
@@ -139,20 +139,28 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
                      <div 
                        key={c.id || i}
                        onClick={() => {
-                         if (isEnrolled) {
-                           navigate('/dashboard');
+                         const courseTitleStr = c.title ? c.title : (typeof c === 'string' ? c : 'Untitled Course');
+                         const matchedCourse = enrolledCoursesData.find(e => e.course?.title === courseTitleStr);
+                         const enrolledCourseId = matchedCourse?.course?._id || matchedCourse?.course?.id;
+                         const pkgCourseId = c?._id || c?.id;
+                         const courseId = enrolledCourseId || pkgCourseId;
+                         if (courseId) {
+                           navigate(`/course/${courseId}`);
                          } else {
                            navigate('/courses');
                          }
                        }}
-                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 ${isEnrolled ? 'cursor-pointer' : 'cursor-default opacity-80'}`}
+                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 cursor-pointer ${enrolledCoursesData.some(e => e.course?.title === (c.title ? c.title : (typeof c === 'string' ? c : 'Untitled Course'))) ? '' : 'opacity-80 hover:opacity-100'}`}
                        style={{ 
                          background: `linear-gradient(135deg, ${pkg.color || '#6366f1'}, ${pkg.darkColor || '#4338ca'})`,
                          color: '#ffffff'
                        }}
                      >
-                       {!isEnrolled && <Lock className="w-3 h-3 text-white/80" />}
-                       <span>{c.title || c}</span>
+                       {enrolledCoursesData.some(e => e.course?.title === (c.title ? c.title : (typeof c === 'string' ? c : 'Untitled Course'))) 
+                         ? <Unlock className="w-3 h-3 text-white" />
+                         : <Lock className="w-3 h-3 text-white/80" />
+                       }
+                       <span>{c.title ? c.title : (typeof c === 'string' ? c : 'Untitled Course')}</span>
                      </div>
                   ))
                 ) : (
@@ -195,7 +203,15 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
         <div className="flex justify-center mt-auto pt-2">
           {isEnrolled ? (
             <button 
-              onClick={() => navigate('/dashboard')}
+              onClick={() => {
+                const firstEnrolled = enrolledCoursesData[0];
+                const courseId = firstEnrolled?.course?._id || firstEnrolled?.course?.id;
+                if (courseId) {
+                  navigate(`/course/${courseId}`);
+                } else {
+                  navigate('/dashboard');
+                }
+              }}
               className={`px-8 py-2.5 rounded-full font-bold text-[13px] flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-1 text-white`}
               style={{ 
                 backgroundColor: pkg.color || '#3B82F6',
@@ -206,7 +222,15 @@ const PackageCard = ({ pkg, isEnrolled, isDarkMode }) => {
             </button>
           ) : (
             <button 
-              onClick={() => navigate('/courses')}
+              onClick={() => {
+                const firstCourse = pkg.courses && pkg.courses.length > 0 ? pkg.courses[0] : null;
+                const courseId = firstCourse?._id || firstCourse?.id;
+                if (courseId) {
+                  navigate(`/course/${courseId}`);
+                } else {
+                  navigate('/courses');
+                }
+              }}
               className={`px-8 py-2.5 rounded-full font-bold text-[13px] flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-1 text-white`}
               style={{ 
                 backgroundColor: pkg.color || '#3B82F6',

@@ -14,6 +14,7 @@ export default function StudentCourses() {
   const navigate = useNavigate();
   const isDarkMode = useThemeMode();
   const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [dbCourses, setDbCourses] = useState([]);
   
   useEffect(() => {
     const fetchEnrollments = async () => {
@@ -24,7 +25,16 @@ export default function StudentCourses() {
         console.error('Failed to fetch enrollments', err);
       }
     };
+    const fetchAllCourses = async () => {
+      try {
+        const { data } = await api.get('/courses', { params: { limit: 100 } });
+        setDbCourses(data.courses || []);
+      } catch (err) {
+        console.error('Failed to fetch courses', err);
+      }
+    };
     fetchEnrollments();
+    fetchAllCourses();
   }, []);
 
   return (
@@ -58,13 +68,18 @@ export default function StudentCourses() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-10">
           {PACKAGES.map((pkg, idx) => {
-            const isPkgEnrolled = enrolledCourses.some(enrollment => 
+            const enrolledInPkg = enrolledCourses.filter(enrollment => 
               pkg.courses.includes(enrollment.course?.title) || 
               pkg.category === enrollment.course?.category ||
               pkg.title.includes(enrollment.course?.category)
             );
+            const isPkgEnrolled = enrolledInPkg.length > 0;
+            // Filter dbCourses to only include courses that match this package's category
+            const pkgCategoryName = pkg.title.replace(' Courses', '');
+            const pkgCourses = dbCourses.filter(c => c.mainCategory === pkgCategoryName);
+            
             return (
-              <PackageCard key={idx} pkg={pkg} isEnrolled={isPkgEnrolled} isDarkMode={isDarkMode} />
+              <PackageCard key={idx} pkg={{...pkg, courses: pkgCourses}} isEnrolled={isPkgEnrolled} enrolledCoursesData={enrolledInPkg} isDarkMode={isDarkMode} />
             );
           })}
         </div>

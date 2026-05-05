@@ -482,9 +482,15 @@ export default function StudentDashboard() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-[1200px]">
               {PACKAGES.map((pkg, idx) => {
-                const categoryKey = pkg.title.replace(" Courses", "").trim();
-                const matchedCourses = dbCourses.filter(c => c.mainCategory === categoryKey);
-                return <PackageCard key={idx} pkg={{...pkg, courses: matchedCourses.length > 0 ? matchedCourses : pkg.courses}} isEnrolled={pkg.isEnrolled} isDarkMode={isDarkMode} />
+                const pkgCategoryName = pkg.title.replace(' Courses', '');
+                const matchedCourses = dbCourses.filter(c => c.mainCategory === pkgCategoryName);
+                const enrolledInPkg = enrolledCourses.filter(enrollment => 
+                  pkg.courses.includes(enrollment.course?.title) || 
+                  pkg.category === enrollment.course?.category ||
+                  pkg.title.includes(enrollment.course?.category)
+                );
+                const isPkgEnrolled = enrolledInPkg.length > 0;
+                return <PackageCard key={idx} pkg={{...pkg, courses: matchedCourses}} isEnrolled={isPkgEnrolled} enrolledCoursesData={enrolledInPkg} isDarkMode={isDarkMode} />
               })}
             </div>
           </div>

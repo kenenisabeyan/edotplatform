@@ -258,7 +258,7 @@ export default function Lesson() {
       <div className={`fixed inset-0 pointer-events-none z-0 ${isDarkMode ? 'opacity-100' : 'opacity-20'}`} style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(0,212,255,0.15), transparent 35%), radial-gradient(circle at 80% 15%, rgba(249,115,22,0.10), transparent 40%), radial-gradient(circle at 50% 75%, rgba(0,212,255,0.05), transparent 45%)' }} />
 
       {/* Global Top Navigation Bar */}
-      <div className={`w-full backdrop-blur-xl border-b sticky top-0 z-50 ${isDarkMode ? 'bg-[#0B1120]/90 border-white/5' : 'bg-white/90 border-slate-200'}`}>
+      <div className={`w-full backdrop-blur-xl border-b sticky top-0 z-50 shadow-md transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120]/90 border-white/20' : 'bg-white/90 border-slate-300'}`}>
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <div className="flex items-center gap-6">
                 <Link to="/student/courses" className={`flex items-center gap-2 font-bold sm:text-white transition-colors px-4 py-2 rounded-lg border bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>

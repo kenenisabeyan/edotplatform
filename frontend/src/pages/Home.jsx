@@ -98,16 +98,22 @@ export default function Home() {
                </div>
                
                {/* RIGHT SIDE VIDEO */}
-               <div className="flex-1 w-full relative z-10 mt-12 lg:mt-0 lg:-mr-10 xl:-mr-16">
-                  <div className="relative w-full h-full max-w-[850px] ml-auto">
-                     <video 
-                        src={heroVideoUrl}
-                        autoPlay 
-                        loop 
-                        muted 
-                        playsInline
-                        className="w-full h-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-[24px]"
-                     />
+               <div className="flex-1 w-full relative z-10 mt-12 lg:mt-0 flex justify-center lg:justify-end">
+                  <div className="relative w-full lg:max-w-[680px] h-full flex flex-col justify-center">
+                     {/* Subtle Background Glow */}
+                     <div className={`absolute -inset-4 rounded-[32px] blur-3xl opacity-30 ${isDarkMode ? 'bg-[#F97316]' : 'bg-[#F97316]/50'} -z-10`}></div>
+                     
+                     {/* Video Container */}
+                     <div className={`relative rounded-[24px] overflow-hidden border-[6px] transition-transform duration-500 hover:scale-[1.02] ${isDarkMode ? 'border-[#1E293B] shadow-[0_20px_50px_rgba(0,0,0,0.5)]' : 'border-white shadow-[0_20px_50px_rgba(0,0,0,0.15)]'}`}>
+                        <video 
+                           src={heroVideoUrl}
+                           autoPlay 
+                           loop 
+                           muted 
+                           playsInline
+                           className="w-full h-[400px] lg:h-[450px] object-cover bg-black"
+                        />
+                     </div>
                   </div>
                </div>
 
@@ -500,13 +506,6 @@ export default function Home() {
       </section>
 
 
-
-      {/* Floating Action Button (Chat) */}
-      <div className="fixed bottom-8 right-8 z-50">
-         <button className="w-16 h-16 rounded-full bg-[#F97316] text-white flex items-center justify-center shadow-[0_15px_30px_rgba(249,115,22,0.4)] hover:scale-110 transition-transform duration-300">
-            <MessageSquare className="w-7 h-7" />
-         </button>
-      </div>
 
     </div>
   );
