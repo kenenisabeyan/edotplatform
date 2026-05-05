@@ -138,13 +138,13 @@ export default function CustomDropdown({
             {searchable && (
               <div className={`p-2 border-b shrink-0 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-100'}`}>
                 <div className="relative">
-                  <Search className={`w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
+                  <Search className={`w-3.5 h-3.5 absolute left-4 top-1/2 -translate-y-1/2 ml-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search..."
-                    className={`w-full pl-9 pr-3 py-1.5 border rounded-lg text-xs focus:outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'bg-[#0B1120] placeholder-slate-500 border-white/10 text-white' : 'bg-white placeholder-slate-400 border-slate-200 text-slate-900'}`}
+                    className={`w-full !pl-10 !pr-3 !py-1.5 border !rounded-full text-xs focus:outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'bg-[#0B1120] placeholder-slate-500 border-white/10 text-white' : 'bg-white placeholder-slate-400 border-slate-200 text-slate-900'}`}
                   />
                 </div>
               </div>

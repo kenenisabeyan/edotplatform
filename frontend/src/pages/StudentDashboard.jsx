@@ -563,9 +563,9 @@ export default function StudentDashboard() {
                         <input 
                             type="text" value={growthNote} onChange={e => setGrowthNote(e.target.value)}
                             placeholder="Set a new objective..."
-                            className={`flex-1 px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-[#f97316]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-slate-700 text-white placeholder:text-slate-500' : 'bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400'}`}
+                            className={`flex-1 !px-5 !py-2 border !rounded-full outline-none focus:ring-2 focus:ring-[#f97316]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-slate-700 text-white placeholder:text-slate-500' : 'bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400'}`}
                         />
-                        <button type="submit" className={`px-6 py-2 rounded-lg text-sm font-semibold bg-[#f97316] hover:bg-[#ea580c] shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Add</button>
+                        <button type="submit" className={`px-6 py-2 !rounded-full text-sm font-semibold bg-[#f97316] hover:bg-[#ea580c] shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Add</button>
                     </form>
                 </div>
              </div>
@@ -641,9 +641,9 @@ export default function StudentDashboard() {
           
           <div className="p-3 border-b border-slate-100">
             <div className="relative w-full">
-              <Search className={`w-4 h-4 absolute left-2 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
+              <Search className={`w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 ml-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
               <input type="text" placeholder="Search Downlines" 
-                className="w-full pl-8 pr-4 py-2 bg-transparent border-none text-xs outline-none text-slate-700 placeholder:text-slate-400" />
+                className="w-full !pl-10 !pr-4 !py-2 bg-transparent border !rounded-full text-xs outline-none text-slate-700 placeholder:text-slate-400 transition-all focus:border-[#F97316]/50" />
             </div>
           </div>
 

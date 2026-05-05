@@ -197,14 +197,14 @@ export default function ProfileView() {
                 
                 <div className="space-y-2">
                   <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Full Name</label>
-                  <div className={`relative border rounded-xl overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
+                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
                     <User className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                     <input 
                       type="text" 
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
+                      className={`w-full !pl-[3.25rem] !pr-5 !py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                       required 
                     />
                   </div>
@@ -212,7 +212,7 @@ export default function ProfileView() {
 
                 <div className="space-y-2">
                   <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Email Address</label>
-                  <div className={`relative border rounded-xl overflow-hidden opacity-50 ${isDarkMode ? 'border-white/5 bg-transparent text-slate-200' : 'border-slate-200 bg-slate-50 text-slate-600'}`}>
+                  <div className={`relative border !rounded-full overflow-hidden opacity-50 ${isDarkMode ? 'border-white/5 bg-transparent text-slate-200' : 'border-slate-200 bg-slate-50 text-slate-600'}`}>
                     <Mail className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
                     <input 
                       type="email" 
@@ -220,14 +220,14 @@ export default function ProfileView() {
                       value={formData.email}
                       onChange={handleChange}
                       disabled
-                      className="w-full pl-12 pr-4 py-3 bg-transparent font-medium cursor-not-allowed outline-none" 
+                      className="w-full !pl-[3.25rem] !pr-5 !py-3 bg-transparent font-medium cursor-not-allowed outline-none" 
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Phone Number</label>
-                  <div className={`relative border rounded-xl overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
+                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
                     <Phone className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                     <input 
                       type="tel" 
@@ -235,14 +235,14 @@ export default function ProfileView() {
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="+251 9XX XXX XXX"
-                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
+                      className={`w-full !pl-[3.25rem] !pr-5 !py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Gender</label>
-                  <div className={`relative border rounded-xl overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
+                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
                     <User className={`absolute left-4 top-3.5 w-5 h-5 z-10 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                     <CustomDropdown 
                       value={formData.gender}
@@ -261,21 +261,21 @@ export default function ProfileView() {
 
                 <div className="space-y-2">
                   <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Date of Birth</label>
-                  <div className={`relative border rounded-xl overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
+                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
                     <Calendar className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                     <input 
                       type="date" 
                       name="dateOfBirth"
                       value={formData.dateOfBirth}
                       onChange={handleChange}
-                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none ${isDarkMode ? 'bg-[#0B1120] text-white color-scheme-dark' : 'bg-white text-slate-900'}`} 
+                      className={`w-full !pl-[3.25rem] !pr-5 !py-3 font-medium outline-none ${isDarkMode ? 'bg-[#0B1120] text-white color-scheme-dark' : 'bg-white text-slate-900'}`} 
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
                   <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Address</label>
-                  <div className={`relative border rounded-xl overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
+                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
                     <MapPin className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                     <input 
                       type="text" 
@@ -283,7 +283,7 @@ export default function ProfileView() {
                       value={formData.address}
                       onChange={handleChange}
                       placeholder="e.g. Bole, Addis Ababa"
-                      className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
+                      className={`w-full !pl-[3.25rem] !pr-5 !py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                     />
                   </div>
                 </div>
@@ -291,7 +291,7 @@ export default function ProfileView() {
                 {user?.role === 'student' && (
                   <div className="space-y-2 md:col-span-2">
                     <label className={`text-xs font-black ${isDarkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>Emergency Contact</label>
-                    <div className={`relative border rounded-xl overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-emerald-500/50 focus-within:ring-emerald-500/50' : 'border-slate-300 focus-within:border-emerald-500 focus-within:ring-emerald-500'}`}>
+                    <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-emerald-500/50 focus-within:ring-emerald-500/50' : 'border-slate-300 focus-within:border-emerald-500 focus-within:ring-emerald-500'}`}>
                       <Phone className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                       <input 
                         type="text" 
@@ -299,7 +299,7 @@ export default function ProfileView() {
                         value={formData.emergencyContact}
                         onChange={handleChange}
                         placeholder="Name and Phone number"
-                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
+                        className={`w-full !pl-[3.25rem] !pr-5 !py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                       />
                     </div>
                   </div>
@@ -308,7 +308,7 @@ export default function ProfileView() {
                 {(user?.role === 'instructor' || user?.role === 'admin') && (
                   <div className="space-y-2">
                     <label className={`text-xs font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#D35400]'}`}>Department</label>
-                    <div className={`relative border rounded-xl overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#00D4FF]/50 focus-within:ring-[#00D4FF]/50' : 'border-slate-300 focus-within:border-[#D35400] focus-within:ring-[#D35400]'}`}>
+                    <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#00D4FF]/50 focus-within:ring-[#00D4FF]/50' : 'border-slate-300 focus-within:border-[#D35400] focus-within:ring-[#D35400]'}`}>
                       <Briefcase className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                       <input 
                         type="text" 
@@ -316,7 +316,7 @@ export default function ProfileView() {
                         value={formData.department}
                         onChange={handleChange}
                         placeholder="e.g. Computer Science"
-                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
+                        className={`w-full !pl-[3.25rem] !pr-5 !py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                       />
                     </div>
                   </div>
@@ -325,7 +325,7 @@ export default function ProfileView() {
                 {user?.role === 'instructor' && (
                   <div className="space-y-2">
                     <label className={`text-xs font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#D35400]'}`}>Specialization</label>
-                    <div className={`relative border rounded-xl overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#00D4FF]/50 focus-within:ring-[#00D4FF]/50' : 'border-slate-300 focus-within:border-[#D35400] focus-within:ring-[#D35400]'}`}>
+                    <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#00D4FF]/50 focus-within:ring-[#00D4FF]/50' : 'border-slate-300 focus-within:border-[#D35400] focus-within:ring-[#D35400]'}`}>
                       <Briefcase className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                       <input 
                         type="text" 
@@ -333,7 +333,7 @@ export default function ProfileView() {
                         value={formData.specialization}
                         onChange={handleChange}
                         placeholder="e.g. Web Development"
-                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
+                        className={`w-full !pl-[3.25rem] !pr-5 !py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                       />
                     </div>
                   </div>
@@ -342,7 +342,7 @@ export default function ProfileView() {
                 {user?.role === 'parent' && (
                   <div className="space-y-2 md:col-span-2">
                     <label className={`text-xs font-black ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>Occupation</label>
-                    <div className={`relative border rounded-xl overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-purple-500/50 focus-within:ring-purple-500/50' : 'border-slate-300 focus-within:border-purple-500 focus-within:ring-purple-500'}`}>
+                    <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-purple-500/50 focus-within:ring-purple-500/50' : 'border-slate-300 focus-within:border-purple-500 focus-within:ring-purple-500'}`}>
                       <Briefcase className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                       <input 
                         type="text" 
@@ -350,7 +350,7 @@ export default function ProfileView() {
                         value={formData.occupation}
                         onChange={handleChange}
                         placeholder="e.g. Engineer"
-                        className={`w-full pl-12 pr-4 py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
+                        className={`w-full !pl-[3.25rem] !pr-5 !py-3 font-medium outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`} 
                       />
                     </div>
                   </div>
@@ -364,7 +364,7 @@ export default function ProfileView() {
                     onChange={handleChange}
                     rows="4" 
                     placeholder="Tell us a little about yourself"
-                    className={`w-full p-4 border rounded-xl outline-none focus:ring-1 font-medium resize-none placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500'}`}
+                    className={`w-full !p-5 border !rounded-[2rem] outline-none focus:ring-1 font-medium resize-none placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500'}`}
                   ></textarea>
                 </div>
 

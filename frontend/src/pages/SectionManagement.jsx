@@ -132,7 +132,7 @@ export default function SectionManagement() {
                <form onSubmit={handleCreateSection} className="space-y-5">
                  <div>
                    <label className={`block text-xs font-bold mb-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Section Name</label>
-                   <input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="e.g. Batch 1, Group A" required className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#00D4FF]/50 transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
+                   <input type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="e.g. Batch 1, Group A" required className={`w-full border !rounded-full !px-5 !py-3 text-sm focus:outline-none focus:border-[#00D4FF]/50 transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
                  </div>
                  
                  <div>

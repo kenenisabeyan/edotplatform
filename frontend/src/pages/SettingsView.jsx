@@ -166,7 +166,7 @@ export default function SettingsView() {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className={`w-full p-3.5 border rounded-xl font-medium text-sm outline-none focus:ring-2 focus:border-transparent transition-all shadow-inner ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:ring-[#F97316] placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:ring-indigo-500 placeholder:text-slate-400'}`}
+          className={`w-full !px-5 !py-3.5 border !rounded-full font-medium text-sm outline-none focus:ring-2 focus:border-transparent transition-all shadow-inner ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:ring-[#F97316] placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:ring-indigo-500 placeholder:text-slate-400'}`}
         />
       </div>
     </div>
@@ -475,7 +475,7 @@ export default function SettingsView() {
                       value={connectEmail}
                       onChange={(e) => setConnectEmail(e.target.value)}
                       placeholder="parent@example.com"
-                      className={`flex-1 p-3.5 border rounded-xl font-semibold outline-none focus:ring-2 focus:ring-[#008A32] focus:border-transparent shadow-inner ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 placeholder:text-slate-400'}`}
+                      className={`flex-1 !px-5 !py-3.5 border !rounded-full font-semibold outline-none focus:ring-2 focus:ring-[#008A32] focus:border-transparent shadow-inner ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 placeholder:text-slate-400'}`}
                     />
                     <button 
                       type="button"

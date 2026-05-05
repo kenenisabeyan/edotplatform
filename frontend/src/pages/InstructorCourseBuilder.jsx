@@ -395,7 +395,7 @@ export default function InstructorCourseBuilder() {
                       value={formData.title} 
                       onChange={e => setFormData({...formData, title: e.target.value})} 
                       required 
-                      className={`w-full px-4 py-3 rounded-xl border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all placeholder:text-slate-300 font-semibold ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                      className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all placeholder:text-slate-300 font-semibold ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       placeholder="E.g., Complete Modern JavaScript Bootcamp" 
                     />
                   </div>
@@ -406,7 +406,7 @@ export default function InstructorCourseBuilder() {
                       value={formData.description} 
                       onChange={e => setFormData({...formData, description: e.target.value})} 
                       required 
-                      className={`w-full px-4 py-3 rounded-xl border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all resize-y placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                      className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all resize-y placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       rows="4" 
                       placeholder="What will students learn in this course? Detail the curriculum and learning outcomes."
                     ></textarea>
@@ -464,7 +464,7 @@ export default function InstructorCourseBuilder() {
                         value={formData.duration} 
                         onChange={e => setFormData({...formData, duration: Number(e.target.value)})} 
                         required 
-                        className={`w-full px-4 py-3 rounded-xl border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all font-semibold ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                        className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all font-semibold ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       />
                     </div>
                   </div>
@@ -500,7 +500,7 @@ export default function InstructorCourseBuilder() {
                       type="url" 
                       value={formData.thumbnail} 
                       onChange={e => setFormData({...formData, thumbnail: e.target.value})} 
-                      className={`w-full px-4 py-3 rounded-xl border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                      className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       placeholder="https://example.com/beautiful-course-cover.jpg" 
                     />
                     {formData.thumbnail && (
@@ -520,7 +520,7 @@ export default function InstructorCourseBuilder() {
                       type="url" 
                       value={formData.videoUrl} 
                       onChange={e => setFormData({...formData, videoUrl: e.target.value})} 
-                      className={`w-full px-4 py-3 rounded-xl border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                      className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       placeholder="Paste YouTube, Vimeo, or Drive link here for fast loading..." 
                     />
                     {formData.videoUrl && (
@@ -540,7 +540,7 @@ export default function InstructorCourseBuilder() {
                             type="text" 
                             value={item}
                             onChange={(e) => handleArrayChange('whatYouWillLearn', index, e.target.value)}
-                            className={`flex-1 px-4 py-2.5 rounded-lg border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all text-sm placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`flex-1 !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all text-sm placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             placeholder={`Learning outcome ${index + 1}`}
                           />
                           <button 
@@ -568,7 +568,7 @@ export default function InstructorCourseBuilder() {
                             type="text" 
                             value={item}
                             onChange={(e) => handleArrayChange('requirements', index, e.target.value)}
-                            className={`flex-1 px-4 py-2.5 rounded-lg border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all text-sm placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`flex-1 !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all text-sm placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             placeholder={`Requirement ${index + 1}`}
                           />
                           <button 
@@ -678,7 +678,7 @@ export default function InstructorCourseBuilder() {
                               onChange={e => setNewPhaseName(e.target.value)}
                               onKeyDown={(e) => { if(e.key === 'Enter') handleAddPhase(); }}
                               placeholder='e.g., Phase 1: Foundations'
-                              className={`w-full px-4 py-3 rounded-lg border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                              className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             />
                           </div>
                           <div className="flex gap-3 pt-4 mt-4">
@@ -719,7 +719,7 @@ export default function InstructorCourseBuilder() {
                             required 
                             value={lessonForm.title}
                             onChange={e => setLessonForm({...lessonForm, title: e.target.value})}
-                            className={`w-full px-4 py-2.5 rounded-lg border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`w-full !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                           />
                         </div>
                         <div>
@@ -728,7 +728,7 @@ export default function InstructorCourseBuilder() {
                             required 
                             value={lessonForm.description}
                             onChange={e => setLessonForm({...lessonForm, description: e.target.value})}
-                            className={`w-full px-4 py-2.5 rounded-lg border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none resize-y ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`w-full !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none resize-y ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             rows="2"
                           ></textarea>
                         </div>
@@ -747,7 +747,7 @@ export default function InstructorCourseBuilder() {
                                   if (e.target.value === '') setLastFetchedDurationUrl('');
                                 }}
                                 placeholder="Paste YouTube, Vimeo, or Drive URL here..."
-                                className={`flex-1 px-4 py-2.5 rounded-lg border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none min-w-0 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                                className={`flex-1 !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none min-w-0 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                               />
                             </div>
                             
@@ -775,7 +775,7 @@ export default function InstructorCourseBuilder() {
                               required min="1"
                               value={lessonForm.duration}
                               onChange={e => setLessonForm({...lessonForm, duration: Number(e.target.value)})}
-                              className={`w-full px-4 py-2.5 rounded-lg border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                              className={`w-full !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             />
                           </div>
                         </div>
@@ -803,7 +803,7 @@ export default function InstructorCourseBuilder() {
                           <textarea 
                             value={lessonForm.readingMaterials}
                             onChange={e => setLessonForm({...lessonForm, readingMaterials: e.target.value})}
-                            className={`w-full px-4 py-2.5 rounded-lg border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none min-h-[100px] placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`w-full !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none min-h-[100px] placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             placeholder="Add markdown notes, links, or text for students to read. Uploading a document inserts its link here."
                           ></textarea>
                         </div>

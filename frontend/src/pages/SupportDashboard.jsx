@@ -254,11 +254,11 @@ export default function SupportDashboard() {
             {/* Search/Filter Bar */}
             <div className="flex gap-4">
               <div className="flex-1 relative">
-                <Search className={`w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
+                <Search className={`w-[18px] h-[18px] absolute left-5 top-1/2 -translate-y-1/2 ml-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
                 <input 
                   type="text" 
                   placeholder="Search learners securely..."
-                  className={`w-full pl-12 pr-4 py-3 border rounded-full focus:outline-none transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white focus:border-indigo-500/50' : 'bg-slate-50 border-slate-200 text-slate-900 focus:border-indigo-500'}`}
+                  className={`w-full !pl-14 !pr-4 !py-3 border !rounded-full focus:outline-none transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white focus:border-indigo-500/50' : 'bg-slate-50 border-slate-200 text-slate-900 focus:border-indigo-500'}`}
                 />
               </div>
             </div>
@@ -413,7 +413,7 @@ export default function SupportDashboard() {
                        type="text" 
                        value={sponsorForm.studentId}
                        onChange={e => setSponsorForm({...sponsorForm, studentId: e.target.value})}
-                       className={`w-full border px-4 py-3 rounded-full focus:outline-none focus:border-indigo-500/50 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
+                       className={`w-full border !px-5 !py-3 !rounded-full focus:outline-none focus:border-[#F97316]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
                        placeholder="Enter the UUID of the student..."
                     />
                  </div>
@@ -426,7 +426,7 @@ export default function SupportDashboard() {
                        min="1"
                        value={sponsorForm.amount}
                        onChange={e => setSponsorForm({...sponsorForm, amount: e.target.value})}
-                       className={`w-full border px-4 py-3 rounded-full focus:outline-none focus:border-indigo-500/50 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
+                       className={`w-full border !px-5 !py-3 !rounded-full focus:outline-none focus:border-[#F97316]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
                     />
                  </div>
                  

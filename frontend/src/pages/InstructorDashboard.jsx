@@ -493,7 +493,7 @@ export default function InstructorDashboard() {
             <div className="relative w-full max-w-sm">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
               <input type="text" placeholder="Global Search (Students, Courses, Messages)..." 
-                className={`w-full pl-10 pr-20 py-2.5 border rounded-xl text-xs outline-none focus:ring-1 focus:ring-white/10 transition-all font-medium placeholder:text-slate-500 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
+                className={`w-full !pl-10 !pr-20 !py-2.5 border !rounded-full text-xs outline-none focus:ring-1 focus:ring-white/10 transition-all font-medium placeholder:text-slate-500 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
               <div className={`absolute right-2 top-1/2 -translate-y-1/2 bg-[#1A1E26] text-[9px] px-2 py-1 rounded font-bold border ${isDarkMode ? 'text-slate-400 border-white/5' : 'text-slate-500 border-slate-100'}`}>
                 CTRL + K
               </div>
@@ -548,7 +548,7 @@ export default function InstructorDashboard() {
                   value={lessonData.title} 
                   onChange={e => setLessonData({...lessonData, title: e.target.value})} 
                   required 
-                  className={`w-full px-6 py-4 font-bold border rounded-xl focus:ring-2 focus:ring-[#F97316] outline-none transition-all placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                  className={`w-full !px-6 !py-4 font-bold border !rounded-full focus:ring-2 focus:ring-[#F97316] outline-none transition-all placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                   placeholder="E.g., Quantum Algorithm Analysis" 
                 />
               </div>
@@ -559,7 +559,7 @@ export default function InstructorDashboard() {
                   value={lessonData.description} 
                   onChange={e => setLessonData({...lessonData, description: e.target.value})} 
                   required 
-                  className={`w-full px-6 py-4 font-medium border rounded-xl focus:ring-2 focus:ring-[#F97316] outline-none transition-all resize-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                  className={`w-full !px-6 !py-4 font-medium border !rounded-[2rem] focus:ring-2 focus:ring-[#F97316] outline-none transition-all resize-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                   rows="3" 
                   placeholder="Define operational expectations for this sector."
                 ></textarea>
@@ -573,7 +573,7 @@ export default function InstructorDashboard() {
                     value={lessonData.videoUrl} 
                     onChange={e => setLessonData({...lessonData, videoUrl: e.target.value})} 
                     required 
-                    className={`w-full px-6 py-4 font-bold border rounded-xl focus:ring-2 focus:ring-[#F97316] outline-none transition-all placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                    className={`w-full !px-6 !py-4 font-bold border !rounded-full focus:ring-2 focus:ring-[#F97316] outline-none transition-all placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                     placeholder="WSS:// or HTTP://" 
                   />
                 </div>
@@ -585,7 +585,7 @@ export default function InstructorDashboard() {
                     value={lessonData.duration} 
                     onChange={e => setLessonData({...lessonData, duration: Number(e.target.value)})} 
                     required 
-                    className={`w-full px-6 py-4 font-black border rounded-xl focus:ring-2 focus:ring-[#F97316] outline-none transition-all text-center ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                    className={`w-full !px-6 !py-4 font-black border !rounded-full focus:ring-2 focus:ring-[#F97316] outline-none transition-all text-center ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                   />
                 </div>
               </div>
@@ -594,7 +594,7 @@ export default function InstructorDashboard() {
                 <button 
                   type="button" 
                   onClick={() => setActiveCourseId(null)}
-                  className={`flex-1 py-4 px-6 bg-transparent font-black text-[11px] rounded-xl border hover:bg-white/5/5 hover:text-white transition-all shadow-sm ${isDarkMode ? 'text-slate-200 border-white/10' : 'text-slate-600 border-slate-200'}`}
+                  className={`flex-1 py-4 px-6 bg-transparent font-black text-[11px] !rounded-full border hover:bg-white/5/5 hover:text-white transition-all shadow-sm ${isDarkMode ? 'text-slate-200 border-white/10' : 'text-slate-600 border-slate-200'}`}
                 >
                   Terminate
                 </button>

@@ -310,13 +310,13 @@ export default function LibraryView() {
         <div className="flex flex-col items-end gap-2 w-full md:w-auto relative z-10">
           <div className="flex items-center gap-4 w-full md:w-auto">
             <div className="relative flex-1 md:w-72">
-              <Search className={`w-5 h-5 absolute left-4 top-3.5 group-focus-within:text-[#F97316] transition-colors ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />
+              <Search className={`w-[18px] h-[18px] absolute left-5 top-1/2 -translate-y-1/2 ml-0.5 group-focus-within:text-[#F97316] transition-colors ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />
               <input 
                 type="text" 
                 placeholder="Search resources..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-11 pr-4 py-3 border backdrop-blur-md rounded-xl outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 transition-all font-semibold placeholder:text-slate-300 shadow-inner ${isDarkMode ? 'border-white/10 bg-[#0B1120]/80 text-white' : 'border-slate-200 bg-white/90 text-slate-900'}`}
+                className={`w-full !pl-14 !pr-4 !py-3 border backdrop-blur-md !rounded-full outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 transition-all font-semibold placeholder:text-slate-300 shadow-inner ${isDarkMode ? 'border-white/10 bg-[#0B1120]/80 text-white' : 'border-slate-200 bg-white/90 text-slate-900'}`}
               />
             </div>
             {canUpload && !showUploadForm && (
@@ -443,7 +443,7 @@ export default function LibraryView() {
                     <input 
                       type="text" required placeholder="Advanced Mathematics Vol 2"
                       value={uploadData.title} onChange={(e) => setUploadData({ ...uploadData, title: e.target.value })}
-                      className={`w-full border text-base font-normal rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#F97316] placeholder-slate-500 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
+                      className={`w-full border text-base font-normal !rounded-full !px-5 !py-3 outline-none focus:ring-2 focus:ring-[#F97316] placeholder-slate-500 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
                     />
                 </div>
                 <div className="space-y-1">
@@ -451,7 +451,7 @@ export default function LibraryView() {
                     <input 
                       type="text" required placeholder="John Doe"
                       value={uploadData.author} onChange={(e) => setUploadData({ ...uploadData, author: e.target.value })}
-                      className={`w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#F97316] font-semibold placeholder-slate-500 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
+                      className={`w-full border !rounded-full !px-5 !py-3 outline-none focus:ring-2 focus:ring-[#F97316] font-semibold placeholder-slate-500 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
                     />
                 </div>
                 <div className="space-y-1">
@@ -806,7 +806,7 @@ export default function LibraryView() {
             <textarea
               value={reviewComment}
               onChange={(e) => setReviewComment(e.target.value)}
-              className={`w-full h-28 p-3 rounded-xl border outline-none mb-3 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
+              className={`w-full h-28 !p-5 !rounded-[2rem] border outline-none mb-3 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
               placeholder="Leave feedback or request corrections..."
             />
             <div className="flex gap-2 mb-4">

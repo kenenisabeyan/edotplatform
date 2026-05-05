@@ -105,12 +105,12 @@ export default function ParentLearners() {
             value={connectEmail}
             onChange={(e) => setConnectEmail(e.target.value)}
             placeholder="Student's registered email"
-            className={`w-full pl-5 pr-32 py-4 bg-[#0B1120] border placeholder-slate-500 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] transition-shadow shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+            className={`w-full !pl-5 pr-32 !py-4 bg-[#0B1120] border placeholder-slate-500 !rounded-full font-bold outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] transition-shadow shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
           />
           <button 
             onClick={handleConnectLearner}
             disabled={connecting || !connectEmail}
-            className={`absolute right-2 top-2 bottom-2 font-semibold text-sm px-6 rounded-xl hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+            className={`absolute right-2 top-2 bottom-2 font-semibold text-sm px-6 !rounded-full hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
           >
             {connecting ? 'Linking...' : 'Connect'}
           </button>
@@ -139,12 +139,12 @@ export default function ParentLearners() {
               value={connectEmail}
               onChange={(e) => setConnectEmail(e.target.value)}
               placeholder="Connect another learner email..."
-              className={`w-full pl-5 pr-28 py-3.5 bg-black/40 border placeholder-slate-500 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-[#F97316] transition-all shadow-inner backdrop-blur-md ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+              className={`w-full !pl-5 pr-28 !py-3.5 bg-black/40 border placeholder-slate-500 !rounded-full font-bold outline-none focus:ring-2 focus:ring-[#F97316] transition-all shadow-inner backdrop-blur-md ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
             />
             <button 
               onClick={handleConnectLearner}
               disabled={connecting || !connectEmail}
-              className={`absolute right-2 top-2 bottom-2 text-sm font-semibold px-4 rounded-xl hover:scale-105 transition-all disabled:opacity-50 disabled:transform-none bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`absolute right-2 top-2 bottom-2 text-sm font-semibold px-4 !rounded-full hover:scale-105 transition-all disabled:opacity-50 disabled:transform-none bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
             >
               {connecting ? '...' : 'Add'}
             </button>

@@ -113,14 +113,14 @@ export default function NoticeView() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 space-y-2">
                     <label className={`text-[10px] font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Announcement Title</label>
-                    <div className={`relative border rounded-xl overflow-hidden focus-within:ring-1 transition-all shadow-inner ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50 bg-[#0B1120]' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500 bg-white'}`}>
+                    <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all shadow-inner ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50 bg-[#0B1120]' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500 bg-white'}`}>
                       <input 
                         type="text" 
                         required
                         placeholder="e.g. End of Semester Examinations Update"
                         value={newNotice.title}
                         onChange={(e) => setNewNotice({ ...newNotice, title: e.target.value })}
-                        className={`w-full px-4 py-3.5 bg-transparent font-medium text-sm outline-none transition-colors ${isDarkMode ? 'text-white placeholder:text-slate-300' : 'text-slate-900 placeholder:text-slate-400'}`}
+                        className={`w-full !px-5 !py-3.5 bg-transparent font-medium text-sm outline-none transition-colors ${isDarkMode ? 'text-white placeholder:text-slate-300' : 'text-slate-900 placeholder:text-slate-400'}`}
                       />
                     </div>
                 </div>
@@ -149,7 +149,7 @@ export default function NoticeView() {
                   rows={5}
                   value={newNotice.content}
                   onChange={(e) => setNewNotice({ ...newNotice, content: e.target.value })}
-                  className={`w-full p-4 border rounded-xl outline-none focus:ring-1 font-medium resize-none shadow-inner transition-all text-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50 placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 placeholder:text-slate-400'}`}
+                  className={`w-full !p-5 border !rounded-[2rem] outline-none focus:ring-1 font-medium resize-none shadow-inner transition-all text-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50 placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 placeholder:text-slate-400'}`}
                 ></textarea>
             </div>
 

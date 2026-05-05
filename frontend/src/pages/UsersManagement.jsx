@@ -146,13 +146,13 @@ export default function UsersManagement() {
       <div className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
         <div className={`pb-4 border-b flex flex-wrap justify-between items-center gap-3 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
           <div className="relative w-full sm:w-72">
-            <Search className={`w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />
+            <Search className={`w-[18px] h-[18px] absolute left-5 top-1/2 -translate-y-1/2 ml-0.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />
             <input 
               type="text"
               placeholder="Search users..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full pl-9 pr-4 py-2 border rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#F97316] transition-shadow placeholder-slate-400 ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
+              className={`w-full !pl-14 !pr-4 !py-2.5 border !rounded-full text-sm outline-none focus:ring-2 focus:ring-[#F97316] transition-shadow placeholder-slate-400 ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
             />
           </div>
           <button
@@ -170,7 +170,7 @@ export default function UsersManagement() {
               value={newUser.name}
               onChange={(e) => setNewUser((prev) => ({ ...prev, name: e.target.value }))}
               placeholder="Full name"
-              className={`col-span-1 md:col-span-1 px-3 py-2 rounded-lg border bg-black/10 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               required
             />
             <input
@@ -178,7 +178,7 @@ export default function UsersManagement() {
               value={newUser.email}
               onChange={(e) => setNewUser((prev) => ({ ...prev, email: e.target.value }))}
               placeholder="Email address"
-              className={`col-span-1 md:col-span-1 px-3 py-2 rounded-lg border bg-black/10 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               required
             />
             <input
@@ -186,7 +186,7 @@ export default function UsersManagement() {
               value={newUser.password}
               onChange={(e) => setNewUser((prev) => ({ ...prev, password: e.target.value }))}
               placeholder="Temporary password"
-              className={`col-span-1 md:col-span-1 px-3 py-2 rounded-lg border bg-black/10 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               required
             />
             <CustomDropdown

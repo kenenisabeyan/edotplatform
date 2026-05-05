@@ -570,13 +570,16 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     <div className={`mt-4 pt-4 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                       <p className={`text-[10px] font-bold mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Bind New Learner</p>
                       <div className="flex gap-2">
-                        <input 
-                          type="text" 
-                          placeholder="Search student..." 
-                          value={childSearch} 
-                          onChange={(e) => setChildSearch(e.target.value)} 
-                          className={`w-1/3 px-3 py-2 rounded-xl bg-black/60 border text-xs outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
-                        />
+                        <div className="relative w-1/3">
+                          <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 ml-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
+                          <input 
+                            type="text" 
+                            placeholder="Search student..." 
+                            value={childSearch} 
+                            onChange={(e) => setChildSearch(e.target.value)} 
+                            className={`w-full !pl-11 !pr-4 !py-2 !rounded-full bg-black/60 border text-xs outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                          />
+                        </div>
                         <CustomDropdown
                           value={selectedChildId}
                           onChange={setSelectedChildId}
