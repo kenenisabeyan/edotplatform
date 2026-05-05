@@ -434,99 +434,111 @@ export default function MessagesView() {
     c.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const [activeTab, setActiveTab] = useState('All');
+
+  const filteredByTab = filteredContacts.filter(c => {
+    if (activeTab === 'All') return true;
+    if (activeTab === 'Groups') return c.type === 'group';
+    if (activeTab === 'Channels') return c.type === 'channel';
+    if (activeTab === 'Direct') return c.type === 'user';
+    return true;
+  });
+
   return (
-    <div className="h-[calc(100vh-88px)] md:h-[calc(100vh-88px)] flex flex-col md:-mx-8 lg:-mx-12 -mt-4 md:-mt-8 -mb-4 md:-mb-8 -mx-4 font-sans">
-      <div className={`shadow-sm flex-1 flex h-full relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
-         {/* Subtle EDOT Background ambient glow */}
-         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00D4FF]/10 blur-[120px] rounded-full pointer-events-none"></div>
-         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#F97316]/5 blur-[150px] rounded-full pointer-events-none"></div>
+    <div className="h-[calc(100vh-88px)] md:h-[calc(100vh-88px)] flex flex-col md:-mx-8 lg:-mx-12 -mt-4 md:-mt-8 -mb-4 md:-mb-8 -mx-4 font-sans bg-[#F8FAFC]">
+      <div className={`flex-1 flex h-full relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#F8FAFC]'}`}>
          
-         {/* Left Sidebar - EDOT Innovative Contact List */}
-         <div className={`w-full md:w-[320px] lg:w-[350px] border-r flex-col shrink-0 /60 backdrop-blur-2xl z-10 ${activeContact ? 'hidden md:flex' : 'flex'} ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
+         {/* Left Sidebar - Chat List */}
+         <div className={`w-full md:w-[340px] flex-col shrink-0 z-10 ${activeContact ? 'hidden md:flex' : 'flex'} ${isDarkMode ? 'bg-[#0B1120] border-r border-white/5' : 'bg-white border-r border-slate-200'}`}>
            {/* Sidebar Header */}
-           <div className={`p-4 flex items-center gap-4 border-b shrink-0 bg-transparent ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-             <div className="relative">
-               <button onClick={() => setShowLeftMenu(prev => !prev)} className={`w-10 h-10 border rounded-xl flex items-center justify-center hover:text-[#F97316] hover:border-[#F97316]/50 transition-all shadow-sm ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
+           <div className={`pt-4 px-4 pb-2 flex flex-col gap-4 bg-transparent`}>
+             <div className="flex items-center gap-3">
+               <button onClick={() => setShowLeftMenu(prev => !prev)} className={`w-10 h-10 rounded-full flex items-center justify-center hover:bg-slate-100 transition-all ${isDarkMode ? 'text-slate-300 hover:bg-[#1E293B]' : 'text-slate-600'}`}>
                   <Menu className="w-5 h-5" />
                </button>
-               {/* Elite EDOT Dropdown Menu */}
+               <div className="relative flex-1">
+                 <input 
+                   type="text" 
+                   placeholder="Search messages..." 
+                   value={searchQuery}
+                   onChange={(e) => setSearchQuery(e.target.value)}
+                   className={`w-full pl-10 pr-4 py-2.5 rounded-full text-[14px] focus:outline-none transition-all ${isDarkMode ? 'bg-[#1E293B] text-white placeholder-slate-400' : 'bg-slate-100 text-slate-900 placeholder-slate-500'}`}
+                 />
+                 <Search className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
+               </div>
+               
                {showLeftMenu && (
-                 <div className={`absolute left-0 top-full mt-2 w-64 bg-[#0B1120]/90 backdrop-blur-2xl rounded-2xl shadow-2xl py-2 z-50 border ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                   <div className={`px-4 py-2 text-xs font-bold text-slate-500 border-b mb-1 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Collaboration</div>
+                 <div className={`absolute left-4 top-16 w-64 rounded-2xl shadow-2xl py-2 z-50 border ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
                    <button onClick={() => {
-                      resetGroupForm();
-                      setGroupType('group');
-                      setNewGroupName('New Study Group');
-                      setShowGroupModal(true);
-                      setShowLeftMenu(false);
-                   }} className={`w-full text-left px-4 py-2.5 hover:bg-[#F97316]/10 hover:text-[#F97316] flex items-center gap-3 text-[14px] font-medium transition-colors ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><Users className="w-4 h-4" /> New Study Group</button>
+                      resetGroupForm(); setGroupType('group'); setNewGroupName('New Study Group'); setShowGroupModal(true); setShowLeftMenu(false);
+                   }} className={`w-full text-left px-4 py-3 flex items-center gap-3 text-[14px] font-medium transition-colors ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50 text-slate-700'}`}><Users className="w-4 h-4 text-[#00D4FF]" /> New Group</button>
                    <button onClick={() => {
-                      resetGroupForm();
-                      setGroupType('channel');
-                      setNewGroupName('New Announcement Channel');
-                      setShowGroupModal(true);
-                      setShowLeftMenu(false);
-                   }} className={`w-full text-left px-4 py-2.5 hover:bg-[#00D4FF]/10 hover:text-[#00D4FF] flex items-center gap-3 text-[14px] font-medium transition-colors ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><Users className="w-4 h-4" /> New Channel</button>
-                   <button onClick={() => {
-                      resetGroupForm();
-                      setGroupType('group');
-                      setNewGroupName(activeContact && activeContact.type === 'user' ? `Parent-Teacher Thread — ${activeContact.name}` : 'Parent-Teacher Thread');
-                      setSelectedGroupMembers(activeContact && activeContact.type === 'user' ? [activeContact] : []);
-                      setShowGroupModal(true);
-                      setShowLeftMenu(false);
-                   }} className={`w-full text-left px-4 py-2.5 hover:bg-[#00D4FF]/10 hover:text-[#00D4FF] flex items-center gap-3 text-[14px] font-medium transition-colors ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><Users className="w-4 h-4" /> Parent-Teacher Thread</button>
-                   <div className="h-px bg-white/5 my-1"></div>
-                   <button onClick={() => { handleOpenScheduleMeet(); setShowLeftMenu(false); }} className={`w-full text-left px-4 py-2.5 hover:bg-white/5 flex items-center gap-3 text-[14px] font-medium transition-colors ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><PhoneCall className="w-4 h-4" /> Meetings & Calls</button>
-                   <button onClick={() => { setShowPrivacyModal(true); setShowLeftMenu(false); }} className={`w-full text-left px-4 py-2.5 hover:bg-red-500/10 hover:text-red-400 flex items-center gap-3 text-[14px] font-medium transition-colors ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><Ban className="w-4 h-4" /> Block Active User</button>
+                      resetGroupForm(); setGroupType('channel'); setNewGroupName('New Announcement Channel'); setShowGroupModal(true); setShowLeftMenu(false);
+                   }} className={`w-full text-left px-4 py-3 flex items-center gap-3 text-[14px] font-medium transition-colors ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50 text-slate-700'}`}><Users className="w-4 h-4 text-[#00D4FF]" /> New Channel</button>
+                   <div className="h-px bg-slate-200 dark:bg-white/5 my-1"></div>
+                   <button onClick={() => { handleOpenScheduleMeet(); setShowLeftMenu(false); }} className={`w-full text-left px-4 py-3 flex items-center gap-3 text-[14px] font-medium transition-colors ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50 text-slate-700'}`}><PhoneCall className="w-4 h-4 text-green-500" /> Meetings & Calls</button>
                  </div>
                )}
              </div>
-             <div className="relative flex-1">
-               <input 
-                 type="text" 
-                 placeholder="Search network..." 
-                 value={searchQuery}
-                 onChange={(e) => setSearchQuery(e.target.value)}
-                 className={`w-full pl-10 pr-4 py-2.5 border placeholder-slate-500 rounded-xl text-[13px] font-medium focus:outline-none focus:ring-1 focus:ring-[#F97316]/50 focus:border-[#F97316]/50 transition-all shadow-inner ${isDarkMode ? 'bg-[#0B1120]/40 border-white/5 text-white' : 'bg-slate-50 border-slate-100 text-slate-900'}`}
-               />
-               <Search className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-[16px] h-[16px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
+             
+             {/* Tabs */}
+             <div className="flex items-center justify-between px-1">
+               {['All', 'Groups', 'Channels', 'Direct'].map(tab => (
+                 <button 
+                   key={tab}
+                   onClick={() => setActiveTab(tab)}
+                   className={`relative pb-2 text-[13px] font-semibold transition-colors ${activeTab === tab ? (isDarkMode ? 'text-[#00D4FF]' : 'text-[#00D4FF]') : (isDarkMode ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-800')}`}
+                 >
+                   {tab}
+                   {activeTab === tab && (
+                     <span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#00D4FF] rounded-t-full"></span>
+                   )}
+                 </button>
+               ))}
              </div>
            </div>
            
-           {/* EDOT User List Container */}
-           <div className="flex-1 overflow-y-auto bg-transparent custom-scrollbar px-2 py-2">
+           {/* Contact List */}
+           <div className="flex-1 overflow-y-auto custom-scrollbar">
              {loadingContacts ? (
-               <div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-[#F97316]" /></div>
-             ) : filteredContacts.length === 0 ? (
-               <div className="text-center p-8 text-slate-500 text-sm font-medium">No users found.</div>
+               <div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-[#00D4FF]" /></div>
+             ) : filteredByTab.length === 0 ? (
+               <div className="text-center p-8 text-slate-500 text-sm font-medium">No conversations found.</div>
              ) : (
-               filteredContacts.map(contact => (
+               filteredByTab.map(contact => (
                  <div 
                    key={contact.id} 
                    onClick={() => setActiveContact(contact)}
-                   className={`px-3 py-3 mb-1.5 rounded-xl flex items-center gap-4 cursor-pointer transition-all duration-300 border ${activeContact?.id === contact.id ? 'bg-[#0B1120] border-[#F97316]/30 shadow-[0_0_15px_rgba(255,215,0,0.05)] ' : 'bg-transparent border-transparent hover:bg-white/5/40 hover:border-white/5'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                   className={`px-4 py-3 flex items-center gap-3 cursor-pointer transition-colors relative ${activeContact?.id === contact.id ? (isDarkMode ? 'bg-[#1E293B]' : 'bg-[#E0F2FE]/50') : (isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-50')} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                  >
-                   <div className="relative">
-                     <div className={`w-12 h-12 rounded-[14px] flex items-center justify-center font-bold text-lg shrink-0 overflow-hidden shadow-inner ${activeContact?.id === contact.id ? 'bg-gradient-to-br from-[#F97316]/20 to-[#00D4FF]/20 text-[#F97316]' : 'bg-[#0B1120] border '} ${isDarkMode ? 'text-slate-300 border-white/5' : 'text-slate-500 border-slate-100'}`}>
-                       {contact.avatar && contact.avatar !== 'default-avatar.png' ? (
-                          <img src={`http://localhost:5000${contact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
-                       ) : (
-                          contact.name.charAt(0).toUpperCase()
-                       )}
+                   {activeContact?.id === contact.id && (
+                      <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#00D4FF] rounded-r-full"></div>
+                   )}
+                   <div className="relative ml-2">
+                     <div className={`p-[2px] rounded-full shadow-sm shrink-0 bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15]`}>
+                       <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shrink-0 overflow-hidden border-[3px] ${isDarkMode ? 'border-[#0B1120] bg-[#1E293B] text-[#00D4FF]' : 'border-white bg-[#E0F2FE] text-[#007AFF]'}`}>
+                         {contact.avatar && contact.avatar !== 'default-avatar.png' ? (
+                            <img src={`http://localhost:5000${contact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                         ) : (
+                            contact.name.charAt(0).toUpperCase()
+                         )}
+                       </div>
                      </div>
-                     {contact.isOnline && <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#00D4FF] border-[2.5px] border-[#0B1120] rounded-full shadow-[0_0_5px_rgba(0,138,50,0.5)]"></div>}
+                     {contact.isOnline && contact.type === 'user' && <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 rounded-full z-10 ${isDarkMode ? 'border-[#0B1120]' : 'border-white'}`}></div>}
                    </div>
                    <div className="flex-1 min-w-0">
-                     <div className="flex justify-between items-baseline mb-1">
-                       <h4 className={`font-semibold text-[14px] truncate  ${activeContact?.id === contact.id ? 'text-white' : 'text-slate-200'}`}>{contact.name}</h4>
-                       <span className="text-[10px]  font-bold  text-[#00D4FF] ml-2">Active</span>
+                     <div className="flex justify-between items-center mb-0.5">
+                       <h4 className={`font-semibold text-[15px] truncate ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{contact.name}</h4>
+                       <span className={`text-[11px] font-medium ${contact.unreadCount > 0 ? 'text-[#007AFF]' : (isDarkMode ? 'text-slate-400' : 'text-slate-500')}`}>
+                         Today
+                       </span>
                      </div>
                      <div className="flex justify-between items-center">
-                       <p className={`text-[12px] font-medium truncate ${activeContact?.id === contact.id ? 'text-[#F97316]/80' : 'text-slate-500'}`}>
-                         {contact.role || 'User'}
+                       <p className={`text-[13px] truncate pr-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                         {contact.role === 'Channel' ? 'Announcement Channel' : contact.role === 'Group' ? 'Group Chat' : contact.role || 'User'}
                        </p>
                        {contact.unreadCount > 0 && (
-                         <span className="bg-gradient-to-r from-[#F97316] to-[#F97316] text-[#0B1120] text-[11px] font-black px-2 py-0.5 rounded-full min-w-[20px] text-center shadow-[0_0_10px_rgba(255,215,0,0.3)]">
+                         <span className="bg-[#007AFF] text-white text-[11px] font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center shrink-0">
                            {contact.unreadCount > 99 ? '99+' : contact.unreadCount}
                          </span>
                        )}
@@ -538,170 +550,183 @@ export default function MessagesView() {
            </div>
          </div>
 
-         {/* Right Sidebar - Chat Interface EDOT Elite Aesthetic */}
-         <div className={`flex-1 flex flex-col bg-transparent relative z-10 ${activeContact ? 'flex' : 'hidden md:flex'}`}>
-            <div className="absolute inset-0 max-w-full z-0 pointer-events-none opacity-[0.03]" style={{backgroundImage: 'radial-gradient(circle at center, #F97316 1px, transparent 1px)', backgroundSize: '32px 32px'}}></div>
+         {/* Right Area - Chat Interface */}
+         <div className={`flex-1 flex flex-col relative z-10 ${activeContact ? 'flex' : 'hidden md:flex'} ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#F8FAFC]'}`}>
+            
+            {/* Minimal Background Pattern for Chat Area */}
+            <div className={`absolute inset-0 z-0 pointer-events-none ${isDarkMode ? 'opacity-[0.02]' : 'opacity-[0.03]'}`} style={{backgroundImage: 'radial-gradient(circle at center, #000 1px, transparent 1px)', backgroundSize: '24px 24px'}}></div>
             
             {!activeContact ? (
               <div className={`flex-1 flex flex-col items-center justify-center relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                <div className="w-24 h-24 mb-6 relative">
-                  <div className="absolute inset-0 bg-[#F97316] blur-xl opacity-20 rounded-full animate-pulse"></div>
-                  <div className={`relative w-full h-full border shadow-xl rounded-full flex items-center justify-center ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-slate-50 border-slate-200'}`}>
-                    <span className="text-3xl">✨</span>
-                  </div>
+                <div className="w-20 h-20 mb-4 rounded-full flex items-center justify-center bg-slate-200 dark:bg-slate-800">
+                  <span className="text-3xl">💬</span>
                 </div>
-                <h2 className={`text-2xl font-display font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Workspace Hub</h2>
-                <p className={`max-w-md text-center text-sm font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Select a colleague, learner, or guardian to begin collaborating in real-time.</p>
+                <h2 className="text-xl font-semibold mb-1">Select a chat to start messaging</h2>
+                <p className="text-sm text-slate-500">Connect with your network and collaborate seamlessly.</p>
               </div>
             ) : (
               <>
-                {/* Elite Hub Header */}
-                <div className={`h-[72px] border-b flex justify-between items-center px-6 backdrop-blur-2xl shrink-0 z-20 ${isDarkMode ? 'border-white/5 bg-[#0B1120]/80' : 'border-slate-100 bg-white/90'}`}>
-                  <div className="flex items-center gap-4">
+                {/* Chat Header */}
+                <div className={`h-[68px] border-b flex justify-between items-center px-4 md:px-6 shrink-0 z-20 ${isDarkMode ? 'border-white/5 bg-[#1E293B]' : 'border-slate-200 bg-white'}`}>
+                  <div className="flex items-center gap-3">
                     <button 
                       onClick={() => setActiveContact(null)}
-                      className={`md:hidden p-2 hover:text-white rounded-lg transition-colors flex items-center justify-center ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
+                      className={`md:hidden p-2 rounded-full transition-colors flex items-center justify-center ${isDarkMode ? 'text-slate-300 hover:bg-white/10' : 'text-slate-600 hover:bg-slate-100'}`}
                     >
                       <ArrowLeft className="w-5 h-5" />
                     </button>
-                    <div className="relative cursor-pointer group">
-                      <div className={`w-11 h-11 rounded-xl border text-[#F97316] flex items-center justify-center font-bold text-[16px] shadow-sm shrink-0 overflow-hidden transition-transform group-hover:scale-105 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
-                        {activeContact.avatar && activeContact.avatar !== 'default-avatar.png' ? (
-                          <img src={`http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
-                        ) : (
-                          activeContact.name.charAt(0).toUpperCase()
-                        )}
+                    <div className="relative cursor-pointer">
+                      <div className={`p-[2px] rounded-full shrink-0 bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15]`}>
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-[15px] shrink-0 overflow-hidden border-[2.5px] ${isDarkMode ? 'border-[#1E293B] bg-[#1E293B] text-[#00D4FF]' : 'border-white bg-[#E0F2FE] text-[#007AFF]'}`}>
+                          {activeContact.avatar && activeContact.avatar !== 'default-avatar.png' ? (
+                            <img src={`http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                          ) : (
+                            activeContact.name.charAt(0).toUpperCase()
+                          )}
+                        </div>
                       </div>
                     </div>
-                    <div className="cursor-pointer">
-                      <h3 className={`font-bold text-[16px] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activeContact.name}</h3>
-                      <div className="flex items-center gap-2 mt-0.5">
-                         <span className="w-1.5 h-1.5 rounded-full bg-[#00D4FF] shadow-[0_0_5px_rgba(0,138,50,0.8)]"></span>
-                         <p className={`text-[12px] font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{activeContact.type === 'channel' ? 'Channel' : activeContact.type === 'group' ? 'Group' : 'Online'}</p>
-                      </div>
+                    <div className="cursor-pointer" onClick={() => activeContact?.type !== 'user' && setShowMembersModal(true)}>
+                      <h3 className={`font-semibold text-[15px] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activeContact.name}</h3>
+                      {activeContact.type === 'group' || activeContact.type === 'channel' ? (
+                        <p className={`text-[12px] ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#007AFF]'}`}>
+                           {activeGroupDetails?.members?.length || 1} members
+                           <span className="text-slate-400 mx-1">•</span> 
+                           <span className="text-slate-400">{activeContact.type === 'channel' ? 'Announcement Channel' : 'Group Chat'}</span>
+                        </p>
+                      ) : (
+                        <p className={`text-[12px] ${activeContact?.isOnline ? (isDarkMode ? 'text-[#00D4FF]' : 'text-[#007AFF]') : 'text-slate-400'}`}>
+                           {activeContact?.isOnline ? 'Online' : 'Offline'}
+                        </p>
+                      )}
                     </div>
                   </div>
-                  <div className={`flex items-center gap-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                    <button onClick={handleOpenScheduleMeet} className={`px-3 py-1.5 hidden lg:flex items-center gap-2 rounded-lg text-sm font-semibold transition-colors border max-h-9 mr-1 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                      <span>Schedule Meet</span>
-                    </button>
-                    <button onClick={() => handleStartCall('audio')} className="w-9 h-9 flex items-center justify-center hover:bg-white/5 hover:text-[#00D4FF] rounded-lg transition-colors border border-transparent hover:border-white/10"><Phone className="w-[18px] h-[18px]" /></button>
-                    <button onClick={() => handleStartCall('video')} className="w-9 h-9 flex items-center justify-center hover:bg-white/5 hover:text-[#00D4FF] rounded-lg transition-colors border border-transparent hover:border-white/10"><Video className="w-[18px] h-[18px]" /></button>
-                    <div className="w-px h-5 bg-white/10 mx-1"></div>
-                    {activeContact?.type === 'user' && (
-                      <button onClick={handleBlockUser} className={`w-9 h-9 flex items-center justify-center hover:bg-white/5 ${isBlocked ? 'text-red-500 hover:text-red-400' : 'text-slate-400 hover:text-red-500'} rounded-lg transition-colors border border-transparent hover:border-white/10 hidden sm:flex`} title="Block User">
-                         <Ban className="w-[18px] h-[18px]" />
-                      </button>
-                    )}
-                    <button className="w-9 h-9 flex items-center justify-center hover:bg-white/5 hover:text-[#F97316] rounded-lg transition-colors border border-transparent hover:border-white/10 hidden sm:flex"><Search className="w-[18px] h-[18px]" /></button>
-                    <div className="relative hidden sm:flex">
-                      <button onClick={() => setShowMoreMenu(prev => !prev)} className={`w-9 h-9 flex items-center justify-center hover:bg-white/5 rounded-lg transition-colors border border-transparent hover:border-white/10 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                        <MoreVertical className="w-[18px] h-[18px]" />
+                  <div className={`flex items-center gap-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    <button onClick={() => handleStartCall('audio')} className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}><Phone className="w-5 h-5" /></button>
+                    <button onClick={() => handleStartCall('video')} className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}><Video className="w-5 h-5" /></button>
+                    <button className={`w-10 h-10 hidden sm:flex items-center justify-center rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}><Search className="w-5 h-5" /></button>
+                    <div className="relative">
+                      <button onClick={() => setShowMoreMenu(prev => !prev)} className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}>
+                        <MoreVertical className="w-5 h-5" />
                       </button>
                       {showMoreMenu && (
-                        <div className={`absolute right-0 mt-2 w-56 bg-[#0B1120]/95 backdrop-blur-2xl rounded-2xl shadow-2xl border overflow-hidden z-[100] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                          <button onClick={() => { handleOpenScheduleMeet(); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Schedule Meet</button>
-                          <button onClick={() => { handleStartCall('audio'); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Start Audio</button>
-                          <button onClick={() => { handleStartCall('video'); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Start Video</button>
-                          {activeContact?.type !== 'user' && activeContact?.type !== undefined && (
+                        <div className={`absolute right-0 mt-2 w-56 rounded-2xl shadow-xl border overflow-hidden z-[100] ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
+                          <button onClick={() => { handleOpenScheduleMeet(); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 transition-colors flex items-center gap-3 text-[14px] ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50 text-slate-700'}`}><PhoneCall className="w-4 h-4 text-green-500" /> Schedule Meet</button>
+                          {activeContact?.type !== 'user' && (
                             <>
-                              <button onClick={() => { setShowMembersModal(true); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Manage Members</button>
-                              <button onClick={() => { handleLeaveGroup(); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{activeContact?.adminId === user?.id ? 'Leave or Transfer' : 'Leave Chat'}</button>
+                              <button onClick={() => { setShowMembersModal(true); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 transition-colors flex items-center gap-3 text-[14px] ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50 text-slate-700'}`}><Users className="w-4 h-4 text-blue-500" /> Manage Members</button>
+                              <button onClick={() => { handleLeaveGroup(); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 transition-colors flex items-center gap-3 text-[14px] ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50 text-slate-700'}`}><ArrowLeft className="w-4 h-4 text-red-500" /> {activeContact?.adminId === user?.id ? 'Leave or Transfer' : 'Leave Chat'}</button>
                             </>
                           )}
-                          <button onClick={() => { setShowBlockedModal(true); loadBlockedUsers(); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Blocked Users</button>
+                          {activeContact?.type === 'user' && (
+                             <button onClick={() => { setShowPrivacyModal(true); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 transition-colors flex items-center gap-3 text-[14px] ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50 text-slate-700'}`}><Ban className="w-4 h-4 text-red-500" /> Block User</button>
+                          )}
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
 
-                {/* EDOT Elite Chat Bubbles */}
-                <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-transparent relative z-10 space-y-5">
+                {/* Chat Bubbles Area */}
+                <div className="flex-1 overflow-y-auto p-4 md:p-6 relative z-10 flex flex-col gap-4 custom-scrollbar">
                   {loadingMessages ? (
-                    <div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-[#F97316]" /></div>
+                    <div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-[#00D4FF]" /></div>
                   ) : messages.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full mt-10">
-                       <div className={`backdrop-blur-md border rounded-2xl p-6 max-w-sm text-center shadow-lg ${isDarkMode ? 'bg-[#0B1120]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
-                          <span className="text-3xl mb-3 block">💬</span>
-                          <h4 className={`font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Start Collaborating</h4>
-                          <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Send a message, an assignment file, or schedule a meet directly here.</p>
+                    <div className="flex flex-col items-center justify-center h-full mt-10 opacity-70">
+                       <div className={`rounded-full w-16 h-16 flex items-center justify-center mb-4 ${isDarkMode ? 'bg-[#1E293B]' : 'bg-slate-200'}`}>
+                          <span className="text-2xl">👋</span>
                        </div>
+                       <p className={`text-sm font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Say hello and start the conversation!</p>
                     </div>
                   ) : (
                     messages.map((msg, idx) => {
-                      const isMine = msg.senderId === user?.id || msg.receiverId === user?.id;
+                      const isMine = msg.senderId === user?.id;
                       const timeString = new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                      const showAvatar = !isMine && (idx === 0 || messages[idx-1].senderId !== msg.senderId);
 
                       return (
-                        <div key={msg.id || idx} className={`flex w-full items-end gap-3 ${isMine ? 'justify-end' : 'justify-start'}`}>
+                        <div key={msg.id || idx} className={`flex w-full items-end gap-2 ${isMine ? 'justify-end' : 'justify-start'}`}>
                           
-                          {/* Received Avatar */}
                           {!isMine && (
-                            <div className={`w-8 h-8 rounded-lg border flex items-center justify-center font-bold text-[12px] shadow-sm shrink-0 overflow-hidden mt-auto mb-1 hidden md:flex ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-slate-300' : 'bg-slate-100 border-slate-200 text-slate-500'}`}>
-                              {activeContact.avatar && activeContact.avatar !== 'default-avatar.png' ? (
-                                <img src={`http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
-                              ) : (
-                                activeContact.name.charAt(0).toUpperCase()
-                              )}
+                            <div className="w-8 h-8 shrink-0 flex items-end">
+                               {showAvatar && (
+                                <div className={`p-[1.5px] rounded-full shrink-0 bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15]`}>
+                                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-[12px] overflow-hidden border-2 ${isDarkMode ? 'border-[#0B1120] bg-[#1E293B] text-[#00D4FF]' : 'border-[#F8FAFC] bg-[#E0F2FE] text-[#007AFF]'}`}>
+                                    {msg.sender?.avatar && msg.sender.avatar !== 'default-avatar.png' ? (
+                                      <img src={`http://localhost:5000${msg.sender.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                                    ) : (
+                                      (msg.sender?.name || activeContact.name).charAt(0).toUpperCase()
+                                    )}
+                                  </div>
+                                </div>
+                               )}
                             </div>
                           )}
 
                           <div className={`flex flex-col max-w-[85%] md:max-w-[65%] ${isMine ? 'items-end' : 'items-start'}`}>
-                            {/* Message Bubble Glassmorphic */}
-                            <div className={`p-4 shadow-lg text-[15px] leading-relaxed relative border backdrop-blur-xl ${isMine ? 'bg-gradient-to-br from-[#00D4FF]/80 to-[#0099CC]/90 border-[#F97316] rounded-2xl rounded-br-sm' : (isDarkMode ? 'bg-[#0B1120]/80 rounded-2xl rounded-bl-sm border-white/10' : 'bg-slate-100 rounded-2xl rounded-bl-sm border-slate-200')} ${isDarkMode ? 'text-white' : 'text-slate-900'}`} style={{ wordBreak: 'break-word' }}>
-                              <button onClick={() => setMessageMenuOpenId(prev => prev === msg.id ? null : msg.id)} className={`absolute top-3 right-3 w-8 h-8 hover:text-white rounded-full flex items-center justify-center transition-colors ${isDarkMode ? 'bg-black/20 text-slate-300' : 'bg-white/50 text-slate-500'}`}>
+                            {/* Message Bubble Telegram Style */}
+                            <div className={`px-4 py-2.5 text-[15px] leading-relaxed relative shadow-sm ${isMine ? (isDarkMode ? 'bg-[#00D4FF]/20 border border-[#00D4FF]/30 text-white rounded-[20px] rounded-br-[4px]' : 'bg-[#E0F2FE] text-slate-900 rounded-[20px] rounded-br-[4px]') : (isDarkMode ? 'bg-[#1E293B] text-white rounded-[20px] rounded-bl-[4px]' : 'bg-white text-slate-900 rounded-[20px] rounded-bl-[4px] border border-slate-100')}`} style={{ wordBreak: 'break-word' }}>
+                              
+                              {/* Group sender name if applicable */}
+                              {!isMine && showAvatar && (activeContact.type === 'group' || activeContact.type === 'channel') && (
+                                <p className={`text-[13px] font-semibold mb-1 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#007AFF]'}`}>
+                                   {msg.sender?.name || 'User'}
+                                </p>
+                              )}
+
+                              <button onClick={() => setMessageMenuOpenId(prev => prev === msg.id ? null : msg.id)} className={`absolute top-2 ${isMine ? '-left-8' : '-right-8'} w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`}>
                                 <MoreVertical className="w-4 h-4" />
                               </button>
+
                               {messageMenuOpenId === msg.id && (
-                                <div className={`absolute top-12 right-3 w-36 border rounded-2xl shadow-xl z-40 overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/95 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-                                  <button onClick={() => handleEditMessage(msg)} className={`w-full text-left px-3 py-2 transition-colors flex items-center gap-2 text-[13px] ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-100 text-slate-600'}`}> <Edit className="w-4 h-4" /> Edit</button>
-                                  <button onClick={() => handleDeleteMessage(msg.id)} className={`w-full text-left px-3 py-2 hover:bg-white/5 transition-colors flex items-center gap-2 text-[13px] ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}> <Trash2 className="w-4 h-4" /> Delete</button>
+                                <div className={`absolute top-8 ${isMine ? 'right-0' : 'left-0'} w-36 border rounded-xl shadow-xl z-40 overflow-hidden ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
+                                  {isMine && <button onClick={() => handleEditMessage(msg)} className={`w-full text-left px-3 py-2 transition-colors flex items-center gap-2 text-[13px] ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50 text-slate-700'}`}> <Edit className="w-4 h-4" /> Edit</button>}
+                                  {(isMine || user?.role === 'admin') && <button onClick={() => handleDeleteMessage(msg.id)} className={`w-full text-left px-3 py-2 transition-colors flex items-center gap-2 text-[13px] ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50 text-slate-700'}`}> <Trash2 className="w-4 h-4 text-red-500" /> Delete</button>}
                                 </div>
                               )}
                               
-                              {/* Attachment Rendering */}
                               {msg.attachmentUrl && msg.attachmentType === 'image' && (
-                                <div className={`mb-3 max-w-[280px] md:max-w-[340px] rounded-xl overflow-hidden border shadow-inner ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                                   <img src={`http://localhost:5000${msg.attachmentUrl}`} alt="Attachment" className="w-full h-auto object-cover cursor-pointer hover:opacity-90 transition-opacity" />
+                                <div className="mb-2 max-w-[280px] md:max-w-[340px] rounded-xl overflow-hidden mt-1">
+                                   <img src={`http://localhost:5000${msg.attachmentUrl}`} alt="Attachment" className="w-full h-auto object-cover cursor-pointer" />
                                 </div>
                               )}
                               {msg.attachmentUrl && msg.attachmentType === 'file' && (
-                                <a href={`http://localhost:5000${msg.attachmentUrl}`} target="_blank" rel="noreferrer" className={`flex items-center gap-3 mb-3 p-3 rounded-xl border transition-all ${isMine ? 'bg-black/20 border-black/10 hover:bg-black/30' : 'bg-white/5 hover:bg-white/10'} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 shadow-sm ${isMine ? 'bg-[#F97316]/20 text-[#F97316]' : 'bg-[#F97316]/10 text-[#F97316]'}`}>
+                                <a href={`http://localhost:5000${msg.attachmentUrl}`} target="_blank" rel="noreferrer" className={`flex items-center gap-3 mb-2 p-2.5 rounded-xl transition-all ${isMine ? (isDarkMode ? 'bg-black/20' : 'bg-blue-100/50') : (isDarkMode ? 'bg-white/5' : 'bg-slate-50')}`}>
+                                   <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isMine ? (isDarkMode ? 'bg-[#00D4FF]/30 text-[#00D4FF]' : 'bg-blue-200 text-blue-600') : (isDarkMode ? 'bg-white/10 text-white' : 'bg-slate-200 text-slate-600')}`}>
                                       <Paperclip className="w-5 h-5" />
                                    </div>
                                    <div className="flex-1 min-w-0 pr-2">
-                                      <p className={`text-[14px] font-bold truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Attachment</p>
-                                      <p className="text-[12px] opacity-80   font-semibold text-white/50">Click to View</p>
+                                      <p className="text-[14px] font-medium truncate">File Attachment</p>
                                    </div>
                                 </a>
                               )}
 
                               {editMessageId === msg.id ? (
-                                <form onSubmit={handleUpdateMessage} className="space-y-3">
+                                <form onSubmit={handleUpdateMessage} className="mt-1">
                                   <textarea
                                     value={editMessageContent}
                                     onChange={(e) => setEditMessageContent(e.target.value)}
-                                    className={`w-full min-h-[120px] resize-none rounded-2xl border p-3 text-sm focus:outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
+                                    className={`w-full min-w-[200px] min-h-[60px] resize-none rounded-lg p-2 text-sm focus:outline-none ${isDarkMode ? 'bg-black/20 text-white' : 'bg-white text-slate-900 border border-slate-200'}`}
                                   />
-                                  <div className="flex justify-end gap-2">
-                                    <button type="button" onClick={handleCancelEdit} className={`px-3 py-2 text-sm font-medium hover:text-white ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Cancel</button>
-                                    <button type="submit" className={`px-3 py-2 rounded-xl text-sm font-semibold bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Save</button>
+                                  <div className="flex justify-end gap-2 mt-2">
+                                    <button type="button" onClick={handleCancelEdit} className="text-xs font-semibold opacity-80">Cancel</button>
+                                    <button type="submit" className="text-xs font-semibold">Save</button>
                                   </div>
                                 </form>
                               ) : (
-                                <>
-                                  <span className="whitespace-pre-wrap block font-medium">{msg.content}</span>
-                                  <div className={`text-[10px]   font-bold mt-2 flex items-center justify-end gap-1.5 ${isMine ? 'text-[#F97316]' : 'text-slate-400'}`}>
-                                    <span>{timeString}</span>
+                                <div className="flex items-end gap-3 flex-wrap">
+                                  <span className="whitespace-pre-wrap">{msg.content}</span>
+                                  <div className="flex items-center gap-1 ml-auto mt-1 shrink-0">
+                                    <span className={`text-[10px] font-medium ${isMine ? (isDarkMode ? 'text-[#00D4FF]' : 'text-blue-500') : (isDarkMode ? 'text-slate-400' : 'text-slate-400')}`}>
+                                      {timeString}
+                                    </span>
                                     {isMine && (
-                                      <span className={`text-[12px] ${msg.isRead ? 'text-white' : 'opacity-70'}`}>
+                                      <span className={`text-[14px] leading-none ${msg.isRead ? 'text-[#007AFF]' : (isDarkMode ? 'text-[#00D4FF]' : 'text-blue-400')}`}>
                                         {msg.isRead ? '✓✓' : '✓'}
                                       </span>
                                     )}
                                   </div>
-                                </>
+                                </div>
                               )}
                             </div>
                           </div>
@@ -712,57 +737,49 @@ export default function MessagesView() {
                   <div ref={messagesEndRef} />
                 </div>
 
-                {/* Elite Floating Chat Input Area */}
-                <form onSubmit={handleSendMessage} className="p-4 bg-transparent shrink-0 z-20 flex flex-col items-center">
+                {/* Modern Chat Composer */}
+                <form onSubmit={handleSendMessage} className={`p-4 bg-transparent shrink-0 z-20 flex flex-col items-center ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#F8FAFC]'}`}>
                   
-                  {/* Selected File Preview Box */}
                   {selectedFile && (
-                     <div className={`w-full max-w-4xl backdrop-blur-xl border rounded-t-2xl p-4 flex items-center justify-between mb-0 shadow-xl relative z-0 transform translate-y-2 ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-slate-50/90 border-slate-200'}`}>
-                        <div className="flex items-center gap-4 min-w-0">
-                           <div className={`w-12 h-12 rounded-xl border border-[#F97316]/20 flex items-center justify-center shrink-0 overflow-hidden shadow-inner font-bold text-[#F97316] ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
+                     <div className={`w-full max-w-4xl rounded-2xl p-3 flex items-center justify-between mb-2 shadow-sm ${isDarkMode ? 'bg-[#1E293B] border border-white/10' : 'bg-white border border-slate-200'}`}>
+                        <div className="flex items-center gap-3 min-w-0">
+                           <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-100'}`}>
                               {selectedFile.type.startsWith('image/') ? (
                                   <img src={URL.createObjectURL(selectedFile)} alt="preview" className="w-full h-full object-cover" />
                               ) : (
-                                  <Paperclip className="w-5 h-5" />
+                                  <Paperclip className="w-5 h-5 text-slate-500" />
                               )}
                            </div>
                            <div className="min-w-0">
-                             <p className={`text-[14px] font-bold truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedFile.name}</p>
-                             <p className="text-[#F97316] text-[11px]   font-black mt-0.5">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                             <p className={`text-[13px] font-medium truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedFile.name}</p>
                            </div>
                         </div>
-                        <button type="button" onClick={() => setSelectedFile(null)} className={`w-8 h-8 flex items-center justify-center hover:text-white bg-white/5 hover:bg-[#E30A17]/20 hover:border-[#E30A17]/50 border border-transparent rounded-full transition-all shrink-0 shadow-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                           ✕
-                        </button>
+                        <button type="button" onClick={() => setSelectedFile(null)} className={`w-8 h-8 flex items-center justify-center rounded-full ${isDarkMode ? 'bg-white/10 hover:bg-red-500/20 text-slate-300' : 'bg-slate-100 hover:bg-red-50 text-slate-500'}`}>✕</button>
                      </div>
                   )}
 
-                  <div className={`flex items-end gap-2 backdrop-blur-2xl border ${selectedFile ? (isDarkMode ? 'border-white/10' : 'border-slate-200') + ' rounded-b-2xl rounded-t-none' : (isDarkMode ? 'border-white/5' : 'border-slate-200') + ' rounded-3xl'} p-2 w-full max-w-4xl shadow-2xl relative z-10 focus-within:border-[#F97316]/30 focus-within:shadow-[0_0_20px_rgba(255,215,0,0.05)] transition-all duration-300 ${isDarkMode ? 'bg-[#0B1120]/80' : 'bg-slate-50'}`}>
-                      <button type="button" className={`p-3 hover:text-[#F97316] rounded-xl transition-colors shrink-0 outline-none ${isDarkMode ? 'text-slate-400 hover:bg-white/5' : 'text-slate-500 hover:bg-slate-200'}`}><Smile className="w-6 h-6" /></button>
+                  <div className={`flex items-end gap-2 p-2.5 w-full max-w-4xl shadow-md transition-all duration-300 ${isDarkMode ? 'bg-[#1E293B] border border-white/20 rounded-full' : 'bg-[#F8FAFC] border border-slate-300 rounded-full'}`}>
+                      <button type="button" className={`p-2 rounded-full transition-colors shrink-0 outline-none self-end mb-0.5 ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}><Smile className="w-6 h-6" /></button>
                       <textarea 
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
                         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(e); } }}
-                        placeholder={isChannelReadOnly ? "Only channel admins may post here." : selectedFile ? "Add a descriptive caption..." : "Draft your message or paste code/links here..."} 
+                        placeholder={isChannelReadOnly ? "Only channel admins may post here." : "Type a message or paste code/links here..."} 
                         rows={1}
                         disabled={isChannelReadOnly}
-                        className={`flex-1 bg-transparent border-none focus:outline-none text-[15px] font-medium py-3.5 px-2 placeholder-slate-500 min-w-0 resize-none max-h-36 overflow-auto custom-scrollbar leading-[1.4] disabled:cursor-not-allowed disabled:text-slate-500 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                        className={`flex-1 border transition-all duration-200 focus:outline-none focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF]/20 text-[15px] font-medium py-3 px-4 placeholder-slate-400 min-w-0 resize-none max-h-36 overflow-auto custom-scrollbar leading-[1.4] disabled:cursor-not-allowed ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white rounded-2xl' : 'bg-white border-slate-200 text-slate-800 rounded-[14px]'}`}
                       />
-                      <div className="flex items-center self-end mb-1 mr-1">
-                        <button type="button" disabled={isChannelReadOnly} onClick={() => fileInputRef.current?.click()} className={`p-3 hover:text-[#00D4FF] rounded-xl hover:bg-[#00D4FF]/10 transition-colors shrink-0 outline-none disabled:cursor-not-allowed disabled:opacity-40 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                           <Paperclip className="w-6 h-6" />
+                      <div className="flex items-center gap-1 self-end mb-0.5">
+                        <button type="button" disabled={isChannelReadOnly} onClick={() => fileInputRef.current?.click()} className={`p-2 rounded-full transition-colors shrink-0 outline-none ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}>
+                           <Paperclip className="w-5 h-5" />
                         </button>
                         <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
-                        {isChannelReadOnly ? (
-                          <button type="button" disabled className={`w-[46px] h-[46px] rounded-xl transition-all flex items-center justify-center shrink-0 outline-none ml-2 border bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                            <span className="text-[11px]  tracking-[0.08em] font-semibold">Read-only</span>
-                          </button>
-                        ) : (newMessage.trim() || selectedFile) ? (
-                          <button type="submit" className={`w-[46px] h-[46px] rounded-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center shrink-0 border outline-none ml-2 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        {(newMessage.trim() || selectedFile) && !isChannelReadOnly ? (
+                          <button type="submit" className="w-[44px] h-[44px] rounded-xl transition-all flex items-center justify-center shrink-0 outline-none bg-[#00D4FF] hover:bg-[#00bfe6] text-slate-900 shadow-md ml-1 hover:shadow-lg">
                             <Send className="w-[20px] h-[20px] ml-1" />
                           </button>
                         ) : (
-                          <button type="button" className={`w-[46px] h-[46px] rounded-xl transition-all flex items-center justify-center shrink-0 outline-none ml-2 border bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                          <button type="button" disabled={isChannelReadOnly} className={`w-[44px] h-[44px] rounded-xl transition-all flex items-center justify-center shrink-0 outline-none ${isChannelReadOnly ? 'opacity-50 cursor-not-allowed' : ''} bg-[#00D4FF] hover:bg-[#00bfe6] text-slate-900 shadow-md ml-1 hover:shadow-lg`}>
                             <Mic className="w-[22px] h-[22px]" />
                           </button>
                         )}
@@ -773,8 +790,8 @@ export default function MessagesView() {
             )}
          </div>
       </div>
-
-      {/* Dynamic Render Modals */}
+      
+      {/* Existing Modals and logic handlers rendered below... */}
       {showAgendaModal && (
         <AgendaCreationModal 
            isOpen={showAgendaModal}
@@ -785,20 +802,13 @@ export default function MessagesView() {
            onAgendaCreated={(evt) => {
               setShowAgendaModal(false);
               if (!activeContact) return;
-              const payload = {
-                 content: `📅 I have scheduled a meet: "${evt.title}". Please check your calendar.`
-              };
-              if (activeContact?.type === 'group' || activeContact?.type === 'channel') {
-                 payload.groupId = activeContact.id;
-              } else {
-                 payload.receiverId = activeContact.id;
-              }
+              const payload = { content: `📅 I have scheduled a meet: "${evt.title}". Please check your calendar.` };
+              if (activeContact?.type === 'group' || activeContact?.type === 'channel') { payload.groupId = activeContact.id; }
+              else { payload.receiverId = activeContact.id; }
               api.post('/messages', payload).then(res => {
                  if (res.data.success) {
                     setMessages(prev => [...prev, res.data.data]);
-                    const roomId = activeContact?.type === 'group' || activeContact?.type === 'channel'
-                      ? `group_${activeContact.id}`
-                      : [user.id, activeContact.id].sort().join('_');
+                    const roomId = activeContact?.type === 'group' || activeContact?.type === 'channel' ? `group_${activeContact.id}` : [user.id, activeContact.id].sort().join('_');
                     socket.emit('send_message', { ...res.data.data, roomId });
                     scrollToBottom();
                  }
@@ -806,247 +816,37 @@ export default function MessagesView() {
            }}
         />
       )}
-
+      
+      {/* Call Modal */}
       {showCallModal && (
          <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-            <div className={`bg-[#0B1120] border w-full max-w-sm rounded-[32px] overflow-hidden shadow-2xl relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#008A32]/20 to-transparent pointer-events-none"></div>
+            <div className={`${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'} border w-full max-w-sm rounded-[32px] overflow-hidden shadow-2xl relative`}>
                <div className="p-8 flex flex-col items-center relative z-10">
-                  <div className={`w-24 h-24 rounded-2xl border border-[#F97316]/30 text-[#F97316] flex items-center justify-center text-4xl font-bold shadow-[0_0_30px_rgba(255,215,0,0.15)] mb-6 overflow-hidden relative ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
-                     {activeContact?.avatar && activeContact.avatar !== 'default-avatar.png' ? (
-                        <img src={`http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
-                     ) : (
-                        activeContact?.name.charAt(0).toUpperCase()
-                     )}
-                     {isCalling && (
-                        <div className="absolute inset-0 border-4 border-[#00D4FF] rounded-2xl animate-ping opacity-50"></div>
-                     )}
+                  <div className={`p-[3px] rounded-full mb-6 bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15]`}>
+                     <div className={`w-24 h-24 rounded-full flex items-center justify-center text-4xl font-bold overflow-hidden relative border-4 ${isDarkMode ? 'border-[#1E293B] bg-[#0B1120] text-[#00D4FF]' : 'border-white bg-[#E0F2FE] text-[#007AFF]'}`}>
+                        {activeContact?.avatar && activeContact.avatar !== 'default-avatar.png' ? (
+                           <img src={`http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                        ) : (
+                           activeContact?.name.charAt(0).toUpperCase()
+                        )}
+                     </div>
                   </div>
-                  <h3 className={`text-2xl font-bold mb-1 text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activeContact?.name}</h3>
-                  <p className="text-[#F97316] text-sm   font-semibold mb-10">
+                  <h3 className={`text-2xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activeContact?.name}</h3>
+                  <p className="text-[#00D4FF] text-sm font-semibold mb-10">
                      {isCalling ? `Dialing ${callType}...` : 'No Answer'}
                   </p>
                   
                   <div className="flex items-center gap-6">
-                     <button className={`w-14 h-14 rounded-full flex items-center justify-center transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                     <button className="w-14 h-14 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center transition-colors">
                         {callType === 'video' ? <Video className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
                      </button>
-                     <button onClick={() => setShowCallModal(false)} className={`w-16 h-16 bg-[#E30A17] hover:bg-[#E30A17]/80 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(227,10,23,0.4)] transition-all hover:scale-105 active:scale-95 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                     <button onClick={() => setShowCallModal(false)} className="w-16 h-16 bg-red-500 text-white hover:bg-red-600 rounded-full flex items-center justify-center transition-all hover:scale-105">
                         <Phone className="w-7 h-7 rotate-[135deg]" />
                      </button>
                   </div>
                </div>
             </div>
          </div>
-      )}
-
-      {/* Group Creation Inline Modal */}
-      {showGroupModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-2xl z-[100] flex items-center justify-center p-4">
-          <div className={`w-full max-w-6xl rounded-[32px] border border-[#F97316]/20 bg-[#0B1120]/95 shadow-[0_30px_90px_rgba(0,0,0,0.55)] overflow-hidden ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-            <div className={`flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 px-8 py-6 border-b bg-[#0B1120]/90 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-              <div className="space-y-3">
-                <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-[28px] bg-gradient-to-br from-[#F97316] to-[#008A32] p-[2px] shadow-lg shadow-[#008A32]/25">
-                    <div className={`w-full h-full rounded-[26px] bg-[#0B1120] flex items-center justify-center text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><Users className="w-7 h-7" /></div>
-                  </div>
-                  <div>
-                    <h2 className="text-3xl font-bold tracking-tight">{groupType === 'channel' ? 'Create Channel' : 'Create Group'}</h2>
-                    <p className={`text-sm mt-1 max-w-2xl ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Build a new chat space. Start with a name, add a description, and select who can join.</p>
-                  </div>
-                </div>
-                <div className={`flex flex-wrap gap-2 text-xs tracking-[0.22em] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                  <span className={`rounded-2xl border bg-white/5 px-3 py-2 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>{groupType === 'channel' ? 'Channel' : 'Group'}</span>
-                  <span className={`rounded-2xl border bg-white/5 px-3 py-2 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>Owner: You</span>
-                  <span className={`rounded-2xl border bg-white/5 px-3 py-2 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>{selectedGroupMembers.length} members</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <button type="button" onClick={() => setGroupType('group')} className={`rounded-full px-5 py-3 text-sm font-semibold transition ${groupType === 'group' ? 'bg-[#F97316]/15 border border-[#F97316] text-[#F97316]' : 'bg-[#0B1120] border hover:border-[#F97316]/40'} ${isDarkMode ? 'text-slate-300 border-white/10' : 'text-slate-500 border-slate-200'}`}>
-                  Group
-                </button>
-                <button type="button" onClick={() => setGroupType('channel')} className={`rounded-full px-5 py-3 text-sm font-semibold transition ${groupType === 'channel' ? 'bg-[#00D4FF]/15 border border-[#00D4FF] text-[#8CFFB3]' : 'bg-[#0B1120] border hover:border-[#00D4FF]/40'} ${isDarkMode ? 'text-slate-300 border-white/10' : 'text-slate-500 border-slate-200'}`}>
-                  Channel
-                </button>
-                <button onClick={() => { resetGroupForm(); setShowGroupModal(false); }} className={`hover:text-white text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Close</button>
-              </div>
-            </div>
-
-            <form onSubmit={handleCreateGroup} className="grid gap-6 xl:grid-cols-[1.2fr_0.85fr] px-8 py-8">
-              <div className="space-y-6">
-                <div className={`rounded-[28px] border bg-[#0B1120]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <div className={`text-sm tracking-[0.18em] mb-5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Chat Settings</div>
-                  <div className="space-y-5">
-                    <div>
-                      <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Name</label>
-                      <input
-                        type="text"
-                        required
-                        value={newGroupName}
-                        onChange={(e) => setNewGroupName(e.target.value)}
-                        className={`w-full rounded-3xl border bg-[#0B1120] px-4 py-3 outline-none transition focus:border-[#F97316]/40 focus:ring-1 focus:ring-[#F97316]/10 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
-                        placeholder="e.g. Computer Science Cohort A"
-                      />
-                    </div>
-                    <div>
-                      <label className={`block text-sm font-semibold mb-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Description</label>
-                      <textarea
-                        value={newGroupDescription}
-                        onChange={(e) => setNewGroupDescription(e.target.value)}
-                        className={`w-full min-h-[120px] rounded-3xl border bg-[#0B1120] px-4 py-3 outline-none transition focus:border-[#F97316]/40 focus:ring-1 focus:ring-[#F97316]/10 resize-none ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
-                        placeholder="Optional group description"
-                      />
-                    </div>
-                    <div className={
-                      `rounded-3xl px-4 py-3 text-sm ${groupType === 'channel' ? 'border border-[#00D4FF] bg-[#00D4FF]/10 text-[#C8FFDE]' : 'border border-[#F97316] bg-[#F97316]/10 text-[#FFF5C3]'}`
-                    }>
-                      {groupType === 'channel'
-                        ? 'Channel members are read-only by default. Only the owner can post announcements and updates.'
-                        : 'Group members can all participate in the chat once added.'}
-                    </div>
-                  </div>
-                </div>
-
-                <div className={`rounded-[28px] border bg-[#0B1120]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <div className={`text-sm tracking-[0.18em] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Add Participants</div>
-                      <div className="text-xs text-slate-500">Search your contacts and add them to this chat.</div>
-                    </div>
-                    <div className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{selectedGroupMembers.length} selected</div>
-                  </div>
-                  <input
-                    type="text"
-                    value={groupSearch}
-                    onChange={(e) => setGroupSearch(e.target.value)}
-                    placeholder="Search contacts to add"
-                    className={`w-full rounded-3xl border bg-[#0B1120] px-4 py-3 outline-none transition focus:border-[#F97316]/40 focus:ring-1 focus:ring-[#F97316]/10 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
-                  />
-                  <div className="max-h-[300px] overflow-y-auto mt-5 space-y-3 pr-1 custom-scrollbar">
-                    {groupableContacts.filter(contact => contact.name.toLowerCase().includes(groupSearch.toLowerCase())).map(contact => (
-                      <button
-                        type="button"
-                        key={contact.id}
-                        onClick={() => handleToggleGroupMember(contact)}
-                        className={`w-full text-left rounded-[24px] border px-4 py-3 flex items-center justify-between transition ${selectedGroupMembers.some(member => member.id === contact.id) ? 'border-[#F97316] bg-[#F97316]/10 text-[#F97316]' : 'border-white/10 bg-[#0B1120] hover:border-[#F97316]/30'} ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
-                      >
-                        <div>
-                          <div className="font-semibold">{contact.name}</div>
-                          <div className="text-[11px] text-slate-500  tracking-[0.16em]">{contact.role || 'User'}</div>
-                        </div>
-                        <span className="text-[11px]  tracking-[0.12em] font-semibold">{selectedGroupMembers.some(member => member.id === contact.id) ? 'Added' : 'Add'}</span>
-                      </button>
-                    ))}
-                    {groupableContacts.filter(contact => contact.name.toLowerCase().includes(groupSearch.toLowerCase())).length === 0 && (
-                      <div className={`rounded-[24px] border bg-[#0B1120] p-4 text-slate-500 text-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>No contacts found.</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div className={`rounded-[28px] border bg-[#0B1120]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className={`w-14 h-14 rounded-3xl bg-[#0B1120] border flex items-center justify-center text-2xl font-bold ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}>{user?.name?.charAt(0).toUpperCase()}</div>
-                    <div>
-                      <div className={`text-sm tracking-[0.18em] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Creator</div>
-                      <div className={`text-lg font-semibold mt-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.name || 'You'}</div>
-                      <div className="text-xs text-slate-500 mt-1">Current owner and administrator of this chat.</div>
-                    </div>
-                  </div>
-                  <div className={`grid gap-4 text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                    <div className={`rounded-[24px] border bg-[#0B1120] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                      <div className={`text-[11px] tracking-[0.18em] mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Group Type</div>
-                      <div>{groupType === 'channel' ? 'Channel — owner-only posts' : 'Group — everyone can chat'}</div>
-                    </div>
-                    <div className={`rounded-[24px] border bg-[#0B1120] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                      <div className={`text-[11px] tracking-[0.18em] mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Visibility</div>
-                      <div>Members are added by you. Invitations are managed by the owner.</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={`rounded-[28px] border bg-[#0B1120]/80 p-6 shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <div className={`text-sm tracking-[0.18em] mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Summary</div>
-                  <div className="grid gap-4">
-                    <div className={`rounded-[24px] border bg-[#0B1120] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                      <div className={`text-[11px] tracking-[0.18em] mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Name</div>
-                      <div className={`font-semibold truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{newGroupName || 'Untitled group'}</div>
-                    </div>
-                    <div className={`rounded-[24px] border bg-[#0B1120] p-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                      <div className={`text-[11px] tracking-[0.18em] mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Participants</div>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedGroupMembers.length > 0 ? selectedGroupMembers.map(member => (
-                          <span key={member.id} className={`rounded-2xl bg-white/5 px-3 py-2 text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{member.name}</span>
-                        )) : <span className="text-slate-500 text-sm">No participants selected yet.</span>}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-end gap-3">
-                  <button type="button" onClick={() => { resetGroupForm(); setShowGroupModal(false); }} className={`rounded-3xl border bg-[#0B1120] px-6 py-3 text-sm font-semibold hover:text-white transition ${isDarkMode ? 'border-white/10 text-slate-300' : 'border-slate-200 text-slate-500'}`}>Cancel</button>
-                  <button type="submit" className={`rounded-3xl px-6 py-3 text-sm font-semibold bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Create {groupType === 'channel' ? 'Channel' : 'Group'}</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Privacy / Block User Inline Modal */}
-      {showPrivacyModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-           <div className="bg-[#0B1120] border border-red-500/20 w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden font-sans text-center p-8 relative">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-red-400"></div>
-              <div className="w-20 h-20 bg-red-500/10 rounded-full mx-auto flex items-center justify-center mb-6">
-                 <Ban className="w-10 h-10 text-red-500" />
-              </div>
-              <h2 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Block {activeContact?.name}?</h2>
-              <p className={`text-sm mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>They will no longer be able to send you messages, files, or calendar invites. This action is easily reversible.</p>
-              
-              <div className="flex flex-col gap-3">
-                 <button onClick={() => { handleBlockUser(); setShowPrivacyModal(false); }} className={`w-full py-3 bg-red-600 hover:bg-red-500 font-bold rounded-xl shadow-lg shadow-red-600/20 transition-all ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Yes, Block User</button>
-                 <button onClick={() => setShowPrivacyModal(false)} className={`w-full py-3 bg-white/5 hover:bg-white/10 font-bold rounded-xl transition-all ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Cancel</button>
-              </div>
-           </div>
-        </div>
-      )}
-
-      {showBlockedModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className={`w-full max-w-2xl bg-[#0B1120] border rounded-[32px] overflow-hidden shadow-2xl ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-            <div className={`flex items-center justify-between px-6 py-5 border-b ${isDarkMode ? 'border-white/10 bg-[#0B1120]/80' : 'border-slate-200 bg-white/90'}`}>
-              <div>
-                <h2 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Blocked Users</h2>
-                <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Manage people you have blocked from sending messages.</p>
-              </div>
-              <button onClick={() => setShowBlockedModal(false)} className={`hover:text-white transition-colors ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><X className="w-5 h-5" /></button>
-            </div>
-            <div className="p-6 space-y-4">
-              {blockedUsers.length === 0 ? (
-                <div className={`text-center py-14 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                  No blocked users yet. Use the block action on a chat to add someone.
-                </div>
-              ) : (
-                blockedUsers.map(user => (
-                  <div key={user.id} className={`flex items-center justify-between gap-3 p-4 rounded-3xl bg-[#0B1120]/70 border ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                    <div className="flex items-center gap-3">
-                      <div className={`w-12 h-12 rounded-2xl bg-[#0B1120] border flex items-center justify-center font-bold text-lg ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}>
-                        {user.name?.charAt(0).toUpperCase() || 'U'}
-                      </div>
-                      <div>
-                        <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user.name}</p>
-                        <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{user.role || 'User'}</p>
-                      </div>
-                    </div>
-                    <button onClick={() => handleBlockUser(user.id)} className={`px-4 py-2 rounded-2xl border text-sm font-semibold text-slate-100 bg-white/5 hover:bg-red-600/15 transition-colors ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>Unblock</button>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
       )}
     </div>
   );
