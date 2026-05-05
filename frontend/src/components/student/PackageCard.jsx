@@ -156,10 +156,7 @@ const PackageCard = ({ pkg, isEnrolled, enrolledCoursesData = [], isDarkMode }) 
                          color: '#ffffff'
                        }}
                      >
-                       {enrolledCoursesData.some(e => e.course?.title === (c.title ? c.title : (typeof c === 'string' ? c : 'Untitled Course'))) 
-                         ? <Unlock className="w-3 h-3 text-white" />
-                         : <Lock className="w-3 h-3 text-white/80" />
-                       }
+                       {!enrolledCoursesData.some(e => e.course?.title === (c.title ? c.title : (typeof c === 'string' ? c : 'Untitled Course'))) && <Lock className="w-3 h-3 text-white/80" />}
                        <span>{c.title ? c.title : (typeof c === 'string' ? c : 'Untitled Course')}</span>
                      </div>
                   ))

@@ -53,8 +53,10 @@ export default function CourseDetails() {
           setEnrollmentStatus('none');
         }
 
-      } catch {
-         setError('Failed to securely establish connection for this course. Data may be unavailable.');
+      } catch (err) {
+         console.error("Course fetch error:", err);
+         const errMsg = err.response?.data?.message || err.message || 'Unknown error';
+         setError(`Failed to securely establish connection: ${errMsg}`);
       } finally {
          setLoading(false);
       }
@@ -68,8 +70,8 @@ export default function CourseDetails() {
     setEnrolling(true);
     try {
       await api.post(`/student/courses/${id}/enroll`);
-      setEnrollmentStatus('pending');
-      alert('Enrollment request transmitted successfully. Waiting on administrative approval.');
+      setEnrollmentStatus('active');
+      alert('Enrollment successful. You can now access the course materials.');
     } catch (err) {
       alert(err.response?.data?.message || err.message);
     } finally {

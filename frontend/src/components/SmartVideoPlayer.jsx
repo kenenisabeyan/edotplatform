@@ -1,8 +1,6 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
-import ReactPlayer from 'react-player';
 
-// Helper: Detect video type
 function getVideoType(url) {
   if (!url) return 'unknown';
   const u = url.toLowerCase();
@@ -13,7 +11,6 @@ function getVideoType(url) {
   return 'unknown';
 }
 
-// Helper: Clean/resolve Cloudinary URLs
 function resolveCloudinaryUrl(url) {
   if (!url || !url.includes('cloudinary.com')) return url;
   try {
@@ -29,7 +26,7 @@ function resolveCloudinaryUrl(url) {
   }
 }
 
-export default function SmartVideoPlayer({ url, ...props }) {
+export default function SmartVideoPlayer({ url, controls = true, playing = false, ...props }) {
   const isDarkMode = useThemeMode();
   const [resolvedUrl, setResolvedUrl] = useState('');
 
@@ -48,10 +45,10 @@ export default function SmartVideoPlayer({ url, ...props }) {
     setResolvedUrl(resolved);
   }, [url]);
 
-  if (!resolvedUrl) return <div className={`bg-black p-4 rounded ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No video URL provided.</div>;
+  if (!resolvedUrl) return <div className={`bg-black p-4 rounded text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No video URL provided.</div>;
 
   const type = getVideoType(resolvedUrl);
-  
+
   if (type === 'youtube') {
     let ytId = '';
     if (resolvedUrl.includes('youtu.be/')) {
@@ -66,7 +63,7 @@ export default function SmartVideoPlayer({ url, ...props }) {
           <iframe
             width="100%"
             height="100%"
-            src={`https://www.youtube.com/embed/${ytId}?rel=0&showinfo=1${props.playing ? '&autoplay=1' : ''}`}
+            src={`https://www.youtube.com/embed/${ytId}?rel=0&showinfo=0${playing ? '&autoplay=1' : ''}`}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -79,13 +76,13 @@ export default function SmartVideoPlayer({ url, ...props }) {
   }
 
   return (
-    <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-gray-800">
-      <ReactPlayer 
-        url={resolvedUrl} 
-        width="100%" 
-        height="100%" 
-        controls 
-        {...props} 
+    <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-gray-800 flex items-center justify-center">
+      <video
+        src={resolvedUrl}
+        controls={controls}
+        autoPlay={playing}
+        className="w-full h-full object-contain"
+        {...props}
       />
     </div>
   );

@@ -485,7 +485,7 @@ export default function StudentDashboard() {
                 const pkgCategoryName = pkg.title.replace(' Courses', '');
                 const matchedCourses = dbCourses.filter(c => c.mainCategory === pkgCategoryName);
                 const enrolledInPkg = enrolledCourses.filter(enrollment => 
-                  pkg.courses.includes(enrollment.course?.title) || 
+                  matchedCourses.some(mc => mc.id === enrollment.course?.id) || 
                   pkg.category === enrollment.course?.category ||
                   pkg.title.includes(enrollment.course?.category)
                 );

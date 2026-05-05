@@ -190,7 +190,8 @@ export default function Lesson() {
       return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`;
     }
     
-    return `http://localhost:5000${cleanUrl.startsWith('/') ? '' : '/'}${cleanUrl}`;
+    const baseUrl = api.defaults.baseURL ? api.defaults.baseURL.replace('/api', '') : 'http://localhost:5000';
+    return `${baseUrl}${cleanUrl.startsWith('/') ? '' : '/'}${cleanUrl}`;
   };
 
   const resolveVideoUrl = (url) => {
@@ -392,7 +393,7 @@ export default function Lesson() {
                                                    >
                                                       <div className={`aspect-video w-full rounded-xl overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.8)] border relative bg-black ${!isActive ? 'grayscale opacity-75 blur-[2px]' : ''} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                                                          {finalVideoUrl ? (
-                                                            <SmartVideoPlayer url={resolveVideoUrl(finalVideoUrl)} controls={isActive} playing={isActive} />
+                                                            <SmartVideoPlayer url={resolveVideoUrl(finalVideoUrl)} controls={isActive} />
                                                           ) : (
                                                             <div className="w-full h-full flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-[#0B1120] to-black">
                                                                <BadgeAlert className="w-16 h-16 text-amber-500 mb-4 drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
