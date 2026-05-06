@@ -36,7 +36,7 @@ import CommandK from './CommandK';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 import ThemeDropdown from './ThemeDropdown';
 
-function NavItem({ item, metrics, role, sidebarCollapsed, onLinkClick }) {
+function NavItem({ item, metrics, role, sidebarCollapsed, onLinkClick, isDarkMode }) {
   let badgeCount = 0;
   let badgeColor = 'bg-blue-500/100 text-white';
 
@@ -62,10 +62,14 @@ function NavItem({ item, metrics, role, sidebarCollapsed, onLinkClick }) {
       end={item.exact}
       onClick={() => onLinkClick(false)}
       className={({ isActive }) =>
-        `group relative flex items-center justify-between px-4 py-3 xl:py-3.5 rounded-xl transition-all duration-300 text-sm ${
+        `group relative flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300 text-[13px] ${
           isActive
-            ? `font-semibold ${role === 'admin' ? 'bg-[#FACC15]/10 border border-[#FACC15]/30 shadow-glow-yellow text-[#FACC15]' : 'bg-[#4ade80]/10 border border-[#4ade80]/30 shadow-glow-green text-[#4ade80]'}`
-            : 'font-medium text-slate-300 hover:bg-white/5/5 hover:text-white'
+            ? isDarkMode 
+              ? 'bg-[#22C55E]/10 text-[#22C55E] font-bold border-l-4 border-[#22C55E]' 
+              : 'bg-[#EAF6ED] text-[#22C55E] font-bold border-l-4 border-[#22C55E]'
+            : isDarkMode
+              ? 'text-slate-400 font-semibold hover:bg-slate-800 hover:text-slate-200'
+              : 'text-slate-600 font-semibold hover:bg-slate-50 hover:text-slate-900'
         }`
       }
     >
@@ -286,22 +290,29 @@ export default function EDOTLayout() {
             <X className="w-5 h-5" />
           </button>
         )}
-        <div className={`p-6 pb-2 flex flex-col gap-2 md:flex-row md:items-center md:justify-between ${mobileMenuOpen ? 'items-center' : ''}`}>
-          <div className={`flex flex-col items-center gap-3 transition-all ${sidebarCollapsed ? 'mx-auto' : ''}`}>
-            <NavLink to="/"><img src={edotLogo} alt="EDOT Logo" className="h-14 w-14 rounded-full shadow-sm border border-white/20" /></NavLink>
-            {!sidebarCollapsed && (
-              <div className="text-center">
-                <p className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{dashboardTitle}</p>
-              </div>
-            )}
-          </div>
+        <div className={`p-6 pt-8 pb-4 flex flex-col items-center justify-center gap-2 border-b border-transparent relative ${mobileMenuOpen ? 'items-center' : ''}`}>
+           <NavLink to="/">
+             <div className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center border-4 border-slate-100 overflow-hidden shadow-sm mx-auto">
+               <img src={edotLogo} alt="Logo" className="w-full h-full object-cover" />
+             </div>
+           </NavLink>
+           {!sidebarCollapsed && (
+             <div className={`font-black text-[15px] leading-tight text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+               {dashboardTitle.split(' ').map((word, i) => (
+                  <React.Fragment key={i}>
+                    {word}
+                    {i === 0 && <br/>}
+                  </React.Fragment>
+               ))}
+             </div>
+           )}
 
           {!mobileMenuOpen && (
             <button 
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className={`hidden md:flex dark:text-slate-300 hover:text-[#F97316] transition-colors p-1.5 rounded-lg hover:bg-white/5/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
+              className={`absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-lg border transition-colors ${isDarkMode ? 'border-slate-800 hover:bg-slate-800 text-slate-400' : 'border-slate-200 hover:bg-slate-50 text-slate-400'}`}
             >
-              {sidebarCollapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
+              {sidebarCollapsed ? <PanelLeftOpen className="w-3.5 h-3.5" /> : <PanelLeftClose className="w-3.5 h-3.5" />}
             </button>
           )}
         </div>
@@ -313,7 +324,7 @@ export default function EDOTLayout() {
              {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>MAIN</p>}
              <nav className="space-y-2">
                {navItemsMenu1.map(item => (
-                 <NavItem key={item.name} item={item} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} />
+                 <NavItem key={item.name} item={item} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} isDarkMode={isDarkMode} />
                ))}
                
                {/* Finance Accordion */}
@@ -349,7 +360,7 @@ export default function EDOTLayout() {
              {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>MANAGEMENT</p>}
              <nav className="space-y-2">
                {navItemsMenu2.map(item => (
-                 <NavItem key={item.name} item={item} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} />
+                 <NavItem key={item.name} item={item} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} isDarkMode={isDarkMode} />
                ))}
              </nav>
            </div>
@@ -358,8 +369,8 @@ export default function EDOTLayout() {
            <div>
              {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>SETTINGS</p>}
              <nav className="space-y-2">
-               <NavItem item={{ name: 'Profile', icon: User, path: '/dashboard/profile' }} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} />
-               <NavItem item={{ name: 'Setting', icon: Settings, path: '/dashboard/settings' }} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} />
+               <NavItem item={{ name: 'Profile', icon: User, path: '/dashboard/profile' }} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} isDarkMode={isDarkMode} />
+               <NavItem item={{ name: 'Setting', icon: Settings, path: '/dashboard/settings' }} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} isDarkMode={isDarkMode} />
              </nav>
            </div>
         </div>
@@ -388,9 +399,16 @@ export default function EDOTLayout() {
       <main className="flex-1 flex flex-col min-w-0 h-screen max-h-screen bg-transparent transition-colors duration-300">
         
         {/* Top Header */}
-        <header className={`h-[88px] tilet-border-header border-b-2 px-4 md:px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 transition-colors duration-300 shadow-lg ${isDarkMode ? 'bg-[#0B1120] border-white/20' : 'bg-[#FAFAFA] border-slate-300'}`}>
+        <header className={`h-[88px] px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 backdrop-blur-xl border-b ${isDarkMode ? 'bg-[#0B1120]/80 border-slate-800' : 'bg-white/80 border-slate-200'}`}>
           
-
+          <div className="hidden md:block w-96 relative">
+             <Search className={`w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`} />
+             <input 
+               type="text" 
+               placeholder="Search courses, lessons..." 
+               className={`w-full pl-10 pr-4 py-2.5 rounded-xl text-sm font-medium transition-colors outline-none focus:ring-2 focus:ring-[#F97316]/50 ${isDarkMode ? 'bg-[#121A2F] text-white placeholder-slate-500' : 'bg-slate-100/50 text-slate-900 placeholder-slate-400 focus:bg-white'}`}
+             />
+          </div>
           
           {/* Right side actions */}
           <div className="flex items-center gap-4 ml-auto">
@@ -437,8 +455,8 @@ export default function EDOTLayout() {
                 className="flex items-center gap-3 focus:outline-none cursor-pointer group"
               >
                 <div className="hidden lg:block text-right">
-                  <p className="text-sm font-bold transition-colors text-white">{user?.name || 'Test User'}</p>
-                  <p className="text-xs font-medium capitalize text-slate-200">{user?.role || role}</p>
+                  <p className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.name || 'Test User'}</p>
+                  <p className={`text-xs font-medium capitalize ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>{user?.role || role}</p>
                 </div>
                 <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-[#008A32] to-[#F97316] p-0.5 shadow-md shadow-[#008A32]/20 group-hover:shadow-[#F97316]/40 transition-shadow">
                   <UserAvatar user={user} className="w-full h-full text-base border-2 border-white" />

@@ -5,7 +5,7 @@ import api from '../utils/api';
 import { 
   BookOpen, CheckCircle2, Award, Search, LayoutDashboard, 
   Settings, LogOut, Target, Plus, Bell, Monitor, TrendingUp, MoreHorizontal,
-  PlayCircle, Download, ShieldCheck, Globe, ShoppingCart, Users, Coins, Package, Banknote, Wallet, FileText, Moon, Sun
+  PlayCircle, Download, ShieldCheck, Globe, ShoppingCart, Users, Coins, Package, Banknote, Wallet, FileText, Moon, Sun, Clock, PanelLeftClose
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
@@ -15,6 +15,7 @@ import ActivityFeed from '../components/ActivityFeed';
 import EcosystemNexus from '../components/EcosystemNexus';
 import StudentDashboardCourses from '../components/StudentDashboardCourses';
 import PackageCard from '../components/student/PackageCard';
+import StudentOverview from '../components/student/StudentOverview';
 import ThemeDropdown from '../components/ThemeDropdown';
 import useThemeMode from '../hooks/useThemeMode';
 import { PACKAGES } from '../constants/packages';
@@ -466,6 +467,18 @@ export default function StudentDashboard() {
 
     switch (activeTab) {
       case 'overview':
+        return (
+          <StudentOverview 
+            user={user}
+            enrolledCourses={enrolledCourses}
+            completedCourses={completedCourses}
+            totalEnrolled={totalEnrolled}
+            totalLessonsCompleted={totalLessonsCompleted}
+            averageProgress={averageProgress}
+            isDarkMode={isDarkMode}
+            setActiveTab={setActiveTab}
+          />
+        );
       case 'courses': {
         return (
           <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
@@ -579,128 +592,115 @@ export default function StudentDashboard() {
     }
   };
 
+  const mutedTextClass = isDarkMode ? 'text-slate-400' : 'text-slate-500';
+
   const navItemClass = (tabName, isActive) => `
-    w-full flex items-center justify-between px-3 py-2.5 transition-all duration-200 font-medium text-[13px] rounded-lg mb-1
+    relative w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 font-bold text-[13px] rounded-xl mb-1 overflow-hidden
     ${isActive 
-      ? 'bg-[#f97316] text-white shadow-sm' 
-      : 'bg-transparent text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+      ? isDarkMode ? 'bg-emerald-500/10 text-emerald-400' : 'bg-[#EAF6ED] text-slate-900' 
+      : 'bg-transparent text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-800 dark:hover:text-slate-300'
     }
   `;
 
+  const NavItem = ({ tabName, icon: Icon, label, isActive, onClick }) => (
+    <button onClick={onClick} className={navItemClass(tabName, isActive)}>
+      {isActive && <div className="absolute left-0 top-2 bottom-2 w-1 bg-[#22C55E] rounded-r-full" />}
+      <Icon className="w-5 h-5 shrink-0 opacity-80" />
+      {label}
+    </button>
+  );
+
   return (
-    <div className={`min-h-screen flex flex-col font-sans h-screen ${isDarkMode ? 'bg-[#0B1120] text-slate-200' : 'bg-[#FAFAFA] text-slate-700'}`}>
-      {/* Top Header Bar */}
-      <header className={`bg-[#f97316] h-[60px] flex items-center justify-between px-4 shrink-0 z-50 shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-        <div className="flex items-center gap-4 h-full">
-          <div className="flex items-center gap-3 font-black text-lg tracking-tight uppercase">
-            <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center border-2 border-white/20 overflow-hidden shadow-inner">
-               <img src={edotLogo} alt="Logo" className="w-full h-full object-cover" />
-            </div>
-            BREAKTHROUGH
-          </div>
-          <div className="flex items-center gap-1 border-l border-white/20 pl-4 ml-2">
-            <button className="hover:bg-white/10 p-1.5 rounded transition-colors">
-               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" /></svg>
-            </button>
-            <button className="hover:bg-white/10 p-1.5 rounded transition-colors">
-               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
-            </button>
-          </div>
+    <div className={`min-h-screen flex flex-row font-sans h-screen ${isDarkMode ? 'bg-[#0B1120] text-slate-200' : 'bg-[#FAFAFA] text-slate-700'}`}>
+      
+      {/* Sidebar Layout */}
+      <aside className={`w-[260px] shrink-0 flex flex-col h-full border-r overflow-y-auto ${isDarkMode ? 'bg-[#121A2F] border-slate-800' : 'bg-white border-slate-200'}`}>
+        <div className="p-6 pt-8 pb-4 flex flex-col items-center justify-center gap-2 border-b border-transparent relative">
+           <div className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center border-4 border-slate-100 overflow-hidden shadow-sm">
+             <img src={edotLogo} alt="Logo" className="w-full h-full object-cover" />
+           </div>
+           <div className={`font-black text-[15px] leading-tight text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+             Edot Student<br/>Dashboard
+           </div>
+           <button className={`absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-lg border text-slate-400 hover:bg-slate-50 transition-colors ${isDarkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200'}`}>
+             <PanelLeftClose className="w-3.5 h-3.5" />
+           </button>
         </div>
-        <div className="flex items-center gap-4">
-          <ThemeDropdown />
-          <div className={`relative cursor-pointer hover:bg-white/10 p-2 rounded-full transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-[#f97316]"></span>
-          </div>
-          <div className="flex items-center gap-2 cursor-pointer hover:bg-white/10 py-1 px-2 rounded-lg transition-colors border-l border-white/20 pl-4">
-            <div className={`w-8 h-8 rounded-full bg-blue-500 font-bold flex items-center justify-center border border-white/30 overflow-hidden ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              <img src={`https://ui-avatars.com/api/?name=${user?.name?.replace(/ /g, '+') || 'User'}&background=3b82f6&color=fff`} alt="User" className="w-full h-full object-cover" />
-            </div>
-            <span className={`text-sm font-semibold flex items-center gap-1.5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               {user?.name || 'Kenenisa Beyan'} 
-               <svg className="w-3.5 h-3.5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
-            </span>
-          </div>
+
+        <div className="px-4 py-6 flex-1 overflow-y-auto space-y-6">
+           <div>
+             <p className={`px-4 text-[10px] font-bold mb-3 uppercase tracking-wider ${mutedTextClass}`}>Main</p>
+             <nav>
+               <NavItem tabName="overview" icon={LayoutDashboard} label="Dashboard" isActive={activeTab === 'overview'} onClick={() => setActiveTab('overview')} />
+               <NavItem tabName="courses" icon={BookOpen} label="My Courses" isActive={activeTab === 'courses'} onClick={() => setActiveTab('courses')} />
+               <NavItem tabName="schedule" icon={Clock} label="Schedule" isActive={false} onClick={() => {}} />
+             </nav>
+           </div>
+
+           <div>
+             <p className={`px-4 text-[10px] font-bold mb-3 uppercase tracking-wider ${mutedTextClass}`}>Management</p>
+             <nav>
+               <NavItem tabName="notice" icon={Bell} label="Notice" isActive={false} onClick={() => {}} />
+               <NavItem tabName="library" icon={BookOpen} label="Library" isActive={false} onClick={() => {}} />
+               <NavItem tabName="message" icon={MoreHorizontal} label="Message" isActive={false} onClick={() => {}} />
+               <NavItem tabName="certificates" icon={Award} label="Certificates" isActive={activeTab === 'certificates'} onClick={() => setActiveTab('certificates')} />
+               <NavItem tabName="sponsorships" icon={ShieldCheck} label="Sponsorships" isActive={false} onClick={() => {}} />
+               <NavItem tabName="ecosystem" icon={ShieldCheck} label="Ecosystem Nexus" isActive={activeTab === 'ecosystem'} onClick={() => setActiveTab('ecosystem')} />
+             </nav>
+           </div>
+
+           <div>
+             <p className={`px-4 text-[10px] font-bold mb-3 uppercase tracking-wider ${mutedTextClass}`}>Settings</p>
+             <nav>
+               <NavItem tabName="settings" icon={Users} label="Profile" isActive={activeTab === 'settings'} onClick={() => setActiveTab('settings')} />
+               <NavItem tabName="setting" icon={Settings} label="Setting" isActive={false} onClick={() => {}} />
+             </nav>
+           </div>
         </div>
-      </header>
 
-      <div className="flex flex-1 overflow-hidden relative">
-        {/* Sidebar */}
-        <aside className={`w-[250px] shrink-0 flex flex-col h-full border-r overflow-y-auto ${isDarkMode ? 'bg-[#0B1120] border-slate-800' : 'bg-white border-slate-200'}`}>
-          {/* User Profile in Sidebar */}
-          <div className={`bg-gradient-to-b from-[#93c5fd] to-[#60a5fa] p-8 flex flex-col items-center justify-center pb-6 shadow-inner ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-            <div className={`w-16 h-16 rounded-full bg-blue-500 font-bold flex items-center justify-center border-[3px] border-white/50 mb-3 shadow-md overflow-hidden ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              <img src={`https://ui-avatars.com/api/?name=${user?.name?.replace(/ /g, '+') || 'User'}&background=3b82f6&color=fff`} alt="User" className="w-full h-full object-cover" />
-            </div>
-            <div className="text-[13px] font-bold flex items-center gap-1.5 drop-shadow-sm">
-               {user?.name || 'Kenenisa Beyan'} <span className="text-[9px] opacity-80">▼</span>
-            </div>
-            <div className="text-[10px] text-blue-50 mt-0.5 font-bold tracking-widest uppercase drop-shadow-sm">IBO</div>
-          </div>
-          
-          <div className="p-3 border-b border-slate-100">
-            <div className="relative w-full">
-              <Search className={`w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 ml-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
-              <input type="text" placeholder="Search Downlines" 
-                className="w-full !pl-10 !pr-4 !py-2 bg-transparent border !rounded-full text-xs outline-none text-slate-700 placeholder:text-slate-400 transition-all focus:border-[#F97316]/50" />
-            </div>
-          </div>
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800">
+           <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors font-bold text-[13px]">
+             <LogOut className="w-5 h-5 shrink-0" /> Log out
+           </button>
+        </div>
+      </aside>
 
-          <div className="px-3 py-4">
-             <p className="px-2 text-[10px] font-bold text-[#f97316] mb-2">Shortcuts</p>
-             <nav className="mb-4">
-               <button onClick={() => setActiveTab('overview')} className={navItemClass('overview', activeTab === 'overview')}>
-                 <div className="flex items-center gap-3"><LayoutDashboard className="w-[18px] h-[18px] shrink-0 opacity-70" /> Dashboard</div>
-               </button>
-               <button onClick={() => setActiveTab('ecosystem')} className={navItemClass('ecosystem', activeTab === 'ecosystem')}>
-                 <div className="flex items-center gap-3"><ShieldCheck className="w-[18px] h-[18px] shrink-0 opacity-70" /> Ecosystem Nexus</div>
-               </button>
-             </nav>
+      <div className="flex-1 flex flex-col overflow-hidden relative">
+        {/* Top Header Bar */}
+        <header className={`h-[80px] flex items-center justify-between px-8 shrink-0 z-50 border-b ${isDarkMode ? 'bg-[#0B1120] border-slate-800 text-white' : 'bg-[#FFFFFF] border-slate-200 text-slate-900'}`}>
+           <div className="relative w-full max-w-md">
+             <Search className={`w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
+             <input type="text" placeholder="Search courses, lessons..." 
+               className={`w-full !pl-12 !pr-4 !py-3 !rounded-full text-xs font-bold outline-none transition-all focus:border-[#F97316]/50 ${isDarkMode ? 'bg-[#121A2F] border-slate-800 text-white placeholder:text-slate-500' : 'bg-[#F9FAFB] border-transparent text-slate-700 placeholder:text-slate-400'}`} />
+           </div>
 
-             <p className="px-2 text-[10px] font-bold text-[#f97316] mb-2">My Office</p>
-             <nav className="space-y-0.5">
-               {[
-                 { name: 'Members', icon: Users },
-                 { name: 'Points', icon: Coins },
-                 { name: 'E-Learning', icon: Globe, id: 'courses' },
-                 { name: 'Products', icon: Package },
-                 { name: 'Earnings', icon: Banknote },
-                 { name: 'Wallets', icon: Wallet },
-                 { name: 'Reports', icon: FileText }
-               ].map(item => (
-                 <button key={item.name} onClick={() => item.id && setActiveTab(item.id)} className={navItemClass(item.id || item.name, activeTab === item.id)}>
-                   <div className="flex items-center gap-3">
-                     <item.icon className="w-[18px] h-[18px] shrink-0 opacity-70" /> {item.name}
-                   </div>
-                   <span className={`font-light text-lg leading-none ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>+</span>
-                 </button>
-               ))}
-             </nav>
-          </div>
-        </aside>
+           <div className="flex items-center gap-4">
+             <ThemeDropdown />
+             
+             <div className={`relative cursor-pointer hover:bg-slate-50 p-2.5 rounded-full transition-colors border shadow-sm ${isDarkMode ? 'bg-[#121A2F] border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-700'}`}>
+               <Bell className="w-5 h-5" />
+               <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#EF4444] rounded-full flex items-center justify-center text-[9px] font-bold text-white border-2 border-white dark:border-slate-800">1</span>
+             </div>
 
+             <div className="flex items-center gap-4 cursor-pointer pl-6 border-l dark:border-slate-800 border-slate-200">
+               <div className="flex flex-col items-end">
+                 <span className={`text-[13px] font-bold leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    Test User 
+                 </span>
+                 <span className={`text-[10px] font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                    student
+                 </span>
+               </div>
+               <div className={`w-10 h-10 rounded-full flex items-center justify-center border-[2.5px] overflow-hidden shadow-sm ${isDarkMode ? 'bg-[#121A2F] border-emerald-500/50 text-emerald-400' : 'bg-white border-[#22C55E] text-[#22C55E]'}`}>
+                 <span className="font-bold text-sm">T</span>
+               </div>
+             </div>
+           </div>
+        </header>
+        
         {/* Main Content Area */}
         <main className={`flex-1 overflow-y-auto relative ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
-          {/* Blue Header area behind courses */}
-          {(activeTab === 'courses' || activeTab === 'overview') && (
-            <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-r from-[#93c5fd] to-[#60a5fa] -z-10 overflow-hidden flex items-start border-b border-blue-200">
-               <div className="absolute right-0 top-0 w-1/3 h-full opacity-20">
-                  <svg width="100%" height="100%" viewBox="0 0 200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="10" y1="10" x2="100" y2="80" stroke="#1e3a8a" strokeWidth="1" />
-                    <line x1="100" y1="80" x2="200" y2="40" stroke="#1e3a8a" strokeWidth="1" />
-                    <line x1="50" y1="50" x2="150" y2="20" stroke="#1e3a8a" strokeWidth="1" />
-                    <circle cx="10" cy="10" r="3" fill="#1e3a8a" />
-                    <circle cx="100" cy="80" r="4" fill="#1e3a8a" />
-                    <circle cx="200" cy="40" r="3" fill="#1e3a8a" />
-                    <circle cx="50" cy="50" r="3" fill="#1e3a8a" />
-                    <circle cx="150" cy="20" r="3" fill="#1e3a8a" />
-                  </svg>
-               </div>
-            </div>
-          )}
-          
-          <div className="max-w-[1400px] mx-auto p-6 md:p-8 relative z-10">
+          <div className="max-w-[1400px] mx-auto p-6 md:p-8 relative z-10 w-full">
             {renderContent()}
           </div>
         </main>

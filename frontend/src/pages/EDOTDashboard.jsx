@@ -3,6 +3,7 @@ import api from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 import SupportDashboard from './SupportDashboard';
 import { useNavigate } from 'react-router-dom';
+import StudentOverview from '../components/student/StudentOverview';
 import AgendaCreationModal from '../components/AgendaCreationModal';
 import AgendaWidget from '../components/AgendaWidget';
 import { 
@@ -276,6 +277,19 @@ export default function EDOTDashboard() {
 
   if (userRole === 'sponsor') {
     return <SupportDashboard />;
+  }
+
+  if (userRole === 'student') {
+    return <StudentOverview 
+      user={user}
+      enrolledCourses={[]} // Pass proper data eventually
+      completedCourses={[]}
+      totalEnrolled={stats?.totalEnrolled || 0}
+      totalLessonsCompleted={stats?.completedLessons || 0}
+      averageProgress={stats?.averageProgress || 0}
+      isDarkMode={isDarkMode}
+      setActiveTab={() => {}}
+    />;
   }
 
   return (

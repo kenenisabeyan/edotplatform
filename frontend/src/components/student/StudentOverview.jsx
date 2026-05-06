@@ -1,0 +1,478 @@
+import React, { useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LabelList
+} from 'recharts';
+import { 
+  Award, TrendingUp, CheckCircle2, 
+  Flame, Target, ChevronRight, PlayCircle, BookOpen, Clock, BarChart2, Star,
+  CheckCircle, ArrowUpRight, GraduationCap, ShieldCheck, MoreHorizontal, Atom, Code, Calculator
+} from 'lucide-react';
+
+const StudentOverview = ({ 
+  user, 
+  enrolledCourses, 
+  completedCourses, 
+  totalEnrolled, 
+  totalLessonsCompleted, 
+  averageProgress, 
+  isDarkMode,
+  setActiveTab
+}) => {
+  // Weekly data from the image: 1.2h, 2.5h, 0.8h, 3.0h, 1.5h, 2.8h, 0.0h
+  const weeklyData = [
+    { name: 'Mon', hours: 1.2 },
+    { name: 'Tue', hours: 2.5 },
+    { name: 'Wed', hours: 0.8 },
+    { name: 'Thu', hours: 3.0 },
+    { name: 'Fri', hours: 1.5 },
+    { name: 'Sat', hours: 2.8 },
+    { name: 'Sun', hours: 0.0 },
+  ];
+
+  const totalWeeklyHours = weeklyData.reduce((acc, curr) => acc + curr.hours, 0).toFixed(1);
+
+  const cardClass = isDarkMode ? 'bg-[#121A2F] border-slate-800 text-white' : 'bg-white border-slate-100 text-slate-900';
+  const textClass = isDarkMode ? 'text-white' : 'text-slate-900';
+  const mutedTextClass = isDarkMode ? 'text-slate-400' : 'text-slate-500';
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } }
+  };
+
+  // SVG Circular Progress
+  const radius = 60;
+  const circumference = 2 * Math.PI * radius;
+  // Progress represented as a half-circle (or 3/4 circle in the design, let's use full circle stroke with gap)
+  // We will map 0-100 to 0-75% of the circle to leave a gap at the bottom like the image
+  const maxDisplayPercentage = 75; // The track covers 75% of the circle
+  // Hardcode to 23 to match the static 23% text, or fallback to averageProgress if needed
+  const progressValue = 23; 
+  const progressPercentage = (progressValue / 100) * maxDisplayPercentage;
+  
+  const trackStrokeDasharray = `${(maxDisplayPercentage / 100) * circumference} ${circumference}`;
+  const progressStrokeDashoffset = circumference - (progressPercentage / 100) * circumference;
+
+  return (
+    <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 w-full max-w-[1400px] mx-auto pb-10">
+      
+      {/* Hero Banner */}
+      {/* Hero Banner */}
+      <motion.div variants={itemVariants} className={`p-8 md:px-12 md:py-10 min-h-[240px] rounded-[32px] relative overflow-hidden flex flex-col md:flex-row justify-between items-center gap-8 ${isDarkMode ? 'bg-[#0B1D3A] border border-[#1e293b]' : 'bg-gradient-to-r from-[#F5F7FF] to-[#EAF7FF] border border-[#E5E7EB]'}`}>
+        
+        {/* Left Content */}
+        <div className="relative z-10 flex-1 min-w-[300px]">
+          <h1 className={`text-3xl md:text-[34px] font-black mb-3 font-['Inter',sans-serif] tracking-tight leading-tight flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>
+            Welcome back, kenokana beyan! <span className="text-3xl">👋</span>
+          </h1>
+          <p className={`text-[15px] font-medium mb-8 ${isDarkMode ? 'text-slate-400' : 'text-[#6B7280]'}`}>
+            Keep learning, keep growing. You're doing great!
+          </p>
+          <motion.button 
+            whileHover={{ scale: 1.02, backgroundColor: "#FFF5E6", borderColor: "#F97316", boxShadow: "0px 8px 16px rgba(249, 115, 22, 0.15)" }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setActiveTab('courses')} 
+            className={`px-6 py-2.5 font-bold text-[14px] rounded-xl transition-all flex items-center gap-2 w-max shadow-sm
+            ${isDarkMode ? 'bg-[#F97316]/20 border border-[#F97316] text-[#F97316]' 
+                         : 'bg-[#FFFFFF] border border-[#F97316] text-[#F97316]'}`}
+          >
+            <span className="text-xl leading-none font-medium mb-0.5">+</span> Start a Lesson
+          </motion.button>
+        </div>
+
+        {/* Center 3D Illustration */}
+        <div className="relative flex items-center justify-center w-[300px] md:w-[400px] h-56 md:h-[220px]">
+          
+          {/* 3D Illustration */}
+          <motion.img 
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            src="https://cdn3d.iconscout.com/3d/premium/thumb/student-using-laptop-5309325-4441549.png" 
+            alt="Student Learning" 
+            className="w-64 md:w-80 object-contain relative z-10 drop-shadow-2xl"
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
+
+          {/* Desk Shadow Grounding */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-48 h-6 bg-black/5 dark:bg-black/20 blur-xl rounded-[100%] z-0"></div>
+        </div>
+
+        {/* Far Right Section (Profile & Streak) */}
+        <div className="relative shrink-0 z-20 hidden md:flex items-center gap-6">
+          
+          {/* Profile Picture */}
+          <motion.div 
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+            whileHover={{ scale: 1.05, boxShadow: "0px 15px 30px rgba(0,0,0,0.15)" }}
+            className={`rounded-full shadow-[0_10px_40px_rgb(0,0,0,0.12)] w-[160px] h-[160px] relative shrink-0 ${isDarkMode ? 'border-[8px] border-slate-700' : 'border-[8px] border-white'}`}
+          >
+             <img 
+               src="https://ui-avatars.com/api/?name=Kenokana+Beyan&background=F97316&color=fff&size=256&font-size=0.4" 
+               alt="User Profile" 
+               className="w-full h-full rounded-full object-cover" 
+             />
+             <div className="absolute bottom-2 right-2 w-8 h-8 bg-emerald-500 border-[6px] border-white dark:border-[#1E293B] rounded-full z-10"></div>
+          </motion.div>
+
+          {/* Streak Card */}
+          <motion.div 
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            whileHover={{ y: -5, boxShadow: "0px 15px 30px rgba(0,0,0,0.1)" }}
+            className={`p-5 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.06)] flex flex-col justify-center w-[150px] h-[160px] ${isDarkMode ? 'bg-[#1E293B] border border-slate-700' : 'bg-[#FFFFFF] border border-[#E5E7EB]'}`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Flame className="w-8 h-8 text-[#F97316]" fill="#F97316" />
+              <span className={`text-[32px] leading-none font-black ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>7</span>
+            </div>
+            <span className={`text-[13px] font-bold ${isDarkMode ? 'text-slate-400' : 'text-[#6B7280]'}`}>Day Streak</span>
+            <span className={`text-[11px] font-medium mt-1 mb-4 ${isDarkMode ? 'text-slate-500' : 'text-[#6B7280]'}`}>Keep it up!</span>
+            <div className="w-full h-2 bg-[#F5F7FF] dark:bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-full bg-[#F97316] w-[70%] rounded-full"></div>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* Top Stats Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {[
+          { title: 'Enrolled Courses', value: '13', subtitle: 'Courses', trend: '↑ 2 new this month', icon: ({className}) => <BookOpen className={className} fill="currentColor" strokeWidth={1} />, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-500/10' },
+          { title: 'Average Progress', value: '23%', subtitle: 'Across all courses', trend: '↑ 8% from last month', icon: ({className}) => <TrendingUp className={className} strokeWidth={2.5} />, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-500/10' },
+          { title: 'Completed Lessons', value: '12', subtitle: 'Lessons', trend: '↑ 3 new this week', icon: ({className}) => <CheckCircle className={className} fill="currentColor" stroke="white" strokeWidth={1.5} />, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-500/10' },
+          { title: 'Certificates', value: '3', subtitle: 'Earned', action: 'View all certificates →', icon: ({className}) => <Award className={className} fill="currentColor" strokeWidth={1} />, color: 'text-[#F97316]', bg: 'bg-orange-50 dark:bg-[#F97316]/10' },
+        ].map((stat, i) => (
+          <motion.div key={i} variants={itemVariants} className={`p-6 rounded-[24px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
+            <div className="flex items-start gap-4">
+               {/* Icon */}
+               <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${stat.bg} ${stat.color}`}>
+                 <stat.icon className="w-6 h-6" />
+               </div>
+               
+               {/* Content */}
+               <div className="flex flex-col">
+                 <p className={`text-[12px] font-bold mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{stat.title}</p>
+                 <h3 className={`text-[28px] font-bold leading-none ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>{stat.value}</h3>
+                 <p className={`text-[11px] font-medium mt-1.5 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>{stat.subtitle}</p>
+                 
+                 <div className="mt-5">
+                   {stat.trend && (
+                     <p className="text-[11px] font-bold text-emerald-500">{stat.trend}</p>
+                   )}
+                   {stat.action && (
+                     <button onClick={() => setActiveTab('certificates')} className="text-[11px] font-bold text-[#F97316] hover:underline text-left">
+                       {stat.action}
+                     </button>
+                   )}
+                 </div>
+               </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Academic Progress */}
+        <motion.div variants={itemVariants} className={`p-6 rounded-[1.5rem] border shadow-sm flex flex-col relative ${cardClass}`}>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className={`text-[13px] font-bold ${textClass}`}>Academic Progress</h3>
+            <button className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border flex items-center gap-1 ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
+              All Courses <ChevronRight className="w-3 h-3 rotate-90" />
+            </button>
+          </div>
+          
+          <div className="flex-1 flex flex-col items-center justify-center py-2">
+            <div className="relative w-48 h-48 flex items-center justify-center">
+               <svg className="w-full h-full transform rotate-[135deg]" viewBox="0 0 140 140">
+                 {/* Background track */}
+                 <circle
+                   cx="70" cy="70" r={radius}
+                   stroke={isDarkMode ? '#1E293B' : '#F1F5F9'}
+                   strokeWidth="10" fill="transparent"
+                   strokeDasharray={trackStrokeDasharray}
+                   strokeLinecap="round"
+                 />
+                 {/* Progress track */}
+                 <circle
+                   cx="70" cy="70" r={radius}
+                   stroke="url(#orangeGradient)"
+                   strokeWidth="10" fill="transparent"
+                   strokeDasharray={circumference}
+                   strokeDashoffset={progressStrokeDashoffset}
+                   strokeLinecap="round"
+                   className="transition-all duration-1000 ease-out"
+                 />
+                 <defs>
+                   <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                     <stop offset="0%" stopColor="#FDBA74" />
+                     <stop offset="100%" stopColor="#F97316" />
+                   </linearGradient>
+                 </defs>
+               </svg>
+               <div className="absolute inset-0 flex flex-col items-center justify-center mt-2">
+                 <span className={`text-[32px] leading-none font-black ${textClass}`}>23%</span>
+                 <span className={`text-[9px] font-bold uppercase tracking-widest mt-1.5 ${mutedTextClass}`}>Progress</span>
+                 <span className={`text-[11px] font-bold mt-2 flex items-center gap-1 ${textClass}`}>
+                   Keep going! <span className="text-sm">💪</span>
+                 </span>
+               </div>
+            </div>
+
+            <div className="w-full grid grid-cols-3 gap-2 mt-4 text-center">
+               <div className="flex flex-col items-center">
+                 <span className="text-emerald-500 font-bold text-[10px] mb-1">Completed</span>
+                 <span className={`text-lg font-black ${textClass}`}>12</span>
+                 <span className={`text-[9px] ${mutedTextClass}`}>Lessons</span>
+               </div>
+               <div className="flex flex-col items-center border-x border-slate-100 dark:border-slate-800">
+                 <span className="text-blue-500 font-bold text-[10px] mb-1">In Progress</span>
+                 <span className={`text-lg font-black ${textClass}`}>8</span>
+                 <span className={`text-[9px] ${mutedTextClass}`}>Lessons</span>
+               </div>
+               <div className="flex flex-col items-center">
+                 <span className="text-[#F97316] font-bold text-[10px] mb-1">Remaining</span>
+                 <span className={`text-lg font-black ${textClass}`}>30</span>
+                 <span className={`text-[9px] ${mutedTextClass}`}>Lessons</span>
+               </div>
+            </div>
+
+            <div className={`mt-6 px-4 py-2 rounded-full text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 dark:text-emerald-400 flex items-center gap-1.5`}>
+               You're ahead of 65% of learners 📈
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Weekly Study Goal */}
+        <motion.div variants={itemVariants} className={`p-6 rounded-[1.5rem] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#121A2F] border-slate-800' : 'bg-white border-slate-200/80'}`}>
+          <div className="flex justify-between items-center mb-6">
+            <h3 className={`text-[13px] font-bold ${textClass}`}>Weekly Study Goal</h3>
+            <button className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border flex items-center gap-1 ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
+              This Week <ChevronRight className="w-3 h-3 rotate-90" />
+            </button>
+          </div>
+          
+          <div className="flex items-center gap-2 mb-6">
+             <Target className="w-4 h-4 text-[#F97316] shrink-0" />
+             <span className={`text-[11px] font-bold ${mutedTextClass}`}>Goal: 10 hours</span>
+          </div>
+
+          <div className="flex gap-4 items-center mb-4">
+             <div className="relative w-20 h-20 shrink-0">
+               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                 <circle cx="50" cy="50" r="40" stroke={isDarkMode ? '#1E293B' : '#F1F5F9'} strokeWidth="8" fill="transparent" />
+                 <circle 
+                   cx="50" cy="50" r="40" stroke="#10B981" strokeWidth="8" fill="transparent" strokeLinecap="round"
+                   strokeDasharray={2 * Math.PI * 40} strokeDashoffset={(2 * Math.PI * 40) - ((totalWeeklyHours/10)*100 / 100) * (2 * Math.PI * 40)}
+                 />
+               </svg>
+               <div className="absolute inset-0 flex flex-col items-center justify-center mt-1">
+                 <span className={`text-[19px] font-black leading-none ${textClass}`}>4.5</span>
+                 <span className={`text-[8px] mt-0.5 font-bold ${mutedTextClass}`}>/ 10 hours</span>
+               </div>
+             </div>
+             <div className="px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-bold h-max whitespace-nowrap">
+               45% Completed
+             </div>
+          </div>
+
+          <div className="h-32 w-full mt-auto mb-2">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={weeklyData} margin={{ top: 20, right: 0, left: -25, bottom: 0 }} barSize={10}>
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: isDarkMode ? '#9CA3AF' : '#6B7280', fontSize: 10, fontWeight: 'bold' }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: isDarkMode ? '#9CA3AF' : '#6B7280', fontSize: 10 }} ticks={[0, 1, 2, 3, 4]} tickFormatter={(val) => `${val}h`} />
+                <Tooltip 
+                  cursor={{fill: 'transparent'}}
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div className={`px-2 py-1 rounded shadow-lg border text-[10px] font-bold ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-white' : 'bg-white border-slate-100 text-slate-900'}`}>
+                          {`${payload[0].value}h`}
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Bar dataKey="hours" radius={[4, 4, 4, 4]}>
+                   {weeklyData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.hours > 0 ? '#10B981' : (isDarkMode ? '#1E293B' : '#F1F5F9')} />
+                   ))}
+                   <LabelList dataKey="hours" position="top" formatter={(val) => `${val.toFixed(1)}h`} style={{ fontSize: '9px', fill: isDarkMode ? '#9CA3AF' : '#4B5563', fontWeight: 'bold' }} />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className={`mt-2 p-3 rounded-xl flex items-center justify-center gap-1.5 text-[11px] font-bold ${isDarkMode ? 'bg-[#1A2235] text-slate-300' : 'bg-[#F4F8FE] text-slate-600'}`}>
+             Great consistency! 🔥 You studied 4 days this week.
+          </div>
+        </motion.div>
+
+        {/* Certificates Claim */}
+        <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[24px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col relative overflow-hidden ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
+          <div className="flex justify-between items-center mb-10">
+            <h3 className={`text-[13px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>Certificates Claim</h3>
+            <button className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+              <MoreHorizontal className="w-5 h-5 text-slate-400" />
+            </button>
+          </div>
+          
+          <div className="flex-1 flex flex-col items-center justify-center text-center">
+            {/* Certificate Graphic */}
+            <div className="relative w-36 h-28 mb-10 mt-2 flex items-center justify-center">
+               
+               {/* Background Document */}
+               <div className={`absolute w-28 h-20 top-2 rounded-xl ${isDarkMode ? 'bg-slate-800' : 'bg-slate-200'}`}></div>
+               
+               {/* Foreground Document */}
+               <div className={`absolute w-32 h-20 bottom-2 rounded-xl shadow-sm flex items-center justify-start pl-5 ${isDarkMode ? 'bg-slate-700' : 'bg-slate-100'}`}>
+                 {/* Lines */}
+                 <div className="flex flex-col gap-2">
+                   <div className="w-12 h-2.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                   <div className="w-8 h-2.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                   <div className="w-10 h-2.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                 </div>
+
+                 {/* Gold Seal & Ribbon */}
+                 <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-center">
+                    {/* Ribbon Tails */}
+                    <div className="w-7 h-10 bg-slate-400 dark:bg-slate-500 absolute top-4 z-0" style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%)" }}></div>
+                    {/* Seal Circle */}
+                    <div className="w-10 h-10 rounded-full bg-[#F97316] border-[3px] border-orange-200 dark:border-orange-900 shadow-sm z-10 flex items-center justify-center">
+                       <div className="w-5 h-5 rounded-full border-2 border-orange-300 dark:border-orange-800 opacity-50"></div>
+                    </div>
+                 </div>
+               </div>
+
+               {/* Confetti dots */}
+               <div className="absolute left-0 top-0 w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+               <div className="absolute left-2 top-8 w-2 h-2 rounded-full bg-blue-500"></div>
+               <div className="absolute left-4 bottom-2 w-1.5 h-1.5 rounded-full bg-yellow-400"></div>
+               
+               <div className="absolute right-0 top-0 w-2 h-2 rotate-45 bg-orange-400" style={{ clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" }}></div>
+               <div className="absolute right-2 bottom-6 w-1.5 h-3 rounded-full bg-slate-300 rotate-45"></div>
+            </div>
+
+            <h4 className={`text-[13px] font-bold mb-6 leading-[1.6] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+              You have 1 certificate <br/> available to claim!
+            </h4>
+
+            <button 
+              onClick={() => setActiveTab('certificates')}
+              className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 bg-[#F97316] hover:bg-[#EA580C] text-white shadow-sm`}
+            >
+              Claim Certificate
+            </button>
+            
+            <button onClick={() => setActiveTab('certificates')} className="text-[11px] font-medium text-[#F97316] hover:underline flex items-center justify-center gap-1">
+              View all certificates <span className="text-[12px]">→</span>
+            </button>
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Courses */}
+        <motion.div variants={itemVariants} className={`p-6 rounded-[1.5rem] border shadow-sm flex flex-col ${cardClass}`}>
+          <div className="flex justify-between items-center mb-6">
+            <h3 className={`text-[13px] font-bold ${textClass}`}>Recent Courses</h3>
+            <button onClick={() => setActiveTab('courses')} className="text-[11px] font-bold text-blue-500 hover:underline">
+              View all
+            </button>
+          </div>
+          
+          <div className="space-y-5">
+            {([
+               { course: { title: 'Physics 101', lessons: new Array(45) }, completedLessons: new Array(12), progress: 28 },
+               { course: { title: 'Web Development', lessons: new Array(30) }, completedLessons: new Array(8), progress: 18 },
+               { course: { title: 'Mathematics Basics', lessons: new Array(40) }, completedLessons: new Array(20), progress: 50 },
+            ]).map((enrollment, idx) => (
+              <div key={idx} className="flex items-center gap-4">
+                <div className={`w-10 h-10 rounded-[0.8rem] flex items-center justify-center shrink-0 border ${
+                  idx === 0 ? 'bg-indigo-50 border-indigo-100 text-indigo-500 dark:bg-indigo-500/10 dark:border-indigo-500/20' : 
+                  idx === 1 ? 'bg-emerald-50 border-emerald-100 text-emerald-500 dark:bg-emerald-500/10 dark:border-emerald-500/20' : 
+                  'bg-orange-50 border-orange-100 text-orange-500 dark:bg-orange-500/10 dark:border-orange-500/20'
+                }`}>
+                  {idx === 0 ? <Atom className="w-5 h-5" /> : idx === 1 ? <Code className="w-5 h-5" /> : <Calculator className="w-5 h-5" />}
+                </div>
+                
+                <div className="w-[140px] shrink-0">
+                  <h4 className={`text-xs font-bold truncate ${textClass}`}>{enrollment.course?.title || 'Course Title'}</h4>
+                  <p className={`text-[9px] font-bold mt-1 ${mutedTextClass}`}>
+                    <span className="text-emerald-500">{enrollment.completedLessons?.length || 0}</span> / {enrollment.course?.lessons?.length || 10} Lessons
+                  </p>
+                </div>
+
+                <div className="flex-1 hidden sm:block h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mx-2">
+                  <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${enrollment.progress || 0}%` }}></div>
+                </div>
+
+                <div className={`px-2 py-1 rounded-md text-[10px] font-bold shrink-0 ${isDarkMode ? 'bg-emerald-500/10 text-emerald-400' : 'bg-emerald-50 text-emerald-600'}`}>
+                  {enrollment.progress || 0}%
+                </div>
+
+                <button className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400">
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Achievements */}
+        <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[32px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
+          <div className="flex justify-between items-center mb-6">
+            <h3 className={`text-[15px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>Achievements</h3>
+            <button className="text-[12px] font-bold text-blue-500 hover:underline">
+              View all
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+             {[
+               { title: 'First Goal', desc: 'Complete your first study goal', icon: Target, color: '#22C55E', lightBg: 'bg-emerald-50/50', darkBg: 'bg-emerald-500/10' },
+               { title: '7 Days Streak', desc: 'Studied for 7 consecutive days', icon: Flame, color: '#6366F1', lightBg: 'bg-indigo-50/50', darkBg: 'bg-indigo-500/10' },
+               { title: 'Quick Learner', desc: 'Complete 10 lessons', icon: BookOpen, color: '#F97316', lightBg: 'bg-orange-50/50', darkBg: 'bg-[#F97316]/10' },
+               { title: 'Consistent', desc: 'Study 5 days in a week', icon: Star, color: '#A855F7', lightBg: 'bg-purple-50/50', darkBg: 'bg-purple-500/10' },
+             ].map((ach, i) => (
+               <div key={i} className={`flex flex-col items-center text-center p-4 md:py-6 rounded-[24px] ${isDarkMode ? ach.darkBg : ach.lightBg}`}>
+                 <div className="relative mb-5 flex items-center justify-center">
+                    {/* Glowing Aura */}
+                    <div className="absolute inset-0 blur-xl opacity-40 scale-150" style={{ backgroundColor: ach.color }}></div>
+                    
+                    {/* Hexagon Badge */}
+                    <div className="relative w-14 h-14 flex items-center justify-center z-10" 
+                         style={{ backgroundColor: ach.color, clipPath: "polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)" }}>
+                      
+                      {/* Inner border effect */}
+                      <div className="w-[48px] h-[48px] flex items-center justify-center border-[1.5px] border-white/30"
+                           style={{ clipPath: "polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)" }}>
+                        <ach.icon className="w-5 h-5 text-white" />
+                      </div>
+
+                    </div>
+                 </div>
+                 <h4 className={`text-[12px] font-bold mb-1.5 ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>{ach.title}</h4>
+                 <p className={`text-[10px] font-medium leading-relaxed max-w-[100px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{ach.desc}</p>
+               </div>
+             ))}
+          </div>
+
+          <div className={`mt-auto p-4 rounded-[20px] flex items-center gap-3 text-[11px] font-medium ${isDarkMode ? 'bg-[#1E293B] text-slate-300' : 'bg-[#F8FAFC] text-slate-600'}`}>
+            <span className="text-base leading-none">⭐</span> Keep going! You're unlocking great achievements! <span className="text-base leading-none">🚀</span>
+          </div>
+        </motion.div>
+      </div>
+
+    </motion.div>
+  );
+};
+
+export default StudentOverview;
