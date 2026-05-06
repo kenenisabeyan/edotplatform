@@ -241,8 +241,9 @@ model UserSetting {
   feePercentage             Float    @default(10)
   autoInterventionTriggers  Boolean  @default(true)
   apiKey                    String   @default("")
-  
   blockedUsers              String[] // Telegram Block System
+  
+  weeklyStudyGoal           Float    @default(10)
 
   createdAt                 DateTime @default(now())
   updatedAt                 DateTime @updatedAt

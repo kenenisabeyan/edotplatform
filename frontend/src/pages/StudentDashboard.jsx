@@ -54,6 +54,7 @@ export default function StudentDashboard() {
   const [pendingSponsorships, setPendingSponsorships] = useState([]);
   const [pendingConnections, setPendingConnections] = useState([]);
   const [dbCourses, setDbCourses] = useState([]);
+  const [dashboardStats, setDashboardStats] = useState(null);
 
   useEffect(() => {
     const fetchEnrollments = async () => {
@@ -92,11 +93,21 @@ export default function StudentDashboard() {
         console.error('Failed to fetch courses', err);
       }
     };
+
+    const fetchDashboardStats = async () => {
+      try {
+        const { data } = await api.get('/users/dashboard-stats');
+        setDashboardStats(data.data || null);
+      } catch (err) {
+        console.error('Failed to fetch dashboard stats', err);
+      }
+    };
     
     fetchEnrollments();
     fetchPendingSponsorships();
     fetchPendingConnections();
     fetchAllCourses();
+    fetchDashboardStats();
   }, []);
 
   const handleConnectionRequest = async (id, action) => {
@@ -477,6 +488,7 @@ export default function StudentDashboard() {
             averageProgress={averageProgress}
             isDarkMode={isDarkMode}
             setActiveTab={setActiveTab}
+            dashboardStats={dashboardStats}
           />
         );
       case 'courses': {

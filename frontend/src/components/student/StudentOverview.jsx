@@ -17,20 +17,22 @@ const StudentOverview = ({
   totalLessonsCompleted, 
   averageProgress, 
   isDarkMode,
-  setActiveTab
+  setActiveTab,
+  dashboardStats
 }) => {
-  // Weekly data from the image: 1.2h, 2.5h, 0.8h, 3.0h, 1.5h, 2.8h, 0.0h
-  const weeklyData = [
-    { name: 'Mon', hours: 1.2 },
-    { name: 'Tue', hours: 2.5 },
-    { name: 'Wed', hours: 0.8 },
-    { name: 'Thu', hours: 3.0 },
-    { name: 'Fri', hours: 1.5 },
-    { name: 'Sat', hours: 2.8 },
-    { name: 'Sun', hours: 0.0 },
-  ];
+  const {
+    weeklyStudyData = [
+      { name: 'Mon', hours: 0 }, { name: 'Tue', hours: 0 }, { name: 'Wed', hours: 0 },
+      { name: 'Thu', hours: 0 }, { name: 'Fri', hours: 0 }, { name: 'Sat', hours: 0 }, { name: 'Sun', hours: 0 }
+    ],
+    percentile = 0,
+    studyGoal = 10,
+    daysStudied = 0,
+    recentCourses = [],
+    achievements = []
+  } = dashboardStats || {};
 
-  const totalWeeklyHours = weeklyData.reduce((acc, curr) => acc + curr.hours, 0).toFixed(1);
+  const totalWeeklyHours = weeklyStudyData.reduce((acc, curr) => acc + curr.hours, 0).toFixed(1);
 
   const cardClass = isDarkMode ? 'bg-[#121A2F] border-slate-800 text-white' : 'bg-white border-slate-100 text-slate-900';
   const textClass = isDarkMode ? 'text-white' : 'text-slate-900';
@@ -52,9 +54,8 @@ const StudentOverview = ({
   // Progress represented as a half-circle (or 3/4 circle in the design, let's use full circle stroke with gap)
   // We will map 0-100 to 0-75% of the circle to leave a gap at the bottom like the image
   const maxDisplayPercentage = 75; // The track covers 75% of the circle
-  // Hardcode to 23 to match the static 23% text, or fallback to averageProgress if needed
-  const progressValue = 23; 
-  const progressPercentage = (progressValue / 100) * maxDisplayPercentage;
+  // Use real average progress data
+  const progressPercentage = (averageProgress / 100) * maxDisplayPercentage;
   
   const trackStrokeDasharray = `${(maxDisplayPercentage / 100) * circumference} ${circumference}`;
   const progressStrokeDashoffset = circumference - (progressPercentage / 100) * circumference;
@@ -69,7 +70,7 @@ const StudentOverview = ({
         {/* Left Content */}
         <div className="relative z-10 flex-1 min-w-[300px]">
           <h1 className={`text-3xl md:text-[34px] font-black mb-3 font-['Inter',sans-serif] tracking-tight leading-tight flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>
-            Welcome back, kenokana beyan! <span className="text-3xl">👋</span>
+            Welcome back, {user?.name?.split(' ')[0] || 'Student'}! <span className="text-3xl">👋</span>
           </h1>
           <p className={`text-[15px] font-medium mb-8 ${isDarkMode ? 'text-slate-400' : 'text-[#6B7280]'}`}>
             Keep learning, keep growing. You're doing great!
@@ -114,7 +115,7 @@ const StudentOverview = ({
             className={`rounded-full shadow-[0_10px_40px_rgb(0,0,0,0.12)] w-[160px] h-[160px] relative shrink-0 ${isDarkMode ? 'border-[8px] border-slate-700' : 'border-[8px] border-white'}`}
           >
              <img 
-               src="https://ui-avatars.com/api/?name=Kenokana+Beyan&background=F97316&color=fff&size=256&font-size=0.4" 
+               src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'Student')}&background=F97316&color=fff&size=256&font-size=0.4`}
                alt="User Profile" 
                className="w-full h-full rounded-full object-cover" 
              />
@@ -130,7 +131,7 @@ const StudentOverview = ({
           >
             <div className="flex items-center gap-2 mb-2">
               <Flame className="w-8 h-8 text-[#F97316]" fill="#F97316" />
-              <span className={`text-[32px] leading-none font-black ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>7</span>
+              <span className={`text-[32px] leading-none font-black ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>{user?.streak || 0}</span>
             </div>
             <span className={`text-[13px] font-bold ${isDarkMode ? 'text-slate-400' : 'text-[#6B7280]'}`}>Day Streak</span>
             <span className={`text-[11px] font-medium mt-1 mb-4 ${isDarkMode ? 'text-slate-500' : 'text-[#6B7280]'}`}>Keep it up!</span>
@@ -144,10 +145,10 @@ const StudentOverview = ({
       {/* Top Stats Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {[
-          { title: 'Enrolled Courses', value: '13', subtitle: 'Courses', trend: '↑ 2 new this month', icon: ({className}) => <BookOpen className={className} fill="currentColor" strokeWidth={1} />, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-500/10' },
-          { title: 'Average Progress', value: '23%', subtitle: 'Across all courses', trend: '↑ 8% from last month', icon: ({className}) => <TrendingUp className={className} strokeWidth={2.5} />, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-500/10' },
-          { title: 'Completed Lessons', value: '12', subtitle: 'Lessons', trend: '↑ 3 new this week', icon: ({className}) => <CheckCircle className={className} fill="currentColor" stroke="white" strokeWidth={1.5} />, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-500/10' },
-          { title: 'Certificates', value: '3', subtitle: 'Earned', action: 'View all certificates →', icon: ({className}) => <Award className={className} fill="currentColor" strokeWidth={1} />, color: 'text-[#F97316]', bg: 'bg-orange-50 dark:bg-[#F97316]/10' },
+          { title: 'Enrolled Courses', value: totalEnrolled.toString(), subtitle: 'Courses', trend: '', icon: ({className}) => <BookOpen className={className} fill="currentColor" strokeWidth={1} />, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-500/10' },
+          { title: 'Average Progress', value: `${averageProgress}%`, subtitle: 'Across all courses', trend: '', icon: ({className}) => <TrendingUp className={className} strokeWidth={2.5} />, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-500/10' },
+          { title: 'Completed Lessons', value: totalLessonsCompleted.toString(), subtitle: 'Lessons', trend: '', icon: ({className}) => <CheckCircle className={className} fill="currentColor" stroke="white" strokeWidth={1.5} />, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-500/10' },
+          { title: 'Certificates', value: completedCourses.length.toString(), subtitle: 'Earned', action: 'View all certificates →', icon: ({className}) => <Award className={className} fill="currentColor" strokeWidth={1} />, color: 'text-[#F97316]', bg: 'bg-orange-50 dark:bg-[#F97316]/10' },
         ].map((stat, i) => (
           <motion.div key={i} variants={itemVariants} className={`p-6 rounded-[24px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
             <div className="flex items-start gap-4">
@@ -217,7 +218,7 @@ const StudentOverview = ({
                  </defs>
                </svg>
                <div className="absolute inset-0 flex flex-col items-center justify-center mt-2">
-                 <span className={`text-[32px] leading-none font-black ${textClass}`}>23%</span>
+                 <span className={`text-[32px] leading-none font-black ${textClass}`}>{averageProgress}%</span>
                  <span className={`text-[9px] font-bold uppercase tracking-widest mt-1.5 ${mutedTextClass}`}>Progress</span>
                  <span className={`text-[11px] font-bold mt-2 flex items-center gap-1 ${textClass}`}>
                    Keep going! <span className="text-sm">💪</span>
@@ -228,23 +229,23 @@ const StudentOverview = ({
             <div className="w-full grid grid-cols-3 gap-2 mt-4 text-center">
                <div className="flex flex-col items-center">
                  <span className="text-emerald-500 font-bold text-[10px] mb-1">Completed</span>
-                 <span className={`text-lg font-black ${textClass}`}>12</span>
+                 <span className={`text-lg font-black ${textClass}`}>{totalLessonsCompleted}</span>
                  <span className={`text-[9px] ${mutedTextClass}`}>Lessons</span>
                </div>
                <div className="flex flex-col items-center border-x border-slate-100 dark:border-slate-800">
                  <span className="text-blue-500 font-bold text-[10px] mb-1">In Progress</span>
-                 <span className={`text-lg font-black ${textClass}`}>8</span>
-                 <span className={`text-[9px] ${mutedTextClass}`}>Lessons</span>
+                 <span className={`text-lg font-black ${textClass}`}>{totalEnrolled > 0 ? totalEnrolled - completedCourses.length : 0}</span>
+                 <span className={`text-[9px] ${mutedTextClass}`}>Courses</span>
                </div>
                <div className="flex flex-col items-center">
-                 <span className="text-[#F97316] font-bold text-[10px] mb-1">Remaining</span>
-                 <span className={`text-lg font-black ${textClass}`}>30</span>
-                 <span className={`text-[9px] ${mutedTextClass}`}>Lessons</span>
+                 <span className="text-[#F97316] font-bold text-[10px] mb-1">Certificates</span>
+                 <span className={`text-lg font-black ${textClass}`}>{completedCourses.length}</span>
+                 <span className={`text-[9px] ${mutedTextClass}`}>Earned</span>
                </div>
             </div>
 
             <div className={`mt-6 px-4 py-2 rounded-full text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 dark:text-emerald-400 flex items-center gap-1.5`}>
-               You're ahead of 65% of learners 📈
+               You're ahead of {percentile}% of learners 📈
             </div>
           </div>
         </motion.div>
@@ -260,7 +261,7 @@ const StudentOverview = ({
           
           <div className="flex items-center gap-2 mb-6">
              <Target className="w-4 h-4 text-[#F97316] shrink-0" />
-             <span className={`text-[11px] font-bold ${mutedTextClass}`}>Goal: 10 hours</span>
+             <span className={`text-[11px] font-bold ${mutedTextClass}`}>Goal: {studyGoal} hours</span>
           </div>
 
           <div className="flex gap-4 items-center mb-4">
@@ -269,22 +270,22 @@ const StudentOverview = ({
                  <circle cx="50" cy="50" r="40" stroke={isDarkMode ? '#1E293B' : '#F1F5F9'} strokeWidth="8" fill="transparent" />
                  <circle 
                    cx="50" cy="50" r="40" stroke="#10B981" strokeWidth="8" fill="transparent" strokeLinecap="round"
-                   strokeDasharray={2 * Math.PI * 40} strokeDashoffset={(2 * Math.PI * 40) - ((totalWeeklyHours/10)*100 / 100) * (2 * Math.PI * 40)}
+                   strokeDasharray={2 * Math.PI * 40} strokeDashoffset={(2 * Math.PI * 40) - ((totalWeeklyHours/studyGoal)*100 / 100) * (2 * Math.PI * 40)}
                  />
                </svg>
                <div className="absolute inset-0 flex flex-col items-center justify-center mt-1">
-                 <span className={`text-[19px] font-black leading-none ${textClass}`}>4.5</span>
-                 <span className={`text-[8px] mt-0.5 font-bold ${mutedTextClass}`}>/ 10 hours</span>
+                 <span className={`text-[19px] font-black leading-none ${textClass}`}>{totalWeeklyHours}</span>
+                 <span className={`text-[8px] mt-0.5 font-bold ${mutedTextClass}`}>/ {studyGoal} hours</span>
                </div>
              </div>
              <div className="px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-bold h-max whitespace-nowrap">
-               45% Completed
+               {Math.min(100, Math.round((totalWeeklyHours / studyGoal) * 100))}% Completed
              </div>
           </div>
 
           <div className="h-32 w-full mt-auto mb-2">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={weeklyData} margin={{ top: 20, right: 0, left: -25, bottom: 0 }} barSize={10}>
+              <BarChart data={weeklyStudyData} margin={{ top: 20, right: 0, left: -25, bottom: 0 }} barSize={10}>
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: isDarkMode ? '#9CA3AF' : '#6B7280', fontSize: 10, fontWeight: 'bold' }} dy={10} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: isDarkMode ? '#9CA3AF' : '#6B7280', fontSize: 10 }} ticks={[0, 1, 2, 3, 4]} tickFormatter={(val) => `${val}h`} />
                 <Tooltip 
@@ -301,7 +302,7 @@ const StudentOverview = ({
                   }}
                 />
                 <Bar dataKey="hours" radius={[4, 4, 4, 4]}>
-                   {weeklyData.map((entry, index) => (
+                   {weeklyStudyData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.hours > 0 ? '#10B981' : (isDarkMode ? '#1E293B' : '#F1F5F9')} />
                    ))}
                    <LabelList dataKey="hours" position="top" formatter={(val) => `${val.toFixed(1)}h`} style={{ fontSize: '9px', fill: isDarkMode ? '#9CA3AF' : '#4B5563', fontWeight: 'bold' }} />
@@ -311,7 +312,7 @@ const StudentOverview = ({
           </div>
 
           <div className={`mt-2 p-3 rounded-xl flex items-center justify-center gap-1.5 text-[11px] font-bold ${isDarkMode ? 'bg-[#1A2235] text-slate-300' : 'bg-[#F4F8FE] text-slate-600'}`}>
-             Great consistency! 🔥 You studied 4 days this week.
+             Great consistency! 🔥 You studied {daysStudied} days this week.
           </div>
         </motion.div>
 
@@ -361,7 +362,7 @@ const StudentOverview = ({
             </div>
 
             <h4 className={`text-[13px] font-bold mb-6 leading-[1.6] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
-              You have 1 certificate <br/> available to claim!
+              You have {completedCourses.length} certificate{completedCourses.length !== 1 ? 's' : ''} <br/> available to claim!
             </h4>
 
             <button 
@@ -389,11 +390,11 @@ const StudentOverview = ({
           </div>
           
           <div className="space-y-5">
-            {([
-               { course: { title: 'Physics 101', lessons: new Array(45) }, completedLessons: new Array(12), progress: 28 },
-               { course: { title: 'Web Development', lessons: new Array(30) }, completedLessons: new Array(8), progress: 18 },
-               { course: { title: 'Mathematics Basics', lessons: new Array(40) }, completedLessons: new Array(20), progress: 50 },
-            ]).map((enrollment, idx) => (
+            {recentCourses.length === 0 ? (
+                <div className={`text-center p-4 text-[12px] font-medium ${mutedTextClass}`}>
+                    No recent courses found.
+                </div>
+            ) : recentCourses.map((enrollment, idx) => (
               <div key={idx} className="flex items-center gap-4">
                 <div className={`w-10 h-10 rounded-[0.8rem] flex items-center justify-center shrink-0 border ${
                   idx === 0 ? 'bg-indigo-50 border-indigo-100 text-indigo-500 dark:bg-indigo-500/10 dark:border-indigo-500/20' : 
@@ -436,12 +437,7 @@ const StudentOverview = ({
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-             {[
-               { title: 'First Goal', desc: 'Complete your first study goal', icon: Target, color: '#22C55E', lightBg: 'bg-emerald-50/50', darkBg: 'bg-emerald-500/10' },
-               { title: '7 Days Streak', desc: 'Studied for 7 consecutive days', icon: Flame, color: '#6366F1', lightBg: 'bg-indigo-50/50', darkBg: 'bg-indigo-500/10' },
-               { title: 'Quick Learner', desc: 'Complete 10 lessons', icon: BookOpen, color: '#F97316', lightBg: 'bg-orange-50/50', darkBg: 'bg-[#F97316]/10' },
-               { title: 'Consistent', desc: 'Study 5 days in a week', icon: Star, color: '#A855F7', lightBg: 'bg-purple-50/50', darkBg: 'bg-purple-500/10' },
-             ].map((ach, i) => (
+             {achievements && achievements.length > 0 ? achievements.slice(0,4).map((ach, i) => (
                <div key={i} className={`flex flex-col items-center text-center p-4 md:py-6 rounded-[24px] ${isDarkMode ? ach.darkBg : ach.lightBg}`}>
                  <div className="relative mb-5 flex items-center justify-center">
                     {/* Glowing Aura */}
@@ -462,7 +458,11 @@ const StudentOverview = ({
                  <h4 className={`text-[12px] font-bold mb-1.5 ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>{ach.title}</h4>
                  <p className={`text-[10px] font-medium leading-relaxed max-w-[100px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{ach.desc}</p>
                </div>
-             ))}
+             )) : (
+                 <div className={`col-span-4 text-center p-4 text-[12px] font-medium ${mutedTextClass}`}>
+                     No achievements earned yet. Start learning to unlock badges!
+                 </div>
+             )}
           </div>
 
           <div className={`mt-auto p-4 rounded-[20px] flex items-center gap-3 text-[11px] font-medium ${isDarkMode ? 'bg-[#1E293B] text-slate-300' : 'bg-[#F8FAFC] text-slate-600'}`}>
