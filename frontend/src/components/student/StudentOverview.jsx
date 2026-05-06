@@ -184,7 +184,7 @@ const StudentOverview = ({
         <motion.div variants={itemVariants} className={`p-6 rounded-[1.5rem] border shadow-sm flex flex-col relative ${cardClass}`}>
           <div className="flex justify-between items-center mb-4">
             <h3 className={`text-[13px] font-bold ${textClass}`}>Academic Progress</h3>
-            <button className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border flex items-center gap-1 ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
+            <button onClick={() => setActiveTab('courses')} className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border flex items-center gap-1 ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
               All Courses <ChevronRight className="w-3 h-3 rotate-90" />
             </button>
           </div>
@@ -254,7 +254,7 @@ const StudentOverview = ({
         <motion.div variants={itemVariants} className={`p-6 rounded-[1.5rem] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#121A2F] border-slate-800' : 'bg-white border-slate-200/80'}`}>
           <div className="flex justify-between items-center mb-6">
             <h3 className={`text-[13px] font-bold ${textClass}`}>Weekly Study Goal</h3>
-            <button className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border flex items-center gap-1 ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
+            <button onClick={() => setActiveTab('schedule')} className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border flex items-center gap-1 ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
               This Week <ChevronRight className="w-3 h-3 rotate-90" />
             </button>
           </div>
@@ -431,34 +431,39 @@ const StudentOverview = ({
         <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[32px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
           <div className="flex justify-between items-center mb-6">
             <h3 className={`text-[15px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>Achievements</h3>
-            <button className="text-[12px] font-bold text-blue-500 hover:underline">
+            <button onClick={() => setActiveTab('growth')} className="text-[12px] font-bold text-blue-500 hover:underline">
               View all
             </button>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-             {achievements && achievements.length > 0 ? achievements.slice(0,4).map((ach, i) => (
-               <div key={i} className={`flex flex-col items-center text-center p-4 md:py-6 rounded-[24px] ${isDarkMode ? ach.darkBg : ach.lightBg}`}>
+              {achievements && achievements.length > 0 ? achievements.slice(0,4).map((ach, i) => {
+                 const IconComponent = typeof ach.icon === 'string' 
+                   ? ({ Award, Star, Zap, Target }[ach.icon] || Award) 
+                   : (ach.icon || Award);
+                 return (
+               <div key={i} className={`flex flex-col items-center text-center p-4 md:py-6 rounded-[24px] ${isDarkMode ? ach.darkBg : ach.lightBg || 'bg-slate-50'}`}>
                  <div className="relative mb-5 flex items-center justify-center">
                     {/* Glowing Aura */}
-                    <div className="absolute inset-0 blur-xl opacity-40 scale-150" style={{ backgroundColor: ach.color }}></div>
+                    <div className="absolute inset-0 blur-xl opacity-40 scale-150" style={{ backgroundColor: ach.color || '#F97316' }}></div>
                     
                     {/* Hexagon Badge */}
                     <div className="relative w-14 h-14 flex items-center justify-center z-10" 
-                         style={{ backgroundColor: ach.color, clipPath: "polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)" }}>
+                         style={{ backgroundColor: ach.color || '#F97316', clipPath: "polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)" }}>
                       
                       {/* Inner border effect */}
                       <div className="w-[48px] h-[48px] flex items-center justify-center border-[1.5px] border-white/30"
                            style={{ clipPath: "polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)" }}>
-                        <ach.icon className="w-5 h-5 text-white" />
+                        <IconComponent className="w-5 h-5 text-white" />
                       </div>
 
                     </div>
                  </div>
                  <h4 className={`text-[12px] font-bold mb-1.5 ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>{ach.title}</h4>
-                 <p className={`text-[10px] font-medium leading-relaxed max-w-[100px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{ach.desc}</p>
+                 <p className={`text-[10px] font-medium leading-relaxed max-w-[100px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{ach.description || ach.desc}</p>
                </div>
-             )) : (
+               );
+              }) : (
                  <div className={`col-span-4 text-center p-4 text-[12px] font-medium ${mutedTextClass}`}>
                      No achievements earned yet. Start learning to unlock badges!
                  </div>

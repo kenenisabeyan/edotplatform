@@ -20,6 +20,12 @@ import ThemeDropdown from '../components/ThemeDropdown';
 import useThemeMode from '../hooks/useThemeMode';
 import { PACKAGES } from '../constants/packages';
 
+import LibraryView from './LibraryView';
+import MessagesView from './MessagesView';
+import NoticeView from './NoticeView';
+import SettingsView from './SettingsView';
+import CertificatesView from './CertificatesView';
+
 const CAT_COLORS = {
   "Social Science": { main: "#F97316", dark: "#C2410C" }, 
   "Mathematics & Natural Science": { main: "#3B82F6", dark: "#1D4ED8" }, 
@@ -174,7 +180,7 @@ export default function StudentDashboard() {
   const { totalEnrolled, totalLessonsCompleted, completedCourses, averageProgress } = React.useMemo(() => {
     const total = enrolledCourses.length;
     const lessonsCompleted = enrolledCourses.reduce((sum, course) => sum + (course.completedLessons?.length || 0), 0);
-    const completed = enrolledCourses.filter(c => c.progress === 100);
+    const completed = enrolledCourses.filter(c => c.progress === 100 || c.status === 'completed' || c.completed === true);
     const avgProg = total > 0 ? Math.round(enrolledCourses.reduce((sum, course) => sum + (course.progress || 0), 0) / total) : 0;
     
     return {
@@ -491,13 +497,13 @@ export default function StudentDashboard() {
             dashboardStats={dashboardStats}
           />
         );
-      case 'courses': {
+      case 'catalog': {
         return (
           <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
             <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <div>
                 <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  <BookOpen className="w-8 h-8 text-[#00D4FF]" />
+                  <Globe className="w-8 h-8 text-[#00D4FF]" />
                   Course Catalog
                   {loading && <div className={`w-5 h-5 border-2 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'} ml-3`}></div>}
                 </h1>
@@ -518,6 +524,61 @@ export default function StudentDashboard() {
                 return <PackageCard key={idx} pkg={{...pkg, courses: matchedCourses}} isEnrolled={isPkgEnrolled} enrolledCoursesData={enrolledInPkg} isDarkMode={isDarkMode} />
               })}
             </div>
+          </div>
+        );
+      }
+
+      case 'courses': {
+        return (
+          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
+            <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+              <div>
+                <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                  <BookOpen className="w-8 h-8 text-[#F97316]" />
+                  My Courses
+                </h1>
+                <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Continue learning and track your progress.</p>
+              </div>
+              <button onClick={() => setActiveTab('catalog')} className={`px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl shadow-md transition-all`}>
+                 Browse Catalog
+              </button>
+            </div>
+            
+            {enrolledCourses.length === 0 ? (
+               <div className={`p-12 text-center rounded-2xl border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+                 <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 border ${isDarkMode ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-orange-50 text-orange-500 border-orange-100'}`}>
+                   <BookOpen className="w-8 h-8" />
+                 </div>
+                 <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>No enrolled courses</h3>
+                 <p className={`text-sm mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>You haven't enrolled in any courses yet. Check out the catalog!</p>
+                 <button onClick={() => setActiveTab('catalog')} className={`px-6 py-3 bg-[#F97316] hover:bg-[#EA580C] font-bold text-sm rounded-xl shadow-md transition-colors text-white`}>
+                   Explore Catalog
+                 </button>
+               </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {enrolledCourses.map((enrolled) => (
+                    <div key={enrolled.id} className={`rounded-2xl border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-slate-700 hover:border-orange-500/50' : 'bg-white border-slate-200 hover:border-orange-300'}`}>
+                       <div className="w-full h-40 bg-slate-100 dark:bg-slate-800 rounded-xl mb-4 overflow-hidden relative">
+                         <img src={enrolled.course?.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' : (enrolled.course?.thumbnail || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80')} alt={enrolled.course?.title} className="w-full h-full object-cover" />
+                       </div>
+                       <h3 className={`text-lg font-bold mb-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{enrolled.course?.title || 'Unknown Course'}</h3>
+                       <div className="mt-auto pt-4 space-y-3">
+                         <div className="flex justify-between text-xs font-bold">
+                           <span className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>Progress</span>
+                           <span className="text-[#F97316]">{enrolled.progress || 0}%</span>
+                         </div>
+                         <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                           <div className="h-full bg-[#F97316] rounded-full" style={{width: `${enrolled.progress || 0}%`}}></div>
+                         </div>
+                         <button onClick={() => navigate(`/course/${enrolled.course?.id || enrolled.courseId}`)} className={`w-full py-2.5 mt-2 font-bold text-xs rounded-lg transition-colors ${isDarkMode ? 'bg-white/10 hover:bg-[#F97316] text-white' : 'bg-slate-100 hover:bg-[#F97316] text-slate-800 hover:text-white'}`}>
+                           Continue Learning
+                         </button>
+                       </div>
+                    </div>
+                  ))}
+                </div>
+            )}
           </div>
         );
       }
@@ -593,12 +654,60 @@ export default function StudentDashboard() {
                         <button type="submit" className={`px-6 py-2 !rounded-full text-sm font-semibold bg-[#f97316] hover:bg-[#ea580c] shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Add</button>
                     </form>
                 </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                   <div className="md:col-span-2 space-y-6">
+                      <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+                         <h3 className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Recent Tasks & Activity</h3>
+                         <ActivityFeed feedType="personal" limit={10} />
+                      </div>
+                   </div>
+                   <div className="md:col-span-1 space-y-6">
+                      <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+                         <h3 className={`text-lg font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Private Logs</h3>
+                         {privateLogs.length === 0 ? (
+                           <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No private logs yet.</p>
+                         ) : (
+                           <ul className="space-y-3">
+                             {privateLogs.map(log => (
+                               <li key={log.id} className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#121A2F] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-100 text-slate-700'} text-sm`}>
+                                  <span className="font-bold mr-2 text-[#F97316]">Goal:</span>
+                                  {log.metadata?.goal || log.details || log.action}
+                               </li>
+                             ))}
+                           </ul>
+                         )}
+                      </div>
+                   </div>
+                </div>
              </div>
          );
       case 'settings':
-        return <ProfileView />;
+        return <SettingsView />;
       case 'ecosystem':
         return <EcosystemNexus />;
+      case 'library':
+        return <div className="p-8 max-w-7xl mx-auto"><LibraryView /></div>;
+      case 'message':
+        return <div className="p-8 max-w-7xl mx-auto"><MessagesView /></div>;
+      case 'notice':
+        return <div className="p-8 max-w-7xl mx-auto"><NoticeView /></div>;
+      case 'sponsorships':
+        return (
+           <div className={`p-12 text-center rounded-2xl border m-8 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+              <ShieldCheck className={`w-12 h-12 mx-auto mb-4 ${isDarkMode ? 'text-slate-600' : 'text-slate-300'}`} />
+              <h2 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Sponsorships Portal</h2>
+              <p className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>This module is currently under construction. Please check back later.</p>
+           </div>
+        );
+      case 'schedule':
+        return (
+           <div className={`p-12 text-center rounded-2xl border m-8 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+              <Clock className={`w-12 h-12 mx-auto mb-4 ${isDarkMode ? 'text-slate-600' : 'text-slate-300'}`} />
+              <h2 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Schedule Manager</h2>
+              <p className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>This module is currently under construction. Please check back later.</p>
+           </div>
+        );
       default:
         return null;
     }
@@ -644,20 +753,22 @@ export default function StudentDashboard() {
              <p className={`px-4 text-[10px] font-bold mb-3 uppercase tracking-wider ${mutedTextClass}`}>Main</p>
              <nav>
                <NavItem tabName="overview" icon={LayoutDashboard} label="Dashboard" isActive={activeTab === 'overview'} onClick={() => setActiveTab('overview')} />
+               <NavItem tabName="catalog" icon={Globe} label="Course Catalog" isActive={activeTab === 'catalog'} onClick={() => setActiveTab('catalog')} />
                <NavItem tabName="courses" icon={BookOpen} label="My Courses" isActive={activeTab === 'courses'} onClick={() => setActiveTab('courses')} />
-               <NavItem tabName="schedule" icon={Clock} label="Schedule" isActive={false} onClick={() => {}} />
+               <NavItem tabName="schedule" icon={Clock} label="Schedule" isActive={activeTab === 'schedule'} onClick={() => setActiveTab('schedule')} />
              </nav>
            </div>
 
            <div>
              <p className={`px-4 text-[10px] font-bold mb-3 uppercase tracking-wider ${mutedTextClass}`}>Management</p>
              <nav>
-               <NavItem tabName="notice" icon={Bell} label="Notice" isActive={false} onClick={() => {}} />
-               <NavItem tabName="library" icon={BookOpen} label="Library" isActive={false} onClick={() => {}} />
-               <NavItem tabName="message" icon={MoreHorizontal} label="Message" isActive={false} onClick={() => {}} />
+               <NavItem tabName="notice" icon={Bell} label="Notice" isActive={activeTab === 'notice'} onClick={() => setActiveTab('notice')} />
+               <NavItem tabName="library" icon={BookOpen} label="Library" isActive={activeTab === 'library'} onClick={() => setActiveTab('library')} />
+               <NavItem tabName="message" icon={MoreHorizontal} label="Message" isActive={activeTab === 'message'} onClick={() => setActiveTab('message')} />
                <NavItem tabName="certificates" icon={Award} label="Certificates" isActive={activeTab === 'certificates'} onClick={() => setActiveTab('certificates')} />
-               <NavItem tabName="sponsorships" icon={ShieldCheck} label="Sponsorships" isActive={false} onClick={() => {}} />
-               <NavItem tabName="ecosystem" icon={ShieldCheck} label="Ecosystem Nexus" isActive={activeTab === 'ecosystem'} onClick={() => setActiveTab('ecosystem')} />
+               <NavItem tabName="sponsorships" icon={ShieldCheck} label="Sponsorships" isActive={activeTab === 'sponsorships'} onClick={() => setActiveTab('sponsorships')} />
+               <NavItem tabName="growth" icon={Target} label="Growth Lab" isActive={activeTab === 'growth'} onClick={() => setActiveTab('growth')} />
+               <NavItem tabName="ecosystem" icon={Globe} label="Ecosystem Nexus" isActive={activeTab === 'ecosystem'} onClick={() => setActiveTab('ecosystem')} />
              </nav>
            </div>
 
@@ -665,7 +776,6 @@ export default function StudentDashboard() {
              <p className={`px-4 text-[10px] font-bold mb-3 uppercase tracking-wider ${mutedTextClass}`}>Settings</p>
              <nav>
                <NavItem tabName="settings" icon={Users} label="Profile" isActive={activeTab === 'settings'} onClick={() => setActiveTab('settings')} />
-               <NavItem tabName="setting" icon={Settings} label="Setting" isActive={false} onClick={() => {}} />
              </nav>
            </div>
         </div>

@@ -29,7 +29,7 @@ router.get('/enrollments', async (req, res) => {
             return res.status(404).json({ success: false, message: 'User not found' });
         }
 
-        const enrolledCourses = (user.userCourseProgress || []).filter(e => e.status === 'active');
+        const enrolledCourses = (user.userCourseProgress || []).filter(e => e.status === 'active' || e.status === 'completed' || e.completed === true);
 
         res.status(200).json({
             success: true,

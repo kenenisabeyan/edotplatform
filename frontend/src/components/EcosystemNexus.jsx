@@ -14,22 +14,15 @@ export default function EcosystemNexus() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // In a real implementation, this would fetch from a specialized /ecosystem route
-    // For now, we simulate the secure fetch to demonstrate the architecture
     const fetchEcosystem = async () => {
       try {
-        // Simulating the secure data aggregation
-        setTimeout(() => {
-          setConnections({
-            parents: [{ id: 'p1', name: 'Verified Guardian', status: 'active', encryptionKey: 'E2E-A1B2' }],
-            sponsors: [{ id: 's1', name: 'Anonymous Sponsor (Ghost Protocol)', status: 'pending_consent', encryptionKey: 'E2E-X9Y8' }],
-            instructors: [{ id: 'i1', name: 'Prof. Sarah Jenkins', role: 'Lead Instructor', status: 'active' }],
-            admin: { id: 'a1', name: 'System Core Security', status: 'active' }
-          });
-          setLoading(false);
-        }, 1200);
+        const { data } = await api.get('/users/ecosystem');
+        if (data.success) {
+           setConnections(data.data);
+        }
       } catch (err) {
         console.error('Failed to load ecosystem securely:', err);
+      } finally {
         setLoading(false);
       }
     };
