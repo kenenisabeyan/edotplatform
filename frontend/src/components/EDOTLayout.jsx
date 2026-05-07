@@ -27,7 +27,8 @@ import {
   PanelLeftOpen,
   TrendingUp,
   HeartHandshake,
-  ShieldCheck
+  ShieldCheck,
+  Target
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationBell from './NotificationBell';
@@ -174,6 +175,8 @@ export default function EDOTLayout() {
         { name: 'Calendar', icon: CalendarDays, path: '/dashboard/calendar' },
         { name: 'Library', icon: BookOpen, path: '/dashboard/library' },
         { name: 'Message', icon: MessageSquare, path: '/dashboard/messages' },
+        { name: 'Study Goal', icon: Target, path: '/dashboard/study-goal' },
+        { name: 'Achievements', icon: Award, path: '/dashboard/achievements' },
         { name: 'Sponsorships', icon: HeartHandshake, path: '/dashboard/support' },
         { name: 'Ecosystem Nexus', icon: ShieldCheck, path: '/dashboard/ecosystem' },
       ],
@@ -196,6 +199,8 @@ export default function EDOTLayout() {
         { name: 'Notice', icon: BellRing, path: '/dashboard/notice' },
         { name: 'Calendar', icon: CalendarDays, path: '/dashboard/calendar' },
         { name: 'Message', icon: MessageSquare, path: '/dashboard/messages' },
+        { name: 'Study Goal', icon: Target, path: '/dashboard/study-goal' },
+        { name: 'Achievements', icon: Award, path: '/dashboard/achievements' },
         { name: 'Sponsorships', icon: HeartHandshake, path: '/dashboard/support' },
         { name: 'Ecosystem Nexus', icon: ShieldCheck, path: '/dashboard/ecosystem' },
       ],
@@ -209,6 +214,8 @@ export default function EDOTLayout() {
       menu1: [
         { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
         { name: 'My Courses', icon: BookOpen, path: '/dashboard/courses' },
+        { name: 'Study Goal', icon: Target, path: '/dashboard/study-goal' },
+        { name: 'Achievements', icon: Award, path: '/dashboard/achievements' },
         { name: 'Schedule', icon: CalendarDays, path: '/dashboard/schedule' },
       ],
       menu2: [

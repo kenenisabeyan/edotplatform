@@ -49,6 +49,8 @@ import UsersManagement from './pages/UsersManagement';
 import SectionManagement from './pages/SectionManagement';
 import SupportDashboard from './pages/SupportDashboard';
 import EcosystemView from './pages/EcosystemView';
+import StudyGoalView from './pages/StudyGoalView';
+import AchievementsView from './pages/AchievementsView';
 import { Outlet } from 'react-router-dom';
 
 import ErrorBoundary from './components/ErrorBoundary';
@@ -197,6 +199,8 @@ export default function App() {
           <Route path="library" element={<LibraryView />} />
           <Route path="messages" element={<MessagesView />} />
           <Route path="certificates" element={<CertificatesView />} />
+          <Route path="study-goal" element={<StudyGoalView />} />
+          <Route path="achievements" element={<AchievementsView />} />
           <Route path="profile" element={<ProfileView />} />
           <Route path="settings" element={<SettingsView />} />
           <Route path="ecosystem" element={<EcosystemView />} />

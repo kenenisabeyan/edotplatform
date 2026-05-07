@@ -37,25 +37,27 @@ export const updateSettings = async (req, res) => {
       if (commonData.notifySystem !== undefined) updatedData.notifySystem = commonData.notifySystem;
       if (commonData.notifyMessages !== undefined) updatedData.notifyMessages = commonData.notifyMessages;
       if (commonData.notifyDigest !== undefined) updatedData.notifyDigest = commonData.notifyDigest;
+      if (commonData.weeklyStudyGoal !== undefined) updatedData.weeklyStudyGoal = Number(commonData.weeklyStudyGoal);
     }
 
     if (settingsData) {
+      if (settingsData.weeklyStudyGoal !== undefined) updatedData.weeklyStudyGoal = Number(settingsData.weeklyStudyGoal);
       if (role === 'student') {
         if (settingsData.shareMilestones !== undefined) updatedData.shareMilestones = settingsData.shareMilestones;
         if (settingsData.shareGrades !== undefined) updatedData.shareGrades = settingsData.shareGrades;
         if (settingsData.privateMode !== undefined) updatedData.privateMode = settingsData.privateMode;
       } else if (role === 'parent') {
-         if (settingsData.billingMethod !== undefined) updatedData.billingMethod = settingsData.billingMethod;
-         if (settingsData.alertGradeBelow !== undefined) updatedData.alertGradeBelow = settingsData.alertGradeBelow;
-         if (settingsData.alertAbsenceCount !== undefined) updatedData.alertAbsenceCount = settingsData.alertAbsenceCount;
+        if (settingsData.billingMethod !== undefined) updatedData.billingMethod = settingsData.billingMethod;
+        if (settingsData.alertGradeBelow !== undefined) updatedData.alertGradeBelow = settingsData.alertGradeBelow;
+        if (settingsData.alertAbsenceCount !== undefined) updatedData.alertAbsenceCount = settingsData.alertAbsenceCount;
       } else if (role === 'instructor') {
-         if (settingsData.consultationHours !== undefined) updatedData.consultationHours = settingsData.consultationHours;
-         if (settingsData.courseVisibility !== undefined) updatedData.courseVisibility = settingsData.courseVisibility;
-         if (settingsData.autoTags !== undefined) updatedData.autoTags = settingsData.autoTags;
-         if (settingsData.autoGrade !== undefined) updatedData.autoGrade = settingsData.autoGrade;
+        if (settingsData.consultationHours !== undefined) updatedData.consultationHours = settingsData.consultationHours;
+        if (settingsData.courseVisibility !== undefined) updatedData.courseVisibility = settingsData.courseVisibility;
+        if (settingsData.autoTags !== undefined) updatedData.autoTags = settingsData.autoTags;
+        if (settingsData.autoGrade !== undefined) updatedData.autoGrade = settingsData.autoGrade;
       } else if (role === 'admin') {
-         if (settingsData.primaryColor !== undefined) updatedData.primaryColor = settingsData.primaryColor;
-         if (settingsData.feePercentage !== undefined) updatedData.feePercentage = settingsData.feePercentage;
+        if (settingsData.primaryColor !== undefined) updatedData.primaryColor = settingsData.primaryColor;
+        if (settingsData.feePercentage !== undefined) updatedData.feePercentage = settingsData.feePercentage;
          if (settingsData.autoInterventionTriggers !== undefined) updatedData.autoInterventionTriggers = settingsData.autoInterventionTriggers;
          if (settingsData.apiKey !== undefined) updatedData.apiKey = settingsData.apiKey;
       }
