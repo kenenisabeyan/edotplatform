@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import { 
@@ -50,78 +51,92 @@ const CAT_DESCRIPTIONS = {
 export default function StudentDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [enrolledCourses, setEnrolledCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState('overview');
   const isDarkMode = useThemeMode();
   const [growthNote, setGrowthNote] = useState('');
-  const [privateLogs, setPrivateLogs] = useState([]);
-  const [achievements, setAchievements] = useState(null);
-  const [pendingSponsorships, setPendingSponsorships] = useState([]);
-  const [pendingConnections, setPendingConnections] = useState([]);
-  const [dbCourses, setDbCourses] = useState([]);
-  const [dashboardStats, setDashboardStats] = useState(null);
+  
+  const { data: dashboardData, isLoading: isLoadingDashboard } = useQuery({
+    queryKey: ['studentDashboard'],
+    queryFn: async () => {
+      const [{ data: enrolled }, { data: dashboard }, { data: progress }, { data: study }, { data: certs }, { data: ach }] = await Promise.all([
+        api.get('/courses/enrolled'),
+        api.get('/dashboard/student'),
+        api.get('/progress/overview'),
+        api.get('/study/weekly'),
+        api.get('/certificates'),
+        api.get('/achievements')
+      ]);
+      return {
+        enrolledCourses: enrolled.data || [],
+        overview: dashboard.data || {},
+        progress: progress.data || {},
+        study: study.data || {},
+        certificates: certs.data || [],
+        achievements: ach.data || []
+      };
+    }
+  });
 
-  useEffect(() => {
-    const fetchEnrollments = async () => {
-      try {
-        const { data } = await api.get('/student/enrollments');
-        setEnrolledCourses(data.data || []);
-      } catch (err) {
-        console.error('Failed to fetch enrollments', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    const fetchPendingSponsorships = async () => {
-      try {
-        const { data } = await api.get('/support/pending');
-        setPendingSponsorships(data.data || []);
-      } catch (err) {
-        console.error('Failed to fetch pending sponsorships', err);
-      }
-    };
-    
-    const fetchPendingConnections = async () => {
-      try {
-        const { data } = await api.get('/connections/pending');
-        setPendingConnections(data.data || []);
-      } catch (err) {
-        console.error('Failed to fetch pending connections', err);
-      }
-    };
+  const { data: supportConnections, isLoading: isLoadingSupport } = useQuery({
+    queryKey: ['supportConnections'],
+    queryFn: async () => {
+      const [{ data: sp }, { data: cp }] = await Promise.all([
+        api.get('/support/pending'),
+        api.get('/connections/pending')
+      ]);
+      return { sponsorships: sp.data || [], connections: cp.data || [] };
+    }
+  });
 
-    const fetchAllCourses = async () => {
-      try {
-        const { data } = await api.get('/courses', { params: { limit: 100 } });
-        setDbCourses(data.courses || []);
-      } catch (err) {
-        console.error('Failed to fetch courses', err);
-      }
-    };
+  const { data: allCoursesData, isLoading: isLoadingCourses } = useQuery({
+    queryKey: ['allCourses'],
+    queryFn: async () => {
+      const { data } = await api.get('/courses', { params: { limit: 100 } });
+      return data.courses || [];
+    }
+  });
 
-    const fetchDashboardStats = async () => {
-      try {
-        const { data } = await api.get('/users/dashboard-stats');
-        setDashboardStats(data.data || null);
-      } catch (err) {
-        console.error('Failed to fetch dashboard stats', err);
-      }
-    };
-    
-    fetchEnrollments();
-    fetchPendingSponsorships();
-    fetchPendingConnections();
-    fetchAllCourses();
-    fetchDashboardStats();
-  }, []);
+  const { data: privateLogsData } = useQuery({
+    queryKey: ['privateLogs'],
+    queryFn: async () => {
+      const { data } = await api.get('/activity');
+      return data.data.filter(log => log.visibility === 'private');
+    },
+    enabled: activeTab === 'growth'
+  });
+
+  const loading = isLoadingDashboard || isLoadingSupport || isLoadingCourses;
+
+  const enrolledCourses = dashboardData?.enrolledCourses || [];
+  const dbCourses = allCoursesData || [];
+  const pendingSponsorships = supportConnections?.sponsorships || [];
+  const pendingConnections = supportConnections?.connections || [];
+  const achievements = dashboardData?.achievements || [];
+  const privateLogs = privateLogsData || [];
+
+  const dashboardStats = {
+     weeklyStudyData: dashboardData?.study?.weeklyStudyData || [],
+     studyGoal: dashboardData?.study?.studyGoal || 10,
+     daysStudied: dashboardData?.study?.daysStudied || 0,
+     percentile: dashboardData?.progress?.percentile || 0,
+     recentCourses: dashboardData?.overview?.recentCourses || [],
+     achievements: achievements,
+     certificates: dashboardData?.certificates || []
+  };
+
+  const totalEnrolled = dashboardData?.overview?.totalEnrolled || 0;
+  const totalLessonsCompleted = dashboardData?.overview?.completedLessons || 0;
+  const averageProgress = dashboardData?.overview?.averageProgress || 0;
+  const completedCourses = useMemo(() => enrolledCourses.filter(c => c.progress === 100 || c.status === 'completed' || c.completed === true), [enrolledCourses]);
+
 
   const handleConnectionRequest = async (id, action) => {
     if (window.confirm(`Are you sure you want to ${action} this explicit connection?`)) {
       try {
         await api.post(`/connections/${id}/${action}`);
         alert(`Connection definitively ${action}ed.`);
-        setPendingConnections(pendingConnections.filter(c => c.id !== id));
+        queryClient.invalidateQueries(['supportConnections']);
       } catch (err) {
         alert("Action failed: " + (err.response?.data?.message || err.message));
       }
@@ -133,34 +148,14 @@ export default function StudentDashboard() {
       try {
         await api.post(`/support/${id}/${action}`);
         alert(`Sponsorship definitively ${action}ed.`);
-        setPendingSponsorships(pendingSponsorships.filter(s => s.id !== id));
+        queryClient.invalidateQueries(['supportConnections']);
       } catch (err) {
         alert("Authorization failed: " + (err.response?.data?.message || err.message));
       }
     }
   };
 
-  const fetchPrivateLogs = async () => {
-    try {
-      const { data } = await api.get('/activity');
-      const filtered = data.data.filter(log => log.visibility === 'private');
-      setPrivateLogs(filtered);
-    } catch(err) { console.error('Failed to fetch private logs', err); }
-  };
-
-  const fetchAchievements = async () => {
-    try {
-      const { data } = await api.get('/achievements/me');
-      setAchievements(data.data);
-    } catch(err) { console.error('Failed to fetch achievements', err); }
-  };
-
-  useEffect(() => {
-    if (activeTab === 'growth') {
-       fetchPrivateLogs();
-       fetchAchievements();
-    }
-  }, [activeTab]);
+  // Query fetches logs and achievements automatically based on activeTab (handled by query configuration above)
 
   const handleAddGoal = async (e) => {
     e.preventDefault();
@@ -173,30 +168,33 @@ export default function StudentDashboard() {
         metadata: { goal: growthNote }
       });
       setGrowthNote('');
-      fetchPrivateLogs();
-    } catch(err) { console.error('Failed to log personal goal', err); }
+      queryClient.invalidateQueries({ queryKey: ['privateLogs'] });
+      alert('Goal logged successfully!');
+    } catch(err) { 
+      console.error('Failed to log personal goal', err); 
+      alert('Failed to log goal');
+    }
   };
 
-  const { totalEnrolled, totalLessonsCompleted, completedCourses, averageProgress } = React.useMemo(() => {
-    const total = enrolledCourses.length;
-    const lessonsCompleted = enrolledCourses.reduce((sum, course) => sum + (course.completedLessons?.length || 0), 0);
-    const completed = enrolledCourses.filter(c => c.progress === 100 || c.status === 'completed' || c.completed === true);
-    const avgProg = total > 0 ? Math.round(enrolledCourses.reduce((sum, course) => sum + (course.progress || 0), 0) / total) : 0;
-    
-    return {
-      totalEnrolled: total,
-      totalLessonsCompleted: lessonsCompleted,
-      completedCourses: completed,
-      averageProgress: avgProg
-    };
-  }, [enrolledCourses]);
+  const handleClaimCertificate = async (courseId) => {
+    try {
+      await api.post('/progress/certificate', { courseId });
+      queryClient.invalidateQueries({ queryKey: ['studentDashboard'] });
+      alert('Certificate claimed successfully!');
+    } catch(err) { 
+      console.error('Failed to claim certificate', err); 
+      alert(err.response?.data?.message || 'Failed to claim certificate');
+    }
+  };
+
+  // useMemo replaced by dashboard data from the endpoint.
 
   const handleLogout = async () => {
     await logout();
     navigate('/');
   };
 
-  const handleDownloadCertificate = async (enrolled) => {
+  const handleDownloadCertificate = async (enrolled, action = 'download') => {
     const courseName = enrolled.course?.title || 'Course';
     const duration = enrolled.course?.duration ? `${enrolled.course.duration} Hours` : 'Self-Paced';
     const level = enrolled.course?.level || 'Intermediate';
@@ -477,18 +475,28 @@ export default function StudentDashboard() {
     doc.text('Verify Certificate', 268, 202, {align: 'center'});
     doc.text('edot.org/verify', 268, 205, {align: 'center'});
 
-    doc.save(`${courseName.replace(/\s+/g, '_')}_Certificate.pdf`);
+    if (action === 'view') {
+      const blob = doc.output('blob');
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    } else {
+      doc.save(`${courseName.replace(/\s+/g, '_')}_Certificate.pdf`);
+    }
   };
 
   const renderContent = () => {
 
     switch (activeTab) {
-      case 'overview':
+      case 'overview': {
+        const userCertificates = dashboardStats?.certificates || [];
+        const claimedCourseIds = userCertificates.map(c => c.courseId);
+        const unclaimedCourses = completedCourses.filter(c => !claimedCourseIds.includes(c.course?.id || c.courseId));
+
         return (
           <StudentOverview 
             user={user}
             enrolledCourses={enrolledCourses}
-            completedCourses={completedCourses}
+            completedCourses={unclaimedCourses}
             totalEnrolled={totalEnrolled}
             totalLessonsCompleted={totalLessonsCompleted}
             averageProgress={averageProgress}
@@ -497,6 +505,7 @@ export default function StudentDashboard() {
             dashboardStats={dashboardStats}
           />
         );
+      }
       case 'catalog': {
         return (
           <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
@@ -583,7 +592,11 @@ export default function StudentDashboard() {
         );
       }
 
-      case 'certificates':
+      case 'certificates': {
+        const userCertificates = dashboardStats?.certificates || [];
+        const claimedCourseIds = userCertificates.map(c => c.courseId);
+        const unclaimedCourses = completedCourses.filter(c => !claimedCourseIds.includes(c.course?.id || c.courseId));
+
         return (
           <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
             <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
@@ -592,11 +605,11 @@ export default function StudentDashboard() {
                   <Award className="w-8 h-8 text-[#00D4FF]" />
                   My Credentials
                 </h1>
-                <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>View and export your achieved course certificates.</p>
+                <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>View, claim, and export your achieved course certificates.</p>
               </div>
             </div>
             
-            {completedCourses.length === 0 ? (
+            {unclaimedCourses.length === 0 && userCertificates.length === 0 ? (
                <div className={`p-12 text-center rounded-2xl border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
                  <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-500 border-blue-100'}`}>
                    <Award className="w-8 h-8" />
@@ -611,34 +624,80 @@ export default function StudentDashboard() {
                  </button>
                </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {completedCourses.map((enrolled) => (
-                    <div 
-                      key={enrolled.id || enrolled.course?.id} 
-                      className={`rounded-2xl border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-slate-700 hover:border-blue-500/50' : 'bg-white border-slate-200 hover:border-blue-300'}`}
-                    >
-                      <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-500 border-blue-100'}`}>
-                        <Award className="w-8 h-8" />
+                <div className="space-y-8">
+                  {unclaimedCourses.length > 0 && (
+                    <div>
+                      <h3 className={`text-lg font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>Available to Claim</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {unclaimedCourses.map((enrolled) => (
+                          <div 
+                            key={`unclaimed-${enrolled.id || enrolled.course?.id}`} 
+                            className={`rounded-2xl border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-orange-500/30 hover:border-orange-500' : 'bg-white border-orange-200 hover:border-orange-400'}`}
+                          >
+                            <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto border ${isDarkMode ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-orange-50 text-orange-500 border-orange-100'}`}>
+                              <Award className="w-8 h-8" />
+                            </div>
+                            <h3 className={`text-lg font-bold text-center mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                              {enrolled.course?.title || 'Unknown Course'}
+                            </h3>
+                            <p className={`text-[11px] font-medium text-center mb-8 flex-1 ${isDarkMode ? 'text-orange-400' : 'text-orange-500'}`}>
+                              Ready to be claimed!
+                            </p>
+                            
+                            <button 
+                              onClick={() => handleClaimCertificate(enrolled.course?.id || enrolled.courseId)}
+                              className={`w-full inline-flex justify-center items-center gap-2 px-6 py-3 font-bold text-sm rounded-xl transition-colors shadow-sm bg-[#F97316] hover:bg-[#EA580C] text-white`}
+                            >
+                              Claim Now
+                            </button>
+                          </div>
+                        ))}
                       </div>
-                      <h3 className={`text-lg font-bold text-center mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
-                        {enrolled.course?.title || 'Unknown Course'}
-                      </h3>
-                      <p className={`text-[11px] font-medium text-center mb-8 flex-1 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`}>
-                        Completed 100% Core Curriculum
-                      </p>
-                      
-                      <button 
-                        onClick={() => handleDownloadCertificate(enrolled)}
-                        className={`w-full inline-flex justify-center items-center gap-2 px-6 py-3 font-bold text-sm rounded-xl border transition-colors shadow-sm ${isDarkMode ? 'bg-slate-700/50 hover:bg-blue-600 text-white border-slate-600' : 'bg-slate-50 hover:bg-blue-500 hover:text-white text-slate-700 border-slate-200'}`}
-                      >
-                        <Download className="w-4 h-4" /> Export PDF
-                      </button>
                     </div>
-                  ))}
+                  )}
+
+                  {userCertificates.length > 0 && (
+                    <div>
+                      <h3 className={`text-lg font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>My Certificates</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {userCertificates.map((cert) => (
+                          <div 
+                            key={`claimed-${cert.id}`} 
+                            className={`rounded-2xl border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-slate-700 hover:border-blue-500/50' : 'bg-white border-slate-200 hover:border-blue-300'}`}
+                          >
+                            <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-500 border-blue-100'}`}>
+                              <Award className="w-8 h-8" />
+                            </div>
+                            <h3 className={`text-lg font-bold text-center mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                              {cert.course?.title || 'Unknown Course'}
+                            </h3>
+                            <p className={`text-[11px] font-medium text-center mb-8 flex-1 ${isDarkMode ? 'text-blue-400' : 'text-blue-500'}`}>
+                              Issued: {new Date(cert.issueDate || Date.now()).toLocaleDateString()}
+                            </p>
+                            <div className="flex gap-3 w-full mt-auto">
+                              <button 
+                                onClick={() => handleDownloadCertificate({ course: cert.course }, 'view')}
+                                className={`flex-1 inline-flex justify-center items-center gap-2 py-3 font-bold text-[13px] rounded-xl border transition-colors shadow-sm ${isDarkMode ? 'bg-slate-700/50 hover:bg-slate-600 text-white border-slate-600' : 'bg-slate-50 hover:bg-slate-200 text-slate-700 border-slate-200'}`}
+                              >
+                                View
+                              </button>
+                              <button 
+                                onClick={() => handleDownloadCertificate({ course: cert.course }, 'download')}
+                                className={`flex-1 inline-flex justify-center items-center gap-2 py-3 font-bold text-[13px] rounded-xl border transition-colors shadow-sm bg-blue-500 hover:bg-blue-600 text-white border-blue-500`}
+                              >
+                                <Download className="w-4 h-4" /> Export PDF
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
             )}
           </div>
         );
+      }
       case 'growth':
          return (
              <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 font-sans">
@@ -723,11 +782,16 @@ export default function StudentDashboard() {
     }
   `;
 
-  const NavItem = ({ tabName, icon: Icon, label, isActive, onClick }) => (
+  const NavItem = ({ tabName, icon: Icon, label, isActive, badge, onClick }) => (
     <button onClick={onClick} className={navItemClass(tabName, isActive)}>
       {isActive && <div className="absolute left-0 top-2 bottom-2 w-1 bg-[#22C55E] rounded-r-full" />}
       <Icon className="w-5 h-5 shrink-0 opacity-80" />
-      {label}
+      <span className="flex-1 text-left">{label}</span>
+      {typeof badge === 'number' && (
+        <span className={`${badge > 0 ? 'bg-[#22C55E] text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-500'} text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shrink-0`}>
+          {badge}
+        </span>
+      )}
     </button>
   );
 
@@ -765,7 +829,14 @@ export default function StudentDashboard() {
                <NavItem tabName="notice" icon={Bell} label="Notice" isActive={activeTab === 'notice'} onClick={() => setActiveTab('notice')} />
                <NavItem tabName="library" icon={BookOpen} label="Library" isActive={activeTab === 'library'} onClick={() => setActiveTab('library')} />
                <NavItem tabName="message" icon={MoreHorizontal} label="Message" isActive={activeTab === 'message'} onClick={() => setActiveTab('message')} />
-               <NavItem tabName="certificates" icon={Award} label="Certificates" isActive={activeTab === 'certificates'} onClick={() => setActiveTab('certificates')} />
+               <NavItem 
+                 tabName="certificates" 
+                 icon={Award} 
+                 label="Certificates" 
+                 isActive={activeTab === 'certificates'} 
+                 badge={dashboardStats?.certificates ? dashboardStats.certificates.length : 0}
+                 onClick={() => setActiveTab('certificates')} 
+               />
                <NavItem tabName="sponsorships" icon={ShieldCheck} label="Sponsorships" isActive={activeTab === 'sponsorships'} onClick={() => setActiveTab('sponsorships')} />
                <NavItem tabName="growth" icon={Target} label="Growth Lab" isActive={activeTab === 'growth'} onClick={() => setActiveTab('growth')} />
                <NavItem tabName="ecosystem" icon={Globe} label="Ecosystem Nexus" isActive={activeTab === 'ecosystem'} onClick={() => setActiveTab('ecosystem')} />

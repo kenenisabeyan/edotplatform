@@ -32,6 +32,7 @@ import supportRoutes from './routes/supportRoutes.js';
 import connectionRoutes from './routes/connectionRoutes.js';
 import materialRoutes from './routes/materialRoutes.js';
 import quizRoutes from './routes/quizRoutes.js';
+import newDashboardRoutes from './routes/newDashboardRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -100,6 +101,7 @@ app.use('/api/support', supportRoutes);
 app.use('/api/connections', connectionRoutes);
 app.use('/api/materials', materialRoutes);
 app.use('/api/quizzes', quizRoutes);
+app.use('/api', newDashboardRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

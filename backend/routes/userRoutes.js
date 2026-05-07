@@ -153,7 +153,11 @@ router.get('/dashboard-stats', protect, async (req, res) => {
         // 1. Get recent courses (last 3 accessed/enrolled)
         let recentCourses = await prisma.userCourseProgress.findMany({
             where: { userId },
-            include: { course: true },
+            include: { 
+                course: {
+                    include: { lessons: true }
+                } 
+            },
             orderBy: { updatedAt: 'desc' },
             take: 3
         });
@@ -162,13 +166,18 @@ router.get('/dashboard-stats', protect, async (req, res) => {
         if (recentCourses.length === 0) {
             const enrollments = await prisma.enrollment.findMany({
                 where: { studentId: userId },
-                include: { course: true },
+                include: { 
+                    course: {
+                        include: { lessons: true }
+                    } 
+                },
                 orderBy: { createdAt: 'desc' },
                 take: 3
             });
             
             const userCertificates = await prisma.certificate.findMany({
-                where: { userId }
+                where: { userId },
+                include: { course: true }
             });
             const certCourseIds = userCertificates.map(c => c.courseId);
 
@@ -238,7 +247,11 @@ router.get('/dashboard-stats', protect, async (req, res) => {
         }
 
         // Auto-generate badges based on real progress if missing from explicit table
-        const certificatesCount = await prisma.certificate.count({ where: { userId } });
+        const userCertificates = await prisma.certificate.findMany({
+            where: { userId },
+            include: { course: true }
+        });
+        const certificatesCount = userCertificates.length;
         const completedCoursesCount = recentCourses.filter(c => c.progress === 100 || c.status === 'completed').length;
         
         const generatedBadges = [];
@@ -286,7 +299,8 @@ router.get('/dashboard-stats', protect, async (req, res) => {
                 weeklyStudyData,
                 daysStudied,
                 percentile,
-                achievements: finalBadges
+                achievements: finalBadges,
+                certificates: userCertificates
             }
         });
 

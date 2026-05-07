@@ -616,6 +616,7 @@ export default function AdminDashboard() {
                       <th className="px-6 py-4">Joined</th>
                       <th className="px-6 py-4">Status</th>
                       <th className="px-6 py-4">Role</th>
+                      <th className="px-6 py-4 text-center">Certificates</th>
                       <th className="px-6 py-4">Assign Instructor</th>
                       <th className="px-6 py-4">Actions</th>
                     </tr>
@@ -666,6 +667,13 @@ export default function AdminDashboard() {
                               className="w-32"
                             />
                           )}
+                        <td className="px-6 py-4 text-center">
+                          <div className="flex justify-center items-center">
+                            <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-full text-xs font-bold shadow-sm ${u.certificates && u.certificates.length > 0 ? 'bg-orange-100 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 border border-slate-200 dark:border-slate-700'}`}>
+                              {u.certificates ? u.certificates.length : 0}
+                            </span>
+                          </div>
+                        </td>
                         <td className="px-6 py-4">
                            {u.role === 'student' ? (
                               <CustomDropdown 

@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { 
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LabelList
@@ -6,8 +7,9 @@ import {
 import { 
   Award, TrendingUp, CheckCircle2, 
   Flame, Target, ChevronRight, PlayCircle, BookOpen, Clock, BarChart2, Star,
-  CheckCircle, ArrowUpRight, GraduationCap, ShieldCheck, MoreHorizontal, Atom, Code, Calculator
+  CheckCircle, ArrowUpRight, GraduationCap, ShieldCheck, MoreHorizontal, Atom, Code, Calculator, MessageSquare
 } from 'lucide-react';
+import api from '../../utils/api';
 
 const StudentOverview = ({ 
   user, 
@@ -31,6 +33,16 @@ const StudentOverview = ({
     recentCourses = [],
     achievements = []
   } = dashboardStats || {};
+
+  const { data: recentContactsData, isLoading: loadingMessages } = useQuery({
+    queryKey: ['recentMessagesOverview'],
+    queryFn: async () => {
+      const { data } = await api.get('/messages/recent');
+      return data.success ? data.data.slice(0, 4) : [];
+    }
+  });
+
+  const recentContacts = recentContactsData || [];
 
   const totalWeeklyHours = weeklyStudyData.reduce((acc, curr) => acc + curr.hours, 0).toFixed(1);
 
@@ -148,7 +160,7 @@ const StudentOverview = ({
           { title: 'Enrolled Courses', value: totalEnrolled.toString(), subtitle: 'Courses', trend: '', icon: ({className}) => <BookOpen className={className} fill="currentColor" strokeWidth={1} />, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-500/10' },
           { title: 'Average Progress', value: `${averageProgress}%`, subtitle: 'Across all courses', trend: '', icon: ({className}) => <TrendingUp className={className} strokeWidth={2.5} />, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-500/10' },
           { title: 'Completed Lessons', value: totalLessonsCompleted.toString(), subtitle: 'Lessons', trend: '', icon: ({className}) => <CheckCircle className={className} fill="currentColor" stroke="white" strokeWidth={1.5} />, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-500/10' },
-          { title: 'Certificates', value: completedCourses.length.toString(), subtitle: 'Earned', action: 'View all certificates →', icon: ({className}) => <Award className={className} fill="currentColor" strokeWidth={1} />, color: 'text-[#F97316]', bg: 'bg-orange-50 dark:bg-[#F97316]/10' },
+          { title: 'Certificates', value: (dashboardStats?.certificates?.length || 0).toString(), subtitle: 'Earned', action: 'View all certificates →', icon: ({className}) => <Award className={className} fill="currentColor" strokeWidth={1} />, color: 'text-[#F97316]', bg: 'bg-orange-50 dark:bg-[#F97316]/10' },
         ].map((stat, i) => (
           <motion.div key={i} variants={itemVariants} className={`p-6 rounded-[24px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
             <div className="flex items-start gap-4">
@@ -239,7 +251,7 @@ const StudentOverview = ({
                </div>
                <div className="flex flex-col items-center">
                  <span className="text-[#F97316] font-bold text-[10px] mb-1">Certificates</span>
-                 <span className={`text-lg font-black ${textClass}`}>{completedCourses.length}</span>
+                 <span className={`text-lg font-black ${textClass}`}>{dashboardStats?.certificates?.length || 0}</span>
                  <span className={`text-[9px] ${mutedTextClass}`}>Earned</span>
                </div>
             </div>
@@ -318,68 +330,106 @@ const StudentOverview = ({
 
         {/* Certificates Claim */}
         <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[24px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col relative overflow-hidden ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
-          <div className="flex justify-between items-center mb-10">
-            <h3 className={`text-[13px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>Certificates Claim</h3>
-            <button className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className={`text-[13px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>
+              {completedCourses.length === 0 && dashboardStats?.certificates?.length > 0 ? 'Recent Certificates' : 'Certificates Claim'}
+            </h3>
+            <button onClick={() => setActiveTab('certificates')} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
               <MoreHorizontal className="w-5 h-5 text-slate-400" />
             </button>
           </div>
           
-          <div className="flex-1 flex flex-col items-center justify-center text-center">
-            {/* Certificate Graphic */}
-            <div className="relative w-36 h-28 mb-10 mt-2 flex items-center justify-center">
-               
-               {/* Background Document */}
-               <div className={`absolute w-28 h-20 top-2 rounded-xl ${isDarkMode ? 'bg-slate-800' : 'bg-slate-200'}`}></div>
-               
-               {/* Foreground Document */}
-               <div className={`absolute w-32 h-20 bottom-2 rounded-xl shadow-sm flex items-center justify-start pl-5 ${isDarkMode ? 'bg-slate-700' : 'bg-slate-100'}`}>
-                 {/* Lines */}
-                 <div className="flex flex-col gap-2">
-                   <div className="w-12 h-2.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
-                   <div className="w-8 h-2.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
-                   <div className="w-10 h-2.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
-                 </div>
-
-                 {/* Gold Seal & Ribbon */}
-                 <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-center">
-                    {/* Ribbon Tails */}
-                    <div className="w-7 h-10 bg-slate-400 dark:bg-slate-500 absolute top-4 z-0" style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%)" }}></div>
-                    {/* Seal Circle */}
-                    <div className="w-10 h-10 rounded-full bg-[#F97316] border-[3px] border-orange-200 dark:border-orange-900 shadow-sm z-10 flex items-center justify-center">
-                       <div className="w-5 h-5 rounded-full border-2 border-orange-300 dark:border-orange-800 opacity-50"></div>
-                    </div>
-                 </div>
+          <div className="flex-1 flex flex-col justify-center">
+            {completedCourses.length === 0 && dashboardStats?.certificates?.length > 0 ? (
+               <div className="space-y-3 w-full">
+                 {dashboardStats.certificates.slice(0, 3).map((cert, idx) => (
+                   <div key={idx} className={`flex items-center gap-3 p-3 rounded-xl border ${isDarkMode ? 'bg-[#121A2F] border-slate-700' : 'bg-slate-50 border-slate-100'}`}>
+                     <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isDarkMode ? 'bg-orange-500/10 text-orange-400' : 'bg-orange-100 text-orange-600'}`}>
+                       <Award className="w-5 h-5" />
+                     </div>
+                     <div className="flex-1 min-w-0">
+                       <h4 className={`text-[11px] font-bold truncate ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                         {cert.course?.title || 'Certificate'}
+                       </h4>
+                       <p className={`text-[9px] font-medium mt-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                         Issued: {new Date(cert.issueDate || Date.now()).toLocaleDateString()}
+                       </p>
+                     </div>
+                   </div>
+                 ))}
+                 <button 
+                   onClick={() => setActiveTab('certificates')}
+                   className={`w-full py-2.5 mt-2 rounded-[10px] font-bold text-[12px] transition-all bg-[#10B981] hover:bg-[#059669] text-white shadow-sm flex items-center justify-center gap-2`}
+                 >
+                   View All Certificates <span className="text-[14px]">→</span>
+                 </button>
                </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center text-center">
+                {/* Certificate Graphic */}
+                <div className="relative w-36 h-28 mb-10 mt-2 flex items-center justify-center">
+                   {/* Background Document */}
+                   <div className={`absolute w-28 h-20 top-2 rounded-xl ${isDarkMode ? 'bg-slate-800' : 'bg-slate-200'}`}></div>
+                   {/* Foreground Document */}
+                   <div className={`absolute w-32 h-20 bottom-2 rounded-xl shadow-sm flex items-center justify-start pl-5 ${isDarkMode ? 'bg-slate-700' : 'bg-slate-100'}`}>
+                     {/* Lines */}
+                     <div className="flex flex-col gap-2">
+                       <div className="w-12 h-2.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                       <div className="w-8 h-2.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                       <div className="w-10 h-2.5 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                     </div>
+                     {/* Gold Seal & Ribbon */}
+                     <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-center">
+                        <div className="w-7 h-10 bg-slate-400 dark:bg-slate-500 absolute top-4 z-0" style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%)" }}></div>
+                        <div className="w-10 h-10 rounded-full bg-[#F97316] border-[3px] border-orange-200 dark:border-orange-900 shadow-sm z-10 flex items-center justify-center">
+                           <div className="w-5 h-5 rounded-full border-2 border-orange-300 dark:border-orange-800 opacity-50"></div>
+                        </div>
+                     </div>
+                   </div>
+                   {/* Confetti dots */}
+                   <div className="absolute left-0 top-0 w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+                   <div className="absolute left-2 top-8 w-2 h-2 rounded-full bg-blue-500"></div>
+                   <div className="absolute left-4 bottom-2 w-1.5 h-1.5 rounded-full bg-yellow-400"></div>
+                   <div className="absolute right-0 top-0 w-2 h-2 rotate-45 bg-orange-400" style={{ clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" }}></div>
+                   <div className="absolute right-2 bottom-6 w-1.5 h-3 rounded-full bg-slate-300 rotate-45"></div>
+                </div>
 
-               {/* Confetti dots */}
-               <div className="absolute left-0 top-0 w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
-               <div className="absolute left-2 top-8 w-2 h-2 rounded-full bg-blue-500"></div>
-               <div className="absolute left-4 bottom-2 w-1.5 h-1.5 rounded-full bg-yellow-400"></div>
-               
-               <div className="absolute right-0 top-0 w-2 h-2 rotate-45 bg-orange-400" style={{ clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" }}></div>
-               <div className="absolute right-2 bottom-6 w-1.5 h-3 rounded-full bg-slate-300 rotate-45"></div>
-            </div>
-
-            <h4 className={`text-[13px] font-bold mb-6 leading-[1.6] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
-              You have {completedCourses.length} certificate{completedCourses.length !== 1 ? 's' : ''} <br/> available to claim!
-            </h4>
-
-            <button 
-              onClick={() => setActiveTab('certificates')}
-              className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 bg-[#F97316] hover:bg-[#EA580C] text-white shadow-sm`}
-            >
-              Claim Certificate
-            </button>
-            
-            <button onClick={() => setActiveTab('certificates')} className="text-[11px] font-medium text-[#F97316] hover:underline flex items-center justify-center gap-1">
-              View all certificates <span className="text-[12px]">→</span>
-            </button>
+                {completedCourses.length === 0 ? (
+                  <>
+                    <h4 className={`text-[13px] font-bold mb-6 leading-[1.6] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                      You have 0 certificates <br/> available to claim!
+                    </h4>
+                    <button 
+                      onClick={() => setActiveTab('catalog')}
+                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 ${isDarkMode ? 'bg-slate-800 hover:bg-slate-700 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'} shadow-sm`}
+                    >
+                      Explore Courses
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <h4 className={`text-[13px] font-bold mb-6 leading-[1.6] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                      You have {completedCourses.length} certificate{completedCourses.length !== 1 ? 's' : ''} <br/> available to claim!
+                    </h4>
+                    <button 
+                      onClick={() => setActiveTab('certificates')}
+                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 bg-[#F97316] hover:bg-[#EA580C] text-white shadow-sm`}
+                    >
+                      Claim Certificates ({completedCourses.length})
+                    </button>
+                  </>
+                )}
+                
+                <button onClick={() => setActiveTab('certificates')} className="text-[11px] font-medium text-[#F97316] hover:underline flex items-center justify-center gap-1">
+                  View all certificates <span className="text-[12px]">→</span>
+                </button>
+              </div>
+            )}
           </div>
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Courses */}
         <motion.div variants={itemVariants} className={`p-6 rounded-[1.5rem] border shadow-sm flex flex-col ${cardClass}`}>
           <div className="flex justify-between items-center mb-6">
@@ -472,6 +522,62 @@ const StudentOverview = ({
 
           <div className={`mt-auto p-4 rounded-[20px] flex items-center gap-3 text-[11px] font-medium ${isDarkMode ? 'bg-[#1E293B] text-slate-300' : 'bg-[#F8FAFC] text-slate-600'}`}>
             <span className="text-base leading-none">⭐</span> Keep going! You're unlocking great achievements! <span className="text-base leading-none">🚀</span>
+          </div>
+        </motion.div>
+
+        {/* Messages Preview */}
+        <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[32px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
+          <div className="flex justify-between items-center mb-6">
+            <h3 className={`text-[15px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>Recent Messages</h3>
+            <button onClick={() => setActiveTab('message')} className="text-[12px] font-bold text-blue-500 hover:underline flex items-center gap-1">
+              Open Chat <ChevronRight className="w-3 h-3" />
+            </button>
+          </div>
+          
+          <div className="flex-1 flex flex-col gap-4">
+            {loadingMessages ? (
+              <div className="flex-1 flex items-center justify-center">
+                 <div className="animate-spin w-6 h-6 border-2 border-[#F97316] border-t-transparent rounded-full"></div>
+              </div>
+            ) : recentContacts.length === 0 ? (
+              <div className={`flex-1 flex flex-col items-center justify-center text-center p-4 text-[12px] font-medium ${mutedTextClass}`}>
+                 <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 ${isDarkMode ? 'bg-[#1E293B]' : 'bg-slate-100'}`}>
+                    <MessageSquare className="w-5 h-5 opacity-50" />
+                 </div>
+                 No recent conversations. Start chatting with your peers!
+              </div>
+            ) : (
+              recentContacts.map((contact, idx) => (
+                <div key={idx} onClick={() => setActiveTab('message')} className={`flex items-center gap-4 p-3 rounded-[16px] cursor-pointer transition-all ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-50'}`}>
+                  <div className="relative">
+                    <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border-2 border-white dark:border-[#0B1D3A] shadow-sm bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15] p-[2px]">
+                       <div className="w-full h-full rounded-full bg-white dark:bg-[#1E293B] flex items-center justify-center text-[14px] font-bold text-blue-500 overflow-hidden">
+                          {contact.avatar && contact.avatar !== 'default-avatar.png' ? (
+                             <img src={`http://localhost:5000${contact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                          ) : (
+                             contact.name.charAt(0).toUpperCase()
+                          )}
+                       </div>
+                    </div>
+                    {contact.isOnline && <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-[#0B1D3A] rounded-full z-10"></div>}
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-center mb-1">
+                      <h4 className={`text-[13px] font-bold truncate ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{contact.name}</h4>
+                      {contact.unreadCount > 0 && (
+                        <span className="bg-[#007AFF] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center shrink-0 leading-none">
+                          {contact.unreadCount > 99 ? '99+' : contact.unreadCount}
+                        </span>
+                      )}
+                    </div>
+                    <p className={`text-[11px] font-medium truncate pr-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                      {contact.role || 'User'}
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </motion.div>
       </div>

@@ -128,6 +128,7 @@ export default function StudentsList() {
                 <th className="p-4">Student</th>
                 <th className="p-4">Email</th>
                 <th className="p-4">Status</th>
+                <th className="p-4 text-center">Certificates</th>
                 {isAdmin && <th className="p-4">Instructor Assignment</th>}
                 {isAdmin && tab === 'pending' && <th className="p-4">Actions</th>}
               </tr>
@@ -156,6 +157,13 @@ export default function StudentsList() {
                      ) : (
                         <span className="px-3 py-1 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><BadgeCheck className="w-3 h-3"/> Approved</span>
                      )}
+                  </td>
+                  <td className="p-4 text-center">
+                      <div className="flex justify-center items-center">
+                        <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-full text-xs font-bold shadow-sm ${stu.certificates && stu.certificates.length > 0 ? 'bg-orange-100 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 border border-slate-200 dark:border-slate-700'}`}>
+                          {stu.certificates ? stu.certificates.length : 0}
+                        </span>
+                      </div>
                   </td>
                   {isAdmin && (
                     <td className="p-4">

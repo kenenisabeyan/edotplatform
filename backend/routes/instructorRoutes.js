@@ -41,7 +41,8 @@ router.get('/students', async (req, res) => {
                     select: {
                         course: { select: { title: true, status: true } }
                     }
-                }
+                },
+                certificates: true
             },
             orderBy: { createdAt: 'desc' }
         });

@@ -15,7 +15,8 @@ router.get('/users', async (req, res) => {
                 enrollments: { include: { course: { select: { title: true, status: true } } } },
                 children: { select: { name: true, email: true, status: true } },
                 assignedStudents: { select: { name: true, email: true, status: true, enrollments: true } },
-                assignedInstructor: { select: { id: true, name: true, email: true } }
+                assignedInstructor: { select: { id: true, name: true, email: true } },
+                certificates: true
             },
             orderBy: { createdAt: 'desc' }
         });
@@ -283,7 +284,10 @@ router.get('/students', async (req, res) => {
     try {
         const students = await prisma.user.findMany({
             where: { role: 'student' },
-            include: { assignedInstructor: { select: { id: true, name: true, email: true } } },
+            include: { 
+                assignedInstructor: { select: { id: true, name: true, email: true } },
+                certificates: true 
+            },
             orderBy: { createdAt: 'desc' }
         });
         
