@@ -405,6 +405,9 @@ router.get('/dashboard-metrics', protect, async (req, res) => {
         let pendingApprovals = 0;
         let pendingEnrollments = 0;
         let newCertificates = 0;
+        let totalCertificates = 0;
+        let readyToClaim = 0;
+        let pendingCertificateRequirements = 0;
         let pendingUsers = 0;
 
         if (role === 'admin') {
@@ -414,7 +417,33 @@ router.get('/dashboard-metrics', protect, async (req, res) => {
         } else if (role === 'instructor') {
             pendingCourses = await prisma.course.count({ where: { instructorId: userId, status: 'pending' } });
         } else if (role === 'student' || role === 'parent') {
+            totalCertificates = await prisma.certificate.count({ where: { userId } });
             newCertificates = await prisma.certificate.count({ where: { userId, isSeen: false } });
+
+            const certificateCourseIds = new Set(
+                (await prisma.certificate.findMany({ where: { userId }, select: { courseId: true } }))
+                    .map(cert => cert.courseId)
+            );
+
+            const progressRecords = await prisma.userCourseProgress.findMany({
+                where: { userId },
+                include: { course: true }
+            });
+
+            progressRecords.forEach(progress => {
+                const courseId = progress.courseId;
+                const isCompleted = progress.progress === 100 || progress.status === 'completed' || progress.completed;
+                const examPassed = !progress.course?.isExamRequired || progress.passedFinalExam;
+                const hasCertificate = certificateCourseIds.has(courseId);
+
+                if (!hasCertificate && isCompleted && examPassed) {
+                    readyToClaim++;
+                }
+
+                if (!hasCertificate && isCompleted && progress.course?.isExamRequired && !progress.passedFinalExam) {
+                    pendingCertificateRequirements++;
+                }
+            });
         }
 
         res.json({
@@ -425,6 +454,9 @@ router.get('/dashboard-metrics', protect, async (req, res) => {
                 pendingEnrollments,
                 pendingCourses,
                 newCertificates,
+                totalCertificates,
+                readyToClaim,
+                pendingCertificateRequirements,
                 pendingUsers
             }
         });

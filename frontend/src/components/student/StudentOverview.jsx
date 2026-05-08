@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LabelList
@@ -20,8 +21,46 @@ const StudentOverview = ({
   averageProgress, 
   isDarkMode,
   setActiveTab,
-  dashboardStats
+  dashboardStats,
+  certificateSummary = { claimed: 0, readyToClaim: 0, total: 0 }
 }) => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [certificateDropdownOpen, setCertificateDropdownOpen] = useState(false);
+  const [claimingCertificateId, setClaimingCertificateId] = useState(null);
+  const dropdownRef = useRef(null);
+
+  const toggleCertificateDropdown = () => setCertificateDropdownOpen((prev) => !prev);
+
+  useEffect(() => {
+    if (!certificateDropdownOpen) return;
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setCertificateDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, [certificateDropdownOpen]);
+
+  const handleClaimCertificate = async (courseId) => {
+    try {
+      setClaimingCertificateId(courseId);
+      await api.post('/progress/certificate', { courseId });
+      queryClient.invalidateQueries(['studentDashboard']);
+      setCertificateDropdownOpen(true);
+    } catch (err) {
+      console.error('Failed to claim certificate', err);
+      alert(err.response?.data?.message || 'Failed to claim certificate');
+    } finally {
+      setClaimingCertificateId(null);
+    }
+  };
+
+  const openCertificatePage = () => {
+    setCertificateDropdownOpen(false);
+    navigate('/dashboard/certificates');
+  };
   const {
     weeklyStudyData = [
       { name: 'Mon', hours: 0 }, { name: 'Tue', hours: 0 }, { name: 'Wed', hours: 0 },
@@ -45,6 +84,24 @@ const StudentOverview = ({
   const recentContacts = recentContactsData || [];
 
   const totalWeeklyHours = weeklyStudyData.reduce((acc, curr) => acc + curr.hours, 0).toFixed(1);
+
+  const certificateEarned = certificateSummary.claimed || 0;
+  const certificateReady = certificateSummary.readyToClaim || 0;
+  const certificateTotal = certificateSummary.total || 0;
+  const certificateSubtitle = certificateTotal === 0
+    ? (certificateReady > 0 ? `0 earned • ${certificateReady} ready` : 'No certificates yet')
+    : certificateReady > 0
+      ? `${certificateEarned} earned • ${certificateReady} ready`
+      : `${certificateEarned} earned`;
+
+  const claimedCertificates = dashboardStats?.certificates || [];
+  const claimedCourseIds = new Set(claimedCertificates.map(cert => cert.courseId));
+  const readyCertificates = completedCourses.filter(course => {
+    const courseId = course.course?.id || course.courseId;
+    const isPassed = !course.course?.isExamRequired || course.passedFinalExam;
+    return !claimedCourseIds.has(courseId) && isPassed;
+  });
+  const hasCertificates = claimedCertificates.length > 0 || readyCertificates.length > 0;
 
   const cardClass = isDarkMode ? 'bg-[#121A2F] border-slate-800 text-white' : 'bg-white border-slate-100 text-slate-900';
   const textClass = isDarkMode ? 'text-white' : 'text-slate-900';
@@ -73,7 +130,7 @@ const StudentOverview = ({
   const progressStrokeDashoffset = circumference - (progressPercentage / 100) * circumference;
 
   return (
-    <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6 w-full max-w-[1400px] mx-auto pb-10">
+<motion.div variants={containerVariants} initial="hidden" animate="visible" className="relative space-y-6 w-full max-w-[1400px] mx-auto pb-10" ref={dropdownRef}>
       
       {/* Hero Banner */}
       {/* Hero Banner */}
@@ -160,7 +217,7 @@ const StudentOverview = ({
           { title: 'Enrolled Courses', value: totalEnrolled.toString(), subtitle: 'Courses', trend: '', icon: ({className}) => <BookOpen className={className} fill="currentColor" strokeWidth={1} />, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-500/10' },
           { title: 'Average Progress', value: `${averageProgress}%`, subtitle: 'Across all courses', trend: '', icon: ({className}) => <TrendingUp className={className} strokeWidth={2.5} />, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-500/10' },
           { title: 'Completed Lessons', value: totalLessonsCompleted.toString(), subtitle: 'Lessons', trend: '', icon: ({className}) => <CheckCircle className={className} fill="currentColor" stroke="white" strokeWidth={1.5} />, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-500/10' },
-          { title: 'Certificates', value: (dashboardStats?.certificates?.length || 0).toString(), subtitle: 'Earned', action: 'View all certificates →', icon: ({className}) => <Award className={className} fill="currentColor" strokeWidth={1} />, color: 'text-[#F97316]', bg: 'bg-orange-50 dark:bg-[#F97316]/10' },
+          { title: 'Certificates', value: certificateTotal.toString(), subtitle: certificateSubtitle, action: 'View all certificates →', icon: ({className}) => <Award className={className} fill="currentColor" strokeWidth={1} />, color: 'text-[#F97316]', bg: 'bg-orange-50 dark:bg-[#F97316]/10' },
         ].map((stat, i) => (
           <motion.div key={i} variants={itemVariants} className={`p-6 rounded-[24px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
             <div className="flex items-start gap-4">
@@ -180,7 +237,7 @@ const StudentOverview = ({
                      <p className="text-[11px] font-bold text-emerald-500">{stat.trend}</p>
                    )}
                    {stat.action && (
-                     <button onClick={() => setActiveTab('certificates')} className="text-[11px] font-bold text-[#F97316] hover:underline text-left">
+                     <button onClick={toggleCertificateDropdown} className="text-[11px] font-bold text-[#F97316] hover:underline text-left">
                        {stat.action}
                      </button>
                    )}
@@ -190,6 +247,86 @@ const StudentOverview = ({
           </motion.div>
         ))}
       </div>
+
+      {certificateDropdownOpen && (
+        <div className="absolute left-1/2 top-[280px] z-50 w-[min(95vw,720px)] max-w-2xl -translate-x-1/2 rounded-[28px] border bg-white dark:bg-[#0B1120] shadow-[0_30px_70px_rgba(0,0,0,0.18)] p-5">
+          <div className="flex items-center justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-700">
+            <div>
+              <p className={`text-sm font-semibold ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>Certificates</p>
+              <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                {hasCertificates ? `${claimedCertificates.length} claimed • ${readyCertificates.length} ready to claim` : 'No certificates available yet'}
+              </p>
+            </div>
+            <button onClick={() => setCertificateDropdownOpen(false)} className="text-[12px] font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">Close</button>
+          </div>
+
+          <div className="mt-5 space-y-5 max-h-[360px] overflow-y-auto pr-2">
+            {readyCertificates.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Ready to Claim</h4>
+                  <span className={`text-[11px] font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{readyCertificates.length} course{readyCertificates.length !== 1 ? 's' : ''}</span>
+                </div>
+                <div className="grid gap-3">
+                  {readyCertificates.map((course) => {
+                    const courseId = course.course?.id || course.courseId;
+                    return (
+                      <div key={courseId} className={`rounded-2xl border ${isDarkMode ? 'border-slate-700 bg-[#0B1120]' : 'border-slate-200 bg-slate-50'} p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3`}>
+                        <div>
+                          <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.course?.title || 'Untitled course'}</p>
+                          <p className={`text-[11px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Complete the course to claim your certificate.</p>
+                        </div>
+                        <button
+                          onClick={() => handleClaimCertificate(courseId)}
+                          disabled={claimingCertificateId === courseId}
+                          className={`px-4 py-2 rounded-xl text-sm font-bold transition ${claimingCertificateId === courseId ? 'bg-slate-300 text-slate-700 cursor-not-allowed' : 'bg-[#F97316] hover:bg-[#EA580C] text-white'}`}
+                        >
+                          {claimingCertificateId === courseId ? 'Claiming...' : 'Claim'}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {claimedCertificates.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Claimed Certificates</h4>
+                  <span className={`text-[11px] font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{claimedCertificates.length} earned</span>
+                </div>
+                <div className="grid gap-3">
+                  {claimedCertificates.map((cert) => (
+                    <div key={cert.id} className={`rounded-2xl border ${isDarkMode ? 'border-slate-700 bg-[#0B1120]' : 'border-slate-200 bg-slate-50'} p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3`}>
+                      <div>
+                        <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{cert.course?.title || 'Certificate'}</p>
+                        <p className={`text-[11px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Issued: {new Date(cert.issueDate || Date.now()).toLocaleDateString()}</p>
+                      </div>
+                      <button
+                        onClick={openCertificatePage}
+                        className="px-4 py-2 rounded-xl text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white"
+                      >
+                        View Details
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {!hasCertificates && (
+              <div className={`rounded-2xl border ${isDarkMode ? 'border-slate-700 bg-[#0B1120]' : 'border-slate-200 bg-slate-50'} p-6 text-center`}>
+                <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No certificates yet</p>
+                <p className={`text-[11px] mt-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Complete a course and claim your certificate to see it here.</p>
+                <button onClick={() => { setCertificateDropdownOpen(false); setActiveTab('courses'); }} className="mt-4 px-4 py-2 rounded-xl bg-[#F97316] text-white font-bold hover:bg-[#EA580C]">
+                  Start Now
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Academic Progress */}
@@ -251,7 +388,7 @@ const StudentOverview = ({
                </div>
                <div className="flex flex-col items-center">
                  <span className="text-[#F97316] font-bold text-[10px] mb-1">Certificates</span>
-                 <span className={`text-lg font-black ${textClass}`}>{dashboardStats?.certificates?.length || 0}</span>
+                 <span className={`text-lg font-black ${textClass}`}>{certificateEarned}</span>
                  <span className={`text-[9px] ${mutedTextClass}`}>Earned</span>
                </div>
             </div>
@@ -358,7 +495,7 @@ const StudentOverview = ({
                    </div>
                  ))}
                  <button 
-                   onClick={() => setActiveTab('certificates')}
+                   onClick={toggleCertificateDropdown}
                    className={`w-full py-2.5 mt-2 rounded-[10px] font-bold text-[12px] transition-all bg-[#10B981] hover:bg-[#059669] text-white shadow-sm flex items-center justify-center gap-2`}
                  >
                    View All Certificates <span className="text-[14px]">→</span>
@@ -394,33 +531,66 @@ const StudentOverview = ({
                    <div className="absolute right-2 bottom-6 w-1.5 h-3 rounded-full bg-slate-300 rotate-45"></div>
                 </div>
 
-                {completedCourses.length === 0 ? (
+                {certificateTotal === 0 && certificateReady === 0 ? (
                   <>
                     <h4 className={`text-[13px] font-bold mb-6 leading-[1.6] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
-                      You have 0 certificates <br/> available to claim!
+                      You do not have any certificates yet.
                     </h4>
+                    <p className={`text-[12px] mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                      Complete a course and claim your certificate to have it appear in the Certificates section.
+                    </p>
                     <button 
-                      onClick={() => setActiveTab('catalog')}
-                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 ${isDarkMode ? 'bg-slate-800 hover:bg-slate-700 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'} shadow-sm`}
+                      onClick={() => setActiveTab('courses')}
+                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 ${isDarkMode ? 'bg-[#F97316] hover:bg-[#EA580C] text-white' : 'bg-[#F97316] hover:bg-[#EA580C] text-white'} shadow-sm`}
                     >
-                      Explore Courses
+                      Start Now
+                    </button>
+                  </>
+                ) : certificateTotal === 0 && certificateReady > 0 ? (
+                  <>
+                    <h4 className={`text-[13px] font-bold mb-6 leading-[1.6] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                      You have {certificateReady} certificate{certificateReady !== 1 ? 's' : ''} ready to claim!
+                    </h4>
+                    <p className={`text-[12px] mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                      Claim your certificates now in the Certificates section.
+                    </p>
+                    <button 
+                      onClick={() => setActiveTab('certificates')}
+                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 bg-[#F97316] hover:bg-[#EA580C] text-white shadow-sm`}
+                    >
+                      Claim Now ({certificateReady})
+                    </button>
+                  </>
+                ) : certificateReady === 0 ? (
+                  <>
+                    <h4 className={`text-[13px] font-bold mb-6 leading-[1.6] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                      You have {certificateTotal} certificate{certificateTotal !== 1 ? 's' : ''} recorded.
+                    </h4>
+                    <p className={`text-[12px] mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                      Review or export your certificates in the Certificates section.
+                    </p>
+                    <button 
+                      onClick={() => setActiveTab('certificates')}
+                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 ${isDarkMode ? 'bg-[#F97316] hover:bg-[#EA580C] text-white' : 'bg-[#F97316] hover:bg-[#EA580C] text-white'} shadow-sm`}
+                    >
+                      View Certificates
                     </button>
                   </>
                 ) : (
                   <>
                     <h4 className={`text-[13px] font-bold mb-6 leading-[1.6] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
-                      You have {completedCourses.length} certificate{completedCourses.length !== 1 ? 's' : ''} <br/> available to claim!
+                      You have {certificateReady} certificate{certificateReady !== 1 ? 's' : ''} available to claim!
                     </h4>
                     <button 
                       onClick={() => setActiveTab('certificates')}
                       className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 bg-[#F97316] hover:bg-[#EA580C] text-white shadow-sm`}
                     >
-                      Claim Certificates ({completedCourses.length})
+                      Claim Now ({certificateReady})
                     </button>
                   </>
                 )}
                 
-                <button onClick={() => setActiveTab('certificates')} className="text-[11px] font-medium text-[#F97316] hover:underline flex items-center justify-center gap-1">
+                <button onClick={toggleCertificateDropdown} className="text-[11px] font-medium text-[#F97316] hover:underline flex items-center justify-center gap-1">
                   View all certificates <span className="text-[12px]">→</span>
                 </button>
               </div>

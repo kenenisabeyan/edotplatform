@@ -53,8 +53,16 @@ function NavItem({ item, metrics, role, sidebarCollapsed, onLinkClick, isDarkMod
     badgeCount = metrics.pendingCourses;
     badgeColor = 'bg-amber-500/100 text-white';
   } else if (item.path.includes('/certificates')) {
-    badgeCount = metrics.newCertificates;
-    badgeColor = 'bg-emerald-500/100 text-white';
+    if (metrics.readyToClaim > 0) {
+      badgeCount = metrics.readyToClaim;
+      badgeColor = 'bg-amber-500/100 text-white';
+    } else if (metrics.newCertificates > 0) {
+      badgeCount = metrics.newCertificates;
+      badgeColor = 'bg-emerald-500/100 text-white';
+    } else {
+      badgeCount = metrics.totalCertificates;
+      badgeColor = 'bg-slate-400/100 text-white';
+    }
   }
 
   return (
@@ -107,6 +115,9 @@ export default function EDOTLayout() {
     pendingApprovals: 0,
     pendingCourses: 0,
     newCertificates: 0,
+    totalCertificates: 0,
+    readyToClaim: 0,
+    pendingCertificateRequirements: 0,
     pendingUsers: 0
   });
 

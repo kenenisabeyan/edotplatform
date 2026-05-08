@@ -279,6 +279,22 @@ export default function EDOTDashboard() {
     return <SupportDashboard />;
   }
 
+  const dashboardAction = (tab) => {
+    if (tab === 'certificates') {
+      navigate('/dashboard/certificates');
+      return;
+    }
+    if (tab === 'courses' || tab === 'catalog') {
+      navigate('/dashboard/courses');
+      return;
+    }
+    if (tab === 'overview') {
+      navigate('/dashboard');
+      return;
+    }
+    navigate('/dashboard');
+  };
+
   if (userRole === 'student') {
     return <StudentOverview 
       user={user}
@@ -288,7 +304,7 @@ export default function EDOTDashboard() {
       totalLessonsCompleted={stats?.completedLessons || 0}
       averageProgress={stats?.averageProgress || 0}
       isDarkMode={isDarkMode}
-      setActiveTab={() => {}}
+      setActiveTab={dashboardAction}
     />;
   }
 

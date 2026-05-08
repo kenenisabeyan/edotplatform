@@ -10,34 +10,102 @@ const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_aut
 export default function CertificatesView() {
   const isDarkMode = useThemeMode();
   const { user } = useAuth();
-  const [completedCourses, setCompletedCourses] = useState([]);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [claimedCertificates, setClaimedCertificates] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [claimingCourseId, setClaimingCourseId] = useState(null);
+
+  const getCourseId = (item) => item.course?.id || item.courseId;
+
+  const hasClaimedCertificate = (courseId) => claimedCertificates.some(cert => cert.courseId === courseId);
+
+  const isCourseComplete = (enrollment) => {
+    return enrollment.progress === 100 || enrollment.completed || enrollment.status === 'completed';
+  };
+
+  const hasPassedExam = (enrollment) => {
+    return !enrollment.course?.isExamRequired || enrollment.passedFinalExam;
+  };
+
+  const getTotalLessons = (enrollment) => {
+    const lessons = enrollment.course?.lessons;
+    return Array.isArray(lessons) ? lessons.length : 0;
+  };
+
+  const getCompletedLessonCount = (enrollment) => {
+    const completed = enrollment.completedLessons;
+    if (Array.isArray(completed)) return completed.length;
+    if (typeof completed === 'string') {
+      try {
+        return JSON.parse(completed).length;
+      } catch {
+        return 0;
+      }
+    }
+    return 0;
+  };
+
+  const getLearningStatusLabel = (enrollment) => {
+    const totalLessons = getTotalLessons(enrollment);
+    const completedLessons = getCompletedLessonCount(enrollment);
+    if (isCourseComplete(enrollment)) return 'Course complete';
+    if (totalLessons === 0) return 'No lesson progress yet';
+    return `${completedLessons}/${totalLessons} lessons completed`;
+  };
+
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [enrolledResponse, certificatesResponse] = await Promise.all([
+        api.get('/courses/enrolled'),
+        api.get('/certificates')
+      ]);
+
+      setEnrolledCourses(enrolledResponse.data?.data || []);
+      setClaimedCertificates(certificatesResponse.data?.data || []);
+
+      try {
+        await api.put('/users/mark-certificates-seen');
+      } catch (markErr) {
+        console.error('Failed to mark certificates as seen', markErr);
+      }
+    } catch (err) {
+      console.error('Failed to fetch certificates data', err);
+      setError(err.response?.data?.message || err.message || 'Failed to load certificates.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchCertificates = async () => {
-      try {
-        const { data } = await api.get('/users/mycourses');
-        const enrolled = data.enrolledCourses || [];
-        const completed = enrolled.filter(e => {
-            if (e.progress < 100) return false;
-            if (e.course?.isExamRequired && !e.passedFinalExam) return false;
-            return true;
-        });
-        setCompletedCourses(completed);
-
-        try {
-          await api.put('/users/mark-certificates-seen');
-        } catch (markErr) {
-          console.error('Failed to mark certificates as seen', markErr);
-        }
-      } catch (err) {
-        console.error('Failed to fetch user completed courses', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCertificates();
+    fetchData();
   }, []);
+
+  const handleClaimCertificate = async (courseId) => {
+    try {
+      setError(null);
+      setClaimingCourseId(courseId);
+      await api.post('/progress/certificate', { courseId });
+      await fetchData();
+      alert('Certificate claimed successfully.');
+    } catch (err) {
+      console.error('Failed to claim certificate', err);
+      const serverMessage = err.response?.data?.message;
+      const blockedReasons = err.response?.data?.blocked_by;
+      if (Array.isArray(blockedReasons) && blockedReasons.length > 0) {
+        const reasonText = blockedReasons.map(item => `${item.lesson}: ${item.reason}`).join('\n');
+        setError(`Certificate blocked: ${reasonText}`);
+        alert(`Certificate blocked:\n${reasonText}`);
+      } else {
+        setError(serverMessage || 'Failed to claim certificate.');
+        alert(serverMessage || 'Failed to claim certificate.');
+      }
+    } finally {
+      setClaimingCourseId(null);
+    }
+  };
 
   const handleDownloadCertificate = async (enrolled) => {
     const courseName = enrolled.course?.title || 'Course';
@@ -331,6 +399,39 @@ export default function CertificatesView() {
     );
   }
 
+  if (error) {
+    return (
+      <div className={`p-12 text-center rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10 text-slate-200' : 'bg-white border-slate-200 text-slate-900'}`}>
+        <h3 className="text-xl font-bold mb-3">Unable to load certificates</h3>
+        <p className="text-sm mb-6">{error}</p>
+        <button
+          onClick={fetchData}
+          className="inline-flex items-center justify-center rounded-full bg-[#F97316] px-6 py-3 text-sm font-bold text-white hover:bg-[#EA580C]"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  const claimableCourses = enrolledCourses.filter(enrollment => {
+    const courseId = getCourseId(enrollment);
+    return isCourseComplete(enrollment) && hasPassedExam(enrollment) && !hasClaimedCertificate(courseId);
+  });
+
+  const blockedCourses = enrolledCourses.filter(enrollment => {
+    const courseId = getCourseId(enrollment);
+    return isCourseComplete(enrollment) && !hasPassedExam(enrollment) && !hasClaimedCertificate(courseId);
+  });
+
+  const inProgressCourses = enrolledCourses.filter(enrollment => {
+    const courseId = getCourseId(enrollment);
+    return !isCourseComplete(enrollment) && !hasClaimedCertificate(courseId);
+  });
+
+  const claimedCount = claimedCertificates.length;
+  const claimableCount = claimableCourses.length;
+
   return (
     <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
@@ -339,40 +440,153 @@ export default function CertificatesView() {
             <Award className="w-8 h-8 text-[#00D4FF]" />
             My Certificates
           </h1>
-          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Download and share your achievements.</p>
+          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+            Your official credential hub for course completion and certificate claims.
+          </p>
         </div>
       </div>
 
-      {completedCourses.length === 0 ? (
+      {claimableCount === 0 && claimedCount === 0 && blockedCourses.length === 0 && inProgressCourses.length === 0 ? (
         <div className={`p-12 text-center rounded-3xl border shadow-2xl flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#0B1120]/90 backdrop-blur-xl border-white/10' : 'bg-white/95 border-slate-200'}`}>
-           <div className={`w-20 h-20 border rounded-full flex items-center justify-center mb-4 shadow-sm ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
-             <Award className="w-10 h-10" />
-           </div>
-           <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No certificates yet</h3>
-           <p className={`max-w-sm mb-6 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Complete a course 100% and pass the final exam (if required) to earn your first certificate.</p>
+          <div className={`w-20 h-20 border rounded-full flex items-center justify-center mb-4 shadow-sm ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>
+            <Award className="w-10 h-10" />
+          </div>
+          <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No certificates yet</h3>
+          <p className={`max-w-sm mb-6 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>
+            Complete courses, finish required lessons, and pass any exams to unlock your official certificates.
+          </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {completedCourses.map((enrolled) => (
-            <div key={enrolled.course?.id} className={`rounded-3xl border shadow-2xl overflow-hidden group transition-colors ${isDarkMode ? 'bg-[#0B1120]/90 backdrop-blur-xl border-white/10 hover:border-[#F97316]/30' : 'bg-white/95 border-slate-200 hover:border-indigo-300 hover:shadow-lg'}`}>
-              <div className={`aspect-[4/3] border-b p-8 flex flex-col items-center justify-center relative ${isDarkMode ? 'bg-gradient-to-br from-[#00D4FF]/5 to-[#0B1120] border-white/10' : 'bg-gradient-to-br from-indigo-50 to-white border-slate-200'}`}>
-                <Award className={`w-16 h-16 mb-4 drop-shadow-sm ${isDarkMode ? 'text-[#F97316]' : 'text-indigo-500'}`} />
-                <h3 className={`font-bold text-center line-clamp-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{enrolled.course?.title}</h3>
-                <div className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                  <button 
-                    onClick={() => handleDownloadCertificate(enrolled)}
-                    className={`flex items-center gap-2 bg-gradient-to-r from-[#00D4FF] to-[#0099CC] px-6 py-3 rounded-full font-bold shadow-[0_0_15px_rgba(0,212,255,0.5)] hover:-translate-y-0.5 transition-all transform scale-95 group-hover:scale-100 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
-                  >
-                    <Download className="w-4 h-4" /> Download PDF
-                  </button>
-                </div>
+        <div className="space-y-10">
+          {claimableCount > 0 && (
+            <div className="space-y-6">
+              <div>
+                <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Ready to Claim</h2>
+                <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                  These courses are complete and eligible for certificates. Claim them to record your achievement.
+                </p>
               </div>
-              <div className={`p-4 flex justify-between items-center ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}>
-                <div className={`text-xs font-black ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Issued to</div>
-                <div className={`text-sm font-bold truncate ml-4 ${isDarkMode ? 'text-[#F97316]' : 'text-indigo-600'}`}>{user?.name}</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {claimableCourses.map((enrollment) => {
+                  const courseId = getCourseId(enrollment);
+                  return (
+                    <div key={`claim-${courseId}`} className={`rounded-3xl border p-6 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${isDarkMode ? 'bg-[#1E2A44]' : 'bg-slate-100'}`}>
+                          <Award className="w-7 h-7 text-[#F97316]" />
+                        </div>
+                        <div>
+                          <h3 className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{enrollment.course?.title || 'Completed Course'}</h3>
+                          <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Completed on {new Date(enrollment.updatedAt || Date.now()).toLocaleDateString()}</p>
+                        </div>
+                      </div>
+                      <div className="mb-4 text-sm text-slate-500">
+                        {getLearningStatusLabel(enrollment)} • {enrollment.course?.isExamRequired ? 'Final exam passed' : 'No final exam required'}
+                      </div>
+                      <button
+                        onClick={() => handleClaimCertificate(courseId)}
+                        disabled={claimingCourseId === courseId}
+                        className={`w-full inline-flex justify-center items-center gap-2 rounded-full px-5 py-3 font-bold transition ${claimingCourseId === courseId ? 'bg-slate-500 text-white cursor-wait' : 'bg-[#F97316] hover:bg-[#EA580C] text-white'}`}
+                      >
+                        {claimingCourseId === courseId ? 'Claiming…' : 'Claim Certificate'}
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-          ))}
+          )}
+
+          {blockedCourses.length > 0 && (
+            <div className={`rounded-3xl border p-6 ${isDarkMode ? 'bg-[#111827] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+              <h2 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Pending Requirements</h2>
+              <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                These courses are complete but still require final exam validation before a certificate can be issued.
+              </p>
+              <div className="mt-6 grid gap-4">
+                {blockedCourses.map((enrollment) => (
+                  <div key={`blocked-${getCourseId(enrollment)}`} className={`rounded-2xl border p-4 ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+                    <div className="flex justify-between items-center gap-4 mb-3">
+                      <div>
+                        <h3 className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{enrollment.course?.title || 'Course'}</h3>
+                        <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Complete the final exam to claim your certificate.</p>
+                      </div>
+                      <span className={`text-xs uppercase font-bold ${isDarkMode ? 'text-orange-300' : 'text-orange-600'}`}>Action needed</span>
+                    </div>
+                    <div className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                      {getLearningStatusLabel(enrollment)} • Final exam required
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {inProgressCourses.length > 0 && (
+            <div className={`rounded-3xl border p-6 ${isDarkMode ? 'bg-[#111827] border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+              <h2 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Progressing Toward Certificates</h2>
+              <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                These courses are still in progress. Finish the remaining lessons and any required exam to unlock the certificate.
+              </p>
+              <div className="mt-6 grid gap-4">
+                {inProgressCourses.map((enrollment) => (
+                  <div key={`progress-${getCourseId(enrollment)}`} className={`rounded-2xl border p-4 ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+                    <div className="flex justify-between items-center gap-4 mb-3">
+                      <div>
+                        <h3 className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{enrollment.course?.title || 'Course'}</h3>
+                        <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{getLearningStatusLabel(enrollment)}</p>
+                      </div>
+                      <span className={`text-xs uppercase font-bold ${isDarkMode ? 'text-blue-300' : 'text-blue-600'}`}>{Math.round(enrollment.progress || 0)}%</span>
+                    </div>
+                    <div className="w-full h-2 rounded-full bg-slate-800 dark:bg-slate-800 overflow-hidden mb-3">
+                      <div className="h-full bg-[#00D4FF] rounded-full" style={{ width: `${Math.min(100, enrollment.progress || 0)}%` }}></div>
+                    </div>
+                    <button
+                      onClick={() => window.open(`/course/${enrollment.course?.id || getCourseId(enrollment)}`, '_blank')}
+                      className={`inline-flex justify-center w-full items-center gap-2 rounded-full px-4 py-3 font-bold transition ${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-[#F97316] hover:bg-[#EA580C] text-white'}`}
+                    >
+                      Continue Course
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {claimedCount > 0 && (
+            <div className="space-y-6">
+              <div>
+                <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Claimed Certificates</h2>
+                <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                  These certificates have already been issued to your account. Download the PDF when you're ready.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {claimedCertificates.map((cert) => (
+                  <div key={cert.id} className={`rounded-3xl border p-6 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${isDarkMode ? 'bg-[#1E2A44]' : 'bg-slate-100'}`}>
+                        <Award className="w-7 h-7 text-[#00D4FF]" />
+                      </div>
+                      <div>
+                        <h3 className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{cert.course?.title || 'Certificate'}</h3>
+                        <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Issued {new Date(cert.issueDate || Date.now()).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <p className={`text-sm leading-relaxed mb-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                      Official certificate recorded in your learner profile.
+                    </p>
+                    <button
+                      onClick={() => handleDownloadCertificate({ course: cert.course, updatedAt: cert.issueDate })}
+                      className={`w-full inline-flex justify-center items-center gap-2 rounded-full px-5 py-3 font-bold transition ${isDarkMode ? 'bg-[#0B1120] border border-slate-700 text-white hover:bg-[#111827]' : 'bg-[#00D4FF] hover:bg-[#0099CC] text-white'}`}
+                    >
+                      <Download className="w-4 h-4" /> Download PDF
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

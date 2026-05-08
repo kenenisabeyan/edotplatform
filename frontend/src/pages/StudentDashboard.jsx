@@ -130,6 +130,20 @@ export default function StudentDashboard() {
   const averageProgress = dashboardData?.overview?.averageProgress || 0;
   const completedCourses = useMemo(() => enrolledCourses.filter(c => c.progress === 100 || c.status === 'completed' || c.completed === true), [enrolledCourses]);
 
+  const certificateCourseIds = useMemo(
+    () => new Set((dashboardData?.certificates || []).map(c => c.courseId)),
+    [dashboardData?.certificates]
+  );
+
+  const readyToClaimCertificates = useMemo(() => completedCourses.filter(enrolled => {
+    const courseId = enrolled.course?.id || enrolled.courseId;
+    const isPassed = !enrolled.course?.isExamRequired || enrolled.passedFinalExam;
+    return !certificateCourseIds.has(courseId) && isPassed;
+  }), [completedCourses, certificateCourseIds]);
+
+  const certificateEarnedCount = dashboardData?.certificates?.length || 0;
+  const readyToClaimCount = readyToClaimCertificates.length;
+  const totalCertificateProgress = certificateEarnedCount + readyToClaimCount;
 
   const handleConnectionRequest = async (id, action) => {
     if (window.confirm(`Are you sure you want to ${action} this explicit connection?`)) {
@@ -503,6 +517,11 @@ export default function StudentDashboard() {
             isDarkMode={isDarkMode}
             setActiveTab={setActiveTab}
             dashboardStats={dashboardStats}
+            certificateSummary={{
+              claimed: certificateEarnedCount,
+              readyToClaim: readyToClaimCount,
+              total: totalCertificateProgress
+            }}
           />
         );
       }
@@ -594,8 +613,12 @@ export default function StudentDashboard() {
 
       case 'certificates': {
         const userCertificates = dashboardStats?.certificates || [];
-        const claimedCourseIds = userCertificates.map(c => c.courseId);
-        const unclaimedCourses = completedCourses.filter(c => !claimedCourseIds.includes(c.course?.id || c.courseId));
+        const claimedCourseIds = new Set(userCertificates.map(c => c.courseId));
+        const unclaimedCourses = completedCourses.filter(c => {
+          const courseId = c.course?.id || c.courseId;
+          const passedExam = !c.course?.isExamRequired || c.passedFinalExam;
+          return !claimedCourseIds.has(courseId) && passedExam;
+        });
 
         return (
           <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
@@ -614,8 +637,10 @@ export default function StudentDashboard() {
                  <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-500 border-blue-100'}`}>
                    <Award className="w-8 h-8" />
                  </div>
-                 <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>No credentials yet</h3>
-                 <p className={`text-sm mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Complete courses to 100% to earn your official certificates.</p>
+                 <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>No certificates yet</h3>
+                 <p className={`text-sm mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                   You do not have any certificates yet. Complete a course and claim it to see it in this section.
+                 </p>
                  <button 
                   onClick={() => setActiveTab('courses')}
                   className={`px-6 py-3 bg-blue-500 hover:bg-blue-600 font-bold text-sm rounded-xl shadow-md transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
@@ -834,7 +859,7 @@ export default function StudentDashboard() {
                  icon={Award} 
                  label="Certificates" 
                  isActive={activeTab === 'certificates'} 
-                 badge={dashboardStats?.certificates ? dashboardStats.certificates.length : 0}
+                 badge={totalCertificateProgress}
                  onClick={() => setActiveTab('certificates')} 
                />
                <NavItem tabName="sponsorships" icon={ShieldCheck} label="Sponsorships" isActive={activeTab === 'sponsorships'} onClick={() => setActiveTab('sponsorships')} />
