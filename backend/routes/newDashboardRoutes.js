@@ -63,7 +63,7 @@ router.get('/courses/enrolled', async (req, res) => {
     try {
         const userId = req.user.id;
         const enrollments = await prisma.userCourseProgress.findMany({
-            where: { userId, status: { in: ['active', 'completed'] } },
+            where: { userId, status: { in: ['active', 'completed', 'pending'] } },
             include: {
                 course: {
                     include: { 

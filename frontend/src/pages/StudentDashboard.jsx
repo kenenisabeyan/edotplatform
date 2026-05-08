@@ -59,21 +59,23 @@ export default function StudentDashboard() {
   const { data: dashboardData, isLoading: isLoadingDashboard } = useQuery({
     queryKey: ['studentDashboard'],
     queryFn: async () => {
-      const [{ data: enrolled }, { data: dashboard }, { data: progress }, { data: study }, { data: certs }, { data: ach }] = await Promise.all([
-        api.get('/courses/enrolled'),
-        api.get('/dashboard/student'),
-        api.get('/progress/overview'),
-        api.get('/study/weekly'),
-        api.get('/certificates'),
-        api.get('/achievements')
+      // Use Promise.allSettled or catch to ensure one failing API doesn't crash the whole dashboard
+      const [enrolledRes, dashboardRes, progressRes, studyRes, certsRes, achRes] = await Promise.all([
+        api.get('/courses/enrolled').catch(() => ({ data: { data: [] } })),
+        api.get('/dashboard/student').catch(() => ({ data: { data: {} } })),
+        api.get('/progress/overview').catch(() => ({ data: { data: {} } })),
+        api.get('/study/weekly').catch(() => ({ data: { data: {} } })),
+        api.get('/certificates').catch(() => ({ data: { data: [] } })),
+        api.get('/achievements').catch(() => ({ data: { data: [] } }))
       ]);
+      
       return {
-        enrolledCourses: enrolled.data || [],
-        overview: dashboard.data || {},
-        progress: progress.data || {},
-        study: study.data || {},
-        certificates: certs.data || [],
-        achievements: ach.data || []
+        enrolledCourses: enrolledRes.data?.data || [],
+        overview: dashboardRes.data?.data || {},
+        progress: progressRes.data?.data || {},
+        study: studyRes.data?.data || {},
+        certificates: certsRes.data?.data || [],
+        achievements: achRes.data?.data || []
       };
     }
   });

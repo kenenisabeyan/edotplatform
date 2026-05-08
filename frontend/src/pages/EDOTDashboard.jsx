@@ -44,8 +44,19 @@ export default function EDOTDashboard() {
         return setLoading(false);
       }
       try {
-        const { data } = await api.get(`/${userRole}/dashboard`);
-        setStats(data.data);
+        if (userRole === 'student') {
+          const [{ data: enrolled }, { data: dashboard }] = await Promise.all([
+            api.get('/courses/enrolled'),
+            api.get('/users/dashboard-stats')
+          ]);
+          setStats({
+            ...dashboard.data,
+            enrolledCourses: enrolled.data || [],
+          });
+        } else {
+          const { data } = await api.get(`/${userRole}/dashboard`);
+          setStats(data.data);
+        }
       } catch (err) {
         console.error('Error fetching dashboard stats', err);
       } finally {
@@ -296,15 +307,46 @@ export default function EDOTDashboard() {
   };
 
   if (userRole === 'student') {
+    const enrolledCourses = stats?.enrolledCourses || [];
+    const completedCourses = enrolledCourses.filter(c => c.progress === 100 || c.status === 'completed' || c.completed === true);
+    
+    const userCertificates = stats?.certificates || [];
+    const claimedCourseIds = new Set(userCertificates.map(c => c.courseId));
+    
+    const readyToClaimCertificates = completedCourses.filter(enrolled => {
+      const courseId = enrolled.course?.id || enrolled.courseId;
+      const isPassed = !enrolled.course?.isExamRequired || enrolled.passedFinalExam;
+      return !claimedCourseIds.has(courseId) && isPassed;
+    });
+
+    const certificateEarnedCount = userCertificates.length;
+    const readyToClaimCount = readyToClaimCertificates.length;
+    const totalCertificateProgress = certificateEarnedCount + readyToClaimCount;
+
+    let totalProgress = 0;
+    let totalLessonsCompleted = 0;
+    enrolledCourses.forEach(e => {
+        totalProgress += (e.progress || 0);
+        const lessons = e.completedLessons ? (Array.isArray(e.completedLessons) ? e.completedLessons : [e.completedLessons]) : [];
+        totalLessonsCompleted += lessons.length;
+    });
+    const averageProgress = enrolledCourses.length > 0 ? Math.round(totalProgress / enrolledCourses.length) : 0;
+
     return <StudentOverview 
       user={user}
-      enrolledCourses={[]} // Pass proper data eventually
-      completedCourses={[]}
-      totalEnrolled={stats?.totalEnrolled || 0}
-      totalLessonsCompleted={stats?.completedLessons || 0}
-      averageProgress={stats?.averageProgress || 0}
+      enrolledCourses={enrolledCourses} 
+      completedCourses={completedCourses}
+      totalEnrolled={enrolledCourses.length}
+      totalLessonsCompleted={totalLessonsCompleted}
+      averageProgress={averageProgress}
       isDarkMode={isDarkMode}
       setActiveTab={dashboardAction}
+      dashboardStats={stats}
+      certificateSummary={{
+        claimed: certificateEarnedCount,
+        readyToClaim: readyToClaimCount,
+        total: totalCertificateProgress
+      }}
     />;
   }
 

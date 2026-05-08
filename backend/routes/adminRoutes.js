@@ -545,18 +545,41 @@ router.get('/enrollments/active', async (req, res) => {
 router.put('/enrollments/:id/status', async (req, res) => {
     try {
         const { status, reason } = req.body;
+        const adminId = req.user.id;
+        
         if (!['active', 'rejected'].includes(status)) {
             return res.status(400).json({ success: false, message: 'Invalid status option' });
         }
 
-        const enrollment = await prisma.enrollment.update({
+        const enrollment = await prisma.enrollment.findUnique({ 
             where: { id: req.params.id },
-            data: { status, reason: reason || '' },
             include: { course: true }
+        });
+        
+        if (!enrollment) {
+            return res.status(404).json({ success: false, message: 'Enrollment not found' });
+        }
+
+        const updateData = {
+            status,
+            reason: reason || '',
+            ...(status === 'active' && { 
+                approvedAt: new Date(),
+                approvedBy: adminId 
+            }),
+            ...(status === 'rejected' && { 
+                rejectionReason: reason || '' 
+            })
+        };
+
+        const updatedEnrollment = await prisma.enrollment.update({
+            where: { id: req.params.id },
+            data: updateData,
+            include: { course: true, student: { select: { name: true, email: true } } }
         });
 
         const userProgress = await prisma.userCourseProgress.findFirst({
-            where: { userId: enrollment.studentId, courseId: enrollment.courseId }
+            where: { userId: updatedEnrollment.studentId, courseId: updatedEnrollment.courseId }
         });
 
         if (userProgress) {
@@ -567,8 +590,8 @@ router.put('/enrollments/:id/status', async (req, res) => {
         } else {
             await prisma.userCourseProgress.create({
                 data: {
-                    userId: enrollment.studentId,
-                    courseId: enrollment.courseId,
+                    userId: updatedEnrollment.studentId,
+                    courseId: updatedEnrollment.courseId,
                     status,
                     progress: 0,
                     completedLessons: []
@@ -578,13 +601,142 @@ router.put('/enrollments/:id/status', async (req, res) => {
 
         if (status === 'active') {
             await prisma.course.update({
-                where: { id: enrollment.courseId },
+                where: { id: updatedEnrollment.courseId },
                 data: { totalStudents: { increment: 1 } }
             });
         }
 
-        res.status(200).json({ success: true, data: enrollment });
+        res.status(200).json({ 
+            success: true, 
+            message: status === 'active' ? 'Enrollment approved successfully' : 'Enrollment rejected',
+            data: updatedEnrollment 
+        });
     } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+// NEW ENDPOINT: Approve a specific enrollment request
+router.post('/enrollments/:id/approve', async (req, res) => {
+    try {
+        const adminId = req.user.id;
+        const enrollment = await prisma.enrollment.findUnique({ 
+            where: { id: req.params.id },
+            include: { course: true, student: { select: { id: true, name: true, email: true } } }
+        });
+        
+        if (!enrollment) {
+            return res.status(404).json({ success: false, message: 'Enrollment not found' });
+        }
+
+        if (enrollment.status !== 'pending') {
+            return res.status(400).json({ 
+                success: false, 
+                message: `Cannot approve enrollment with status: ${enrollment.status}` 
+            });
+        }
+
+        const approvedEnrollment = await prisma.enrollment.update({
+            where: { id: req.params.id },
+            data: {
+                status: 'active',
+                approvedAt: new Date(),
+                approvedBy: adminId,
+                reason: ''
+            },
+            include: { course: true, student: { select: { id: true, name: true, email: true } } }
+        });
+
+        // Update user progress
+        let userProgress = await prisma.userCourseProgress.findFirst({
+            where: { userId: enrollment.studentId, courseId: enrollment.courseId }
+        });
+
+        if (userProgress) {
+            await prisma.userCourseProgress.update({
+                where: { id: userProgress.id },
+                data: { status: 'active' }
+            });
+        } else {
+            await prisma.userCourseProgress.create({
+                data: {
+                    userId: enrollment.studentId,
+                    courseId: enrollment.courseId,
+                    status: 'active',
+                    progress: 0,
+                    completedLessons: []
+                }
+            });
+        }
+
+        // Increment course total students
+        await prisma.course.update({
+            where: { id: enrollment.courseId },
+            data: { totalStudents: { increment: 1 } }
+        });
+
+        res.status(200).json({ 
+            success: true, 
+            message: `Enrollment approved for ${enrollment.student.name} in course ${enrollment.course.title}`,
+            data: approvedEnrollment 
+        });
+    } catch (error) {
+        console.error('Approve enrollment error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+// NEW ENDPOINT: Reject a specific enrollment request
+router.post('/enrollments/:id/reject', async (req, res) => {
+    try {
+        const { rejectionReason } = req.body;
+        const adminId = req.user.id;
+        
+        const enrollment = await prisma.enrollment.findUnique({ 
+            where: { id: req.params.id },
+            include: { course: true, student: { select: { id: true, name: true, email: true } } }
+        });
+        
+        if (!enrollment) {
+            return res.status(404).json({ success: false, message: 'Enrollment not found' });
+        }
+
+        if (enrollment.status !== 'pending') {
+            return res.status(400).json({ 
+                success: false, 
+                message: `Cannot reject enrollment with status: ${enrollment.status}` 
+            });
+        }
+
+        const rejectedEnrollment = await prisma.enrollment.update({
+            where: { id: req.params.id },
+            data: {
+                status: 'rejected',
+                rejectionReason: rejectionReason || 'Rejected by admin',
+                reason: rejectionReason || 'Rejected by admin'
+            },
+            include: { course: true, student: { select: { id: true, name: true, email: true } } }
+        });
+
+        // Update user progress status
+        let userProgress = await prisma.userCourseProgress.findFirst({
+            where: { userId: enrollment.studentId, courseId: enrollment.courseId }
+        });
+
+        if (userProgress) {
+            await prisma.userCourseProgress.update({
+                where: { id: userProgress.id },
+                data: { status: 'rejected' }
+            });
+        }
+
+        res.status(200).json({ 
+            success: true, 
+            message: `Enrollment rejected for ${enrollment.student.name} in course ${enrollment.course.title}`,
+            data: rejectedEnrollment 
+        });
+    } catch (error) {
+        console.error('Reject enrollment error:', error);
         res.status(500).json({ success: false, message: 'Server error', error: error.message });
     }
 });

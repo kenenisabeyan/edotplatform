@@ -99,6 +99,19 @@ router.post('/certificate', protect, checkNotBlocked, guardActiveEnrollment, asy
         if (!course) {
             return res.status(404).json({ success: false, message: 'Course not found' });
         }
+
+        // CHECK: Verify enrollment is approved by admin
+        const enrollment = await prisma.enrollment.findFirst({
+            where: { studentId: userId, courseId }
+        });
+
+        if (!enrollment || enrollment.status !== 'active') {
+            return res.status(403).json({ 
+                success: false, 
+                message: 'Certificate Generation Denied: Your enrollment must be approved by an admin first.',
+                approvalRequired: true
+            });
+        }
         
         const lessons = course.lessons ? (Array.isArray(course.lessons) ? course.lessons : [course.lessons]) : [];
 

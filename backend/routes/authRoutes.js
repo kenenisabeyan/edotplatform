@@ -19,13 +19,14 @@ router.post('/register', [
   }
 
   const { name, email, password, role } = req.body;
+  const normalizedEmail = String(email || '').trim().toLowerCase();
 
   const allowedRoles = ['student', 'instructor', 'parent', 'sponsor'];
   const finalRole = allowedRoles.includes(role) ? role : 'student';
   const initialStatus = finalRole === 'instructor' ? 'pending' : 'approved';
 
   try {
-    let user = await prisma.user.findUnique({ where: { email } });
+    let user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
 
     if (user) {
       return res.status(400).json({ message: 'User already exists' });
@@ -36,7 +37,7 @@ router.post('/register', [
     user = await prisma.user.create({
       data: {
         name,
-        email,
+        email: normalizedEmail,
         password: hashedPassword,
         role: finalRole,
         status: initialStatus
@@ -80,17 +81,36 @@ router.post('/login', [
   }
 
   const { email, password } = req.body;
+  const normalizedEmail = String(email || '').replace(/[\s\uFEFF\xA0]/g, '').toLowerCase();
 
   try {
-    console.log(`[Login Attempt] Email: ${email}`);
-    const user = await prisma.user.findFirst({ 
+    import('fs').then(fs => {
+        fs.writeFileSync('last_login_attempt.txt', JSON.stringify({ 
+          receivedEmail: email, 
+          receivedPasswordLength: password?.length,
+          normalized: normalizedEmail,
+          timestamp: new Date().toISOString()
+        }, null, 2));
+    }).catch(e => console.error(e));
+    
+    console.log(`[Login Attempt] Email: ${normalizedEmail}`);
+    let user = await prisma.user.findFirst({ 
       where: { 
         email: { 
-          equals: String(email).trim(), 
+          equals: normalizedEmail, 
           mode: 'insensitive' 
         } 
       } 
     });
+
+    if (!user) {
+      const parts = normalizedEmail.split('@');
+      if (parts.length > 0) {
+          user = await prisma.user.findFirst({
+              where: { email: { startsWith: parts[0], mode: 'insensitive' } }
+          });
+      }
+    }
 
     if (!user) {
       console.log(`[Login Failed] User not found for email: ${email}`);
@@ -152,14 +172,15 @@ router.post('/login', [
 
 router.post('/social', async (req, res) => {
   const { provider, email, name } = req.body;
-  if (!email || !provider) {
+  const normalizedEmail = String(email || '').trim().toLowerCase();
+  if (!normalizedEmail || !provider) {
     return res.status(400).json({ message: 'Provider and email are required' });
   }
 
   try {
     let user = await prisma.user.findFirst({ 
       where: { 
-        email: { equals: email, mode: 'insensitive' } 
+        email: { equals: normalizedEmail, mode: 'insensitive' } 
       } 
     });
 
@@ -168,7 +189,7 @@ router.post('/social', async (req, res) => {
       user = await prisma.user.create({
         data: {
           name: name || `${provider} User`,
-          email,
+          email: normalizedEmail,
           password: randomPassword,
           role: 'student',
           status: 'approved'

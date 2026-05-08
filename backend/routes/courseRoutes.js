@@ -186,18 +186,39 @@ router.get('/:id/content', protect, async (req, res) => {
         const isInstructorOrAdmin = req.user.role === 'admin' || course.instructorId === userId;
         
         let isEnrolled = false;
+        let enrollmentStatus = null;
         if (!isInstructorOrAdmin) {
             const enrollment = await prisma.enrollment.findFirst({
-                where: { studentId: userId, courseId: courseId, status: 'active' }
+                where: { studentId: userId, courseId: courseId }
             });
-            const progress = await prisma.userCourseProgress.findFirst({
-                where: { userId: userId, courseId: courseId }
-            });
-            isEnrolled = !!enrollment || !!progress;
+            
+            // Only allow active enrollments or if there's progress for active status
+            if (enrollment) {
+                enrollmentStatus = enrollment.status;
+                isEnrolled = enrollment.status === 'active';
+            }
+            
+            // Also check progress status
+            if (!isEnrolled) {
+                const progress = await prisma.userCourseProgress.findFirst({
+                    where: { userId: userId, courseId: courseId, status: 'active' }
+                });
+                isEnrolled = !!progress;
+            }
         }
 
         if (!isInstructorOrAdmin && !isEnrolled) {
-            return res.status(403).json({ success: false, message: 'Access denied. You must be enrolled in this course to view its content.' });
+            const message = enrollmentStatus === 'pending' 
+                ? 'Your enrollment request is pending admin approval. You can access the course once approved.'
+                : enrollmentStatus === 'rejected'
+                ? 'Your enrollment request was rejected. Contact admin for more information.'
+                : 'Access denied. You must be enrolled in this course to view its content.';
+            
+            return res.status(403).json({ 
+                success: false, 
+                message: message,
+                enrollmentStatus: enrollmentStatus 
+            });
         }
 
         res.json({

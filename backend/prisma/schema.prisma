@@ -90,6 +90,10 @@ model UserCourseProgress {
   passedFinalExam  Boolean  @default(false)
   score            Float    @default(0)
   completed        Boolean  @default(false)
+  
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
 }
 
 model Course {
@@ -190,6 +194,9 @@ model Enrollment {
   status         String   @default("pending")
   reason         String   @default("")
   requestedAt    DateTime @default(now())
+  approvedAt     DateTime?
+  approvedBy     String?
+  rejectionReason String   @default("")
   
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -275,6 +282,9 @@ model Certificate {
   
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+
+  @@index([userId])
+  @@index([courseId])
 }
 
 model Message {

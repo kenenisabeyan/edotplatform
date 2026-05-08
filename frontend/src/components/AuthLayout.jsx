@@ -161,7 +161,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                  <input type="text" placeholder="Name" value={regName} onChange={e=>setRegName(e.target.value)} required 
                    className="w-full px-4 py-3 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DFB773] transition-all text-slate-900 font-medium bg-[#F3F4F6] text-[13px] placeholder:text-slate-500" />
 
-                 <input type="email" placeholder="test500@example.com" value={regEmail} onChange={e=>setRegEmail(e.target.value)} required 
+                 <input type="email" placeholder="student@test.com" value={regEmail} onChange={e=>setRegEmail(e.target.value)} required 
                    className="w-full px-4 py-3 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DFB773] transition-all text-[#111827] font-medium bg-[#EBF2FF] text-[13px] placeholder:text-slate-500" />
 
                  <div className="relative">
@@ -190,9 +190,19 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                </form>
              ) : (
                <form onSubmit={handleLogin} className="space-y-3.5">
-                 {loginError && <div className="p-3 bg-red-50 text-red-600 text-sm rounded-xl font-medium border border-red-100">{loginError}</div>}
+                 {loginError && (
+                   <div className="p-4 bg-red-50/80 backdrop-blur-sm text-red-700 text-sm rounded-xl font-medium border border-red-200/60 shadow-sm flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                     <svg className="w-5 h-5 text-red-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                     </svg>
+                     <div className="flex flex-col gap-1">
+                       <span className="font-bold text-red-800">Authentication Failed</span>
+                       <span className="text-[13px] opacity-90">{loginError}</span>
+                     </div>
+                   </div>
+                 )}
                  
-                 <input type="email" placeholder="test500@example.com" value={loginEmail} onChange={e=>setLoginEmail(e.target.value)} required 
+                 <input type="email" placeholder="student@test.com" value={loginEmail} onChange={e=>setLoginEmail(e.target.value)} required 
                    className="w-full px-4 py-3 border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DFB773] transition-all text-[#111827] font-medium bg-[#EBF2FF] text-[13px] placeholder:text-slate-500" />
 
                  <div className="relative">

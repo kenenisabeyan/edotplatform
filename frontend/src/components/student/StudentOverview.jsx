@@ -469,7 +469,7 @@ const StudentOverview = ({
         <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[24px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col relative overflow-hidden ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
           <div className="flex justify-between items-center mb-6">
             <h3 className={`text-[13px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>
-              {completedCourses.length === 0 && dashboardStats?.certificates?.length > 0 ? 'Recent Certificates' : 'Certificates Claim'}
+              {readyCertificates.length === 0 && dashboardStats?.certificates?.length > 0 ? 'Recent Certificates' : 'Certificates Claim'}
             </h3>
             <button onClick={() => setActiveTab('certificates')} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">
               <MoreHorizontal className="w-5 h-5 text-slate-400" />
@@ -477,7 +477,7 @@ const StudentOverview = ({
           </div>
           
           <div className="flex-1 flex flex-col justify-center">
-            {completedCourses.length === 0 && dashboardStats?.certificates?.length > 0 ? (
+            {readyCertificates.length === 0 && dashboardStats?.certificates?.length > 0 ? (
                <div className="space-y-3 w-full">
                  {dashboardStats.certificates.slice(0, 3).map((cert, idx) => (
                    <div key={idx} className={`flex items-center gap-3 p-3 rounded-xl border ${isDarkMode ? 'bg-[#121A2F] border-slate-700' : 'bg-slate-50 border-slate-100'}`}>
