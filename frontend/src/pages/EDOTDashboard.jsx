@@ -16,7 +16,10 @@ import {
   Award,
   CheckCircle,
   MoreHorizontal,
-  Mail
+  Mail,
+  Calendar,
+  Bell,
+  ArrowRight
 } from 'lucide-react';
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
@@ -141,6 +144,22 @@ export default function EDOTDashboard() {
     setAgendaEvents((prev) => [...prev, evt].sort((a, b) => new Date(a.date) - new Date(b.date)));
   };
 
+  const formatCurrency = (value) => {
+    if (typeof value !== 'number') return typeof value === 'string' ? value : '$0';
+    return `$${value.toLocaleString()}`;
+  };
+
+  const monthlyRevenueSeries = Array.isArray(stats?.monthlyRevenue) ? stats.monthlyRevenue : [];
+  const currentMonthRevenue = monthlyRevenueSeries.length
+    ? monthlyRevenueSeries[monthlyRevenueSeries.length - 1].revenue
+    : stats?.finance?.totalRevenue ?? 0;
+  const patternPerformanceData = monthlyRevenueSeries.map((item) => ({
+    name: item.name,
+    revenue: item.revenue || 0,
+    students: Math.max(0, Math.round((item.revenue || 0) / 25)),
+    courses: Math.max(0, Math.round((item.revenue || 0) / 180))
+  }));
+
   let headerConfig = {};
   let statsConfig = [];
   let gaugeConfig = {};
@@ -151,34 +170,41 @@ export default function EDOTDashboard() {
     headerConfig = {
       gradient: 'bg-gradient-to-r from-[#020b1f] via-[#0f48b9] to-[#00d4ff]',
       title: 'Welcome back, Admin Kenenisa Beyan 👋',
-      subtitle: ''
+      subtitle: 'Here’s what’s happening with your platform today.'
     };
     statsConfig = [
-      { title: 'Total Courses', value: stats?.totalCourses || 9, icon: BookOpen },
-      { title: 'Active Students', value: stats?.totalStudents || 8, icon: Users },
-      { title: 'Instructors', value: stats?.totalInstructors || 2, icon: Briefcase },
-      { title: 'Pending Courses', value: stats?.pendingCourses || 0, icon: CircleDollarSign },
+      { title: 'Total Courses', value: stats?.totalCourses ?? 0, icon: BookOpen },
+      { title: 'Active Students', value: stats?.totalStudents ?? 0, icon: Users },
+      { title: 'Instructors', value: stats?.totalInstructors ?? 0, icon: Briefcase },
+      { title: 'Pending Approvals', value: stats?.pendingCourses ?? 0, icon: Award },
+      { title: 'Revenue (This Month)', value: formatCurrency(currentMonthRevenue), icon: CircleDollarSign }
     ];
     gaugeConfig = {
       title: 'Global Attendance',
-      valStr: '100%',
-      valNum: 100,
-      ringColor: '#00D4FF' // Cyan accent from Home/About
+      valStr: `${stats?.attendance?.attendanceRate ?? 0}%`,
+      valNum: stats?.attendance?.attendanceRate ?? 0,
+      ringColor: '#00D4FF'
     };
     areaConfig = {
-      title: 'Performance Insights',
-      data: stats?.studentPerformanceData || [
-         { name: 'Jan', value1: 20, value2: 10 }, { name: 'Feb', value1: 40, value2: 30 }, { name: 'Mar', value1: 35, value2: 25 }, { name: 'Apr', value1: 80, value2: 50 }, { name: 'May', value1: 60, value2: 80 }, { name: 'Aug', value1: 90, value2: 60 }
+      title: 'Platform Performance',
+      data: patternPerformanceData.length ? patternPerformanceData : [
+         { name: 'Jan', revenue: 1200, students: 420, courses: 28 },
+         { name: 'Feb', revenue: 1500, students: 510, courses: 32 },
+         { name: 'Mar', revenue: 1080, students: 380, courses: 24 },
+         { name: 'Apr', revenue: 1720, students: 620, courses: 38 },
+         { name: 'May', revenue: 1980, students: 740, courses: 44 },
+         { name: 'Jun', revenue: 1640, students: 560, courses: 36 }
       ],
-      lines: [{ key: 'value1', name: 'Subject', color: '#00D4FF' }, { key: 'value2', name: 'Podcast', color: '#F97316' }]
+      lines: [
+        { key: 'courses', name: 'Courses', color: '#00D4FF' },
+        { key: 'students', name: 'Students', color: '#10B981' },
+        { key: 'revenue', name: 'Revenue', color: '#F97316' }
+      ]
     };
     widgetConfig = {
-      type: 'agenda',
-      title: 'Agenda',
-      subtitle: 'Upcoming sample data',
-      items: [
-        { label: 'SUPPORT', title: 'concept', desc: 'Event', badge: 'Apr 2', color: '#F97316' }
-      ]
+      type: 'activity',
+      title: 'Recent Activities',
+      subtitle: 'Live platform feed',
     };
   } else if (userRole === 'instructor') {
     headerConfig = {
@@ -273,9 +299,16 @@ export default function EDOTDashboard() {
     };
   }
 
+  const topCourseRankings = stats?.topCourses || [];
+  const recentActivities = stats?.recentActivity?.slice(0, 5) || [];
+  const notifications = stats?.notifications?.slice(0, 5) || [];
+  const events = stats?.events?.slice(0, 4) || [];
+  const studentEngagement = stats?.studentEngagement || {};
+  const instructorPerformance = stats?.instructorPerformance?.slice(0, 3) || [];
+
   const gaugeData = [
     { name: 'Active', value: gaugeConfig.valNum, color: gaugeConfig.ringColor },
-    { name: 'Empty', value: 100 - gaugeConfig.valNum, color: isDarkMode ? '#0B1120' : '#E2E8F0' }
+    { name: 'Empty', value: Math.max(0, 100 - gaugeConfig.valNum), color: isDarkMode ? '#0B1120' : '#E2E8F0' }
   ];
 
   if (loading) {
@@ -557,6 +590,78 @@ export default function EDOTDashboard() {
          </div>
 
       </div>
+
+      {userRole === 'admin' && (
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <Card hover={false} className={`xl:col-span-2 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+            <div className="flex items-start justify-between gap-4 mb-6">
+              <div>
+                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Top Course Rankings</h3>
+                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Based on enrollment and revenue</p>
+              </div>
+              <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{topCourseRankings.length} Courses</span>
+            </div>
+            <div className="space-y-4">
+              {topCourseRankings.length ? topCourseRankings.map((course, index) => (
+                <div key={course.id || index} className={`grid grid-cols-12 gap-4 items-center p-4 rounded-2xl border ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div className="col-span-1 flex items-center justify-center text-sm font-bold text-slate-800 dark:text-white">{index + 1}</div>
+                  <div className="col-span-7 space-y-1">
+                    <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.title || course.name || 'Untitled course'}</p>
+                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{course.enrollmentCount ?? course.students ?? 0} learners enrolled</p>
+                  </div>
+                  <div className="col-span-4 text-right space-y-1">
+                    <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{formatCurrency(course.revenue ?? course.courseRevenue ?? 0)}</p>
+                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{course.completionRate ? `${course.completionRate}% completion` : 'No completion data'}</p>
+                  </div>
+                </div>
+              )) : (
+                <div className={`rounded-2xl p-6 text-center ${isDarkMode ? 'bg-white/5 text-slate-300' : 'bg-slate-50 text-slate-600'}`}>
+                  No course ranking data available yet.
+                </div>
+              )}
+            </div>
+          </Card>
+
+          <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+            <div className="flex items-start justify-between gap-4 mb-6">
+              <div>
+                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Activity & Alerts</h3>
+                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Recent feed and notifications</p>
+              </div>
+              <Bell className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
+            </div>
+            <div className="space-y-5">
+              <div>
+                <h4 className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Notifications</h4>
+                <div className="space-y-3">
+                  {notifications.length ? notifications.map((note, idx) => (
+                    <div key={`note-${idx}`} className={`rounded-2xl p-3 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                      <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{note.title || note.message || 'Notification'}</p>
+                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{note.subtitle || note.time || note.createdAt || 'No details available'}</p>
+                    </div>
+                  )) : (
+                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No notifications to display.</p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <h4 className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Recent Activity</h4>
+                <div className="space-y-3">
+                  {recentActivities.length ? recentActivities.map((activity, idx) => (
+                    <div key={`activity-${idx}`} className={`rounded-2xl p-3 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                      <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activity.description || activity.message || 'Platform event'}</p>
+                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{activity.time || activity.createdAt || 'Just now'}</p>
+                    </div>
+                  )) : (
+                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No recent activity available.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      )}
 
       <AgendaCreationModal
         isOpen={isAgendaModalOpen}

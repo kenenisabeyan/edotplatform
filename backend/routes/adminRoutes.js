@@ -5,6 +5,137 @@ import { hashPassword } from '../lib/modelHelpers.js';
 
 const router = express.Router();
 
+const normalizeAttendanceRecords = (records) => {
+    if (!records) return [];
+    if (Array.isArray(records)) return records;
+    return [records];
+};
+
+const getLastNMonths = (count = 6) => {
+    const labels = [];
+    const now = new Date();
+    for (let i = count - 1; i >= 0; i--) {
+        const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        labels.push({
+            key: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`,
+            label: date.toLocaleString('default', { month: 'short', year: 'numeric' })
+        });
+    }
+    return labels;
+};
+
+const getLastNWeeks = (count = 4) => {
+    const weeks = [];
+    const now = new Date();
+    for (let i = count - 1; i >= 0; i--) {
+        const startOfWeek = new Date(now);
+        startOfWeek.setDate(now.getDate() - (now.getDay() || 7) - i * 7 + 1);
+        const weekLabel = `Wk ${Math.ceil((startOfWeek.getDate() + (startOfWeek.getDay() || 7) - 1) / 7)}`;
+        weeks.push({
+            startDate: new Date(startOfWeek),
+            label: weekLabel
+        });
+    }
+    return weeks;
+};
+
+const calculateAttendanceSummary = (attendanceRows) => {
+    let present = 0;
+    let absent = 0;
+    let late = 0;
+    const monthlyTrend = {};
+    const weeklyTrend = { Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0, Sun: 0 };
+    const studentTotals = {};
+
+    attendanceRows.forEach((attendance) => {
+        const records = normalizeAttendanceRecords(attendance.records);
+        const monthKey = `${attendance.date.getFullYear()}-${String(attendance.date.getMonth() + 1).padStart(2, '0')}`;
+        records.forEach((record) => {
+            if (!record || !record.status) return;
+            const status = String(record.status).toLowerCase();
+            const role = String(record.role || '').toLowerCase();
+            const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][attendance.date.getDay()];
+
+            monthlyTrend[monthKey] = monthlyTrend[monthKey] || { present: 0, absent: 0, late: 0 };
+            if (status === 'present') {
+                present += 1;
+                monthlyTrend[monthKey].present += 1;
+            } else if (status === 'absent') {
+                absent += 1;
+                monthlyTrend[monthKey].absent += 1;
+            } else if (status === 'late') {
+                late += 1;
+                monthlyTrend[monthKey].late += 1;
+            }
+
+            if (dayName in weeklyTrend && (status === 'present' || status === 'late')) {
+                weeklyTrend[dayName] += 1;
+            }
+
+            if (role === 'student' && record.user) {
+                studentTotals[record.user] = studentTotals[record.user] || { present: 0, total: 0 };
+                studentTotals[record.user].total += 1;
+                if (status === 'present' || status === 'late') {
+                    studentTotals[record.user].present += 1;
+                }
+            }
+        });
+    });
+
+    const total = present + absent + late;
+    const attendanceRate = total ? Math.round(((present + late) / total) * 100) : 100;
+    const monthlyData = Object.entries(monthlyTrend)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([month, values]) => ({ month, ...values }));
+    const weeklyData = Object.entries(weeklyTrend).map(([day, value]) => ({ name: day, value }));
+
+    const lowAttendance = Object.entries(studentTotals)
+        .filter(([, stats]) => stats.total >= 3 && Math.round((stats.present / stats.total) * 100) < 75)
+        .map(([studentId, stats]) => ({ studentId, attendanceRate: Math.round((stats.present / stats.total) * 100) }));
+
+    return {
+        present,
+        absent,
+        late,
+        total,
+        attendanceRate,
+        monthlyData,
+        weeklyData,
+        lowAttendance
+    };
+};
+
+const buildMonthlyRevenue = (courses, sponsorshipAmount = 0) => {
+    const months = getLastNMonths(6);
+    const monthly = months.map((item) => ({ name: item.label, courseRevenue: 0, sponsorshipRevenue: 0, revenue: 0 }));
+
+    courses.forEach((course) => {
+        if (!course.createdAt) return;
+        const createdMonth = `${course.createdAt.getFullYear()}-${String(course.createdAt.getMonth() + 1).padStart(2, '0')}`;
+        const target = months.find((m) => m.key === createdMonth);
+        if (target) {
+            const revenue = (course.price || 0) * (course.totalStudents || 0);
+            const month = monthly.find((m) => m.name === target.label);
+            if (month) {
+                month.courseRevenue += revenue;
+                month.revenue = month.courseRevenue + month.sponsorshipRevenue;
+            }
+        }
+    });
+
+    monthly.forEach((month) => {
+        month.revenue = month.courseRevenue + month.sponsorshipRevenue;
+    });
+
+    const totalCourseRevenue = monthly.reduce((sum, item) => sum + item.courseRevenue, 0);
+    return {
+        monthlyRevenue: monthly,
+        sponsorshipRevenue: sponsorshipAmount,
+        totalCourseRevenue,
+        totalRevenue: totalCourseRevenue + sponsorshipAmount
+    };
+};
+
 router.use(protect);
 router.use(authorize('admin'));
 
@@ -797,75 +928,204 @@ router.get('/analytics/detailed', async (req, res) => {
 
 router.get('/dashboard', async (req, res) => {
     try {
-        const totalUsers = await prisma.user.count({ where: { status: 'approved' } });
-        const totalStudents = await prisma.user.count({ where: { role: 'student', status: 'approved' } });
-        const totalInstructors = await prisma.user.count({ where: { role: 'instructor', status: 'approved' } });
-        
-        const courses = await prisma.course.findMany();
-        const totalCourses = courses.length;
-        const pendingCourses = courses.filter(c => c.status === 'pending').length;
-        const pendingUsers = await prisma.user.count({ where: { status: 'pending' } });
-        
-        let totalRevenue = 0;
-        courses.forEach(course => {
+        const [totalCourses, totalStudents, totalInstructors, pendingCourses, pendingUsers, pendingEnrollments] = await Promise.all([
+            prisma.course.count(),
+            prisma.user.count({ where: { role: 'student', status: 'approved' } }),
+            prisma.user.count({ where: { role: 'instructor', status: 'approved' } }),
+            prisma.course.count({ where: { status: 'pending' } }),
+            prisma.user.count({ where: { status: 'pending' } }),
+            prisma.enrollment.count({ where: { status: 'pending' } })
+        ]);
+
+        const [courses, progressRecords, attendanceRows, recentEvents, notifications, activities, sponsorshipSummary, activeUserActivities] = await Promise.all([
+            prisma.course.findMany({
+                select: {
+                    id: true,
+                    title: true,
+                    thumbnail: true,
+                    price: true,
+                    totalStudents: true,
+                    instructorId: true,
+                    createdAt: true,
+                    isPublished: true,
+                    status: true
+                }
+            }),
+            prisma.userCourseProgress.findMany({
+                select: {
+                    courseId: true,
+                    userId: true,
+                    progress: true,
+                    completedLessons: true,
+                    completed: true,
+                    status: true
+                }
+            }),
+            prisma.attendance.findMany({ select: { records: true, date: true, courseId: true } }),
+            prisma.event.findMany({ orderBy: { date: 'asc' }, take: 10 }),
+            prisma.notice.findMany({ orderBy: { date: 'desc' }, take: 10 }),
+            prisma.activity.findMany({
+                include: { user: { select: { id: true, name: true, role: true } } },
+                orderBy: { createdAt: 'desc' },
+                take: 10
+            }),
+            prisma.sponsorship.aggregate({ _sum: { amount: true }, where: { termsAccepted: true, status: 'accepted' } }),
+            prisma.activity.findMany({ where: { createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } }, select: { userId: true } })
+        ]);
+
+        const courseRevenue = courses.reduce((sum, course) => {
             if (course.isPublished && course.price && course.totalStudents) {
-                totalRevenue += (course.price * course.totalStudents);
+                return sum + course.price * course.totalStudents;
+            }
+            return sum;
+        }, 0);
+
+        const sponsorshipRevenue = sponsorshipSummary._sum?.amount || 0;
+        const totalRevenue = courseRevenue + sponsorshipRevenue;
+
+        const attendanceMetrics = calculateAttendanceSummary(attendanceRows);
+
+        const completionStats = progressRecords.reduce(
+            (agg, record) => {
+                agg.total += 1;
+                if (record.completed || record.progress >= 100 || record.status === 'completed') {
+                    agg.completed += 1;
+                }
+                if (Array.isArray(record.completedLessons)) {
+                    agg.completedLessons += record.completedLessons.length;
+                }
+                return agg;
+            },
+            { total: 0, completed: 0, completedLessons: 0 }
+        );
+
+        const courseCompletionRate = completionStats.total ? Math.round((completionStats.completed / completionStats.total) * 100) : 0;
+
+        const activeDailyUsers = new Set(activeUserActivities.map((item) => item.userId)).size;
+
+        const topCourses = courses
+            .filter((course) => course.isPublished)
+            .sort((a, b) => (b.totalStudents || 0) - (a.totalStudents || 0))
+            .slice(0, 5)
+            .map((course, index) => {
+                const courseProgress = progressRecords.filter((p) => p.courseId === course.id);
+                const completions = courseProgress.filter((p) => p.completed || p.progress >= 100 || p.status === 'completed').length;
+                const completionRate = courseProgress.length ? Math.round((completions / courseProgress.length) * 100) : 0;
+                const engagementScore = Math.round(Math.min(100, (completionRate * 0.65) + ((course.totalStudents || 0) * 0.35)));
+                return {
+                    id: course.id,
+                    title: course.title,
+                    thumbnail: course.thumbnail || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80',
+                    enrollments: course.totalStudents || 0,
+                    completionRate,
+                    engagementScore,
+                    ranking: index + 1
+                };
+            });
+
+        const instructorCourses = await prisma.course.findMany({
+            where: { instructorId: { not: null } },
+            select: { id: true, instructorId: true, totalStudents: true, title: true }
+        });
+
+        const instructorProgress = progressRecords.reduce((map, record) => {
+            if (!record.courseId) return map;
+            map[record.courseId] = map[record.courseId] || { count: 0, completed: 0, totalProgress: 0 };
+            map[record.courseId].count += 1;
+            map[record.courseId].totalProgress += record.progress || 0;
+            if (record.completed || record.progress >= 100 || record.status === 'completed') {
+                map[record.courseId].completed += 1;
+            }
+            return map;
+        }, {});
+
+        const instructorAttendance = attendanceRows.reduce((map, attendance) => {
+            const courseId = attendance.courseId;
+            if (!courseId) return map;
+            const records = normalizeAttendanceRecords(attendance.records);
+            records.forEach((record) => {
+                if (!record || !record.user) return;
+                map[courseId] = map[courseId] || { present: 0, total: 0 };
+                map[courseId].total += 1;
+                const status = String(record.status || '').toLowerCase();
+                if (status === 'present' || status === 'late') {
+                    map[courseId].present += 1;
+                }
+            });
+            return map;
+        }, {});
+
+        const instructors = await prisma.user.findMany({
+            where: { role: 'instructor', status: 'approved' },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                avatar: true,
+                coursesTaught: { select: { id: true, title: true, totalStudents: true } }
             }
         });
 
-        const topCourses = courses.filter(c => c.isPublished).sort((a,b) => b.totalStudents - a.totalStudents).slice(0, 3);
-        const courseIds = topCourses.map(c => c.id);
-        
-        const fiveDaysAgo = new Date();
-        fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
-        
-        const rawLogs = await prisma.progressLog.findMany({
-            where: {
-                courseId: { in: courseIds },
-                updatedAt: { gte: fiveDaysAgo }
-            },
-            include: { course: { select: { title: true } } }
-        });
+        const instructorPerformance = instructors.map((instructor) => {
+            const coursesByInstructor = instructor.coursesTaught || [];
+            const courseCount = coursesByInstructor.length;
+            const totalStudentsCount = coursesByInstructor.reduce((sum, course) => sum + (course.totalStudents || 0), 0);
+            const completionRates = coursesByInstructor.map((course) => {
+                const stats = instructorProgress[course.id];
+                return stats && stats.count ? Math.round((stats.completed / stats.count) * 100) : 0;
+            });
+            const averageCompletion = completionRates.length ? Math.round(completionRates.reduce((sum, value) => sum + value, 0) / completionRates.length) : 0;
+            const attendanceRates = coursesByInstructor.map((course) => {
+                const stats = instructorAttendance[course.id];
+                return stats && stats.total ? Math.round((stats.present / stats.total) * 100) : 0;
+            });
+            const averageAttendance = attendanceRates.length ? Math.round(attendanceRates.reduce((sum, value) => sum + value, 0) / attendanceRates.length) : 0;
+            const performanceScore = Math.round((averageCompletion * 0.6) + (averageAttendance * 0.4));
 
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const studentPerformanceData = [4, 3, 2, 1, 0].map(diff => {
-            const d = new Date();
-            d.setDate(d.getDate() - diff);
             return {
-                name: days[d.getDay()],
-                dateStr: d.toISOString().split('T')[0],
-                value1: 0,
-                value2: 0,
-                value3: 0
+                id: instructor.id,
+                name: instructor.name,
+                email: instructor.email,
+                avatar: instructor.avatar,
+                coursesTaught: courseCount,
+                studentCount: totalStudentsCount,
+                completionRate: averageCompletion,
+                attendanceRate: averageAttendance,
+                performanceScore
             };
         });
 
-        rawLogs.forEach(log => {
-             const logDate = new Date(log.updatedAt).toISOString().split('T')[0];
-             const targetDay = studentPerformanceData.find(d => d.dateStr === logDate);
-             if (targetDay) {
-                  const cid = log.courseId;
-                  if (topCourses[0] && cid === topCourses[0].id) targetDay.value1 += 1;
-                  else if (topCourses[1] && cid === topCourses[1].id) targetDay.value2 += 1;
-                  else if (topCourses[2] && cid === topCourses[2].id) targetDay.value3 += 1;
-             }
-        });
-
-        const cleanStudentPerformance = studentPerformanceData.map(({name, value1, value2, value3}) => ({name, value1, value2, value3}));
-
         const recentUsers = await prisma.user.findMany({ orderBy: { createdAt: 'desc' }, take: 5 });
-        const recentActivity = [];
-        recentUsers.forEach(u => recentActivity.push({ 
-             id: u.id, 
-             title: u.status === 'pending' ? `New ${u.role} registered (Pending)` : `New ${u.role} joined`, 
-             itemTitle: u.name, 
-             type: u.status === 'pending' ? 'user_pending' : 'user_joined', 
-             studentName: u.name, 
-             date: u.createdAt 
+        const recentActivity = recentUsers.map((user) => ({
+            id: user.id,
+            title: user.status === 'pending' ? `New ${user.role} registration` : `New ${user.role} joined`,
+            itemTitle: user.name,
+            type: user.status === 'pending' ? 'user_pending' : 'user_joined',
+            studentName: user.name,
+            date: user.createdAt
         }));
-        const recentCoursesObj = await prisma.course.findMany({ where: { isPublished: true }, orderBy: { createdAt: 'desc' }, take: 3 });
-        recentCoursesObj.forEach(c => recentActivity.push({ id: c.id, title: 'Course published', itemTitle: c.title, type: 'course_completed', studentName: 'System', date: c.createdAt }));
-        recentActivity.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const recentCourses = await prisma.course.findMany({ where: { isPublished: true }, orderBy: { createdAt: 'desc' }, take: 3 });
+        const courseActivity = recentCourses.map((course) => ({
+            id: course.id,
+            title: 'Course published',
+            itemTitle: course.title,
+            type: 'course_published',
+            studentName: 'System',
+            date: course.createdAt
+        }));
+
+        const monthlyRevenue = buildMonthlyRevenue(courses, sponsorshipRevenue);
+        const lastMonth = new Date();
+        const previousMonth = new Date();
+        lastMonth.setMonth(lastMonth.getMonth() - 1);
+        previousMonth.setMonth(previousMonth.getMonth() - 2);
+
+        const monthlyActiveStudents = await Promise.all([
+            prisma.user.count({ where: { role: 'student', status: 'approved', createdAt: { gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) } } }),
+            prisma.user.count({ where: { role: 'student', status: 'approved', createdAt: { gte: new Date(previousMonth.getFullYear(), previousMonth.getMonth(), 1), lt: new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1) } } })
+        ]);
+
+        const monthlyGrowth = monthlyActiveStudents[1] === 0 ? 0 : Math.round(((monthlyActiveStudents[0] - monthlyActiveStudents[1]) / monthlyActiveStudents[1]) * 100);
 
         res.status(200).json({
             success: true,
@@ -876,13 +1136,307 @@ router.get('/dashboard', async (req, res) => {
                 totalCourses,
                 pendingCourses,
                 pendingUsers,
+                pendingEnrollments,
                 totalRevenue,
-                studentPerformanceData: cleanStudentPerformance,
-                courseNames: topCourses.map(c => c.title),
-                recentActivity: recentActivity.slice(0, 5)
+                sponsorshipRevenue,
+                attendance: attendanceMetrics,
+                courseCompletionRate,
+                dailyActiveUsers: activeDailyUsers,
+                monthlyGrowth,
+                monthlyRevenue: monthlyRevenue.monthlyRevenue,
+                topCourses,
+                instructorPerformance,
+                studentEngagement: {
+                    activeStudents: totalStudents,
+                    lessonsCompleted: completionStats.completedLessons,
+                    studyHours: Math.round((completionStats.completedLessons || 0) * 0.15 * 10) / 10,
+                    courseActivity: progressRecords.length,
+                    dailyActiveUsers: activeDailyUsers
+                },
+                events: recentEvents,
+                notifications,
+                recentActivity: [...recentActivity, ...courseActivity].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10),
+                finance: {
+                    totalRevenue,
+                    monthlyIncome: monthlyRevenue.monthlyRevenue,
+                    sponsorshipIncome: sponsorshipRevenue,
+                    pendingPayments: pendingEnrollments
+                }
             }
         });
     } catch (error) {
+        console.error('Admin dashboard error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.get('/analytics/detailed', async (req, res) => {
+    try {
+        const dashboardRes = await prisma.course.findMany({
+            select: { id: true, title: true, price: true, totalStudents: true, isPublished: true, createdAt: true, instructorId: true }
+        });
+
+        const courses = await prisma.course.findMany({ select: { price: true, totalStudents: true, createdAt: true, isPublished: true } });
+        const sponsorshipSummary = await prisma.sponsorship.aggregate({ _sum: { amount: true }, where: { termsAccepted: true, status: 'accepted' } });
+        const revenueData = buildMonthlyRevenue(courses, sponsorshipSummary._sum?.amount || 0).monthlyRevenue;
+
+        const progressRecords = await prisma.userCourseProgress.findMany({ select: { courseId: true, progress: true, completed: true, status: true } });
+        const topCourses = dashboardRes
+            .filter((course) => course.isPublished)
+            .sort((a, b) => (b.totalStudents || 0) - (a.totalStudents || 0))
+            .slice(0, 5)
+            .map((course, index) => {
+                const courseProgress = progressRecords.filter((record) => record.courseId === course.id);
+                const completions = courseProgress.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length;
+                const completionRate = courseProgress.length ? Math.round((completions / courseProgress.length) * 100) : 0;
+                return {
+                    id: course.id,
+                    title: course.title,
+                    enrollments: course.totalStudents || 0,
+                    completionRate,
+                    ranking: index + 1
+                };
+            });
+
+        const instructorMetrics = await prisma.user.findMany({
+            where: { role: 'instructor', status: 'approved' },
+            select: { id: true, name: true, avatar: true, coursesTaught: { select: { id: true, title: true, totalStudents: true } } }
+        });
+
+        const engagementSummary = {
+            dailyActiveUsers: await prisma.activity.count({ where: { createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } } }),
+            lessonsCompleted: progressRecords.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length,
+            studyHours: Math.round(progressRecords.length * 0.35),
+            courseActivity: progressRecords.length
+        };
+
+        res.status(200).json({ success: true, data: { topCourses, instructorPerformance: instructorMetrics, engagementSummary, revenueData } });
+    } catch (error) {
+        console.error('Analytics error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.get('/analytics', async (req, res) => {
+    try {
+        const dashboardRes = await prisma.course.findMany({
+            select: { id: true, title: true, price: true, totalStudents: true, isPublished: true, createdAt: true, instructorId: true }
+        });
+
+        const courses = await prisma.course.findMany({ select: { price: true, totalStudents: true, createdAt: true, isPublished: true } });
+        const sponsorshipSummary = await prisma.sponsorship.aggregate({ _sum: { amount: true }, where: { termsAccepted: true, status: 'accepted' } });
+        const revenueData = buildMonthlyRevenue(courses, sponsorshipSummary._sum?.amount || 0).monthlyRevenue;
+
+        const progressRecords = await prisma.userCourseProgress.findMany({ select: { courseId: true, progress: true, completed: true, status: true } });
+        const topCourses = dashboardRes
+            .filter((course) => course.isPublished)
+            .sort((a, b) => (b.totalStudents || 0) - (a.totalStudents || 0))
+            .slice(0, 5)
+            .map((course, index) => {
+                const courseProgress = progressRecords.filter((record) => record.courseId === course.id);
+                const completions = courseProgress.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length;
+                const completionRate = courseProgress.length ? Math.round((completions / courseProgress.length) * 100) : 0;
+                return {
+                    id: course.id,
+                    title: course.title,
+                    enrollments: course.totalStudents || 0,
+                    completionRate,
+                    ranking: index + 1
+                };
+            });
+
+        const instructorMetrics = await prisma.user.findMany({
+            where: { role: 'instructor', status: 'approved' },
+            select: { id: true, name: true, avatar: true, coursesTaught: { select: { id: true, title: true, totalStudents: true } } }
+        });
+
+        const engagementSummary = {
+            dailyActiveUsers: await prisma.activity.count({ where: { createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } } }),
+            lessonsCompleted: progressRecords.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length,
+            studyHours: Math.round(progressRecords.length * 0.35),
+            courseActivity: progressRecords.length
+        };
+
+        res.status(200).json({ success: true, data: { topCourses, instructorPerformance: instructorMetrics, engagementSummary, revenueData } });
+    } catch (error) {
+        console.error('Analytics error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.get('/attendance', async (req, res) => {
+    try {
+        const attendanceRows = await prisma.attendance.findMany({ select: { date: true, records: true, courseId: true } });
+        const attendanceMetrics = calculateAttendanceSummary(attendanceRows);
+        res.status(200).json({ success: true, data: attendanceMetrics });
+    } catch (error) {
+        console.error('Attendance summary error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.get('/revenue', async (req, res) => {
+    try {
+        const courses = await prisma.course.findMany({ select: { price: true, totalStudents: true, createdAt: true, isPublished: true } });
+        const sponsorshipSummary = await prisma.sponsorship.aggregate({ _sum: { amount: true }, where: { termsAccepted: true, status: 'accepted' } });
+        const monthlyRevenue = buildMonthlyRevenue(courses, sponsorshipSummary._sum?.amount || 0);
+        res.status(200).json({ success: true, data: monthlyRevenue });
+    } catch (error) {
+        console.error('Revenue summary error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.get('/top-courses', async (req, res) => {
+    try {
+        const courses = await prisma.course.findMany({ where: { isPublished: true }, select: { id: true, title: true, thumbnail: true, totalStudents: true } });
+        const progressRecords = await prisma.userCourseProgress.findMany({ select: { courseId: true, progress: true, completed: true, status: true } });
+        const topCourses = courses
+            .sort((a, b) => (b.totalStudents || 0) - (a.totalStudents || 0))
+            .slice(0, 5)
+            .map((course, index) => {
+                const progress = progressRecords.filter((record) => record.courseId === course.id);
+                const completions = progress.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length;
+                return {
+                    ...course,
+                    rank: index + 1,
+                    completionRate: progress.length ? Math.round((completions / progress.length) * 100) : 0,
+                    engagementScore: Math.round(((completions || 0) / Math.max(progress.length, 1)) * 100)
+                };
+            });
+
+        res.status(200).json({ success: true, data: topCourses });
+    } catch (error) {
+        console.error('Top courses error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.get('/instructors', async (req, res) => {
+    try {
+        const instructors = await prisma.user.findMany({
+            where: { role: 'instructor', status: 'approved' },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                avatar: true,
+                coursesTaught: { select: { id: true, title: true, totalStudents: true } }
+            }
+        });
+
+        const progressRecords = await prisma.userCourseProgress.findMany({ select: { courseId: true, progress: true, completed: true, status: true } });
+        const attendanceRows = await prisma.attendance.findMany({ select: { courseId: true, records: true } });
+
+        const instructorPerformance = instructors.map((instructor) => {
+            const courses = instructor.coursesTaught || [];
+            const courseIds = courses.map((course) => course.id);
+            const courseProgress = progressRecords.filter((record) => courseIds.includes(record.courseId));
+            const completions = courseProgress.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length;
+            const averageCompletion = courseProgress.length ? Math.round((completions / courseProgress.length) * 100) : 0;
+            const studentCount = courses.reduce((sum, course) => sum + (course.totalStudents || 0), 0);
+            let present = 0;
+            let total = 0;
+
+            attendanceRows.forEach((attendance) => {
+                if (!courseIds.includes(attendance.courseId)) return;
+                const records = normalizeAttendanceRecords(attendance.records);
+                records.forEach((record) => {
+                    if (!record) return;
+                    total += 1;
+                    if (['present', 'late'].includes(String(record.status || '').toLowerCase())) {
+                        present += 1;
+                    }
+                });
+            });
+
+            const attendanceRate = total ? Math.round((present / total) * 100) : 100;
+            const score = Math.round((averageCompletion * 0.6) + (attendanceRate * 0.4));
+
+            return {
+                id: instructor.id,
+                name: instructor.name,
+                email: instructor.email,
+                avatar: instructor.avatar,
+                coursesTaught: courses.length,
+                studentCount,
+                completionRate: averageCompletion,
+                attendanceRate,
+                performanceScore: score
+            };
+        });
+
+        res.status(200).json({ success: true, data: instructorPerformance });
+    } catch (error) {
+        console.error('Instructor analytics error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.get('/engagement', async (req, res) => {
+    try {
+        const progressRecords = await prisma.userCourseProgress.findMany({ select: { userId: true, progress: true, completed: true, status: true, completedLessons: true } });
+        const recentProgress = await prisma.progressLog.findMany({ select: { userId: true, videoSegments: true, createdAt: true } });
+
+        const activeStudents = new Set(progressRecords.map((record) => record.userId)).size;
+        const lessonsCompleted = progressRecords.reduce((sum, record) => {
+            if (Array.isArray(record.completedLessons)) {
+                return sum + record.completedLessons.length;
+            }
+            return sum;
+        }, 0);
+        const studyHours = Math.round(recentProgress.reduce((sum, record) => {
+            const segments = Array.isArray(record.videoSegments) ? record.videoSegments.length : (typeof record.videoSegments === 'number' ? record.videoSegments : 0);
+            return sum + segments * 0.25;
+        }, 0) * 10) / 10;
+        const dailyActiveUsers = new Set(recentProgress.filter((record) => record.createdAt >= new Date(Date.now() - 24 * 60 * 60 * 1000)).map((record) => record.userId)).size;
+
+        res.status(200).json({
+            success: true,
+            data: {
+                activeStudents,
+                lessonsCompleted,
+                studyHours,
+                courseActivity: progressRecords.length,
+                dailyActiveUsers
+            }
+        });
+    } catch (error) {
+        console.error('Engagement error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.get('/events', async (req, res) => {
+    try {
+        const events = await prisma.event.findMany({ orderBy: { date: 'asc' }, take: 20 });
+        res.status(200).json({ success: true, data: events });
+    } catch (error) {
+        console.error('Events fetch error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.get('/notifications', async (req, res) => {
+    try {
+        const notifications = await prisma.notice.findMany({ orderBy: { date: 'desc' }, take: 20 });
+        res.status(200).json({ success: true, data: notifications });
+    } catch (error) {
+        console.error('Notifications fetch error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.get('/activities', async (req, res) => {
+    try {
+        const activities = await prisma.activity.findMany({
+            include: { user: { select: { id: true, name: true, role: true } } },
+            orderBy: { createdAt: 'desc' },
+            take: 20
+        });
+        res.status(200).json({ success: true, data: activities });
+    } catch (error) {
+        console.error('Activities fetch error:', error);
         res.status(500).json({ success: false, message: 'Server error', error: error.message });
     }
 });

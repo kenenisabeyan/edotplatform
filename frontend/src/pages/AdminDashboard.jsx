@@ -412,7 +412,7 @@ export default function AdminDashboard() {
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <p className="text-sm font-medium text-gray-500 mb-1">Total Users</p>
-                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{usersList.length}</h3>
+                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.totalUsers ?? usersList.length}</h3>
                   </div>
                   <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
                     <Users className="w-4 h-4" />
@@ -438,7 +438,7 @@ export default function AdminDashboard() {
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <p className="text-sm font-medium text-gray-500 mb-1">Instructors</p>
-                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{instructorsCount}</h3>
+                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.totalInstructors ?? instructorsCount}</h3>
                   </div>
                   <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
                     <UserCog className="w-4 h-4" />
@@ -451,7 +451,7 @@ export default function AdminDashboard() {
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <p className="text-sm font-medium text-gray-500 mb-1">Pending Approvals</p>
-                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{pendingCourses.length}</h3>
+                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.pendingCourses ?? pendingCourses.length}</h3>
                   </div>
                   <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
                     <Clock className="w-4 h-4" />
