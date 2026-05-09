@@ -447,7 +447,7 @@ export default function InstructorDashboard() {
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'} flex flex-col md:flex-row font-sans ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
       {/* Sidebar Layout */}
-      <aside className={`w-full md:w-64 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'} shrink-0 flex flex-col md:h-screen border-r sticky top-0 font-sans ${isDarkMode ? 'text-white border-white/5' : 'text-slate-900 border-slate-100'}`}>
+      <aside className={`w-full md:w-64 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#F8FAFC]'} shrink-0 flex flex-col md:h-screen border-r shadow-[4px_0_24px_rgba(0,0,0,0.06)] sticky top-0 font-sans ${isDarkMode ? 'text-white border-white/5' : 'text-slate-900 border-slate-100'}`}>
         <div className={`p-6 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
            <img src={edotLogo} alt="EDOT Logo" className="h-8 w-auto rounded opacity-90" />
         </div>

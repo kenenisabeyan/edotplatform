@@ -94,7 +94,7 @@ export default function SponsorDashboard() {
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-900">
       {/* Sidebar */}
-      <aside className="w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 shadow-sm">
+      <aside className="w-64 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 shadow-[4px_0_24px_rgba(0,0,0,0.06)]">
         <div className="p-6">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-8 h-8 bg-cyan-500 rounded-lg flex items-center justify-center">
