@@ -285,7 +285,7 @@ export default function EDOTLayout() {
       {/* Animated Background Mesh */}
       
       {/* Mobile Header */}
-      <div className={`md:hidden rounded-none border-t-0 border-l-0 border-r-0 border-b p-3 flex items-center justify-between sticky top-0 z-50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+      <div className={`md:hidden rounded-none border-t-0 border-l-0 border-r-0 border-b p-3 flex items-center justify-between sticky top-0 z-50 shadow-[0_4px_15px_rgba(0,0,0,0.1)] transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={`dark:text-slate-200 p-2 rounded-lg hover:bg-white/5/5 backdrop-blur-xl/30 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
           <Menu className="w-6 h-6" />
         </button>
@@ -300,7 +300,7 @@ export default function EDOTLayout() {
       </div>
 
       {/* Sidebar */}
-      <aside className={`dashboard-sidebar tilet-border-sidebar border-r shadow-[4px_0_24px_rgba(0,0,0,0.06)] fixed md:sticky top-0 left-0 h-screen md:h-full z-60 transition-colors duration-300
+      <aside className={`dashboard-sidebar tilet-border-sidebar border-r shadow-[4px_0_15px_rgba(0,0,0,0.1)] fixed md:sticky top-0 left-0 h-screen md:h-full z-60 transition-colors duration-300
         ${mobileMenuOpen ? 'translate-x-0 w-80 bg-[#0B1120]/95 text-white shadow-xl' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-[#F8FAFC] border-slate-200'}`}
         ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-80 md:w-64'}
       `}>
@@ -309,7 +309,7 @@ export default function EDOTLayout() {
             <X className="w-5 h-5" />
           </button>
         )}
-        <div className={`p-6 pt-8 pb-4 flex flex-col items-center justify-center gap-2 border-b border-transparent relative ${mobileMenuOpen ? 'items-center' : ''}`}>
+        <div className={`p-6 pt-8 pb-4 flex flex-col items-center justify-center gap-2 border-b shadow-[0_4px_15px_rgba(0,0,0,0.05)] relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'} ${mobileMenuOpen ? 'items-center' : ''}`}>
            <NavLink to="/">
              <div className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center border-4 border-slate-100 overflow-hidden shadow-sm mx-auto">
                <img src={edotLogo} alt="Logo" className="w-full h-full object-cover" />
@@ -418,7 +418,7 @@ export default function EDOTLayout() {
       <main className="flex-1 flex flex-col min-w-0 h-screen max-h-screen bg-transparent transition-colors duration-300">
         
         {/* Top Header */}
-        <header className={`h-[88px] px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 border-b shadow-[0_4px_24px_rgba(0,0,0,0.04)] ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+        <header className={`h-[88px] px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 border-b shadow-[0_4px_15px_rgba(0,0,0,0.1)] ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
           
           <div className="hidden md:block w-96 relative">
              <Search className={`w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`} />

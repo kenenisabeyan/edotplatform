@@ -826,8 +826,8 @@ export default function StudentDashboard() {
     <div className={`min-h-screen flex flex-row font-sans h-screen ${isDarkMode ? 'bg-[#0B1120] text-slate-200' : 'bg-[#FAFAFA] text-slate-700'}`}>
       
       {/* Sidebar Layout */}
-      <aside className={`w-[260px] shrink-0 flex flex-col h-full border-r shadow-[4px_0_24px_rgba(0,0,0,0.06)] overflow-y-auto ${isDarkMode ? 'bg-[#121A2F] border-slate-800' : 'bg-[#F8FAFC] border-slate-200'}`}>
-        <div className="p-6 pt-8 pb-4 flex flex-col items-center justify-center gap-2 border-b border-transparent relative">
+      <aside className={`w-[260px] shrink-0 flex flex-col h-full border-r shadow-[4px_0_15px_rgba(0,0,0,0.1)] overflow-y-auto ${isDarkMode ? 'bg-[#121A2F] border-slate-800' : 'bg-[#F8FAFC] border-slate-200'}`}>
+        <div className="p-6 pt-8 pb-4 flex flex-col items-center justify-center gap-2 border-b shadow-[0_4px_15px_rgba(0,0,0,0.05)] relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}">
            <div className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center border-4 border-slate-100 overflow-hidden shadow-sm">
              <img src={edotLogo} alt="Logo" className="w-full h-full object-cover" />
            </div>
@@ -887,7 +887,7 @@ export default function StudentDashboard() {
 
       <div className="flex-1 flex flex-col overflow-hidden relative">
         {/* Top Header Bar */}
-        <header className={`h-[80px] flex items-center justify-between px-8 shrink-0 z-50 border-b shadow-[0_4px_24px_rgba(0,0,0,0.04)] ${isDarkMode ? 'bg-[#0B1120] border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
+        <header className={`h-[80px] flex items-center justify-between px-8 shrink-0 z-50 border-b shadow-[0_4px_15px_rgba(0,0,0,0.1)] ${isDarkMode ? 'bg-[#0B1120] border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
            <div className="relative w-full max-w-md">
              <Search className={`w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
              <input type="text" placeholder="Search courses, lessons..." 
