@@ -258,9 +258,10 @@ export default function EDOTLayout() {
     },
     sponsor: {
       menu1: [
-        { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
+        { name: 'Dashboard', icon: Home, path: '/dashboard/sponsor', exact: true },
       ],
       menu2: [
+        { name: 'Sponsorships', icon: HeartHandshake, path: '/dashboard/support' },
         { name: 'Notice', icon: BellRing, path: '/dashboard/notice' },
         { name: 'Library', icon: BookOpen, path: '/dashboard/library' },
         { name: 'Messages', icon: MessageSquare, path: '/dashboard/messages' },
@@ -300,7 +301,7 @@ export default function EDOTLayout() {
 
       {/* Sidebar */}
       <aside className={`dashboard-sidebar tilet-border-sidebar border-r shadow-[4px_0_24px_rgba(0,0,0,0.02)] fixed md:sticky top-0 left-0 h-screen md:h-full z-60 transition-colors duration-300
-        ${mobileMenuOpen ? 'translate-x-0 w-80 bg-[#0B1120]/95 text-white shadow-xl' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-[#FAFAFA] border-slate-200'}`}
+        ${mobileMenuOpen ? 'translate-x-0 w-80 bg-[#0B1120]/95 text-white shadow-xl' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-[#F8FAFC] border-slate-200'}`}
         ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-80 md:w-64'}
       `}>
         {mobileMenuOpen && (
@@ -417,7 +418,7 @@ export default function EDOTLayout() {
       <main className="flex-1 flex flex-col min-w-0 h-screen max-h-screen bg-transparent transition-colors duration-300">
         
         {/* Top Header */}
-        <header className={`h-[88px] px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 backdrop-blur-xl border-b ${isDarkMode ? 'bg-[#0B1120]/80 border-slate-800' : 'bg-white/80 border-slate-200'}`}>
+        <header className={`h-[88px] px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 backdrop-blur-xl border-b ${isDarkMode ? 'bg-[#0B1120]/80 border-slate-800' : 'bg-[#F8FAFC]/90 border-slate-200'}`}>
           
           <div className="hidden md:block w-96 relative">
              <Search className={`w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`} />

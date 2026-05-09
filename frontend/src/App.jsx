@@ -48,6 +48,7 @@ import SettingsView from './pages/SettingsView';
 import UsersManagement from './pages/UsersManagement';
 import SectionManagement from './pages/SectionManagement';
 import SupportDashboard from './pages/SupportDashboard';
+import SponsorDashboard from './pages/SponsorDashboard';
 import EcosystemView from './pages/EcosystemView';
 import StudyGoalView from './pages/StudyGoalView';
 import AchievementsView from './pages/AchievementsView';
@@ -69,6 +70,23 @@ function MainLayout() {
 }
 
 import CommandK from './components/CommandK';
+
+function NotFound() {
+  const isDarkMode = useThemeMode();
+  return (
+    <div className={`flex flex-col items-center justify-center min-h-screen p-6 text-center ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`}>
+      <h1 className="text-6xl font-black mb-4 text-sky-500">404</h1>
+      <h2 className="text-2xl font-bold mb-4">Page Not Found</h2>
+      <p className={`mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>The page you are looking for doesn't exist or has been moved.</p>
+      <button 
+        onClick={() => window.history.back()}
+        className="rounded-2xl bg-sky-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-sky-600"
+      >
+        Go Back
+      </button>
+    </div>
+  );
+}
 
 export default function App() {
   const isDarkMode = useThemeMode();
@@ -202,10 +220,18 @@ export default function App() {
           <Route path="study-goal" element={<StudyGoalView />} />
           <Route path="achievements" element={<AchievementsView />} />
           <Route path="profile" element={<ProfileView />} />
+          {/* Sponsor Only Routes */}
+          <Route element={<ProtectedRoute allowedRoles={['sponsor']} />}>
+            <Route path="sponsor" element={<SponsorDashboard />} />
+          </Route>
+
           <Route path="settings" element={<SettingsView />} />
           <Route path="ecosystem" element={<EcosystemView />} />
         </Route>
       </Route>
+
+      {/* Global 404 Catch-All */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
     </>
   );

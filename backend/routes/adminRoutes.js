@@ -1158,7 +1158,7 @@ router.get('/dashboard', async (req, res) => {
                 recentActivity: [...recentActivity, ...courseActivity].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10),
                 finance: {
                     totalRevenue,
-                    monthlyIncome: monthlyRevenue.monthlyRevenue,
+                    monthlyIncome: monthlyRevenue.monthlyRevenue.length ? monthlyRevenue.monthlyRevenue[monthlyRevenue.monthlyRevenue.length - 1].revenue : 0,
                     sponsorshipIncome: sponsorshipRevenue,
                     pendingPayments: pendingEnrollments
                 }

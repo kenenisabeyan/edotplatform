@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 import SupportDashboard from './SupportDashboard';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import StudentOverview from '../components/student/StudentOverview';
 import AgendaCreationModal from '../components/AgendaCreationModal';
 import AgendaWidget from '../components/AgendaWidget';
@@ -150,9 +150,11 @@ export default function EDOTDashboard() {
   };
 
   const monthlyRevenueSeries = Array.isArray(stats?.monthlyRevenue) ? stats.monthlyRevenue : [];
-  const currentMonthRevenue = monthlyRevenueSeries.length
-    ? monthlyRevenueSeries[monthlyRevenueSeries.length - 1].revenue
-    : stats?.finance?.totalRevenue ?? 0;
+  const currentMonthRevenue = typeof stats?.finance?.monthlyIncome === 'number'
+    ? stats.finance.monthlyIncome
+    : monthlyRevenueSeries.length
+      ? monthlyRevenueSeries[monthlyRevenueSeries.length - 1].revenue
+      : stats?.finance?.totalRevenue ?? 0;
   const patternPerformanceData = monthlyRevenueSeries.map((item) => ({
     name: item.name,
     revenue: item.revenue || 0,
@@ -179,12 +181,6 @@ export default function EDOTDashboard() {
       { title: 'Pending Approvals', value: stats?.pendingCourses ?? 0, icon: Award },
       { title: 'Revenue (This Month)', value: formatCurrency(currentMonthRevenue), icon: CircleDollarSign }
     ];
-    gaugeConfig = {
-      title: 'Global Attendance',
-      valStr: `${stats?.attendance?.attendanceRate ?? 0}%`,
-      valNum: stats?.attendance?.attendanceRate ?? 0,
-      ringColor: '#00D4FF'
-    };
     areaConfig = {
       title: 'Platform Performance',
       data: patternPerformanceData.length ? patternPerformanceData : [
@@ -306,11 +302,6 @@ export default function EDOTDashboard() {
   const studentEngagement = stats?.studentEngagement || {};
   const instructorPerformance = stats?.instructorPerformance?.slice(0, 3) || [];
 
-  const gaugeData = [
-    { name: 'Active', value: gaugeConfig.valNum, color: gaugeConfig.ringColor },
-    { name: 'Empty', value: Math.max(0, 100 - gaugeConfig.valNum), color: isDarkMode ? '#0B1120' : '#E2E8F0' }
-  ];
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-80">
@@ -320,7 +311,7 @@ export default function EDOTDashboard() {
   }
 
   if (userRole === 'sponsor') {
-    return <SupportDashboard />;
+    return <Navigate to="/dashboard/sponsor" replace />;
   }
 
   const dashboardAction = (tab) => {
@@ -403,6 +394,19 @@ export default function EDOTDashboard() {
             <p className={`text-sm font-normal ${isDarkMode ? 'text-gray-500' : 'text-slate-500'}`}>{headerConfig.subtitle}</p>
           )}
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
+            <div className={`rounded-2xl p-4 border ${isDarkMode ? 'bg-[#0B1120]/10 border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
+              <p className="text-xs font-semibold tracking-[0.18em] uppercase mb-2">Platform Status</p>
+              <p className="text-lg font-semibold">Healthy</p>
+              <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>System operations are running smoothly.</p>
+            </div>
+            <div className={`rounded-2xl p-4 border ${isDarkMode ? 'bg-[#0B1120]/10 border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
+              <p className="text-xs font-semibold tracking-[0.18em] uppercase mb-2">Active Now</p>
+              <p className="text-2xl font-semibold">{stats?.dailyActiveUsers ?? 0}</p>
+              <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>users currently active on platform</p>
+            </div>
+          </div>
+
           <div className="mt-5">
             {userRole === 'admin' && (
               <button 
@@ -441,7 +445,7 @@ export default function EDOTDashboard() {
       </div>
 
       {/* 2. Stats Grid (4 Cards) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
         {statsConfig.map((stat, i) => (
           <SmartCard key={i} title={stat.title} value={stat.value} icon={stat.icon} />
         ))}
@@ -450,44 +454,123 @@ export default function EDOTDashboard() {
       {/* 3. Visual Analytics Row */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Left Widget: Radial Gauge */}
-        <Card hover={false} className={`lg:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col items-center justify-center relative min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-          <h3 className={`font-semibold text-sm absolute top-6 left-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{gaugeConfig.title}</h3>
+        {/* Left Widget: Essential Activities Gauges */}
+        <Card hover={false} className={`lg:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col relative min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+          <h3 className={`font-semibold text-sm mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Essential Activities</h3>
           
-          <div className="w-full flex-1 flex flex-col justify-center items-center relative mt-8">
-             <ResponsiveContainer width="100%" height="90%">
-               <PieChart>
-                 <Pie 
-                   data={gaugeData} 
-                   cx="50%" 
-                   cy="50%" 
-                   innerRadius={70} 
-                   outerRadius={90} 
-                   paddingAngle={0} 
-                   dataKey="value" 
-                   stroke="none" 
-                   cornerRadius={userRole === 'student' ? 40 : 0} 
-                   startAngle={90} 
-                   endAngle={-270}
-                 >
-                   {gaugeData.map((entry, index) => (
-                     <Cell key={`cell-${index}`} fill={entry.color} />
-                   ))}
-                 </Pie>
-               </PieChart>
-             </ResponsiveContainer>
-             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center pt-2">
-                {gaugeConfig.valStr.split('\n').map((line, i) => (
-                  <span key={i} className={i === 0 ? `text-3xl font-display font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}` : `text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>
-                    {line}
+          <div className="grid grid-cols-2 gap-4 flex-1">
+            {/* Student Engagement */}
+            <div className="flex flex-col items-center">
+              <div className="relative w-16 h-16 mb-2">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke={isDarkMode ? '#0B1120' : '#E2E8F0'}
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="#10B981"
+                    strokeWidth="2"
+                    strokeDasharray={`${Math.round((stats?.dailyActiveUsers ?? 0) / (stats?.totalStudents ?? 1) * 100)}, 100`}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    {Math.round((stats?.dailyActiveUsers ?? 0) / (stats?.totalStudents ?? 1) * 100)}%
                   </span>
-                ))}
-             </div>
+                </div>
+              </div>
+              <p className={`text-xs text-center font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Student Engagement</p>
+            </div>
+
+            {/* Course Completion */}
+            <div className="flex flex-col items-center">
+              <div className="relative w-16 h-16 mb-2">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke={isDarkMode ? '#0B1120' : '#E2E8F0'}
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="#3B82F6"
+                    strokeWidth="2"
+                    strokeDasharray={`${stats?.courseCompletionRate ?? 0}, 100`}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    {stats?.courseCompletionRate ?? 0}%
+                  </span>
+                </div>
+              </div>
+              <p className={`text-xs text-center font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Course Completion</p>
+            </div>
+
+            {/* Learning Activity */}
+            <div className="flex flex-col items-center">
+              <div className="relative w-16 h-16 mb-2">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke={isDarkMode ? '#0B1120' : '#E2E8F0'}
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="#F59E0B"
+                    strokeWidth="2"
+                    strokeDasharray={`${Math.min(100, (stats?.studentEngagement?.lessonsCompleted ?? 0) / 10 * 100)}, 100`}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    {Math.min(100, Math.round((stats?.studentEngagement?.lessonsCompleted ?? 0) / 10 * 100))}%
+                  </span>
+                </div>
+              </div>
+              <p className={`text-xs text-center font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Learning Activity</p>
+            </div>
+
+            {/* Community Activity */}
+            <div className="flex flex-col items-center">
+              <div className="relative w-16 h-16 mb-2">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke={isDarkMode ? '#0B1120' : '#E2E8F0'}
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="#8B5CF6"
+                    strokeWidth="2"
+                    strokeDasharray={`${Math.min(100, (stats?.recentActivity?.length ?? 0) * 10)}, 100`}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    {Math.min(100, (stats?.recentActivity?.length ?? 0) * 10)}%
+                  </span>
+                </div>
+              </div>
+              <p className={`text-xs text-center font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Community Activity</p>
+            </div>
           </div>
         </Card>
 
         {/* Right Widget: Line/Area Chart */}
-        <Card hover={false} className={`lg:col-span-6 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+        <Card hover={false} className={`lg:col-span-5 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
           <div className="flex justify-between items-center mb-6 shrink-0">
             <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{areaConfig.title}</h3>
             <div className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded ${isDarkMode ? 'text-slate-200 bg-[#0B1120]/5' : 'text-slate-600 bg-slate-100'}`}>
@@ -527,140 +610,255 @@ export default function EDOTDashboard() {
           </div>
         </Card>
 
-         {/* Agenda / Claim Widget (Bottom Right) */}
-         <div className="lg:col-span-3 h-full">
-           {widgetConfig.type === 'agenda' && (
-              <AgendaWidget 
-                events={agendaEvents} 
-                userRole={userRole} 
-                isAdmin={userRole === 'admin'} 
-                onDelete={deleteAgenda} 
-                onCreateClick={() => setIsAgendaModalOpen(true)} 
-              />
-           )}
+         {/* Right Side Block: Top Courses for Admin, alternative widgets for others */}
+         {userRole === 'admin' ? (
+           <Card hover={false} className={`lg:col-span-4 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+             <div className="flex items-start justify-between gap-4 mb-6">
+               <div>
+                 <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Top Courses</h3>
+                 <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>This month’s best performers</p>
+               </div>
+               <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{topCourseRankings.length} items</span>
+             </div>
+             <div className="space-y-4">
+               {topCourseRankings.length ? topCourseRankings.map((course, index) => (
+                 <div key={course.id || index} className={`rounded-3xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                   <div className="flex items-center justify-between gap-3">
+                     <div>
+                       <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.title || course.name || 'Untitled course'}</p>
+                       <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{course.enrollments ?? 0} students</p>
+                     </div>
+                     <div className="text-right">
+                       <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.completionRate ?? 0}%</p>
+                       <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>completion</p>
+                     </div>
+                   </div>
+                   <div className="mt-4 h-2 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                     <div className="h-full rounded-full bg-[#00D4FF]" style={{ width: `${course.completionRate ?? 0}%` }} />
+                   </div>
+                 </div>
+               )) : (
+                 <div className={`rounded-2xl p-6 text-center ${isDarkMode ? 'bg-white/5 text-slate-300' : 'bg-slate-50 text-slate-600'}`}>
+                   No top course data available yet.
+                 </div>
+               )}
+             </div>
+           </Card>
+         ) : (
+           <div className="lg:col-span-3 h-full">
+             {widgetConfig.type === 'agenda' && (
+               <AgendaWidget 
+                 events={agendaEvents} 
+                 userRole={userRole} 
+                 isAdmin={userRole === 'admin'} 
+                 onDelete={deleteAgenda} 
+                 onCreateClick={() => setIsAgendaModalOpen(true)} 
+               />
+             )}
 
-           {widgetConfig.type === 'claim' && (
-             <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-                <div className="flex justify-between items-start mb-6">
-                  <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>{widgetConfig.title}</h3>
-                  <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />
-                </div>
-                <div className="flex-1 flex flex-col items-center justify-center text-center">
-                  <div className="w-32 h-32 mb-6 opacity-80">
-                     {/* Placeholder logic mirroring Master Spec SVG expectations for Certificates */}
+             {widgetConfig.type === 'claim' && (
+               <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+                 <div className="flex justify-between items-start mb-6">
+                   <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>{widgetConfig.title}</h3>
+                   <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />
+                 </div>
+                 <div className="flex-1 flex flex-col items-center justify-center text-center">
+                   <div className="w-32 h-32 mb-6 opacity-80">
                      <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="20" y="25" width="40" height="50" rx="4" fill="#E2E8F0" />
-                        <rect x="30" y="15" width="45" height="55" rx="4" fill="#CBD5E1" />
-                        <rect x="40" y="20" width="50" height="60" rx="4" fill="#F8FAFC" />
-                        <circle cx="65" cy="50" r="12" fill="#F97316" />
-                        <circle cx="65" cy="50" r="9" fill="#FDE047" />
-                        <circle cx="65" cy="50" r="6" fill="#FEF08A" />
-                        <path d="M57 60 L61 75 L65 70 L69 75 L73 60" fill="#F97316" />
+                       <rect x="20" y="25" width="40" height="50" rx="4" fill="#E2E8F0" />
+                       <rect x="30" y="15" width="45" height="55" rx="4" fill="#CBD5E1" />
+                       <rect x="40" y="20" width="50" height="60" rx="4" fill="#F8FAFC" />
+                       <circle cx="65" cy="50" r="12" fill="#F97316" />
+                       <circle cx="65" cy="50" r="9" fill="#FDE047" />
+                       <circle cx="65" cy="50" r="6" fill="#FEF08A" />
+                       <path d="M57 60 L61 75 L65 70 L69 75 L73 60" fill="#F97316" />
                      </svg>
-                  </div>
-                  <button 
-                    onClick={() => navigate('/dashboard/certificates')}
-                    className="w-full py-3 bg-[#F97316] hover:bg-[#F97316] text-[#0B1120] font-bold rounded-xl transition-colors text-sm shadow-[0_0_15px_rgba(255,215,0,0.3)]"
-                  >
-                    {widgetConfig.action}
-                  </button>
-                </div>
-             </Card>
-           )}
+                   </div>
+                   <button 
+                     onClick={() => navigate('/dashboard/certificates')}
+                     className="w-full py-3 bg-[#F97316] hover:bg-[#F97316] text-[#0B1120] font-bold rounded-xl transition-colors text-sm shadow-[0_0_15px_rgba(255,215,0,0.3)]"
+                   >
+                     {widgetConfig.action}
+                   </button>
+                 </div>
+               </Card>
+             )}
 
-           {widgetConfig.type === 'communication' && (
-             <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-                <div className="flex justify-between items-start mb-6">
-                  <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{widgetConfig.title}</h3>
-                  <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />
-                </div>
-                <div className="flex-1 flex flex-col items-center justify-center text-center">
-                  <div className="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-[#00D4FF]/20 to-[#F97316]/20 flex items-center justify-center border border-[#F97316]/30">
+             {widgetConfig.type === 'communication' && (
+               <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+                 <div className="flex justify-between items-start mb-6">
+                   <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{widgetConfig.title}</h3>
+                   <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />
+                 </div>
+                 <div className="flex-1 flex flex-col items-center justify-center text-center">
+                   <div className="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-[#00D4FF]/20 to-[#F97316]/20 flex items-center justify-center border border-[#F97316]/30">
                      <Mail className="w-10 h-10 text-[#F97316]" />
-                  </div>
-                  <button 
-                    onClick={() => navigate('/dashboard/messages')}
-                    className="w-full py-3 border-2 border-[#F97316] text-[#F97316] hover:bg-[#F97316] hover:text-[#0B1120] font-bold rounded-xl transition-all text-sm shadow-[inset_0_0_15px_rgba(255,215,0,0.1)]"
-                  >
-                    {widgetConfig.action}
-                  </button>
-                </div>
-             </Card>
-           )}
-         </div>
+                   </div>
+                   <button 
+                     onClick={() => navigate('/dashboard/messages')}
+                     className="w-full py-3 border-2 border-[#F97316] text-[#F97316] hover:bg-[#F97316] hover:text-[#0B1120] font-bold rounded-xl transition-all text-sm shadow-[inset_0_0_15px_rgba(255,215,0,0.1)]"
+                   >
+                     {widgetConfig.action}
+                   </button>
+                 </div>
+               </Card>
+             )}
+           </div>
+         )}
 
       </div>
 
       {userRole === 'admin' && (
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          <Card hover={false} className={`xl:col-span-2 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+          <Card hover={false} className={`xl:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
             <div className="flex items-start justify-between gap-4 mb-6">
               <div>
-                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Top Course Rankings</h3>
-                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Based on enrollment and revenue</p>
+                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Recent Activities</h3>
+                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Live platform feed</p>
               </div>
-              <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{topCourseRankings.length} Courses</span>
+              <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{recentActivities.length} activities</span>
             </div>
-            <div className="space-y-4">
-              {topCourseRankings.length ? topCourseRankings.map((course, index) => (
-                <div key={course.id || index} className={`grid grid-cols-12 gap-4 items-center p-4 rounded-2xl border ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <div className="col-span-1 flex items-center justify-center text-sm font-bold text-slate-800 dark:text-white">{index + 1}</div>
-                  <div className="col-span-7 space-y-1">
-                    <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.title || course.name || 'Untitled course'}</p>
-                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{course.enrollmentCount ?? course.students ?? 0} learners enrolled</p>
-                  </div>
-                  <div className="col-span-4 text-right space-y-1">
-                    <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{formatCurrency(course.revenue ?? course.courseRevenue ?? 0)}</p>
-                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{course.completionRate ? `${course.completionRate}% completion` : 'No completion data'}</p>
+            <div className="space-y-3 max-h-64 overflow-y-auto">
+              {recentActivities.length ? recentActivities.map((activity, index) => (
+                <div key={activity.id || index} className={`rounded-xl p-3 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                  <div className="flex items-start gap-3">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${activity.type === 'user_joined' ? 'bg-green-100 text-green-700' : activity.type === 'course_published' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}>
+                      {activity.type === 'user_joined' ? '👤' : activity.type === 'course_published' ? '📚' : '⚡'}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm font-medium truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activity.title}</p>
+                      <p className={`text-xs truncate ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{activity.itemTitle || activity.studentName}</p>
+                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{new Date(activity.date).toLocaleDateString()}</p>
+                    </div>
                   </div>
                 </div>
               )) : (
-                <div className={`rounded-2xl p-6 text-center ${isDarkMode ? 'bg-white/5 text-slate-300' : 'bg-slate-50 text-slate-600'}`}>
-                  No course ranking data available yet.
+                <div className={`rounded-xl p-6 text-center ${isDarkMode ? 'bg-white/5 text-slate-300' : 'bg-slate-50 text-slate-600'}`}>
+                  No recent activities.
                 </div>
               )}
             </div>
           </Card>
 
-          <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+          <Card hover={false} className={`xl:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
             <div className="flex items-start justify-between gap-4 mb-6">
               <div>
-                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Activity & Alerts</h3>
-                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Recent feed and notifications</p>
+                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Instructor Performance</h3>
+                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Top teaching metrics</p>
+              </div>
+              <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{instructorPerformance.length} instructors</span>
+            </div>
+            <div className="space-y-4">
+              {instructorPerformance.length ? instructorPerformance.map((inst) => (
+                <div key={inst.id} className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{inst.name}</p>
+                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{inst.coursesTaught ?? 0} courses · {inst.studentCount ?? 0} students</p>
+                    </div>
+                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{inst.performanceScore ?? 0}%</span>
+                  </div>
+                  <div className="mt-3 space-y-2 text-xs text-slate-500">
+                    <div className="flex items-center justify-between">
+                      <span>Completion</span><span>{inst.completionRate ?? 0}%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Attendance</span><span>{inst.attendanceRate ?? 0}%</span>
+                    </div>
+                  </div>
+                </div>
+              )) : (
+                <div className={`rounded-2xl p-6 text-center ${isDarkMode ? 'bg-white/5 text-slate-300' : 'bg-slate-50 text-slate-600'}`}>
+                  No instructor data yet.
+                </div>
+              )}
+            </div>
+          </Card>
+
+          <Card hover={false} className={`xl:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+            <div className="flex items-start justify-between gap-4 mb-6">
+              <div>
+                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Student Engagement</h3>
+                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Learning activity trends</p>
+              </div>
+              <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>This Week</span>
+            </div>
+            <div className="grid grid-cols-1 gap-4">
+              <div className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                <p className="text-xs text-slate-500">Active Students</p>
+                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{studentEngagement.activeStudents ?? 0}</p>
+                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{studentEngagement.activeStudentsChange ?? '+0%'}</p>
+              </div>
+              <div className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                <p className="text-xs text-slate-500">Lessons Completed</p>
+                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{studentEngagement.lessonsCompleted ?? 0}</p>
+                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Cumulative study progress</p>
+              </div>
+              <div className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                <p className="text-xs text-slate-500">Study Hours</p>
+                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{studentEngagement.studyHours ?? 0}</p>
+                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Hours this month</p>
+              </div>
+            </div>
+          </Card>
+
+          <Card hover={false} className={`xl:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+            <div className="flex items-start justify-between gap-4 mb-6">
+              <div>
+                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Quick Actions</h3>
+                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Fast access for admins</p>
               </div>
               <Bell className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
             </div>
-            <div className="space-y-5">
-              <div>
-                <h4 className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Notifications</h4>
-                <div className="space-y-3">
-                  {notifications.length ? notifications.map((note, idx) => (
-                    <div key={`note-${idx}`} className={`rounded-2xl p-3 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
-                      <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{note.title || note.message || 'Notification'}</p>
-                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{note.subtitle || note.time || note.createdAt || 'No details available'}</p>
-                    </div>
-                  )) : (
-                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No notifications to display.</p>
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <h4 className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Recent Activity</h4>
-                <div className="space-y-3">
-                  {recentActivities.length ? recentActivities.map((activity, idx) => (
-                    <div key={`activity-${idx}`} className={`rounded-2xl p-3 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
-                      <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activity.description || activity.message || 'Platform event'}</p>
-                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{activity.time || activity.createdAt || 'Just now'}</p>
-                    </div>
-                  )) : (
-                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No recent activity available.</p>
-                  )}
-                </div>
+            <div className="grid gap-3">
+              <button onClick={() => navigate('/dashboard/builder')} className="w-full rounded-2xl border border-[#0EA5E9] bg-[#0EA5E9]/10 text-[#0EA5E9] py-3 font-semibold">Create Course</button>
+              <button onClick={() => navigate('/dashboard/approvals')} className="w-full rounded-2xl border border-[#34D399] bg-[#34D399]/10 text-[#065F46] py-3 font-semibold">Approve Course</button>
+              <button onClick={() => navigate('/dashboard/users')} className="w-full rounded-2xl border border-[#F97316] bg-[#F97316]/10 text-[#92400E] py-3 font-semibold">Add Instructor</button>
+              <button onClick={() => navigate('/dashboard/notice')} className="w-full rounded-2xl border border-[#8B5CF6] bg-[#8B5CF6]/10 text-[#5B21B6] py-3 font-semibold">Broadcast Message</button>
+            </div>
+            <div className="mt-6">
+              <h4 className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>System Notifications</h4>
+              <div className="space-y-3">
+                {notifications.slice(0, 3).map((note, idx) => (
+                  <div key={`quick-note-${idx}`} className={`rounded-2xl p-3 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                    <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{note.title || note.message || 'Notification'}</p>
+                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{note.time || note.date || note.createdAt || 'Recent update'}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </Card>
         </div>
+      )}
+
+      {userRole === 'admin' && events.length > 0 && (
+        <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+          <div className="flex items-start justify-between gap-4 mb-6">
+            <div>
+              <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Upcoming Events</h3>
+              <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Scheduled platform activities</p>
+            </div>
+            <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{events.length} events</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {events.map((event, index) => (
+              <div key={event.id || index} className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDarkMode ? 'bg-[#0B1120]/10 border-white/20' : 'bg-slate-100 border-slate-200'} border`}>
+                    <Calendar className={`w-5 h-5 ${isDarkMode ? 'text-white' : 'text-slate-800'}`} />
+                  </div>
+                  <div>
+                    <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{event.title || 'Event'}</p>
+                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{new Date(event.date).toLocaleDateString()}</p>
+                  </div>
+                </div>
+                {event.description && (
+                  <p className={`text-xs ${isDarkMode ? 'text-slate-300' : 'text-slate-600'} line-clamp-2`}>{event.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </Card>
       )}
 
       <AgendaCreationModal

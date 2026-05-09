@@ -68,6 +68,11 @@ model User {
   sponsorships         Sponsorship[]        @relation("StudentSponsorships")
   sponsoredStudents    Sponsorship[]        @relation("SponsorSponsorships")
 
+  // Support and Sponsorship relationships
+  supportedBySponsors  StudentSupport[]     @relation("SupportedBy")
+  sponsorTransactions  SponsorshipTransaction[] @relation("StudentTransactions")
+  notifications        Notification[]       @relation("UserNotifications")
+
   adminGroups          MessageGroup[]       @relation("GroupAdmin")
   memberGroups         MessageGroup[]       @relation("GroupMembers")
 
@@ -136,6 +141,7 @@ model Course {
   userProgress       UserCourseProgress[]
   libraryItems       Library[]
   courseReports      CourseReport[]
+  sponsorships       Sponsorship[]        @relation("SponsorshipCourses")
 }
 
 model Lesson {
@@ -433,20 +439,178 @@ model Resource {
 }
 
 model Sponsorship {
-  id              String   @id @default(uuid())
-  sponsorName     String
-  sponsorId       String?
-  sponsor         User?    @relation("SponsorSponsorships", fields: [sponsorId], references: [id])
-  amount          Float
-  targetStudentId String?
-  targetStudent   User?    @relation("StudentSponsorships", fields: [targetStudentId], references: [id])
-  status          String   @default("pending_consent")
-  isAnonymous     Boolean  @default(false)
-  termsAccepted   Boolean  @default(false)
-  messageChannelId String? @unique
+  id                   String   @id @default(uuid())
+  sponsorName          String
+  sponsorId            String?
+  sponsor              User?    @relation("SponsorSponsorships", fields: [sponsorId], references: [id])
   
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  // Basic fields
+  amount               Float    @default(0)
+  category             String   @default("education_access")
+  fundingGoal          Float    @default(0)
+  amountRaised         Float    @default(0)
+  
+  // Student relationship
+  targetStudentId      String?
+  targetStudent        User?    @relation("StudentSponsorships", fields: [targetStudentId], references: [id])
+  
+  // Course relationship
+  courseId             String?
+  course               Course?  @relation("SponsorshipCourses", fields: [courseId], references: [id])
+  
+  // Status and terms
+  status               String   @default("pending_consent")
+  isAnonymous          Boolean  @default(false)
+  termsAccepted        Boolean  @default(false)
+  approvedAt           DateTime?
+  approvedBy           String?
+  
+  // Communication
+  messageChannelId     String?  @unique
+  
+  // Relations to other sponsorship records
+  transactions         SponsorshipTransaction[]
+  cycles               SponsorshipCycle[]
+  support              StudentSupport[]
+  impactReports        SponsorshipReport[]
+  
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  @@index([sponsorId])
+  @@index([targetStudentId])
+  @@index([courseId])
+  @@index([status])
+}
+
+model SponsorshipTransaction {
+  id                   String   @id @default(uuid())
+  sponsorshipId        String
+  sponsorship          Sponsorship @relation(fields: [sponsorshipId], references: [id], onDelete: Cascade)
+  
+  amount               Float
+  type                 String   @default("donation") // donation, payment, refund
+  paymentMethod        String   @default("card") // card, bank_transfer, cash
+  transactionRef       String   @unique
+  
+  status               String   @default("pending") // pending, completed, failed
+  description          String?
+  
+  relatedStudentId     String?
+  relatedStudent       User?    @relation("StudentTransactions", fields: [relatedStudentId], references: [id])
+  
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  @@index([sponsorshipId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model SponsorshipCycle {
+  id                   String   @id @default(uuid())
+  sponsorshipId        String
+  sponsorship          Sponsorship @relation(fields: [sponsorshipId], references: [id], onDelete: Cascade)
+  
+  cycleNumber          Int
+  status               String   @default("active") // active, completed, paused
+  progress             Float    @default(0)
+  
+  startDate            DateTime
+  endDate              DateTime?
+  expectedEndDate      DateTime
+  
+  targetAmount         Float    @default(0)
+  amountRaised         Float    @default(0)
+  
+  studentName          String?
+  courseName           String?
+  funded               Float    @default(0)
+  
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  @@index([sponsorshipId])
+  @@index([status])
+}
+
+model StudentSupport {
+  id                   String   @id @default(uuid())
+  sponsorshipId        String
+  sponsorship          Sponsorship @relation(fields: [sponsorshipId], references: [id], onDelete: Cascade)
+  
+  studentId            String
+  student              User     @relation("SupportedBy", fields: [studentId], references: [id])
+  
+  supportStatus        String   @default("active") // active, completed, paused
+  supportType          String   @default("course_fee") // course_fee, living_expenses, materials, etc
+  
+  enrolledCourses      Int      @default(0)
+  completedCourses     Int      @default(0)
+  attendancePercent    Float    @default(0)
+  certificatesEarned   Int      @default(0)
+  
+  progressPercentage   Float    @default(0)
+  lastActivityDate     DateTime?
+  
+  notes                String?
+  
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  @@unique([sponsorshipId, studentId])
+  @@index([studentId])
+}
+
+model SponsorshipReport {
+  id                   String   @id @default(uuid())
+  sponsorshipId        String
+  sponsorship          Sponsorship @relation(fields: [sponsorshipId], references: [id], onDelete: Cascade)
+  
+  reportType           String   @default("monthly") // monthly, quarterly, annual
+  period               String   // "Jan 2026", "Q1 2026", "2025-2026"
+  
+  totalStudentsHelped  Int      @default(0)
+  courseCompletions    Int      @default(0)
+  attendanceImprovement Float   @default(0)
+  skillsGained         Int      @default(0)
+  certificatesIssued   Int      @default(0)
+  
+  totalAmountContributed Float  @default(0)
+  averageImpactScore   Float    @default(0)
+  
+  summary              String?
+  highlights           Json?    // Array of impact highlights
+  
+  generatedAt          DateTime @default(now())
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  @@index([sponsorshipId])
+  @@index([reportType])
+}
+
+model Notification {
+  id                   String   @id @default(uuid())
+  userId               String
+  user                 User     @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  
+  type                 String   // sponsorship_update, course_complete, certificate_earned, attendance_update, support_request
+  title                String
+  message              String
+  
+  relatedEntityType    String?  // "sponsorship", "student", "course", "certificate"
+  relatedEntityId      String?
+  
+  isRead               Boolean  @default(false)
+  actionUrl            String?
+  
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([isRead])
+  @@index([createdAt])
 }
 
 model ImpactLog {
@@ -457,6 +621,10 @@ model ImpactLog {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
+
+
+
+
 
 model ConnectionRequest {
   id               String   @id @default(uuid())
