@@ -17,9 +17,9 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
   const fetchActivities = useCallback(async () => {
     try {
       const endpoint = filterType === 'all' ? '/activity/all' : filterType === 'insights' ? '/activity/insights' : '/activity';
-      const res = await api.get(endpoint);
+      const res = await api.get(endpoint, { params: { limit } });
       if (res.data.success) {
-        setActivities(res.data.data.slice(0, limit));
+        setActivities(Array.isArray(res.data.data) ? res.data.data : []);
       }
     } catch (err) {
       console.error('Error fetching activities:', err);

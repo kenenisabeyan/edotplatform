@@ -61,7 +61,7 @@ export default function InstructorDashboard() {
 
     const loadDashboardData = async () => {
       try {
-        await Promise.all([fetchCourses(), fetchStats(), fetchAnalytics()]);
+        await Promise.all([fetchCourses(), fetchStats()]);
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -72,7 +72,11 @@ export default function InstructorDashboard() {
     return () => {
       isMounted = false;
     };
-  }, [fetchCourses, fetchStats, fetchAnalytics]);
+  }, [fetchCourses, fetchStats]);
+
+  useEffect(() => {
+    fetchAnalytics();
+  }, [fetchAnalytics]);
 
   const handleCreateCourse = async (e) => {
     e.preventDefault();

@@ -122,6 +122,15 @@ export default function EDOTLayout() {
     pendingUsers: 0
   });
 
+  const handleClickOutside = (event) => {
+    if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
+      setProfileOpen(false);
+    }
+    if (quickActionsRef.current && !quickActionsRef.current.contains(event.target)) {
+      setQuickActionsOpen(false);
+    }
+  };
+
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
@@ -133,25 +142,31 @@ export default function EDOTLayout() {
         console.error('Failed to fetch dashboard metrics', err);
       }
     };
-    if (user) {
-      fetchMetrics();
-      const intervalId = setInterval(fetchMetrics, 5000);
-      return () => clearInterval(intervalId);
-    }
-  }, [user]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
-        setProfileOpen(false);
-      }
-      if (quickActionsRef.current && !quickActionsRef.current.contains(event.target)) {
-        setQuickActionsOpen(false);
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        fetchMetrics();
       }
     };
+
+    let intervalId;
+    if (user) {
+      fetchMetrics();
+      intervalId = setInterval(() => {
+        if (document.visibilityState === 'visible') {
+          fetchMetrics();
+        }
+      }, 30000); // reduce polling frequency to 30s only when visible
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+    }
+
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [user]);
 
   const handleLogout = async () => {
     await logout();

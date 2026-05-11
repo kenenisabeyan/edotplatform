@@ -29,7 +29,7 @@ export default function TeachingActivity() {
         const [analyticsRes, coursesRes, historyRes] = await Promise.all([
            api.get(`/${role}/analytics/detailed`).catch(() => ({ data: { data: { engagementData: [] } } })),
            api.get(`${endpointPrefix}/courses`).catch(() => ({ data: { data: [] } })),
-           api.get('/activity/all').catch(() => ({ data: { data: [] } }))
+           api.get('/activity/all', { params: { limit: 30 } }).catch(() => ({ data: { data: [] } }))
         ]);
         
         const courses = coursesRes.data?.data || [];

@@ -59,14 +59,12 @@ export default function StudentDashboard() {
   const { data: dashboardData, isLoading: isLoadingDashboard } = useQuery({
     queryKey: ['studentDashboard'],
     queryFn: async () => {
-      // Use Promise.allSettled or catch to ensure one failing API doesn't crash the whole dashboard
-      const [enrolledRes, dashboardRes, progressRes, studyRes, certsRes, achRes] = await Promise.all([
+      // Core data only - essential for immediate dashboard render
+      const [enrolledRes, dashboardRes, progressRes, studyRes] = await Promise.all([
         api.get('/courses/enrolled').catch(() => ({ data: { data: [] } })),
         api.get('/dashboard/student').catch(() => ({ data: { data: {} } })),
         api.get('/progress/overview').catch(() => ({ data: { data: {} } })),
-        api.get('/study/weekly').catch(() => ({ data: { data: {} } })),
-        api.get('/certificates').catch(() => ({ data: { data: [] } })),
-        api.get('/achievements').catch(() => ({ data: { data: [] } }))
+        api.get('/study/weekly').catch(() => ({ data: { data: {} } }))
       ]);
       
       return {
@@ -74,21 +72,30 @@ export default function StudentDashboard() {
         overview: dashboardRes.data?.data || {},
         progress: progressRes.data?.data || {},
         study: studyRes.data?.data || {},
-        certificates: certsRes.data?.data || [],
-        achievements: achRes.data?.data || []
+        certificates: [],
+        achievements: []
       };
     }
   });
 
-  const { data: supportConnections, isLoading: isLoadingSupport } = useQuery({
-    queryKey: ['supportConnections'],
+  // Defer certificates and achievements - not critical for initial load
+  const { data: certificatesData } = useQuery({
+    queryKey: ['studentCertificates'],
     queryFn: async () => {
-      const [{ data: sp }, { data: cp }] = await Promise.all([
-        api.get('/support/pending'),
-        api.get('/connections/pending')
-      ]);
-      return { sponsorships: sp.data || [], connections: cp.data || [] };
-    }
+      const { data } = await api.get('/certificates').catch(() => ({ data: { data: [] } }));
+      return data.data || [];
+    },
+    enabled: activeTab !== 'overview' // Only fetch if viewing non-overview tab
+  });
+
+  // Defer achievements - not critical for initial load
+  const { data: achievementsData } = useQuery({
+    queryKey: ['studentAchievements'],
+    queryFn: async () => {
+      const { data } = await api.get('/achievements').catch(() => ({ data: { data: [] } }));
+      return data.data || [];
+    },
+    enabled: activeTab !== 'overview' // Only fetch if viewing non-overview tab
   });
 
   const { data: allCoursesData, isLoading: isLoadingCourses } = useQuery({
@@ -96,25 +103,25 @@ export default function StudentDashboard() {
     queryFn: async () => {
       const { data } = await api.get('/courses', { params: { limit: 100 } });
       return data.courses || [];
-    }
+    },
+    enabled: activeTab === 'catalog'
   });
 
   const { data: privateLogsData } = useQuery({
     queryKey: ['privateLogs'],
     queryFn: async () => {
-      const { data } = await api.get('/activity');
+      const { data } = await api.get('/activity', { params: { limit: 20 } });
       return data.data.filter(log => log.visibility === 'private');
     },
     enabled: activeTab === 'growth'
   });
 
-  const loading = isLoadingDashboard || isLoadingSupport || isLoadingCourses;
+  const loading = isLoadingDashboard;
 
   const enrolledCourses = dashboardData?.enrolledCourses || [];
   const dbCourses = allCoursesData || [];
-  const pendingSponsorships = supportConnections?.sponsorships || [];
-  const pendingConnections = supportConnections?.connections || [];
-  const achievements = dashboardData?.achievements || [];
+  const achievements = achievementsData || [];
+  const certificates = certificatesData || [];
   const privateLogs = privateLogsData || [];
 
   const dashboardStats = {
@@ -124,7 +131,7 @@ export default function StudentDashboard() {
      percentile: dashboardData?.progress?.percentile || 0,
      recentCourses: dashboardData?.overview?.recentCourses || [],
      achievements: achievements,
-     certificates: dashboardData?.certificates || []
+     certificates: certificates
   };
 
   const totalEnrolled = dashboardData?.overview?.totalEnrolled || 0;

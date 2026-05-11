@@ -105,24 +105,32 @@ export default function AdminDashboard() {
   useEffect(() => {
     let isMounted = true;
 
-    const loadAll = async () => {
+    const loadCoreDashboard = async () => {
       try {
-        await Promise.all([fetchUsers(), fetchPendingCourses(), fetchPendingEnrollments(), fetchStats(), fetchAnalytics(), fetchAllCourses()]);
+        await Promise.all([fetchPendingCourses(), fetchPendingEnrollments(), fetchStats()]);
       } finally {
         if (isMounted) setLoading(false);
       }
     };
 
-    loadAll();
+    loadCoreDashboard();
 
     return () => {
       isMounted = false;
     };
-  }, [fetchUsers, fetchPendingCourses, fetchPendingEnrollments, fetchStats, fetchAnalytics, fetchAllCourses, fetchAgendaEvents]);
+  }, [fetchPendingCourses, fetchPendingEnrollments, fetchStats]);
 
   useEffect(() => {
-    fetchAgendaEvents();
-  }, [fetchAgendaEvents]);
+    // Defer non-critical fetches by 1.5 seconds
+    const timer = setTimeout(() => {
+      fetchUsers();
+      fetchAnalytics();
+      fetchAllCourses();
+      fetchAgendaEvents();
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [fetchUsers, fetchAnalytics, fetchAllCourses, fetchAgendaEvents]);
 
   const updateRole = async (userId, role) => {
     try {
@@ -154,7 +162,7 @@ export default function AdminDashboard() {
 
   const fetchUserActivities = useCallback(async (userId, role = '', children = []) => {
     try {
-      const { data } = await api.get('/activity/all');
+      const { data } = await api.get('/activity/all', { params: { limit: 40 } });
       const allActivities = Array.isArray(data.data) ? data.data : [];
       const userActivity = allActivities.filter((a) => {
         const ownerId = a.user?.id || a.user;

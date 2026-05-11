@@ -16,7 +16,7 @@ export default function TeachersList() {
 
   const fetchInstructors = async () => {
     try {
-      const { data } = await api.get('/admin/instructors');
+      const { data } = await api.get('/admin/instructors', { params: { limit: 200 } });
       if (data.success) {
         setInstructors(data.data);
       }

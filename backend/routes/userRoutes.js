@@ -149,111 +149,110 @@ router.get('/mycourses', protect, async (req, res) => {
 router.get('/dashboard-stats', protect, async (req, res) => {
     try {
         const userId = req.user.id;
-        
-        // 1. Get recent courses (last 3 accessed/enrolled)
-        let recentCourses = await prisma.userCourseProgress.findMany({
-            where: { userId },
-            include: { 
-                course: {
-                    include: { lessons: true }
-                } 
-            },
-            orderBy: { enrolledAt: 'desc' },
-            take: 3
-        });
-        
-        // Fallback for legacy data: if no userCourseProgress exists but enrollments exist
-        if (recentCourses.length === 0) {
+
+        const today = new Date();
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        const [recentCourses, allProgress, userSettings, recentLogs, achievementsData, userCertificates] = await Promise.all([
+            prisma.userCourseProgress.findMany({
+                where: { userId },
+                select: {
+                    id: true,
+                    courseId: true,
+                    progress: true,
+                    status: true,
+                    passedFinalExam: true,
+                    completedLessons: true,
+                    enrolledAt: true,
+                    course: { select: { id: true, title: true } }
+                },
+                orderBy: { enrolledAt: 'desc' },
+                take: 3
+            }),
+            prisma.userCourseProgress.findMany({
+                where: { userId },
+                select: { progress: true }
+            }),
+            prisma.userSetting.findUnique({
+                where: { userId },
+                select: { weeklyStudyGoal: true }
+            }),
+            prisma.progressLog.findMany({
+                where: {
+                    userId,
+                    updatedAt: { gte: startOfWeek }
+                },
+                select: { updatedAt: true, videoSegments: true }
+            }),
+            prisma.achievement.findUnique({
+                where: { userId },
+                select: { badges: true }
+            }),
+            prisma.certificate.findMany({
+                where: { userId },
+                select: { courseId: true }
+            })
+        ]);
+
+        let recentCoursesData = recentCourses;
+
+        if (recentCoursesData.length === 0) {
             const enrollments = await prisma.enrollment.findMany({
                 where: { studentId: userId },
-                include: { 
-                    course: {
-                        include: { lessons: true }
-                    } 
+                select: {
+                    id: true,
+                    courseId: true,
+                    status: true,
+                    createdAt: true,
+                    course: { select: { id: true, title: true } }
                 },
                 orderBy: { createdAt: 'desc' },
                 take: 3
             });
-            
-            const userCertificates = await prisma.certificate.findMany({
-                where: { userId },
-                include: { course: true }
-            });
-            const certCourseIds = userCertificates.map(c => c.courseId);
 
-            recentCourses = enrollments.map(e => ({
+            const certCourseIds = new Set(userCertificates.map(c => c.courseId));
+
+            recentCoursesData = enrollments.map(e => ({
                 id: e.id,
                 courseId: e.courseId,
                 course: e.course,
-                progress: certCourseIds.includes(e.courseId) ? 100 : 0,
+                progress: certCourseIds.has(e.courseId) ? 100 : 0,
                 completedLessons: [],
-                status: certCourseIds.includes(e.courseId) ? 'completed' : e.status
+                status: certCourseIds.has(e.courseId) ? 'completed' : e.status
             }));
         }
 
-        // 2. Weekly Study Goal & Study Data
-        const userSettings = await prisma.userSetting.findUnique({
-            where: { userId }
-        });
         const studyGoal = userSettings?.weeklyStudyGoal || 10;
 
-        // Generate real weekly data from progress logs
-        const today = new Date();
-        const startOfWeek = new Date(today);
-        startOfWeek.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)); // Monday
-        startOfWeek.setHours(0,0,0,0);
-
-        const recentLogs = await prisma.progressLog.findMany({
-            where: {
-                userId,
-                updatedAt: { gte: startOfWeek }
-            }
-        });
-
-        const weeklyDataMap = { 'Mon': 0, 'Tue': 0, 'Wed': 0, 'Thu': 0, 'Fri': 0, 'Sat': 0, 'Sun': 0 };
+        const weeklyDataMap = { Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0, Sun: 0 };
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
         recentLogs.forEach(log => {
             const dayName = dayNames[log.updatedAt.getDay()];
-            // Estimate hours based on video segments (each segment is 30s)
             let segments = 0;
             if (log.videoSegments) {
-               segments = Array.isArray(log.videoSegments) ? log.videoSegments.length : 1;
+                segments = Array.isArray(log.videoSegments) ? log.videoSegments.length : 1;
             }
             const hours = (segments * 30) / 3600;
             weeklyDataMap[dayName] += hours;
         });
 
-        // Round to 1 decimal place or 0 if empty, to ensure UI is clean
         const weeklyStudyData = Object.keys(weeklyDataMap).map(day => ({
             name: day,
             hours: Math.round(weeklyDataMap[day] * 10) / 10
         }));
 
-        // Calculate actual study days this week
         const daysStudied = weeklyStudyData.filter(d => d.hours > 0).length;
 
-        // 3. Percentile (calculation based on their progress vs others)
-        const allProgress = await prisma.userCourseProgress.findMany({ where: { userId } });
         const avg = allProgress.length > 0 ? allProgress.reduce((sum, p) => sum + p.progress, 0) / allProgress.length : 0;
         const percentile = Math.min(99, Math.floor(30 + (avg * 0.6)));
 
-        // 4. Achievements
-        const achievementsData = await prisma.achievement.findUnique({ where: { userId } });
-        let badges = achievementsData?.badges || [];
-
-        if (!Array.isArray(badges)) {
-            badges = [];
-        }
-
-        // Auto-generate badges based on real progress if missing from explicit table
-        const userCertificates = await prisma.certificate.findMany({
-            where: { userId },
-            include: { course: true }
-        });
+        const badges = Array.isArray(achievementsData?.badges) ? achievementsData.badges : [];
         const certificatesCount = userCertificates.length;
-        const completedCoursesCount = recentCourses.filter(c => c.progress === 100 || c.status === 'completed').length;
-        
+        const completedCoursesCount = recentCoursesData.filter(c => c.progress === 100 || c.status === 'completed').length;
+
         const generatedBadges = [];
         if (certificatesCount > 0) {
             generatedBadges.push({
@@ -283,7 +282,6 @@ router.get('/dashboard-stats', protect, async (req, res) => {
             });
         }
 
-        // Merge generated badges with DB badges, avoiding duplicates by title
         const finalBadges = [...badges];
         generatedBadges.forEach(gb => {
             if (!finalBadges.find(b => b.title === gb.title)) {
@@ -294,7 +292,7 @@ router.get('/dashboard-stats', protect, async (req, res) => {
         res.json({
             success: true,
             data: {
-                recentCourses,
+                recentCourses: recentCoursesData,
                 studyGoal,
                 weeklyStudyData,
                 daysStudied,

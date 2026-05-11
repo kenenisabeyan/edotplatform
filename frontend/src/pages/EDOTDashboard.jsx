@@ -66,7 +66,13 @@ export default function EDOTDashboard() {
         setLoading(false);
       }
     };
+    
+    if (user) {
+        fetchDashboardStats();
+    }
+  }, [user, userRole]);
 
+  useEffect(() => {
     const fetchAgenda = async () => {
       try {
         const { data } = await api.get('/calendar');
@@ -77,10 +83,9 @@ export default function EDOTDashboard() {
     };
     
     if (user) {
-        fetchDashboardStats();
-        fetchAgenda();
+      setTimeout(() => fetchAgenda(), 800); // Defer calendar fetch by 800ms after dashboard loads
     }
-  }, [user, userRole]);
+  }, [user]);
 
   const SmartCard = ({ title, value, icon: Icon }) => {
     let glowClass = 'hover:shadow-[0_0_25px_rgba(0,212,255,0.2)]'; // Cyan glow for admin

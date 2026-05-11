@@ -928,236 +928,34 @@ router.get('/analytics/detailed', async (req, res) => {
 
 router.get('/dashboard', async (req, res) => {
     try {
-        const [totalCourses, totalStudents, totalInstructors, pendingCourses, pendingUsers, pendingEnrollments] = await Promise.all([
+        // Cache dashboard stats for 30 seconds to reduce database load
+        res.set('Cache-Control', 'public, max-age=30');
+        
+        // Fetch only essential counts in parallel - NO heavy calculations
+        const [totalCourses, totalStudents, totalInstructors, pendingCourses, pendingUsers, pendingEnrollments, totalRevenue] = await Promise.all([
             prisma.course.count(),
             prisma.user.count({ where: { role: 'student', status: 'approved' } }),
             prisma.user.count({ where: { role: 'instructor', status: 'approved' } }),
             prisma.course.count({ where: { status: 'pending' } }),
             prisma.user.count({ where: { status: 'pending' } }),
-            prisma.enrollment.count({ where: { status: 'pending' } })
+            prisma.enrollment.count({ where: { status: 'pending' } }),
+            prisma.sponsorship.aggregate({ _sum: { amount: true }, where: { termsAccepted: true, status: 'accepted' } })
         ]);
 
-        const [courses, progressRecords, attendanceRows, recentEvents, notifications, activities, sponsorshipSummary, activeUserActivities] = await Promise.all([
-            prisma.course.findMany({
-                select: {
-                    id: true,
-                    title: true,
-                    thumbnail: true,
-                    price: true,
-                    totalStudents: true,
-                    instructorId: true,
-                    createdAt: true,
-                    isPublished: true,
-                    status: true
-                }
-            }),
-            prisma.userCourseProgress.findMany({
-                select: {
-                    courseId: true,
-                    userId: true,
-                    progress: true,
-                    completedLessons: true,
-                    completed: true,
-                    status: true
-                }
-            }),
-            prisma.attendance.findMany({ select: { records: true, date: true, courseId: true } }),
-            prisma.event.findMany({ orderBy: { date: 'asc' }, take: 10 }),
-            prisma.notice.findMany({ orderBy: { date: 'desc' }, take: 10 }),
-            prisma.activity.findMany({
-                include: { user: { select: { id: true, name: true, role: true } } },
-                orderBy: { createdAt: 'desc' },
-                take: 10
-            }),
-            prisma.sponsorship.aggregate({ _sum: { amount: true }, where: { termsAccepted: true, status: 'accepted' } }),
-            prisma.activity.findMany({ where: { createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } }, select: { userId: true } })
-        ]);
-
-        const courseRevenue = courses.reduce((sum, course) => {
-            if (course.isPublished && course.price && course.totalStudents) {
-                return sum + course.price * course.totalStudents;
-            }
-            return sum;
-        }, 0);
-
-        const sponsorshipRevenue = sponsorshipSummary._sum?.amount || 0;
-        const totalRevenue = courseRevenue + sponsorshipRevenue;
-
-        const attendanceMetrics = calculateAttendanceSummary(attendanceRows);
-
-        const completionStats = progressRecords.reduce(
-            (agg, record) => {
-                agg.total += 1;
-                if (record.completed || record.progress >= 100 || record.status === 'completed') {
-                    agg.completed += 1;
-                }
-                if (Array.isArray(record.completedLessons)) {
-                    agg.completedLessons += record.completedLessons.length;
-                }
-                return agg;
-            },
-            { total: 0, completed: 0, completedLessons: 0 }
-        );
-
-        const courseCompletionRate = completionStats.total ? Math.round((completionStats.completed / completionStats.total) * 100) : 0;
-
-        const activeDailyUsers = new Set(activeUserActivities.map((item) => item.userId)).size;
-
-        const topCourses = courses
-            .filter((course) => course.isPublished)
-            .sort((a, b) => (b.totalStudents || 0) - (a.totalStudents || 0))
-            .slice(0, 5)
-            .map((course, index) => {
-                const courseProgress = progressRecords.filter((p) => p.courseId === course.id);
-                const completions = courseProgress.filter((p) => p.completed || p.progress >= 100 || p.status === 'completed').length;
-                const completionRate = courseProgress.length ? Math.round((completions / courseProgress.length) * 100) : 0;
-                const engagementScore = Math.round(Math.min(100, (completionRate * 0.65) + ((course.totalStudents || 0) * 0.35)));
-                return {
-                    id: course.id,
-                    title: course.title,
-                    thumbnail: course.thumbnail || 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80',
-                    enrollments: course.totalStudents || 0,
-                    completionRate,
-                    engagementScore,
-                    ranking: index + 1
-                };
-            });
-
-        const instructorCourses = await prisma.course.findMany({
-            select: { id: true, instructorId: true, totalStudents: true, title: true }
-        });
-
-        const instructorProgress = progressRecords.reduce((map, record) => {
-            if (!record.courseId) return map;
-            map[record.courseId] = map[record.courseId] || { count: 0, completed: 0, totalProgress: 0 };
-            map[record.courseId].count += 1;
-            map[record.courseId].totalProgress += record.progress || 0;
-            if (record.completed || record.progress >= 100 || record.status === 'completed') {
-                map[record.courseId].completed += 1;
-            }
-            return map;
-        }, {});
-
-        const instructorAttendance = attendanceRows.reduce((map, attendance) => {
-            const courseId = attendance.courseId;
-            if (!courseId) return map;
-            const records = normalizeAttendanceRecords(attendance.records);
-            records.forEach((record) => {
-                if (!record || !record.user) return;
-                map[courseId] = map[courseId] || { present: 0, total: 0 };
-                map[courseId].total += 1;
-                const status = String(record.status || '').toLowerCase();
-                if (status === 'present' || status === 'late') {
-                    map[courseId].present += 1;
-                }
-            });
-            return map;
-        }, {});
-
-        const instructors = await prisma.user.findMany({
-            where: { role: 'instructor', status: 'approved' },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                avatar: true,
-                coursesTaught: { select: { id: true, title: true, totalStudents: true } }
-            }
-        });
-
-        const instructorPerformance = instructors.map((instructor) => {
-            const coursesByInstructor = instructor.coursesTaught || [];
-            const courseCount = coursesByInstructor.length;
-            const totalStudentsCount = coursesByInstructor.reduce((sum, course) => sum + (course.totalStudents || 0), 0);
-            const completionRates = coursesByInstructor.map((course) => {
-                const stats = instructorProgress[course.id];
-                return stats && stats.count ? Math.round((stats.completed / stats.count) * 100) : 0;
-            });
-            const averageCompletion = completionRates.length ? Math.round(completionRates.reduce((sum, value) => sum + value, 0) / completionRates.length) : 0;
-            const attendanceRates = coursesByInstructor.map((course) => {
-                const stats = instructorAttendance[course.id];
-                return stats && stats.total ? Math.round((stats.present / stats.total) * 100) : 0;
-            });
-            const averageAttendance = attendanceRates.length ? Math.round(attendanceRates.reduce((sum, value) => sum + value, 0) / attendanceRates.length) : 0;
-            const performanceScore = Math.round((averageCompletion * 0.6) + (averageAttendance * 0.4));
-
-            return {
-                id: instructor.id,
-                name: instructor.name,
-                email: instructor.email,
-                avatar: instructor.avatar,
-                coursesTaught: courseCount,
-                studentCount: totalStudentsCount,
-                completionRate: averageCompletion,
-                attendanceRate: averageAttendance,
-                performanceScore
-            };
-        });
-
-        const recentUsers = await prisma.user.findMany({ orderBy: { createdAt: 'desc' }, take: 5 });
-        const recentActivity = recentUsers.map((user) => ({
-            id: user.id,
-            title: user.status === 'pending' ? `New ${user.role} registration` : `New ${user.role} joined`,
-            itemTitle: user.name,
-            type: user.status === 'pending' ? 'user_pending' : 'user_joined',
-            studentName: user.name,
-            date: user.createdAt
-        }));
-        const recentCourses = await prisma.course.findMany({ where: { isPublished: true }, orderBy: { createdAt: 'desc' }, take: 3 });
-        const courseActivity = recentCourses.map((course) => ({
-            id: course.id,
-            title: 'Course published',
-            itemTitle: course.title,
-            type: 'course_published',
-            studentName: 'System',
-            date: course.createdAt
-        }));
-
-        const monthlyRevenue = buildMonthlyRevenue(courses, sponsorshipRevenue);
-        const lastMonth = new Date();
-        const previousMonth = new Date();
-        lastMonth.setMonth(lastMonth.getMonth() - 1);
-        previousMonth.setMonth(previousMonth.getMonth() - 2);
-
-        const monthlyActiveStudents = await Promise.all([
-            prisma.user.count({ where: { role: 'student', status: 'approved', createdAt: { gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) } } }),
-            prisma.user.count({ where: { role: 'student', status: 'approved', createdAt: { gte: new Date(previousMonth.getFullYear(), previousMonth.getMonth(), 1), lt: new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1) } } })
-        ]);
-
-        const monthlyGrowth = monthlyActiveStudents[1] === 0 ? 0 : Math.round(((monthlyActiveStudents[0] - monthlyActiveStudents[1]) / monthlyActiveStudents[1]) * 100);
+        const sponsorshipRevenue = totalRevenue._sum?.amount || 0;
 
         res.status(200).json({
             success: true,
             data: {
-                totalUsers,
+                totalUsers: totalStudents + totalInstructors,
                 totalStudents,
                 totalInstructors,
                 totalCourses,
                 pendingCourses,
                 pendingUsers,
                 pendingEnrollments,
-                totalRevenue,
                 sponsorshipRevenue,
-                attendance: attendanceMetrics,
-                courseCompletionRate,
-                dailyActiveUsers: activeDailyUsers,
-                monthlyGrowth,
-                monthlyRevenue: monthlyRevenue.monthlyRevenue,
-                topCourses,
-                instructorPerformance,
-                studentEngagement: {
-                    activeStudents: totalStudents,
-                    lessonsCompleted: completionStats.completedLessons,
-                    studyHours: Math.round((completionStats.completedLessons || 0) * 0.15 * 10) / 10,
-                    courseActivity: progressRecords.length,
-                    dailyActiveUsers: activeDailyUsers
-                },
-                events: recentEvents,
-                notifications,
-                recentActivity: [...recentActivity, ...courseActivity].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10),
                 finance: {
-                    totalRevenue,
-                    monthlyIncome: monthlyRevenue.monthlyRevenue.length ? monthlyRevenue.monthlyRevenue[monthlyRevenue.monthlyRevenue.length - 1].revenue : 0,
                     sponsorshipIncome: sponsorshipRevenue,
                     pendingPayments: pendingEnrollments
                 }

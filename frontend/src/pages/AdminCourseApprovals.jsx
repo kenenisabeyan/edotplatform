@@ -25,7 +25,7 @@ export default function AdminCourseApprovals() {
          const { data: enrollmentsData } = await api.get('/admin/enrollments/pending');
          setPendingEnrollments(enrollmentsData.data);
       } else {
-         const { data: activeData } = await api.get('/admin/enrollments/active');
+         const { data: activeData } = await api.get('/admin/enrollments/active', { params: { limit: 50 } });
          setActiveEnrollments(activeData.data);
       }
     } catch (err) {

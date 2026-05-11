@@ -257,7 +257,13 @@ router.get('/dashboard', async (req, res) => {
             where: { id: userId },
             include: {
                 userCourseProgress: {
-                    include: { course: true }
+                    select: {
+                        courseId: true,
+                        progress: true,
+                        passedFinalExam: true,
+                        completedLessons: true,
+                        course: { select: { id: true, title: true } }
+                    }
                 }
             }
         });
@@ -276,8 +282,9 @@ router.get('/dashboard', async (req, res) => {
         enrollments.forEach(enrollment => {
             totalProgress += (enrollment.progress || 0);
 
-            let lessonsJson = enrollment.completedLessons ? 
-                (Array.isArray(enrollment.completedLessons) ? enrollment.completedLessons : [enrollment.completedLessons]) : [];
+            const lessonsJson = Array.isArray(enrollment.completedLessons)
+                ? enrollment.completedLessons
+                : enrollment.completedLessons ? [enrollment.completedLessons] : [];
             
             completedLessons += lessonsJson.length;
             

@@ -282,7 +282,14 @@ router.get('/dashboard', async (req, res) => {
         const userId = req.user.id;
         const courses = await prisma.course.findMany({
             where: { instructorId: userId },
-            include: { lessons: true }
+            select: {
+                id: true,
+                title: true,
+                totalStudents: true,
+                isPublished: true,
+                createdAt: true,
+                _count: { select: { lessons: true } }
+            }
         });
         
         const totalCourses = courses.length;
@@ -295,7 +302,7 @@ router.get('/dashboard', async (req, res) => {
 
         let totalLessons = 0;
         courses.forEach(course => {
-            totalLessons += course.lessons.length;
+            totalLessons += course._count?.lessons || 0;
         });
 
         const courseIds = courses.map(c => c.id);

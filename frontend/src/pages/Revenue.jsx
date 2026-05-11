@@ -26,9 +26,9 @@ export default function Revenue() {
         
         let coursesRes = [];
         try {
-           if (role === 'admin') coursesRes = await api.get('/admin/courses');
-           else if (role === 'instructor') coursesRes = await api.get('/instructor/courses');
-           else coursesRes = await api.get('/courses');
+           if (role === 'admin') coursesRes = await api.get('/admin/courses', { params: { limit: 100 } });
+           else if (role === 'instructor') coursesRes = await api.get('/instructor/courses', { params: { limit: 100 } });
+           else coursesRes = await api.get('/courses', { params: { limit: 100 } });
         } catch { /* ignore */ }
 
         const courses = coursesRes?.data?.data || coursesRes?.data || [];

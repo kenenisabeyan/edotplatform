@@ -23,10 +23,11 @@ export const logActivity = async (userId, action, type = 'system', details = nul
 export const getMyActivities = async (req, res) => {
   try {
     const userId = req.user.id;
+    const limit = Math.min(Math.max(Number(req.query.limit) || 20, 1), 100);
     const activities = await prisma.activity.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
-      take: 50
+      take: limit
     });
     res.status(200).json({ success: true, data: activities });
   } catch (error) {
@@ -36,12 +37,13 @@ export const getMyActivities = async (req, res) => {
 
 export const getAllActivities = async (req, res) => {
   try {
+    const limit = Math.min(Math.max(Number(req.query.limit) || 50, 1), 200);
     const activities = await prisma.activity.findMany({
       include: {
         user: { select: { name: true, role: true, email: true } }
       },
       orderBy: { createdAt: 'desc' },
-      take: 100
+      take: limit
     });
     res.status(200).json({ success: true, data: activities });
   } catch (error) {
