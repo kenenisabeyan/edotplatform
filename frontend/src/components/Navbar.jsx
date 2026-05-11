@@ -53,23 +53,29 @@ export default function Navbar() {
   };
 
   const navLinkClass = ({ isActive }) => 
-    `text-[15px] font-medium transition-all px-2 py-1 ${
+    `relative text-[15px] font-medium transition-all px-2 py-1.5 ${
       isActive 
-        ? 'text-[#F97316] border-b-[3px] border-[#F97316]'
-        : isDarkMode || isTransparentDarkBg ? 'text-slate-300 hover:text-white border-b-[3px] border-transparent' : 'text-slate-600 hover:text-[#F97316] border-b-[3px] border-transparent'
-    }`;
+        ? 'text-[#F97316]'
+        : isDarkMode || isTransparentDarkBg ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-[#F97316]'
+    } ${isActive ? 'after:content-[\'\'] after:absolute after:left-2 after:-bottom-1.5 after:w-[calc(100%-16px)] after:h-[3px] after:bg-[#F97316] after:rounded-full' : ''}`;
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? (isDarkMode ? 'bg-[#0B1120]' : 'bg-white') : (isDarkMode ? (isTransparentDarkBg ? 'bg-transparent' : 'bg-[#0B1120]') : (isTransparentDarkBg ? 'bg-transparent' : 'bg-white'))} py-6`}>
+    <header 
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'} py-6`}
+      style={{ borderBottom: '2px solid #475569', boxShadow: '0px 12px 30px rgba(71, 85, 105, 0.4)' }}
+    >
       <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
         
         {/* LEFT: Logo */}
         <div className="flex items-center">
           <Link to="/" className="flex items-center gap-3 transition-transform hover:scale-105 group">
-            <div className={`w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center shadow-sm ${isDarkMode ? 'bg-[#0B1120] border border-white/10' : 'bg-white border border-slate-200'}`}>
-               <img src={edotLogo} alt="EDOT" className="w-7 h-7 object-contain" />
+            <div className={`w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shadow-sm ${isDarkMode ? 'bg-[#0B1120] border border-white/10' : 'bg-white border border-slate-200'}`}>
+               <img src={edotLogo} alt="EDOT" className="w-8 h-8 object-contain" />
             </div>
-            <span className={`text-lg font-bold transition-colors ${isDarkMode || isTransparentDarkBg ? 'text-white' : 'text-slate-900'}`}>EDOT</span>
+            <div className="flex flex-col justify-center">
+              <span className={`text-[20px] font-black leading-none tracking-tight transition-colors ${isDarkMode || isTransparentDarkBg ? 'text-white' : 'text-slate-900'}`}>EDOT</span>
+              <span className={`text-[9px] font-bold tracking-widest mt-[2px] uppercase ${isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-500'}`}>Education for All</span>
+            </div>
           </Link>
         </div>
 
@@ -90,7 +96,7 @@ export default function Navbar() {
             <div className="flex items-center gap-5">
               <Link to="/dashboard/messages" className={`relative transition-colors hover:text-[#F97316] ${isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-600'}`}>
                 <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#F97316] text-[8px] font-bold text-white flex items-center justify-center rounded-full border border-transparent">3</span>
+                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#F97316] text-[8px] font-bold text-white flex items-center justify-center rounded-full border border-transparent">1</span>
               </Link>
               
               <div className="relative" ref={userDropdownRef}>

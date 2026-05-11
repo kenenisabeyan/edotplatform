@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import useThemeMode from '../hooks/useThemeMode';
 import { getRecentPublicUsers } from '../utils/api';
@@ -14,6 +14,18 @@ const qanoVideo = 'https://res.cloudinary.com/dacck6udl/video/upload/v1778415967
 export default function Home() {
   const isDarkMode = useThemeMode();
   const [totalUsers, setTotalUsers] = useState('10k+');
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const videoRef = useRef(null);
+
+  const handlePlayVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      videoRef.current.controls = true;
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
+      setIsVideoPlaying(true);
+    }
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -38,18 +50,37 @@ export default function Home() {
       
       {/* ===== PREMIUM HERO SECTION ===== */}
       <div className="relative w-full overflow-hidden">
-        <div className="absolute inset-0 z-0 overflow-hidden bg-[#EAFBFB]">
+        <div className="absolute inset-0 z-0 overflow-hidden bg-[#E8FCFC]">
           {/* Subtle dotted pattern on the left */}
-          <div className="absolute left-0 top-0 bottom-0 w-1/2 bg-[radial-gradient(circle,#0284C7_1.5px,transparent_1px)] bg-[size:28px_28px] opacity-[0.06] pointer-events-none [mask-image:linear-gradient(to_right,black_10%,transparent_80%)]"></div>
+          <div className="absolute left-0 top-0 bottom-0 w-[60%] bg-[radial-gradient(circle,#06B6D4_1.5px,transparent_1px)] bg-[size:28px_28px] opacity-[0.08] pointer-events-none [mask-image:linear-gradient(to_right,black_10%,transparent_90%)]"></div>
           
-          {/* Layer 1: Faint larger green curve (creates the double-wave effect) */}
-          <div className="absolute top-[-15%] right-[-10%] w-[85%] aspect-square rounded-full bg-gradient-to-bl from-[#D1FAE5] to-[#A7F3D0]/60 opacity-80"></div>
-          
-          {/* Layer 2: Main sharp green sweeping curve */}
-          <div className="absolute top-[-25%] right-[-20%] w-[75%] aspect-square rounded-full bg-gradient-to-br from-[#A7F3D0] via-[#6EE7B7] to-[#34D399] opacity-95 shadow-[-30px_0_80px_rgba(167,243,208,0.5)]"></div>
+          {/* SVG Waves Background */}
+          <svg className="absolute inset-0 w-full h-full object-cover" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="waveGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#A7F3D0" stopOpacity="0.8" />
+                <stop offset="50%" stopColor="#6EE7B7" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#34D399" stopOpacity="1" />
+              </linearGradient>
+              <linearGradient id="waveGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#D1FAE5" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#A7F3D0" stopOpacity="0.8" />
+              </linearGradient>
+              <linearGradient id="waveGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#10B981" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#059669" stopOpacity="0.6" />
+              </linearGradient>
+            </defs>
 
-          {/* Layer 3: Bottom right swoop */}
-          <div className="absolute bottom-[-10%] right-[-5%] w-[40%] aspect-square rounded-full bg-gradient-to-tl from-[#10B981]/20 to-transparent blur-3xl"></div>
+            {/* Back Wave (Lighter, larger sweep) */}
+            <path d="M 450 0 C 650 350, 250 650, -100 900 L 1440 900 L 1440 0 Z" fill="url(#waveGrad2)" />
+
+            {/* Middle Wave (Main crisp S-curve) */}
+            <path d="M 550 0 C 700 400, 350 700, 50 900 L 1440 900 L 1440 0 Z" fill="url(#waveGrad1)" />
+
+            {/* Bottom Right Wave (Darker anchor) */}
+            <path d="M 800 900 C 1000 650, 1200 500, 1440 400 L 1440 900 Z" fill="url(#waveGrad3)" />
+          </svg>
         </div>
 
         <section className="relative z-10 pt-24 pb-20 lg:pt-28 lg:pb-32 px-6 md:px-8 lg:px-12">
@@ -68,7 +99,7 @@ export default function Home() {
                   transition={{ delay: 0.1, duration: 0.5 }}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#22D3EE] text-white shadow-sm mb-8"
                 >
-                  <Heart className="w-4 h-4 fill-white" />
+                  <Heart className="w-4 h-4" />
                   <span className="text-[13px] font-bold tracking-wide">Building a brighter future through education</span>
                 </motion.div>
 
@@ -139,26 +170,7 @@ export default function Home() {
                   </div>
                 </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.8 }}
-                  className="mt-10 flex justify-center"
-                >
-                  <Link
-                    to="#about"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-[#111827] hover:text-[#FF7A00] transition-colors duration-300"
-                  >
-                    Scroll to Learn More
-                    <motion.span
-                      animate={{ y: [0, 6, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                      className="inline-flex"
-                    >
-                      <ChevronDown className="w-5 h-5" />
-                    </motion.span>
-                  </Link>
-                </motion.div>
+
               </motion.div>
 
               {/* RIGHT COLUMN */}
@@ -170,134 +182,54 @@ export default function Home() {
               >
                 <div className="relative mx-auto w-full max-w-[560px] lg:max-w-[620px]">
                   <motion.div
-                    whileHover={{ scale: 1.02, y: -8 }}
+                    whileHover={!isVideoPlaying ? { scale: 1.02, y: -8 } : {}}
                     transition={{ type: 'spring', stiffness: 240, damping: 18 }}
-                    className="relative overflow-hidden rounded-[32px] border-[8px] border-white shadow-2xl bg-white"
+                    className="relative overflow-hidden rounded-[32px] shadow-[0_0_40px_rgba(34,211,238,0.6)] bg-black group"
                   >
                     <video
+                      ref={videoRef}
                       src={qanoVideo}
-                      autoPlay
-                      muted
-                      loop
+                      autoPlay={!isVideoPlaying}
+                      muted={!isVideoPlaying}
+                      loop={!isVideoPlaying}
                       playsInline
-                      className="w-full h-[540px] object-cover rounded-[24px]"
+                      disablePictureInPicture
+                      disableRemotePlayback
+                      controlsList="nodownload noplaybackrate"
+                      className={`w-full h-[540px] object-cover rounded-[24px] transition-all duration-500`}
+                      onEnded={() => {
+                        setIsVideoPlaying(false);
+                        if (videoRef.current) {
+                          videoRef.current.controls = false;
+                          videoRef.current.muted = true;
+                          videoRef.current.play();
+                        }
+                      }}
                     />
 
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <motion.button
-                        whileHover={{ scale: 1.08 }}
-                        whileTap={{ scale: 0.96 }}
-                        className="flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-xl text-[#F97316] pl-1.5"
-                        aria-label="Play introduction video"
-                      >
-                        <PlayCircle className="w-10 h-10 fill-current text-white stroke-[#F97316]" strokeWidth={1} />
-                      </motion.button>
-                    </div>
+                    {!isVideoPlaying && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-transparent group-hover:bg-black/10 transition-all duration-500">
+                        <div className="relative flex items-center justify-center">
+                          {/* Water ripple movements */}
+                          <div className="absolute inset-[-12px] rounded-[32px] bg-white/20 animate-ping" style={{ animationDuration: '3s' }}></div>
+                          <div className="absolute inset-[-24px] rounded-[40px] bg-white/10 animate-pulse" style={{ animationDuration: '2s' }}></div>
+
+                          <motion.button
+                            onClick={handlePlayVideo}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="relative flex h-[64px] w-[88px] items-center justify-center rounded-[20px] bg-[#1a1a1a]/90 backdrop-blur-md shadow-xl transition-all duration-300 pl-1 group-hover:bg-[#1a1a1a] group-hover:shadow-2xl"
+                            aria-label="Play introduction video"
+                          >
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="text-white">
+                              <path d="M7 4v16l13-8L7 4z" />
+                            </svg>
+                          </motion.button>
+                        </div>
+                      </div>
+                    )}
                   </motion.div>
 
-                  {/* Top Left Card - Active Learners */}
-                  <motion.div
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute -left-12 top-12 w-64"
-                  >
-                    <div className="rounded-[24px] bg-white/95 backdrop-blur-xl shadow-xl p-5 border border-white/50 relative overflow-hidden">
-                      <div className="flex items-center gap-4 mb-2">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-500 shrink-0">
-                          <Users className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <p className="text-2xl font-black text-slate-800 leading-none">10K+</p>
-                        </div>
-                      </div>
-                      <div className="pl-[56px]">
-                         <p className="text-[11px] font-bold text-slate-700">Active Learners</p>
-                         <p className="text-[10px] font-medium text-slate-500">Growing every day</p>
-                      </div>
-                      <div className="absolute bottom-4 right-4">
-                        <TrendingUp className="w-5 h-5 text-emerald-500" />
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Top Right Card - Course Completion */}
-                  <motion.div
-                    animate={{ y: [0, 8, 0] }}
-                    transition={{ delay: 0.5, duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute -right-8 top-32 w-64"
-                  >
-                    <div className="rounded-[24px] bg-white/95 backdrop-blur-xl shadow-xl p-5 border border-white/50 relative overflow-hidden">
-                      <div className="flex items-center gap-4 mb-2">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-500 shrink-0">
-                          <LineChart className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <p className="text-2xl font-black text-slate-800 leading-none">92%</p>
-                        </div>
-                      </div>
-                      <div className="pl-[56px]">
-                         <p className="text-[11px] font-bold text-slate-700">Course Completion</p>
-                         <p className="text-[10px] font-medium text-slate-500">Average success rate</p>
-                      </div>
-                      <div className="absolute bottom-4 right-4">
-                         <TrendingUp className="w-5 h-5 text-emerald-500" />
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Bottom Left Card - Learning Roles */}
-                  <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ delay: 1, duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute -left-10 bottom-24 w-52"
-                  >
-                    <div className="rounded-[24px] bg-white/95 backdrop-blur-xl shadow-xl p-5 border border-white/50 relative">
-                      <div className="flex items-center gap-4 mb-2">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-500 shrink-0">
-                          <GraduationCap className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <p className="text-2xl font-black text-slate-800 leading-none">4</p>
-                        </div>
-                      </div>
-                      <div className="pl-[56px]">
-                         <p className="text-[11px] font-bold text-slate-700 mb-0.5">Learning Roles</p>
-                         <p className="text-[10px] font-medium text-slate-500 mb-2">Connected</p>
-                         <div className="flex gap-1">
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-300"></div>
-                         </div>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Bottom Right Card - Sponsorship */}
-                  <motion.div
-                    animate={{ y: [0, -12, 0] }}
-                    transition={{ delay: 1.5, duration: 7.5, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute -right-6 bottom-10 w-52"
-                  >
-                    <div className="rounded-[24px] bg-white/95 backdrop-blur-xl shadow-xl p-5 border border-white/50 relative">
-                      <div className="flex items-center gap-4 mb-2">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-500 shrink-0">
-                          <Heart className="w-5 h-5 fill-emerald-500" />
-                        </div>
-                        <div>
-                          <p className="text-2xl font-black text-slate-800 leading-none">1</p>
-                        </div>
-                      </div>
-                      <div className="pl-[56px]">
-                         <p className="text-[11px] font-bold text-slate-700 mb-0.5">Sponsorship</p>
-                         <p className="text-[10px] font-medium text-slate-500 mb-2">Can change a life</p>
-                         <div className="flex gap-1">
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-300"></div>
-                         </div>
-                      </div>
-                    </div>
-                  </motion.div>
                 </div>
               </motion.div>
             </div>
@@ -308,50 +240,65 @@ export default function Home() {
         <section className="relative z-10 px-6 md:px-8 lg:px-12 mt-12 pb-24">
           <div className="max-w-[1300px] mx-auto">
             <div className="rounded-[32px] bg-white shadow-xl px-8 py-8 sm:px-12">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
+              <div className="flex flex-col lg:flex-row items-stretch justify-between gap-4 xl:gap-2">
                 {[
                   {
-                    title: 'Learn',
-                    desc: 'Access quality courses anytime, anywhere.',
-                    icon: BookOpen,
-                    bg: 'bg-[#1D4ED8]', // Exact blue from screenshot
+                    title: 'Students',
+                    desc: 'Learn new skills, track progress and achieve goals.',
+                    icon: GraduationCap,
+                    cardBg: 'bg-blue-50/70',
+                    iconColor: 'text-blue-600',
                   },
                   {
-                    title: 'Teach',
-                    desc: 'Empower others with your knowledge.',
+                    title: 'Instructors',
+                    desc: 'Create courses, teach and inspire learners.',
+                    icon: UserCheck,
+                    cardBg: 'bg-green-50/70',
+                    iconColor: 'text-green-600',
+                  },
+                  {
+                    title: 'Parents',
+                    desc: 'Monitor progress, attendance and achievements.',
                     icon: Users,
-                    bg: 'bg-[#10B981]', // Exact green
+                    cardBg: 'bg-purple-50/70',
+                    iconColor: 'text-purple-600',
                   },
                   {
-                    title: 'Support',
-                    desc: 'Help learners grow and succeed.',
+                    title: 'Sponsors',
+                    desc: 'Support education, empower learners and change lives.',
                     icon: Heart,
-                    bg: 'bg-[#FBBF24]', // Exact yellow
+                    cardBg: 'bg-orange-50/70',
+                    iconColor: 'text-orange-500',
                   },
                   {
-                    title: 'Sponsor',
-                    desc: 'Sponsor education, change a life.',
-                    icon: Gift,
-                    bg: 'bg-[#A855F7]', // Exact purple
+                    title: 'Admins',
+                    desc: 'Manage the platform, ensure quality and create opportunities.',
+                    icon: Shield,
+                    cardBg: 'bg-red-50/70',
+                    iconColor: 'text-red-500',
                   }
-                ].map((item, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-100px' }}
-                    transition={{ delay: idx * 0.1, duration: 0.5 }}
-                    whileHover={{ y: -4 }}
-                    className={`flex items-start gap-5 pt-5 sm:pt-0 ${idx !== 0 ? 'sm:pl-8 lg:pl-10' : ''}`}
-                  >
-                    <div className={`mt-1 flex h-14 w-14 shrink-0 items-center justify-center rounded-[16px] ${item.bg} text-white shadow-sm`}>
-                      <item.icon className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-black text-[#111827] mb-1">{item.title}</h3>
-                      <p className="text-[13px] text-slate-500 font-medium leading-relaxed">{item.desc}</p>
-                    </div>
-                  </motion.div>
+                ].map((item, idx, arr) => (
+                  <React.Fragment key={idx}>
+                    <motion.div
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-100px' }}
+                      transition={{ delay: idx * 0.1, duration: 0.5 }}
+                      whileHover={{ y: -4 }}
+                      className={`flex flex-col items-start p-5 xl:p-6 rounded-2xl border border-white/60 ${item.cardBg} flex-1 min-w-[200px] shadow-sm hover:shadow-md transition-all`}
+                    >
+                      <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm ${item.iconColor}`}>
+                        <item.icon className="w-5 h-5" strokeWidth={2.5} />
+                      </div>
+                      <h3 className="text-[17px] font-bold text-[#111827] mb-2">{item.title}</h3>
+                      <p className="text-[13px] text-slate-600 font-medium leading-relaxed">{item.desc}</p>
+                    </motion.div>
+                    {idx < arr.length - 1 && (
+                      <div className="hidden lg:flex items-center justify-center px-1 xl:px-2 text-slate-400 shrink-0">
+                        <ArrowRight className="w-5 h-5" />
+                      </div>
+                    )}
+                  </React.Fragment>
                 ))}
               </div>
             </div>

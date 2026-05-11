@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 
 import CTA from '../components/CTA';
+import kenenisaPhoto from '../assets/kenenisa.png';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 const kenosHero = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/puh8cqwax9ahjfdyyhwm';
 import useThemeMode from '../hooks/useThemeMode';
@@ -527,24 +528,30 @@ export default function Courses() {
 
 
       {/* 1. HERO SECTION */}
-      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden ${isDarkMode ? '' : ''}`}>
          {/* Premium CSS Background */}
          <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
             <div className={`absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]`}></div>
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#00D4FF]/10 dark:bg-[#00D4FF]/10 blur-[120px] rounded-full pointer-events-none"></div>
          </div>
-         <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
-            <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-[#1A202C]'}`}>
-               Explore Structured <br className="hidden md:block" />
-               <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
-                  <span className="relative z-10">Learning Paths</span>
-                  {/* Orange Underline */}
-                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316] z-0"></div>
-               </span>
-            </h1>
-            <p className={`text-xl md:text-[20px] font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-               From foundational education to advanced professional skills, EDOT provides guided learning designed for real progress and real outcomes.
-            </p>
+         <div className={`relative z-10 max-w-[1000px] mx-auto mt-8 overflow-hidden rounded-[40px] border border-transparent bg-gradient-to-br from-[#F8FBFF] via-[#FFFFFF] to-[#EEF7FF] shadow-[0_28px_80px_-40px_rgba(15,23,42,0.35)] transition-colors duration-500 ${isDarkMode ? 'dark:bg-[#111827] dark:shadow-none' : ''}`}>
+            <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-center text-center lg:text-left px-8 py-12">
+               <div>
+                  <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-[#1A202C]'}`}>
+                     Explore Structured <br className="hidden md:block" />
+                     <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+                        <span className="relative z-10">Learning Paths</span>
+                        <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316] z-0"></div>
+                     </span>
+                  </h1>
+                  <p className={`text-xl md:text-[20px] font-medium max-w-3xl mx-auto lg:mx-0 leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                     From foundational education to advanced professional skills, EDOT provides guided learning designed for real progress and real outcomes.
+                  </p>
+               </div>
+               <div className="mx-auto w-full max-w-[420px] overflow-hidden bg-transparent h-full min-h-[420px]">
+                  <img src={kenenisaPhoto} alt="EDOT student learning path" className="w-full h-full object-cover" />
+               </div>
+            </div>
          </div>
       </section>
 
@@ -552,7 +559,14 @@ export default function Courses() {
       <section className={`py-32 px-6 border-y ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="rounded-[40px] overflow-hidden shadow-2xl h-[400px] lg:h-[500px] relative border-8 border-white dark:border-[#111827]">
-               <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" alt="Students collaborating" className="w-full h-full object-cover" />
+               <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+                  <div className="relative overflow-hidden">
+                     <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" alt="Students collaborating" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="relative overflow-hidden hidden md:block">
+                     <img src={kenenisaPhoto} alt="EDOT student support" className="w-full h-full object-cover" />
+                  </div>
+               </div>
             </div>
             <div className="text-left">
                <div className="w-16 h-16 bg-[#F97316] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
