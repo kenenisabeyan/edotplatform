@@ -157,7 +157,7 @@ export default function SectionManagement() {
                    </div>
                  </div>
 
-                 <button type="submit" className={`w-full mt-2 font-semibold py-3 rounded-xl border transition-all flex items-center justify-center gap-2 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                 <button type="submit" className={`w-full mt-2 font-semibold py-3 rounded-full border transition-all flex items-center justify-center gap-2 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                    <Plus className="w-4 h-4" /> Create Section
                  </button>
                </form>
@@ -179,7 +179,7 @@ export default function SectionManagement() {
                         <option key={stu.id} value={stu.id}>{stu.name} - {stu.email}</option>
                      ))}
                    </select>
-                   <button type="submit" className={`w-full py-2.5 rounded-xl border transition-all font-semibold text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                   <button type="submit" className={`w-full py-2.5 rounded-full border transition-all font-semibold text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                      + Add to {selectedSection.name}
                    </button>
                  </form>

@@ -8,11 +8,11 @@ import api from '../utils/api';
 const StatBox = ({ title, value, percentage, type }) => {
   const isDarkMode = useThemeMode();
   return (
-  <div className={`p-6 rounded-3xl border shadow-sm ${type === 'primary' ? 'bg-gradient-to-r from-[#00D4FF] to-[#0099CC] border-[#F97316]/50' : (isDarkMode ? 'bg-[#0B1120]/90 backdrop-blur-xl' : 'bg-white')} ${isDarkMode ? 'text-white border-white/10' : 'text-slate-900 border-slate-200'}`}>
-    <div className="flex justify-between items-start mb-4">
-      <h3 className={`font-black text-[10px] ${type === 'primary' ? 'text-white/80' : (isDarkMode ? 'text-slate-200' : 'text-slate-500')}`}>{title}</h3>
+  <div className={`p-4 md:p-6 rounded-3xl border shadow-sm overflow-hidden flex flex-col justify-center ${type === 'primary' ? 'bg-gradient-to-r from-[#00D4FF] to-[#0099CC] border-[#F97316]/50' : (isDarkMode ? 'bg-[#0B1120]/90 backdrop-blur-xl' : 'bg-white')} ${isDarkMode ? 'text-white border-white/10' : 'text-slate-900 border-slate-200'}`}>
+    <div className="flex justify-between items-start mb-2 md:mb-4">
+      <h3 className={`font-black text-[10px] truncate ${type === 'primary' ? 'text-white/80' : (isDarkMode ? 'text-slate-200' : 'text-slate-500')}`}>{title}</h3>
       {percentage && (
-        <span className={`text-[10px]  font-black  px-2 py-0.5 rounded-md border ${
+        <span className={`text-[10px] font-black px-2 py-0.5 rounded-md border shrink-0 ${
           type === 'primary' ? 'bg-[#0B1120]/20 border-white/30 text-white' : 
           percentage.startsWith('+') ? 'bg-[#00D4FF]/20 border-[#00D4FF]/30 text-[#00D4FF]' : 'bg-[#E30A17]/20 border-[#E30A17]/30 text-[#E30A17]'
         }`}>
@@ -20,8 +20,8 @@ const StatBox = ({ title, value, percentage, type }) => {
         </span>
       )}
     </div>
-    <h2 className={`text-4xl font-black ${type === 'primary' ? 'text-white' : (isDarkMode ? 'text-[#F97316]' : 'text-slate-900')}`}>{value}</h2>
-    <p className={`text-[10px] mt-2 font-bold ${type === 'primary' ? 'text-white/70' : (isDarkMode ? 'text-slate-300' : 'text-slate-500')}`}>Total Computed Ledger</p>
+    <h2 className={`text-2xl md:text-3xl lg:text-4xl font-black truncate w-full ${type === 'primary' ? 'text-white' : (isDarkMode ? 'text-[#F97316]' : 'text-slate-900')}`} title={value}>{value}</h2>
+    <p className={`text-[9px] md:text-[10px] mt-1 md:mt-2 font-bold truncate ${type === 'primary' ? 'text-white/70' : (isDarkMode ? 'text-slate-300' : 'text-slate-500')}`}>Total Computed Ledger</p>
   </div>
 );
 };
@@ -84,7 +84,7 @@ export default function FinanceFees() {
         <div className={`lg:col-span-2 backdrop-blur-xl p-8 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
            <div className="flex justify-between items-center mb-6">
              <h3 className={`font-bold text-xl ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>System Collection Trajectory</h3>
-             <button className={`flex items-center gap-1 font-semibold px-3 py-1.5 rounded-lg border transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+             <button className={`flex items-center gap-1 font-semibold px-3 py-1.5 rounded-full border transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                Year-to-Date <ChevronDown className="w-3 h-3" />
              </button>
            </div>
@@ -134,7 +134,7 @@ export default function FinanceFees() {
               <input 
                 type="text" 
                 placeholder="Search ledger..." 
-                className={`w-full !pl-14 !pr-4 !py-2.5 bg-[#0B1120] border !rounded-full text-sm font-medium outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 placeholder:text-slate-400 transition-all shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                className={`w-full !pl-14 !pr-4 !py-2.5 bg-[#0B1120] border !rounded-full-full text-sm font-medium outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 placeholder:text-slate-400 transition-all shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               />
             </div>
           </div>

@@ -336,7 +336,7 @@ export default function InstructorCourseBuilder() {
             <button 
               onClick={saveCourseData}
               disabled={saving}
-              className={`inline-flex items-center gap-1.5 px-4 py-2 font-semibold rounded-lg transition-colors text-sm disabled:opacity-50 bg-[#F97316] hover:bg-[#00A3CC] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`inline-flex items-center gap-1.5 px-4 py-2 font-semibold rounded-full transition-colors text-sm disabled:opacity-50 bg-[#F97316] hover:bg-[#00A3CC] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
             >
                {saving ? 'Saving...' : 'Save Draft'}
             </button>
@@ -691,7 +691,7 @@ export default function InstructorCourseBuilder() {
                             <button 
                               onClick={handleAddPhase}
                               disabled={!newPhaseName.trim()}
-                              className={`flex-1 py-3 px-4 font-semibold rounded-lg hover:shadow-lg hover:shadow-[#F97316]/20 border transition-colors disabled:opacity-50 bg-[#F97316] hover:bg-[#00A3CC] shadow-md border-[#F97316] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                              className={`flex-1 py-3 px-4 font-semibold rounded-full hover:shadow-lg hover:shadow-[#F97316]/20 border transition-colors disabled:opacity-50 bg-[#F97316] hover:bg-[#00A3CC] shadow-md border-[#F97316] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                             >
                               Add Phase
                             </button>
@@ -827,7 +827,7 @@ export default function InstructorCourseBuilder() {
                           <button 
                             type="submit" 
                             disabled={saving}
-                            className={`flex-1 py-3 px-4 font-semibold rounded-lg hover:shadow-lg hover:shadow-[#00D4FF]/20 border transition-colors disabled:opacity-50 bg-[#F97316] hover:bg-[#00A3CC] shadow-md border-[#F97316] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                            className={`flex-1 py-3 px-4 font-semibold rounded-full hover:shadow-lg hover:shadow-[#00D4FF]/20 border transition-colors disabled:opacity-50 bg-[#F97316] hover:bg-[#00A3CC] shadow-md border-[#F97316] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                           >
                             Save Lesson
                           </button>
@@ -918,7 +918,7 @@ export default function InstructorCourseBuilder() {
               <button 
                 onClick={prevStep}
                 disabled={currentStep === 1 || saving}
-                className={`w-full sm:w-auto px-6 py-2.5 font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed border text-sm flex items-center gap-2 ${isDarkMode ? 'bg-transparent hover:bg-white/5 border-white/20 text-slate-300' : 'bg-white hover:bg-slate-100 border-slate-200 text-slate-700'}`}
+                className={`w-full sm:w-auto px-6 py-2.5 font-semibold rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed border text-sm flex items-center gap-2 ${isDarkMode ? 'bg-transparent hover:bg-white/5 border-white/20 text-slate-300' : 'bg-white hover:bg-slate-100 border-slate-200 text-slate-700'}`}
               >
                 <ArrowLeft className="w-4 h-4" /> Previous Step
               </button>
@@ -928,7 +928,7 @@ export default function InstructorCourseBuilder() {
                   <button 
                     onClick={nextStep}
                     disabled={saving || (currentStep === 1 && !formData.title)}
-                    className={`w-full sm:w-auto px-8 py-2.5 font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#F97316] hover:bg-[#00A3CC] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                    className={`w-full sm:w-auto px-8 py-2.5 font-semibold rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#F97316] hover:bg-[#00A3CC] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                   >
                     Save & Continue <ChevronRight className="w-4 h-4" />
                   </button>
@@ -936,7 +936,7 @@ export default function InstructorCourseBuilder() {
                   <button 
                     onClick={handleSubmitForReview}
                     disabled={saving || lessons.length === 0}
-                    className={`w-full sm:w-auto px-8 py-2.5 font-semibold rounded-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#F97316] hover:bg-[#00A3CC] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                    className={`w-full sm:w-auto px-8 py-2.5 font-semibold rounded-full hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#F97316] hover:bg-[#00A3CC] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                   >
                     <Send className="w-4 h-4" /> {isAdmin ? 'Publish Course' : 'Submit for Review'}
                   </button>

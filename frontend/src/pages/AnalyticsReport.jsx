@@ -67,10 +67,10 @@ export default function AnalyticsReport() {
           </div>
         </div>
         <div className="flex gap-3">
-          <button className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors border bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+          <button className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm transition-colors border bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             <Filter className="w-4 h-4" /> Filter
           </button>
-          <button className={`flex items-center gap-2 hover:shadow-[0_0_15px_rgba(0,138,50,0.4)] px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:-translate-y-0.5 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+          <button className={`flex items-center gap-2 hover:shadow-[0_0_15px_rgba(0,138,50,0.4)] px-5 py-2.5 rounded-full font-semibold text-sm transition-all hover:-translate-y-0.5 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             <Download className="w-4 h-4" /> Export PDF
           </button>
         </div>
@@ -196,7 +196,7 @@ export default function AnalyticsReport() {
                <p className={`font-medium leading-relaxed text-sm mb-6 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
                  Platform performance is actively monitored. Automated insights will generate here automatically once enough interaction data aligns with algorithmic thresholds.
                </p>
-               <button className={`self-start text-sm font-semibold px-6 py-3 rounded-xl transition-all border relative z-10 hover:shadow-lg bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+               <button className={`self-start text-sm font-semibold px-6 py-3 rounded-full transition-all border relative z-10 hover:shadow-lg bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                  Generate Briefing
                </button>
              </div>

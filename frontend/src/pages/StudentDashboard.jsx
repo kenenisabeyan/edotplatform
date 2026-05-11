@@ -14,7 +14,7 @@ const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_aut
 import ProfileView from './ProfileView';
 import ActivityFeed from '../components/ActivityFeed';
 import EcosystemNexus from '../components/EcosystemNexus';
-import StudentDashboardCourses from '../components/StudentDashboardCourses';
+
 import PackageCard from '../components/student/PackageCard';
 import StudentOverview from '../components/student/StudentOverview';
 import ThemeDropdown from '../components/ThemeDropdown';
@@ -737,7 +737,7 @@ export default function StudentDashboard() {
                             placeholder="Set a new objective..."
                             className={`flex-1 !px-5 !py-2 border !rounded-full outline-none focus:ring-2 focus:ring-[#f97316]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-slate-700 text-white placeholder:text-slate-500' : 'bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400'}`}
                         />
-                        <button type="submit" className={`px-6 py-2 !rounded-full text-sm font-semibold bg-[#f97316] hover:bg-[#ea580c] shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Add</button>
+                        <button type="submit" className={`px-6 py-2 !rounded-full-full text-sm font-semibold bg-[#f97316] hover:bg-[#ea580c] shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Add</button>
                     </form>
                 </div>
                 
@@ -834,7 +834,7 @@ export default function StudentDashboard() {
            <div className={`font-black text-[15px] leading-tight text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
              Edot Student<br/>Dashboard
            </div>
-           <button className={`absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-lg border text-slate-400 hover:bg-slate-50 transition-colors ${isDarkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200'}`}>
+           <button className={`absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-full border text-slate-400 hover:bg-slate-50 transition-colors ${isDarkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200'}`}>
              <PanelLeftClose className="w-3.5 h-3.5" />
            </button>
         </div>
@@ -879,7 +879,7 @@ export default function StudentDashboard() {
         </div>
 
         <div className="p-4 border-t border-slate-100 dark:border-slate-800">
-           <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors font-bold text-[13px]">
+           <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-full transition-colors font-bold text-[13px]">
              <LogOut className="w-5 h-5 shrink-0" /> Log out
            </button>
         </div>
@@ -891,7 +891,7 @@ export default function StudentDashboard() {
            <div className="relative w-full max-w-md">
              <Search className={`w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
              <input type="text" placeholder="Search courses, lessons..." 
-               className={`w-full !pl-12 !pr-4 !py-3 !rounded-full text-xs font-bold outline-none transition-all focus:border-[#F97316]/50 ${isDarkMode ? 'bg-[#121A2F] border-slate-800 text-white placeholder:text-slate-500' : 'bg-[#F9FAFB] border-transparent text-slate-700 placeholder:text-slate-400'}`} />
+               className={`w-full !pl-12 !pr-4 !py-3 !rounded-full-full text-xs font-bold outline-none transition-all focus:border-[#F97316]/50 ${isDarkMode ? 'bg-[#121A2F] border-slate-800 text-white placeholder:text-slate-500' : 'bg-[#F9FAFB] border-transparent text-slate-700 placeholder:text-slate-400'}`} />
            </div>
 
            <div className="flex items-center gap-4">

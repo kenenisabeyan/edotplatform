@@ -502,7 +502,7 @@ export default function LibraryView() {
                 <button 
                   type="submit" 
                   disabled={submitting}
-                  className={`hover:shadow-[#00D4FF]/20 px-6 py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all w-full sm:w-auto disabled:opacity-70 bg-[#F97316] hover:bg-[#00A3CC] shadow-md border border-[#F97316] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                  className={`hover:shadow-[#00D4FF]/20 px-6 py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2 transition-all w-full sm:w-auto disabled:opacity-70 bg-[#F97316] hover:bg-[#00A3CC] shadow-md border border-[#F97316] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                 >
                   {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Plus className="w-5 h-5" /> Save to Library</>}
                 </button>
@@ -573,12 +573,12 @@ export default function LibraryView() {
                             href={resource.fileUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`block text-center py-2.5 rounded-xl bg-gradient-to-r from-[#00D4FF] to-[#0099CC] font-bold hover:shadow-[0_0_15px_rgba(0,212,255,0.4)] transition-all border border-[#F97316]/50 hover:-translate-y-0.5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                            className={`block text-center py-2.5 rounded-full bg-gradient-to-r from-[#00D4FF] to-[#0099CC] font-bold hover:shadow-[0_0_15px_rgba(0,212,255,0.4)] transition-all border border-[#F97316]/50 hover:-translate-y-0.5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                           >
                             <Download className="w-4 h-4 inline-block mr-2" /> Download Document
                           </a>
                         ) : (
-                          <button className={`w-full py-2.5 rounded-xl border font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Request Access</button>
+                          <button className={`w-full py-2.5 rounded-full border font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Request Access</button>
                         )}
                         {user?.role === 'instructor' && resource.uploadedBy === user?.id && resource.status === 'draft' && (
                           <button onClick={() => handleSubmitForReview(resource)} className="w-full py-2.5 rounded-xl bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30 font-bold hover:bg-[#00D4FF]/30 transition-all">Submit for Review</button>
@@ -647,28 +647,28 @@ export default function LibraryView() {
               <p className="text-[10px] font-bold text-slate-500   mb-3 px-3">Topics</p>
               <ul className="space-y-1 text-sm font-medium">
                 <li>
-                  <a href="#overview" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                  <a href="#overview" className={`flex items-center gap-3 px-3 py-2.5 rounded-full hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                     <BookOpen className="w-4 h-4 text-slate-500 group-hover:text-cyan-400" /> 
                     Overview
                     <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
                   </a>
                 </li>
                 <li>
-                  <a href="#workflows" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                  <a href="#workflows" className={`flex items-center gap-3 px-3 py-2.5 rounded-full hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                     <GitMerge className="w-4 h-4 text-slate-500 group-hover:text-[#00D4FF]" /> 
                     Workflows
                     <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
                   </a>
                 </li>
                 <li>
-                  <a href="#roles" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                  <a href="#roles" className={`flex items-center gap-3 px-3 py-2.5 rounded-full hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                     <Shield className="w-4 h-4 text-slate-500 group-hover:text-[#E30A17]" /> 
                     Role Permissions
                     <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
                   </a>
                 </li>
                 <li>
-                  <a href="#submission" className={`flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                  <a href="#submission" className={`flex items-center gap-3 px-3 py-2.5 rounded-full hover:bg-white/5/60 hover:text-white transition-all group ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                     <FileSignature className="w-4 h-4 text-slate-500 group-hover:text-[#F97316]" /> 
                     Submission Rules
                     <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -815,7 +815,7 @@ export default function LibraryView() {
             </div>
             <div className="flex justify-end gap-2">
               <button onClick={() => setReviewModalOpen(false)} className={`px-4 py-2 rounded-lg ${isDarkMode ? 'bg-[#0B1120]/10 text-white' : 'bg-slate-50 text-slate-900'}`}>Cancel</button>
-              <button onClick={handleReviewSubmit} className={`px-4 py-2 rounded-lg bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Submit</button>
+              <button onClick={handleReviewSubmit} className={`px-4 py-2 rounded-full bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Submit</button>
             </div>
           </div>
         </div>

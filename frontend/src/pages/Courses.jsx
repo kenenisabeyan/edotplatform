@@ -292,7 +292,7 @@ const CoursePopover = ({ course, rect, onMouseEnter, onMouseLeave, isDarkMode })
        </ul>
 
        <button 
-         className={`w-full font-bold py-3 rounded-md transition-all hover:-translate-y-0.5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+         className={`w-full font-bold py-3 rounded-full transition-all hover:-translate-y-0.5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
          style={{ backgroundColor: catColor, boxShadow: `0 8px 25px -4px ${catColor}80` }}
          onClick={(e) => { e.preventDefault(); e.stopPropagation(); alert('Enrolled in course!'); }}
        >
@@ -771,7 +771,7 @@ export default function Courses() {
                        <button 
                          onClick={handleLoadMore}
                          disabled={loadingMore}
-                         className={`px-10 py-3.5 rounded-lg font-bold text-[15px] transition-all flex items-center justify-center gap-3 min-w-[200px] border ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10 hover:border-white/30 hover:bg-white/5' : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-sm'}`}
+                         className={`px-10 py-3.5 rounded-full font-bold text-[15px] transition-all flex items-center justify-center gap-3 min-w-[200px] border ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10 hover:border-white/30 hover:bg-white/5' : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-sm'}`}
                        >
                          {loadingMore ? 'Loading More...' : `Show More Courses (${totalCount - courses.length})`}
                          {!loadingMore && <ChevronDown className="w-4 h-4" />}
@@ -895,7 +895,7 @@ export default function Courses() {
                  <button onClick={() => document.getElementById('course-catalog').scrollIntoView({ behavior: 'smooth' })} className="bg-[#0B1120] text-white dark:bg-white dark:text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:bg-slate-700 dark:hover:bg-slate-200 hover:-translate-y-1 transition-all duration-300 shadow-xl">
                    Explore Courses
                  </button>
-                 <Link to="/register" className="bg-[#F97316] text-[#ffffff] px-10 py-4 rounded-xl font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">
+                 <Link to="/register" className="bg-[#F97316] text-[#ffffff] px-10 py-4 rounded-full font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">
                    Start Learning <ChevronRight className="w-5 h-5" />
                  </Link>
               </div>

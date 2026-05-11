@@ -184,7 +184,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                    <option value="sponsor">Sponsor</option>
                  </select>
 
-                 <button type="submit" disabled={loadingReg} className="w-[140px] mx-auto block bg-[#5C3E08] text-white py-3 rounded-lg font-bold tracking-wide hover:bg-[#4A3206] transition-colors mt-6 text-[13px] uppercase">
+                 <button type="submit" disabled={loadingReg} className="w-[140px] mx-auto block bg-[#5C3E08] text-white py-3 rounded-full font-bold tracking-wide hover:bg-[#4A3206] transition-colors mt-6 text-[13px] uppercase">
                    {loadingReg ? '...' : 'SIGN UP'}
                  </button>
                </form>
@@ -221,7 +221,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                    <a href="#" className="text-[12px] font-medium text-slate-500 hover:text-[#5C3E08] transition-colors">Forgot your password?</a>
                  </div>
 
-                 <button type="submit" disabled={loadingLogin} className="w-[140px] mx-auto block bg-[#5C3E08] text-white py-3 rounded-lg font-bold tracking-wide hover:bg-[#4A3206] transition-colors text-[13px] uppercase">
+                 <button type="submit" disabled={loadingLogin} className="w-[140px] mx-auto block bg-[#5C3E08] text-white py-3 rounded-full font-bold tracking-wide hover:bg-[#4A3206] transition-colors text-[13px] uppercase">
                    {loadingLogin ? '...' : 'SIGN IN'}
                  </button>
                </form>

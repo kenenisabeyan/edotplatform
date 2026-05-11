@@ -353,7 +353,7 @@ export default function AttendanceManagement() {
                <button 
                   onClick={handleSave}
                   disabled={saving}
-                  className={`hover:shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:-translate-y-1 px-10 py-4 rounded-2xl font-semibold transition-all disabled:opacity-50 disabled:hover:translate-y-0 flex items-center gap-3 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                  className={`hover:shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:-translate-y-1 px-10 py-4 rounded-full font-semibold transition-all disabled:opacity-50 disabled:hover:translate-y-0 flex items-center gap-3 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                >
                   {saving ? <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div> : <Save className="w-5 h-5" />}
                   {saving ? 'Syncing...' : 'Commit Daily Log'}

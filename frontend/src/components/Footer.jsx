@@ -54,7 +54,7 @@ export default function Footer() {
 
           {/* Action Button */}
           <div className="shrink-0">
-            <Link to="/contact" className={`px-6 py-2.5 border border-[#00D4FF] bg-[#00D4FF] rounded text-sm font-bold hover:bg-[#00A3CC] transition-colors shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <Link to="/contact" className={`px-6 py-2.5 border border-[#00D4FF] bg-[#00D4FF] rounded-full text-sm font-bold hover:bg-[#00A3CC] transition-colors shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
               Contact Us
             </Link>
           </div>

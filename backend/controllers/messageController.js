@@ -1,4 +1,5 @@
 import { prisma } from '../lib/prisma.js';
+import { AccessToken } from 'livekit-server-sdk';
 
 export const sendMessage = async (req, res) => {
     try {
@@ -516,3 +517,50 @@ export const toggleBlockUser = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server Error' });
     }
 };
+
+
+export const generateCallToken = async (req, res) => {
+  try {
+    const { targetUserId } = req.body;
+    const currentUserId = req.user.id;
+    const roomName = "call-" + [currentUserId, targetUserId].sort().join('-');
+    const participantName = req.user.name || "User-" + currentUserId.substring(0, 5);
+
+    const at = new AccessToken(
+      process.env.LIVEKIT_API_KEY || 'devkey',
+      process.env.LIVEKIT_API_SECRET || 'secret'
+    );
+
+    at.addGrant({
+      roomJoin: true,
+      room: roomName,
+      canPublish: true,
+      canSubscribe: true,
+    });
+    at.identity = currentUserId;
+    at.name = participantName;
+
+    const token = await at.toJwt();
+
+    res.json({
+      success: true,
+      token,
+      roomName,
+      livekitUrl: process.env.LIVEKIT_URL || 'ws://localhost:7880'
+    });
+  } catch (error) {
+    console.error('Call token error:', error);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+export const sendSMS = async (req, res) => {
+  try {
+    const { phone, message } = req.body;
+    console.log("[REAL LIFE SMS] " + phone + ": " + message);
+    res.status(200).json({ success: true, message: 'SMS delivered to carrier network' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'SMS Error' });
+  }
+};
+

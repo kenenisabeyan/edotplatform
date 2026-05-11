@@ -383,7 +383,7 @@ export default function SponsorDashboard() {
                   <button
                     type="submit"
                     disabled={sponsorMutation.isPending}
-                    className="flex-1 rounded-xl bg-cyan-400 py-3 font-bold text-white transition hover:bg-cyan-500 disabled:opacity-50"
+                    className="flex-1 rounded-full bg-cyan-400 py-3 font-bold text-white transition hover:bg-cyan-500 disabled:opacity-50"
                   >
                     {sponsorMutation.isPending ? 'Processing...' : 'Confirm Support'}
                   </button>

@@ -137,7 +137,7 @@ export default function QuizViewer() {
             {!passed && (
               <button 
                 onClick={handleRetake}
-                className={`flex-1 px-6 py-4 border font-semibold rounded-xl hover: transition-colors flex items-center justify-center gap-2 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                className={`flex-1 px-6 py-4 border font-semibold rounded-full hover: transition-colors flex items-center justify-center gap-2 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
               >
                 <RefreshCcw className="w-4 h-4" /> Try Again
               </button>
@@ -240,7 +240,7 @@ export default function QuizViewer() {
           <button
             onClick={handlePrev}
             disabled={currentQuestion === 0}
-            className={`px-6 py-3.5 font-medium text-sm hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors border border-transparent hover:border-white/10 rounded-xl ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
+            className={`px-6 py-3.5 font-medium text-sm hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors border border-transparent hover:border-white/10 rounded-full ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}
           >
             Previous
           </button>
@@ -249,7 +249,7 @@ export default function QuizViewer() {
             <button
               onClick={handleNext}
               disabled={!isAnswered}
-              className={`px-8 py-3.5 font-semibold rounded-xl hover: transition-all flex items-center gap-2 border disabled:opacity-30 disabled:cursor-not-allowed bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`px-8 py-3.5 font-semibold rounded-full hover: transition-all flex items-center gap-2 border disabled:opacity-30 disabled:cursor-not-allowed bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
             >
               Next <ArrowRight className="w-4 h-4" />
             </button>
@@ -257,7 +257,7 @@ export default function QuizViewer() {
             <button
               onClick={handleSubmit}
               disabled={!allAnswered || submitting}
-              className={`px-8 py-3.5 ] font-semibold rounded-xl hover:scale-105 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`px-8 py-3.5 ] font-semibold rounded-full hover:scale-105 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
             >
               {submitting ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />} 
               {submitting ? 'Submitting...' : 'Submit'}

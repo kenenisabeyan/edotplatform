@@ -20,12 +20,30 @@ export default function CalendarView() {
 
   const fetchEvents = async () => {
     try {
-      const { data } = await api.get('/calendar');
-      if (data.data) {
-         setEvents(data.data);
+      const [{ data: calendarData }, { data: liveData }] = await Promise.all([
+        api.get('/calendar').catch(() => ({ data: { data: [] } })),
+        api.get('/live-classes').catch(() => ({ data: { data: [] } }))
+      ]);
+
+      let allEvents = [];
+      if (calendarData?.data) {
+         allEvents = [...calendarData.data];
       }
+      
+      if (liveData?.data) {
+         const liveEvents = liveData.data.map(lc => ({
+            id: lc.id,
+            title: `🔴 ${lc.title || 'Live Session'}`,
+            date: new Date(lc.startTime).toISOString().split('T')[0],
+            time: new Date(lc.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            color: 'bg-orange-500/10 text-orange-400 border-orange-500/30'
+         }));
+         allEvents = [...allEvents, ...liveEvents];
+      }
+
+      setEvents(allEvents);
     } catch (err) {
-      console.error('Failed to fetch calendar events', err);
+      console.error('Failed to fetch events', err);
     }
   };
 
@@ -93,8 +111,8 @@ export default function CalendarView() {
            </div>
            
            <div className={`flex gap-2 p-1.5 rounded-xl border shadow-inner ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
-              <button className={`px-5 py-2 font-semibold rounded-lg bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Month</button>
-              <button className={`px-5 py-2 text-[10px] font-medium rounded-lg transition-colors text-sm ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>Week</button>
+              <button className={`px-5 py-2 font-semibold rounded-full bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Month</button>
+              <button className={`px-5 py-2 text-[10px] font-medium rounded-full transition-colors text-sm ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>Week</button>
            </div>
          </div>
 

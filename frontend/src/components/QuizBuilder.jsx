@@ -87,7 +87,7 @@ export default function QuizBuilder({ quiz, setQuiz, title = "Mini-Quiz Question
       <button 
         type="button"
         onClick={addQuestion}
-        className={`text-sm font-semibold border px-4 py-2 rounded-xl flex items-center justify-center gap-2 w-full mt-2 transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+        className={`text-sm font-semibold border px-4 py-2 rounded-full flex items-center justify-center gap-2 w-full mt-2 transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
       >
         <PlusCircle className="w-4 h-4" /> Add Question
       </button>

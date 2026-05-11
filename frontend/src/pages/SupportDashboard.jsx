@@ -258,7 +258,7 @@ export default function SupportDashboard() {
                 <input 
                   type="text" 
                   placeholder="Search learners securely..."
-                  className={`w-full !pl-14 !pr-4 !py-3 border !rounded-full focus:outline-none transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white focus:border-indigo-500/50' : 'bg-slate-50 border-slate-200 text-slate-900 focus:border-indigo-500'}`}
+                  className={`w-full !pl-14 !pr-4 !py-3 border !rounded-full-full focus:outline-none transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white focus:border-indigo-500/50' : 'bg-slate-50 border-slate-200 text-slate-900 focus:border-indigo-500'}`}
                 />
               </div>
             </div>
@@ -464,7 +464,7 @@ export default function SupportDashboard() {
                  <button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className={`w-full py-4 rounded-full font-black text-sm flex justify-center items-center gap-2 ${isSubmitting ? 'bg-indigo-600/50 /50 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all hover:scale-[1.02]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                    className={`w-full py-4 rounded-full-full font-black text-sm flex justify-center items-center gap-2 ${isSubmitting ? 'bg-indigo-600/50 /50 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all hover:scale-[1.02]'} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                  >
                     {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <><ShieldCheck className="w-5 h-5" /> Initialize Secure Link</>}
                  </button>

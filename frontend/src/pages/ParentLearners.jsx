@@ -110,7 +110,7 @@ export default function ParentLearners() {
           <button 
             onClick={handleConnectLearner}
             disabled={connecting || !connectEmail}
-            className={`absolute right-2 top-2 bottom-2 font-semibold text-sm px-6 !rounded-full hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+            className={`absolute right-2 top-2 bottom-2 font-semibold text-sm px-6 !rounded-full-full hover:scale-105 transition-all disabled:opacity-50 disabled:hover:scale-100 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
           >
             {connecting ? 'Linking...' : 'Connect'}
           </button>
@@ -144,7 +144,7 @@ export default function ParentLearners() {
             <button 
               onClick={handleConnectLearner}
               disabled={connecting || !connectEmail}
-              className={`absolute right-2 top-2 bottom-2 text-sm font-semibold px-4 !rounded-full hover:scale-105 transition-all disabled:opacity-50 disabled:transform-none bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`absolute right-2 top-2 bottom-2 text-sm font-semibold px-4 !rounded-full-full hover:scale-105 transition-all disabled:opacity-50 disabled:transform-none bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
             >
               {connecting ? '...' : 'Add'}
             </button>
@@ -399,14 +399,14 @@ export default function ParentLearners() {
                                      {/* Call to action */}
                                      {insight.insightFlag === 'Critical' && (
                                         <div className="flex items-center justify-center md:items-start shrink-0">
-                                           <button className={`font-semibold text-sm px-6 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 whitespace-nowrap bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                                           <button className={`font-semibold text-sm px-6 py-3 rounded-full transition-all hover:scale-105 active:scale-95 whitespace-nowrap bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                                               Take Action
                                            </button>
                                         </div>
                                      )}
                                      {insight.insightFlag === 'Warning' && (
                                         <div className="flex items-center justify-center md:items-start shrink-0">
-                                           <button className={`border font-semibold text-sm px-6 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 whitespace-nowrap bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                                           <button className={`border font-semibold text-sm px-6 py-3 rounded-full transition-all hover:scale-105 active:scale-95 whitespace-nowrap bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                                               Message Instructor
                                            </button>
                                         </div>

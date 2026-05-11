@@ -6,7 +6,7 @@ import api from '../utils/api';
 import { 
   Users, Layers, Radio, PlusCircle, Edit3, Settings, LogOut, 
   FolderOpen, LayoutDashboard, Clock, CheckCircle2, 
-  AlertCircle, XSquare, PlayCircle, Send, Search, Bell, Activity
+  AlertCircle, XSquare, PlayCircle, Send, Search, Bell, Activity, Video
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
@@ -420,7 +420,7 @@ export default function InstructorDashboard() {
                    </button>
                    <button 
                     type="submit" 
-                    className={`px-8 py-3.5 font-semibold rounded-xl hover:-translate-y-0.5 transition-transform order-1 sm:order-2 bg-[#F97316] hover:bg-[#00A3CC] shadow-md border border-[#F97316] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                    className={`px-8 py-3.5 font-semibold rounded-full hover:-translate-y-0.5 transition-transform order-1 sm:order-2 bg-[#F97316] hover:bg-[#00A3CC] shadow-md border border-[#F97316] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                    >
                      Initialize Protocol
                    </button>
@@ -464,6 +464,9 @@ export default function InstructorDashboard() {
              <button onClick={() => navigate('/instructor/builder')} className={navItemClass('create')}>
                <PlusCircle className="w-4 h-4 shrink-0" /> Generate Construct
              </button>
+             <button onClick={() => navigate('/dashboard/live-classes')} className={navItemClass('live-classes')}>
+               <Video className="w-4 h-4 shrink-0" /> Live Classes
+             </button>
            </nav>
            
            <p className="text-xs font-bold text-slate-500   mt-8 mb-4">Preference</p>
@@ -477,7 +480,7 @@ export default function InstructorDashboard() {
         <div className="p-6 mt-auto">
           <button 
             onClick={handleLogout}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:text-red-400 hover:bg-red-400/10 border border-transparent transition-colors font-medium text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-full hover:text-red-400 hover:bg-red-400/10 border border-transparent transition-colors font-medium text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
           >
             <LogOut className="w-4 h-4 shrink-0" /> Terminate Link
           </button>
@@ -493,7 +496,7 @@ export default function InstructorDashboard() {
             <div className="relative w-full max-w-sm">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
               <input type="text" placeholder="Global Search (Students, Courses, Messages)..." 
-                className={`w-full !pl-10 !pr-20 !py-2.5 border !rounded-full text-xs outline-none focus:ring-1 focus:ring-white/10 transition-all font-medium placeholder:text-slate-500 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
+                className={`w-full !pl-10 !pr-20 !py-2.5 border !rounded-full-full text-xs outline-none focus:ring-1 focus:ring-white/10 transition-all font-medium placeholder:text-slate-500 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
               <div className={`absolute right-2 top-1/2 -translate-y-1/2 bg-[#1A1E26] text-[9px] px-2 py-1 rounded font-bold border ${isDarkMode ? 'text-slate-400 border-white/5' : 'text-slate-500 border-slate-100'}`}>
                 CTRL + K
               </div>
@@ -600,7 +603,7 @@ export default function InstructorDashboard() {
                 </button>
                 <button 
                   type="submit" 
-                  className={`flex-1 py-4 px-6 font-semibold rounded-xl border hover:-translate-y-0.5 transition-transform bg-[#F97316] hover:bg-[#00A3CC] shadow-md border-[#F97316] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                  className={`flex-1 py-4 px-6 font-semibold rounded-full border hover:-translate-y-0.5 transition-transform bg-[#F97316] hover:bg-[#00A3CC] shadow-md border-[#F97316] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                 >
                   Compile Node
                 </button>

@@ -28,7 +28,8 @@ import {
   TrendingUp,
   HeartHandshake,
   ShieldCheck,
-  Target
+  Target,
+  Video
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationBell from './NotificationBell';
@@ -179,6 +180,7 @@ export default function EDOTLayout() {
         { name: 'All Users', icon: Users, path: '/dashboard/users' },
         { name: 'Teachers', icon: UserSquare, path: '/dashboard/teachers' },
         { name: 'Students', icon: Users, path: '/dashboard/students' },
+        { name: 'Live Classes', icon: Video, path: '/dashboard/live-classes' },
         { name: 'Attendance', icon: ClipboardCheck, path: '/dashboard/attendance' },
       ],
       menu2: [
@@ -204,6 +206,7 @@ export default function EDOTLayout() {
         { name: 'Manage Courses', icon: ClipboardCheck, path: '/dashboard/my-courses' },
         { name: 'Students', icon: Users, path: '/dashboard/students' },
         { name: 'Attendance', icon: ClipboardCheck, path: '/dashboard/attendance' },
+        { name: 'Live Classes', icon: Video, path: '/dashboard/live-classes' },
       ],
       menu2: [
         { name: 'Library', icon: BookOpen, path: '/dashboard/library' },
@@ -226,6 +229,7 @@ export default function EDOTLayout() {
         { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
         { name: 'My Courses', icon: BookOpen, path: '/dashboard/courses' },
         { name: 'Study Goal', icon: Target, path: '/dashboard/study-goal' },
+        { name: 'Live Classes', icon: Video, path: '/dashboard/live-classes' },
         { name: 'Achievements', icon: Award, path: '/dashboard/achievements' },
         { name: 'Schedule', icon: CalendarDays, path: '/dashboard/schedule' },
       ],
@@ -398,7 +402,7 @@ export default function EDOTLayout() {
         <div className={`p-4 border-t mt-auto ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
           <button 
             onClick={handleLogout}
-            className={`w-full flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl hover:bg-rose-500/100/10 hover:text-rose-400 transition-colors font-medium ${sidebarCollapsed ? 'md:px-0' : ''} ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
+            className={`w-full flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-full hover:bg-rose-500/100/10 hover:text-rose-400 transition-colors font-medium ${sidebarCollapsed ? 'md:px-0' : ''} ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
           >
             <LogOut className="w-5 h-5 shrink-0" />
             {!sidebarCollapsed && <span className="animate-in fade-in">Log out</span>}
@@ -425,7 +429,7 @@ export default function EDOTLayout() {
              <input 
                type="text" 
                placeholder="Search courses, lessons..." 
-               className={`w-full pl-10 pr-4 py-2.5 rounded-xl text-sm font-medium transition-colors outline-none focus:ring-2 focus:ring-[#F97316]/50 ${isDarkMode ? 'bg-[#121A2F] text-white placeholder-slate-500' : 'bg-slate-100/50 text-slate-900 placeholder-slate-400 focus:bg-white'}`}
+               className={`w-full pl-10 pr-4 py-2.5 rounded-full text-sm font-medium transition-colors outline-none focus:ring-2 focus:ring-[#F97316]/50 ${isDarkMode ? 'bg-[#121A2F] text-white placeholder-slate-500' : 'bg-slate-100/50 text-slate-900 placeholder-slate-400 focus:bg-white'}`}
              />
           </div>
           
@@ -511,7 +515,7 @@ export default function EDOTLayout() {
                     <div className={`h-px my-2 mx-2 ${isDarkMode ? 'bg-[#0B1120]/10' : 'bg-slate-50'}`}></div>
                     <button 
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-rose-400 hover:bg-rose-500/100/10 transition-colors text-left"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 rounded-full text-sm font-medium text-rose-400 hover:bg-rose-500/100/10 transition-colors text-left"
                     >
                       <LogOut className="w-4 h-4" /> Log Out
                     </button>

@@ -28,6 +28,7 @@ import EDOTDashboard from './pages/EDOTDashboard';
 import TeachersList from './pages/TeachersList';
 import StudentsList from './pages/StudentsList';
 import FinanceFees from './pages/FinanceFees';
+import FinanceExpenses from './pages/FinanceExpenses';
 import CalendarView from './pages/CalendarView';
 import MessagesView from './pages/MessagesView';
 import StudentCourses from './pages/StudentCourses';
@@ -49,6 +50,7 @@ import UsersManagement from './pages/UsersManagement';
 import SectionManagement from './pages/SectionManagement';
 import SupportDashboard from './pages/SupportDashboard';
 import SponsorDashboard from './pages/SponsorDashboard';
+import LiveClassesView from './pages/LiveClassesView';
 import EcosystemView from './pages/EcosystemView';
 import StudyGoalView from './pages/StudyGoalView';
 import AchievementsView from './pages/AchievementsView';
@@ -180,7 +182,7 @@ export default function App() {
             <Route path="revenue" element={<Revenue />} />
             <Route path="analytics" element={<AnalyticsReport />} />
             <Route path="finance/fees" element={<FinanceFees />} />
-            <Route path="finance/expenses" element={<div className={`p-8 font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Expenses page under construction...</div>} />
+            <Route path="finance/expenses" element={<FinanceExpenses />} />
           </Route>
 
           {/* Admin & Instructor Routes */}
@@ -220,6 +222,7 @@ export default function App() {
           <Route path="study-goal" element={<StudyGoalView />} />
           <Route path="achievements" element={<AchievementsView />} />
           <Route path="profile" element={<ProfileView />} />
+          <Route path="live-classes" element={<LiveClassesView />} />
           {/* Sponsor Only Routes */}
           <Route element={<ProtectedRoute allowedRoles={['sponsor']} />}>
             <Route path="sponsor" element={<SponsorDashboard />} />

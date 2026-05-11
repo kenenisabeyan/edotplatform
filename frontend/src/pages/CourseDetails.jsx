@@ -18,7 +18,8 @@ import {
   Lock,
   Unlock,
   BookOpen,
-  ArrowRight
+  ArrowRight,
+  Video
 } from 'lucide-react';
 import useThemeMode from '../hooks/useThemeMode';
 
@@ -108,7 +109,7 @@ export default function CourseDetails() {
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <Link to="/courses" className="inline-flex items-center gap-2 text-xs font-black text-[#F97316] hover:text-white transition-colors mb-10   bg-[#F97316]/10 px-4 py-2 rounded-full border border-[#F97316]/20 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)]">
+          <Link to="/courses" className="inline-flex items-center gap-2 text-xs font-black text-[#F97316] hover:text-white transition-colors mb-10   bg-[#F97316]/10 px-4 py-2 rounded-full-full border border-[#F97316]/20 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)]">
             <ArrowLeft className="w-4 h-4" /> Back to Catalog
           </Link>
 
@@ -333,12 +334,20 @@ export default function CourseDetails() {
                     {/* Action Button Logic */}
                     <div className="relative z-10 block">
                         {enrollmentStatus === 'active' ? (
-                          <Link 
-                            to={`/lesson/${course.lessons[0]?.id}?courseId=${course.id}`}
-                            className="w-full relative z-10 flex border-[1px] border-orange-300 items-center justify-center bg-gradient-to-r from-orange-500/10 to-[#F97316] text-[#05070A] font-black   py-5 rounded-2xl hover:scale-[1.03] transition-all shadow-[0_0_30px_rgba(249,115,22,0.4)] text-sm"
-                          >
-                            Start Learning
-                          </Link>
+                          <div className="space-y-4">
+                            <Link 
+                              to={`/lesson/${course.lessons[0]?.id}?courseId=${course.id}`}
+                              className="w-full relative z-10 flex border-[1px] border-orange-300 items-center justify-center bg-gradient-to-r from-orange-500/10 to-[#F97316] text-[#05070A] font-black   py-5 rounded-full hover:scale-[1.03] transition-all shadow-[0_0_30px_rgba(249,115,22,0.4)] text-sm"
+                            >
+                              Start Learning
+                            </Link>
+                            <Link 
+                              to={`/dashboard/live-classes`}
+                              className="w-full relative z-10 flex border-[1px] border-[#00D4FF]/50 items-center justify-center bg-gradient-to-r from-[#00D4FF]/10 to-[#00D4FF]/20 text-[#00D4FF] font-black   py-5 rounded-full hover:scale-[1.03] transition-all shadow-[0_0_20px_rgba(0,212,255,0.2)] text-sm"
+                            >
+                              <Video className="w-4 h-4 mr-2" /> Live Sessions
+                            </Link>
+                          </div>
                         ) : enrollmentStatus === 'pending' ? (
                           <div className="w-full relative z-10 flex items-center justify-center gap-3 bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/30 font-black   py-5 rounded-2xl opacity-90 cursor-wait shadow-[inset_0_0_20px_rgba(249,115,22,0.2)] text-sm">
                             <Clock className="w-5 h-5" /> Pending Approval
@@ -351,7 +360,7 @@ export default function CourseDetails() {
                           <button 
                             onClick={handleEnroll}
                             disabled={enrolling}
-                            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-transparent to-[#00D4FF]/20 border border-[#F97316] text-[#F97316] font-semibold py-5 rounded-2xl hover:bg-[#F97316] hover:text-[#0B1120] transition-all shadow-[0_0_30px_rgba(0,212,255,0.3)] disabled:opacity-50 hover:scale-[1.03] text-sm"
+                            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-transparent to-[#00D4FF]/20 border border-[#F97316] text-[#F97316] font-semibold py-5 rounded-full hover:bg-[#F97316] hover:text-[#0B1120] transition-all shadow-[0_0_30px_rgba(0,212,255,0.3)] disabled:opacity-50 hover:scale-[1.03] text-sm"
                           >
                             {enrolling ? 'Processing...' : 'Enroll Now'} <ArrowRight className="w-5 h-5"/>
                           </button>

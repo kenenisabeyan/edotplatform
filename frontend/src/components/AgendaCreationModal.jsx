@@ -223,14 +223,14 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
 
         {/* Footer */}
         <div className={`p-6 border-t shrink-0 bg-transparent rounded-b-3xl flex justify-end gap-3 glass-card ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-           <button type="button" onClick={onClose} className={`px-6 py-2.5 rounded-xl font-medium hover:text-white hover:bg-white/5/5 transition-colors text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+           <button type="button" onClick={onClose} className={`px-6 py-2.5 rounded-full font-medium hover:text-white hover:bg-white/5/5 transition-colors text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
               Cancel
            </button>
            <button 
              type="submit" 
              form="agendaForm" 
              disabled={loading}
-             className={`px-8 py-2.5 rounded-xl font-semibold transition-colors disabled:opacity-50 flex items-center gap-2 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+             className={`px-8 py-2.5 rounded-full font-semibold transition-colors disabled:opacity-50 flex items-center gap-2 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
            >
               {loading && <div className="w-4 h-4 border-2 border-[#0B1120] border-t-transparent rounded-full animate-spin"></div>}
               Broadcast

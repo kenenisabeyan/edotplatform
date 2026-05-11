@@ -158,7 +158,7 @@ router.get('/dashboard-stats', protect, async (req, res) => {
                     include: { lessons: true }
                 } 
             },
-            orderBy: { updatedAt: 'desc' },
+            orderBy: { enrolledAt: 'desc' },
             take: 3
         });
         

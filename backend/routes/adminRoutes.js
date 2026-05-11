@@ -1024,7 +1024,6 @@ router.get('/dashboard', async (req, res) => {
             });
 
         const instructorCourses = await prisma.course.findMany({
-            where: { instructorId: { not: null } },
             select: { id: true, instructorId: true, totalStudents: true, title: true }
         });
 

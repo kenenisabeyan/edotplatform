@@ -85,7 +85,7 @@ export default function StudyGoalView() {
                   className="w-16 px-2 py-1 text-xs border rounded-md dark:bg-slate-800 dark:border-slate-700"
                   placeholder={studyGoal}
                 />
-                <button onClick={handleSaveGoal} className="text-xs px-2 py-1 bg-emerald-500 text-white rounded-md font-bold hover:bg-emerald-600">Save</button>
+                <button onClick={handleSaveGoal} className="text-xs px-2 py-1 bg-emerald-500 text-white rounded-full font-bold hover:bg-emerald-600">Save</button>
                 <button onClick={() => setIsEditing(false)} className="text-xs px-2 py-1 bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300 rounded-md font-bold">Cancel</button>
               </div>
             ) : (

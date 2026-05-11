@@ -185,7 +185,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
           <div className={`shrink-0 pt-4 mt-1 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
             <button 
               onClick={onCreateClick} 
-              className={`w-full py-2.5 text-sm font-semibold rounded-xl border transition-all hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`w-full py-2.5 text-sm font-semibold rounded-full border transition-all hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
             >
               + Create Agenda Event
             </button>

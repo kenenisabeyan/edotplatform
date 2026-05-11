@@ -78,6 +78,14 @@ model User {
 
   connectionRequestsSent     ConnectionRequest[] @relation("Requester")
   connectionRequestsReceived ConnectionRequest[] @relation("Target")
+
+  liveClassesTaught    LiveClass[]           @relation("LiveClassInstructor")
+  liveClassAttendances LiveClassAttendance[] @relation("LiveClassAttendee")
+  recordedClasses      RecordedClass[]       @relation("RecordedClassInstructor")
+  
+  recordingPermissions RecordingPermission[] @relation("RecordingPermissions")
+  grantedPermissions   RecordingPermission[] @relation("GrantedPermissions")
+  watchHistory         WatchHistory[]        @relation("WatchHistoryStudent")
 }
 
 model UserCourseProgress {
@@ -122,6 +130,8 @@ model Course {
   materials          Json?
   lessonsEmbedded    Json?
   lessons            Lesson[] @relation("CourseLessons")
+  liveClasses        LiveClass[]
+  recordedClasses    RecordedClass[]
   
   requirements       String[]
   whatYouWillLearn   String[]
@@ -661,6 +671,108 @@ model Quiz {
   title       String
   questions   Json     // Array of { question, options, correctAnswer, score }
   
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model LiveClass {
+  id               String   @id @default(uuid())
+  courseId         String
+  course           Course   @relation(fields: [courseId], references: [id])
+  instructorId     String
+  instructor       User     @relation("LiveClassInstructor", fields: [instructorId], references: [id])
+  title            String
+  description      String?
+  scheduledAt      DateTime
+  durationMinutes  Int      @default(60)
+  meetLink         String?
+  googleEventId    String?
+  status           String   @default("scheduled") // scheduled, live, completed, cancelled
+  
+  attendances      LiveClassAttendance[]
+  recordings       RecordedClass[]
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  
+  @@index([courseId])
+  @@index([instructorId])
+}
+
+model LiveClassAttendance {
+  id            String   @id @default(uuid())
+  liveClassId   String
+  liveClass     LiveClass @relation(fields: [liveClassId], references: [id], onDelete: Cascade)
+  studentId     String
+  student       User     @relation("LiveClassAttendee", fields: [studentId], references: [id])
+  joinedAt      DateTime @default(now())
+  durationStayed Int      @default(0) // in minutes
+  
+  @@unique([liveClassId, studentId])
+}
+
+model RecordedClass {
+  id                 String   @id @default(uuid())
+  courseId           String
+  course             Course   @relation(fields: [courseId], references: [id])
+  instructorId       String
+  instructor         User     @relation("RecordedClassInstructor", fields: [instructorId], references: [id])
+  liveClassId        String?
+  liveClass          LiveClass? @relation(fields: [liveClassId], references: [id])
+  
+  title              String
+  description        String?
+  videoUrl           String
+  thumbnail          String?  @default("default-video-thumb.jpg")
+  duration           Int?     @default(0) // in minutes
+  
+  isPublic           Boolean  @default(false)
+  requiresPermission Boolean  @default(true)
+  
+  permissions        RecordingPermission[]
+  watchHistory       WatchHistory[]
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  @@index([courseId])
+  @@index([instructorId])
+}
+
+model RecordingPermission {
+  id               String   @id @default(uuid())
+  recordedClassId  String
+  recordedClass    RecordedClass @relation(fields: [recordedClassId], references: [id], onDelete: Cascade)
+  studentId        String
+  student          User     @relation("RecordingPermissions", fields: [studentId], references: [id], onDelete: Cascade)
+  grantedAt        DateTime @default(now())
+  grantedById      String?
+  grantedBy        User?    @relation("GrantedPermissions", fields: [grantedById], references: [id])
+  expiresAt        DateTime?
+  
+  @@unique([recordedClassId, studentId])
+}
+
+model WatchHistory {
+  id               String   @id @default(uuid())
+  recordedClassId  String
+  recordedClass    RecordedClass @relation(fields: [recordedClassId], references: [id], onDelete: Cascade)
+  studentId        String
+  student          User     @relation("WatchHistoryStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  lastWatchedAt    DateTime @default(now())
+  progressSeconds  Int      @default(0)
+  completed        Boolean  @default(false)
+  
+  @@unique([recordedClassId, studentId])
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  category    String
+  description String
+  amount      Float
+  status      String   @default("paid")
+  date        DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

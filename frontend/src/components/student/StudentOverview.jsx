@@ -305,7 +305,7 @@ const StudentOverview = ({
                       </div>
                       <button
                         onClick={openCertificatePage}
-                        className="px-4 py-2 rounded-xl text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white"
+                        className="px-4 py-2 rounded-full text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white"
                       >
                         View Details
                       </button>
@@ -496,7 +496,7 @@ const StudentOverview = ({
                  ))}
                  <button 
                    onClick={toggleCertificateDropdown}
-                   className={`w-full py-2.5 mt-2 rounded-[10px] font-bold text-[12px] transition-all bg-[#10B981] hover:bg-[#059669] text-white shadow-sm flex items-center justify-center gap-2`}
+                   className={`w-full py-2.5 mt-2 rounded-full-[10px] font-bold text-[12px] transition-all bg-[#10B981] hover:bg-[#059669] text-white shadow-sm flex items-center justify-center gap-2`}
                  >
                    View All Certificates <span className="text-[14px]">→</span>
                  </button>
@@ -639,7 +639,7 @@ const StudentOverview = ({
                   {enrollment.progress || 0}%
                 </div>
 
-                <button className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400">
+                <button className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-400">
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>

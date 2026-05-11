@@ -41,7 +41,7 @@ export default function InstructorClasses() {
           </h1>
           <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Manage and edit your active courses and classes.</p>
         </div>
-        <Link to="/dashboard/builder" className={`inline-flex items-center gap-2 px-6 py-3 font-black rounded-xl hover:-translate-y-0.5 transition-transform bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+        <Link to="/dashboard/builder" className={`inline-flex items-center gap-2 px-6 py-3 font-black rounded-full hover:-translate-y-0.5 transition-transform bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
           <PlusCircle className="w-4 h-4" /> Create New Course
         </Link>
       </div>
@@ -53,7 +53,7 @@ export default function InstructorClasses() {
             </div>
             <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No classes yet</h3>
             <p className={`max-w-sm mb-6 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Create your first course to start teaching.</p>
-            <Link to="/dashboard/builder" className={`px-8 py-3.5 font-black text-xs rounded-xl hover:-translate-y-0.5 transition-transform bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+            <Link to="/dashboard/builder" className={`px-8 py-3.5 font-black text-xs rounded-full hover:-translate-y-0.5 transition-transform bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
               Create Course
             </Link>
           </div>
@@ -90,7 +90,7 @@ export default function InstructorClasses() {
                 <div className="w-full md:w-auto md:pl-6 md:border-l md:border-white/10 shrink-0 pt-4 md:pt-0 relative z-10">
                   <Link 
                     to={`/dashboard/builder/${course.id}`} 
-                    className={`w-full inline-flex justify-center items-center gap-2 px-6 py-3 font-black rounded-xl border transition-colors drop-shadow-md bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                    className={`w-full inline-flex justify-center items-center gap-2 px-6 py-3 font-black rounded-full border transition-colors drop-shadow-md bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                   >
                     Edit Course
                   </Link>

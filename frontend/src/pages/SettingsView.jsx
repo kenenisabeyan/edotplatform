@@ -222,7 +222,7 @@ export default function SettingsView() {
           <button 
             onClick={handleSave} 
             disabled={saving}
-            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-xl hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+            className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm rounded-full hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
           >
             {saving ? <div className="w-4 h-4 border-2 border-[#0B1120]/30 border-t-[#0B1120] rounded-full animate-spin"></div> : <Save className="w-4 h-4" />}
             {saving ? 'Comitting...' : 'Apply Changes'}
@@ -313,14 +313,14 @@ export default function SettingsView() {
                     <h4 className={`font-bold text-sm flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}><Fingerprint className={`w-4 h-4 ${isDarkMode ? 'text-[#F97316]' : 'text-indigo-600'}`}/> Biometric / Two-Factor Protocol</h4>
                     <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Currently utilizing standard credential validation. We recommend enabling 2FA.</p>
                   </div>
-                  <button type="button" className={`px-5 py-2.5 border font-semibold rounded-lg transition-all shrink-0 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Enable 2FA</button>
+                  <button type="button" className={`px-5 py-2.5 border font-semibold rounded-full transition-all shrink-0 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Enable 2FA</button>
                 </div>
                 <div className={`p-6 rounded-2xl border flex flex-col justify-center gap-4 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
                   <div>
                     <h4 className="font-bold text-rose-500 text-sm ">Device Sessions</h4>
                     <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>1 active session on Windows NT 10.0; Win64.</p>
                   </div>
-                  <button type="button" className={`w-max px-5 py-2.5 border font-semibold rounded-lg transition-all bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Terminate All Other Sessions</button>
+                  <button type="button" className={`w-max px-5 py-2.5 border font-semibold rounded-full transition-all bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Terminate All Other Sessions</button>
                 </div>
               </>
             )}
@@ -481,7 +481,7 @@ export default function SettingsView() {
                       type="button"
                       onClick={handleConnectParent}
                       disabled={connecting}
-                      className={`px-6 py-3.5 font-semibold rounded-xl hover:shadow-[0_0_15px_rgba(0,138,50,0.4)] hover:-translate-y-0.5 transition-all disabled:opacity-50 shrink-0 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                      className={`px-6 py-3.5 font-semibold rounded-full hover:shadow-[0_0_15px_rgba(0,138,50,0.4)] hover:-translate-y-0.5 transition-all disabled:opacity-50 shrink-0 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                     >
                       {connecting ? 'Linking...' : 'Establish Link'}
                     </button>

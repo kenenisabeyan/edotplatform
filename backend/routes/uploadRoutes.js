@@ -35,6 +35,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
             cloudinary.uploader.upload_large(req.file.path, {
                 folder: folder,
                 resource_type: 'auto',
+                type: isVideo ? 'authenticated' : 'upload',
                 chunk_size: 6000000 // 6MB chunks to avoid payload size limit
             }, (error, result) => {
                 if (error) reject(error);

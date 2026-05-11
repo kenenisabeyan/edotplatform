@@ -157,7 +157,7 @@ export default function NoticeView() {
                 <button 
                   type="submit" 
                   disabled={submitting}
-                  className={`flex items-center justify-center gap-2 px-8 py-3.5 font-semibold rounded-xl hover:shadow-[0_0_20px_rgba(227,10,23,0.4)] hover:-translate-y-0.5 transition-all disabled:opacity-50 min-w-[200px] bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                  className={`flex items-center justify-center gap-2 px-8 py-3.5 font-semibold rounded-full hover:shadow-[0_0_20px_rgba(227,10,23,0.4)] hover:-translate-y-0.5 transition-all disabled:opacity-50 min-w-[200px] bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                 >
                   {submitting ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : <Send className="w-4 h-4" />}
                   {submitting ? 'Publishing...' : 'Publish Notice'}

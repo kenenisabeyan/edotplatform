@@ -34,6 +34,8 @@ import connectionRoutes from './routes/connectionRoutes.js';
 import materialRoutes from './routes/materialRoutes.js';
 import quizRoutes from './routes/quizRoutes.js';
 import newDashboardRoutes from './routes/newDashboardRoutes.js';
+import liveClassRoutes from './routes/liveClassRoutes.js';
+import expenseRoutes from './routes/expenseRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -103,7 +105,9 @@ app.use('/api/sponsor', sponsorRoutes);
 app.use('/api/connections', connectionRoutes);
 app.use('/api/materials', materialRoutes);
 app.use('/api/quizzes', quizRoutes);
+app.use('/api/live-classes', liveClassRoutes);
 app.use('/api', newDashboardRoutes);
+app.use('/api/expenses', expenseRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

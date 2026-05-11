@@ -124,7 +124,7 @@ const CoursePlayerPage = () => {
                     href={mat.fileUrl} 
                     target="_blank" 
                     rel="noreferrer"
-                    className="flex items-center gap-4 p-4 rounded-lg bg-gray-800/50 border border-gray-700 hover:border-orange-500/50 transition-colors group"
+                    className="flex items-center gap-4 p-4 rounded-full bg-gray-800/50 border border-gray-700 hover:border-orange-500/50 transition-colors group"
                   >
                     <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center shrink-0 group-hover:bg-orange-500/20">
                       <File className="w-5 h-5 text-orange-500" />

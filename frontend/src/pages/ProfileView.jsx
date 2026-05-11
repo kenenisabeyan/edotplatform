@@ -372,7 +372,7 @@ export default function ProfileView() {
                    <button 
                      type="submit" 
                      disabled={updating}
-                     className={`flex items-center gap-2 px-8 py-3.5 font-semibold text-sm rounded-xl hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] hover:-translate-y-0.5 transition-all disabled:opacity-50 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                     className={`flex items-center gap-2 px-8 py-3.5 font-semibold text-sm rounded-full hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] hover:-translate-y-0.5 transition-all disabled:opacity-50 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                    >
                      <Save className="w-4 h-4" />
                      {updating ? 'Committing...' : 'Commit Changes'}

@@ -316,7 +316,7 @@ export default function About() {
             </p>
 
             <div className="flex justify-center">
-               <Link to="/register" className="bg-[#F97316] text-[#ffffff] px-12 py-5 rounded-xl font-black text-xl hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center gap-3">
+               <Link to="/register" className="bg-[#F97316] text-[#ffffff] px-12 py-5 rounded-full font-black text-xl hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center gap-3">
                  Join the Mission <ChevronRight className="w-6 h-6" />
                </Link>
             </div>

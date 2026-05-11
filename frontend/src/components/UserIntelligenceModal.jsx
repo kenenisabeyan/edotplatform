@@ -285,7 +285,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                   </span>
                 </div>
               </div>
-              <button onClick={onClose} className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close Detial</button>
+              <button onClick={onClose} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close Detial</button>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5 shrink-0">
@@ -522,11 +522,11 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                         <button onClick={() => manualEnrollment(courseToEnroll, 'active')} className="px-4 py-2 font-bold   bg-blue-600/20 text-blue-300 border border-blue-600/30 hover:bg-blue-600/40 rounded-xl text-[10px] transition-colors shrink-0">Force Enroll</button>
                       </div>
                       <div className={`flex flex-wrap gap-2 pt-2 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                        <button onClick={resetUserProgress} className={`px-4 py-2 font-semibold border rounded-xl transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reset Progress</button>
+                        <button onClick={resetUserProgress} className={`px-4 py-2 font-semibold border rounded-full transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reset Progress</button>
                         {selectedUser.status === 'blocked' ? (
                           <button onClick={async () => await updateUserStatus('approved')} className="px-4 py-2 font-bold   bg-emerald-500/100/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/100/40 rounded-xl text-[10px] transition-colors">Unblock Service</button>
                         ) : (
-                          <button onClick={blockService} className={`px-4 py-2 font-semibold border rounded-xl transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Block Service</button>
+                          <button onClick={blockService} className={`px-4 py-2 font-semibold border rounded-full transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Block Service</button>
                         )}
                       </div>
                     </div>
@@ -546,7 +546,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                       </div>
 
                       <div className={`pt-4 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                        <button onClick={toggleInstructorAccess} className={`w-full py-3 rounded-xl text-xs font-bold   border transition-colors ${selectedUser.status === 'approved' ? 'bg-amber-500/100/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/100/20' : 'bg-emerald-500/100/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/100/20'}`}>
+                        <button onClick={toggleInstructorAccess} className={`w-full py-3 rounded-full text-xs font-bold   border transition-colors ${selectedUser.status === 'approved' ? 'bg-amber-500/100/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/100/20' : 'bg-emerald-500/100/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/100/20'}`}>
                           {selectedUser.status === 'approved' ? 'Disable System Upload Access' : 'Reactivate Instructor Access'}
                         </button>
                       </div>
@@ -652,8 +652,8 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                 </div>
               </div>
               <div className={`mt-5 pt-5 border-t flex justify-between items-center gap-3 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                <button onClick={saveUserUpdates} className={`px-6 py-2.5 rounded-xl font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Commit Changes</button>
-                <button onClick={deleteAdminUser} className={`px-6 py-2.5 rounded-xl font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Purge Data</button>
+                <button onClick={saveUserUpdates} className={`px-6 py-2.5 rounded-full font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Commit Changes</button>
+                <button onClick={deleteAdminUser} className={`px-6 py-2.5 rounded-full font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Purge Data</button>
               </div>
             </div>
 
@@ -661,7 +661,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
           ) : (
             <div className={`p-8 text-center bg-black/80 rounded-2xl border mt-20 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`} onClick={(e) => e.stopPropagation()}>
                <p className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Failed to load user details.</p>
-               <button onClick={onClose} className={`mt-4 px-4 py-2 rounded-lg text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close</button>
+               <button onClick={onClose} className={`mt-4 px-4 py-2 rounded-full text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close</button>
             </div>
           )}
         </motion.div>

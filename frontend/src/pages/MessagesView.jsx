@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 import AgendaCreationModal from '../components/AgendaCreationModal';
 
 const SOCKET_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:5000'
+  ? 'http://localhost:5005'
   : `${window.location.protocol}//${window.location.hostname}`;
 
 const socket = io(SOCKET_BASE_URL, {
@@ -41,6 +41,7 @@ export default function MessagesView() {
   const [agendaDefaults, setAgendaDefaults] = useState({});
   const [groupActionLoading, setGroupActionLoading] = useState(false);
   const [activeGroupDetails, setActiveGroupDetails] = useState(null);
+  const [livekitSession, setLivekitSession] = useState(null);
   
   const [newGroupName, setNewGroupName] = useState('');
   const [newGroupDescription, setNewGroupDescription] = useState('');
@@ -232,6 +233,36 @@ export default function MessagesView() {
       contextName: activeContact ? activeContact.name : 'Workspace'
     });
     setShowAgendaModal(true);
+  };
+
+  const handleJoinCall = async (targetUserId) => {
+     try {
+       const { data } = await api.post('/messages/call-token', { targetUserId });
+       if (data.success) {
+         setLivekitSession({ token: data.token, url: data.livekitUrl, roomName: data.roomName });
+       }
+     } catch (err) {
+       console.error(err);
+       alert('Failed to join call');
+     }
+  };
+
+  const handleSendSMS = async () => {
+    if (!activeContact || activeContact.type !== 'user') return;
+    const msg = window.prompt('Enter real-life SMS to send:');
+    if (!msg) return;
+    
+    const phone = window.prompt('Enter destination phone number (e.g., +1234567890):', '+1');
+    if (!phone) return;
+
+    try {
+       const { data } = await api.post('/messages/sms', { phone, message: msg });
+       if (data.success) {
+          alert(data.message);
+       }
+    } catch (err) {
+       alert('SMS Gateway Error');
+    }
   };
 
   const fetchGroupDetails = async (groupId) => {
@@ -602,6 +633,7 @@ export default function MessagesView() {
                     </div>
                   </div>
                   <div className={`flex items-center gap-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    <button onClick={handleSendSMS} className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`} title="Send Real SMS"><Smile className="w-5 h-5 text-green-500" /></button>
                     <button onClick={() => handleStartCall('audio')} className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}><Phone className="w-5 h-5" /></button>
                     <button onClick={() => handleStartCall('video')} className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}><Video className="w-5 h-5" /></button>
                     <button className={`w-10 h-10 hidden sm:flex items-center justify-center rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}><Search className="w-5 h-5" /></button>
@@ -691,7 +723,7 @@ export default function MessagesView() {
                                 </div>
                               )}
                               {msg.attachmentUrl && msg.attachmentType === 'file' && (
-                                <a href={`http://localhost:5000${msg.attachmentUrl}`} target="_blank" rel="noreferrer" className={`flex items-center gap-3 mb-2 p-2.5 rounded-xl transition-all ${isMine ? (isDarkMode ? 'bg-black/20' : 'bg-blue-100/50') : (isDarkMode ? 'bg-white/5' : 'bg-slate-50')}`}>
+                                <a href={`http://localhost:5000${msg.attachmentUrl}`} target="_blank" rel="noreferrer" className={`flex items-center gap-3 mb-2 p-2.5 rounded-full transition-all ${isMine ? (isDarkMode ? 'bg-black/20' : 'bg-blue-100/50') : (isDarkMode ? 'bg-white/5' : 'bg-slate-50')}`}>
                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isMine ? (isDarkMode ? 'bg-[#00D4FF]/30 text-[#00D4FF]' : 'bg-blue-200 text-blue-600') : (isDarkMode ? 'bg-white/10 text-white' : 'bg-slate-200 text-slate-600')}`}>
                                       <Paperclip className="w-5 h-5" />
                                    </div>
@@ -716,6 +748,11 @@ export default function MessagesView() {
                               ) : (
                                 <div className="flex items-end gap-3 flex-wrap">
                                   <span className="whitespace-pre-wrap">{msg.content}</span>
+                                  {msg.content.includes('📞 Incoming') && (
+                                    <button onClick={() => handleJoinCall(isMine ? msg.receiverId : msg.senderId)} className={`ml-2 px-3 py-1 text-xs rounded-full bg-green-500 text-white font-bold hover:bg-green-600 transition-colors`}>
+                                      Join Call
+                                    </button>
+                                  )}
                                   <div className="flex items-center gap-1 ml-auto mt-1 shrink-0">
                                     <span className={`text-[10px] font-medium ${isMine ? (isDarkMode ? 'text-[#00D4FF]' : 'text-blue-500') : (isDarkMode ? 'text-slate-400' : 'text-slate-400')}`}>
                                       {timeString}
@@ -759,7 +796,7 @@ export default function MessagesView() {
                   )}
 
                   <div className={`flex items-end gap-2 p-2.5 w-full max-w-4xl shadow-md transition-all duration-300 ${isDarkMode ? 'bg-[#1E293B] border border-white/20 rounded-full' : 'bg-[#F8FAFC] border border-slate-300 rounded-full'}`}>
-                      <button type="button" className={`p-2 rounded-full transition-colors shrink-0 outline-none self-end mb-0.5 ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}><Smile className="w-6 h-6" /></button>
+                      <button type="button" className={`p-2 rounded-full-full transition-colors shrink-0 outline-none self-end mb-0.5 ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}><Smile className="w-6 h-6" /></button>
                       <textarea 
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
@@ -847,6 +884,15 @@ export default function MessagesView() {
                </div>
             </div>
          </div>
+      )}
+      {/* LiveKit Room Modal */}
+      {livekitSession && (
+        <LiveRoom 
+          token={livekitSession.token} 
+          url={livekitSession.url} 
+          roomName={livekitSession.roomName} 
+          onClose={() => setLivekitSession(null)} 
+        />
       )}
     </div>
   );

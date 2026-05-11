@@ -12,6 +12,9 @@ const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_aut
 import ActivityFeed from '../components/ActivityFeed';
 import AgendaWidget from '../components/AgendaWidget';
 import ProfileView from './ProfileView';
+import FinanceFees from './FinanceFees';
+import FinanceExpenses from './FinanceExpenses';
+import { CircleDollarSign, ArrowDownRight } from 'lucide-react';
 
 export default function AdminDashboard() {
   const isDarkMode = useThemeMode();
@@ -534,6 +537,30 @@ export default function AdminDashboard() {
                      <span className={`text-sm group-hover:text-amber-600 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{pendingCourses.length} awaiting approval</span>
                    </div>
                  </button>
+                 <button 
+                  onClick={() => setActiveTab('fees')} 
+                  className={`flex items-center gap-3 p-4 rounded-xl border hover:border-emerald-300 hover:bg-emerald-500/10 hover:text-emerald-700 transition-colors text-left group ${isDarkMode ? 'border-white/10' : 'border-slate-200'} sm:col-span-2`}
+                 >
+                   <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-200 transition-colors">
+                     <CircleDollarSign className="w-5 h-5" />
+                   </div>
+                   <div>
+                     <span className="block font-semibold">Finance & Fees</span>
+                     <span className={`text-sm group-hover:text-emerald-600 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Review gross computations & ledger</span>
+                   </div>
+                 </button>
+                 <button 
+                  onClick={() => setActiveTab('expenses')} 
+                  className={`flex items-center gap-3 p-4 rounded-xl border hover:border-rose-300 hover:bg-rose-500/10 hover:text-rose-700 transition-colors text-left group ${isDarkMode ? 'border-white/10' : 'border-slate-200'} sm:col-span-2`}
+                 >
+                   <div className="w-10 h-10 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center group-hover:bg-rose-200 transition-colors">
+                     <ArrowDownRight className="w-5 h-5" />
+                   </div>
+                   <div>
+                     <span className="block font-semibold">Operating Expenses</span>
+                     <span className={`text-sm group-hover:text-rose-600 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Manage outbound capital & payouts</span>
+                   </div>
+                 </button>
                </div>
             </div>
 
@@ -690,7 +717,7 @@ export default function AdminDashboard() {
                         </td>
                         <td className="px-6 py-4">
                           <button
-                            className={`px-3 py-1.5 rounded-lg border text-sm font-semibold flex items-center gap-1 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                            className={`px-3 py-1.5 rounded-full border text-sm font-semibold flex items-center gap-1 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                             onClick={() => openManagePanel(u.id)}
                           >
                             <Eye className="w-3.5 h-3.5" /> Details
@@ -806,6 +833,18 @@ export default function AdminDashboard() {
             </div>
           </div>
         );
+      case 'fees':
+        return (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+             <FinanceFees />
+          </div>
+        );
+      case 'expenses':
+        return (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+             <FinanceExpenses />
+          </div>
+        );
       case 'logs':
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -813,7 +852,7 @@ export default function AdminDashboard() {
             <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
                 <div className="flex justify-between items-center mb-6">
                   <span className={`font-semibold flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><Activity className="w-5 h-5" /> All Platform Activity</span>
-                  <button className={`text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Export CSV</button>
+                  <button className={`text-sm font-semibold px-3 py-1.5 rounded-full transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Export CSV</button>
                 </div>
                 <ActivityFeed isAdmin={true} limit={20} />
             </div>
@@ -885,7 +924,7 @@ export default function AdminDashboard() {
         <div className="p-6 mt-auto">
           <button 
             onClick={handleLogout}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:text-red-400 hover:bg-red-400/10 border border-transparent transition-colors font-medium text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-full hover:text-red-400 hover:bg-red-400/10 border border-transparent transition-colors font-medium text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
           >
             <LogOut className="w-4 h-4 shrink-0" /> Logout
           </button>
@@ -901,7 +940,7 @@ export default function AdminDashboard() {
             <div className="relative w-full max-w-sm">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
               <input type="text" placeholder="Global Search (Students, Courses, Messages)..." 
-                className={`w-full pl-10 pr-20 py-2.5 border rounded-xl text-xs outline-none focus:ring-1 focus:ring-white/10 transition-all font-medium placeholder:text-slate-500 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
+                className={`w-full pl-10 pr-20 py-2.5 border rounded-full text-xs outline-none focus:ring-1 focus:ring-white/10 transition-all font-medium placeholder:text-slate-500 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-white' : 'bg-white border-slate-100 text-slate-900'}`} />
               <div className={`absolute right-2 top-1/2 -translate-y-1/2 bg-[#1A1E26] text-[9px] px-2 py-1 rounded font-bold border ${isDarkMode ? 'text-slate-400 border-white/5' : 'text-slate-500 border-slate-100'}`}>
                 CTRL + K
               </div>
@@ -1122,11 +1161,11 @@ export default function AdminDashboard() {
                         </div>
                         <div className="mt-3 flex flex-wrap gap-2">
                           <button onClick={() => manualEnrollment(allCourses[0]?.id || '', 'active')} className={`px-3 py-2 bg-blue-600 rounded-lg text-xs ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Force Enroll</button>
-                          <button onClick={resetUserProgress} className={`px-3 py-2 rounded-lg text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reset Progress</button>
+                          <button onClick={resetUserProgress} className={`px-3 py-2 rounded-full text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reset Progress</button>
                           {selectedUser.status === 'blocked' ? (
                             <button onClick={async () => { await updateUserStatus(selectedUser.id, 'approved'); await openManagePanel(selectedUser.id); }} className={`px-3 py-2 bg-emerald-600 rounded-lg text-xs ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Unblock Service</button>
                           ) : (
-                            <button onClick={blockService} className={`px-3 py-2 rounded-lg text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Block Service</button>
+                            <button onClick={blockService} className={`px-3 py-2 rounded-full text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Block Service</button>
                           )}
                         </div>
                       </>
@@ -1143,7 +1182,7 @@ export default function AdminDashboard() {
                           {(selectedUser.adminFeedback || []).length > 0 ? selectedUser.adminFeedback.map((f, index) => (
                             <p key={index} className={`text-xs ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>• {f}</p>
                           )) : <p className={`text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No feedback yet</p>}
-                          <button onClick={toggleInstructorAccess} className={`px-3 py-2 rounded-lg text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedUser.status === 'approved' ? 'Disable Upload/Edit' : 'Reactivate Instructor'}</button>
+                          <button onClick={toggleInstructorAccess} className={`px-3 py-2 rounded-full text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedUser.status === 'approved' ? 'Disable Upload/Edit' : 'Reactivate Instructor'}</button>
                         </div>
                       </>
                     ) : selectedUser.role === 'parent' ? (
@@ -1255,7 +1294,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className={`mt-5 p-4 rounded-2xl border bg-black/40 grid grid-cols-1 md:grid-cols-2 gap-3 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <button onClick={saveUserUpdates} className={`px-4 py-2 rounded-lg font-semibold text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Save changes</button>
+                  <button onClick={saveUserUpdates} className={`px-4 py-2 rounded-full font-semibold text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Save changes</button>
                   <button onClick={() => deleteAdminUser(selectedUser.id)} className={`px-4 py-2 rounded-lg bg-rose-500/100 font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Delete user</button>
                 </div>
               </motion.div>

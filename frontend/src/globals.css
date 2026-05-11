@@ -253,14 +253,13 @@ body {
   background: #ffffff !important;
   color: var(--text-main) !important;
   border-radius: 0 !important;
-  border-bottom: 1px solid var(--gray-200);
   box-shadow: none;
   transition: var(--transition-main);
 }
 
 /* Buttons */
 button, .btn, .cta {
-  border-radius: 8px !important;
+  border-radius: 9999px !important;
   font-weight: 500 !important;
   transition: var(--transition-main);
 }
@@ -437,12 +436,12 @@ button, .btn, .cta {
   }
 
   button, [role="button"], input[type="submit"], input[type="button"] {
-    @apply rounded-lg focus:outline-none focus:ring-2 focus:ring-[#EBC176]/50;
+    @apply rounded-full focus:outline-none focus:ring-2 focus:ring-[#EBC176]/50;
     cursor: pointer !important;
   }
 
   input, textarea, select {
-    @apply placeholder:text-slate-500 rounded-lg;
+    @apply placeholder:text-slate-500 rounded-full;
   }
 
   .glass-panel {
@@ -554,7 +553,7 @@ button, .btn, .cta {
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-medium text-[15px] leading-none whitespace-nowrap border border-transparent cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-medium text-[15px] leading-none whitespace-nowrap border border-transparent cursor-pointer transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed;
   }
 
   .btn-primary {
@@ -621,7 +620,7 @@ button, .btn, .cta {
   }
 
   .form-control, .form-group input:not([type="checkbox"]):not([type="radio"]), .form-group select, .form-group textarea {
-    @apply w-full px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#EBC176] focus:border-transparent placeholder-slate-400 text-[15px];
+    @apply w-full px-3.5 py-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#EBC176] focus:border-transparent placeholder-slate-400 text-[15px];
   }
 
   /* Shared Auth Cards */

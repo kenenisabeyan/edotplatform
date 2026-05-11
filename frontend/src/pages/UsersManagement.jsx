@@ -202,7 +202,7 @@ export default function UsersManagement() {
             />
             <button
               type="submit"
-              className={`col-span-1 md:col-span-1 px-4 py-2 rounded-lg font-semibold bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 px-4 py-2 rounded-full font-semibold bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
             >
               Create User
             </button>

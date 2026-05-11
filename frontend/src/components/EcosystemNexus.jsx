@@ -90,7 +90,7 @@ export default function EcosystemNexus() {
                     <p className={`text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{inst.role}</p>
                   </div>
                 </div>
-                <button className={`p-2 rounded-lg hover:bg-[#00D4FF]/10 hover:text-[#00D4FF] transition-colors ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                <button className={`p-2 rounded-full hover:bg-[#00D4FF]/10 hover:text-[#00D4FF] transition-colors ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -162,7 +162,7 @@ export default function EcosystemNexus() {
                   <button onClick={() => handleAuthorize('sponsorship', sponsor.id)} className="flex-1 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold transition-colors">
                     Authorize E2E
                   </button>
-                  <button className={`flex-1 py-2 rounded-lg text-xs font-bold border transition-colors ${isDarkMode ? 'border-white/10 text-slate-300 hover:bg-white/5' : 'border-slate-300 text-slate-700 hover:bg-slate-100'}`}>
+                  <button className={`flex-1 py-2 rounded-full text-xs font-bold border transition-colors ${isDarkMode ? 'border-white/10 text-slate-300 hover:bg-white/5' : 'border-slate-300 text-slate-700 hover:bg-slate-100'}`}>
                     Reject
                   </button>
                 </div>
