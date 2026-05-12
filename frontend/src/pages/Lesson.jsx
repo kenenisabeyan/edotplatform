@@ -501,7 +501,7 @@ export default function Lesson() {
                   {certificateData 
                      ? `Verification Code: ${certificateData.verificationHash || certificateData.verified_hash}\nYour certificate is permanently recorded in the system.` 
                      : course.isExamRequired && !enrollmentProgress?.passedFinalExam
-                        ? 'You have finished all modules. You must now pass the Final Challenge (>= 50%) to get your certificate.'
+                        ? 'You have finished all modules. You must now pass the Final Challenge (>= 75%) to get your certificate.'
                         : 'You have successfully finalized all phase assessments. Your clearance is fully upgraded.'}
                </p>
                {!certificateData ? (
@@ -615,7 +615,7 @@ export default function Lesson() {
                               ) : (
                                  <div className="bg-red-50/50 border border-red-100 rounded-xl p-6 mb-8 text-center -mx-2">
                                     <p className="text-red-600 font-bold mb-2">Assessment Failed</p>
-                                    <p className="text-sm text-slate-600">You need a score of 50% or higher to pass. Please review the material and try again.</p>
+                                    <p className="text-sm text-slate-600">You need a score of 75% or higher to pass. Please review the material and try again.</p>
                                  </div>
                               )}
                            </div>

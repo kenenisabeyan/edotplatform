@@ -23,7 +23,7 @@ router.post('/register', [
 
   const allowedRoles = ['student', 'instructor', 'parent', 'sponsor'];
   const finalRole = allowedRoles.includes(role) ? role : 'student';
-  const initialStatus = finalRole === 'instructor' ? 'pending' : 'approved';
+  const initialStatus = 'pending';
 
   try {
     let user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
@@ -192,7 +192,7 @@ router.post('/social', async (req, res) => {
           email: normalizedEmail,
           password: randomPassword,
           role: 'student',
-          status: 'approved'
+          status: 'pending'
         }
       });
     }

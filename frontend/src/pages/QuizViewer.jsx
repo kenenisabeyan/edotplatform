@@ -69,7 +69,7 @@ export default function QuizViewer() {
     setFinalScore(scoreVal);
     try {
       await api.post(`/student/courses/${id}/exam/complete`, { score: scoreVal });
-      setPassedScore(true); // Since it didn't throw an error, it passed >= 50%
+      setPassedScore(true); // Since it didn't throw an error, it passed >= 75%
     } catch {
       setPassedScore(false);
     } finally {
@@ -125,7 +125,7 @@ export default function QuizViewer() {
           <div className="space-y-4 relative z-10">
             <div className={`flex justify-between items-center p-5 backdrop-blur-md rounded-2xl border ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
               <span className={`font-bold text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Passing Requirement</span>
-              <span className={`font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>50%</span>
+              <span className={`font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>75%</span>
             </div>
             <div className={`flex justify-between items-center p-5 backdrop-blur-md rounded-2xl border mb-8 ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
               <span className={`font-bold text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Your Score</span>

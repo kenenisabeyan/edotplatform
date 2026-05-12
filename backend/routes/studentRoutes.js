@@ -104,7 +104,7 @@ router.post('/courses/:courseId/enroll', async (req, res) => {
             data: {
                 studentId,
                 courseId,
-                status: 'active'
+                status: 'pending'
             }
         });
 
@@ -112,7 +112,7 @@ router.post('/courses/:courseId/enroll', async (req, res) => {
             data: {
                 userId: studentId,
                 courseId,
-                status: 'active',
+                status: 'pending',
                 progress: 0,
                 completedLessons: []
             }
@@ -122,7 +122,7 @@ router.post('/courses/:courseId/enroll', async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: 'Enrollment successful. You can now access the course.',
+            message: 'Enrollment requested successfully. Awaiting administrator approval.',
             enrollment
         });
     } catch (error) {
@@ -200,10 +200,10 @@ router.post('/courses/:courseId/exam/complete', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Not enrolled in this course' });
         }
 
-        if (score !== undefined && Number(score) < 50) {
+        if (score !== undefined && Number(score) < 75) {
             return res.status(400).json({ 
                 success: false, 
-                message: `You scored ${score}%. A mark of 50% or higher is required. Please try again to upgrade your mark and earn your certificate.`
+                message: `You scored ${score}%. A mark of 75% or higher is required. Please try again to upgrade your mark and earn your certificate.`
             });
         }
 

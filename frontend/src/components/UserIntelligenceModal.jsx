@@ -6,6 +6,7 @@ import { RadialBarChart, RadialBar, PolarAngleAxis } from 'recharts';
 import api from '../utils/api';
 import UserAvatar from './UserAvatar';
 import CustomDropdown from './CustomDropdown';
+import { Search } from 'lucide-react';
 
 export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefreshUsers, globalUsersList = [] }) {
   const isDarkMode = useThemeMode();
