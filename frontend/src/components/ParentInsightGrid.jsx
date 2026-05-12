@@ -88,7 +88,7 @@ export default function ParentInsightGrid({ studentId }) {
           </CardHeader>
           <CardContent className="pt-0">
              <textarea 
-               className={`w-full bg-[#0B1120] dark:bg-[#0B1120]/50 border dark:border-slate-800 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-[#6366F1] focus:border-transparent outline-none transition-all shadow-inner resize-none h-24 dark:text-slate-300 ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}
+               className={`w-full bg-[#0B1120] dark:bg-[#0B1120]/50 border dark:border-slate-800 !rounded-[32px] !px-6 py-4 text-sm focus:ring-2 focus:ring-[#6366F1] focus:border-transparent outline-none transition-all shadow-inner resize-none h-24 dark:text-slate-300 ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}
                placeholder={`Hello, I'd like an update regarding ${insights.studentName}'s recent performance in...`}
              ></textarea>
              <div className="flex justify-end mt-4">

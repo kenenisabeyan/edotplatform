@@ -93,7 +93,7 @@ export default function NoticeView() {
 
       {/* Create Notice Form */}
       {showCreateForm && (
-        <div className={`backdrop-blur-xl rounded-3xl border shadow-2xl p-6 md:p-8 relative overflow-hidden animate-in fade-in slide-in-from-top-4 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+        <div className={`backdrop-blur-xl rounded-[32px] border shadow-2xl p-6 md:p-8 relative overflow-hidden animate-in fade-in slide-in-from-top-4 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/95 border-slate-200'}`}>
           <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-bl from-[#E30A17]/10 to-transparent rounded-full blur-[80px] pointer-events-none -z-10"></div>
           
           <div className={`flex justify-between items-center mb-8 border-b pb-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
@@ -149,7 +149,7 @@ export default function NoticeView() {
                   rows={5}
                   value={newNotice.content}
                   onChange={(e) => setNewNotice({ ...newNotice, content: e.target.value })}
-                  className={`w-full !p-5 border !rounded-[2rem] outline-none focus:ring-1 font-medium resize-none shadow-inner transition-all text-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50 placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 placeholder:text-slate-400'}`}
+                  className={`w-full !px-6 py-5 border !rounded-[32px] outline-none focus:ring-1 font-medium resize-none shadow-inner transition-all text-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50 placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 placeholder:text-slate-400'}`}
                 ></textarea>
             </div>
 
@@ -169,7 +169,7 @@ export default function NoticeView() {
 
       {/* Feed Architecture */}
       {notices.length === 0 && !showCreateForm ? (
-        <div className={`p-16 text-center rounded-3xl border backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+        <div className={`p-16 text-center rounded-[32px] border backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/95 border-slate-200'}`}>
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-repeat opacity-[0.03] pointer-events-none"></div>
            <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-6 border shadow-inner ${isDarkMode ? 'bg-[#0B1120] text-[#F97316]/30 border-white/5' : 'bg-slate-100 text-slate-300 border-slate-200'}`}>
              <BellRing className="w-10 h-10" />
@@ -180,7 +180,7 @@ export default function NoticeView() {
       ) : (
         <div className="grid grid-cols-1 gap-6">
           {notices.map((notice) => (
-            <div key={notice.id} className={`rounded-3xl border backdrop-blur-xl shadow-2xl overflow-hidden p-6 md:p-8 transition-all duration-300 relative group flex flex-col md:flex-row gap-6 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10 hover:shadow-[0_0_30px_rgba(255,215,0,0.1)] hover:border-[#F97316]/30' : 'bg-white/95 border-slate-200 hover:shadow-lg hover:border-slate-300'}`}>
+            <div key={notice.id} className={`rounded-[32px] border backdrop-blur-xl shadow-2xl overflow-hidden p-6 md:p-8 transition-all duration-300 relative group flex flex-col md:flex-row gap-6 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10 hover:shadow-[0_0_30px_rgba(255,215,0,0.1)] hover:border-[#F97316]/30' : 'bg-white/95 border-slate-200 hover:shadow-lg hover:border-slate-300'}`}>
                 
                 <div className={`absolute top-0 left-0 w-1 h-full opacity-50 group-hover:opacity-100 transition-opacity ${isDarkMode ? 'bg-[#F97316]' : 'bg-indigo-500'}`}></div>
                 

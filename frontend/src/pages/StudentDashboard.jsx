@@ -582,7 +582,7 @@ export default function StudentDashboard() {
             </div>
             
             {enrolledCourses.length === 0 ? (
-               <div className={`p-12 text-center rounded-2xl border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+               <div className={`p-12 text-center rounded-[32px] border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
                  <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 border ${isDarkMode ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-orange-50 text-orange-500 border-orange-100'}`}>
                    <BookOpen className="w-8 h-8" />
                  </div>
@@ -595,7 +595,7 @@ export default function StudentDashboard() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {enrolledCourses.map((enrolled) => (
-                    <div key={enrolled.id} className={`rounded-2xl border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-slate-700 hover:border-orange-500/50' : 'bg-white border-slate-200 hover:border-orange-300'}`}>
+                    <div key={enrolled.id} className={`rounded-[32px] border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-slate-700 hover:border-orange-500/50' : 'bg-white border-slate-200 hover:border-orange-300'}`}>
                        <div className="w-full h-40 bg-slate-100 dark:bg-slate-800 rounded-xl mb-4 overflow-hidden relative">
                          <img src={enrolled.course?.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' : (enrolled.course?.thumbnail || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80')} alt={enrolled.course?.title} className="w-full h-full object-cover" />
                        </div>
@@ -642,7 +642,7 @@ export default function StudentDashboard() {
             </div>
             
             {unclaimedCourses.length === 0 && userCertificates.length === 0 ? (
-               <div className={`p-12 text-center rounded-2xl border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+               <div className={`p-12 text-center rounded-[32px] border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
                  <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-500 border-blue-100'}`}>
                    <Award className="w-8 h-8" />
                  </div>
@@ -666,7 +666,7 @@ export default function StudentDashboard() {
                         {unclaimedCourses.map((enrolled) => (
                           <div 
                             key={`unclaimed-${enrolled.id || enrolled.course?.id}`} 
-                            className={`rounded-2xl border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-orange-500/30 hover:border-orange-500' : 'bg-white border-orange-200 hover:border-orange-400'}`}
+                            className={`rounded-[32px] border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-orange-500/30 hover:border-orange-500' : 'bg-white border-orange-200 hover:border-orange-400'}`}
                           >
                             <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto border ${isDarkMode ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-orange-50 text-orange-500 border-orange-100'}`}>
                               <Award className="w-8 h-8" />
@@ -697,7 +697,7 @@ export default function StudentDashboard() {
                         {userCertificates.map((cert) => (
                           <div 
                             key={`claimed-${cert.id}`} 
-                            className={`rounded-2xl border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-slate-700 hover:border-blue-500/50' : 'bg-white border-slate-200 hover:border-blue-300'}`}
+                            className={`rounded-[32px] border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-slate-700 hover:border-blue-500/50' : 'bg-white border-slate-200 hover:border-blue-300'}`}
                           >
                             <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-500 border-blue-100'}`}>
                               <Award className="w-8 h-8" />
@@ -736,7 +736,7 @@ export default function StudentDashboard() {
          return (
              <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 font-sans">
                 <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Personal Growth Lab</h2>
-                <div className={`p-6 rounded-2xl border mb-6 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+                <div className={`p-6 rounded-[32px] border mb-6 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
                     <p className={`mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Set isolated growth objectives away from course structures.</p>
                     <form onSubmit={handleAddGoal} className="flex gap-4">
                         <input 
@@ -750,13 +750,13 @@ export default function StudentDashboard() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                    <div className="md:col-span-2 space-y-6">
-                      <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+                      <div className={`p-6 rounded-[32px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
                          <h3 className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Recent Tasks & Activity</h3>
                          <ActivityFeed feedType="personal" limit={10} />
                       </div>
                    </div>
                    <div className="md:col-span-1 space-y-6">
-                      <div className={`p-6 rounded-2xl border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+                      <div className={`p-6 rounded-[32px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
                          <h3 className={`text-lg font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Private Logs</h3>
                          {privateLogs.length === 0 ? (
                            <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No private logs yet.</p>
@@ -787,7 +787,7 @@ export default function StudentDashboard() {
         return <div className="p-8 max-w-7xl mx-auto"><NoticeView /></div>;
       case 'sponsorships':
         return (
-           <div className={`p-12 text-center rounded-2xl border m-8 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+           <div className={`p-12 text-center rounded-[32px] border m-8 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
               <ShieldCheck className={`w-12 h-12 mx-auto mb-4 ${isDarkMode ? 'text-slate-600' : 'text-slate-300'}`} />
               <h2 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Sponsorships Portal</h2>
               <p className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>This module is currently under construction. Please check back later.</p>
@@ -795,7 +795,7 @@ export default function StudentDashboard() {
         );
       case 'schedule':
         return (
-           <div className={`p-12 text-center rounded-2xl border m-8 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
+           <div className={`p-12 text-center rounded-[32px] border m-8 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
               <Clock className={`w-12 h-12 mx-auto mb-4 ${isDarkMode ? 'text-slate-600' : 'text-slate-300'}`} />
               <h2 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Schedule Manager</h2>
               <p className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>This module is currently under construction. Please check back later.</p>

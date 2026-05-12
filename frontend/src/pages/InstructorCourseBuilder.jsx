@@ -380,7 +380,7 @@ export default function InstructorCourseBuilder() {
           </div>
 
           {/* Form Area */}
-          <div key={currentStep} className={`border rounded-2xl overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'} mb-8 relative animate-in fade-in zoom-in-95 duration-500 flex flex-col h-[calc(100vh-300px)] min-h-[500px] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+          <div key={currentStep} className={`border !rounded-[32px] overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'} mb-8 relative animate-in fade-in zoom-in-95 duration-500 flex flex-col h-[calc(100vh-300px)] min-h-[500px] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
             <div className="p-6 md:p-8 relative z-10 overflow-y-auto flex-1 scrollbar-thin">
               
               {/* STEP 1: Basic Information */}
@@ -401,12 +401,11 @@ export default function InstructorCourseBuilder() {
                   </div>
                   
                   <div>
-                    <label className={`block text-sm font-bold mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Detailed Description <span className="text-[#E30A17]">*</span></label>
+                    <label className={`block text-sm font-bold mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Detailed Description</label>
                     <textarea 
                       value={formData.description} 
                       onChange={e => setFormData({...formData, description: e.target.value})} 
-                      required 
-                      className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all resize-y placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                      className={`w-full !px-5 !py-3 !rounded-[32px] border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all resize-y placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       rows="4" 
                       placeholder="What will students learn in this course? Detail the curriculum and learning outcomes."
                     ></textarea>
@@ -661,7 +660,7 @@ export default function InstructorCourseBuilder() {
                     </button>
                   ) : createPortal(
                     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
-                      <div className={`border rounded-3xl p-6 md:p-8 shadow-2xl w-full max-w-lg animate-in zoom-in-95 duration-300 relative ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+                      <div className={`border !rounded-[32px] p-6 md:p-8 shadow-2xl w-full max-w-lg animate-in zoom-in-95 duration-300 relative ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
                         <div className={`flex justify-between items-center mb-6 border-b pb-4 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                           <h3 className={`font-bold text-xl flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                             <PlusCircle className="w-6 h-6 text-[#F97316]" /> Create New Phase
@@ -704,7 +703,7 @@ export default function InstructorCourseBuilder() {
 
                   {showLessonFormForPhase && createPortal(
                     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
-                      <div className={`border rounded-3xl p-6 md:p-8 shadow-2xl w-full max-w-2xl animate-in zoom-in-95 duration-300 relative flex flex-col max-h-[90vh] ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+                      <div className={`border !rounded-[32px] p-6 md:p-8 shadow-2xl w-full max-w-2xl animate-in zoom-in-95 duration-300 relative flex flex-col max-h-[90vh] ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
                         <div className={`flex justify-between items-center mb-6 border-b pb-4 shrink-0 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                           <h3 className={`font-bold text-xl flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                             <PlayCircle className="w-6 h-6 text-[#F97316]" /> New Lesson for <span className="text-[#F97316] bg-[#F97316]/10 border border-[#F97316]/20 px-3 py-1 rounded-lg text-sm">{showLessonFormForPhase}</span>
@@ -723,12 +722,11 @@ export default function InstructorCourseBuilder() {
                           />
                         </div>
                         <div>
-                          <label className={`block text-sm font-bold mb-1.5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Description <span className="text-[#E30A17]">*</span></label>
+                          <label className={`block text-sm font-bold mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Lesson Overview</label>
                           <textarea 
-                            required 
                             value={lessonForm.description}
                             onChange={e => setLessonForm({...lessonForm, description: e.target.value})}
-                            className={`w-full !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none resize-y ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`w-full !px-5 !py-2.5 !rounded-[32px] border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none resize-y ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             rows="2"
                           ></textarea>
                         </div>
@@ -769,13 +767,14 @@ export default function InstructorCourseBuilder() {
                             )}
                           </div>
                           <div className="w-full sm:w-32 shrink-0">
-                            <label className={`block text-sm font-bold mb-1.5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Duration (m) <span className="text-[#E30A17]">*</span></label>
+                            <label className={`block text-sm font-bold mb-1.5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Duration (m)</label>
                             <input 
                               type="number" 
-                              required min="1"
+                              readOnly
+                              title="Auto-extracted from video link"
                               value={lessonForm.duration}
                               onChange={e => setLessonForm({...lessonForm, duration: Number(e.target.value)})}
-                              className={`w-full !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                              className={`w-full !px-5 !py-2.5 !rounded-full border outline-none opacity-70 cursor-not-allowed ${isDarkMode ? 'bg-[#0B1120] text-slate-400 border-white/10' : 'bg-slate-50 text-slate-500 border-slate-200'}`}
                             />
                           </div>
                         </div>
@@ -803,7 +802,7 @@ export default function InstructorCourseBuilder() {
                           <textarea 
                             value={lessonForm.readingMaterials}
                             onChange={e => setLessonForm({...lessonForm, readingMaterials: e.target.value})}
-                            className={`w-full !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none min-h-[100px] placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`w-full !px-5 !py-2.5 !rounded-[32px] border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none min-h-[100px] placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             placeholder="Add markdown notes, links, or text for students to read. Uploading a document inserts its link here."
                           ></textarea>
                         </div>
@@ -846,7 +845,7 @@ export default function InstructorCourseBuilder() {
                   <h2 className={`text-2xl font-display font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Pricing & Publishing</h2>
                   <p className={`mb-8 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Set your course value and {isAdmin ? 'publish it immediately' : 'submit it for administrative review'}.</p>
                   
-                  <div className={`border rounded-2xl p-6 md:p-8 mb-8 backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                  <div className={`border !rounded-[32px] p-6 md:p-8 mb-8 backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                     <div className="flex flex-col sm:flex-row items-center gap-6">
                       <div className="w-20 h-20 bg-[#F97316]/10 rounded-full flex gap-1 items-center justify-center text-[#F97316] shadow-sm shrink-0 border-4 border-[#F97316]/20">
                         <Banknote className="w-10 h-10" />
@@ -863,7 +862,7 @@ export default function InstructorCourseBuilder() {
                             step="0.01"
                             value={formData.price}
                             onChange={e => setFormData({...formData, price: Number(e.target.value)})}
-                            className={`w-full pl-10 pr-4 py-4 text-2xl font-bold rounded-xl border-2 border-[#F97316]/30 focus:ring-1 focus:ring-[#00D4FF] focus:border-[#F97316] outline-none transition-all shadow-inner ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`}
+                            className={`w-full !pl-[60px] pr-4 py-4 text-2xl font-bold !rounded-[32px] border-2 border-[#F97316]/30 focus:ring-1 focus:ring-[#00D4FF] focus:border-[#F97316] outline-none transition-all shadow-inner ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`}
                           />
                         </div>
                         <p className={`mt-3 text-sm ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Set to 0 to make this course free for all students.</p>
@@ -871,7 +870,7 @@ export default function InstructorCourseBuilder() {
                     </div>
                   </div>
 
-                  <div className={`border rounded-2xl p-6 mb-8 backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                  <div className={`border !rounded-[32px] p-6 mb-8 backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                     <h3 className={`font-bold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                        <CheckCircle2 className="w-5 h-5 text-[#F97316]" /> Final Course Certification Exam
                     </h3>
@@ -897,7 +896,7 @@ export default function InstructorCourseBuilder() {
                     )}
                   </div>
 
-                  <div className={`border rounded-2xl p-6 backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                  <div className={`border !rounded-[32px] p-6 backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                     <h3 className={`font-bold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                        <CheckCircle2 className="w-5 h-5 text-[#F97316]" /> Pre-flight Checklist
                     </h3>

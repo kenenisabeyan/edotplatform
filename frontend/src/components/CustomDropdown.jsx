@@ -109,7 +109,7 @@ export default function CustomDropdown({
           if (!isOpen) setSearchQuery('');
           setIsOpen(!isOpen);
         }}
-        className={`w-full flex items-center justify-between px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/30 transition-all shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white hover:border-white/20' : 'bg-white border-slate-200 text-slate-900 hover:border-slate-300'}`}
+        className={`w-full flex items-center justify-between px-5 py-3 border !rounded-full text-sm focus:outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/30 transition-all shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white hover:border-white/20' : 'bg-white border-slate-200 text-slate-900 hover:border-slate-300'}`}
       >
         <span className={`truncate ${!value || value === '' ? (isDarkMode ? 'text-slate-400' : 'text-slate-500') : (isDarkMode ? 'text-white' : 'text-slate-900') + ' font-medium'}`}>
           {getSelectedLabel()}
@@ -133,7 +133,7 @@ export default function CustomDropdown({
                 width: dropdownPos.width,
                 zIndex: 99999
               }}
-              className={`border rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-72 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}
+              className={`border !rounded-[32px] shadow-[0_10px_40px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-72 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}
             >
             {searchable && (
               <div className={`p-2 border-b shrink-0 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-100'}`}>

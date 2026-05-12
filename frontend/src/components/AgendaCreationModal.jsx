@@ -213,7 +213,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
                    <textarea 
                      rows="3"
                      value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
-                     className={`w-full px-4 py-3 border rounded-xl text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium resize-none outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`} 
+                     className={`w-full !px-6 py-3 border !rounded-[32px] text-sm focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 font-medium resize-none outline-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`} 
                      placeholder="Add any specific advice, support contexts, links, or instructions here..."
                    ></textarea>
                  </div>

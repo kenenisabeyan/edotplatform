@@ -253,7 +253,7 @@ export default function AttendanceManagement() {
         )}
       </div>
 
-      <div className={`backdrop-blur-xl p-8 rounded-3xl border shadow-2xl flex flex-col md:flex-row gap-6 mt-4 relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/70 border-white/10' : 'bg-white border-slate-200'}`}>
+      <div className={`backdrop-blur-xl p-8 !rounded-[32px] border shadow-2xl flex flex-col md:flex-row gap-6 mt-4 relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/70 border-white/10' : 'bg-white border-slate-200'}`}>
          <div className="absolute top-0 right-0 w-64 h-64 bg-[#F97316]/5 blur-[120px] rounded-full pointer-events-none"></div>
          
          <div className="w-full md:w-[40%]">
@@ -302,7 +302,7 @@ export default function AttendanceManagement() {
                  type="date" 
                  value={date}
                  onChange={(e) => setDate(e.target.value)}
-                 className={`w-full pl-12 pr-4 py-3 border rounded-xl text-sm font-bold focus:outline-none focus:border-[#F97316] transition-colors ${isDarkMode ? 'bg-black/40 border-white/10 text-white hover:bg-black/60' : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'}`}
+                 className={`w-full !pl-14 pr-4 py-3 border !rounded-full text-sm font-bold focus:outline-none focus:border-[#F97316] transition-colors ${isDarkMode ? 'bg-black/40 border-white/10 text-white hover:bg-black/60' : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'}`}
               />
               <Calendar className="absolute left-4 top-3.5 w-4 h-4 text-[#F97316]" />
             </div>

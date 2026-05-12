@@ -364,7 +364,7 @@ export default function ProfileView() {
                     onChange={handleChange}
                     rows="4" 
                     placeholder="Tell us a little about yourself"
-                    className={`w-full !p-5 border !rounded-[2rem] outline-none focus:ring-1 font-medium resize-none placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500'}`}
+                    className={`w-full !px-6 py-5 border !rounded-[32px] outline-none focus:ring-1 font-medium resize-none placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500'}`}
                   ></textarea>
                 </div>
 

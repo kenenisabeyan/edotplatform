@@ -31,18 +31,18 @@ export default function QuizBuilder({ quiz, setQuiz, title = "Mini-Quiz Question
   };
 
   return (
-    <div className={`border rounded-2xl p-6 mt-6 shadow-inner backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+    <div className={`border !rounded-[32px] p-6 mt-6 shadow-inner backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
       <h4 className={`font-bold text-lg mb-5 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
         <div className="w-2 h-6 bg-[#F97316] rounded-full"></div>
         {title}
       </h4>
       
       {quiz.map((q, qIndex) => (
-        <div key={qIndex} className={`p-5 rounded-xl border mb-5 relative shadow-sm group hover:border-white/20 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+        <div key={qIndex} className={`p-5 !rounded-[32px] border mb-5 relative shadow-sm group hover:border-white/20 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
           <button 
             type="button"
             onClick={() => removeQuestion(qIndex)}
-            className={`absolute top-4 right-4 hover:text-[#E30A17] hover:bg-[#E30A17]/10 p-1.5 rounded-lg transition-colors opacity-0 group-hover:opacity-100 ${isDarkMode ? 'text-slate-300 bg-[#0B1120]/5' : 'text-slate-500 bg-slate-50'}`}
+            className={`absolute top-4 right-4 hover:text-[#E30A17] hover:bg-[#E30A17]/10 p-1.5 !rounded-full transition-colors opacity-0 group-hover:opacity-100 ${isDarkMode ? 'text-slate-300 bg-[#0B1120]/5' : 'text-slate-500 bg-slate-50'}`}
           >
             <Trash2 className="w-4 h-4" />
           </button>
@@ -54,7 +54,7 @@ export default function QuizBuilder({ quiz, setQuiz, title = "Mini-Quiz Question
               required
               value={q.question}
               onChange={(e) => updateQuestion(qIndex, 'question', e.target.value)}
-              className={`w-full px-4 py-3 border rounded-xl focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 outline-none font-semibold placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
+              className={`w-full px-4 py-3 border !rounded-full focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 outline-none font-semibold placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
               placeholder="e.g., What is the primary purpose of React?"
             />
           </div>
@@ -75,7 +75,7 @@ export default function QuizBuilder({ quiz, setQuiz, title = "Mini-Quiz Question
                   required
                   value={opt}
                   onChange={(e) => updateOption(qIndex, oIndex, e.target.value)}
-                  className={`flex-1 px-4 py-2.5 rounded-xl border outline-none font-medium transition-all ${q.correctAnswer === oIndex ? ' border-[#00D4FF] bg-[#00D4FF]/10 shadow-[0_0_10px_rgba(0,138,50,0.1)]' : 'border-white/10 focus:border-white/30'} ${isDarkMode ? 'text-white text-slate-300 bg-[#0B1120]' : 'text-slate-900 text-slate-500 bg-white'}`}
+                  className={`flex-1 px-4 py-2.5 !rounded-full border outline-none font-medium transition-all ${q.correctAnswer === oIndex ? ' border-[#00D4FF] bg-[#00D4FF]/10 shadow-[0_0_10px_rgba(0,138,50,0.1)]' : 'border-white/10 focus:border-white/30'} ${isDarkMode ? 'text-white text-slate-300 bg-[#0B1120]' : 'text-slate-900 text-slate-500 bg-white'}`}
                   placeholder={`Option ${oIndex + 1}`}
                 />
               </div>

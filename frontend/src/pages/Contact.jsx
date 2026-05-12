@@ -144,7 +144,7 @@ export default function Contact() {
                           onChange={e => setFormData({...formData, message: e.target.value})} 
                           required 
                           placeholder="Type your message here..."
-                          className={`w-full px-5 py-4 border rounded-xl focus:outline-none transition-all resize-none text-[15px] ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-600 focus:border-[#EBC176]/50' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#EBC176]/50 shadow-sm'}`}
+                          className={`w-full px-5 py-4 border !rounded-[32px] focus:outline-none transition-all resize-none text-[15px] ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-600 focus:border-[#EBC176]/50' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#EBC176]/50 shadow-sm'}`}
                         ></textarea>
                       </div>
                       

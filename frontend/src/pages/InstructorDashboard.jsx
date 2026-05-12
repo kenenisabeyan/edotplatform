@@ -150,7 +150,7 @@ export default function InstructorDashboard() {
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-              <div className={`border rounded-2xl p-6 shadow-sm hover:border-white/10 transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
+              <div className={`border rounded-[32px] p-6 shadow-sm hover:border-white/10 transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
                     <Users className="w-4 h-4" />
@@ -160,7 +160,7 @@ export default function InstructorDashboard() {
                 <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{totalStudents}</h3>
               </div>
 
-              <div className={`border rounded-2xl p-6 shadow-sm hover:border-white/10 transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
+              <div className={`border rounded-[32px] p-6 shadow-sm hover:border-white/10 transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
                     <Radio className="w-4 h-4" />
@@ -170,7 +170,7 @@ export default function InstructorDashboard() {
                 <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activeCourses}</h3>
               </div>
 
-              <div className={`border rounded-2xl p-6 shadow-sm hover:border-white/10 transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
+              <div className={`border rounded-[32px] p-6 shadow-sm hover:border-white/10 transition-colors ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
                     <Layers className="w-4 h-4" />
@@ -182,7 +182,7 @@ export default function InstructorDashboard() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-              <div className={`border rounded-2xl p-6 shadow-sm flex flex-col ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
+              <div className={`border rounded-[32px] p-6 shadow-sm flex flex-col ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
                 <h3 className={`font-medium text-[13px] mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Earnings (Last 6 Months)</h3>
                 <div className="h-[250px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -200,7 +200,7 @@ export default function InstructorDashboard() {
                 </div>
               </div>
 
-              <div className={`border rounded-2xl p-6 shadow-sm flex flex-col ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
+              <div className={`border rounded-[32px] p-6 shadow-sm flex flex-col ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
                 <h3 className={`font-medium text-[13px] mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Student Engagement</h3>
                 <div className="h-[250px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -219,7 +219,7 @@ export default function InstructorDashboard() {
               </div>
             </div>
 
-            <div className={`mt-8 backdrop-blur-xl p-8 rounded-2xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+            <div className={`mt-8 backdrop-blur-xl p-8 rounded-[32px] border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
                <h3 className={`text-xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Recent Activity</h3>
                <ActivityFeed isAdmin={false} limit={5} />
             </div>
@@ -243,7 +243,7 @@ export default function InstructorDashboard() {
             </div>
             
             {courses.length === 0 ? (
-               <div className={`bg-[#0B1120]/50 backdrop-blur-xl p-12 text-center rounded-2xl border-2 border-dashed shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+               <div className={`bg-[#0B1120]/50 backdrop-blur-xl p-12 text-center rounded-[32px] border-2 border-dashed shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                  <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-4 ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-300' : 'bg-slate-50 text-slate-500'}`}>
                    <FolderOpen className="w-10 h-10" />
                  </div>
@@ -259,7 +259,7 @@ export default function InstructorDashboard() {
             ) : (
                 <div className="grid grid-cols-1 gap-6">
                   {courses.map(c => (
-                    <div key={c.id} className={`backdrop-blur-xl rounded-2xl border shadow-2xl overflow-hidden flex flex-col md:flex-row group transition-all hover:border-[#F97316]/30 relative ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
+                    <div key={c.id} className={`backdrop-blur-xl rounded-[32px] border shadow-2xl overflow-hidden flex flex-col md:flex-row group transition-all hover:border-[#F97316]/30 relative ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
                       <div className="absolute top-0 right-0 w-32 h-32 bg-[#F97316] rounded-bl-full opacity-5 pointer-events-none group-hover:scale-110 transition-transform"></div>
                       <div className={`w-full md:w-64 h-48 md:h-auto shrink-0 relative ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-100'}`}>
                          <img 
@@ -371,7 +371,7 @@ export default function InstructorDashboard() {
                     value={formData.description} 
                     onChange={e => setFormData({...formData, description: e.target.value})} 
                     required 
-                    className={`w-full px-6 py-4 bg-[#0B1120] font-medium border rounded-xl focus:ring-2 focus:ring-[#F97316] focus:border-transparent outline-none transition-all resize-y placeholder:text-slate-300 ${isDarkMode ? 'text-white border-white/10' : 'text-slate-900 border-slate-200'}`} 
+                    className={`w-full !px-6 py-4 bg-[#0B1120] font-medium border !rounded-[32px] focus:ring-2 focus:ring-[#F97316] focus:border-transparent outline-none transition-all resize-y placeholder:text-slate-300 ${isDarkMode ? 'text-white border-white/10' : 'text-slate-900 border-slate-200'}`} 
                     rows="5" 
                     placeholder="Provide a comprehensive operational framework for this module."
                   ></textarea>
@@ -533,7 +533,7 @@ export default function InstructorDashboard() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 sm:px-0">
           <div className={`absolute inset-0 backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/80' : 'bg-white/90'}`} onClick={() => setActiveCourseId(null)}></div>
           
-          <div className={`bg-[#0B1120] border rounded-3xl w-full max-w-xl shadow-2xl relative z-10 animate-in zoom-in-95 duration-200 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+          <div className={`bg-[#0B1120] border !rounded-[32px] w-full max-w-xl shadow-2xl relative z-10 animate-in zoom-in-95 duration-200 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
             <div className={`flex justify-between items-center p-8 border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <h2 className={`text-xl font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                 <PlayCircle className="w-6 h-6 text-[#F97316]" />
@@ -566,7 +566,7 @@ export default function InstructorDashboard() {
                   value={lessonData.description} 
                   onChange={e => setLessonData({...lessonData, description: e.target.value})} 
                   required 
-                  className={`w-full !px-6 !py-4 font-medium border !rounded-[2rem] focus:ring-2 focus:ring-[#F97316] outline-none transition-all resize-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                  className={`w-full !px-6 !py-4 font-medium border !rounded-[32px] focus:ring-2 focus:ring-[#F97316] outline-none transition-all resize-none placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                   rows="3" 
                   placeholder="Define operational expectations for this sector."
                 ></textarea>

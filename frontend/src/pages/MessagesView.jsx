@@ -738,7 +738,7 @@ export default function MessagesView() {
                                   <textarea
                                     value={editMessageContent}
                                     onChange={(e) => setEditMessageContent(e.target.value)}
-                                    className={`w-full min-w-[200px] min-h-[60px] resize-none rounded-lg p-2 text-sm focus:outline-none ${isDarkMode ? 'bg-black/20 text-white' : 'bg-white text-slate-900 border border-slate-200'}`}
+                                    className={`w-full min-w-[200px] min-h-[60px] resize-none !rounded-[32px] !px-4 py-2 text-sm focus:outline-none ${isDarkMode ? 'bg-black/20 text-white' : 'bg-white text-slate-900 border border-slate-200'}`}
                                   />
                                   <div className="flex justify-end gap-2 mt-2">
                                     <button type="button" onClick={handleCancelEdit} className="text-xs font-semibold opacity-80">Cancel</button>
