@@ -285,12 +285,13 @@ export default function EDOTDashboard() {
     };
   }
 
-  const topCourseRankings = stats?.topCourses || [];
-  const recentActivities = stats?.recentActivity?.slice(0, 5) || [];
-  const notifications = stats?.notifications?.slice(0, 5) || [];
-  const events = stats?.events?.slice(0, 4) || [];
-  const studentEngagement = stats?.studentEngagement || {};
-  const instructorPerformance = stats?.instructorPerformance?.slice(0, 3) || [];
+  const topCourseRankings = Array.isArray(stats?.topCourses) ? stats.topCourses : [];
+  const recentActivities = Array.isArray(stats?.recentActivities) ? stats.recentActivities.slice(0, 5) : (Array.isArray(stats?.recentActivity) ? stats.recentActivity.slice(0, 5) : []);
+  const notifications = Array.isArray(stats?.notifications) ? stats.notifications.slice(0, 5) : [];
+  const events = Array.isArray(stats?.events) ? stats.events.slice(0, 4) : [];
+  const studentEngagement = stats?.engagement?.studentEngagement || stats?.studentEngagement || {};
+  const instructorPerformanceRaw = stats?.engagement?.instructorPerformance || stats?.instructorPerformance;
+  const instructorPerformance = Array.isArray(instructorPerformanceRaw) ? instructorPerformanceRaw.slice(0, 3) : [];
 
   if (loading) {
     return (
@@ -618,10 +619,10 @@ export default function EDOTDashboard() {
                        <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.title || course.name || 'Untitled course'}</p>
                        <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{course.enrollments ?? 0} students</p>
                      </div>
-                     <div className="text-right">
-                       <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.completionRate ?? 0}%</p>
-                       <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>completion</p>
-                     </div>
+                    <div className="text-right">
+                      <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.completionRate ?? 0}%</p>
+                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>completion</p>
+                    </div>
                    </div>
                    <div className="mt-4 h-2 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
                      <div className="h-full rounded-full bg-[#00D4FF]" style={{ width: `${course.completionRate ?? 0}%` }} />
@@ -776,17 +777,17 @@ export default function EDOTDashboard() {
             <div className="grid grid-cols-1 gap-4">
               <div className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
                 <p className="text-xs text-slate-500">Active Students</p>
-                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{studentEngagement.activeStudents ?? 0}</p>
-                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{studentEngagement.activeStudentsChange ?? '+0%'}</p>
+                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.activeStudents ?? 0}</p>
+                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{stats?.engagement?.studentEngagement?.activeStudentsChange ?? '+0%'}</p>
               </div>
               <div className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
                 <p className="text-xs text-slate-500">Lessons Completed</p>
-                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{studentEngagement.lessonsCompleted ?? 0}</p>
+                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.lessonsCompleted ?? 0}</p>
                 <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Cumulative study progress</p>
               </div>
               <div className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
                 <p className="text-xs text-slate-500">Study Hours</p>
-                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{studentEngagement.studyHours ?? 0}</p>
+                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.studyHours ?? 0}</p>
                 <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Hours this month</p>
               </div>
             </div>
