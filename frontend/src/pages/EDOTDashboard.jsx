@@ -34,6 +34,9 @@ import { useQuery } from '@tanstack/react-query';
 export default function EDOTDashboard() {
   const { user } = useAuth();
   const [isAgendaModalOpen, setIsAgendaModalOpen] = useState(false);
+  const [showRechartsMenu, setShowRechartsMenu] = useState(false);
+  const [showNotificationsMenu, setShowNotificationsMenu] = useState(false);
+  const [clearedNotifications, setClearedNotifications] = useState(false);
   const navigate = useNavigate();
   const isDarkMode = useThemeMode();
 
@@ -139,17 +142,15 @@ export default function EDOTDashboard() {
     return `$${value.toLocaleString()}`;
   };
 
-  const monthlyRevenueSeries = Array.isArray(stats?.monthlyRevenue) ? stats.monthlyRevenue : [];
-  const currentMonthRevenue = typeof stats?.finance?.monthlyIncome === 'number'
-    ? stats.finance.monthlyIncome
-    : monthlyRevenueSeries.length
-      ? monthlyRevenueSeries[monthlyRevenueSeries.length - 1].revenue
-      : stats?.finance?.totalRevenue ?? 0;
+  const monthlyRevenueSeries = Array.isArray(stats?.analytics?.revenueData) ? stats.analytics.revenueData : (Array.isArray(stats?.monthlyRevenue) ? stats.monthlyRevenue : []);
+  const currentMonthRevenue = typeof stats?.dashboardStats?.totalRevenue === 'number'
+    ? stats.dashboardStats.totalRevenue
+    : stats?.finance?.totalRevenue ?? 0;
   const patternPerformanceData = monthlyRevenueSeries.map((item) => ({
     name: item.name,
     revenue: item.revenue || 0,
-    students: Math.max(0, Math.round((item.revenue || 0) / 25)),
-    courses: Math.max(0, Math.round((item.revenue || 0) / 180))
+    students: item.students || 0,
+    courses: item.courses || 0
   }));
 
   let headerConfig = {};
@@ -165,11 +166,11 @@ export default function EDOTDashboard() {
       subtitle: 'Here’s what’s happening with your platform today.'
     };
     statsConfig = [
-      { title: 'Total Courses', value: stats?.totalCourses ?? 0, icon: BookOpen },
-      { title: 'Active Students', value: stats?.totalStudents ?? 0, icon: Users },
-      { title: 'Instructors', value: stats?.totalInstructors ?? 0, icon: Briefcase },
-      { title: 'Pending Approvals', value: stats?.pendingCourses ?? 0, icon: Award },
-      { title: 'Revenue (This Month)', value: formatCurrency(currentMonthRevenue), icon: CircleDollarSign }
+      { title: 'Total Courses', value: stats?.dashboardStats?.totalCourses ?? stats?.totalCourses ?? 0, icon: BookOpen },
+      { title: 'Active Students', value: stats?.dashboardStats?.totalStudents ?? stats?.totalStudents ?? 0, icon: Users },
+      { title: 'Instructors', value: stats?.dashboardStats?.totalInstructors ?? stats?.totalInstructors ?? 0, icon: Briefcase },
+      { title: 'Pending Approvals', value: stats?.dashboardStats?.pendingApprovals ?? stats?.pendingCourses ?? 0, icon: Award },
+      { title: 'Total Revenue', value: formatCurrency(currentMonthRevenue), icon: CircleDollarSign }
     ];
     areaConfig = {
       title: 'Platform Performance',
@@ -287,7 +288,7 @@ export default function EDOTDashboard() {
 
   const topCourseRankings = Array.isArray(stats?.topCourses) ? stats.topCourses : [];
   const recentActivities = Array.isArray(stats?.recentActivities) ? stats.recentActivities.slice(0, 5) : (Array.isArray(stats?.recentActivity) ? stats.recentActivity.slice(0, 5) : []);
-  const notifications = Array.isArray(stats?.notifications) ? stats.notifications.slice(0, 5) : [];
+  const notifications = clearedNotifications ? [] : (Array.isArray(stats?.notifications) ? stats.notifications.slice(0, 5) : []);
   const events = Array.isArray(stats?.events) ? stats.events.slice(0, 4) : [];
   const studentEngagement = stats?.engagement?.studentEngagement || stats?.studentEngagement || {};
   const instructorPerformanceRaw = stats?.engagement?.instructorPerformance || stats?.instructorPerformance;
@@ -365,6 +366,21 @@ export default function EDOTDashboard() {
     />;
   }
 
+  const exportToCSV = () => {
+    const headers = ['Month', 'Revenue', 'Students', 'Courses'];
+    const csvContent = "data:text/csv;charset=utf-8," 
+      + headers.join(",") + "\n"
+      + patternPerformanceData.map(e => `${e.name},${e.revenue},${e.students},${e.courses}`).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "platform_performance.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setShowRechartsMenu(false);
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 15 }}
@@ -372,6 +388,10 @@ export default function EDOTDashboard() {
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.5 }}
       className="space-y-6 max-w-[1600px] mx-auto pb-10"
+      onClick={() => {
+        if (showRechartsMenu) setShowRechartsMenu(false);
+        if (showNotificationsMenu) setShowNotificationsMenu(false);
+      }}
     >
       {/* 1. Welcome Banner (Heritage Glow) */}
       <div className={`rounded-2xl p-8 border relative overflow-hidden backdrop-blur-xl ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200 shadow-sm'}`}>
@@ -393,7 +413,7 @@ export default function EDOTDashboard() {
             </div>
             <div className={`rounded-2xl p-4 border ${isDarkMode ? 'bg-[#0B1120]/10 border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
               <p className="text-xs font-semibold tracking-[0.18em] uppercase mb-2">Active Now</p>
-              <p className="text-2xl font-semibold">{stats?.dailyActiveUsers ?? 0}</p>
+              <p className="text-2xl font-semibold">{stats?.engagement?.studentEngagement?.activeStudents ?? stats?.dailyActiveUsers ?? 0}</p>
               <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>users currently active on platform</p>
             </div>
           </div>
@@ -465,12 +485,12 @@ export default function EDOTDashboard() {
                     fill="none"
                     stroke="#10B981"
                     strokeWidth="2"
-                    strokeDasharray={`${Math.round((stats?.dailyActiveUsers ?? 0) / (stats?.totalStudents ?? 1) * 100)}, 100`}
+                    strokeDasharray={`${Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.activeStudents ?? stats?.dailyActiveUsers ?? 0) / (stats?.dashboardStats?.totalStudents ?? stats?.totalStudents ?? 1)) * 100))}, 100`}
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                    {Math.round((stats?.dailyActiveUsers ?? 0) / (stats?.totalStudents ?? 1) * 100)}%
+                    {Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.activeStudents ?? stats?.dailyActiveUsers ?? 0) / (stats?.dashboardStats?.totalStudents ?? stats?.totalStudents ?? 1)) * 100))}%
                   </span>
                 </div>
               </div>
@@ -492,12 +512,12 @@ export default function EDOTDashboard() {
                     fill="none"
                     stroke="#3B82F6"
                     strokeWidth="2"
-                    strokeDasharray={`${stats?.courseCompletionRate ?? 0}, 100`}
+                    strokeDasharray={`${Math.round(stats?.engagement?.courseCompletionRate ?? stats?.courseCompletionRate ?? 0)}, 100`}
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                    {stats?.courseCompletionRate ?? 0}%
+                    {Math.round(stats?.engagement?.courseCompletionRate ?? stats?.courseCompletionRate ?? 0)}%
                   </span>
                 </div>
               </div>
@@ -519,12 +539,12 @@ export default function EDOTDashboard() {
                     fill="none"
                     stroke="#F59E0B"
                     strokeWidth="2"
-                    strokeDasharray={`${Math.min(100, (stats?.studentEngagement?.lessonsCompleted ?? 0) / 10 * 100)}, 100`}
+                    strokeDasharray={`${Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.lessonsCompleted ?? stats?.studentEngagement?.lessonsCompleted ?? 0) / 20) * 100))}, 100`}
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                    {Math.min(100, Math.round((stats?.studentEngagement?.lessonsCompleted ?? 0) / 10 * 100))}%
+                    {Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.lessonsCompleted ?? stats?.studentEngagement?.lessonsCompleted ?? 0) / 20) * 100))}%
                   </span>
                 </div>
               </div>
@@ -546,12 +566,12 @@ export default function EDOTDashboard() {
                     fill="none"
                     stroke="#8B5CF6"
                     strokeWidth="2"
-                    strokeDasharray={`${Math.min(100, (stats?.recentActivity?.length ?? 0) * 10)}, 100`}
+                    strokeDasharray={`${Math.min(100, (stats?.engagement?.communityActivity ?? stats?.recentActivities?.length ?? stats?.recentActivity?.length ?? 0) * 5)}, 100`}
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                    {Math.min(100, (stats?.recentActivity?.length ?? 0) * 10)}%
+                    {Math.min(100, (stats?.engagement?.communityActivity ?? stats?.recentActivities?.length ?? stats?.recentActivity?.length ?? 0) * 5)}%
                   </span>
                 </div>
               </div>
@@ -562,11 +582,20 @@ export default function EDOTDashboard() {
 
         {/* Right Widget: Line/Area Chart */}
         <Card hover={false} className={`lg:col-span-5 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-          <div className="flex justify-between items-center mb-6 shrink-0">
+          <div className="flex justify-between items-center mb-6 shrink-0 relative">
             <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{areaConfig.title}</h3>
-            <div className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded ${isDarkMode ? 'text-slate-200 bg-[#0B1120]/5' : 'text-slate-600 bg-slate-100'}`}>
+            <div 
+              onClick={(e) => { e.stopPropagation(); setShowRechartsMenu(!showRechartsMenu); }}
+              className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded cursor-pointer font-bold ${isDarkMode ? 'text-[#00D4FF] bg-[#00D4FF]/10 hover:bg-[#00D4FF]/20' : 'text-[#00D4FF] bg-[#00D4FF]/10 hover:bg-[#00D4FF]/20'}`}
+            >
               Recharts <MoreHorizontal className="w-3 h-3" />
             </div>
+            {showRechartsMenu && (
+              <div className={`absolute top-8 right-0 w-36 rounded-lg shadow-xl overflow-hidden z-20 border ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+                <button onClick={exportToCSV} className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-100 dark:hover:bg-white/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Export to CSV</button>
+                <button onClick={() => setShowRechartsMenu(false)} className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-100 dark:hover:bg-white/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Refresh Data</button>
+              </div>
+            )}
           </div>
           
           <div className={`flex items-center justify-center gap-6 text-[11px] font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-slate-700'}`}>
@@ -709,7 +738,7 @@ export default function EDOTDashboard() {
               </div>
               <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{recentActivities.length} activities</span>
             </div>
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+            <div className="space-y-3">
               {recentActivities.length ? recentActivities.map((activity, index) => (
                 <div key={activity.id || index} className={`rounded-xl p-3 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
                   <div className="flex items-start gap-3">
@@ -807,15 +836,33 @@ export default function EDOTDashboard() {
               <button onClick={() => navigate('/dashboard/users')} className="w-full rounded-2xl border border-[#F97316] bg-[#F97316]/10 text-[#92400E] py-3 font-semibold">Add Instructor</button>
               <button onClick={() => navigate('/dashboard/notice')} className="w-full rounded-2xl border border-[#8B5CF6] bg-[#8B5CF6]/10 text-[#5B21B6] py-3 font-semibold">Broadcast Message</button>
             </div>
-            <div className="mt-6">
-              <h4 className={`text-sm font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>System Notifications</h4>
+            <div className="mt-6 relative">
+              <div className="flex justify-between items-center mb-3">
+                <h4 className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>System Notifications</h4>
+                <div 
+                  onClick={(e) => { e.stopPropagation(); setShowNotificationsMenu(!showNotificationsMenu); }}
+                  className={`p-1 rounded cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5`}
+                >
+                  <MoreHorizontal className="w-4 h-4 text-slate-400" />
+                </div>
+                {showNotificationsMenu && (
+                  <div className={`absolute top-8 right-0 w-40 rounded-lg shadow-xl overflow-hidden z-20 border ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+                    <button onClick={() => { setClearedNotifications(false); setShowNotificationsMenu(false); }} className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-100 dark:hover:bg-white/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Mark all as read</button>
+                    <button onClick={() => { setClearedNotifications(true); setShowNotificationsMenu(false); }} className={`w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10`}>Clear notifications</button>
+                  </div>
+                )}
+              </div>
               <div className="space-y-3">
-                {notifications.slice(0, 3).map((note, idx) => (
+                {notifications.length > 0 ? notifications.slice(0, 3).map((note, idx) => (
                   <div key={`quick-note-${idx}`} className={`rounded-2xl p-3 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
                     <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{note.title || note.message || 'Notification'}</p>
                     <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{note.time || note.date || note.createdAt || 'Recent update'}</p>
                   </div>
-                ))}
+                )) : (
+                  <div className={`rounded-2xl p-4 text-center text-xs ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                    You're all caught up!
+                  </div>
+                )}
               </div>
             </div>
           </Card>

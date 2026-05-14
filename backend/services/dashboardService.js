@@ -19,7 +19,9 @@ class DashboardService {
             recentEnrollmentActivity,
             progressAggregates,
             weeklyActivitiesCount,
-            completedCoursesCount
+            completedCoursesCount,
+            allUsersData,
+            allEnrollmentsData
         ] = await Promise.all([
             prisma.user.count(),
             prisma.user.count({ where: { role: 'student' } }),
@@ -37,7 +39,9 @@ class DashboardService {
             prisma.enrollment.findMany({ orderBy: { createdAt: 'desc' }, take: 5, select: { id: true, createdAt: true, student: { select: { name: true } }, course: { select: { title: true } } } }),
             prisma.userCourseProgress.aggregate({ _avg: { progress: true }, _sum: { score: true } }),
             prisma.activity.count({ where: { createdAt: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } } }),
-            prisma.userCourseProgress.count({ where: { completed: true } })
+            prisma.userCourseProgress.count({ where: { completed: true } }),
+            prisma.user.findMany({ select: { createdAt: true, role: true } }),
+            prisma.enrollment.findMany({ select: { createdAt: true, course: { select: { price: true } } } })
         ]);
 
         const totalRevenue = allCourses.reduce((acc, course) => acc + ((course.price || 0) * (course.totalStudents || 0)), 0);
@@ -46,15 +50,40 @@ class DashboardService {
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const currentYear = new Date().getFullYear();
         const revenueDataMap = {};
-        months.forEach(m => revenueDataMap[m] = 0);
+        const studentsDataMap = {};
+        const coursesDataMap = {};
+        months.forEach(m => {
+            revenueDataMap[m] = 0;
+            studentsDataMap[m] = 0;
+            coursesDataMap[m] = 0;
+        });
         
         allCourses.forEach(c => {
             if (c.createdAt.getFullYear() === currentYear) {
                 const monthName = months[c.createdAt.getMonth()];
-                revenueDataMap[monthName] += (c.price || 0) * (c.totalStudents || 0);
+                coursesDataMap[monthName] += 1;
             }
         });
-        const revenueData = months.map(m => ({ name: m, revenue: revenueDataMap[m] }));
+
+        allUsersData.forEach(u => {
+            if (u.role === 'student' && u.createdAt.getFullYear() === currentYear) {
+                const monthName = months[u.createdAt.getMonth()];
+                studentsDataMap[monthName] += 1;
+            }
+        });
+
+        allEnrollmentsData.forEach(e => {
+            if (e.createdAt.getFullYear() === currentYear) {
+                const monthName = months[e.createdAt.getMonth()];
+                revenueDataMap[monthName] += (e.course?.price || 0);
+            }
+        });
+        const revenueData = months.map(m => ({ 
+            name: m, 
+            revenue: revenueDataMap[m],
+            students: studentsDataMap[m],
+            courses: coursesDataMap[m]
+        }));
 
         // Top Courses
         const topCourses = [...allCourses]
@@ -76,12 +105,34 @@ class DashboardService {
 
         // Recent Activities
         const recentActivities = [
-            ...recentUsers.map(u => ({ id: u.id, type: 'user_registered', message: `New ${u.role} registered: ${u.name}`, date: u.createdAt })),
-            ...recentCourseActivity.map(c => ({ id: c.id, type: 'course_created', message: `New course created: ${c.title}`, date: c.createdAt })),
-            ...recentEnrollmentActivity.map(e => ({ id: e.id, type: 'enrollment', message: `${e.student?.name} enrolled in ${e.course?.title}`, date: e.createdAt }))
+            ...recentUsers.map(u => ({ id: u.id, type: 'user_joined', title: `New ${u.role} joined`, itemTitle: u.name, date: u.createdAt })),
+            ...recentCourseActivity.map(c => ({ id: c.id, type: 'course_published', title: 'New Course Published', itemTitle: c.title, date: c.createdAt })),
+            ...recentEnrollmentActivity.map(e => ({ id: e.id, type: 'enrollment', title: 'New Enrollment', itemTitle: `${e.student?.name} in ${e.course?.title}`, date: e.createdAt }))
         ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
 
         // Engagement Metrics
+        const instructorMap = {};
+        allCourses.forEach(c => {
+            if (c.instructor && c.instructor.name) {
+                if (!instructorMap[c.instructor.name]) {
+                    instructorMap[c.instructor.name] = { name: c.instructor.name, coursesTaught: 0, studentCount: 0, ratingSum: 0, ratingCount: 0 };
+                }
+                instructorMap[c.instructor.name].coursesTaught += 1;
+                instructorMap[c.instructor.name].studentCount += (c.totalStudents || 0);
+                if (c.rating) {
+                    instructorMap[c.instructor.name].ratingSum += c.rating;
+                    instructorMap[c.instructor.name].ratingCount += 1;
+                }
+            }
+        });
+        const instructorPerformanceArray = Object.values(instructorMap).map(inst => ({
+            id: inst.name,
+            name: inst.name,
+            coursesTaught: inst.coursesTaught,
+            studentCount: inst.studentCount,
+            performanceScore: inst.ratingCount ? Math.round((inst.ratingSum / inst.ratingCount / 5) * 100) : 0
+        })).sort((a, b) => b.studentCount - a.studentCount).slice(0, 3);
+
         const engagement = {
             studentEngagement: {
                 activeStudents: Math.min(totalStudents, recentEnrollmentActivity.length * 10 + 5), // Estimated active if we don't have exact logins
@@ -89,11 +140,9 @@ class DashboardService {
                 lessonsCompleted: liveClasses * 3 + allCourses.length * 2, // Estimated from course data
                 studyHours: Math.round(allCourses.length * 15.5) // Estimated
             },
-            instructorPerformance: [
-                { name: 'Average Course Rating', value: (allCourses.reduce((sum, c) => sum + (c.rating || 0), 0) / (allCourses.length || 1)).toFixed(1) },
-                { name: 'Total Revenue', value: `$${totalRevenue.toLocaleString()}` },
-                { name: 'Total Enrollments', value: allCourses.reduce((sum, c) => sum + (c.totalStudents || 0), 0) }
-            ]
+            courseCompletionRate: progressAggregates._avg.progress || 0,
+            communityActivity: weeklyActivitiesCount || 0,
+            instructorPerformance: instructorPerformanceArray
         };
 
         return {
