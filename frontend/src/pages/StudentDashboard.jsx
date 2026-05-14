@@ -78,24 +78,22 @@ export default function StudentDashboard() {
     }
   });
 
-  // Defer certificates and achievements - not critical for initial load
+  // Fetch certificates (critical for dashboard stats)
   const { data: certificatesData } = useQuery({
     queryKey: ['studentCertificates'],
     queryFn: async () => {
       const { data } = await api.get('/certificates').catch(() => ({ data: { data: [] } }));
       return data.data || [];
-    },
-    enabled: activeTab !== 'overview' // Only fetch if viewing non-overview tab
+    }
   });
 
-  // Defer achievements - not critical for initial load
+  // Fetch achievements
   const { data: achievementsData } = useQuery({
     queryKey: ['studentAchievements'],
     queryFn: async () => {
       const { data } = await api.get('/achievements').catch(() => ({ data: { data: [] } }));
       return data.data || [];
-    },
-    enabled: activeTab !== 'overview' // Only fetch if viewing non-overview tab
+    }
   });
 
   const { data: allCoursesData, isLoading: isLoadingCourses } = useQuery({

@@ -15,6 +15,7 @@ import { useAuth } from '../context/AuthContext';
 import { courseDropdownOptions } from '../constants/courseCategories';
 import toast from 'react-hot-toast';
 import SmartVideoPlayer from '../components/SmartVideoPlayer';
+import { useQuery } from '@tanstack/react-query';
 
 export default function InstructorCourseBuilder() {
   const isDarkMode = useThemeMode();
@@ -76,46 +77,47 @@ export default function InstructorCourseBuilder() {
     return cleanUrl;
   };
 
-  const fetchCourseDetails = useCallback(async () => {
-    setLoading(true);
-    try {
+  const { data: queryData, isLoading: queryLoading } = useQuery({
+    queryKey: ['courseBuilderDetails', courseId],
+    queryFn: async () => {
       const { data } = await api.get(`/courses/${courseId}/content`);
-      if (data.course) {
-        setFormData({
-          title: data.course.title || '',
-          description: data.course.description || '',
-          category: data.course.mainCategory || data.course.category || 'Social Science',
-          level: data.course.level || 'Beginner',
-          duration: data.course.duration || 1,
-          thumbnail: data.course.thumbnail || '',
-          videoUrl: data.course.videoUrl || '',
-          price: data.course.price || 0,
-          requirements: data.course.requirements?.length ? data.course.requirements : [''],
-          whatYouWillLearn: data.course.whatYouWillLearn?.length ? data.course.whatYouWillLearn : [''],
-          tags: data.course.tags?.length ? data.course.tags : [''],
-          isExamRequired: data.course.isExamRequired || false,
-          finalExam: data.course.finalExam || []
-        });
-        const courseLessons = data.course.lessons || [];
-        setLessons(courseLessons);
-        
-        const uniquePhases = [...new Set(courseLessons.map(l => l.phase).filter(Boolean))];
-        if (uniquePhases.length > 0) {
-          setPhases(uniquePhases);
-        }
-      }
-    } catch (err) {
-      console.error('Failed to fetch course details', err);
-    } finally {
-      setLoading(false);
-    }
-  }, [courseId]);
+      return data.course;
+    },
+    enabled: !!courseId,
+    staleTime: 0 // fetch on mount
+  });
 
   useEffect(() => {
-    if (courseId) {
-      fetchCourseDetails();
+    if (queryData) {
+      setFormData(prev => ({
+        ...prev,
+        title: queryData.title || '',
+        description: queryData.description || '',
+        category: queryData.mainCategory || queryData.category || 'Social Science',
+        level: queryData.level || 'Beginner',
+        duration: queryData.duration || 1,
+        thumbnail: queryData.thumbnail || '',
+        videoUrl: queryData.videoUrl || '',
+        price: queryData.price || 0,
+        requirements: queryData.requirements?.length ? queryData.requirements : [''],
+        whatYouWillLearn: queryData.whatYouWillLearn?.length ? queryData.whatYouWillLearn : [''],
+        tags: queryData.tags?.length ? queryData.tags : [''],
+        isExamRequired: queryData.isExamRequired || false,
+        finalExam: queryData.finalExam || []
+      }));
+      const courseLessons = queryData.lessons || [];
+      setLessons(courseLessons);
+      
+      const uniquePhases = [...new Set(courseLessons.map(l => l.phase).filter(Boolean))];
+      if (uniquePhases.length > 0) {
+        setPhases(uniquePhases);
+      }
     }
-  }, [courseId, fetchCourseDetails]);
+  }, [queryData]);
+
+  useEffect(() => {
+    setLoading(queryLoading);
+  }, [queryLoading]);
 
   const handleArrayChange = (field, index, value) => {
     const newArray = [...formData[field]];

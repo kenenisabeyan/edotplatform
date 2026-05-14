@@ -192,7 +192,7 @@ router.post('/social', async (req, res) => {
           email: normalizedEmail,
           password: randomPassword,
           role: 'student',
-          status: 'pending'
+          status: 'active'
         }
       });
     }

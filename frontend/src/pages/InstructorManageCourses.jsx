@@ -8,43 +8,28 @@ import {
   XSquare, PlayCircle, Send, Users, Sparkles, X, LayoutGrid
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
 
 export default function InstructorManageCourses() {
   const isDarkMode = useThemeMode();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  
+  const isAdmin = user?.role === 'admin';
 
-  const [modalType, setModalType] = useState(null); // 'lessons' | 'students' | null
+  const [modalType, setModalType] = useState(null);
   const [activeCourse, setActiveCourse] = useState(null);
   const [courseStudents, setCourseStudents] = useState([]);
   const [loadingStudents, setLoadingStudents] = useState(false);
 
-  const isAdmin = user?.role === 'admin';
-
-  const fetchCourses = useCallback(async () => {
-    try {
+  const { data: courses = [], isLoading: loading, refetch: fetchCourses } = useQuery({
+    queryKey: ['manageCourses', isAdmin],
+    queryFn: async () => {
       const endpoint = isAdmin ? '/admin/courses' : '/instructor/courses';
       const { data } = await api.get(endpoint);
-      setCourses(data.data);
-    } catch (err) {
-      console.error('Failed to fetch courses', err);
+      return data.data || [];
     }
-  }, [isAdmin]);
-
-  useEffect(() => {
-    let isMounted = true;
-    const loadCourses = async () => {
-      try {
-        await fetchCourses();
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-    loadCourses();
-    return () => { isMounted = false; };
-  }, [fetchCourses]);
+  });
 
   const coursesByCategory = useMemo(() => {
     const grouped = {};

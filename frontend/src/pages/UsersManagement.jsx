@@ -6,12 +6,12 @@ import { ShieldCheck, Users, CheckCircle2, XCircle, Search } from 'lucide-react'
 import UserAvatar from '../components/UserAvatar';
 import UserIntelligenceModal from '../components/UserIntelligenceModal';
 import CustomDropdown from '../components/CustomDropdown';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function UsersManagement() {
   const isDarkMode = useThemeMode();
   const { user } = useAuth();
-  const [usersList, setUsersList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
   const [errorMsg, setErrorMsg] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
@@ -25,22 +25,20 @@ export default function UsersManagement() {
       .map(u => ({ value: u.id, label: u.name }));
   }, [usersList]);
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
-    try {
-      setErrorMsg(null);
-      const { data } = await api.get('/admin/users', { params: { limit: 200 } });
-      setUsersList(data.data || []);
-    } catch (err) {
-      console.error('Failed to fetch users', err);
-      setErrorMsg(err.response?.data?.message || err.message || 'Error occurred fetching users');
-    } finally {
-      setLoading(false);
+  const { data: usersList = [], isLoading: loading, refetch: fetchUsers } = useQuery({
+    queryKey: ['adminUsersList'],
+    queryFn: async () => {
+      try {
+        setErrorMsg(null);
+        const { data } = await api.get('/admin/users', { params: { limit: 200 } });
+        return data.data || [];
+      } catch (err) {
+        console.error('Failed to fetch users', err);
+        setErrorMsg(err.response?.data?.message || err.message || 'Error occurred fetching users');
+        return [];
+      }
     }
-  };
+  });
 
   const updateRole = async (userId, role) => {
     try {
@@ -127,7 +125,7 @@ export default function UsersManagement() {
   }, [usersList, searchQuery]);
 
   return (
-    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen -mx-4 md:-mx-8 lg:-mx-12 -mt-4 md:-mt-8 p-6 md:p-8">
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>

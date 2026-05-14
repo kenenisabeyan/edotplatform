@@ -6,38 +6,40 @@ import {
   XSquare, Users, AlertCircle, FileText, BadgeInfo, Undo2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
 
 export default function AdminCourseApprovals() {
   const isDarkMode = useThemeMode();
-  const [courses, setCourses] = useState([]);
-  const [pendingEnrollments, setPendingEnrollments] = useState([]);
-  const [activeEnrollments, setActiveEnrollments] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(null);
   const [activeTab, setActiveTab] = useState('pending'); // 'pending' or 'active'
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
+  const { data: queueData = {}, isLoading: loading, refetch: fetchData } = useQuery({
+    queryKey: ['adminApprovals', activeTab],
+    queryFn: async () => {
       if (activeTab === 'pending') {
-         const { data: coursesData } = await api.get('/admin/courses/pending');
-         setCourses(coursesData.data);
-         const { data: enrollmentsData } = await api.get('/admin/enrollments/pending');
-         setPendingEnrollments(enrollmentsData.data);
+         const [{ data: coursesData }, { data: enrollmentsData }] = await Promise.all([
+           api.get('/admin/courses/pending'),
+           api.get('/admin/enrollments/pending')
+         ]);
+         return {
+           courses: coursesData.data || [],
+           pendingEnrollments: enrollmentsData.data || [],
+           activeEnrollments: []
+         };
       } else {
          const { data: activeData } = await api.get('/admin/enrollments/active', { params: { limit: 50 } });
-         setActiveEnrollments(activeData.data);
+         return {
+           courses: [],
+           pendingEnrollments: [],
+           activeEnrollments: activeData.data || []
+         };
       }
-    } catch (err) {
-      console.error('Failed to fetch data', err);
-    } finally {
-      setLoading(false);
     }
-  }, [activeTab]);
+  });
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const courses = queueData.courses || [];
+  const pendingEnrollments = queueData.pendingEnrollments || [];
+  const activeEnrollments = queueData.activeEnrollments || [];
 
   const handleStatusUpdate = async (courseId, newStatus) => {
     if (!window.confirm(`Are you sure you want to ${newStatus === 'approved' ? 'approve and publish' : 'reject'} this course?`)) return;
@@ -45,7 +47,7 @@ export default function AdminCourseApprovals() {
     setProcessing(courseId);
     try {
       await api.put(`/admin/courses/${courseId}/status`, { status: newStatus });
-      setCourses(courses.filter(c => c.id !== courseId));
+      fetchData();
     } catch (err) {
       console.error('Failed to update course status', err);
       alert('Failed to update course status');
@@ -61,12 +63,7 @@ export default function AdminCourseApprovals() {
     setProcessing(enrollmentId);
     try {
       await api.put(`/admin/enrollments/${enrollmentId}/status`, { status: newStatus === 'approved' ? 'active' : newStatus });
-      
-      if (activeTab === 'pending') {
-        setPendingEnrollments(pendingEnrollments.filter(en => en.id !== enrollmentId));
-      } else {
-        setActiveEnrollments(activeEnrollments.filter(en => en.id !== enrollmentId));
-      }
+      fetchData();
     } catch (err) {
       console.error('Failed to update enrollment status', err);
       alert('Failed to update enrollment status');

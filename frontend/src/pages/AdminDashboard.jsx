@@ -16,14 +16,13 @@ import FinanceFees from './FinanceFees';
 import FinanceExpenses from './FinanceExpenses';
 import { CircleDollarSign, ArrowDownRight } from 'lucide-react';
 
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+
 export default function AdminDashboard() {
   const isDarkMode = useThemeMode();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [usersList, setUsersList] = useState([]);
-  const [pendingCourses, setPendingCourses] = useState([]);
-  const [allCourses, setAllCourses] = useState([]);
-  const [pendingEnrollments, setPendingEnrollments] = useState([]);
+  const queryClient = useQueryClient();
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedUserPassword, setSelectedUserPassword] = useState('');
   const [manageOpen, setManageOpen] = useState(false);
@@ -32,105 +31,45 @@ export default function AdminDashboard() {
   const [recentFamilyActivity, setRecentFamilyActivity] = useState([]);
   const [childSearch, setChildSearch] = useState('');
   const [selectedChildId, setSelectedChildId] = useState('');
-  const [agendaEvents, setAgendaEvents] = useState([]);
   const [showAgendaModal, setShowAgendaModal] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
-  const [stats, setStats] = useState(null);
-  const [analytics, setAnalytics] = useState(null);
 
-  const fetchStats = useCallback(async () => {
-    try {
-      const { data } = await api.get('/admin/dashboard');
-      setStats(data.data);
-    } catch (err) {
-      console.error('Failed to fetch stats', err);
-    }
-  }, []);
+  const { data: stats, isLoading: loadingStats } = useQuery({
+    queryKey: ['adminStats'],
+    queryFn: async () => { const { data } = await api.get('/admin/dashboard'); return data.data; }
+  });
 
-  const fetchAnalytics = useCallback(async () => {
-    try {
-      const { data } = await api.get('/admin/analytics/detailed');
-      setAnalytics(data.data);
-    } catch (err) {
-      console.error('Failed to fetch analytics', err);
-    }
-  }, []);
+  const { data: analytics } = useQuery({
+    queryKey: ['adminAnalytics'],
+    queryFn: async () => { const { data } = await api.get('/admin/analytics/detailed'); return data.data; }
+  });
 
-  const fetchUsers = useCallback(async () => {
-    try {
-      const { data } = await api.get('/admin/users');
-      setUsersList(data.data);
-    } catch (err) {
-      console.error('Failed to fetch users', err);
-    }
-  }, []);
+  const { data: usersList = [], refetch: fetchUsers } = useQuery({
+    queryKey: ['adminUsersList'],
+    queryFn: async () => { const { data } = await api.get('/admin/users'); return data.data || []; }
+  });
 
-  const fetchPendingCourses = useCallback(async () => {
-    try {
-      const { data } = await api.get('/admin/courses/pending');
-      setPendingCourses(data.data);
-    } catch (err) {
-      console.error('Failed to fetch courses', err);
-    }
-  }, []);
+  const { data: pendingCourses = [], refetch: fetchPendingCourses } = useQuery({
+    queryKey: ['adminPendingCourses'],
+    queryFn: async () => { const { data } = await api.get('/admin/courses/pending'); return data.data || []; }
+  });
 
-  const fetchPendingEnrollments = useCallback(async () => {
-    try {
-      const { data } = await api.get('/admin/enrollments/pending');
-      setPendingEnrollments(data.data);
-    } catch (err) {
-      console.error('Failed to fetch pending enrollments', err);
-    }
-  }, []);
+  const { data: pendingEnrollments = [], refetch: fetchPendingEnrollments } = useQuery({
+    queryKey: ['adminPendingEnrollments'],
+    queryFn: async () => { const { data } = await api.get('/admin/enrollments/pending'); return data.data || []; }
+  });
 
-  const fetchAllCourses = useCallback(async () => {
-    try {
-      const { data } = await api.get('/courses?limit=100');
-      setAllCourses(data.courses || []);
-    } catch (err) {
-      console.error('Failed to fetch all courses', err);
-    }
-  }, []);
+  const { data: allCourses = [], refetch: fetchAllCourses } = useQuery({
+    queryKey: ['adminAllCourses'],
+    queryFn: async () => { const { data } = await api.get('/courses?limit=100'); return data.courses || []; }
+  });
 
-  const fetchAgendaEvents = useCallback(async () => {
-    try {
-      const { data } = await api.get('/calendar');
-      setAgendaEvents(Array.isArray(data.data) ? data.data : []);
-    } catch (err) {
-      console.error('Failed to fetch agenda events', err);
-    }
-  }, []);
+  const { data: agendaEvents = [], refetch: fetchAgendaEvents } = useQuery({
+    queryKey: ['adminAgendaEvents'],
+    queryFn: async () => { const { data } = await api.get('/calendar'); return Array.isArray(data.data) ? data.data : []; }
+  });
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const loadCoreDashboard = async () => {
-      try {
-        await Promise.all([fetchPendingCourses(), fetchPendingEnrollments(), fetchStats()]);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-
-    loadCoreDashboard();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [fetchPendingCourses, fetchPendingEnrollments, fetchStats]);
-
-  useEffect(() => {
-    // Defer non-critical fetches by 1.5 seconds
-    const timer = setTimeout(() => {
-      fetchUsers();
-      fetchAnalytics();
-      fetchAllCourses();
-      fetchAgendaEvents();
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, [fetchUsers, fetchAnalytics, fetchAllCourses, fetchAgendaEvents]);
+  const loading = loadingStats;
 
   const updateRole = async (userId, role) => {
     try {
@@ -349,13 +288,16 @@ export default function AdminDashboard() {
   };
 
   const handleAgendaCreated = (evt) => {
-    setAgendaEvents((prev) => [...prev, evt].sort((a, b) => new Date(a.date) - new Date(b.date)));
+    queryClient.setQueryData(['adminAgendaEvents'], (old) => {
+       const newList = old ? [...old, evt] : [evt];
+       return newList.sort((a, b) => new Date(a.date) - new Date(b.date));
+    });
   };
 
   const deleteAgenda = async (agendaId) => {
     try {
       await api.delete(`/calendar/${agendaId}`);
-      setAgendaEvents((prev) => prev.filter((item) => item.id !== agendaId));
+      queryClient.setQueryData(['adminAgendaEvents'], (old) => (old ? old.filter((item) => item.id !== agendaId) : []));
     } catch (err) {
       console.error('Failed to delete agenda', err);
     }
@@ -405,7 +347,7 @@ export default function AdminDashboard() {
         ], [stats, user]);
         
         return (
-          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen -mx-4 md:-mx-8 lg:-mx-12 -mt-4 md:-mt-8 p-6 md:p-10">
             <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <div>
                 <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>

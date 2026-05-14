@@ -3,6 +3,7 @@ import useThemeMode from '../hooks/useThemeMode';
 import { Search, Edit, MoreVertical, Trash2, Paperclip, Send, Smile, Phone, Video, Loader2, ArrowLeft, Mic, Menu, Settings, Users, PhoneCall, Ban, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
+import { useQuery } from '@tanstack/react-query';
 import io from 'socket.io-client';
 import AgendaCreationModal from '../components/AgendaCreationModal';
 
@@ -897,3 +898,4 @@ export default function MessagesView() {
     </div>
   );
 }
+

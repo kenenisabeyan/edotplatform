@@ -5,6 +5,7 @@ import { Check, X, ShieldAlert, BadgeCheck, UserPlus, GraduationCap } from 'luci
 import UserAvatar from '../components/UserAvatar';
 import CustomDropdown from '../components/CustomDropdown';
 import { useAuth } from '../context/AuthContext';
+import { useQuery } from '@tanstack/react-query';
 
 export default function StudentsList() {
   const isDarkMode = useThemeMode();
@@ -12,29 +13,24 @@ export default function StudentsList() {
   const isAdmin = user?.role === 'admin';
   const rolePrefix = isAdmin ? '/admin' : '/instructor';
 
-  const [students, setStudents] = useState([]);
-  const [instructors, setInstructors] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('approved'); // Default to approved
 
-  const fetchData = React.useCallback(async () => {
-    try {
+  const { data = {}, isLoading: loading, refetch: fetchData } = useQuery({
+    queryKey: ['adminStudentsAndInstructors', isAdmin, rolePrefix],
+    queryFn: async () => {
       const [stuRes, instRes] = await Promise.all([
          api.get(`${rolePrefix}/students`),
          isAdmin ? api.get('/admin/instructors') : Promise.resolve({ data: { success: false } })
       ]);
-      if (stuRes.data.success) setStudents(stuRes.data.data);
-      if (instRes.data.success) setInstructors(instRes.data.data.filter(i => i.status === 'approved' || !i.status));
-    } catch (error) {
-      console.error('Failed to fetch data', error);
-    } finally {
-      setLoading(false);
+      return {
+        students: stuRes.data.success ? stuRes.data.data : [],
+        instructors: instRes.data.success ? instRes.data.data.filter(i => i.status === 'approved' || !i.status) : []
+      };
     }
-  }, [isAdmin, rolePrefix]);
+  });
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const students = data.students || [];
+  const instructors = data.instructors || [];
 
   const handleApprove = async (id) => {
     try {

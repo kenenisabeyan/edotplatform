@@ -3,25 +3,17 @@ import useThemeMode from '../hooks/useThemeMode';
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
 import { PlusCircle, Search, BookOpen } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 
 export default function InstructorClasses() {
   const isDarkMode = useThemeMode();
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const { data } = await api.get('/instructor/courses');
-        setCourses(data.data || []);
-      } catch (err) {
-        console.error('Failed to fetch instructor courses', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCourses();
-  }, []);
+  const { data: courses = [], isLoading: loading } = useQuery({
+    queryKey: ['instructorCourses'],
+    queryFn: async () => {
+      const { data } = await api.get('/instructor/courses');
+      return data.data || [];
+    }
+  });
 
   if (loading) {
     return (

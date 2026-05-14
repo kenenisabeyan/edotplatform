@@ -177,6 +177,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
     try {
       await api.put(`/admin/users/${parentId}/link-child`, { childId: selectedUser.id });
       await fetchUserData(selectedUser.id);
+      if (onRefreshUsers) onRefreshUsers();
     } catch (err) {
       console.error('Failed to link parent to student', err);
     }
@@ -187,6 +188,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
     try {
       await api.put(`/admin/users/${parentId}/unlink-child`, { childId: selectedUser.id });
       await fetchUserData(selectedUser.id);
+      if (onRefreshUsers) onRefreshUsers();
     } catch (err) {
       console.error('Failed to unlink parent from student', err);
     }
@@ -270,7 +272,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 450, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 240, damping: 30 }}
-              className={`relative w-full max-w-6xl rounded-3xl border border-[#F97316] p-5 md:p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl max-h-[85vh] overflow-y-auto custom-scrollbar ${isDarkMode ? 'bg-[#0B1120]/40' : 'bg-slate-50'}`}
+              className={`relative w-full max-w-[1400px] w-[95vw] rounded-3xl border border-[#F97316] p-5 md:p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl max-h-[90vh] overflow-y-auto custom-scrollbar ${isDarkMode ? 'bg-[#0B1120]/40' : 'bg-slate-50'}`}
               onClick={(e) => e.stopPropagation()}
             >
             <div className="flex justify-between items-start gap-4 mb-6">
@@ -316,7 +318,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           searchable={true}
                           className="flex-1"
                         />
-                        <button onClick={() => updateStudentInstructor(instructorToAssign)} className={`px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500/100 rounded-xl text-[10px] font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Set</button>
+                        <button onClick={() => updateStudentInstructor(instructorToAssign)} className={`px-4 py-1.5 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] rounded-xl text-xs font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Set</button>
                       </div>
                     </div>
                     <div className={`pt-3 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
@@ -340,7 +342,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           searchable={true}
                           className="flex-1"
                         />
-                        <button onClick={() => bindParentToStudent(parentToBind)} className={`px-3 py-1.5 bg-blue-600 hover:bg-blue-500/100 rounded-xl text-[10px] font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Add</button>
+                        <button onClick={() => bindParentToStudent(parentToBind)} className={`px-4 py-1.5 bg-[#F97316] hover:bg-[#ea580c] shadow-md border border-[#F97316] rounded-xl text-xs font-bold transition-colors text-white`}>Add</button>
                       </div>
                     </div>
                   </div>
@@ -474,24 +476,37 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
               <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
                 {(selectedUser.role === 'student') ? (
                   <>
-                    <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Student Dossier</h4>
-                    <div className="grid grid-cols-1 gap-2 max-h-40 overflow-auto custom-scrollbar pr-2">
-                      {(selectedUser.enrolledCourses || []).map((en, idx) => {
+                    <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Student Dossier & Enrollment Analytics</h4>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-h-[300px] overflow-auto custom-scrollbar pr-2">
+                      {Object.entries((selectedUser.enrolledCourses || []).reduce((acc, en) => {
                         const courseId = en.course?.id || en.course;
-                        const courseTitle = en.course?.title || (allCourses.find((c) => c.id === courseId)?.title) || 'Unknown Course Data';
-                        return (
-                          <div key={`${courseId}_${idx}`} className="rounded-xl border border-slate-800 bg-black/40 p-3 flex flex-col gap-2 relative group overflow-hidden">
-                            <div className="flex items-start justify-between gap-3">
-                              <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{courseTitle}</p>
-                              <button onClick={() => removeEnrollment(courseId)} className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-rose-300 font-bold   px-2 py-1 rounded bg-rose-500/100/10 hover:bg-rose-500/100/20">Drop</button>
-                            </div>
-                            <div className="h-1.5 w-full bg-[#0B1120] rounded-full overflow-hidden mt-1">
-                              <div style={{ width: `${en.progress || 0}%`, backgroundColor: '#008A32' }} className="h-full rounded-full transition-all duration-700 shadow-[0_0_10px_rgba(0,138,50,0.8)]" />
-                            </div>
-                            <p className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Progress: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{en.progress || 0}%</span> • {en.status}</p>
+                        const courseObj = allCourses.find((c) => String(c.id) === String(courseId)) || en.course || {};
+                        const cat = courseObj.category || 'General';
+                        if (!acc[cat]) acc[cat] = [];
+                        acc[cat].push({ en, courseTitle: courseObj.title || 'Unknown Course Data', courseId });
+                        return acc;
+                      }, {})).map(([category, items]) => (
+                        <div key={category} className="mb-4">
+                          <h5 className={`text-[10px] uppercase tracking-wider font-black mb-2 ${isDarkMode ? 'text-[#F97316]' : 'text-[#F97316]'}`}>{category} ({items.length})</h5>
+                          <div className="flex flex-col gap-3">
+                            {items.map(({ en, courseTitle, courseId }, idx) => (
+                              <div key={`${courseId}_${idx}`} className="rounded-xl border border-slate-800 bg-black/40 p-3 flex flex-col gap-2 relative group overflow-hidden">
+                                <div className="flex items-start justify-between gap-3">
+                                  <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{courseTitle}</p>
+                                  <button onClick={() => removeEnrollment(courseId)} className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-rose-300 font-bold px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20">Drop</button>
+                                </div>
+                                <div className="h-1.5 w-full bg-[#0B1120] rounded-full overflow-hidden mt-1">
+                                  <div style={{ width: `${en.progress || 0}%`, backgroundColor: '#008A32' }} className="h-full rounded-full transition-all duration-700 shadow-[0_0_10px_rgba(0,138,50,0.8)]" />
+                                </div>
+                                <div className="flex justify-between items-center mt-1">
+                                  <p className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Progress: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{en.progress || 0}%</span></p>
+                                  <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-md border ${en.status === 'active' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20'}`}>{en.status}</span>
+                                </div>
+                              </div>
+                            ))}
                           </div>
-                        );
-                      })}
+                        </div>
+                      ))}
                     </div>
                     <div className={`mt-4 flex flex-col gap-3 pt-4 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                       <div className="flex gap-2">
@@ -525,9 +540,9 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                       <div className={`flex flex-wrap gap-2 pt-2 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                         <button onClick={resetUserProgress} className={`px-4 py-2 font-semibold border rounded-full transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reset Progress</button>
                         {selectedUser.status === 'blocked' ? (
-                          <button onClick={async () => await updateUserStatus('approved')} className="px-4 py-2 font-bold   bg-emerald-500/100/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/100/40 rounded-xl text-[10px] transition-colors">Unblock Service</button>
+                          <button onClick={async () => await updateUserStatus('approved')} className={`px-4 py-2 font-semibold border rounded-full transition-colors bg-[#22C55E] hover:bg-[#16A34A] shadow-md border-[#22C55E] text-white text-sm`}>Unblock Service</button>
                         ) : (
-                          <button onClick={blockService} className={`px-4 py-2 font-semibold border rounded-full transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Block Service</button>
+                          <button onClick={blockService} className={`px-4 py-2 font-semibold border rounded-full transition-colors bg-[#F97316] hover:bg-[#ea580c] shadow-md border-[#F97316] text-white text-sm`}>Block Service</button>
                         )}
                       </div>
                     </div>
@@ -588,7 +603,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           options={filterCandidates().map(child => ({ label: `${child.name} (${child.email})`, value: child.id }))}
                           className="flex-1"
                         />
-                        <button onClick={() => { if(selectedChildId) addChildToParent(selectedChildId); }} className={`px-4 py-2 bg-blue-600 hover:bg-blue-500/100 rounded-xl text-xs font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Bind</button>
+                        <button onClick={() => { if(selectedChildId) addChildToParent(selectedChildId); }} className={`px-4 py-2 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] rounded-xl text-xs font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Bind</button>
                       </div>
                     </div>
                   </>
@@ -603,7 +618,16 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
             {/* Overrides block */}
             <div className={`p-5 rounded-2xl border shrink-0 ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
               <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Quick Admin Overrides</h4>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+                <div>
+                  <label className={`text-[10px] font-bold mb-1 block ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Name Override</label>
+                  <input
+                    type="text"
+                    value={selectedUser.name || ''}
+                    onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })}
+                    className={`w-full px-4 py-2.5 text-sm rounded-xl border bg-black/60 focus:border-[#F97316] outline-none transition-colors ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                  />
+                </div>
                 <div>
                   <label className={`text-[10px] font-bold mb-1 block ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Email Override</label>
                   <input
@@ -654,7 +678,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
               </div>
               <div className={`mt-5 pt-5 border-t flex justify-between items-center gap-3 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                 <button onClick={saveUserUpdates} className={`px-6 py-2.5 rounded-full font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Commit Changes</button>
-                <button onClick={deleteAdminUser} className={`px-6 py-2.5 rounded-full font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Purge Data</button>
+                <button onClick={deleteAdminUser} className={`px-6 py-2.5 rounded-full font-semibold transition-colors bg-[#F97316] hover:bg-[#ea580c] shadow-md border border-[#F97316] text-white text-sm`}>Purge Data</button>
               </div>
             </div>
 

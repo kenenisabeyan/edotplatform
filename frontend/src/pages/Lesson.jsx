@@ -7,6 +7,7 @@ import { PlayCircle, FileText, CheckCircle2, Lock, Unlock, ArrowLeft, ChevronDow
 import SmartVideoPlayer from '../components/SmartVideoPlayer';
 import ThemeDropdown from '../components/ThemeDropdown';
 import toast from 'react-hot-toast';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Lesson() {
   const isDarkMode = useThemeMode();
@@ -15,12 +16,6 @@ export default function Lesson() {
   const courseId = searchParams.get('courseId');
   const { user } = useAuth();
 
-  const [course, setCourse] = useState(null);
-  const [enrollmentStatus, setEnrollmentStatus] = useState(null);
-  const [enrollmentProgress, setEnrollmentProgress] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  
   const [expandedPhase, setExpandedPhase] = useState({}); 
   const [expandedCategory, setExpandedCategory] = useState({});
   const [playingVideoId, setPlayingVideoId] = useState(null); 
@@ -49,43 +44,43 @@ export default function Lesson() {
     }
   };
 
-  useEffect(() => {
-    if (!courseId) {
-      setError('System parameter missing. Return to catalog and reboot selection.');
-      setLoading(false);
-      return;
-    }
+  const { data: lessonData = {}, isLoading: loadingData, error: queryError } = useQuery({
+    queryKey: ['lessonData', courseId, id, user?.id],
+    queryFn: async () => {
+      let isEnrolledActive = false;
+      let status = 'none';
+      let progress = null;
 
-    const fetchCourseData = async () => {
-      try {
-        let isEnrolledActive = false;
-
-        if (user) {
-          try {
-             const { data: statusData } = await api.get(`/student/courses/${courseId}/status`);
-             setEnrollmentStatus(statusData.status);
-             setEnrollmentProgress(statusData.progress);
-             isEnrolledActive = statusData.status === 'active';
-          } catch {
-             setEnrollmentStatus('none');
-          }
+      if (user) {
+        try {
+           const { data: statusData } = await api.get(`/student/courses/${courseId}/status`);
+           status = statusData.status;
+           progress = statusData.progress;
+           isEnrolledActive = status === 'active';
+        } catch {
+           status = 'none';
         }
-
-        const endpoint = (isEnrolledActive || user?.role === 'admin' || user?.role === 'instructor') 
-            ? `/courses/${courseId}/content` 
-            : `/courses/${courseId}`;
-
-        const { data } = await api.get(endpoint);
-        setCourse(data.course);
-
-      } catch {
-        setError('Transmission failure. Unable to retrieve module resources.');
-      } finally {
-        setLoading(false);
       }
-    };
-    fetchCourseData();
-  }, [courseId, id, user]);
+
+      const endpoint = (isEnrolledActive || user?.role === 'admin' || user?.role === 'instructor') 
+          ? `/courses/${courseId}/content` 
+          : `/courses/${courseId}`;
+
+      const { data } = await api.get(endpoint);
+      return {
+        course: data.course,
+        enrollmentStatus: status,
+        enrollmentProgress: progress
+      };
+    },
+    enabled: !!courseId
+  });
+
+  const loading = !courseId || loadingData;
+  const error = !courseId ? 'System parameter missing. Return to catalog and reboot selection.' : (queryError ? 'Transmission failure. Unable to retrieve module resources.' : '');
+  const course = lessonData.course;
+  const enrollmentStatus = lessonData.enrollmentStatus;
+  const enrollmentProgress = lessonData.enrollmentProgress;
 
   const isActive = enrollmentStatus === 'active' || user?.role === 'admin' || user?.role === 'instructor';
   const isBlocked = user?.status === 'blocked';

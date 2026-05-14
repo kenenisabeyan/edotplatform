@@ -22,48 +22,44 @@ import {
   Video
 } from 'lucide-react';
 import useThemeMode from '../hooks/useThemeMode';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function CourseDetails() {
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [course, setCourse] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const queryClient = useQueryClient();
+
   const [enrolling, setEnrolling] = useState(false);
-  const [enrollmentStatus, setEnrollmentStatus] = useState(null); // 'none', 'pending', 'active', 'rejected'
   const [activeTab, setActiveTab] = useState('overview');
   const isDarkMode = useThemeMode();
 
-  useEffect(() => {
-    const fetchCourseData = async () => {
+  const { data: course, isLoading: loadingCourse, error: courseError } = useQuery({
+    queryKey: ['course', id],
+    queryFn: async () => {
+      const { data } = await api.get(`/courses/${id}`);
+      return data.course;
+    }
+  });
+
+  const { data: enrollmentStatusData, isLoading: loadingStatus, refetch: refetchStatus } = useQuery({
+    queryKey: ['courseStatus', id],
+    queryFn: async () => {
+      if (!user) return { status: 'none' };
       try {
-        const { data } = await api.get(`/courses/${id}`);
-        setCourse(data.course);
-
-        if (user) {
-          try {
-             const { data: statusData } = await api.get(`/student/courses/${id}/status`);
-             setEnrollmentStatus(statusData.status);
-          } catch(err) {
-             console.error("Failed to fetch course status", err);
-             setEnrollmentStatus('none');
-          }
-        } else {
-          setEnrollmentStatus('none');
-        }
-
+        const { data } = await api.get(`/student/courses/${id}/status`);
+        return data;
       } catch (err) {
-         console.error("Course fetch error:", err);
-         const errMsg = err.response?.data?.message || err.message || 'Unknown error';
-         setError(`Failed to securely establish connection: ${errMsg}`);
-      } finally {
-         setLoading(false);
+        return { status: 'none' };
       }
-    };
-    fetchCourseData();
-  }, [id, user]);
+    },
+    enabled: !!user
+  });
+
+  const loading = loadingCourse;
+  const error = courseError ? (courseError.response?.data?.message || courseError.message || 'Unknown error') : '';
+  const enrollmentStatus = enrollmentStatusData?.status || 'none';
 
   const handleEnroll = async () => {
     if (!user) return navigate('/login');
@@ -71,7 +67,7 @@ export default function CourseDetails() {
     setEnrolling(true);
     try {
       await api.post(`/student/courses/${id}/enroll`);
-      setEnrollmentStatus('active');
+      refetchStatus();
       alert('Enrollment successful. You can now access the course materials.');
     } catch (err) {
       alert(err.response?.data?.message || err.message);

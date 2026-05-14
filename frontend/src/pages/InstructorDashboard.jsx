@@ -15,68 +15,35 @@ import CustomDropdown from '../components/CustomDropdown';
 import { courseDropdownOptions } from '../constants/courseCategories';
 import ProfileView from './ProfileView';
 
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+
 export default function InstructorDashboard() {
   const isDarkMode = useThemeMode();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [courses, setCourses] = useState([]);
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState({ title: '', description: '', category: 'Social Science', duration: 1, thumbnail: '' });
   const [activeTab, setActiveTab] = useState('overview');
-  const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState(null);
-  const [analytics, setAnalytics] = useState(null);
   
   const [activeCourseId, setActiveCourseId] = useState(null);
   const [lessonData, setLessonData] = useState({ title: '', description: '', videoUrl: '', duration: 10 });
 
-  const fetchStats = useCallback(async () => {
-    try {
-      const { data } = await api.get('/instructor/dashboard');
-      setStats(data.data);
-    } catch (err) {
-      console.error('Failed to fetch stats', err);
-    }
-  }, []);
+  const { data: stats, isLoading: loadingStats } = useQuery({
+    queryKey: ['instructorStats'],
+    queryFn: async () => { const { data } = await api.get('/instructor/dashboard'); return data.data; }
+  });
 
-  const fetchAnalytics = useCallback(async () => {
-    try {
-      const { data } = await api.get('/instructor/analytics/detailed');
-      setAnalytics(data.data);
-    } catch (err) {
-      console.error('Failed to fetch analytics', err);
-    }
-  }, []);
+  const { data: analytics } = useQuery({
+    queryKey: ['instructorAnalytics'],
+    queryFn: async () => { const { data } = await api.get('/instructor/analytics/detailed'); return data.data; }
+  });
 
-  const fetchCourses = useCallback(async () => {
-    try {
-      const { data } = await api.get('/instructor/courses');
-      setCourses(data.data);
-    } catch (err) {
-      console.error('Failed to fetch courses', err);
-    }
-  }, []);
+  const { data: courses = [], refetch: fetchCourses } = useQuery({
+    queryKey: ['instructorCourses'],
+    queryFn: async () => { const { data } = await api.get('/instructor/courses'); return data.data || []; }
+  });
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const loadDashboardData = async () => {
-      try {
-        await Promise.all([fetchCourses(), fetchStats()]);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-
-    loadDashboardData();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [fetchCourses, fetchStats]);
-
-  useEffect(() => {
-    fetchAnalytics();
-  }, [fetchAnalytics]);
+  const loading = loadingStats;
 
   const handleCreateCourse = async (e) => {
     e.preventDefault();

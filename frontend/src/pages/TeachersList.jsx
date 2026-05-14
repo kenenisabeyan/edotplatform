@@ -4,28 +4,19 @@ import api from '../utils/api';
 import { Check, X, ShieldAlert, BadgeCheck, Users, Search } from 'lucide-react';
 import UserAvatar from '../components/UserAvatar';
 
+import { useQuery } from '@tanstack/react-query';
+
 export default function TeachersList() {
   const isDarkMode = useThemeMode();
-  const [instructors, setInstructors] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('pending'); // 'pending' or 'approved'
 
-  useEffect(() => {
-    fetchInstructors();
-  }, []);
-
-  const fetchInstructors = async () => {
-    try {
+  const { data: instructors = [], isLoading: loading, refetch: fetchInstructors } = useQuery({
+    queryKey: ['adminInstructors'],
+    queryFn: async () => {
       const { data } = await api.get('/admin/instructors', { params: { limit: 200 } });
-      if (data.success) {
-        setInstructors(data.data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch instructors', error);
-    } finally {
-      setLoading(false);
+      return data.success ? data.data : [];
     }
-  };
+  });
 
   const handleApprove = async (id) => {
     try {

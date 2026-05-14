@@ -46,10 +46,10 @@ function NavItem({ item, metrics, role, sidebarCollapsed, onLinkClick, isDarkMod
     badgeCount = metrics.unreadMessages;
   } else if (item.path.includes('/dashboard/users') && role === 'admin') {
     badgeCount = metrics.pendingUsers;
-    badgeColor = 'bg-rose-500/100 text-white';
+    badgeColor = 'bg-[#F97316] text-white';
   } else if (item.path.includes('/approvals')) {
     badgeCount = (metrics.pendingApprovals || 0) + (metrics.pendingEnrollments || 0);
-    badgeColor = 'bg-amber-500/100 text-white';
+    badgeColor = 'bg-[#F97316] text-white';
   } else if (item.path.includes('/my-courses')) {
     badgeCount = metrics.pendingCourses;
     badgeColor = 'bg-amber-500/100 text-white';

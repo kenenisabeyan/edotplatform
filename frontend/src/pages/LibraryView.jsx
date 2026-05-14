@@ -8,16 +8,14 @@ import 'github-markdown-css';
 import CustomDropdown from '../components/CustomDropdown';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
 export default function LibraryView() {
   const isDarkMode = useThemeMode();
   const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const [resources, setResources] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [enrollmentRequests, setEnrollmentRequests] = useState([]);
-  const [loading, setLoading] = useState(true);
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCourseId, setFilterCourseId] = useState(location.state?.courseId || null);
 
@@ -36,45 +34,30 @@ export default function LibraryView() {
   const [reviewDecision, setReviewDecision] = useState('approved');
   const [globalTasks, setGlobalTasks] = useState([]);
 
-  const fetchResources = async () => {
-    try {
-      setLoading(true);
-      const { data } = await api.get('/library');
-      setResources(data.data || []);
-    } catch (err) {
-      console.error('Failed to fetch library resources', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchCourses = async () => {
-    try {
-      let endpoint = '/courses';
-      if (user?.role === 'admin') endpoint = '/admin/courses';
-      else if (user?.role === 'instructor') endpoint = '/instructor/courses';
+  const { data: libraryData = {}, isLoading: loading, refetch: fetchResources } = useQuery({
+    queryKey: ['libraryData', user?.role],
+    queryFn: async () => {
+      let coursesEndpoint = '/courses';
+      if (user?.role === 'admin') coursesEndpoint = '/admin/courses';
+      else if (user?.role === 'instructor') coursesEndpoint = '/instructor/courses';
       
-      const { data } = await api.get(endpoint);
-      setCourses(data.data || []);
-    } catch (error) {
-      console.error('Failed to fetch courses', error);
-    }
-  };
+      const [resData, coursesData, enrollmentsData] = await Promise.all([
+        api.get('/library').catch(() => ({ data: { data: [] } })),
+        api.get(coursesEndpoint).catch(() => ({ data: { data: [] } })),
+        api.get('/enrollments/pending').catch(() => ({ data: { data: [] } }))
+      ]);
 
-  const fetchEnrollmentRequests = async () => {
-    try {
-      const { data } = await api.get('/enrollments/pending');
-      setEnrollmentRequests(data.data || []);
-    } catch (error) {
-      console.error('Failed to fetch enrollment requests', error);
+      return {
+        resources: resData.data.data || [],
+        courses: coursesData.data.data || [],
+        enrollmentRequests: enrollmentsData.data.data || []
+      };
     }
-  };
+  });
 
-  useEffect(() => {
-    fetchResources();
-    fetchCourses();
-    fetchEnrollmentRequests();
-  }, []);
+  const resources = libraryData.resources || [];
+  const courses = libraryData.courses || [];
+  const enrollmentRequests = libraryData.enrollmentRequests || [];
 
   const handleFileChange = (e) => {
     if (e.target.files[0]) {
@@ -129,7 +112,7 @@ export default function LibraryView() {
     try {
       const newStatus = currentStatus === 'approved' ? 'pending' : 'approved';
       await api.put(`/admin/courses/${courseId}/status`, { status: newStatus });
-      setCourses(courses.map(c => c.id === courseId ? { ...c, status: newStatus } : c));
+      fetchResources();
     } catch (err) {
       console.error('Failed to change course status', err);
     }

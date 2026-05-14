@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Github, Eye, EyeOff } from 'lucide-react';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider, githubProvider } from '../utils/firebase';
 
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 
@@ -66,14 +68,24 @@ export default function AuthLayout({ defaultIsRegister = false }) {
     }
   };
 
-  const handleSocialLogin = async (provider) => {
+  const handleSocialLogin = async (providerName) => {
     try {
       setLoadingLogin(true);
-      const mockEmail = provider.toLowerCase() + '@example.com';
-      await socialLogin({ provider, email: mockEmail });
+      
+      const provider = providerName === 'Google' ? googleProvider : githubProvider;
+      // Trigger the real Firebase OAuth popup
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      
+      await socialLogin({ 
+        provider: providerName, 
+        email: user.email,
+        name: user.displayName || user.email.split('@')[0]
+      });
       // Redirect handled by useEffect above upon successful login
     } catch (err) {
-      setLoginError(err.response?.data?.message || err.message || `${provider} login failed`);
+      console.error(`${providerName} login error:`, err);
+      setLoginError(err.response?.data?.message || err.message || `${providerName} login failed`);
     } finally {
       setLoadingLogin(false);
     }

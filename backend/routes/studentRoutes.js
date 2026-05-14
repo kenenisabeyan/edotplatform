@@ -209,7 +209,7 @@ router.post('/courses/:courseId/exam/complete', async (req, res) => {
 
         await prisma.userCourseProgress.update({
             where: { id: enrollment.id },
-            data: { passedFinalExam: true, score: Number(score) || 0 }
+            data: { passedFinalExam: true, score: Number(score) || 0, completed: true, progress: 100, status: 'completed' }
         });
         
         const course = await prisma.course.findUnique({ where: { id: courseId } });

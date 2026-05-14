@@ -10,27 +10,47 @@ router.use(checkNotBlocked);
 router.get('/dashboard/student', async (req, res) => {
     try {
         const userId = req.user.id;
-        const user = await prisma.user.findUnique({
-            where: { id: userId },
+        
+        const userProgress = await prisma.userCourseProgress.findMany({
+            where: { userId },
             include: { 
-                userCourseProgress: { 
-                    include: { 
-                        course: {
-                            include: { instructor: true, lessons: true }
-                        } 
-                    } 
+                course: {
+                    include: { instructor: true, lessons: true }
                 } 
             }
         });
+
+        const pendingEnrollments = await prisma.enrollment.findMany({
+            where: { studentId: userId, status: { in: ['active', 'pending', 'completed'] } },
+            include: {
+                course: {
+                    include: { instructor: true, lessons: true }
+                }
+            }
+        });
+
+        const courseIds = new Set(userProgress.map(e => e.courseId));
+        const allEnrollments = [...userProgress];
+        pendingEnrollments.forEach(e => {
+            if (!courseIds.has(e.courseId)) {
+                allEnrollments.push({
+                    id: e.id,
+                    courseId: e.courseId,
+                    course: e.course,
+                    progress: 0,
+                    completedLessons: [],
+                    status: 'active'
+                });
+            }
+        });
         
-        const enrollments = user?.userCourseProgress || [];
-        const totalEnrolled = enrollments.length;
+        const totalEnrolled = allEnrollments.length;
         
         let totalProgress = 0;
         let completedLessons = 0;
         let completedCourses = 0;
         
-        enrollments.forEach(e => {
+        allEnrollments.forEach(e => {
             totalProgress += (e.progress || 0);
             let lessonsJson = e.completedLessons ? 
                 (Array.isArray(e.completedLessons) ? e.completedLessons : [e.completedLessons]) : [];
@@ -76,7 +96,7 @@ router.get('/courses/enrolled', async (req, res) => {
 
         // Add dummy enrollments from main enrollment table if no progress yet
         const pendingEnrollments = await prisma.enrollment.findMany({
-            where: { studentId: userId, status: 'active' },
+            where: { studentId: userId, status: { in: ['active', 'pending', 'completed'] } },
             include: {
                 course: {
                     include: { 
@@ -115,7 +135,15 @@ router.get('/progress/overview', async (req, res) => {
     try {
         const userId = req.user.id;
         const allProgress = await prisma.userCourseProgress.findMany({ where: { userId } });
-        const avg = allProgress.length > 0 ? allProgress.reduce((sum, p) => sum + (p.progress || 0), 0) / allProgress.length : 0;
+        
+        const enrollments = await prisma.enrollment.findMany({ where: { studentId: userId, status: { in: ['active', 'pending', 'completed'] } } });
+        const courseIds = new Set(allProgress.map(p => p.courseId));
+        let totalCourses = allProgress.length;
+        enrollments.forEach(e => {
+            if (!courseIds.has(e.courseId)) totalCourses++;
+        });
+
+        const avg = totalCourses > 0 ? allProgress.reduce((sum, p) => sum + (p.progress || 0), 0) / totalCourses : 0;
         const percentile = Math.min(99, Math.floor(30 + (avg * 0.6)));
 
         res.json({

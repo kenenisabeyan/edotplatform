@@ -29,11 +29,10 @@ import { motion } from 'framer-motion';
 import { Card } from '../components/ui/Card';
 import useThemeMode from '../hooks/useThemeMode';
 
+import { useQuery } from '@tanstack/react-query';
+
 export default function EDOTDashboard() {
   const { user } = useAuth();
-  const [stats, setStats] = useState(null);
-  const [agendaEvents, setAgendaEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [isAgendaModalOpen, setIsAgendaModalOpen] = useState(false);
   const navigate = useNavigate();
   const isDarkMode = useThemeMode();
@@ -41,51 +40,33 @@ export default function EDOTDashboard() {
   const userRole = user?.role ? user.role.toLowerCase().trim() : 'student';
   void motion;
 
-  useEffect(() => {
-    const fetchDashboardStats = async () => {
-      if (userRole === 'sponsor') {
-        return setLoading(false);
+  const { data: stats, isLoading: loadingStats } = useQuery({
+    queryKey: ['edotDashboardStats', userRole],
+    queryFn: async () => {
+      if (userRole === 'sponsor') return null;
+      if (userRole === 'student') {
+        const [{ data: enrolled }, { data: dashboard }] = await Promise.all([
+          api.get('/courses/enrolled'),
+          api.get('/users/dashboard-stats')
+        ]);
+        return { ...dashboard.data, enrolledCourses: enrolled.data || [] };
       }
-      try {
-        if (userRole === 'student') {
-          const [{ data: enrolled }, { data: dashboard }] = await Promise.all([
-            api.get('/courses/enrolled'),
-            api.get('/users/dashboard-stats')
-          ]);
-          setStats({
-            ...dashboard.data,
-            enrolledCourses: enrolled.data || [],
-          });
-        } else {
-          const { data } = await api.get(`/${userRole}/dashboard`);
-          setStats(data.data);
-        }
-      } catch (err) {
-        console.error('Error fetching dashboard stats', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    if (user) {
-        fetchDashboardStats();
-    }
-  }, [user, userRole]);
+      const { data } = await api.get(`/${userRole}/dashboard`);
+      return data.data;
+    },
+    enabled: !!user
+  });
 
-  useEffect(() => {
-    const fetchAgenda = async () => {
-      try {
-        const { data } = await api.get('/calendar');
-        setAgendaEvents(Array.isArray(data.data) ? data.data : []);
-      } catch (err) {
-        console.error('Error fetching agenda events', err);
-      }
-    };
-    
-    if (user) {
-      setTimeout(() => fetchAgenda(), 800); // Defer calendar fetch by 800ms after dashboard loads
-    }
-  }, [user]);
+  const { data: agendaEvents = [], refetch: refetchAgenda } = useQuery({
+    queryKey: ['edotAgendaEvents'],
+    queryFn: async () => {
+      const { data } = await api.get('/calendar');
+      return Array.isArray(data.data) ? data.data : [];
+    },
+    enabled: !!user
+  });
+
+  const loading = loadingStats && userRole !== 'sponsor';
 
   const SmartCard = ({ title, value, icon: Icon }) => {
     let glowClass = 'hover:shadow-[0_0_25px_rgba(0,212,255,0.2)]'; // Cyan glow for admin
@@ -139,14 +120,14 @@ export default function EDOTDashboard() {
   const deleteAgenda = async (agendaId) => {
     try {
       await api.delete(`/calendar/${agendaId}`);
-      setAgendaEvents((prev) => prev.filter((e) => e.id !== agendaId));
+      refetchAgenda();
     } catch (err) {
       console.error('Failed to delete agenda event', err);
     }
   };
 
   const onAgendaCreated = (evt) => {
-    setAgendaEvents((prev) => [...prev, evt].sort((a, b) => new Date(a.date) - new Date(b.date)));
+    refetchAgenda();
   };
 
   const formatCurrency = (value) => {
