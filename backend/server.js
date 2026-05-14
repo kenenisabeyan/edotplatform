@@ -34,6 +34,7 @@ import connectionRoutes from './routes/connectionRoutes.js';
 import materialRoutes from './routes/materialRoutes.js';
 import quizRoutes from './routes/quizRoutes.js';
 import newDashboardRoutes from './routes/newDashboardRoutes.js';
+import dashboardRoutes from './routes/dashboardRoutes.js';
 import liveClassRoutes from './routes/liveClassRoutes.js';
 import expenseRoutes from './routes/expenseRoutes.js';
 
@@ -107,6 +108,7 @@ app.use('/api/materials', materialRoutes);
 app.use('/api/quizzes', quizRoutes);
 app.use('/api/live-classes', liveClassRoutes);
 app.use('/api', newDashboardRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/expenses', expenseRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

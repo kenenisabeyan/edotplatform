@@ -51,6 +51,10 @@ export default function EDOTDashboard() {
         ]);
         return { ...dashboard.data, enrolledCourses: enrolled.data || [] };
       }
+      if (userRole === 'admin') {
+        const { data } = await api.get('/dashboard/stats');
+        return data.data;
+      }
       const { data } = await api.get(`/${userRole}/dashboard`);
       return data.data;
     },

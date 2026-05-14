@@ -17,6 +17,7 @@ import FinanceExpenses from './FinanceExpenses';
 import { CircleDollarSign, ArrowDownRight } from 'lucide-react';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useDashboardStats } from '../hooks/useDashboardStats';
 
 export default function AdminDashboard() {
   const isDarkMode = useThemeMode();
@@ -34,10 +35,7 @@ export default function AdminDashboard() {
   const [showAgendaModal, setShowAgendaModal] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
 
-  const { data: stats, isLoading: loadingStats } = useQuery({
-    queryKey: ['adminStats'],
-    queryFn: async () => { const { data } = await api.get('/admin/dashboard'); return data.data; }
-  });
+  const { data: stats, isLoading: loadingStats } = useDashboardStats();
 
   const { data: analytics } = useQuery({
     queryKey: ['adminAnalytics'],
@@ -365,7 +363,7 @@ export default function AdminDashboard() {
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <p className="text-sm font-medium text-gray-500 mb-1">Total Users</p>
-                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.totalUsers ?? usersList.length}</h3>
+                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.totalUsers ?? 0}</h3>
                   </div>
                   <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
                     <Users className="w-4 h-4" />
@@ -391,7 +389,7 @@ export default function AdminDashboard() {
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <p className="text-sm font-medium text-gray-500 mb-1">Instructors</p>
-                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.totalInstructors ?? instructorsCount}</h3>
+                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.totalInstructors ?? 0}</h3>
                   </div>
                   <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
                     <UserCog className="w-4 h-4" />
@@ -404,7 +402,7 @@ export default function AdminDashboard() {
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <p className="text-sm font-medium text-gray-500 mb-1">Pending Approvals</p>
-                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.pendingCourses ?? pendingCourses.length}</h3>
+                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.pendingApprovals ?? 0}</h3>
                   </div>
                   <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
                     <Clock className="w-4 h-4" />
@@ -484,7 +482,7 @@ export default function AdminDashboard() {
                    </div>
                    <div>
                      <span className="block font-semibold">Review Courses</span>
-                     <span className={`text-sm group-hover:text-amber-600 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{pendingCourses.length} awaiting approval</span>
+                     <span className={`text-sm group-hover:text-amber-600 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{stats?.pendingCourses ?? 0} awaiting approval</span>
                    </div>
                  </button>
                  <button 
@@ -690,7 +688,7 @@ export default function AdminDashboard() {
                 {loading && <div className={`w-5 h-5 border-2 border-t-red-500 rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>}
               </h2>
               <span className="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full  ">
-                {pendingCourses.length} Pending
+                {stats?.pendingCourses ?? 0} Pending
               </span>
             </div>
 
@@ -759,7 +757,7 @@ export default function AdminDashboard() {
             <div className={`mt-8 p-6 rounded-[32px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
               <div className="flex justify-between items-center mb-4">
                 <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Enrollment Approval Queue</h3>
-                <span className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{pendingEnrollments.length} pending</span>
+                <span className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{stats?.pendingEnrollments ?? 0} pending</span>
               </div>
               {!pendingEnrollments.length ? (
                 <p className={isDarkMode ? 'text-slate-300' : 'text-slate-500'}>No pending enrollment requests.</p>
@@ -847,9 +845,9 @@ export default function AdminDashboard() {
              </button>
              <button onClick={() => setActiveTab('courses')} className={navItemClass('courses')}>
                <BookOpen className="w-5 h-5 shrink-0" /> Course Approvals
-               {pendingCourses.length > 0 && (
+               {stats?.pendingCourses > 0 && (
                  <span className={`ml-auto bg-amber-500/100 text-xs font-bold px-2 py-0.5 rounded-full ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                   {pendingCourses.length}
+                   {stats?.pendingCourses}
                  </span>
                )}
              </button>

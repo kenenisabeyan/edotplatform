@@ -1,6 +1,7 @@
 import express from 'express';
 import { protect } from '../middleware/auth.js';
 import { prisma } from '../lib/prisma.js';
+import dashboardService from '../services/dashboardService.js';
 
 const router = express.Router();
 
@@ -409,9 +410,11 @@ router.get('/dashboard-metrics', protect, async (req, res) => {
         let pendingUsers = 0;
 
         if (role === 'admin') {
-            pendingApprovals = await prisma.course.count({ where: { status: 'pending' } });
-            pendingEnrollments = await prisma.enrollment.count({ where: { status: 'pending' } });
-            pendingUsers = await prisma.user.count({ where: { status: 'pending' } });
+            const adminStats = await dashboardService.getAdminStats();
+            pendingApprovals = adminStats.pendingCourses; // 'pendingApprovals' in dashboard-metrics historically maps to pending courses
+            pendingEnrollments = adminStats.pendingEnrollments;
+            pendingUsers = adminStats.pendingUsers;
+            pendingCourses = adminStats.pendingCourses;
         } else if (role === 'instructor') {
             pendingCourses = await prisma.course.count({ where: { instructorId: userId, status: 'pending' } });
         } else if (role === 'student' || role === 'parent') {
