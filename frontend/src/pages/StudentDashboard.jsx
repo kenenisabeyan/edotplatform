@@ -60,20 +60,19 @@ export default function StudentDashboard() {
     queryKey: ['studentDashboard'],
     queryFn: async () => {
       // Core data only - essential for immediate dashboard render
-      const [enrolledRes, dashboardRes, progressRes, studyRes] = await Promise.all([
+      const [enrolledRes, dashboardRes, dashboardStatsRes] = await Promise.all([
         api.get('/courses/enrolled').catch(() => ({ data: { data: [] } })),
         api.get('/dashboard/student').catch(() => ({ data: { data: {} } })),
-        api.get('/progress/overview').catch(() => ({ data: { data: {} } })),
-        api.get('/study/weekly').catch(() => ({ data: { data: {} } }))
+        api.get('/users/dashboard-stats').catch(() => ({ data: { data: {} } }))
       ]);
       
       return {
         enrolledCourses: enrolledRes.data?.data || [],
         overview: dashboardRes.data?.data || {},
-        progress: progressRes.data?.data || {},
-        study: studyRes.data?.data || {},
-        certificates: [],
-        achievements: []
+        progress: dashboardStatsRes.data?.data || {},
+        study: dashboardStatsRes.data?.data || {},
+        certificates: dashboardStatsRes.data?.data?.certificates || [],
+        achievements: dashboardStatsRes.data?.data?.achievements || []
       };
     }
   });
@@ -127,7 +126,7 @@ export default function StudentDashboard() {
      studyGoal: dashboardData?.study?.studyGoal || 10,
      daysStudied: dashboardData?.study?.daysStudied || 0,
      percentile: dashboardData?.progress?.percentile || 0,
-     recentCourses: dashboardData?.overview?.recentCourses || [],
+     recentCourses: dashboardData?.progress?.recentCourses || [],
      achievements: achievements,
      certificates: certificates
   };
@@ -785,8 +784,7 @@ export default function StudentDashboard() {
         return <div className="p-8 max-w-7xl mx-auto"><LibraryView /></div>;
       case 'message':
         return <div className="p-8 max-w-7xl mx-auto"><MessagesView /></div>;
-      case 'certificates':
-        return <div className="p-8 max-w-7xl mx-auto"><CertificatesView /></div>;
+
       case 'notice':
         return <div className="p-8 max-w-7xl mx-auto"><NoticeView /></div>;
       case 'sponsorships':

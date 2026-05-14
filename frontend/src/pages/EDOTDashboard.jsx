@@ -46,7 +46,10 @@ export default function EDOTDashboard() {
   const { data: stats, isLoading: loadingStats } = useQuery({
     queryKey: ['edotDashboardStats', userRole],
     queryFn: async () => {
-      if (userRole === 'sponsor') return null;
+      if (userRole === 'sponsor') {
+        const { data } = await api.get('/sponsor/dashboard');
+        return data;
+      }
       if (userRole === 'student') {
         const [{ data: enrolled }, { data: dashboard }] = await Promise.all([
           api.get('/courses/enrolled'),
@@ -196,27 +199,31 @@ export default function EDOTDashboard() {
   } else if (userRole === 'instructor') {
     headerConfig = {
       gradient: 'bg-gradient-to-r from-[#020b1f] via-[#0f48b9] to-[#00d4ff]',
-      title: 'Hello, Instructor Kenenisa! 🎓',
+      title: 'Hello, Instructor! 🎓',
       subtitle: ''
     };
     statsConfig = [
-      { title: 'Total Courses Created', value: stats?.totalCourses || 9, icon: BookOpen },
-      { title: 'Active Classes', value: stats?.activeCourses || 8, icon: Briefcase },
-      { title: 'Students Enrolled', value: stats?.totalStudents || 15, icon: Users },
-      { title: 'Teaching Activity Score', value: '95%', icon: TrendingUp },
+      { title: 'Total Courses Created', value: stats?.totalCourses || 0, icon: BookOpen },
+      { title: 'Active Classes', value: stats?.activeCourses || 0, icon: Briefcase },
+      { title: 'Students Enrolled', value: stats?.totalStudents || 0, icon: Users },
+      { title: 'Total Lessons', value: stats?.totalLessons || 0, icon: TrendingUp },
     ];
     gaugeConfig = {
-      title: 'Course Health Score',
-      valStr: '100%\nHEALTHY',
-      valNum: 100,
-      ringColor: '#00D4FF' // Cyan accent from Home/About
+      title: 'Active Course Ratio',
+      valStr: `${stats?.totalCourses ? Math.round((stats.activeCourses/stats.totalCourses)*100) : 0}%\nACTIVE`,
+      valNum: stats?.totalCourses ? Math.round((stats.activeCourses/stats.totalCourses)*100) : 0,
+      ringColor: '#00D4FF'
     };
+    
+    const instructorLines = [];
+    if (stats?.courseNames?.[0]) instructorLines.push({ key: 'value1', name: stats.courseNames[0], color: '#00D4FF' });
+    if (stats?.courseNames?.[1]) instructorLines.push({ key: 'value2', name: stats.courseNames[1], color: '#F97316' });
+    if (stats?.courseNames?.[2]) instructorLines.push({ key: 'value3', name: stats.courseNames[2], color: '#E30A17' });
+
     areaConfig = {
       title: 'Student Engagement Insights',
-      data: [
-         { name: 'Jan', value1: 20, value2: 10, value3: 30 }, { name: 'Feb', value1: 40, value2: 30, value3: 45 }, { name: 'Mar', value1: 35, value2: 25, value3: 60 }, { name: 'Apr', value1: 80, value2: 50, value3: 70 }, { name: 'May', value1: 60, value2: 80, value3: 90 }, { name: 'Aug', value1: 90, value2: 60, value3: 100 }
-      ],
-      lines: [{ key: 'value1', name: 'Math 101', color: '#00D4FF' }, { key: 'value2', name: 'History 202', color: '#F97316' }, { key: 'value3', name: 'Bio 303', color: '#E30A17' }]
+      data: stats?.studentPerformanceData || [],
+      lines: instructorLines.length ? instructorLines : [{ key: 'value1', name: 'No Data', color: '#00D4FF' }]
     };
     widgetConfig = {
       type: 'agenda',
@@ -229,30 +236,58 @@ export default function EDOTDashboard() {
   } else if (userRole === 'student') {
     headerConfig = {
       gradient: 'bg-gradient-to-r from-[#020b1f] via-[#0f48b9] to-[#00d4ff]',
-      title: 'Welcome back, kenokana beyan! 💡\nReady to learn?',
+      title: 'Welcome back! 💡\nReady to learn?',
       subtitle: ''
     };
     statsConfig = [
-      { title: 'Enrolled Courses', value: stats?.totalEnrolled || 0, icon: BookOpen },
-      { title: 'Average Progress', value: `${stats?.averageProgress || 0}%`, icon: TrendingUp },
-      { title: 'Completed Lessons', value: stats?.completedLessons || 0, icon: CheckCircle },
-      { title: 'Certificates', value: stats?.completedCourses || 0, icon: Award },
+      { title: 'Enrolled Courses', value: stats?.enrolledCourses?.length || 0, icon: BookOpen },
+      { title: 'Average Progress', value: `${stats?.percentile || 0}%`, icon: TrendingUp },
+      { title: 'Days Studied', value: stats?.daysStudied || 0, icon: CheckCircle },
+      { title: 'Certificates', value: stats?.certificates?.length || 0, icon: Award },
     ];
     gaugeConfig = {
       title: 'Academic Progress Ring',
-      valStr: '0%\nPROGRESS',
-      valNum: 0,
-      ringColor: '#F97316' // Orange accent for student
+      valStr: `${stats?.percentile || 0}%\nPROGRESS`,
+      valNum: stats?.percentile || 0,
+      ringColor: '#F97316'
     };
     areaConfig = {
       title: 'Weekly Study Goal',
-      data: [ { name: 'Jan', value1: 0 }, { name: 'Feb', value1: 0 }, { name: 'Mar', value1: 0 }, { name: 'Apr', value1: 0 }, { name: 'May', value1: 0 }, { name: 'Aug', value1: 0 } ],
-      lines: [{ key: 'value1', name: 'Study Progress', color: '#F97316' }]
+      data: stats?.weeklyStudyData || [],
+      lines: [{ key: 'hours', name: 'Study Hours', color: '#F97316' }]
     };
     widgetConfig = {
       type: 'claim',
       title: 'Certificates Claim',
       action: 'Claim Certificate'
+    };
+  } else if (userRole === 'sponsor') {
+    headerConfig = {
+      gradient: 'bg-gradient-to-r from-[#020b1f] via-[#0f48b9] to-[#00d4ff]',
+      title: 'Welcome, Sponsor! 🌟\nEmpowering education for everyone.',
+      subtitle: ''
+    };
+    statsConfig = [
+      { title: 'Total Contributions', value: `$${stats?.stats?.totalContributions || 0}`, icon: CircleDollarSign },
+      { title: 'Supported Students', value: stats?.stats?.supportedStudents || 0, icon: Users },
+      { title: 'Courses Completed', value: stats?.humanImpact?.coursesCompleted || 0, icon: CheckCircle },
+      { title: 'Active Cycles', value: stats?.stats?.activeSupportCycles || 0, icon: BookOpen },
+    ];
+    gaugeConfig = {
+      title: 'Human Impact Index',
+      valStr: `${stats?.stats?.supportedStudents ? '100' : '0'}%\nIMPACT`,
+      valNum: stats?.stats?.supportedStudents ? 100 : 0,
+      ringColor: '#F59E0B'
+    };
+    areaConfig = {
+      title: 'Sponsorship Timeline',
+      data: stats?.recentImpact?.map(r => ({ name: new Date(r.createdAt).toLocaleDateString(), impact: 1 })) || [],
+      lines: [{ key: 'impact', name: 'Impact Instances', color: '#F59E0B' }]
+    };
+    widgetConfig = {
+      type: 'communication',
+      title: 'Communication',
+      action: 'Message Student'
     };
   } else {
     headerConfig = {
@@ -261,23 +296,21 @@ export default function EDOTDashboard() {
       subtitle: ''
     };
     statsConfig = [
-      { title: 'Students Monitored', value: stats?.totalLearners || 1, icon: Users },
-      { title: 'Average Attendance', value: '100%', icon: BookOpen },
-      { title: 'Growth Milestone', value: '1', icon: TrendingUp },
-      { title: 'Support Tickets', value: '0', icon: Mail },
+      { title: 'Students Monitored', value: stats?.totalLearners || 0, icon: Users },
+      { title: 'Total Enrolled Courses', value: stats?.totalEnrolledCourses || 0, icon: BookOpen },
+      { title: 'Completed Lessons', value: stats?.completedLessons || 0, icon: TrendingUp },
+      { title: 'Average Progress', value: `${stats?.averageProgress || 0}%`, icon: CheckCircle },
     ];
     gaugeConfig = {
       title: 'Family Growth Circle',
-      valStr: '100%\nGrowth',
-      valNum: 100,
-      ringColor: '#00D4FF' // Cyan for parent
+      valStr: `${stats?.averageProgress || 0}%\nGrowth`,
+      valNum: stats?.averageProgress || 0,
+      ringColor: '#00D4FF'
     };
     areaConfig = {
       title: 'Milestone Timeline',
-      data: [
-         { name: 'Jan', value1: 0, value2: 0 }, { name: 'Feb', value1: 40, value2: 30 }, { name: 'Mar', value1: 40, value2: 35 }, { name: 'Apr', value1: 85, value2: 60 }, { name: 'May', value1: 65, value2: 60 }, { name: 'Aug', value1: 95, value2: 100 }
-      ],
-      lines: [{ key: 'value1', name: 'Growth', color: '#00D4FF' }, { key: 'value2', name: 'Progress', color: '#F97316' }]
+      data: stats?.performanceTimeline || [],
+      lines: [{ key: 'progress', name: 'Growth', color: '#00D4FF' }, { key: 'target', name: 'Target', color: '#F97316' }]
     };
     widgetConfig = {
       type: 'communication',
@@ -293,6 +326,34 @@ export default function EDOTDashboard() {
   const studentEngagement = stats?.engagement?.studentEngagement || stats?.studentEngagement || {};
   const instructorPerformanceRaw = stats?.engagement?.instructorPerformance || stats?.instructorPerformance;
   const instructorPerformance = Array.isArray(instructorPerformanceRaw) ? instructorPerformanceRaw.slice(0, 3) : [];
+
+  let gauge1 = 0, gauge2 = 0, gauge3 = 0, gauge4 = 0;
+  if (userRole === 'admin') {
+     gauge1 = Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.activeStudents ?? stats?.dailyActiveUsers ?? 0) / (stats?.dashboardStats?.totalStudents ?? stats?.totalStudents ?? 1)) * 100));
+     gauge2 = Math.round(stats?.engagement?.courseCompletionRate ?? stats?.courseCompletionRate ?? 0);
+     gauge3 = Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.lessonsCompleted ?? stats?.studentEngagement?.lessonsCompleted ?? 0) / 20) * 100));
+     gauge4 = Math.min(100, (stats?.engagement?.communityActivity ?? stats?.recentActivities?.length ?? stats?.recentActivity?.length ?? 0) * 5);
+  } else if (userRole === 'instructor') {
+     gauge1 = stats?.totalStudents ? 100 : 0;
+     gauge2 = stats?.totalCourses ? Math.round((stats.activeCourses/stats.totalCourses)*100) : 0;
+     gauge3 = stats?.totalLessons ? Math.min(100, stats.totalLessons * 5) : 0;
+     gauge4 = 100;
+  } else if (userRole === 'student') {
+     gauge1 = stats?.daysStudied ? Math.min(100, Math.round((stats.daysStudied / 7) * 100)) : 0;
+     gauge2 = stats?.percentile || 0;
+     gauge3 = stats?.enrolledCourses?.length ? Math.min(100, stats.enrolledCourses.length * 20) : 0;
+     gauge4 = stats?.certificates?.length ? 100 : (stats?.achievements?.length ? 50 : 0);
+  } else if (userRole === 'parent') {
+     gauge1 = stats?.totalLearners ? 100 : 0;
+     gauge2 = stats?.averageProgress || 0;
+     gauge3 = stats?.completedLessons ? Math.min(100, stats.completedLessons * 10) : 0;
+     gauge4 = stats?.recentActivity?.length ? Math.min(100, stats.recentActivity.length * 20) : 0;
+  } else if (userRole === 'sponsor') {
+     gauge1 = stats?.stats?.supportedStudents ? 100 : 0;
+     gauge2 = stats?.humanImpact?.coursesCompleted ? Math.min(100, stats.humanImpact.coursesCompleted * 10) : 0;
+     gauge3 = stats?.stats?.activeSupportCycles ? 100 : 0;
+     gauge4 = stats?.recentImpact?.length ? Math.min(100, stats.recentImpact.length * 20) : 0;
+  }
 
   if (loading) {
     return (
@@ -485,12 +546,12 @@ export default function EDOTDashboard() {
                     fill="none"
                     stroke="#10B981"
                     strokeWidth="2"
-                    strokeDasharray={`${Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.activeStudents ?? stats?.dailyActiveUsers ?? 0) / (stats?.dashboardStats?.totalStudents ?? stats?.totalStudents ?? 1)) * 100))}, 100`}
+                    strokeDasharray={`${gauge1}, 100`}
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                    {Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.activeStudents ?? stats?.dailyActiveUsers ?? 0) / (stats?.dashboardStats?.totalStudents ?? stats?.totalStudents ?? 1)) * 100))}%
+                    {gauge1}%
                   </span>
                 </div>
               </div>
@@ -512,12 +573,12 @@ export default function EDOTDashboard() {
                     fill="none"
                     stroke="#3B82F6"
                     strokeWidth="2"
-                    strokeDasharray={`${Math.round(stats?.engagement?.courseCompletionRate ?? stats?.courseCompletionRate ?? 0)}, 100`}
+                    strokeDasharray={`${gauge2}, 100`}
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                    {Math.round(stats?.engagement?.courseCompletionRate ?? stats?.courseCompletionRate ?? 0)}%
+                    {gauge2}%
                   </span>
                 </div>
               </div>
@@ -539,12 +600,12 @@ export default function EDOTDashboard() {
                     fill="none"
                     stroke="#F59E0B"
                     strokeWidth="2"
-                    strokeDasharray={`${Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.lessonsCompleted ?? stats?.studentEngagement?.lessonsCompleted ?? 0) / 20) * 100))}, 100`}
+                    strokeDasharray={`${gauge3}, 100`}
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                    {Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.lessonsCompleted ?? stats?.studentEngagement?.lessonsCompleted ?? 0) / 20) * 100))}%
+                    {gauge3}%
                   </span>
                 </div>
               </div>
@@ -566,12 +627,12 @@ export default function EDOTDashboard() {
                     fill="none"
                     stroke="#8B5CF6"
                     strokeWidth="2"
-                    strokeDasharray={`${Math.min(100, (stats?.engagement?.communityActivity ?? stats?.recentActivities?.length ?? stats?.recentActivity?.length ?? 0) * 5)}, 100`}
+                    strokeDasharray={`${gauge4}, 100`}
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                    {Math.min(100, (stats?.engagement?.communityActivity ?? stats?.recentActivities?.length ?? stats?.recentActivity?.length ?? 0) * 5)}%
+                    {gauge4}%
                   </span>
                 </div>
               </div>
