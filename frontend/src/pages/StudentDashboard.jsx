@@ -138,8 +138,8 @@ export default function StudentDashboard() {
   const completedCourses = useMemo(() => enrolledCourses.filter(c => c.progress === 100 || c.status === 'completed' || c.completed === true), [enrolledCourses]);
 
   const certificateCourseIds = useMemo(
-    () => new Set((dashboardData?.certificates || []).map(c => c.courseId)),
-    [dashboardData?.certificates]
+    () => new Set((certificatesData || []).map(c => c.courseId)),
+    [certificatesData]
   );
 
   const readyToClaimCertificates = useMemo(() => completedCourses.filter(enrolled => {
@@ -148,7 +148,7 @@ export default function StudentDashboard() {
     return !certificateCourseIds.has(courseId) && isPassed;
   }), [completedCourses, certificateCourseIds]);
 
-  const certificateEarnedCount = dashboardData?.certificates?.length || 0;
+  const certificateEarnedCount = certificatesData?.length || 0;
   const readyToClaimCount = readyToClaimCertificates.length;
   const totalCertificateProgress = certificateEarnedCount + readyToClaimCount;
 
@@ -550,11 +550,15 @@ export default function StudentDashboard() {
               {PACKAGES.map((pkg, idx) => {
                 const pkgCategoryName = pkg.title.replace(' Courses', '');
                 const matchedCourses = dbCourses.filter(c => c.mainCategory === pkgCategoryName);
-                const enrolledInPkg = enrolledCourses.filter(enrollment => 
+                
+                // Only consider active/completed enrollments as "Unlocked" in the catalog
+                const activeEnrollments = enrolledCourses.filter(e => e.status === 'active' || e.status === 'completed' || e.completed);
+                const enrolledInPkg = activeEnrollments.filter(enrollment => 
                   matchedCourses.some(mc => mc.id === enrollment.course?.id) || 
                   pkg.category === enrollment.course?.category ||
                   pkg.title.includes(enrollment.course?.category)
                 );
+                
                 const isPkgEnrolled = enrolledInPkg.length > 0;
                 return <PackageCard key={idx} pkg={{...pkg, courses: matchedCourses}} isEnrolled={isPkgEnrolled} enrolledCoursesData={enrolledInPkg} isDarkMode={isDarkMode} />
               })}
@@ -781,6 +785,8 @@ export default function StudentDashboard() {
         return <div className="p-8 max-w-7xl mx-auto"><LibraryView /></div>;
       case 'message':
         return <div className="p-8 max-w-7xl mx-auto"><MessagesView /></div>;
+      case 'certificates':
+        return <div className="p-8 max-w-7xl mx-auto"><CertificatesView /></div>;
       case 'notice':
         return <div className="p-8 max-w-7xl mx-auto"><NoticeView /></div>;
       case 'sponsorships':

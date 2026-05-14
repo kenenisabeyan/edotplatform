@@ -68,15 +68,17 @@ export default function StudentCourses() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-10">
           {PACKAGES.map((pkg, idx) => {
-            const enrolledInPkg = enrolledCourses.filter(enrollment => 
-              pkg.courses.includes(enrollment.course?.title) || 
-              pkg.category === enrollment.course?.category ||
-              pkg.title.includes(enrollment.course?.category)
-            );
-            const isPkgEnrolled = enrolledInPkg.length > 0;
-            // Filter dbCourses to only include courses that match this package's category
             const pkgCategoryName = pkg.title.replace(' Courses', '');
             const pkgCourses = dbCourses.filter(c => c.mainCategory === pkgCategoryName);
+            
+            // Filter to only include active/completed enrollments
+            const activeEnrollments = enrolledCourses.filter(e => e.status === 'active' || e.status === 'completed' || e.completed);
+            
+            const enrolledInPkg = activeEnrollments.filter(enrollment => 
+              pkgCourses.some(pc => pc.id === (enrollment.course?.id || enrollment.courseId))
+            );
+            
+            const isPkgEnrolled = enrolledInPkg.length > 0;
             
             return (
               <PackageCard key={idx} pkg={{...pkg, courses: pkgCourses}} isEnrolled={isPkgEnrolled} enrolledCoursesData={enrolledInPkg} isDarkMode={isDarkMode} />

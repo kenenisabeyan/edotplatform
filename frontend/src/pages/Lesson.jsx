@@ -308,6 +308,10 @@ export default function Lesson() {
                         {/* Phase Header (Level 1) */}
                         <button 
                            onClick={() => {
+                              if (!isActive && user?.role !== 'admin' && user?.role !== 'instructor') {
+                                 toast.error('Access Denied: You must be enrolled and approved to view this module.');
+                                 return;
+                              }
                               setExpandedPhase(prev => ({ ...prev, [pId]: !prev[pId] }));
                               if (!expandedPhase[pId]) {
                                  phaseLessons.forEach(l => fetchMaterials(l.id));

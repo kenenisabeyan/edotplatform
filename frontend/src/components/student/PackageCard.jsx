@@ -139,24 +139,22 @@ const PackageCard = ({ pkg, isEnrolled, enrolledCoursesData = [], isDarkMode }) 
                      <div 
                        key={c.id || i}
                        onClick={() => {
-                         const courseTitleStr = c.title ? c.title : (typeof c === 'string' ? c : 'Untitled Course');
-                         const matchedCourse = enrolledCoursesData.find(e => e.course?.title === courseTitleStr);
-                         const enrolledCourseId = matchedCourse?.course?._id || matchedCourse?.course?.id;
                          const pkgCourseId = c?._id || c?.id;
-                         const courseId = enrolledCourseId || pkgCourseId;
+                         const matchedCourse = enrolledCoursesData.find(e => (e.course?._id || e.course?.id || e.courseId) === pkgCourseId);
+                         const courseId = matchedCourse ? (matchedCourse.course?._id || matchedCourse.course?.id || matchedCourse.courseId) : pkgCourseId;
                          if (courseId) {
                            navigate(`/course/${courseId}`);
                          } else {
                            navigate('/courses');
                          }
                        }}
-                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 cursor-pointer ${enrolledCoursesData.some(e => e.course?.title === (c.title ? c.title : (typeof c === 'string' ? c : 'Untitled Course'))) ? '' : 'opacity-80 hover:opacity-100'}`}
+                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 cursor-pointer ${enrolledCoursesData.some(e => (e.course?._id || e.course?.id || e.courseId) === (c?._id || c?.id)) ? '' : 'opacity-80 hover:opacity-100'}`}
                        style={{ 
                          background: `linear-gradient(135deg, ${pkg.color || '#6366f1'}, ${pkg.darkColor || '#4338ca'})`,
                          color: '#ffffff'
                        }}
                      >
-                       {!enrolledCoursesData.some(e => e.course?.title === (c.title ? c.title : (typeof c === 'string' ? c : 'Untitled Course'))) && <Lock className="w-3 h-3 text-white/80" />}
+                       {!enrolledCoursesData.some(e => (e.course?._id || e.course?.id || e.courseId) === (c?._id || c?.id)) && <Lock className="w-3 h-3 text-white/80" />}
                        <span>{c.title ? c.title : (typeof c === 'string' ? c : 'Untitled Course')}</span>
                      </div>
                   ))
