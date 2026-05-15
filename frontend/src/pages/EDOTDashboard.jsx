@@ -51,11 +51,19 @@ export default function EDOTDashboard() {
         return data;
       }
       if (userRole === 'student') {
-        const [{ data: enrolled }, { data: dashboard }] = await Promise.all([
-          api.get('/courses/enrolled'),
-          api.get('/users/dashboard-stats')
-        ]);
-        return { ...dashboard.data, enrolledCourses: enrolled.data || [] };
+        const { data } = await api.get('/student/dashboard');
+        const payload = data.data || {};
+        return {
+           profile: payload.profile || {},
+           enrolledCourses: payload.enrollments || [],
+           overview: payload.stats || {},
+           progress: payload.progress || { percentile: 0 },
+           recentCourses: payload.recentCourses || [],
+           study: payload.weeklyStudy || {},
+           certificates: payload.certificates || [],
+           achievements: payload.achievements || [],
+           sidebarCounts: payload.sidebarCounts || { messages: 0, certificates: 0, notices: 0 }
+        };
       }
       if (userRole === 'admin') {
         const { data } = await api.get('/dashboard/stats');

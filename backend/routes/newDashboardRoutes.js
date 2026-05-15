@@ -6,6 +6,142 @@ const router = express.Router();
 router.use(protect);
 router.use(checkNotBlocked);
 
+// GET /api/student/dashboard (Unified Single Source of Truth)
+router.get('/student/dashboard', async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const today = new Date();
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        const [
+            userProgress, 
+            pendingEnrollments, 
+            recentLogs, 
+            userSettings, 
+            userCertificates, 
+            achievementsData, 
+            recentMessages,
+            unreadCount
+        ] = await Promise.all([
+            prisma.userCourseProgress.findMany({
+                where: { userId },
+                include: { course: { include: { instructor: true, lessons: true } } },
+                orderBy: { updatedAt: 'desc' }
+            }),
+            prisma.enrollment.findMany({
+                where: { studentId: userId, status: { in: ['active', 'pending', 'completed'] } },
+                include: { course: { include: { instructor: true, lessons: true } } }
+            }),
+            prisma.progressLog.findMany({
+                where: { userId, updatedAt: { gte: startOfWeek } },
+                select: { updatedAt: true, videoSegments: true }
+            }),
+            prisma.userSetting.findUnique({ where: { userId } }),
+            prisma.certificate.findMany({ where: { userId } }),
+            prisma.achievement.findUnique({ where: { userId } }),
+            prisma.message.findMany({
+                where: { OR: [{ receiverId: userId }, { senderId: userId }] },
+                orderBy: { createdAt: 'desc' },
+                take: 10,
+                include: { sender: { select: { name: true, avatar: true } }, receiver: { select: { name: true, avatar: true } } }
+            }),
+            prisma.message.count({
+                where: { receiverId: userId, isRead: false }
+            })
+        ]);
+
+        const courseIds = new Set(userProgress.map(e => e.courseId));
+        const allEnrollments = [...userProgress];
+        pendingEnrollments.forEach(e => {
+            if (!courseIds.has(e.courseId)) {
+                allEnrollments.push({
+                    id: e.id,
+                    courseId: e.courseId,
+                    course: e.course,
+                    progress: 0,
+                    completedLessons: [],
+                    status: 'active'
+                });
+            }
+        });
+
+        const totalEnrolled = allEnrollments.length;
+        let totalProgress = 0;
+        let completedLessons = 0;
+        let completedCourses = 0;
+
+        allEnrollments.forEach(e => {
+            totalProgress += (e.progress || 0);
+            let lessonsJson = e.completedLessons ? (Array.isArray(e.completedLessons) ? e.completedLessons : [e.completedLessons]) : [];
+            completedLessons += lessonsJson.length;
+            if (e.progress === 100 || e.passedFinalExam || e.status === 'completed' || e.completed) {
+                completedCourses++;
+            }
+        });
+
+        const averageProgress = totalEnrolled > 0 ? Math.round(totalProgress / totalEnrolled) : 0;
+
+        // Weekly Study logic
+        const weeklyDataMap = { Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0, Sun: 0 };
+        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+        recentLogs.forEach(log => {
+            const dayName = dayNames[log.updatedAt.getDay()];
+            let segments = 0;
+            if (log.videoSegments) {
+                segments = Array.isArray(log.videoSegments) ? log.videoSegments.length : 1;
+            }
+            const hours = (segments * 30) / 3600;
+            weeklyDataMap[dayName] += hours;
+        });
+
+        const weeklyStudyData = Object.keys(weeklyDataMap).map(day => ({
+            name: day,
+            hours: Math.round(weeklyDataMap[day] * 10) / 10
+        }));
+
+        const daysStudied = weeklyStudyData.filter(d => d.hours > 0).length;
+
+        res.status(200).json({
+            success: true,
+            data: {
+                profile: req.user,
+                stats: {
+                    totalEnrolled,
+                    completedCourses,
+                    completedLessons,
+                    averageProgress
+                },
+                certificates: userCertificates,
+                progress: {
+                    percentile: averageProgress,
+                },
+                enrollments: allEnrollments,
+                recentCourses: allEnrollments.slice(0, 3),
+                achievements: achievementsData ? achievementsData.badges : [],
+                messages: recentMessages,
+                weeklyStudy: {
+                    weeklyStudyData,
+                    studyGoal: userSettings?.weeklyStudyGoal || 10,
+                    daysStudied
+                },
+                sidebarCounts: {
+                    messages: unreadCount,
+                    certificates: userCertificates.length, // Client computes ready count
+                    notices: 0
+                },
+                notifications: []
+            }
+        });
+    } catch (error) {
+        console.error('Unified Student Dashboard error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 // GET /api/dashboard/student
 router.get('/dashboard/student', async (req, res) => {
     try {

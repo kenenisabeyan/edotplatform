@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import { Globe, ShoppingCart, Calculator, BookOpen, Rocket, Target, UserCheck, Moon, Sun } from 'lucide-react';
@@ -13,29 +14,21 @@ import { PACKAGES } from '../constants/packages';
 export default function StudentCourses() {
   const navigate = useNavigate();
   const isDarkMode = useThemeMode();
-  const [enrolledCourses, setEnrolledCourses] = useState([]);
-  const [dbCourses, setDbCourses] = useState([]);
-  
-  useEffect(() => {
-    const fetchEnrollments = async () => {
-      try {
-        const { data } = await api.get('/student/enrollments');
-        setEnrolledCourses(data.data || []);
-      } catch (err) {
-        console.error('Failed to fetch enrollments', err);
-      }
-    };
-    const fetchAllCourses = async () => {
-      try {
-        const { data } = await api.get('/courses', { params: { limit: 100 } });
-        setDbCourses(data.courses || []);
-      } catch (err) {
-        console.error('Failed to fetch courses', err);
-      }
-    };
-    fetchEnrollments();
-    fetchAllCourses();
-  }, []);
+  const { data: enrolledCourses = [] } = useQuery({
+    queryKey: ['studentEnrollments'],
+    queryFn: async () => {
+      const { data } = await api.get('/student/enrollments');
+      return data.data || [];
+    }
+  });
+
+  const { data: dbCourses = [] } = useQuery({
+    queryKey: ['allCourses'],
+    queryFn: async () => {
+      const { data } = await api.get('/courses', { params: { limit: 100 } });
+      return data.courses || [];
+    }
+  });
 
   return (
     <div className={`min-h-screen relative font-sans animate-in fade-in duration-500 z-0 flex flex-col ${isDarkMode ? 'bg-[#0B1120] text-slate-200' : 'bg-[#FAFAFA] text-slate-700'}`}>

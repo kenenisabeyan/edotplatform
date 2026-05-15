@@ -564,3 +564,51 @@ export const sendSMS = async (req, res) => {
   }
 };
 
+export const getUnreadCount = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const count = await prisma.message.count({
+            where: {
+                receiverId: userId,
+                isRead: false
+            }
+        });
+        res.json({ success: true, count });
+    } catch (error) {
+        console.error('getUnreadCount error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
+export const getRecentMessages = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const recentMessages = await prisma.message.findMany({
+            where: { OR: [{ receiverId: userId }, { senderId: userId }] },
+            orderBy: { createdAt: 'desc' },
+            take: 10,
+            include: { sender: { select: { name: true, avatar: true } }, receiver: { select: { name: true, avatar: true } } }
+        });
+        
+        // Group by user to just get recent conversations
+        const conversationsMap = new Map();
+        for (const msg of recentMessages) {
+            const otherUser = msg.senderId === userId ? msg.receiver : msg.sender;
+            const otherUserId = msg.senderId === userId ? msg.receiverId : msg.senderId;
+            if (!conversationsMap.has(otherUserId)) {
+                conversationsMap.set(otherUserId, {
+                    ...otherUser,
+                    lastMessage: msg.content,
+                    time: msg.createdAt,
+                    unread: msg.receiverId === userId && !msg.isRead
+                });
+            }
+        }
+        
+        res.json({ success: true, data: Array.from(conversationsMap.values()) });
+    } catch (error) {
+        console.error('getRecentMessages error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+

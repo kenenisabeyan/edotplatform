@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import api from '../utils/api';
 import { 
   Home, 
@@ -111,7 +112,26 @@ export default function EDOTLayout() {
   const profileDropdownRef = useRef(null);
   const quickActionsRef = useRef(null);
   
-  const [metrics, setMetrics] = useState({
+  const { data: metricsData } = useQuery({
+    queryKey: ['dashboardMetrics'],
+    queryFn: async () => {
+      const { data } = await api.get('/users/dashboard-metrics');
+      return data.success && data.metrics ? data.metrics : {
+        unreadMessages: 0,
+        pendingApprovals: 0,
+        pendingCourses: 0,
+        newCertificates: 0,
+        totalCertificates: 0,
+        readyToClaim: 0,
+        pendingCertificateRequirements: 0,
+        pendingUsers: 0
+      };
+    },
+    refetchInterval: 30000,
+    enabled: !!user
+  });
+
+  const metrics = metricsData || {
     unreadMessages: 0,
     pendingApprovals: 0,
     pendingCourses: 0,
@@ -120,7 +140,7 @@ export default function EDOTLayout() {
     readyToClaim: 0,
     pendingCertificateRequirements: 0,
     pendingUsers: 0
-  });
+  };
 
   const handleClickOutside = (event) => {
     if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
@@ -132,41 +152,11 @@ export default function EDOTLayout() {
   };
 
   useEffect(() => {
-    const fetchMetrics = async () => {
-      try {
-        const { data } = await api.get('/users/dashboard-metrics');
-        if (data.success && data.metrics) {
-          setMetrics(data.metrics);
-        }
-      } catch (err) {
-        console.error('Failed to fetch dashboard metrics', err);
-      }
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        fetchMetrics();
-      }
-    };
-
-    let intervalId;
-    if (user) {
-      fetchMetrics();
-      intervalId = setInterval(() => {
-        if (document.visibilityState === 'visible') {
-          fetchMetrics();
-        }
-      }, 30000); // reduce polling frequency to 30s only when visible
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-    }
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      if (intervalId) clearInterval(intervalId);
     };
-  }, [user]);
+  }, []);
 
   const handleLogout = async () => {
     await logout();

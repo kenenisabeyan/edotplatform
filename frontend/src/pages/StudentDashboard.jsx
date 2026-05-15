@@ -59,20 +59,20 @@ export default function StudentDashboard() {
   const { data: dashboardData, isLoading: isLoadingDashboard } = useQuery({
     queryKey: ['studentDashboard'],
     queryFn: async () => {
-      // Core data only - essential for immediate dashboard render
-      const [enrolledRes, dashboardRes, dashboardStatsRes] = await Promise.all([
-        api.get('/courses/enrolled').catch(() => ({ data: { data: [] } })),
-        api.get('/dashboard/student').catch(() => ({ data: { data: {} } })),
-        api.get('/users/dashboard-stats').catch(() => ({ data: { data: {} } }))
-      ]);
+      // Fetch the unified dashboard API
+      const { data } = await api.get('/student/dashboard').catch(() => ({ data: { data: {} } }));
+      
+      const payload = data.data || {};
       
       return {
-        enrolledCourses: enrolledRes.data?.data || [],
-        overview: dashboardRes.data?.data || {},
-        progress: dashboardStatsRes.data?.data || {},
-        study: dashboardStatsRes.data?.data || {},
-        certificates: dashboardStatsRes.data?.data?.certificates || [],
-        achievements: dashboardStatsRes.data?.data?.achievements || []
+        profile: payload.profile || {},
+        enrolledCourses: payload.enrollments || [],
+        overview: payload.stats || {},
+        progress: payload.progress || { percentile: 0, recentCourses: payload.recentCourses || [] },
+        study: payload.weeklyStudy || {},
+        certificates: payload.certificates || [],
+        achievements: payload.achievements || [],
+        sidebarCounts: payload.sidebarCounts || { messages: 0, certificates: 0, notices: 0 }
       };
     }
   });
@@ -113,12 +113,20 @@ export default function StudentDashboard() {
     enabled: activeTab === 'growth'
   });
 
+  const { data: unreadMessagesCount } = useQuery({
+    queryKey: ['unreadMessagesCount'],
+    queryFn: async () => {
+      const { data } = await api.get('/messages/unread/count').catch(() => ({ data: { count: 0 } }));
+      return data.count || 0;
+    }
+  });
+
   const loading = isLoadingDashboard;
 
   const enrolledCourses = dashboardData?.enrolledCourses || [];
   const dbCourses = allCoursesData || [];
-  const achievements = achievementsData || [];
-  const certificates = certificatesData || [];
+  const achievements = dashboardData?.achievements || achievementsData || [];
+  const certificates = dashboardData?.certificates || certificatesData || [];
   const privateLogs = privateLogsData || [];
 
   const dashboardStats = {
@@ -864,7 +872,14 @@ export default function StudentDashboard() {
              <nav>
                <NavItem tabName="notice" icon={Bell} label="Notice" isActive={activeTab === 'notice'} onClick={() => setActiveTab('notice')} />
                <NavItem tabName="library" icon={BookOpen} label="Library" isActive={activeTab === 'library'} onClick={() => setActiveTab('library')} />
-               <NavItem tabName="message" icon={MoreHorizontal} label="Message" isActive={activeTab === 'message'} onClick={() => setActiveTab('message')} />
+               <NavItem 
+                 tabName="message" 
+                 icon={MoreHorizontal} 
+                 label="Message" 
+                 isActive={activeTab === 'message'} 
+                 badge={unreadMessagesCount}
+                 onClick={() => setActiveTab('message')} 
+               />
                <NavItem 
                  tabName="certificates" 
                  icon={Award} 

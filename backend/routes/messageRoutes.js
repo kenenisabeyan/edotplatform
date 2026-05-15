@@ -22,4 +22,8 @@ router.get('/blocked', getBlockedUsers);
 router.get('/conversation/:userId', getConversation);
 router.get('/contacts', getContacts);
 
+import { getUnreadCount, getRecentMessages } from '../controllers/messageController.js';
+router.get('/unread/count', getUnreadCount);
+router.get('/recent', getRecentMessages);
+
 export default router;

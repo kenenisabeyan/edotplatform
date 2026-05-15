@@ -47,7 +47,8 @@ const StudentOverview = ({
     try {
       setClaimingCertificateId(courseId);
       await api.post('/progress/certificate', { courseId });
-      queryClient.invalidateQueries(['studentDashboard']);
+      queryClient.invalidateQueries({ queryKey: ['edotDashboardStats'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboardMetrics'] });
       setCertificateDropdownOpen(true);
     } catch (err) {
       console.error('Failed to claim certificate', err);
@@ -62,16 +63,22 @@ const StudentOverview = ({
     navigate('/dashboard/certificates');
   };
   const {
+    study = {},
+    progress = {},
+    recentCourses = [],
+    achievements = []
+  } = dashboardStats || {};
+
+  const {
     weeklyStudyData = [
       { name: 'Mon', hours: 0 }, { name: 'Tue', hours: 0 }, { name: 'Wed', hours: 0 },
       { name: 'Thu', hours: 0 }, { name: 'Fri', hours: 0 }, { name: 'Sat', hours: 0 }, { name: 'Sun', hours: 0 }
     ],
-    percentile = 0,
     studyGoal = 10,
     daysStudied = 0,
-    recentCourses = [],
-    achievements = []
-  } = dashboardStats || {};
+  } = study;
+
+  const { percentile = 0 } = progress;
 
   const { data: recentContactsData, isLoading: loadingMessages } = useQuery({
     queryKey: ['recentMessagesOverview'],
@@ -200,7 +207,7 @@ const StudentOverview = ({
           >
             <div className="flex items-center gap-2 mb-2">
               <Flame className="w-8 h-8 text-[#F97316]" fill="#F97316" />
-              <span className={`text-[32px] leading-none font-black ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>{user?.streak || 0}</span>
+              <span className={`text-[32px] leading-none font-black ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>{daysStudied || 0}</span>
             </div>
             <span className={`text-[13px] font-bold ${isDarkMode ? 'text-slate-400' : 'text-[#6B7280]'}`}>Day Streak</span>
             <span className={`text-[11px] font-medium mt-1 mb-4 ${isDarkMode ? 'text-slate-500' : 'text-[#6B7280]'}`}>Keep it up!</span>
