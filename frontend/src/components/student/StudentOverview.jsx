@@ -85,7 +85,8 @@ const StudentOverview = ({
     queryFn: async () => {
       const { data } = await api.get('/messages/recent');
       return data.success ? data.data.slice(0, 4) : [];
-    }
+    },
+    refetchInterval: 30000
   });
 
   const recentContacts = recentContactsData || [];

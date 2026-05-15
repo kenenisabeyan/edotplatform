@@ -250,68 +250,6 @@ router.get('/analytics/detailed', async (req, res) => {
     }
 });
 
-router.get('/dashboard', async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const user = await prisma.user.findUnique({
-            where: { id: userId },
-            include: {
-                userCourseProgress: {
-                    select: {
-                        courseId: true,
-                        progress: true,
-                        passedFinalExam: true,
-                        completedLessons: true,
-                        course: { select: { id: true, title: true } }
-                    }
-                }
-            }
-        });
 
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
-        }
-
-        const enrollments = user.userCourseProgress || [];
-        const totalEnrolled = enrollments.length;
-        
-        let totalProgress = 0;
-        let completedLessons = 0;
-        let completedCourses = 0;
-        
-        enrollments.forEach(enrollment => {
-            totalProgress += (enrollment.progress || 0);
-
-            const lessonsJson = Array.isArray(enrollment.completedLessons)
-                ? enrollment.completedLessons
-                : enrollment.completedLessons ? [enrollment.completedLessons] : [];
-            
-            completedLessons += lessonsJson.length;
-            
-            if (enrollment.progress === 100 || enrollment.passedFinalExam) {
-                completedCourses++;
-            }
-        });
-        
-        const averageProgress = totalEnrolled > 0 ? Math.round(totalProgress / totalEnrolled) : 0;
-
-        res.status(200).json({
-            success: true,
-            data: {
-                totalEnrolled,
-                averageProgress,
-                completedLessons,
-                completedCourses,
-                recentEnrollments: enrollments.slice(-3).map(e => ({
-                    courseId: e.course?.id,
-                    courseTitle: e.course?.title,
-                    progress: e.progress
-                }))
-            }
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Server error', error: error.message });
-    }
-});
 
 export default router;

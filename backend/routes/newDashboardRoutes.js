@@ -29,7 +29,7 @@ router.get('/student/dashboard', async (req, res) => {
             prisma.userCourseProgress.findMany({
                 where: { userId },
                 include: { course: { include: { instructor: true, lessons: true } } },
-                orderBy: { updatedAt: 'desc' }
+                orderBy: { enrolledAt: 'desc' }
             }),
             prisma.enrollment.findMany({
                 where: { studentId: userId, status: { in: ['active', 'pending', 'completed'] } },

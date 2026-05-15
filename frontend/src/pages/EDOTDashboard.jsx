@@ -72,7 +72,8 @@ export default function EDOTDashboard() {
       const { data } = await api.get(`/${userRole}/dashboard`);
       return data.data;
     },
-    enabled: !!user
+    enabled: !!user,
+    refetchInterval: 30000
   });
 
   const { data: agendaEvents = [], refetch: refetchAgenda } = useQuery({
@@ -81,7 +82,8 @@ export default function EDOTDashboard() {
       const { data } = await api.get('/calendar');
       return Array.isArray(data.data) ? data.data : [];
     },
-    enabled: !!user
+    enabled: !!user,
+    refetchInterval: 30000
   });
 
   const loading = loadingStats && userRole !== 'sponsor';
