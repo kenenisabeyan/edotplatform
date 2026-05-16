@@ -8,6 +8,7 @@ import {
   BookOpen, LayoutList, DollarSign, PlusCircle, Banknote,
   PlayCircle, Trash2, Tag, Image as ImageIcon, Send, FileText
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import QuizBuilder from '../components/QuizBuilder';
 import ReactPlayer from 'react-player';
 import CustomDropdown from '../components/CustomDropdown';
@@ -16,6 +17,7 @@ import { courseDropdownOptions } from '../constants/courseCategories';
 import toast from 'react-hot-toast';
 import SmartVideoPlayer from '../components/SmartVideoPlayer';
 import { useQuery } from '@tanstack/react-query';
+import PremiumModal from '../components/PremiumModal';
 
 export default function InstructorCourseBuilder() {
   const isDarkMode = useThemeMode();
@@ -660,10 +662,13 @@ export default function InstructorCourseBuilder() {
                     >
                       <PlusCircle className="w-5 h-5" /> Add New Phase
                     </button>
-                  ) : createPortal(
-                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
-                      <div className={`border !rounded-[32px] p-6 md:p-8 shadow-2xl w-full max-w-lg animate-in zoom-in-95 duration-300 relative ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
-                        <div className={`flex justify-between items-center mb-6 border-b pb-4 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                  ) : null}
+                  {createPortal(
+                      <PremiumModal isOpen={showPhaseInput} onClose={() => setShowPhaseInput(false)} maxWidth="max-w-lg">
+                        <div className="p-6 md:p-8 flex flex-col h-full w-full">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+                            <div className={`flex justify-between items-center mb-6 border-b pb-4 relative z-10 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                           <h3 className={`font-bold text-xl flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                             <PlusCircle className="w-6 h-6 text-[#F97316]" /> Create New Phase
                           </h3>
@@ -697,16 +702,18 @@ export default function InstructorCourseBuilder() {
                               Add Phase
                             </button>
                           </div>
-                        </div>
-                      </div>
-                    </div>,
+                           </div>
+                         </div>
+                      </PremiumModal>,
                     document.body
                   )}
 
-                  {showLessonFormForPhase && createPortal(
-                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
-                      <div className={`border !rounded-[32px] p-6 md:p-8 shadow-2xl w-full max-w-2xl animate-in zoom-in-95 duration-300 relative flex flex-col max-h-[90vh] ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
-                        <div className={`flex justify-between items-center mb-6 border-b pb-4 shrink-0 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                  {createPortal(
+                      <PremiumModal isOpen={showLessonFormForPhase} onClose={() => setShowLessonFormForPhase(null)} maxWidth="max-w-2xl">
+                        <div className="p-6 md:p-8 flex flex-col h-full w-full">
+                          <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+                          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+                          <div className={`flex justify-between items-center mb-6 border-b pb-4 shrink-0 relative z-10 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                           <h3 className={`font-bold text-xl flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                             <PlayCircle className="w-6 h-6 text-[#F97316]" /> New Lesson for <span className="text-[#F97316] bg-[#F97316]/10 border border-[#F97316]/20 px-3 py-1 rounded-lg text-sm">{showLessonFormForPhase}</span>
                           </h3>
@@ -834,8 +841,8 @@ export default function InstructorCourseBuilder() {
                           </button>
                         </div>
                       </form>
-                      </div>
-                    </div>,
+                        </div>
+                      </PremiumModal>,
                     document.body
                   )}
                 </div>

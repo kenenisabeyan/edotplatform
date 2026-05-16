@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
+import PremiumModal from '../components/PremiumModal';
 
 export default function InstructorManageCourses() {
   const isDarkMode = useThemeMode();
@@ -227,21 +228,11 @@ export default function InstructorManageCourses() {
       )}
 
       {/* Modals remain mostly unchanged but fit aesthetic */}
-      <AnimatePresence>
-        {modalType && activeCourse && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className={`fixed inset-0 z-50 backdrop-blur-md flex items-center justify-center p-4 ${isDarkMode ? 'bg-[#0B1120]/80' : 'bg-white/90'}`}
-          >
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className={`w-full max-w-2xl border border-[#F97316]/20 rounded-3xl p-6 shadow-[0_0_50px_rgba(255,215,0,0.1)] relative overflow-hidden flex flex-col max-h-[85vh] ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
-            >
-              <div className={`flex justify-between items-center mb-6 border-b pb-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <PremiumModal isOpen={!!(modalType && activeCourse)} onClose={() => { setModalType(null); setActiveCourse(null); }} maxWidth="max-w-2xl">
+             <div className="p-6 md:p-8 flex flex-col h-full w-full">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+              <div className={`flex justify-between items-center mb-6 border-b pb-4 relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <div>
                   <h3 className={`text-2xl font-bold flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                     {modalType === 'lessons' ? <PlayCircle className="w-7 h-7 text-[#00D4FF]" /> : <Users className="w-7 h-7 text-indigo-400" />}
@@ -294,10 +285,8 @@ export default function InstructorManageCourses() {
                   )
                 )}
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+             </div>
+      </PremiumModal>
 
     </motion.div>
   );

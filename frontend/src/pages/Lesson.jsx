@@ -4,8 +4,10 @@ import { useParams, useSearchParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import { PlayCircle, FileText, CheckCircle2, Lock, Unlock, ArrowLeft, ChevronDown, ChevronUp, CheckSquare, BadgeAlert, Award, ExternalLink, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import SmartVideoPlayer from '../components/SmartVideoPlayer';
 import ThemeDropdown from '../components/ThemeDropdown';
+import PremiumModal from '../components/PremiumModal';
 import toast from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
 
@@ -532,21 +534,21 @@ export default function Lesson() {
       </div>
 
       {/* Modal Overlay for Assessment */}
-      {activeModal?.type === 'quiz' && (
-         <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl flex flex-col max-h-[90vh] overflow-hidden text-slate-800 font-sans border-2 border-slate-200">
+      <PremiumModal isOpen={activeModal?.type === 'quiz'} onClose={() => setActiveModal(null)} maxWidth="max-w-3xl">
+               <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+               <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none -z-10" />
                
                {/* Modal Header */}
-               <div className="flex justify-between items-center p-4 border-b border-slate-200 shadow-sm relative z-10 bg-white">
-                  <h3 className="font-bold text-lg">{quizState[activeModal.lessonId]?.submitted ? 'Result' : 'Assessment'}</h3>
-                  <button onClick={() => setActiveModal(null)} className={`hover:text-black transition-colors rounded-full p-1 hover:bg-slate-100 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+               <div className={`flex justify-between items-center p-5 md:p-6 border-b shadow-sm relative z-10 ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10' : 'bg-white/50 border-slate-200'}`}>
+                  <h3 className={`font-bold text-lg ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{quizState[activeModal?.lessonId]?.submitted ? 'Result' : 'Assessment'}</h3>
+                  <button onClick={() => setActiveModal(null)} className={`transition-colors rounded-full p-2 ${isDarkMode ? 'text-slate-400 hover:text-white hover:bg-white/5' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'}`}>
                      <X className="w-5 h-5" />
                   </button>
                </div>
                
                {/* Modal Body */}
-               <div className="overflow-y-auto p-6 md:p-8 flex-1 bg-slate-50 relative">
-                  {(() => {
+               <div className={`overflow-y-auto p-6 md:p-8 flex-1 relative ${isDarkMode ? 'bg-[#0B1120]/50' : 'bg-slate-50'}`}>
+                  {activeModal && (() => {
                      const lId = activeModal.lessonId;
                      const targetLesson = course.lessons.find(l => l.id === lId);
                      const qsState = quizState[lId];
@@ -555,21 +557,21 @@ export default function Lesson() {
                         return (
                            <div className="space-y-8">
                               {targetLesson.quiz.map((q, qIndex) => (
-                                 <div key={qIndex} className="bg-white border border-slate-200 rounded-xl p-6 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-                                    <p className="font-bold text-slate-800 mb-5 text-[15px]">{qIndex + 1}. {q.question}</p>
-                                    <div className="space-y-4">
-                                       {q.options.map((opt, oIndex) => {
-                                          const isSelected = quizAnswers[`${lId}-${qIndex}`] === oIndex;
-                                          return (
-                                          <label key={oIndex} className="w-full flex items-center cursor-pointer group">
-                                             <input 
-                                                type="radio" 
-                                                checked={isSelected} 
-                                                onChange={() => setQuizAnswers(prev => ({...prev, [`${lId}-${qIndex}`]: oIndex}))} 
-                                                className="w-4 h-4 text-[#ea580c] bg-white border-slate-300 focus:ring-[#ea580c] focus:ring-2 focus:ring-offset-1 transition-all"
-                                             />
-                                             <span className={`ml-3 text-[14px] transition-colors ${isSelected ? 'text-slate-900 font-medium' : 'text-slate-600 group-hover:text-slate-900'}`}>{opt}</span>
-                                          </label>
+                                  <div key={qIndex} className={`border rounded-xl p-6 shadow-[0_2px_10px_rgba(0,0,0,0.02)] ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-200'}`}>
+                                     <p className={`font-bold mb-5 text-[15px] ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{qIndex + 1}. {q.question}</p>
+                                     <div className="space-y-4">
+                                        {q.options.map((opt, oIndex) => {
+                                           const isSelected = quizAnswers[`${lId}-${qIndex}`] === oIndex;
+                                           return (
+                                           <label key={oIndex} className="w-full flex items-center cursor-pointer group">
+                                              <input 
+                                                 type="radio" 
+                                                 checked={isSelected} 
+                                                 onChange={() => setQuizAnswers(prev => ({...prev, [`${lId}-${qIndex}`]: oIndex}))} 
+                                                 className={`w-4 h-4 text-[#F97316] focus:ring-[#F97316] focus:ring-2 focus:ring-offset-1 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/20' : 'bg-white border-slate-300'}`}
+                                              />
+                                              <span className={`ml-3 text-[14px] transition-colors ${isSelected ? (isDarkMode ? 'text-white font-bold' : 'text-slate-900 font-medium') : (isDarkMode ? 'text-slate-300 group-hover:text-white' : 'text-slate-600 group-hover:text-slate-900')}`}>{opt}</span>
+                                           </label>
                                           );
                                        })}
                                     </div>
@@ -624,8 +626,8 @@ export default function Lesson() {
                </div>
 
                {/* Modal Footer */}
-               <div className="p-4 md:px-6 md:py-4 border-t border-slate-200 bg-slate-50 flex justify-start gap-3">
-                  {(() => {
+               <div className={`p-4 md:px-6 md:py-4 border-t flex justify-start gap-3 ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                  {activeModal && (() => {
                      const lId = activeModal.lessonId;
                      const targetLesson = course.lessons.find(l => l.id === lId);
                      const qsState = quizState[lId];
@@ -658,36 +660,34 @@ export default function Lesson() {
                               >
                                  Submit
                               </button>
-                              <button onClick={() => setActiveModal(null)} className={`px-6 py-2.5 bg-slate-500 hover:bg-slate-600 font-bold rounded-md shadow-sm text-sm transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                                 Cancel
-                              </button>
-                           </>
-                        );
-                     } else {
-                        return (
-                           <div className="w-full flex justify-center pb-2">
-                              <button 
-                                 onClick={() => {
-                                    if (qsState.passed) {
-                                       verifyPhaseCompletion(lId);
-                                    } else {
-                                       setQuizState(prev => ({ ...prev, [lId]: null }));
-                                       setQuizAttempts(prev => ({ ...prev, [lId]: (prev[lId] || 1) + 1 }));
-                                    }
-                                    setActiveModal(null);
-                                 }}
-                                 className={`px-10 py-3 bg-[#2563eb] hover:bg-blue-700 font-bold rounded-lg shadow-md transition-all sm:min-w-[200px] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
-                              >
-                                 {qsState.passed ? 'Continue' : 'Try Again'}
-                              </button>
-                           </div>
-                        );
-                     }
-                  })()}
-               </div>
-            </div>
-         </div>
-      )}
+                               <button onClick={() => setActiveModal(null)} className={`px-6 py-2.5 hover:opacity-80 font-bold rounded-xl shadow-sm text-sm transition-colors ${isDarkMode ? 'bg-white/10 text-white' : 'bg-slate-200 text-slate-800'}`}>
+                                  Cancel
+                               </button>
+                            </>
+                         );
+                      } else {
+                         return (
+                            <div className="w-full flex justify-center pb-2">
+                               <button 
+                                  onClick={() => {
+                                     if (qsState.passed) {
+                                        verifyPhaseCompletion(lId);
+                                     } else {
+                                        setQuizState(prev => ({ ...prev, [lId]: null }));
+                                        setQuizAttempts(prev => ({ ...prev, [lId]: (prev[lId] || 1) + 1 }));
+                                     }
+                                     setActiveModal(null);
+                                  }}
+                                  className={`px-10 py-3 bg-[#00D4FF] hover:bg-[#00A3CC] font-bold rounded-xl shadow-md transition-all sm:min-w-[200px] ${isDarkMode ? 'text-[#0B1120]' : 'text-white'}`}
+                               >
+                                  {qsState.passed ? 'Continue' : 'Try Again'}
+                               </button>
+                            </div>
+                         );
+                      }
+                   })()}
+                </div>
+      </PremiumModal>
 
     </div>
   );

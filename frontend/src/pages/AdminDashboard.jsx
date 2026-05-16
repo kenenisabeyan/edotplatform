@@ -18,6 +18,7 @@ import { CircleDollarSign, ArrowDownRight } from 'lucide-react';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDashboardStats } from '../hooks/useDashboardStats';
+import PremiumModal from '../components/PremiumModal';
 
 export default function AdminDashboard() {
   const isDarkMode = useThemeMode();
@@ -915,25 +916,14 @@ export default function AdminDashboard() {
           {renderContent()}
         </div>
 
-        <AnimatePresence>
-          {manageOpen && selectedUser && (
-            <motion.div
-              key="intel-hub-overlay"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex justify-center items-start pt-10 overflow-auto px-4"
-              onClick={closeManagePanel}
-            >
-              <motion.div
-                initial={{ x: 450, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: 450, opacity: 0 }}
-                transition={{ type: 'spring', stiffness: 240, damping: 30 }}
-                className={`relative w-full max-w-6xl rounded-[32px] border border-[#00D4FF] p-5 shadow-2xl backdrop-blur-2xl ${isDarkMode ? 'bg-[#0B1120]/90' : 'bg-white/95'}`}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="flex justify-between items-start gap-4 mb-5">
+        <PremiumModal isOpen={manageOpen && !!selectedUser} onClose={closeManagePanel} maxWidth="max-w-6xl">
+                 <div className="flex flex-col w-full h-full p-6 md:p-8">
+                {/* Brand Background Decorative Elements */}
+                <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
+                <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
+                <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#F97316]/20 blur-[80px] pointer-events-none z-0"></div>
+
+                <div className="flex justify-between items-start gap-4 mb-5 relative z-10 w-full">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 rounded-full border border-[#00D4FF] bg-gradient-to-br from-slate-700 via-slate-800 to-slate-600 overflow-hidden shadow-lg">
                       <img
@@ -1245,10 +1235,8 @@ export default function AdminDashboard() {
                   <button onClick={saveUserUpdates} className={`px-4 py-2 rounded-full font-semibold text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Save changes</button>
                   <button onClick={() => deleteAdminUser(selectedUser.id)} className={`px-4 py-2 rounded-lg bg-rose-500/100 font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Delete user</button>
                 </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                </div>
+        </PremiumModal>
       </main>
     </div>
   );

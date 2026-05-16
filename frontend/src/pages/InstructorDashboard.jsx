@@ -12,10 +12,12 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsToolti
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 import ActivityFeed from '../components/ActivityFeed';
 import CustomDropdown from '../components/CustomDropdown';
+import { motion, AnimatePresence } from 'framer-motion';
 import { courseDropdownOptions } from '../constants/courseCategories';
 import ProfileView from './ProfileView';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import PremiumModal from '../components/PremiumModal';
 
 export default function InstructorDashboard() {
   const isDarkMode = useThemeMode();
@@ -496,12 +498,14 @@ export default function InstructorDashboard() {
       </main>
 
       {/* Add Lesson Modal Overlays */}
-      {activeCourseId && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 sm:px-0">
-          <div className={`absolute inset-0 backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/80' : 'bg-white/90'}`} onClick={() => setActiveCourseId(null)}></div>
-          
-          <div className={`bg-[#0B1120] border !rounded-[32px] w-full max-w-xl shadow-2xl relative z-10 animate-in zoom-in-95 duration-200 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-            <div className={`flex justify-between items-center p-8 border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <PremiumModal isOpen={!!activeCourseId} onClose={() => setActiveCourseId(null)} maxWidth="max-w-xl">
+                 <div className="flex flex-col w-full h-full p-6 md:p-8">
+             {/* Brand Background Decorative Elements */}
+             <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#F97316]/10 to-transparent pointer-events-none z-0"></div>
+             <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#F97316]/20 blur-[80px] pointer-events-none z-0"></div>
+             <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
+
+            <div className={`flex justify-between items-center p-8 border-b relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <h2 className={`text-xl font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                 <PlayCircle className="w-6 h-6 text-[#F97316]" />
                 Compile Module Entry
@@ -580,9 +584,8 @@ export default function InstructorDashboard() {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
+                 </div>
+      </PremiumModal>
     </div>
   );
 }

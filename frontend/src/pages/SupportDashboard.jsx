@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HeartHandshake, Users, GraduationCap, ArrowRight, ShieldCheck, HandCoins, Search, CheckCircle2, Wallet, RefreshCw, Loader2 } from 'lucide-react';
 import api from '../utils/api';
 import useThemeMode from '../hooks/useThemeMode';
+import PremiumModal from '../components/PremiumModal';
 
 export default function SupportDashboard() {
   const [activeTab, setActiveTab] = useState('students');
@@ -389,9 +390,8 @@ export default function SupportDashboard() {
       )}
 
       {/* Advanced Connection Secure Modal */}
-      {showSponsorModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-           <div className={`rounded-[2rem] border shadow-2xl w-full max-w-lg p-8 relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+      <PremiumModal isOpen={showSponsorModal} onClose={() => setShowSponsorModal(false)} maxWidth="max-w-lg">
+             <div className="p-8">
               <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 blur-3xl pointer-events-none rounded-full" />
               
               <div className="flex justify-between items-center mb-6">
@@ -469,9 +469,8 @@ export default function SupportDashboard() {
                     {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <><ShieldCheck className="w-5 h-5" /> Initialize Secure Link</>}
                  </button>
               </form>
-           </div>
-        </div>
-      )}
+             </div>
+      </PremiumModal>
 
     </div>
   );

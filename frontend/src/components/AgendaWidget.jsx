@@ -3,6 +3,7 @@ import { getRecentPublicUsers } from '../utils/api';
 import { MoreHorizontal, Calendar, Bell, BookOpen, AlertCircle, HeartHandshake, Users, X, CheckCircle, Presentation } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useThemeMode from '../hooks/useThemeMode';
+import PremiumModal from './PremiumModal';
 
 export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCreateClick }) {
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -194,25 +195,13 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
       </div>
 
       {/* Glassmorphic Details Popup Modal */}
-      <AnimatePresence>
-        {selectedEvent && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[150] bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
-            onClick={() => setSelectedEvent(null)}
-          >
-            <motion.div 
-              initial={{ scale: 0.95, y: 20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.95, y: 20, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              onClick={(e) => e.stopPropagation()}
-              className={`w-full max-w-lg backdrop-blur-2xl border shadow-2xl rounded-3xl overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)]' : 'bg-white/95 border-slate-200'}`}
-            >
+      <PremiumModal isOpen={!!selectedEvent} onClose={() => setSelectedEvent(null)} maxWidth="max-w-lg">
+                 <div className="flex flex-col w-full h-full p-6 md:p-8">
+               <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+               <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+               
                {/* Modal Header */}
-               <div className={`px-6 py-5 border-b flex justify-between items-center ${isDarkMode ? 'border-white/5 bg-[#0B1120]/50' : 'border-slate-200 bg-slate-50/80'}`}>
+               <div className={`px-6 py-5 border-b flex justify-between items-center relative z-10 ${isDarkMode ? 'border-white/5 bg-[#0B1120]/50' : 'border-slate-200 bg-slate-50/80'}`}>
                  <div className="flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center border shadow-inner ${getCategoryColor(selectedEvent.type)}`}>
                        {getCategoryIcon(selectedEvent.type)}
@@ -251,10 +240,8 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
                    <CheckCircle className="w-4 h-4" /> Acknowledge & Close
                  </button>
                </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+             </div>
+      </PremiumModal>
     </>
   );
 }

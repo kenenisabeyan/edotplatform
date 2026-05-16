@@ -7,7 +7,9 @@ import {
   Home, RefreshCw, Heart, Wallet, Users, 
   Activity, ShieldCheck, GraduationCap, ArrowRight
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import useThemeMode from '../hooks/useThemeMode';
+import PremiumModal from '../components/PremiumModal';
 
 export default function SponsorDashboard() {
   const isDarkMode = useThemeMode();
@@ -341,9 +343,8 @@ export default function SponsorDashboard() {
               </div>
 
         {/* Become a Sponsor Modal */}
-        {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-            <div className={`w-full max-w-md rounded-3xl p-8 shadow-2xl ${isDarkMode ? 'bg-[#121A2F] text-white' : 'bg-white text-slate-900'}`}>
+        <PremiumModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} maxWidth="max-w-md">
+            <div className="p-8">
               <h2 className="mb-2 text-2xl font-bold">Become a Sponsor</h2>
               <p className={`mb-6 text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                 Select a student to support and choose your contribution amount.
@@ -390,8 +391,7 @@ export default function SponsorDashboard() {
                 </div>
               </form>
             </div>
-          </div>
-        )}
+        </PremiumModal>
 
         </div>
       </main>

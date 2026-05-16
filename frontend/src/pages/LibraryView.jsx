@@ -9,6 +9,7 @@ import CustomDropdown from '../components/CustomDropdown';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import PremiumModal from '../components/PremiumModal';
 
 export default function LibraryView() {
   const isDarkMode = useThemeMode();
@@ -781,28 +782,36 @@ export default function LibraryView() {
         </div>
       )}
 
-      {reviewModalOpen && reviewTarget && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-          <div className={`w-full max-w-xl border rounded-[32px] p-6 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
-            <h4 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Review & Comment</h4>
-            <p className={`text-sm mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Resource: {reviewTarget.title}</p>
-            <textarea
-              value={reviewComment}
-              onChange={(e) => setReviewComment(e.target.value)}
-              className={`w-full h-28 !p-5 !rounded-[32px] border outline-none mb-3 ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
-              placeholder="Leave feedback or request corrections..."
-            />
-            <div className="flex gap-2 mb-4">
-              <button onClick={() => setReviewDecision('approved')} className={`px-3 py-2 rounded-lg text-sm ${reviewDecision === 'approved' ? 'bg-[#00D4FF] ' : 'bg-[#0B1120]/10 '} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Approve</button>
-              <button onClick={() => setReviewDecision('rejected')} className={`px-3 py-2 rounded-lg text-sm ${reviewDecision === 'rejected' ? 'bg-[#E30A17] ' : 'bg-[#0B1120]/10 '} ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reject</button>
-            </div>
-            <div className="flex justify-end gap-2">
-              <button onClick={() => setReviewModalOpen(false)} className={`px-4 py-2 rounded-lg ${isDarkMode ? 'bg-[#0B1120]/10 text-white' : 'bg-slate-50 text-slate-900'}`}>Cancel</button>
-              <button onClick={handleReviewSubmit} className={`px-4 py-2 rounded-full bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Submit</button>
-            </div>
-          </div>
-        </div>
-      )}
+      <PremiumModal isOpen={reviewModalOpen && !!reviewTarget} onClose={() => setReviewModalOpen(false)} maxWidth="max-w-xl">
+                 <div className="flex flex-col w-full h-full p-6 md:p-8">
+                 {/* Brand Background Decorative Elements */}
+                 <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#E30A17]/10 to-transparent pointer-events-none z-0"></div>
+                 <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#E30A17]/20 blur-[80px] pointer-events-none z-0"></div>
+                 <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#F97316]/20 blur-[80px] pointer-events-none z-0"></div>
+
+                 <div className="p-6 relative z-10 flex flex-col">
+                  <h4 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Review & Comment</h4>
+                  <p className={`text-sm mb-4 font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Resource: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{reviewTarget.title}</span></p>
+                  
+                  <textarea
+                    value={reviewComment}
+                    onChange={(e) => setReviewComment(e.target.value)}
+                    className={`w-full h-32 !p-5 !rounded-[24px] border outline-none mb-4 shadow-inner transition-all focus:ring-2 focus:ring-[#E30A17]/50 ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400'}`}
+                    placeholder="Leave feedback or request corrections..."
+                  />
+                  
+                  <div className="flex gap-3 mb-6">
+                    <button onClick={() => setReviewDecision('approved')} className={`flex-1 py-3 rounded-xl font-bold transition-colors text-sm border ${reviewDecision === 'approved' ? 'bg-[#00D4FF] text-white border-[#00D4FF] shadow-lg shadow-[#00D4FF]/20' : (isDarkMode ? 'bg-[#0B1120]/50 border-white/10 text-slate-400' : 'bg-white border-slate-200 text-slate-500')}`}>Approve</button>
+                    <button onClick={() => setReviewDecision('rejected')} className={`flex-1 py-3 rounded-xl font-bold transition-colors text-sm border ${reviewDecision === 'rejected' ? 'bg-[#E30A17] text-white border-[#E30A17] shadow-lg shadow-[#E30A17]/20' : (isDarkMode ? 'bg-[#0B1120]/50 border-white/10 text-slate-400' : 'bg-white border-slate-200 text-slate-500')}`}>Reject</button>
+                  </div>
+                  
+                  <div className={`pt-4 border-t flex justify-end gap-3 ${isDarkMode ? 'border-white/10' : 'border-slate-100'}`}>
+                    <button onClick={() => setReviewModalOpen(false)} className={`px-6 py-2.5 rounded-full font-bold transition-all text-sm border ${isDarkMode ? 'text-slate-300 border-slate-700 bg-[#1E293B] hover:bg-slate-700' : 'text-slate-700 border-slate-200 bg-white hover:bg-slate-50 shadow-sm'}`}>Cancel</button>
+                    <button onClick={handleReviewSubmit} className={`px-8 py-2.5 rounded-full font-bold transition-all flex items-center justify-center gap-2 bg-[#F97316] hover:bg-[#E30A17] shadow-lg shadow-[#F97316]/20 text-white text-sm hover:-translate-y-0.5`}>Submit</button>
+                  </div>
+               </div>
+                 </div>
+      </PremiumModal>
 
     </motion.div>
   );

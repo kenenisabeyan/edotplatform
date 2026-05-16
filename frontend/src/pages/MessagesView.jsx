@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
-import { Search, Edit, MoreVertical, Trash2, Paperclip, Send, Smile, Phone, Video, Loader2, ArrowLeft, Mic, Menu, Settings, Users, PhoneCall, Ban, X } from 'lucide-react';
+import { 
+  Search, Smile, Paperclip, Send, Loader2, ArrowLeft, MoreVertical, Edit, Trash2, Ban, Mic, Menu, Users, PhoneCall, Phone, Video
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
-import { useQuery } from '@tanstack/react-query';
-import io from 'socket.io-client';
+import PremiumModal from '../components/PremiumModal';
+import { io } from 'socket.io-client';
 import AgendaCreationModal from '../components/AgendaCreationModal';
+import LiveRoom from './LiveRoom';
 
 const SOCKET_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:5005'
@@ -575,7 +579,7 @@ export default function MessagesView() {
                          </span>
                        )}
                      </div>
-                   </div>
+                  </div>
                  </div>
                ))
              )}
@@ -856,9 +860,13 @@ export default function MessagesView() {
       )}
       
       {/* Call Modal */}
-      {showCallModal && (
-         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-            <div className={`${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'} border w-full max-w-sm rounded-[32px] overflow-hidden shadow-2xl relative`}>
+      <PremiumModal isOpen={showCallModal} onClose={() => setShowCallModal(false)} maxWidth="max-w-sm">
+                 <div className="flex flex-col w-full h-full p-6 md:p-8">
+                 {/* Brand Background Decorative Elements */}
+                 <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
+                 <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
+                 <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#F97316]/20 blur-[80px] pointer-events-none z-0"></div>
+
                <div className="p-8 flex flex-col items-center relative z-10">
                   <div className={`p-[3px] rounded-full mb-6 bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15]`}>
                      <div className={`w-24 h-24 rounded-full flex items-center justify-center text-4xl font-bold overflow-hidden relative border-4 ${isDarkMode ? 'border-[#1E293B] bg-[#0B1120] text-[#00D4FF]' : 'border-white bg-[#E0F2FE] text-[#007AFF]'}`}>
@@ -883,9 +891,8 @@ export default function MessagesView() {
                      </button>
                   </div>
                </div>
-            </div>
-         </div>
-      )}
+                 </div>
+      </PremiumModal>
       {/* LiveKit Room Modal */}
       {livekitSession && (
         <LiveRoom 

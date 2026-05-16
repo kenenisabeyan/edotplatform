@@ -7,6 +7,7 @@ import axios from 'axios';
 import { format, formatDistanceToNow, isPast, isFuture } from 'date-fns';
 import toast from 'react-hot-toast';
 import LiveRoom from './LiveRoom';
+import PremiumModal from '../components/PremiumModal';
 
 export default function LiveClassesView() {
   const { user } = useAuth();
@@ -383,18 +384,21 @@ export default function LiveClassesView() {
         )}
 
         {/* Schedule Modal */}
-        <AnimatePresence>
-          {showModal && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-              <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} className={`w-full max-w-lg overflow-hidden rounded-[32px] shadow-2xl ${isDarkMode ? 'bg-[#0B1221] border border-white/10' : 'bg-white'}`}>
-                <div className={`px-8 py-6 flex items-center justify-between border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                  <h3 className="text-2xl font-black">Schedule Live Stream</h3>
-                  <button onClick={() => setShowModal(false)} className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-slate-100 hover:bg-slate-200'}`}>
+        <PremiumModal isOpen={showModal} onClose={() => setShowModal(false)} maxWidth="max-w-lg">
+                 <div className="flex flex-col w-full h-full p-6 md:p-8">
+                 {/* Brand Background Decorative Elements */}
+                 <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#F97316]/10 to-transparent pointer-events-none z-0"></div>
+                 <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#F97316]/20 blur-[80px] pointer-events-none z-0"></div>
+                 <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
+                 
+                <div className={`px-8 py-6 flex items-center justify-between border-b relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-100'}`}>
+                  <h3 className={`text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Schedule Live Stream</h3>
+                  <button onClick={() => setShowModal(false)} className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}`}>
                     <X className="w-5 h-5" />
                   </button>
                 </div>
                 
-                <form onSubmit={handleScheduleClass} className="p-8 space-y-6">
+                <form onSubmit={handleScheduleClass} className="p-8 space-y-6 relative z-10">
                   <div>
                     <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Target Course</label>
                     <select required value={formData.courseId} onChange={(e) => setFormData({...formData, courseId: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}>
@@ -431,24 +435,25 @@ export default function LiveClassesView() {
                     <button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-[32px] font-bold text-sm transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">Deploy Engine</button>
                   </div>
                 </form>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                 </div>
+        </PremiumModal>
 
         {/* Upload Recording Modal */}
-        <AnimatePresence>
-          {showUploadModal && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-              <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} className={`w-full max-w-xl overflow-hidden rounded-[32px] shadow-2xl ${isDarkMode ? 'bg-[#0B1221] border border-white/10' : 'bg-white'}`}>
-                <div className={`px-8 py-6 flex items-center justify-between border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                  <h3 className="text-2xl font-black">Secure VOD Upload</h3>
-                  <button onClick={() => setShowUploadModal(false)} className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10' : 'bg-slate-100 hover:bg-slate-200'}`}>
+        <PremiumModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} maxWidth="max-w-xl">
+                 <div className="flex flex-col w-full h-full p-6 md:p-8">
+                 {/* Brand Background Decorative Elements */}
+                 <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-indigo-500/10 to-transparent pointer-events-none z-0"></div>
+                 <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/20 blur-[80px] pointer-events-none z-0"></div>
+                 <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-500/20 blur-[80px] pointer-events-none z-0"></div>
+
+                <div className={`px-8 py-6 flex items-center justify-between border-b relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-100'}`}>
+                  <h3 className={`text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Secure VOD Upload</h3>
+                  <button onClick={() => setShowUploadModal(false)} className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}`}>
                     <X className="w-5 h-5" />
                   </button>
                 </div>
                 
-                <form onSubmit={handleUploadRecording} className="p-8 space-y-6">
+                <form onSubmit={handleUploadRecording} className="p-8 space-y-6 relative z-10">
                   <div className="grid grid-cols-2 gap-4">
                      <div>
                        <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Course</label>
@@ -506,30 +511,19 @@ export default function LiveClassesView() {
                     </button>
                   </div>
                 </form>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                 </div>
+        </PremiumModal>
 
         {/* Secure Video Player Modal */}
-        <AnimatePresence>
-          {playingVideoUrl && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
-              <div className="absolute top-6 right-6">
-                 <button onClick={() => setPlayingVideoUrl(null)} className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md transition-all">
-                    <X className="w-6 h-6" />
-                 </button>
-              </div>
-              <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="w-full max-w-5xl aspect-video rounded-[32px] overflow-hidden bg-black shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10 relative">
+        <PremiumModal isOpen={!!playingVideoUrl} onClose={() => setPlayingVideoUrl(null)} maxWidth="max-w-5xl">
+             <div className="relative aspect-video rounded-[32px] overflow-hidden bg-black shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10">
                  <div className="absolute top-0 left-0 right-0 p-6 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none">
                     <h2 className="text-white text-xl font-bold">{playingVideoTitle}</h2>
                     <p className="text-emerald-400 text-xs font-bold mt-1 uppercase tracking-widest flex items-center gap-1"><Lock className="w-3 h-3"/> Secure Token Stream Active</p>
                  </div>
                  <video src={playingVideoUrl} controls autoPlay controlsList="nodownload" className="w-full h-full object-contain" />
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+             </div>
+        </PremiumModal>
 
       </div>
 

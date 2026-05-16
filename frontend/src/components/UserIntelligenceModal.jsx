@@ -7,6 +7,7 @@ import api from '../utils/api';
 import UserAvatar from './UserAvatar';
 import CustomDropdown from './CustomDropdown';
 import { Search } from 'lucide-react';
+import PremiumModal from './PremiumModal';
 
 export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefreshUsers, globalUsersList = [] }) {
   const isDarkMode = useThemeMode();
@@ -252,33 +253,24 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
   if (!isOpen) return null;
 
   const modalContent = (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          key="intel-hub-overlay"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex justify-center items-start pt-10 overflow-hidden px-4 pb-10"
-          onClick={onClose}
-        >
+      <PremiumModal isOpen={isOpen} onClose={onClose} maxWidth="max-w-[1400px]">
           {loading ? (
-             <div className="flex justify-center items-center h-64 mt-20" onClick={(e) => e.stopPropagation()}>
+             <div className="flex justify-center items-center h-64" onClick={(e) => e.stopPropagation()}>
                <div className={`w-10 h-10 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
              </div>
           ) : selectedUser ? (
-            <motion.div
-              initial={{ x: 450, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 450, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 240, damping: 30 }}
-              className={`relative w-full max-w-[1400px] w-[95vw] rounded-3xl border border-[#F97316] p-5 md:p-8 shadow-[0_0_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl max-h-[90vh] overflow-y-auto custom-scrollbar ${isDarkMode ? 'bg-[#0B1120]/40' : 'bg-slate-50'}`}
-              onClick={(e) => e.stopPropagation()}
-            >
+             <div className="flex flex-col w-full h-full p-6 md:p-8">
+            {/* Brand Background Decorative Elements */}
+            <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#F97316]/10 to-transparent pointer-events-none z-0"></div>
+            <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
+            <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#F97316]/20 blur-[80px] pointer-events-none z-0"></div>
+
+            <div className="relative z-10 p-5 md:p-8 overflow-y-auto custom-scrollbar flex-1 w-full">
             <div className="flex justify-between items-start gap-4 mb-6">
               <div className="flex items-center gap-5">
-                <div className="flex items-center justify-center shrink-0">
-                  <UserAvatar user={selectedUser} className="w-16 h-16 md:w-20 md:h-20 text-3xl shadow-lg border-2 border-[#F97316]" />
+                <div className="flex items-center justify-center shrink-0 relative">
+                  <UserAvatar user={selectedUser} className="w-16 h-16 md:w-20 md:h-20 text-3xl shadow-lg border-[3px] border-white dark:border-[#0B1120] relative z-10" />
+                  <div className="absolute inset-0 rounded-full border-2 border-[#F97316] scale-110"></div>
                 </div>
                 <div>
                   <h3 className={`text-2xl md:text-3xl font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedUser.name}</h3>
@@ -682,16 +674,15 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
               </div>
             </div>
 
-          </motion.div>
+            </div>
+            </div>
           ) : (
             <div className={`p-8 text-center bg-black/80 rounded-2xl border mt-20 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`} onClick={(e) => e.stopPropagation()}>
                <p className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Failed to load user details.</p>
                <button onClick={onClose} className={`mt-4 px-4 py-2 rounded-full text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close</button>
             </div>
           )}
-        </motion.div>
-      )}
-    </AnimatePresence>
+      </PremiumModal>
   );
 
   if (typeof document === 'undefined') return null;

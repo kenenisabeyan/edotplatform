@@ -122,6 +122,57 @@ router.get('/categorized', async (req, res) => {
     }
 });
 
+router.get('/enrolled', protect, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const enrollments = await prisma.userCourseProgress.findMany({
+            where: { userId, status: { in: ['active', 'completed', 'pending'] } },
+            include: {
+                course: {
+                    include: { 
+                        instructor: { select: { name: true, avatar: true } },
+                        lessons: true 
+                    }
+                }
+            }
+        });
+
+        // Add dummy enrollments from main enrollment table if no progress yet
+        const pendingEnrollments = await prisma.enrollment.findMany({
+            where: { studentId: userId, status: { in: ['active', 'pending', 'completed'] } },
+            include: {
+                course: {
+                    include: { 
+                        instructor: { select: { name: true, avatar: true } },
+                        lessons: true 
+                    }
+                }
+            }
+        });
+        
+        // Merge without duplicates
+        const courseIds = new Set(enrollments.map(e => e.courseId));
+        const merged = [...enrollments];
+        pendingEnrollments.forEach(e => {
+            if (!courseIds.has(e.courseId)) {
+                merged.push({
+                    id: e.id,
+                    courseId: e.courseId,
+                    course: e.course,
+                    progress: 0,
+                    completedLessons: [],
+                    status: 'active'
+                });
+            }
+        });
+
+        res.json({ success: true, data: merged });
+    } catch (error) {
+        console.error('Enrolled courses error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 router.get('/:id', async (req, res) => {
     try {
         const course = await prisma.course.findUnique({

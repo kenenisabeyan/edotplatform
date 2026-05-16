@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, LabelList
 } from 'recharts';
@@ -11,6 +11,7 @@ import {
   CheckCircle, ArrowUpRight, GraduationCap, ShieldCheck, MoreHorizontal, Atom, Code, Calculator, MessageSquare
 } from 'lucide-react';
 import api from '../../utils/api';
+import PremiumModal from '../PremiumModal';
 
 const StudentOverview = ({ 
   user, 
@@ -128,9 +129,8 @@ const StudentOverview = ({
   // SVG Circular Progress
   const radius = 60;
   const circumference = 2 * Math.PI * radius;
-  // Progress represented as a half-circle (or 3/4 circle in the design, let's use full circle stroke with gap)
-  // We will map 0-100 to 0-75% of the circle to leave a gap at the bottom like the image
-  const maxDisplayPercentage = 75; // The track covers 75% of the circle
+  // Progress represented as a full circle
+  const maxDisplayPercentage = 100; 
   // Use real average progress data
   const progressPercentage = (averageProgress / 100) * maxDisplayPercentage;
   
@@ -256,85 +256,124 @@ const StudentOverview = ({
         ))}
       </div>
 
-      {certificateDropdownOpen && (
-        <div className="absolute left-1/2 top-[280px] z-50 w-[min(95vw,720px)] max-w-2xl -translate-x-1/2 rounded-[28px] border bg-white dark:bg-[#0B1120] shadow-[0_30px_70px_rgba(0,0,0,0.18)] p-5">
-          <div className="flex items-center justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-700">
-            <div>
-              <p className={`text-sm font-semibold ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>Certificates</p>
-              <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                {hasCertificates ? `${claimedCertificates.length} claimed • ${readyCertificates.length} ready to claim` : 'No certificates available yet'}
-              </p>
-            </div>
-            <button onClick={() => setCertificateDropdownOpen(false)} className="text-[12px] font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">Close</button>
-          </div>
+      <PremiumModal isOpen={certificateDropdownOpen} onClose={() => setCertificateDropdownOpen(false)} maxWidth="max-w-2xl">
+                 <div className="flex flex-col w-full h-full p-6 md:p-8">
+             {/* Brand Background Decorative Elements */}
+             <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#F97316]/10 to-transparent pointer-events-none z-0"></div>
+             <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
+             <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#F97316]/20 blur-[80px] pointer-events-none z-0"></div>
 
-          <div className="mt-5 space-y-5 max-h-[360px] overflow-y-auto pr-2">
-            {readyCertificates.length > 0 && (
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <h4 className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Ready to Claim</h4>
-                  <span className={`text-[11px] font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{readyCertificates.length} course{readyCertificates.length !== 1 ? 's' : ''}</span>
+             <div className="relative z-10 flex flex-col flex-1 max-h-[85vh] overflow-hidden">
+              {/* Header */}
+              <div className="flex items-start justify-between pb-6 border-b border-slate-200/50 dark:border-slate-700/50">
+                <div className="flex items-center gap-4">
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${isDarkMode ? 'bg-[#1E293B] border border-slate-700' : 'bg-orange-50 border border-orange-100'}`}>
+                    <Award className="w-6 h-6 text-[#F97316]" />
+                  </div>
+                  <div>
+                    <h3 className={`text-xl font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Your Certificates</h3>
+                    <p className={`text-sm font-medium mt-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                      {hasCertificates ? `${claimedCertificates.length} claimed • ${readyCertificates.length} ready to claim` : 'Your official credential hub'}
+                    </p>
+                  </div>
                 </div>
-                <div className="grid gap-3">
-                  {readyCertificates.map((course) => {
-                    const courseId = course.course?.id || course.courseId;
-                    return (
-                      <div key={courseId} className={`rounded-2xl border ${isDarkMode ? 'border-slate-700 bg-[#0B1120]' : 'border-slate-200 bg-slate-50'} p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3`}>
-                        <div>
-                          <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.course?.title || 'Untitled course'}</p>
-                          <p className={`text-[11px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Complete the course to claim your certificate.</p>
-                        </div>
-                        <button
-                          onClick={() => handleClaimCertificate(courseId)}
-                          disabled={claimingCertificateId === courseId}
-                          className={`px-4 py-2 rounded-xl text-sm font-bold transition ${claimingCertificateId === courseId ? 'bg-slate-300 text-slate-700 cursor-not-allowed' : 'bg-[#F97316] hover:bg-[#EA580C] text-white'}`}
-                        >
-                          {claimingCertificateId === courseId ? 'Claiming...' : 'Claim'}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {claimedCertificates.length > 0 && (
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <h4 className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Claimed Certificates</h4>
-                  <span className={`text-[11px] font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{claimedCertificates.length} earned</span>
-                </div>
-                <div className="grid gap-3">
-                  {claimedCertificates.map((cert) => (
-                    <div key={cert.id} className={`rounded-2xl border ${isDarkMode ? 'border-slate-700 bg-[#0B1120]' : 'border-slate-200 bg-slate-50'} p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3`}>
-                      <div>
-                        <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{cert.course?.title || 'Certificate'}</p>
-                        <p className={`text-[11px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Issued: {new Date(cert.issueDate || Date.now()).toLocaleDateString()}</p>
-                      </div>
-                      <button
-                        onClick={openCertificatePage}
-                        className="px-4 py-2 rounded-full text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white"
-                      >
-                        View Details
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {!hasCertificates && (
-              <div className={`rounded-2xl border ${isDarkMode ? 'border-slate-700 bg-[#0B1120]' : 'border-slate-200 bg-slate-50'} p-6 text-center`}>
-                <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No certificates yet</p>
-                <p className={`text-[11px] mt-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Complete a course and claim your certificate to see it here.</p>
-                <button onClick={() => { setCertificateDropdownOpen(false); setActiveTab('courses'); }} className="mt-4 px-4 py-2 rounded-xl bg-[#F97316] text-white font-bold hover:bg-[#EA580C]">
-                  Start Now
+                <button 
+                  onClick={() => setCertificateDropdownOpen(false)} 
+                  className={`p-2 rounded-full transition-colors bg-white/5 backdrop-blur-sm border ${isDarkMode ? 'hover:bg-slate-800 text-slate-400 border-slate-700/50' : 'hover:bg-slate-100 text-slate-500 border-slate-200'}`}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
               </div>
-            )}
-          </div>
-        </div>
-      )}
+
+              {/* Scrollable List Content */}
+              <div className="mt-6 overflow-y-auto pr-2 custom-scrollbar flex-1 space-y-8">
+                {readyCertificates.length > 0 && (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className={`text-xs font-bold uppercase tracking-widest ${isDarkMode ? 'text-orange-400' : 'text-orange-600'}`}>Ready to Claim</h4>
+                      <span className={`text-[11px] font-bold px-2.5 py-1 rounded-md ${isDarkMode ? 'bg-orange-500/20 text-orange-300' : 'bg-orange-100 text-orange-700'}`}>{readyCertificates.length} Available</span>
+                    </div>
+                    <div className="grid gap-3">
+                      {readyCertificates.map((course) => {
+                        const courseId = course.course?.id || course.courseId;
+                        return (
+                          <div key={courseId} className={`rounded-[20px] border p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:shadow-lg ${isDarkMode ? 'border-slate-700/50 bg-[#121A2F]/80 hover:bg-[#121A2F]' : 'border-slate-200/80 bg-white hover:border-[#F97316]/30'}`}>
+                            <div className="flex items-center gap-4">
+                              <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${isDarkMode ? 'bg-orange-500/10 text-orange-400' : 'bg-orange-50 text-orange-500'}`}>
+                                <Star className="w-5 h-5 fill-current" />
+                              </div>
+                              <div>
+                                <p className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.course?.title || 'Untitled course'}</p>
+                                <p className={`text-[11px] font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Complete the process to issue your certificate.</p>
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => handleClaimCertificate(courseId)}
+                              disabled={claimingCertificateId === courseId}
+                              className={`shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-sm flex items-center justify-center gap-2 ${claimingCertificateId === courseId ? 'bg-slate-300 text-slate-700 cursor-not-allowed' : 'bg-[#F97316] hover:bg-[#EA580C] text-white hover:shadow-[#F97316]/20 hover:shadow-lg hover:-translate-y-0.5'}`}
+                            >
+                              {claimingCertificateId === courseId ? (
+                                <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> Issuing...</>
+                              ) : 'Claim Certificate'}
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {claimedCertificates.length > 0 && (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className={`text-xs font-bold uppercase tracking-widest ${isDarkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>Claimed Certificates</h4>
+                      <span className={`text-[11px] font-bold px-2.5 py-1 rounded-md ${isDarkMode ? 'bg-emerald-500/20 text-emerald-300' : 'bg-emerald-100 text-emerald-700'}`}>{claimedCertificates.length} Earned</span>
+                    </div>
+                    <div className="grid gap-3">
+                      {claimedCertificates.map((cert) => (
+                        <div key={cert.id} className={`rounded-[20px] border p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all ${isDarkMode ? 'border-slate-700/50 bg-[#121A2F]/50 hover:bg-[#121A2F]' : 'border-slate-200/80 bg-slate-50/50 hover:bg-white'}`}>
+                          <div className="flex items-center gap-4">
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${isDarkMode ? 'bg-emerald-500/10 text-emerald-400' : 'bg-emerald-50 text-emerald-500'}`}>
+                              <CheckCircle2 className="w-6 h-6" />
+                            </div>
+                            <div>
+                              <p className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{cert.course?.title || 'Certificate'}</p>
+                              <p className={`text-[11px] font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Issued: {new Date(cert.issueDate || Date.now()).toLocaleDateString()}</p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={openCertificatePage}
+                            className={`shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-sm border ${isDarkMode ? 'bg-[#1E293B] border-slate-700 text-white hover:bg-slate-700' : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300'}`}
+                          >
+                            View Details
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {!hasCertificates && (
+                  <div className={`rounded-[24px] border p-10 text-center flex flex-col items-center justify-center min-h-[300px] ${isDarkMode ? 'border-slate-700/50 bg-[#121A2F]/50' : 'border-slate-200/80 bg-slate-50/50'}`}>
+                    <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-5 ${isDarkMode ? 'bg-[#1E293B]' : 'bg-white shadow-sm'}`}>
+                      <Award className={`w-12 h-12 ${isDarkMode ? 'text-slate-600' : 'text-slate-300'}`} />
+                    </div>
+                    <p className={`text-xl font-black mb-2 tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No certificates yet</p>
+                    <p className={`text-sm font-medium max-w-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                      Complete your first course and pass the final exam to earn an official certificate.
+                    </p>
+                    <button 
+                      onClick={() => { setCertificateDropdownOpen(false); setActiveTab('courses'); }} 
+                      className="mt-8 px-8 py-3.5 rounded-full bg-[#F97316] text-white font-bold hover:bg-[#EA580C] shadow-lg shadow-[#F97316]/20 transition-all hover:-translate-y-1"
+                    >
+                      Browse Courses
+                    </button>
+                  </div>
+                )}
+              </div>
+               </div>
+             </div>
+      </PremiumModal>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Academic Progress */}
@@ -348,7 +387,7 @@ const StudentOverview = ({
           
           <div className="flex-1 flex flex-col items-center justify-center py-2">
             <div className="relative w-48 h-48 flex items-center justify-center">
-               <svg className="w-full h-full transform rotate-[135deg]" viewBox="0 0 140 140">
+               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 140 140">
                  {/* Background track */}
                  <circle
                    cx="70" cy="70" r={radius}

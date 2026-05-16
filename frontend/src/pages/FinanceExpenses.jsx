@@ -5,6 +5,8 @@ import { CircleDollarSign, Plus, ArrowDownRight, Briefcase, Server, Megaphone, C
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import api from '../utils/api';
+import { motion, AnimatePresence } from 'framer-motion';
+import PremiumModal from '../components/PremiumModal';
 
 const StatBox = ({ title, value, subtitle, type, icon: Icon }) => {
   const isDarkMode = useThemeMode();
@@ -196,10 +198,10 @@ export default function FinanceExpenses() {
       </div>
 
       {/* Add Expense Modal */}
-      {showAddModal && (
-        <div className="fixed inset-0 bg-[#0B1120]/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-in fade-in">
-           <div className={`w-full max-w-md rounded-3xl border shadow-2xl p-6 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
-             <h2 className={`text-2xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Record Expense</h2>
+      <PremiumModal isOpen={showAddModal} onClose={() => setShowAddModal(false)} maxWidth="max-w-md">
+             <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
+             <div className="absolute bottom-0 left-0 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
+             <h2 className={`text-2xl font-black mb-6 relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Record Expense</h2>
              <form onSubmit={handleAddExpense} className="space-y-4">
                <div>
                  <label className={`block text-xs font-bold mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Expense Category</label>
@@ -240,9 +242,7 @@ export default function FinanceExpenses() {
                  <button type="submit" className={`flex-1 py-3 rounded-xl font-bold transition-colors shadow-lg ${isDarkMode ? 'bg-rose-500 hover:bg-rose-600 text-white' : 'bg-rose-600 hover:bg-rose-700 text-white'}`}>Record Ledger</button>
                </div>
              </form>
-           </div>
-        </div>
-      )}
+      </PremiumModal>
     </div>
   );
 }

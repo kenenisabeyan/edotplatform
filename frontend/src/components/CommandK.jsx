@@ -120,7 +120,7 @@ export default function CommandK() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-xl"
+            className="fixed inset-0 z-[200] bg-[#0B1120]/70 backdrop-blur-md"
             onClick={() => setIsOpen(false)}
           />
 
