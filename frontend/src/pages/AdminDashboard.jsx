@@ -824,61 +824,7 @@ export default function AdminDashboard() {
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'} flex flex-col md:flex-row font-sans ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-      {/* Sidebar Layout */}
-      <aside className={`w-full md:w-64 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#F8FAFC]'} shrink-0 flex flex-col md:h-screen border-r shadow-[4px_0_15px_rgba(0,0,0,0.1)] sticky top-0 font-sans ${isDarkMode ? 'text-white border-white/5' : 'text-slate-900 border-slate-100'}`}>
-        <div className={`p-6 pt-8 pb-4 border-b shadow-[0_4px_15px_rgba(0,0,0,0.05)] relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-           <img src={edotLogo} alt="EDOT Logo" className="h-8 w-auto rounded opacity-90" />
-        </div>
-        
-        <div className="p-6">
-           <p className="text-xs font-bold text-slate-500   mb-4">Menu</p>
-           <nav className="space-y-2">
-             <button onClick={() => setActiveTab('overview')} className={navItemClass('overview')}>
-               <ShieldCheck className="w-5 h-5 shrink-0" /> Overview
-             </button>
-             <button onClick={() => setActiveTab('users')} className={navItemClass('users')}>
-               <Users className="w-5 h-5 shrink-0" /> Manage Users
-               {stats?.pendingUsers > 0 && (
-                 <span className={`ml-auto bg-rose-500/100 text-xs font-bold px-2 py-0.5 rounded-full ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                   {stats?.pendingUsers}
-                 </span>
-               )}
-             </button>
-             <button onClick={() => setActiveTab('courses')} className={navItemClass('courses')}>
-               <BookOpen className="w-5 h-5 shrink-0" /> Course Approvals
-               {stats?.pendingCourses > 0 && (
-                 <span className={`ml-auto bg-amber-500/100 text-xs font-bold px-2 py-0.5 rounded-full ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                   {stats?.pendingCourses}
-                 </span>
-               )}
-             </button>
-             <button onClick={() => navigate('/dashboard/my-courses')} className={navItemClass('manage_courses')}>
-               <Layers className="w-5 h-5 shrink-0" /> Manage Courses
-             </button>
-             <button onClick={() => navigate('/dashboard/library')} className={navItemClass('library')}>
-               <Library className="w-5 h-5 shrink-0" /> Digital Library
-             </button>
-             <button onClick={() => setActiveTab('logs')} className={navItemClass('logs')}>
-               <Activity className="w-5 h-5 shrink-0" /> System Logs
-             </button>
-           </nav>
-           <p className="text-xs font-bold text-slate-500   mt-8 mb-4">Preference</p>
-           <nav className="space-y-1">
-             <button onClick={() => setActiveTab('settings')} className={navItemClass('settings')}>
-               <Settings className="w-4 h-4 shrink-0" /> Settings
-             </button>
-           </nav>
-        </div>
-        
-        <div className="p-6 mt-auto">
-          <button 
-            onClick={handleLogout}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-full hover:text-red-400 hover:bg-red-400/10 border border-transparent transition-colors font-medium text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
-          >
-            <LogOut className="w-4 h-4 shrink-0" /> Logout
-          </button>
-        </div>
-      </aside>
+
 
       {/* Main Content Area */}
       <main className="flex-1 p-6 md:p-8 lg:p-10 overflow-y-auto">

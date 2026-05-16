@@ -94,47 +94,7 @@ export default function SponsorDashboard() {
     } ${isDarkMode ? 'dark:bg-slate-800/50 dark:hover:bg-slate-800 dark:text-slate-300 dark:hover:text-white' : ''}`;
 
   return (
-    <div className="flex h-screen bg-slate-50 dark:bg-slate-900">
-      {/* Sidebar */}
-      <aside className="w-64 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 shadow-[4px_0_15px_rgba(0,0,0,0.1)]">
-        <div className="p-6">
-          <div className="flex items-center gap-3 pb-6 mb-6 border-b border-slate-200 dark:border-slate-700 shadow-[0_4px_15px_rgba(0,0,0,0.05)]">
-            <div className="w-8 h-8 bg-cyan-500 rounded-lg flex items-center justify-center">
-              <Heart className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-slate-900 dark:text-white">Sponsor</span>
-          </div>
-          
-          <nav className="space-y-2">
-            {sidebarSections.map((section, sectionIndex) => (
-              <div key={sectionIndex}>
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2 px-3">
-                  {section.title}
-                </p>
-                <div className="space-y-1">
-                  {section.items.map((item, itemIndex) => {
-                    const Icon = item.icon;
-                    return (
-                      <button
-                        key={itemIndex}
-                        onClick={() => setActiveSidebar(item.label)}
-                        className={navClass(activeSidebar === item.label)}
-                      >
-                        <Icon className="w-5 h-5" />
-                        <span>{item.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </nav>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        <div className="max-w-[1000px] mx-auto space-y-6 animate-in fade-in zoom-in duration-500 p-6">
+    <div className="max-w-[1000px] mx-auto space-y-6 animate-in fade-in zoom-in duration-500 p-6">
       
       {/* Top Bar: Title & Actions */}
               <div className="flex items-center justify-between">
@@ -393,8 +353,6 @@ export default function SponsorDashboard() {
             </div>
         </PremiumModal>
 
-        </div>
-      </main>
     </div>
   );
 }

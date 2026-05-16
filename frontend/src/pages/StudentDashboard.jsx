@@ -842,72 +842,7 @@ export default function StudentDashboard() {
   return (
     <div className={`min-h-screen flex flex-row font-sans h-screen ${isDarkMode ? 'bg-[#0B1120] text-slate-200' : 'bg-[#FAFAFA] text-slate-700'}`}>
       
-      {/* Sidebar Layout */}
-      <aside className={`w-[260px] shrink-0 flex flex-col h-full border-r shadow-[4px_0_15px_rgba(0,0,0,0.1)] overflow-y-auto ${isDarkMode ? 'bg-[#121A2F] border-slate-800' : 'bg-[#F8FAFC] border-slate-200'}`}>
-        <div className="p-6 pt-8 pb-4 flex flex-col items-center justify-center gap-2 border-b shadow-[0_4px_15px_rgba(0,0,0,0.05)] relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}">
-           <div className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center border-4 border-slate-100 overflow-hidden shadow-sm">
-             <img src={edotLogo} alt="Logo" className="w-full h-full object-cover" />
-           </div>
-           <div className={`font-black text-[15px] leading-tight text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-             Edot Student<br/>Dashboard
-           </div>
-           <button className={`absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-full border text-slate-400 hover:bg-slate-50 transition-colors ${isDarkMode ? 'border-slate-800 hover:bg-slate-800' : 'border-slate-200'}`}>
-             <PanelLeftClose className="w-3.5 h-3.5" />
-           </button>
-        </div>
 
-        <div className="px-4 py-6 flex-1 overflow-y-auto space-y-6">
-           <div>
-             <p className={`px-4 text-[10px] font-bold mb-3 uppercase tracking-wider ${mutedTextClass}`}>Main</p>
-             <nav>
-               <NavItem tabName="overview" icon={LayoutDashboard} label="Dashboard" isActive={activeTab === 'overview'} onClick={() => setActiveTab('overview')} />
-               <NavItem tabName="catalog" icon={Globe} label="Course Catalog" isActive={activeTab === 'catalog'} onClick={() => setActiveTab('catalog')} />
-               <NavItem tabName="courses" icon={BookOpen} label="My Courses" isActive={activeTab === 'courses'} onClick={() => setActiveTab('courses')} />
-               <NavItem tabName="schedule" icon={Clock} label="Schedule" isActive={activeTab === 'schedule'} onClick={() => setActiveTab('schedule')} />
-             </nav>
-           </div>
-
-           <div>
-             <p className={`px-4 text-[10px] font-bold mb-3 uppercase tracking-wider ${mutedTextClass}`}>Management</p>
-             <nav>
-               <NavItem tabName="notice" icon={Bell} label="Notice" isActive={activeTab === 'notice'} onClick={() => setActiveTab('notice')} />
-               <NavItem tabName="library" icon={BookOpen} label="Library" isActive={activeTab === 'library'} onClick={() => setActiveTab('library')} />
-               <NavItem 
-                 tabName="message" 
-                 icon={MoreHorizontal} 
-                 label="Message" 
-                 isActive={activeTab === 'message'} 
-                 badge={unreadMessagesCount}
-                 onClick={() => setActiveTab('message')} 
-               />
-               <NavItem 
-                 tabName="certificates" 
-                 icon={Award} 
-                 label="Certificates" 
-                 isActive={activeTab === 'certificates'} 
-                 badge={totalCertificateProgress}
-                 onClick={() => setActiveTab('certificates')} 
-               />
-               <NavItem tabName="sponsorships" icon={ShieldCheck} label="Sponsorships" isActive={activeTab === 'sponsorships'} onClick={() => setActiveTab('sponsorships')} />
-               <NavItem tabName="growth" icon={Target} label="Growth Lab" isActive={activeTab === 'growth'} onClick={() => setActiveTab('growth')} />
-               <NavItem tabName="ecosystem" icon={Globe} label="Ecosystem Nexus" isActive={activeTab === 'ecosystem'} onClick={() => setActiveTab('ecosystem')} />
-             </nav>
-           </div>
-
-           <div>
-             <p className={`px-4 text-[10px] font-bold mb-3 uppercase tracking-wider ${mutedTextClass}`}>Settings</p>
-             <nav>
-               <NavItem tabName="settings" icon={Users} label="Profile" isActive={activeTab === 'settings'} onClick={() => setActiveTab('settings')} />
-             </nav>
-           </div>
-        </div>
-
-        <div className="p-4 border-t border-slate-100 dark:border-slate-800">
-           <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-full transition-colors font-bold text-[13px]">
-             <LogOut className="w-5 h-5 shrink-0" /> Log out
-           </button>
-        </div>
-      </aside>
 
       <div className="flex-1 flex flex-col overflow-hidden relative">
         {/* Top Header Bar */}
