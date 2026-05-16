@@ -770,7 +770,7 @@ const StudentOverview = ({
                     <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border-2 border-white dark:border-[#0B1D3A] shadow-sm bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15] p-[2px]">
                        <div className="w-full h-full rounded-full bg-white dark:bg-[#1E293B] flex items-center justify-center text-[14px] font-bold text-blue-500 overflow-hidden">
                           {contact.avatar && contact.avatar !== 'default-avatar.png' ? (
-                             <img src={`http://localhost:5000${contact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                             <img src={contact.avatar?.startsWith('http') ? contact.avatar : `http://localhost:5000${contact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
                           ) : (
                              contact.name.charAt(0).toUpperCase()
                           )}

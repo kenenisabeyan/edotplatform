@@ -791,7 +791,7 @@ export default function LibraryView() {
 
                  <div className="p-6 relative z-10 flex flex-col">
                   <h4 className={`text-xl font-bold mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Review & Comment</h4>
-                  <p className={`text-sm mb-4 font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Resource: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{reviewTarget.title}</span></p>
+                  <p className={`text-sm mb-4 font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Resource: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{reviewTarget?.title}</span></p>
                   
                   <textarea
                     value={reviewComment}

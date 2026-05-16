@@ -150,7 +150,7 @@ export default function ProfileView() {
         <div 
           className={`h-48 border-b relative group ${isDarkMode ? 'bg-gradient-to-tr from-[#0B1120] to-[#00D4FF]/20 border-white/10' : 'bg-gradient-to-tr from-slate-100 to-slate-200 border-slate-200'}`}
           style={{ 
-            backgroundImage: formData.coverPhoto ? `url(http://localhost:5000${formData.coverPhoto})` : 'none',
+            backgroundImage: formData.coverPhoto ? `url(${formData.coverPhoto.startsWith('http') ? formData.coverPhoto : `http://localhost:5000${formData.coverPhoto}`})` : 'none',
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
@@ -171,7 +171,7 @@ export default function ProfileView() {
            
            <div className={`absolute -top-20 border-4 rounded-full w-36 h-36 flex items-center justify-center overflow-hidden group shadow-[0_0_20px_rgba(255,215,0,0.2)] ${isDarkMode ? 'border-[#0B1120] bg-[#0B1120]' : 'border-white bg-slate-100'}`}>
               {formData.avatar && formData.avatar !== 'default-avatar.png' ? (
-                <img src={`http://localhost:5000${formData.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                <img src={formData.avatar.startsWith('http') ? formData.avatar : `http://localhost:5000${formData.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
                 <User className={`w-16 h-16 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
               )}

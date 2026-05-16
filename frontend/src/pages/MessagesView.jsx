@@ -554,7 +554,7 @@ export default function MessagesView() {
                      <div className={`p-[2px] rounded-full shadow-sm shrink-0 bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15]`}>
                        <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shrink-0 overflow-hidden border-[3px] ${isDarkMode ? 'border-[#0B1120] bg-[#1E293B] text-[#00D4FF]' : 'border-white bg-[#E0F2FE] text-[#007AFF]'}`}>
                          {contact.avatar && contact.avatar !== 'default-avatar.png' ? (
-                            <img src={`http://localhost:5000${contact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                            <img src={contact.avatar?.startsWith('http') ? contact.avatar : `http://localhost:5000${contact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
                          ) : (
                             contact.name.charAt(0).toUpperCase()
                          )}
@@ -615,7 +615,7 @@ export default function MessagesView() {
                       <div className={`p-[2px] rounded-full shrink-0 bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15]`}>
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-[15px] shrink-0 overflow-hidden border-[2.5px] ${isDarkMode ? 'border-[#1E293B] bg-[#1E293B] text-[#00D4FF]' : 'border-white bg-[#E0F2FE] text-[#007AFF]'}`}>
                           {activeContact.avatar && activeContact.avatar !== 'default-avatar.png' ? (
-                            <img src={`http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                            <img src={activeContact.avatar?.startsWith('http') ? activeContact.avatar : `http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
                           ) : (
                             activeContact.name.charAt(0).toUpperCase()
                           )}
@@ -690,7 +690,7 @@ export default function MessagesView() {
                                 <div className={`p-[1.5px] rounded-full shrink-0 bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15]`}>
                                   <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-[12px] overflow-hidden border-2 ${isDarkMode ? 'border-[#0B1120] bg-[#1E293B] text-[#00D4FF]' : 'border-[#F8FAFC] bg-[#E0F2FE] text-[#007AFF]'}`}>
                                     {msg.sender?.avatar && msg.sender.avatar !== 'default-avatar.png' ? (
-                                      <img src={`http://localhost:5000${msg.sender.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                                      <img src={msg.sender?.avatar?.startsWith('http') ? msg.sender.avatar : `http://localhost:5000${msg.sender.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
                                     ) : (
                                       (msg.sender?.name || activeContact.name).charAt(0).toUpperCase()
                                     )}
@@ -724,11 +724,11 @@ export default function MessagesView() {
                               
                               {msg.attachmentUrl && msg.attachmentType === 'image' && (
                                 <div className="mb-2 max-w-[280px] md:max-w-[340px] rounded-xl overflow-hidden mt-1">
-                                   <img src={`http://localhost:5000${msg.attachmentUrl}`} alt="Attachment" className="w-full h-auto object-cover cursor-pointer" />
+                                   <img src={msg.attachmentUrl?.startsWith('http') ? msg.attachmentUrl : `http://localhost:5000${msg.attachmentUrl}`} alt="Attachment" className="w-full h-auto object-cover cursor-pointer" />
                                 </div>
                               )}
                               {msg.attachmentUrl && msg.attachmentType === 'file' && (
-                                <a href={`http://localhost:5000${msg.attachmentUrl}`} target="_blank" rel="noreferrer" className={`flex items-center gap-3 mb-2 p-2.5 rounded-full transition-all ${isMine ? (isDarkMode ? 'bg-black/20' : 'bg-blue-100/50') : (isDarkMode ? 'bg-white/5' : 'bg-slate-50')}`}>
+                                <a href={msg.attachmentUrl?.startsWith('http') ? msg.attachmentUrl : `http://localhost:5000${msg.attachmentUrl}`} target="_blank" rel="noreferrer" className={`flex items-center gap-3 mb-2 p-2.5 rounded-full transition-all ${isMine ? (isDarkMode ? 'bg-black/20' : 'bg-blue-100/50') : (isDarkMode ? 'bg-white/5' : 'bg-slate-50')}`}>
                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isMine ? (isDarkMode ? 'bg-[#00D4FF]/30 text-[#00D4FF]' : 'bg-blue-200 text-blue-600') : (isDarkMode ? 'bg-white/10 text-white' : 'bg-slate-200 text-slate-600')}`}>
                                       <Paperclip className="w-5 h-5" />
                                    </div>
@@ -871,7 +871,7 @@ export default function MessagesView() {
                   <div className={`p-[3px] rounded-full mb-6 bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15]`}>
                      <div className={`w-24 h-24 rounded-full flex items-center justify-center text-4xl font-bold overflow-hidden relative border-4 ${isDarkMode ? 'border-[#1E293B] bg-[#0B1120] text-[#00D4FF]' : 'border-white bg-[#E0F2FE] text-[#007AFF]'}`}>
                         {activeContact?.avatar && activeContact.avatar !== 'default-avatar.png' ? (
-                           <img src={`http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                           <img src={activeContact.avatar?.startsWith('http') ? activeContact.avatar : `http://localhost:5000${activeContact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
                         ) : (
                            activeContact?.name.charAt(0).toUpperCase()
                         )}

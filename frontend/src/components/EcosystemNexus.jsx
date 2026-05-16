@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Network, ShieldCheck, User, Users, GraduationCap, Building2, Lock, ArrowRight, HeartHandshake, Fingerprint, Check } from 'lucide-react';
 import api from '../utils/api';
 import useThemeMode from '../hooks/useThemeMode';
 
 export default function EcosystemNexus() {
   const isDarkMode = useThemeMode();
+  const navigate = useNavigate();
   const [connections, setConnections] = useState({
     parents: [],
     sponsors: [],
@@ -29,8 +31,34 @@ export default function EcosystemNexus() {
     fetchEcosystem();
   }, []);
 
-  const handleAuthorize = (type, id) => {
-    alert(`Secure handshake initiated for ${type} connection.`);
+  const handleAuthorize = async (type, id) => {
+    try {
+      const { data } = await api.put('/users/ecosystem/authorize', { type, id });
+      if (data.success) {
+        setConnections(prev => ({
+          ...prev,
+          sponsors: prev.sponsors.map(s => s.id === id ? { ...s, status: 'active' } : s)
+        }));
+      }
+    } catch (err) {
+      console.error('Failed to authorize:', err);
+      alert('Error authorizing connection');
+    }
+  };
+
+  const handleReject = async (type, id) => {
+    try {
+      const { data } = await api.put('/users/ecosystem/reject', { type, id });
+      if (data.success) {
+        setConnections(prev => ({
+          ...prev,
+          sponsors: prev.sponsors.filter(s => s.id !== id)
+        }));
+      }
+    } catch (err) {
+      console.error('Failed to reject:', err);
+      alert('Error rejecting connection');
+    }
   };
 
   if (loading) {
@@ -82,7 +110,7 @@ export default function EcosystemNexus() {
           </div>
           <div className="space-y-4 relative z-10">
             {connections.instructors.map((inst, i) => (
-              <div key={i} className={`p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-white/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+              <div key={i} onClick={() => navigate('/dashboard/messages')} className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer hover:-translate-y-0.5 transition-all ${isDarkMode ? 'bg-white/5 border-white/5 hover:border-[#00D4FF]/30 hover:bg-white/10' : 'bg-slate-50 border-slate-100 hover:border-[#00D4FF]/30 hover:bg-white'}`}>
                 <div className="flex items-center gap-3">
                   <User className={`w-5 h-5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
                   <div>
@@ -115,7 +143,7 @@ export default function EcosystemNexus() {
           </div>
           <div className="space-y-4 relative z-10">
             {connections.parents.map((parent, i) => (
-              <div key={i} className={`p-4 rounded-xl border flex flex-col gap-3 ${isDarkMode ? 'bg-white/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+              <div key={i} onClick={() => navigate('/dashboard/messages')} className={`p-4 rounded-xl border flex flex-col gap-3 cursor-pointer hover:-translate-y-0.5 transition-all ${isDarkMode ? 'bg-white/5 border-white/5 hover:border-[#F97316]/30 hover:bg-white/10' : 'bg-slate-50 border-slate-100 hover:border-[#F97316]/30 hover:bg-white'}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <ShieldCheck className="w-5 h-5 text-emerald-500" />
@@ -160,9 +188,9 @@ export default function EcosystemNexus() {
                 </div>
                 <div className="flex items-center gap-2 mt-2">
                   <button onClick={() => handleAuthorize('sponsorship', sponsor.id)} className="flex-1 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold transition-colors">
-                    Authorize E2E
+                    {sponsor.status === 'active' ? 'Authorized ✓' : 'Authorize E2E'}
                   </button>
-                  <button className={`flex-1 py-2 rounded-full text-xs font-bold border transition-colors ${isDarkMode ? 'border-white/10 text-slate-300 hover:bg-white/5' : 'border-slate-300 text-slate-700 hover:bg-slate-100'}`}>
+                  <button onClick={() => handleReject('sponsorship', sponsor.id)} className={`flex-1 py-2 rounded-full text-xs font-bold border transition-colors ${isDarkMode ? 'border-white/10 text-slate-300 hover:bg-white/5' : 'border-slate-300 text-slate-700 hover:bg-slate-100'}`}>
                     Reject
                   </button>
                 </div>
@@ -187,7 +215,7 @@ export default function EcosystemNexus() {
              <span className="text-xs font-black text-purple-500 bg-purple-500/10 px-3 py-1 rounded-full">ENCRYPTED</span>
           </div>
           <div className="space-y-4 relative z-10">
-             <div className={`p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-white/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+             <div onClick={() => navigate('/dashboard/settings')} className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer hover:-translate-y-0.5 transition-all ${isDarkMode ? 'bg-white/5 border-white/5 hover:border-purple-500/30 hover:bg-white/10' : 'bg-slate-50 border-slate-100 hover:border-purple-500/30 hover:bg-white'}`}>
                <div className="flex items-center gap-3">
                  <ShieldCheck className={`w-5 h-5 ${isDarkMode ? 'text-purple-400' : 'text-purple-500'}`} />
                  <div>

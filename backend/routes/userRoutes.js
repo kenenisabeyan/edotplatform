@@ -391,6 +391,61 @@ router.get('/ecosystem', protect, async (req, res) => {
     }
 });
 
+router.put('/ecosystem/authorize', protect, async (req, res) => {
+    try {
+        const { type, id } = req.body;
+        
+        if (type === 'sponsorship') {
+            const sponsorship = await prisma.sponsorship.findFirst({
+                where: { sponsorId: id, targetStudentId: req.user.id }
+            });
+            
+            if (!sponsorship) {
+                return res.status(404).json({ success: false, message: 'Sponsorship not found' });
+            }
+            
+            await prisma.sponsorship.update({
+                where: { id: sponsorship.id },
+                data: { status: 'active', termsAccepted: true }
+            });
+            
+            res.json({ success: true, message: 'Sponsorship authorized' });
+        } else {
+            res.status(400).json({ success: false, message: 'Invalid type' });
+        }
+    } catch (error) {
+        console.error('Authorize error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+router.put('/ecosystem/reject', protect, async (req, res) => {
+    try {
+        const { type, id } = req.body;
+        
+        if (type === 'sponsorship') {
+            const sponsorship = await prisma.sponsorship.findFirst({
+                where: { sponsorId: id, targetStudentId: req.user.id }
+            });
+            
+            if (!sponsorship) {
+                return res.status(404).json({ success: false, message: 'Sponsorship not found' });
+            }
+            
+            await prisma.sponsorship.delete({
+                where: { id: sponsorship.id }
+            });
+            
+            res.json({ success: true, message: 'Sponsorship rejected' });
+        } else {
+            res.status(400).json({ success: false, message: 'Invalid type' });
+        }
+    } catch (error) {
+        console.error('Reject error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 router.get('/dashboard-metrics', protect, async (req, res) => {
     try {
         const userId = req.user.id;

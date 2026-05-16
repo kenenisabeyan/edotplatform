@@ -16,7 +16,7 @@ const upload = multer({
     limits: { fileSize: 1000000000 } // 1GB Limit
 });
 
-router.post('/', protect, upload.single('file'), async (req, res) => {
+router.post('/', protect, upload.single('image'), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ success: false, message: 'Please upload a file' });
@@ -60,6 +60,7 @@ router.post('/', protect, upload.single('file'), async (req, res) => {
         res.json({
             success: true,
             secure_url: optimizedUrl,
+            filePath: optimizedUrl,
             raw_url: result.secure_url,
             public_id: result.public_id,
             duration: result.duration || 0
