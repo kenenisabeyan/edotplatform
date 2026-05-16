@@ -450,8 +450,8 @@ const StudentOverview = ({
         <motion.div variants={itemVariants} className={`p-6 rounded-[1.5rem] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#121A2F] border-slate-800' : 'bg-white border-slate-200/80'}`}>
           <div className="flex justify-between items-center mb-6">
             <h3 className={`text-[13px] font-bold ${textClass}`}>Weekly Study Goal</h3>
-            <button onClick={() => setActiveTab('schedule')} className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border flex items-center gap-1 ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
-              This Week <ChevronRight className="w-3 h-3 rotate-90" />
+            <button onClick={() => setActiveTab('study-goal')} className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border flex items-center gap-1 ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
+              View All <ChevronRight className="w-3 h-3" />
             </button>
           </div>
           

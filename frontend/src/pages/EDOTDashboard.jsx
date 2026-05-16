@@ -386,6 +386,10 @@ export default function EDOTDashboard() {
       navigate('/dashboard/courses');
       return;
     }
+    if (tab === 'schedule' || tab === 'study-goal') {
+      navigate('/dashboard/study-goal');
+      return;
+    }
     if (tab === 'overview') {
       navigate('/dashboard');
       return;
