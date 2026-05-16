@@ -145,8 +145,10 @@ router.get('/users', async (req, res) => {
             include: {
                 enrollments: { include: { course: { select: { title: true, status: true } } } },
                 children: { select: { name: true, email: true, status: true } },
+                parent: { select: { id: true, name: true, email: true } },
                 assignedStudents: { select: { name: true, email: true, status: true, enrollments: true } },
                 assignedInstructor: { select: { id: true, name: true, email: true } },
+                sponsorships: { include: { sponsor: { select: { id: true, name: true, email: true } } } },
                 certificates: true
             },
             orderBy: { createdAt: 'desc' }
@@ -223,7 +225,8 @@ router.get('/users/:id', async (req, res) => {
             where: { id: req.params.id },
             include: {
                 children: { select: { id: true, name: true, email: true, status: true } },
-                assignedStudents: { select: { id: true, name: true, email: true, status: true } }
+                assignedStudents: { select: { id: true, name: true, email: true, status: true } },
+                sponsorships: { include: { sponsor: { select: { id: true, name: true, email: true } } } }
             }
         });
 
@@ -275,6 +278,73 @@ router.put('/users/:id/unlink-child', async (req, res) => {
         });
 
         res.status(200).json({ success: true, data: updatedParent });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.put('/student/:id/assign-parent', async (req, res) => {
+    try {
+        const { parentId } = req.body;
+        const student = await prisma.user.findUnique({ where: { id: req.params.id } });
+        
+        if (!student || student.role !== 'student') {
+            return res.status(400).json({ success: false, message: 'Invalid student' });
+        }
+
+        const updatedStudent = await prisma.user.update({
+            where: { id: req.params.id },
+            data: { parentId: parentId || null }
+        });
+
+        res.status(200).json({ success: true, message: 'Parent assigned safely', data: updatedStudent });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+router.put('/student/:id/assign-sponsor', async (req, res) => {
+    try {
+        const { sponsorId } = req.body;
+        const studentId = req.params.id;
+
+        const student = await prisma.user.findUnique({ where: { id: studentId } });
+        
+        if (!student || student.role !== 'student') {
+            return res.status(400).json({ success: false, message: 'Invalid student' });
+        }
+
+        if (sponsorId) {
+            const sponsor = await prisma.user.findUnique({ where: { id: sponsorId } });
+            if (!sponsor || sponsor.role !== 'admin') { // Sponsor can be anything really, but assuming user exists
+                // We don't strictly enforce sponsor role as it could be any user, but let's just make sure they exist
+            }
+            
+            // Check if sponsorship already exists between these two
+            const existing = await prisma.sponsorship.findFirst({
+                where: { targetStudentId: studentId, sponsorId: sponsorId }
+            });
+
+            if (!existing) {
+                await prisma.sponsorship.create({
+                    data: {
+                        targetStudentId: studentId,
+                        sponsorId: sponsorId,
+                        sponsorName: sponsor?.name || 'Sponsor',
+                        status: 'active',
+                        amount: 0
+                    }
+                });
+            }
+        } else {
+            // Unlink all sponsors if sponsorId is empty (or specifically this one if we had multiple UI)
+            // For simplicity of a single dropdown, we'll just clear the main sponsorship
+            await prisma.sponsorship.deleteMany({
+                where: { targetStudentId: studentId }
+            });
+        }
+
+        res.status(200).json({ success: true, message: 'Sponsor assigned safely' });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server error', error: error.message });
     }

@@ -41,6 +41,18 @@ export default function UsersManagement() {
       .map(u => ({ value: u.id, label: u.name }));
   }, [usersList]);
 
+  const parentOptions = React.useMemo(() => {
+    return usersList
+      .filter(u => u.role === 'parent')
+      .map(u => ({ value: u.id, label: u.name }));
+  }, [usersList]);
+
+  const sponsorOptions = React.useMemo(() => {
+    return usersList
+      .filter(u => u.role !== 'student')
+      .map(u => ({ value: u.id, label: `${u.name} (${u.role})` }));
+  }, [usersList]);
+
   const updateRole = async (userId, role) => {
     try {
       await api.put(`/admin/users/${userId}/role`, { role });
@@ -66,6 +78,24 @@ export default function UsersManagement() {
       fetchUsers();
     } catch (err) {
       console.error('Failed to assign instructor', err);
+    }
+  };
+
+  const assignParent = async (studentId, parentId) => {
+    try {
+      await api.put(`/admin/student/${studentId}/assign-parent`, { parentId });
+      fetchUsers();
+    } catch (err) {
+      console.error('Failed to assign parent', err);
+    }
+  };
+
+  const assignSponsor = async (studentId, sponsorId) => {
+    try {
+      await api.put(`/admin/student/${studentId}/assign-sponsor`, { sponsorId });
+      fetchUsers();
+    } catch (err) {
+      console.error('Failed to assign sponsor', err);
     }
   };
 
@@ -236,7 +266,7 @@ export default function UsersManagement() {
                   <th className="px-6 py-4">Joined</th>
                   <th className="px-6 py-4 text-center">Certificates</th>
                   <th className="px-6 py-4">Role Management</th>
-                  <th className="px-6 py-4">Assign Target</th>
+                  <th className="px-6 py-4">Connections</th>
                   <th className="px-6 py-4">Actions</th>
                 </tr>
               </thead>
@@ -322,14 +352,31 @@ export default function UsersManagement() {
                   {/* Assignment Control */}
                   <td className="px-6 py-4">
                     {u.role === 'student' ? (
-                      <CustomDropdown
-                        value={u.assignedInstructor?.id || u.assignedInstructor || ''}
-                        onChange={(val) => assignInstructor(u.id, val)}
-                        options={instructorOptions}
-                        placeholder="Assign Inst..."
-                        searchable={true}
-                        className="w-44"
-                      />
+                      <div className="flex flex-col gap-2 w-44">
+                        <CustomDropdown
+                          value={u.assignedInstructor?.id || u.assignedInstructor || ''}
+                          onChange={(val) => assignInstructor(u.id, val)}
+                          options={instructorOptions}
+                          placeholder="Assign Inst..."
+                          searchable={true}
+                        />
+                        <CustomDropdown
+                          value={u.parent?.id || u.parentId || ''}
+                          onChange={(val) => assignParent(u.id, val)}
+                          options={parentOptions}
+                          placeholder="Assign Parent..."
+                          searchable={true}
+                        />
+                        {user?.role === 'admin' && (
+                          <CustomDropdown
+                            value={u.sponsorships?.[0]?.sponsor?.id || ''}
+                            onChange={(val) => assignSponsor(u.id, val)}
+                            options={sponsorOptions}
+                            placeholder="Assign Sponsor..."
+                            searchable={true}
+                          />
+                        )}
+                      </div>
                     ) : (
                       <span className={`text-sm italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>N/A</span>
                     )}

@@ -22,6 +22,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
   const [selectedUserPassword, setSelectedUserPassword] = useState('');
   const [courseToEnroll, setCourseToEnroll] = useState('');
   const [parentToBind, setParentToBind] = useState('');
+  const [sponsorToBind, setSponsorToBind] = useState('');
   const [instructorToAssign, setInstructorToAssign] = useState('');
 
   const fetchUserActivities = useCallback(async (id, role, children) => {
@@ -195,6 +196,28 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
     }
   };
 
+  const bindSponsorToStudent = async (sponsorId) => {
+    if (!selectedUser || !sponsorId) return;
+    try {
+      await api.put(`/admin/student/${selectedUser.id}/assign-sponsor`, { sponsorId });
+      await fetchUserData(selectedUser.id);
+      if (onRefreshUsers) onRefreshUsers();
+    } catch (err) {
+      console.error('Failed to link sponsor to student', err);
+    }
+  };
+
+  const untieSponsorFromStudent = async () => {
+    if (!selectedUser) return;
+    try {
+      await api.put(`/admin/student/${selectedUser.id}/assign-sponsor`, { sponsorId: '' });
+      await fetchUserData(selectedUser.id);
+      if (onRefreshUsers) onRefreshUsers();
+    } catch (err) {
+      console.error('Failed to unlink sponsor from student', err);
+    }
+  };
+
   const manualEnrollment = async (courseId, status = 'active') => {
     if (!selectedUser || selectedUser.role !== 'student' || !courseId) return;
     try {
@@ -335,6 +358,31 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           className="flex-1"
                         />
                         <button onClick={() => bindParentToStudent(parentToBind)} className={`px-4 py-1.5 bg-[#F97316] hover:bg-[#ea580c] shadow-md border border-[#F97316] rounded-xl text-xs font-bold transition-colors text-white`}>Add</button>
+                      </div>
+                    </div>
+                    {/* Admin Only - Sponsorship Map */}
+                    <div className={`pt-3 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                      <p className={`text-[10px] font-bold mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Linked Sponsor (Admin Only)</p>
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {(selectedUser.sponsorships || []).length > 0 ?
+                          selectedUser.sponsorships.map((sponsorship) => (
+                            <div key={sponsorship.id} className="flex items-center gap-1 px-3 py-1.5 text-[11px] font-bold text-[#0B1120] bg-[#00D4FF] rounded-lg shadow-sm">
+                              <span>{sponsorship.sponsor?.name || 'Anonymous Sponsor'}</span>
+                              <button onClick={() => untieSponsorFromStudent()} className="ml-1 text-[#0B1120]/60 hover:text-red-700 text-[10px]  font-black transition-colors">X</button>
+                            </div>
+                          )) : <p className={`text-sm italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No active sponsor</p>
+                        }
+                      </div>
+                      <div className="flex gap-2">
+                        <CustomDropdown
+                          value={sponsorToBind}
+                          onChange={setSponsorToBind}
+                          placeholder="Select Sponsor..."
+                          options={globalUsersList.filter(u => u.role !== 'student').map(p => ({ label: p.name, value: p.id }))}
+                          searchable={true}
+                          className="flex-1"
+                        />
+                        <button onClick={() => bindSponsorToStudent(sponsorToBind)} className={`px-4 py-1.5 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] rounded-xl text-xs font-bold transition-colors text-[#0B1120]`}>Add</button>
                       </div>
                     </div>
                   </div>
