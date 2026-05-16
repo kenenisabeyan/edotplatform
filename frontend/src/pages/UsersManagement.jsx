@@ -18,12 +18,7 @@ export default function UsersManagement() {
   const [newUser, setNewUser] = useState({ name: '', email: '', password: '', role: 'student' });
   const [selectedUser, setSelectedUser] = useState(null);
   const [notice, setNotice] = useState('');
-
-  const instructorOptions = React.useMemo(() => {
-    return usersList
-      .filter(u => u.role === 'instructor')
-      .map(u => ({ value: u.id, label: u.name }));
-  }, [usersList]);
+  const [roleFilter, setRoleFilter] = useState('all');
 
   const { data: usersList = [], isLoading: loading, refetch: fetchUsers } = useQuery({
     queryKey: ['adminUsersList'],
@@ -39,6 +34,12 @@ export default function UsersManagement() {
       }
     }
   });
+
+  const instructorOptions = React.useMemo(() => {
+    return usersList
+      .filter(u => u.role === 'instructor')
+      .map(u => ({ value: u.id, label: u.name }));
+  }, [usersList]);
 
   const updateRole = async (userId, role) => {
     try {
@@ -118,11 +119,12 @@ export default function UsersManagement() {
 
   const filteredUsers = React.useMemo(() => {
     const query = searchQuery.toLowerCase();
-    return usersList.filter(u => 
-      (u.name || '').toLowerCase().includes(query) || 
-      (u.email || '').toLowerCase().includes(query)
-    );
-  }, [usersList, searchQuery]);
+    return usersList.filter(u => {
+      const matchesSearch = (u.name || '').toLowerCase().includes(query) || (u.email || '').toLowerCase().includes(query);
+      const matchesRole = roleFilter === 'all' || u.role === roleFilter;
+      return matchesSearch && matchesRole;
+    });
+  }, [usersList, searchQuery, roleFilter]);
 
   return (
     <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen -mx-4 md:-mx-8 lg:-mx-12 -mt-4 md:-mt-8 p-6 md:p-8">
@@ -153,12 +155,25 @@ export default function UsersManagement() {
               className={`w-full !pl-14 !pr-4 !py-2.5 border !rounded-full text-sm outline-none focus:ring-2 focus:ring-[#F97316] transition-shadow placeholder-slate-400 ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
             />
           </div>
-          <button
-            onClick={() => setShowAddForm((prev) => !prev)}
-            className="px-4 py-2 rounded-lg border border-[#F97316]/50 bg-[#F97316]/15 text-[#F97316] font-semibold hover:bg-[#F97316]/30"
-          >
-            {showAddForm ? 'Close Add User' : 'Add New User'}
-          </button>
+          <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto mt-3 sm:mt-0">
+            <div className={`flex gap-1 p-1 rounded-xl border ${isDarkMode ? 'bg-[#121A2F] border-slate-700' : 'bg-slate-100 border-slate-200'}`}>
+              {['all', 'student', 'instructor', 'parent', 'admin'].map(r => (
+                <button 
+                  key={r} 
+                  onClick={() => setRoleFilter(r)} 
+                  className={`px-3 py-1.5 text-xs font-bold rounded-lg capitalize transition-colors ${roleFilter === r ? 'bg-[#00D4FF] text-white shadow-md' : isDarkMode ? 'text-slate-400 hover:text-slate-200 hover:bg-white/5' : 'text-slate-500 hover:text-slate-800 hover:bg-white'}`}
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => setShowAddForm((prev) => !prev)}
+              className={`px-4 py-2 rounded-lg font-bold text-sm shadow-sm transition-all ${showAddForm ? (isDarkMode ? 'bg-slate-700 text-white' : 'bg-slate-200 text-slate-800') : 'bg-[#F97316] hover:bg-[#EA580C] text-white'}`}
+            >
+              {showAddForm ? 'Close Add User' : '+ Add New User'}
+            </button>
+          </div>
         </div>
 
         {showAddForm && (
@@ -214,17 +229,18 @@ export default function UsersManagement() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[900px]">
             <thead>
-                <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
+                <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200' : 'bg-slate-100 text-slate-700'} border-b ${isDarkMode ? 'border-white/5' : 'border-slate-200'}`}>
                   <th className="px-6 py-4">Name</th>
                   <th className="px-6 py-4">Email</th>
                   <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4">Joined</th>
                   <th className="px-6 py-4 text-center">Certificates</th>
                   <th className="px-6 py-4">Role Management</th>
                   <th className="px-6 py-4">Assign Target</th>
                   <th className="px-6 py-4">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5 text-sm font-normal">
+              <tbody className={`divide-y text-sm font-medium ${isDarkMode ? 'divide-white/5 text-slate-300' : 'divide-slate-200 text-slate-700'}`}>
                 {loading ? (
                   <tr>
                     <td colSpan="6" className="p-12 text-center">
@@ -247,7 +263,7 @@ export default function UsersManagement() {
                         <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{u.name || 'Unknown'}</span>
                       </div>
                     </td>
-                    <td className={`px-6 py-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{u.email}</td>
+                    <td className={`px-6 py-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>{u.email}</td>
                     
                     {/* Status Control */}
                     <td className="px-6 py-4">
@@ -266,6 +282,11 @@ export default function UsersManagement() {
                           {u.status}
                         </span>
                       )}
+                    </td>
+
+                    {/* Joined Date */}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {new Date(u.createdAt || Date.now()).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                     </td>
 
                     {/* Certificates Info */}
@@ -315,9 +336,9 @@ export default function UsersManagement() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex flex-wrap gap-2">
-                      <button onClick={() => resetUserPassword(u.id)} className="text-xs px-2.5 py-1 rounded-lg bg-orange-500/15 text-yellow-300 hover:bg-orange-500/25 border border-orange-500/20">Reset PW</button>
-                      <button onClick={() => deleteUser(u.id)} className="text-xs px-2.5 py-1 rounded-lg bg-red-500/15 text-red-300 hover:bg-red-500/25 border border-red-500/20">Delete</button>
-                      <button onClick={() => showUserDetails(u)} className={`text-xs px-2.5 py-1 rounded-lg backdrop-blur-xl0/15 hover:bg-white/5/40 backdrop-blur-xl0/25 border border-slate-500/20 ${isDarkMode ? 'bg-[#0B1120]/40 text-slate-300' : 'bg-slate-50 text-slate-500'}`}>Details</button>
+                      <button onClick={() => resetUserPassword(u.id)} className={`text-xs px-3 py-1.5 rounded-lg border font-bold transition-colors ${isDarkMode ? 'bg-orange-500/15 text-yellow-300 border-orange-500/20 hover:bg-orange-500/25' : 'bg-orange-50 text-orange-600 border-orange-200 hover:bg-orange-100'}`}>Reset PW</button>
+                      <button onClick={() => deleteUser(u.id)} className={`text-xs px-3 py-1.5 rounded-lg border font-bold transition-colors ${isDarkMode ? 'bg-red-500/15 text-red-300 border-red-500/20 hover:bg-red-500/25' : 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100'}`}>Delete</button>
+                      <button onClick={() => showUserDetails(u)} className={`text-xs px-3 py-1.5 rounded-lg border font-bold transition-colors ${isDarkMode ? 'bg-[#0B1120]/40 text-slate-300 border-slate-500/20 hover:bg-white/10' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 shadow-sm'}`}>Details</button>
                     </div>
                   </td>
                 </tr>

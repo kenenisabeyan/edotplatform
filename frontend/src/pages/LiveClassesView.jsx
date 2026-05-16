@@ -371,7 +371,7 @@ export default function LiveClassesView() {
                         
                         <div className={`mt-auto pt-4 border-t flex justify-between items-center ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                            <div className="flex items-center gap-2">
-                             <img src={rec.instructor?.avatar ? `http://localhost:5000${rec.instructor.avatar}` : `https://ui-avatars.com/api/?name=${rec.instructor?.name}&background=random`} className="w-6 h-6 rounded-full" alt="avatar" />
+                             <img src={rec.instructor?.avatar ? (rec.instructor.avatar.startsWith('http') ? rec.instructor.avatar : `http://localhost:5000${rec.instructor.avatar}`) : `https://ui-avatars.com/api/?name=${rec.instructor?.name}&background=random`} className="w-6 h-6 rounded-full" alt="avatar" />
                              <span className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>{rec.instructor?.name}</span>
                            </div>
                         </div>

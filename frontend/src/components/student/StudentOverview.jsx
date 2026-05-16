@@ -28,6 +28,8 @@ const StudentOverview = ({
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [certificateDropdownOpen, setCertificateDropdownOpen] = useState(false);
+  const [achievementsModalOpen, setAchievementsModalOpen] = useState(false);
+  const [messagesModalOpen, setMessagesModalOpen] = useState(false);
   const [claimingCertificateId, setClaimingCertificateId] = useState(null);
   const dropdownRef = useRef(null);
 
@@ -85,12 +87,13 @@ const StudentOverview = ({
     queryKey: ['recentMessagesOverview'],
     queryFn: async () => {
       const { data } = await api.get('/messages/recent');
-      return data.success ? data.data.slice(0, 4) : [];
+      return data.success ? data.data : [];
     },
     refetchInterval: 30000
   });
 
-  const recentContacts = recentContactsData || [];
+  const allRecentContacts = recentContactsData || [];
+  const recentContacts = allRecentContacts.slice(0, 4);
 
   const totalWeeklyHours = weeklyStudyData.reduce((acc, curr) => acc + curr.hours, 0).toFixed(1);
 
@@ -189,10 +192,10 @@ const StudentOverview = ({
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
             whileHover={{ scale: 1.05, boxShadow: "0px 15px 30px rgba(0,0,0,0.15)" }}
-            className={`rounded-full shadow-[0_10px_40px_rgb(0,0,0,0.12)] w-[160px] h-[160px] relative shrink-0 ${isDarkMode ? 'border-[8px] border-slate-700' : 'border-[8px] border-white'}`}
+            className={`rounded-full shadow-[0_10px_40px_rgb(0,0,0,0.12)] w-[160px] h-[160px] relative shrink-0 border-[8px] transition-colors duration-500 ${daysStudied >= 7 ? 'border-[#F97316] shadow-[#F97316]/30' : daysStudied >= 3 ? 'border-[#00D4FF] shadow-[#00D4FF]/30' : isDarkMode ? 'border-slate-700' : 'border-white'}`}
           >
              <img 
-               src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'Student')}&background=F97316&color=fff&size=256&font-size=0.4`}
+               src={user?.avatar && user.avatar !== 'default-avatar.png' ? (user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`) : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'Student')}&background=F97316&color=fff&size=256&font-size=0.4`}
                alt="User Profile" 
                className="w-full h-full rounded-full object-cover" 
              />
@@ -211,9 +214,11 @@ const StudentOverview = ({
               <span className={`text-[32px] leading-none font-black ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>{daysStudied || 0}</span>
             </div>
             <span className={`text-[13px] font-bold ${isDarkMode ? 'text-slate-400' : 'text-[#6B7280]'}`}>Day Streak</span>
-            <span className={`text-[11px] font-medium mt-1 mb-4 ${isDarkMode ? 'text-slate-500' : 'text-[#6B7280]'}`}>Keep it up!</span>
+            <span className={`text-[11px] font-medium mt-1 mb-4 ${isDarkMode ? 'text-slate-500' : 'text-[#6B7280]'}`}>
+              {daysStudied >= 7 ? "You're on fire! 🔥" : daysStudied >= 3 ? "Keep it up!" : "Start a streak!"}
+            </span>
             <div className="w-full h-2 bg-[#F5F7FF] dark:bg-slate-800 rounded-full overflow-hidden">
-              <div className="h-full bg-[#F97316] w-[70%] rounded-full"></div>
+              <div className="h-full bg-[#F97316] rounded-full transition-all duration-1000" style={{ width: `${Math.min(100, (daysStudied / 7) * 100)}%` }}></div>
             </div>
           </motion.div>
         </div>
@@ -698,7 +703,7 @@ const StudentOverview = ({
         <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[32px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
           <div className="flex justify-between items-center mb-6">
             <h3 className={`text-[15px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>Achievements</h3>
-            <button onClick={() => setActiveTab('growth')} className="text-[12px] font-bold text-blue-500 hover:underline">
+            <button onClick={() => setAchievementsModalOpen(true)} className="text-[12px] font-bold text-blue-500 hover:underline">
               View all
             </button>
           </div>
@@ -746,7 +751,7 @@ const StudentOverview = ({
         <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[32px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
           <div className="flex justify-between items-center mb-6">
             <h3 className={`text-[15px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>Recent Messages</h3>
-            <button onClick={() => setActiveTab('message')} className="text-[12px] font-bold text-blue-500 hover:underline flex items-center gap-1">
+            <button onClick={() => setActiveTab('message')} className={`text-[12px] font-bold flex items-center gap-1 px-3 py-1 rounded-full border transition-all ${isDarkMode ? 'text-blue-400 border-orange-500/30 hover:bg-orange-500/10' : 'text-blue-500 border-orange-200 hover:bg-orange-50'}`}>
               Open Chat <ChevronRight className="w-3 h-3" />
             </button>
           </div>
@@ -798,6 +803,120 @@ const StudentOverview = ({
           </div>
         </motion.div>
       </div>
+
+      {/* Achievements Modal */}
+      <PremiumModal isOpen={achievementsModalOpen} onClose={() => setAchievementsModalOpen(false)} maxWidth="max-w-2xl">
+        <div className="flex flex-col w-full h-full p-6 md:p-8">
+          <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-blue-500/10 to-transparent pointer-events-none z-0"></div>
+          <div className="relative z-10 flex flex-col flex-1 max-h-[85vh] overflow-hidden">
+            <div className="flex items-start justify-between pb-6 border-b border-slate-200/50 dark:border-slate-700/50">
+              <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${isDarkMode ? 'bg-[#1E293B] border border-slate-700' : 'bg-blue-50 border border-blue-100'}`}>
+                  <Target className="w-6 h-6 text-blue-500" />
+                </div>
+                <div>
+                  <h3 className={`text-xl font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>All Achievements</h3>
+                  <p className={`text-sm font-medium mt-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                    Your collected badges and milestones
+                  </p>
+                </div>
+              </div>
+              <button onClick={() => setAchievementsModalOpen(false)} className={`p-2 rounded-full transition-colors bg-white/5 backdrop-blur-sm border ${isDarkMode ? 'hover:bg-slate-800 text-slate-400 border-slate-700/50' : 'hover:bg-slate-100 text-slate-500 border-slate-200'}`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+            
+            <div className="mt-6 overflow-y-auto pr-2 custom-scrollbar flex-1 grid grid-cols-2 md:grid-cols-3 gap-4">
+              {achievements && achievements.length > 0 ? achievements.map((ach, i) => {
+                 const IconComponent = typeof ach.icon === 'string' ? ({ Award, Star, Zap, Target }[ach.icon] || Award) : (ach.icon || Award);
+                 return (
+                   <div key={i} className={`flex flex-col items-center text-center p-4 md:py-6 rounded-[24px] ${isDarkMode ? ach.darkBg || 'bg-[#121A2F]' : ach.lightBg || 'bg-slate-50'} border ${isDarkMode ? 'border-slate-700' : 'border-slate-200'}`}>
+                     <div className="relative mb-5 flex items-center justify-center">
+                        <div className="absolute inset-0 blur-xl opacity-40 scale-150" style={{ backgroundColor: ach.color || '#3b82f6' }}></div>
+                        <div className="relative w-14 h-14 flex items-center justify-center z-10" style={{ backgroundColor: ach.color || '#3b82f6', clipPath: "polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)" }}>
+                          <div className="w-[48px] h-[48px] flex items-center justify-center border-[1.5px] border-white/30" style={{ clipPath: "polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)" }}>
+                            <IconComponent className="w-5 h-5 text-white" />
+                          </div>
+                        </div>
+                     </div>
+                     <h4 className={`text-[12px] font-bold mb-1.5 ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>{ach.title}</h4>
+                     <p className={`text-[10px] font-medium leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{ach.description || ach.desc}</p>
+                   </div>
+                 );
+              }) : (
+                 <div className={`col-span-full text-center p-8 text-[13px] font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                     No achievements earned yet. Keep learning!
+                 </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </PremiumModal>
+
+      {/* Messages Modal */}
+      <PremiumModal isOpen={messagesModalOpen} onClose={() => setMessagesModalOpen(false)} maxWidth="max-w-2xl">
+        <div className="flex flex-col w-full h-full p-6 md:p-8">
+          <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#F97316]/10 to-transparent pointer-events-none z-0"></div>
+          <div className="relative z-10 flex flex-col flex-1 max-h-[85vh] overflow-hidden">
+            <div className="flex items-start justify-between pb-6 border-b border-slate-200/50 dark:border-slate-700/50">
+              <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${isDarkMode ? 'bg-[#1E293B] border border-slate-700' : 'bg-orange-50 border border-orange-100'}`}>
+                  <MessageSquare className="w-6 h-6 text-[#F97316]" />
+                </div>
+                <div>
+                  <h3 className={`text-xl font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>All Recent Messages</h3>
+                  <p className={`text-sm font-medium mt-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                    Your recent conversations
+                  </p>
+                </div>
+              </div>
+              <button onClick={() => setMessagesModalOpen(false)} className={`p-2 rounded-full transition-colors bg-white/5 backdrop-blur-sm border ${isDarkMode ? 'hover:bg-slate-800 text-slate-400 border-slate-700/50' : 'hover:bg-slate-100 text-slate-500 border-slate-200'}`}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+            
+            <div className="mt-6 overflow-y-auto pr-2 custom-scrollbar flex-1 space-y-4">
+              {allRecentContacts.length === 0 ? (
+                <div className={`text-center p-8 text-[13px] font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                   No conversations found.
+                </div>
+              ) : (
+                allRecentContacts.map((contact, idx) => (
+                  <div key={idx} onClick={() => { setMessagesModalOpen(false); setActiveTab('message'); }} className={`flex items-center gap-4 p-4 rounded-[20px] border cursor-pointer transition-all ${isDarkMode ? 'border-slate-700 bg-[#121A2F]/50 hover:bg-[#121A2F]' : 'border-slate-200 bg-white hover:border-[#F97316]/30'}`}>
+                    <div className="relative">
+                      <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-white dark:border-[#0B1D3A] shadow-sm bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15] p-[2px]">
+                         <div className="w-full h-full rounded-full bg-white dark:bg-[#1E293B] flex items-center justify-center text-[16px] font-bold text-blue-500 overflow-hidden">
+                            {contact.avatar && contact.avatar !== 'default-avatar.png' ? (
+                               <img src={contact.avatar?.startsWith('http') ? contact.avatar : `http://localhost:5000${contact.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                            ) : (
+                               contact.name.charAt(0).toUpperCase()
+                            )}
+                         </div>
+                      </div>
+                      {contact.isOnline && <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white dark:border-[#0B1D3A] rounded-full z-10"></div>}
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-center mb-1">
+                        <h4 className={`text-[15px] font-bold truncate ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{contact.name}</h4>
+                        {contact.unreadCount > 0 && (
+                          <span className="bg-[#007AFF] text-white text-[11px] font-bold px-2 py-1 rounded-full min-w-[20px] text-center shrink-0 leading-none">
+                            {contact.unreadCount > 99 ? '99+' : contact.unreadCount}
+                          </span>
+                        )}
+                      </div>
+                      <p className={`text-[12px] font-medium truncate pr-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                        {contact.role || 'User'}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </PremiumModal>
+      
 
     </motion.div>
   );

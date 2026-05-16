@@ -156,7 +156,7 @@ router.get('/dashboard-stats', protect, async (req, res) => {
         startOfWeek.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
         startOfWeek.setHours(0, 0, 0, 0);
 
-        const [recentCourses, allProgress, userSettings, recentLogs, achievementsData, userCertificates] = await Promise.all([
+        const [recentCourses, allProgress, userSettings, recentLogs, recentActivities, achievementsData, userCertificates] = await Promise.all([
             prisma.userCourseProgress.findMany({
                 where: { userId },
                 select: {
@@ -186,6 +186,13 @@ router.get('/dashboard-stats', protect, async (req, res) => {
                     updatedAt: { gte: startOfWeek }
                 },
                 select: { updatedAt: true, videoSegments: true }
+            }),
+            prisma.activity.findMany({
+                where: {
+                    userId,
+                    createdAt: { gte: startOfWeek }
+                },
+                select: { createdAt: true, action: true }
             }),
             prisma.achievement.findUnique({
                 where: { userId },
@@ -238,6 +245,12 @@ router.get('/dashboard-stats', protect, async (req, res) => {
             }
             const hours = (segments * 30) / 3600;
             weeklyDataMap[dayName] += hours;
+        });
+
+        // Add 0.5 hours for every activity done (like completing a quiz, posting, etc) to reflect real progress
+        recentActivities.forEach(act => {
+            const dayName = dayNames[act.createdAt.getDay()];
+            weeklyDataMap[dayName] += 0.5;
         });
 
         const weeklyStudyData = Object.keys(weeklyDataMap).map(day => ({

@@ -238,7 +238,7 @@ export default function InstructorManageCourses() {
                     {modalType === 'lessons' ? <PlayCircle className="w-7 h-7 text-[#00D4FF]" /> : <Users className="w-7 h-7 text-indigo-400" />}
                     {modalType === 'lessons' ? 'Course Lessons' : 'Enrolled Students'}
                   </h3>
-                  <p className="text-sm text-[#F97316] font-semibold mt-1">{activeCourse.title}</p>
+                  <p className="text-sm text-[#F97316] font-semibold mt-1">{activeCourse?.title}</p>
                 </div>
                 <button onClick={() => setModalType(null)} className={`p-2 hover:bg-[#E30A17]/20 hover:text-[#E30A17] rounded-xl transition-colors ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
                   <X className="w-6 h-6" />
@@ -247,10 +247,10 @@ export default function InstructorManageCourses() {
 
               <div className="overflow-y-auto overflow-x-hidden pr-2 space-y-3 custom-scrollbar flex-1">
                 {modalType === 'lessons' && (
-                  activeCourse.lessons?.length === 0 ? (
+                  activeCourse?.lessons?.length === 0 ? (
                     <div className={`text-center p-8 italic rounded-2xl border ${isDarkMode ? 'text-slate-200 bg-[#0B1120]/5 border-white/5' : 'text-slate-600 bg-slate-50 border-slate-100'}`}>No lessons have been added to this course yet.</div>
                   ) : (
-                    activeCourse.lessons.map((l, index) => (
+                    activeCourse?.lessons?.map((l, index) => (
                       <div key={l.id || index} className={`flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-2xl border hover:border-[#F97316]/30 transition-colors group ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                         <div className="w-10 h-10 rounded-xl bg-[#00D4FF]/20 text-[#00D4FF] flex items-center justify-center font-bold font-display shrink-0 group-hover:scale-110 transition-transform">{index + 1}</div>
                         <div className="flex-1">

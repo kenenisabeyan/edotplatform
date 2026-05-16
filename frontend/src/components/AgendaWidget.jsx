@@ -203,12 +203,12 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
                {/* Modal Header */}
                <div className={`px-6 py-5 border-b flex justify-between items-center relative z-10 ${isDarkMode ? 'border-white/5 bg-[#0B1120]/50' : 'border-slate-200 bg-slate-50/80'}`}>
                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center border shadow-inner ${getCategoryColor(selectedEvent.type)}`}>
-                       {getCategoryIcon(selectedEvent.type)}
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center border shadow-inner ${getCategoryColor(selectedEvent?.type)}`}>
+                       {getCategoryIcon(selectedEvent?.type)}
                     </div>
                     <div>
-                      <h4 className={`font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedEvent.title}</h4>
-                      <p className={`text-xs mt-0.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>{new Date(selectedEvent.date).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {selectedEvent.time || '12:00 PM'}</p>
+                      <h4 className={`font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedEvent?.title}</h4>
+                      <p className={`text-xs mt-0.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>{selectedEvent?.date ? new Date(selectedEvent.date).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : ''} at {selectedEvent?.time || '12:00 PM'}</p>
                     </div>
                  </div>
                  <button onClick={() => setSelectedEvent(null)} className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200 hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-900'}`}>
@@ -221,13 +221,13 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
                  <div className="min-h-[100px]">
                     <h5 className={`text-xs font-bold mb-3 border-b pb-2 ${isDarkMode ? 'text-slate-300 border-white/5' : 'text-slate-600 border-slate-200'}`}>Full Details</h5>
                     <p className={`text-sm leading-relaxed whitespace-pre-line ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
-                      {selectedEvent.description || "No specific details or instructions provided for this event."}
+                      {selectedEvent?.description || "No specific details or instructions provided for this event."}
                     </p>
                  </div>
                  
                  <div className={`mt-8 flex items-center justify-between p-3 rounded-xl border ${isDarkMode ? 'bg-black/30 border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                   {renderAvatarStack(selectedEvent, true)}
-                   <span className={`text-xs font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Targeting {(selectedEvent.targetAudiences || []).join(', ')}</span>
+                   {selectedEvent && renderAvatarStack(selectedEvent, true)}
+                   <span className={`text-xs font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Targeting {(selectedEvent?.targetAudiences || []).join(', ')}</span>
                  </div>
                </div>
 
