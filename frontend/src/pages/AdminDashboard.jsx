@@ -487,6 +487,18 @@ export default function AdminDashboard() {
                    </div>
                  </button>
                  <button 
+                  onClick={() => navigate('/dashboard/sections')} 
+                  className={`flex items-center gap-3 p-4 rounded-xl border hover:border-purple-300 hover:bg-purple-500/10 hover:text-purple-700 transition-colors text-left group ${isDarkMode ? 'border-white/10' : 'border-slate-200'} sm:col-span-2`}
+                 >
+                   <div className="w-10 h-10 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                     <Users className="w-5 h-5" />
+                   </div>
+                   <div>
+                     <span className="block font-semibold">Sections & Groups</span>
+                     <span className={`text-sm group-hover:text-purple-600 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Manage cohorts and categories</span>
+                   </div>
+                 </button>
+                 <button 
                   onClick={() => setActiveTab('fees')} 
                   className={`flex items-center gap-3 p-4 rounded-xl border hover:border-emerald-300 hover:bg-emerald-500/10 hover:text-emerald-700 transition-colors text-left group ${isDarkMode ? 'border-white/10' : 'border-slate-200'} sm:col-span-2`}
                  >

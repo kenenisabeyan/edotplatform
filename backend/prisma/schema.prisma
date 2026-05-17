@@ -86,6 +86,8 @@ model User {
   recordingPermissions RecordingPermission[] @relation("RecordingPermissions")
   grantedPermissions   RecordingPermission[] @relation("GrantedPermissions")
   watchHistory         WatchHistory[]        @relation("WatchHistoryStudent")
+  
+  learnerGroups        LearnerGroup[]        @relation("GroupStudents")
 }
 
 model UserCourseProgress {
@@ -196,8 +198,23 @@ model Section {
   scheduleDays   String[]
   scheduleTime   String?
   
+  groupId        String?
+  group          LearnerGroup? @relation(fields: [groupId], references: [id])
+  batch          String?
+  
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+model LearnerGroup {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  students    User[]   @relation("GroupStudents")
+  sections    Section[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Enrollment {

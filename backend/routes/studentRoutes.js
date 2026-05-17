@@ -108,6 +108,20 @@ router.post('/courses/:courseId/enroll', async (req, res) => {
             }
         });
 
+        // Auto-assign to category group
+        if (course.mainCategory) {
+            let group = await prisma.learnerGroup.findUnique({ where: { name: course.mainCategory } });
+            if (!group) {
+                group = await prisma.learnerGroup.create({
+                    data: { name: course.mainCategory, description: `${course.mainCategory} Category Group` }
+                });
+            }
+            await prisma.user.update({
+                where: { id: studentId },
+                data: { learnerGroups: { connect: { id: group.id } } }
+            });
+        }
+
         await prisma.userCourseProgress.create({
             data: {
                 userId: studentId,

@@ -301,6 +301,15 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                   <span className={`inline-flex items-center px-3 py-1 mt-2 text-[10px] font-bold   rounded-full ${getStatusBadgeClasses(selectedUser.status)}`}>
                     {selectedUser.status || 'unknown'}
                   </span>
+                  {selectedUser.learnerGroups && selectedUser.learnerGroups.length > 0 && (
+                     <div className="flex flex-wrap gap-2 mt-2">
+                        {selectedUser.learnerGroups.map(lg => (
+                           <span key={lg.id} className="text-[10px] bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 px-2 py-0.5 rounded-full font-bold">
+                              {lg.name}
+                           </span>
+                        ))}
+                     </div>
+                  )}
                 </div>
               </div>
               <button onClick={onClose} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close Detial</button>

@@ -8,7 +8,7 @@ import {
 } from '@livekit/components-react';
 import '@livekit/components-styles';
 import { motion } from 'framer-motion';
-import { X, Share2, Users, MessageSquare, Sparkles, RecordCircle, LayoutTemplate } from 'lucide-react';
+import { X, Share2, CircleDot } from 'lucide-react';
 import useThemeMode from '../hooks/useThemeMode';
 import toast from 'react-hot-toast';
 
@@ -42,7 +42,7 @@ export default function LiveRoom({ token, url, roomName, onClose }) {
         <div className="flex items-center gap-4">
           <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-red-500 to-rose-400 shadow-[0_0_15px_rgba(239,68,68,0.5)]">
             <span className="absolute w-full h-full rounded-full bg-red-400 animate-ping opacity-75"></span>
-            <RecordCircle className="w-5 h-5 text-white" />
+            <CircleDot className="w-5 h-5 text-white" />
           </div>
           <div>
             <h2 className={`font-black text-lg leading-tight tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>

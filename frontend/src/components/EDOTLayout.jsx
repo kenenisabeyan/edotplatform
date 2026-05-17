@@ -186,6 +186,7 @@ export default function EDOTLayout() {
         { name: 'Teachers', icon: UserSquare, path: '/dashboard/teachers' },
         { name: 'Students', icon: Users, path: '/dashboard/students' },
         { name: 'Live Classes', icon: Video, path: '/dashboard/live-classes' },
+        { name: 'Sections & Groups', icon: Users, path: '/dashboard/sections' },
         { name: 'Attendance', icon: ClipboardCheck, path: '/dashboard/attendance' },
       ],
       menu2: [
@@ -210,6 +211,7 @@ export default function EDOTLayout() {
         { name: 'Create Course', icon: BookOpen, path: '/dashboard/builder' },
         { name: 'Manage Courses', icon: ClipboardCheck, path: '/dashboard/my-courses' },
         { name: 'Students', icon: Users, path: '/dashboard/students' },
+        { name: 'Sections', icon: Users, path: '/dashboard/sections' },
         { name: 'Attendance', icon: ClipboardCheck, path: '/dashboard/attendance' },
         { name: 'Live Classes', icon: Video, path: '/dashboard/live-classes' },
       ],

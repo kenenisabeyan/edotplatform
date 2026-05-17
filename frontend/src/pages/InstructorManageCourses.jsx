@@ -22,6 +22,7 @@ export default function InstructorManageCourses() {
   const [activeCourse, setActiveCourse] = useState(null);
   const [courseStudents, setCourseStudents] = useState([]);
   const [loadingStudents, setLoadingStudents] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   const { data: courses = [], isLoading: loading, refetch: fetchCourses } = useQuery({
     queryKey: ['manageCourses', isAdmin],
@@ -106,6 +107,23 @@ export default function InstructorManageCourses() {
         </button>
       </div>
       
+      {/* Category Filter Dropdown */}
+      {courses.length > 0 && (
+        <div className="mb-4">
+          <label className={`block text-sm font-bold mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Filter by Category</label>
+          <select 
+            value={selectedCategory} 
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className={`w-full md:w-64 border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#F97316]/50 transition-colors appearance-none ${isDarkMode ? 'bg-[#0B1120] border-white/5 text-slate-300' : 'bg-white border-slate-100 text-slate-500'}`}
+          >
+            <option value="All">All Categories</option>
+            {Object.keys(coursesByCategory).sort().map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+      )}
+      
       {courses.length === 0 ? (
           <div className={`p-16 text-center rounded-3xl border shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden group ${isDarkMode ? 'border-white/10 bg-[#0B1120]/90' : 'border-slate-200 bg-white/95'}`}>
             <div className="absolute inset-0 bg-gradient-to-t from-[#008A32]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
@@ -123,7 +141,10 @@ export default function InstructorManageCourses() {
           </div>
       ) : (
           <div className="space-y-12">
-            {Object.keys(coursesByCategory).sort().map((category) => (
+            {Object.keys(coursesByCategory)
+               .filter(cat => selectedCategory === 'All' || cat === selectedCategory)
+               .sort()
+               .map((category) => (
                <div key={category}>
                  <div className="flex items-center gap-4 mb-6">
                    <h3 className={`text-2xl font-bold flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>

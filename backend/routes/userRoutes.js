@@ -53,7 +53,8 @@ router.get('/profile', protect, async (req, res) => {
                     include: { 
                         targetStudent: { select: { id: true, name: true, email: true, avatar: true } }
                     } 
-                }
+                },
+                learnerGroups: true
             }
         });
         

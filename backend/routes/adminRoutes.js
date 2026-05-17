@@ -149,7 +149,8 @@ router.get('/users', async (req, res) => {
                 assignedStudents: { select: { name: true, email: true, status: true, enrollments: true } },
                 assignedInstructor: { select: { id: true, name: true, email: true } },
                 sponsorships: { include: { sponsor: { select: { id: true, name: true, email: true } } } },
-                certificates: true
+                certificates: true,
+                learnerGroups: true
             },
             orderBy: { createdAt: 'desc' }
         });
@@ -226,7 +227,8 @@ router.get('/users/:id', async (req, res) => {
             include: {
                 children: { select: { id: true, name: true, email: true, status: true } },
                 assignedStudents: { select: { id: true, name: true, email: true, status: true } },
-                sponsorships: { include: { sponsor: { select: { id: true, name: true, email: true } } } }
+                sponsorships: { include: { sponsor: { select: { id: true, name: true, email: true } } } },
+                learnerGroups: true
             }
         });
 

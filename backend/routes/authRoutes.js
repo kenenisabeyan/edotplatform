@@ -241,7 +241,8 @@ router.get('/me', protect, async (req, res) => {
       include: {
         userCourseProgress: {
           include: { course: true }
-        }
+        },
+        learnerGroups: true
       }
     });
     

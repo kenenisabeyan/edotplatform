@@ -1,19 +1,18 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
-import { Globe, ShoppingCart, Calculator, BookOpen, Rocket, Target, UserCheck, Moon, Sun } from 'lucide-react';
+import { Globe, ShoppingCart, Calculator, BookOpen, Rocket, Target, UserCheck, Moon, Sun, Filter } from 'lucide-react';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 import PackageCard from '../components/student/PackageCard';
 import ThemeDropdown from '../components/ThemeDropdown';
 import useThemeMode from '../hooks/useThemeMode';
 import { PACKAGES } from '../constants/packages';
 
-
-
 export default function StudentCourses() {
   const navigate = useNavigate();
   const isDarkMode = useThemeMode();
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const { data: enrolledCourses = [] } = useQuery({
     queryKey: ['studentEnrollments'],
     queryFn: async () => {
@@ -55,12 +54,31 @@ export default function StudentCourses() {
 
       <div className="max-w-[1400px] mx-auto w-full p-6 md:p-8 pt-1">
         
-        <div className="mb-10 text-white/90">
-           <span className="text-sm font-medium tracking-tight">Explore our courses below</span>
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+           <div className="text-white/90">
+             <span className="text-sm font-medium tracking-tight">Explore our courses below</span>
+           </div>
+           
+           {/* Category Filter */}
+           <div className="relative">
+             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+               <Filter className={`w-4 h-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
+             </div>
+             <select 
+               value={selectedCategory} 
+               onChange={(e) => setSelectedCategory(e.target.value)}
+               className={`w-full sm:w-64 pl-10 pr-4 py-2.5 rounded-xl border appearance-none text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#F97316]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-slate-200' : 'bg-white border-slate-200 text-slate-700 shadow-sm'}`}
+             >
+               <option value="All">All Categories</option>
+               {PACKAGES.map(pkg => (
+                 <option key={pkg.title} value={pkg.title}>{pkg.title}</option>
+               ))}
+             </select>
+           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-10">
-          {PACKAGES.map((pkg, idx) => {
+          {PACKAGES.filter(pkg => selectedCategory === 'All' || pkg.title === selectedCategory).map((pkg, idx) => {
             const pkgCategoryName = pkg.title.replace(' Courses', '');
             const pkgCourses = dbCourses.filter(c => c.mainCategory === pkgCategoryName);
             

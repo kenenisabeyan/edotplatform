@@ -6,12 +6,23 @@ const router = express.Router();
 
 router.post('/', protect, authorize('admin', 'instructor'), async (req, res) => {
     try {
-        const { name, courseId, instructorId, scheduleDays, scheduleTime, capacity, academicYear, semester, status } = req.body;
+        const { name, courseId, instructorId, scheduleDays, scheduleTime, capacity, academicYear, semester, status, batch } = req.body;
         
         const courseExists = await prisma.course.findUnique({ where: { id: courseId } });
         if (!courseExists) return res.status(404).json({ success: false, message: 'Course not found' });
 
         const sectionCode = `${courseExists.slug.toUpperCase().substring(0, 5)}-SEC-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+
+        // Find or create LearnerGroup based on course category
+        let group = null;
+        if (courseExists.mainCategory) {
+            group = await prisma.learnerGroup.findUnique({ where: { name: courseExists.mainCategory } });
+            if (!group) {
+                group = await prisma.learnerGroup.create({
+                    data: { name: courseExists.mainCategory, description: `${courseExists.mainCategory} Category Group` }
+                });
+            }
+        }
 
         const section = await prisma.section.create({
             data: {
@@ -24,7 +35,9 @@ router.post('/', protect, authorize('admin', 'instructor'), async (req, res) => 
                 capacity: capacity ? parseInt(capacity) : 30,
                 academicYear: academicYear || '2026-2027',
                 semester: semester || '1',
-                status: status || 'active'
+                status: status || 'active',
+                batch: batch || null,
+                groupId: group ? group.id : null
             }
         });
 
@@ -43,15 +56,31 @@ router.get('/', protect, async (req, res) => {
         const sections = await prisma.section.findMany({
             where: query,
             include: {
-                course: { select: { title: true } },
+                course: { select: { title: true, mainCategory: true } },
                 instructor: { select: { name: true, email: true, avatar: true } },
-                students: { select: { name: true, email: true, avatar: true } }
+                students: { select: { id: true, name: true, email: true, avatar: true } },
+                group: true
             }
         });
 
         res.json({ success: true, count: sections.length, data: sections });
     } catch (error) {
         console.error('Get Sections Error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+router.get('/groups', protect, authorize('admin', 'instructor'), async (req, res) => {
+    try {
+        const groups = await prisma.learnerGroup.findMany({
+            include: {
+                students: { select: { id: true, name: true, email: true, avatar: true } },
+                sections: true
+            }
+        });
+        res.json({ success: true, data: groups });
+    } catch (error) {
+        console.error('Get Groups Error:', error);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });
@@ -167,6 +196,60 @@ router.post('/:id/add-student', protect, authorize('admin', 'instructor'), async
         res.json({ success: true, message: 'Student added successfully', data: updatedSection });
     } catch (error) {
         console.error('Add Student Error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+router.post('/:id/auto-assign', protect, authorize('admin', 'instructor'), async (req, res) => {
+    try {
+        const sectionId = req.params.id;
+        const section = await prisma.section.findUnique({ 
+            where: { id: sectionId },
+            include: { students: true }
+        });
+        if (!section) return res.status(404).json({ success: false, message: 'Section not found' });
+        
+        // Find users enrolled in the course
+        const enrolledUsers = await prisma.userCourseProgress.findMany({
+            where: { courseId: section.courseId },
+            include: { user: true }
+        });
+        
+        // Filter those who match the batch (if section has batch)
+        let eligibleStudents = enrolledUsers.map(e => e.user).filter(u => u.role === 'student');
+        if (section.batch) {
+            eligibleStudents = eligibleStudents.filter(u => u.batch === section.batch);
+        }
+        
+        // Exclude already added students
+        const currentStudentIds = new Set(section.students.map(s => s.id));
+        eligibleStudents = eligibleStudents.filter(u => !currentStudentIds.has(u.id));
+        
+        if (eligibleStudents.length === 0) {
+            return res.json({ success: true, message: 'No new eligible students found to auto-assign.', data: section });
+        }
+        
+        // Check capacity
+        const availableSlots = section.capacity - section.students.length;
+        const studentsToAdd = eligibleStudents.slice(0, availableSlots);
+        
+        if (studentsToAdd.length === 0) {
+            return res.status(400).json({ success: false, message: 'Section is already at full capacity.' });
+        }
+        
+        const updatedSection = await prisma.section.update({
+            where: { id: sectionId },
+            data: {
+                students: {
+                    connect: studentsToAdd.map(s => ({ id: s.id }))
+                }
+            },
+            include: { students: true }
+        });
+
+        res.json({ success: true, message: `Auto-assigned ${studentsToAdd.length} students.`, data: updatedSection });
+    } catch (error) {
+        console.error('Auto Assign Error:', error);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });
