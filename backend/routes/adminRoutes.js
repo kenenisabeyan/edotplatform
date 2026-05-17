@@ -446,7 +446,12 @@ router.get('/instructors', async (req, res) => {
     try {
         const instructors = await prisma.user.findMany({
             where: { role: 'instructor' },
-            include: { assignedStudents: { select: { id: true, name: true, email: true, status: true } } },
+            include: { 
+                assignedStudents: { select: { id: true, name: true, email: true, status: true, avatar: true } },
+                learnerGroups: true,
+                coursesTaught: { select: { id: true, title: true, mainCategory: true, status: true } },
+                sectionsTaught: { select: { id: true, name: true, sectionCode: true, status: true } }
+            },
             orderBy: { createdAt: 'desc' }
         });
         

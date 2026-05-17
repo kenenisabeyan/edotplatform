@@ -4,10 +4,10 @@
 :root {
   --bg-base: #0B1120;
   --bg-sidebar: #0B1120;
-  --brand-primary: #F97316;
-  --brand-primary-hover: #E66A00;
+  --brand-primary: #2563EB;
+  --brand-primary-hover: #1D4ED8;
   --brand-green: #00D4FF;
-  --brand-yellow: #F97316; /* Mapped to new primary */
+  --brand-yellow: #00D4FF; /* Mapped to new cyan */
   --brand-red: #E30A17;
   --border-glass: rgba(255, 255, 255, 0.05);
   --shadow-glow-primary: 0 0 15px rgba(249, 115, 22, 0.3);
@@ -18,8 +18,8 @@
   --bg-elevated: #232B3A;
   --border-radius: 12px; /* Sleek SaaS borders */
   --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --accent-blue: #00D4FF; /* Replaced with primary */
-  --accent-orange: #F97316; /* Replaced with primary hover */
+  --accent-blue: #2563EB; /* Replaced with primary */
+  --accent-orange: #00D4FF; /* Replaced with secondary cyan */
   --gray-50: #F8FAFC;
   --gray-100: #F1F5F9;
   --gray-200: #E2E8F0;
@@ -39,12 +39,12 @@
   --text-main: #0B1120; /* High readability */
   --text-secondary: #475569;
   --text-muted: #94A3B8;
-  --accent-blue: #00D4FF; 
-  --accent-orange: #F97316; 
-  --brand-primary: #F97316;
-  --brand-primary-hover: #E66A00;
+  --accent-blue: #2563EB; 
+  --accent-orange: #00D4FF; 
+  --brand-primary: #2563EB;
+  --brand-primary-hover: #1D4ED8;
   --brand-green: #00D4FF;
-  --brand-yellow: #F97316; 
+  --brand-yellow: #00D4FF; 
   --brand-red: #E30A17;
   --border-radius: 12px;
   --gray-50: #f8fafc;
@@ -165,8 +165,8 @@ body {
 
 /* Light Theme EDOT brand contrast fixes */
 [data-theme="light"] .text-\[\#00D4FF\] { color: #0088CC !important; }
-[data-theme="light"] .text-\[\#F97316\] { color: var(--brand-primary) !important; }
-[data-theme="light"] .hover\:text-\[\#F97316\]:hover { color: var(--brand-primary-hover) !important; }
+[data-theme="light"] .text-\[\#2563EB\] { color: var(--brand-primary) !important; }
+[data-theme="light"] .hover\:text-\[\#2563EB\]:hover { color: var(--brand-primary-hover) !important; }
 
 /* Force hide all hardcoded background wrapper meshes in alternate themes */
 [data-theme="light"] div[style*="radial-gradient"],
@@ -346,24 +346,24 @@ button, .btn, .cta {
 
 /* Force override EDOT Green/Yellow/Red brands to match the SaaS Portfolio in Dark Mode */
 [data-theme="extra-dark"] .text-\[\#00D4FF\], 
-[data-theme="extra-dark"] .text-\[\#F97316\], 
+[data-theme="extra-dark"] .text-\[\#2563EB\], 
 [data-theme="extra-dark"] .text-\[\#E30A17\] {
   color: var(--brand-primary) !important;
 }
 [data-theme="extra-dark"] .bg-\[\#00D4FF\], 
-[data-theme="extra-dark"] .bg-\[\#F97316\], 
+[data-theme="extra-dark"] .bg-\[\#2563EB\], 
 [data-theme="extra-dark"] .bg-\[\#E30A17\] {
   background-color: var(--brand-primary) !important;
 }
 [data-theme="extra-dark"] .border-\[\#00D4FF\]\/20, 
 [data-theme="extra-dark"] .border-\[\#00D4FF\]\/30, 
-[data-theme="extra-dark"] .border-\[\#F97316\]\/20, 
-[data-theme="extra-dark"] .border-\[\#F97316\]\/30 {
-  border-color: rgba(249, 115, 22, 0.3) !important;
+[data-theme="extra-dark"] .border-\[\#2563EB\]\/20, 
+[data-theme="extra-dark"] .border-\[\#2563EB\]\/30 {
+  border-color: rgba(37, 99, 235, 0.3) !important;
 }
 [data-theme="extra-dark"] .bg-\[\#00D4FF\]\/10,
-[data-theme="extra-dark"] .bg-\[\#F97316\]\/10 {
-  background-color: rgba(249, 115, 22, 0.15) !important;
+[data-theme="extra-dark"] .bg-\[\#2563EB\]\/10 {
+  background-color: rgba(37, 99, 235, 0.15) !important;
 }
 
 /* Card Solidification for Max Readability */

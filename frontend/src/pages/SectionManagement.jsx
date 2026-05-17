@@ -31,10 +31,13 @@ export default function SectionManagement() {
   const fetchCoreData = async () => {
     try {
       setLoading(true);
+      const isAdmin = user?.role === 'admin';
+
       const secRes = await api.get('/sections');
       if (secRes.data?.success) setSections(secRes.data.data);
 
-      const courseRes = await api.get('/courses');
+      const courseEndpoint = isAdmin ? '/admin/courses' : '/instructor/courses';
+      const courseRes = await api.get(courseEndpoint);
       if (courseRes.data?.success || Array.isArray(courseRes.data?.data)) {
         setCourses(courseRes.data.data || []);
       }
@@ -46,12 +49,21 @@ export default function SectionManagement() {
         console.error('Group fetch failed:', groupRes.data);
       }
 
-      const usersRes = await api.get('/admin/users'); // fallback to admin users route
-      if (usersRes.data?.success) {
-         const allUsers = usersRes.data.data || [];
+      if (isAdmin) {
+         const [instRes, stuRes] = await Promise.all([
+           api.get('/admin/instructors'),
+           api.get('/admin/students')
+         ]);
+         
          setValidators({
-           instructors: allUsers.filter(u => u.role === 'instructor' || u.role === 'admin'),
-           students: allUsers.filter(u => u.role === 'student')
+           instructors: instRes.data?.data || [],
+           students: stuRes.data?.data || []
+         });
+      } else {
+         const stuRes = await api.get('/instructor/students');
+         setValidators({
+           instructors: [user],
+           students: stuRes.data?.data || []
          });
       }
     } catch (error) {
@@ -182,34 +194,32 @@ export default function SectionManagement() {
                     <div className="relative">
                       <select value={formData.course} onChange={e => setFormData({...formData, course: e.target.value})} required className={`w-full border rounded-xl px-4 py-3.5 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/20 focus:border-[#00D4FF]/50 transition-all cursor-pointer ${isDarkMode ? 'bg-[#151e32]/50 border-white/5 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
                         <option value="" disabled>Select a course...</option>
-                        {formData.category ? (
-                           courses.filter(c => formData.category === 'Uncategorized' ? !learnerGroups.find(g => g.name === c.mainCategory) : c.mainCategory === formData.category).map(c => (
-                             <option key={c.id} value={c.id}>{c.title}</option>
-                           ))
-                        ) : (
-                           <>
-                             {learnerGroups.map(group => {
-                               const groupCourses = courses.filter(c => c.mainCategory === group.name);
-                               if (groupCourses.length === 0) return null;
-                               return (
-                                 <optgroup key={group.name} label={group.name}>
-                                   {groupCourses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
-                                 </optgroup>
-                               );
-                             })}
-                             {(() => {
-                               const uncat = courses.filter(c => !learnerGroups.find(g => g.name === c.mainCategory));
-                               if (uncat.length === 0) return null;
-                               return (
-                                 <optgroup label="Uncategorized">
-                                   {uncat.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
-                                 </optgroup>
-                               );
-                             })()}
-                           </>
-                        )}
+                        {(() => {
+                           const targetCat = formData.category;
+                           let filtered = [];
+                           if (targetCat) {
+                             filtered = courses.filter(c => targetCat === 'Uncategorized' ? !learnerGroups.find(g => g.name === c.mainCategory) : c.mainCategory === targetCat);
+                           }
+                           
+                           const displayCourses = targetCat ? filtered : courses;
+                           
+                           const grouped = displayCourses.reduce((acc, c) => {
+                             const cat = c.mainCategory || 'Uncategorized';
+                             if (!acc[cat]) acc[cat] = [];
+                             acc[cat].push(c);
+                             return acc;
+                           }, {});
+                           
+                           if (Object.keys(grouped).length === 0) return <option disabled>No courses available</option>;
+
+                           return Object.entries(grouped).map(([cat, cats]) => (
+                             <optgroup key={cat} label={`${cat} Category`}>
+                               {cats.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
+                             </optgroup>
+                           ));
+                        })()}
                       </select>
-                      <BookOpen className={`w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
+                      <ChevronDown className={`w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
                     </div>
                   </div>
 
@@ -217,41 +227,36 @@ export default function SectionManagement() {
                     <label className={`block text-[11px] font-bold mb-2 uppercase tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Assign Instructor</label>
                     <div className="relative">
                       <select value={formData.instructor} onChange={e => setFormData({...formData, instructor: e.target.value})} className={`w-full border rounded-xl px-4 py-3.5 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/20 focus:border-[#00D4FF]/50 transition-all cursor-pointer ${isDarkMode ? 'bg-[#151e32]/50 border-white/5 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                        <option value="">No explicit assignment</option>
-                        {formData.category ? (
-                           formData.category === 'Uncategorized' ? (
-                             validators.instructors.filter(ins => !ins.learnerGroups || ins.learnerGroups.length === 0).map(ins => (
-                               <option key={ins.id} value={ins.id}>{ins.name || ins.email}</option>
-                             ))
-                           ) : (
-                             validators.instructors.filter(ins => ins.learnerGroups?.some(g => g.name === formData.category)).map(ins => (
-                               <option key={ins.id} value={ins.id}>{ins.name || ins.email}</option>
-                             ))
-                           )
-                        ) : (
-                           <>
-                             {learnerGroups.map(group => {
-                               const groupInstructors = validators.instructors.filter(ins => ins.learnerGroups?.some(g => g.id === group.id));
-                               if (groupInstructors.length === 0) return null;
-                               return (
-                                 <optgroup key={group.name} label={group.name}>
-                                   {groupInstructors.map(ins => <option key={ins.id} value={ins.id}>{ins.name || ins.email}</option>)}
-                                 </optgroup>
-                               );
-                             })}
-                             {(() => {
-                               const uncat = validators.instructors.filter(ins => !ins.learnerGroups || ins.learnerGroups.length === 0);
-                               if (uncat.length === 0) return null;
-                               return (
-                                 <optgroup label="Uncategorized">
-                                   {uncat.map(ins => <option key={ins.id} value={ins.id}>{ins.name || ins.email}</option>)}
-                                 </optgroup>
-                               );
-                             })()}
-                           </>
-                        )}
+                        <option value="">Select an instructor...</option>
+                        {(() => {
+                           const targetCat = formData.category;
+                           let filtered = [];
+                           if (targetCat) {
+                             filtered = validators.instructors.filter(ins => {
+                               const cat = ins.department || 'Uncategorized';
+                               return targetCat === 'Uncategorized' ? (!ins.department || ins.department === 'Uncategorized') : (cat === targetCat);
+                             });
+                           }
+                           
+                           const displayInstructors = targetCat ? filtered : validators.instructors;
+                           
+                           const grouped = displayInstructors.reduce((acc, ins) => {
+                             const cat = ins.department || 'Uncategorized';
+                             if (!acc[cat]) acc[cat] = [];
+                             acc[cat].push(ins);
+                             return acc;
+                           }, {});
+                           
+                           if (Object.keys(grouped).length === 0) return <option disabled>No instructors available</option>;
+                           
+                           return Object.entries(grouped).map(([cat, instructors]) => (
+                             <optgroup key={cat} label={`${cat} Category`}>
+                               {instructors.map(ins => <option key={ins.id} value={ins.id}>{ins.name || ins.email}</option>)}
+                             </optgroup>
+                           ));
+                        })()}
                       </select>
-                      <ShieldAlert className={`w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
+                      <ChevronDown className={`w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
                     </div>
                   </div>
 
@@ -279,34 +284,9 @@ export default function SectionManagement() {
                       <div className="relative">
                         <select value={studentToAdd} onChange={e => setStudentToAdd(e.target.value)} required className={`w-full border rounded-xl px-4 py-3.5 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#F97316]/20 focus:border-[#F97316]/50 transition-all cursor-pointer ${isDarkMode ? 'bg-[#151e32]/50 border-white/5 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
                           <option value="" disabled>Search & Select Student...</option>
-                          {learnerGroups.map(group => {
-                            const groupStudents = validators.students.filter(stu => 
-                              !selectedSection.students.find(s => s.id === stu.id) &&
-                              stu.learnerGroups?.some(g => g.id === group.id)
-                            );
-                            if (groupStudents.length === 0) return null;
-                            return (
-                              <optgroup key={group.name} label={group.name}>
-                                {groupStudents.map(stu => (
-                                  <option key={stu.id} value={stu.id}>{stu.name} - {stu.email}</option>
-                                ))}
-                              </optgroup>
-                            );
-                          })}
-                          {(() => {
-                            const uncat = validators.students.filter(stu => 
-                              !selectedSection.students.find(s => s.id === stu.id) &&
-                              (!stu.learnerGroups || stu.learnerGroups.length === 0)
-                            );
-                            if (uncat.length === 0) return null;
-                            return (
-                              <optgroup label="Uncategorized">
-                                {uncat.map(stu => (
-                                  <option key={stu.id} value={stu.id}>{stu.name} - {stu.email}</option>
-                                ))}
-                              </optgroup>
-                            );
-                          })()}
+                          {validators.students.filter(stu => !selectedSection.students.find(s => s.id === stu.id)).map(stu => (
+                             <option key={stu.id} value={stu.id}>{stu.name} - {stu.email}</option>
+                          ))}
                         </select>
                         <ChevronDown className={`w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
                       </div>
