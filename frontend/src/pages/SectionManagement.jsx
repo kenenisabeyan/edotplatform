@@ -192,7 +192,15 @@ export default function SectionManagement() {
                   <div>
                     <label className={`block text-[11px] font-bold mb-2 uppercase tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Target Course</label>
                     <div className="relative">
-                      <select value={formData.course} onChange={e => setFormData({...formData, course: e.target.value})} required className={`w-full border rounded-xl px-4 py-3.5 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/20 focus:border-[#00D4FF]/50 transition-all cursor-pointer ${isDarkMode ? 'bg-[#151e32]/50 border-white/5 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                      <select value={formData.course} onChange={e => {
+                         const selectedCourseId = e.target.value;
+                         const targetCourse = courses.find(c => c.id === selectedCourseId);
+                         setFormData({
+                             ...formData, 
+                             course: selectedCourseId, 
+                             instructor: targetCourse?.instructorId || formData.instructor
+                         });
+                      }} required className={`w-full border rounded-xl px-4 py-3.5 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/20 focus:border-[#00D4FF]/50 transition-all cursor-pointer ${isDarkMode ? 'bg-[#151e32]/50 border-white/5 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
                         <option value="" disabled>Select a course...</option>
                         {(() => {
                            const targetCat = formData.category;
@@ -229,17 +237,7 @@ export default function SectionManagement() {
                       <select value={formData.instructor} onChange={e => setFormData({...formData, instructor: e.target.value})} className={`w-full border rounded-xl px-4 py-3.5 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/20 focus:border-[#00D4FF]/50 transition-all cursor-pointer ${isDarkMode ? 'bg-[#151e32]/50 border-white/5 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
                         <option value="">Select an instructor...</option>
                         {(() => {
-                           const targetCat = formData.category;
-                           let filtered = [];
-                           if (targetCat) {
-                             filtered = validators.instructors.filter(ins => {
-                               const cat = ins.department || 'Uncategorized';
-                               return targetCat === 'Uncategorized' ? (!ins.department || ins.department === 'Uncategorized') : (cat === targetCat);
-                             });
-                           }
-                           
-                           const displayInstructors = targetCat ? filtered : validators.instructors;
-                           
+                           const displayInstructors = validators.instructors;
                            const grouped = displayInstructors.reduce((acc, ins) => {
                              const cat = ins.department || 'Uncategorized';
                              if (!acc[cat]) acc[cat] = [];

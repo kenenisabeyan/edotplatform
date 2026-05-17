@@ -447,7 +447,7 @@ router.get('/instructors', async (req, res) => {
         const instructors = await prisma.user.findMany({
             where: { role: 'instructor' },
             include: { 
-                assignedStudents: { select: { id: true, name: true, email: true, status: true, avatar: true } },
+                assignedStudents: { select: { id: true, name: true, email: true, status: true, avatar: true, sectionsJoined: { select: { name: true } } } },
                 learnerGroups: true,
                 coursesTaught: { select: { id: true, title: true, mainCategory: true, status: true } },
                 sectionsTaught: { select: { id: true, name: true, sectionCode: true, status: true } }
@@ -494,7 +494,9 @@ router.get('/students', async (req, res) => {
             where: { role: 'student' },
             include: { 
                 assignedInstructor: { select: { id: true, name: true, email: true } },
-                certificates: true 
+                certificates: true,
+                learnerGroups: true,
+                enrollments: { select: { courseId: true } }
             },
             orderBy: { createdAt: 'desc' }
         });
@@ -550,6 +552,36 @@ router.put('/student/:id/assign', async (req, res) => {
         res.status(200).json({ success: true, message: 'Student assigned safely', data: updatedStudent });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    }
+});
+
+// Assign Course to Instructor
+router.put('/instructor/:id/assign-course', async (req, res) => {
+    try {
+        const { courseId } = req.body;
+        const updatedCourse = await prisma.course.update({
+            where: { id: courseId },
+            data: { instructorId: req.params.id }
+        });
+        res.status(200).json({ success: true, message: 'Course assigned safely', data: updatedCourse });
+    } catch (error) {
+        console.error("Assign Course Error:", error);
+        res.status(500).json({ success: false, message: 'Failed to assign course' });
+    }
+});
+
+// Assign Section to Instructor
+router.put('/instructor/:id/assign-section', async (req, res) => {
+    try {
+        const { sectionId } = req.body;
+        const updatedSection = await prisma.section.update({
+            where: { id: sectionId },
+            data: { instructorId: req.params.id }
+        });
+        res.status(200).json({ success: true, message: 'Section assigned safely', data: updatedSection });
+    } catch (error) {
+        console.error("Assign Section Error:", error);
+        res.status(500).json({ success: false, message: 'Failed to assign section' });
     }
 });
 
