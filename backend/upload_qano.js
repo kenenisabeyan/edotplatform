@@ -16,7 +16,7 @@ cloudinary.config({
 });
 
 async function run() {
-  const filePath = path.join(__dirname, '../frontend/src/assets/Qano.mp4');
+  const filePath = path.join(__dirname, '../frontend/src/assets/Qano_smaller.mp4');
   console.log('Uploading Qano.mp4 to Cloudinary...');
   
   try {
@@ -24,7 +24,7 @@ async function run() {
         cloudinary.uploader.upload_large(filePath, {
             folder: 'edot/frontend/videos',
             resource_type: 'video',
-            chunk_size: 5000000, // 5MB chunks
+            chunk_size: 6000000, // 6MB chunks
         }, (error, result) => {
             if (error) reject(error);
             else resolve(result);

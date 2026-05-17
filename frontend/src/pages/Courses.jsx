@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 
 import CTA from '../components/CTA';
-import kenenisaPhoto from '../assets/kenenisa.png';
+const kenenisaPhoto = 'https://res.cloudinary.com/dacck6udl/image/upload/v1778977692/edot/frontend/assets/goefjy6w0pdnou4px1ro.png';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 const kenosHero = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/puh8cqwax9ahjfdyyhwm';
 import useThemeMode from '../hooks/useThemeMode';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
-import { User, Mail, Phone, MapPin, Save, AlertCircle, CircleCheck, Camera, Loader2, Briefcase, Calendar } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Save, AlertCircle, CircleCheck, Camera, Loader2, Briefcase, Calendar, ShieldCheck, Link as LinkIcon, HeartHandshake } from 'lucide-react';
 import CustomDropdown from '../components/CustomDropdown';
 import useThemeMode from '../hooks/useThemeMode';
 
@@ -28,12 +28,14 @@ export default function ProfileView() {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [profileData, setProfileData] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const { data } = await api.get('/users/profile');
         if (data.success && data.user) {
+          setProfileData(data.user);
           setFormData({
             name: data.user.name || '',
             email: data.user.email || '',
@@ -380,6 +382,114 @@ export default function ProfileView() {
                 </div>
 
              </form>
+
+             {/* Secure Connections Section */}
+             {profileData && (user?.role === 'student' || user?.role === 'parent' || user?.role === 'sponsor' || profileData.sponsorships?.length > 0 || profileData.sponsoredStudents?.length > 0 || profileData.parents?.length > 0 || profileData.children?.length > 0) && (
+               <div className={`mt-10 pt-8 border-t ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                 <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h3 className={`text-lg font-bold flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        <ShieldCheck className="w-5 h-5 text-emerald-500" /> Secure Connections
+                      </h3>
+                      <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Verified relationships and support links</p>
+                    </div>
+                 </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                   {/* Student seeing their Parents */}
+                   {user?.role === 'student' && profileData.parents && profileData.parents.length > 0 && (
+                     <div className={`p-5 rounded-[24px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                       <h4 className={`text-sm font-bold flex items-center gap-2 mb-4 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                         <LinkIcon className="w-4 h-4 text-purple-500" /> Linked Guardians
+                       </h4>
+                       <div className="space-y-3">
+                         {profileData.parents.map(parent => (
+                           <div key={parent.id} className={`flex items-center gap-3 p-3 rounded-xl border ${isDarkMode ? 'border-white/5 bg-black/20' : 'border-slate-200 bg-white'}`}>
+                             <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-sm shrink-0">
+                               {parent.name.charAt(0).toUpperCase()}
+                             </div>
+                             <div className="flex-1 min-w-0">
+                               <p className={`text-sm font-bold truncate ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{parent.name}</p>
+                               <p className={`text-[11px] truncate ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{parent.email}</p>
+                             </div>
+                             <span className="text-[10px] font-black uppercase tracking-wider text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-500/20">Verified</span>
+                           </div>
+                         ))}
+                       </div>
+                     </div>
+                   )}
+
+                   {/* Parent seeing their Children */}
+                   {user?.role === 'parent' && profileData.children && profileData.children.length > 0 && (
+                     <div className={`p-5 rounded-[24px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                       <h4 className={`text-sm font-bold flex items-center gap-2 mb-4 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                         <LinkIcon className="w-4 h-4 text-purple-500" /> Supported Students
+                       </h4>
+                       <div className="space-y-3">
+                         {profileData.children.map(child => (
+                           <div key={child.id} className={`flex items-center gap-3 p-3 rounded-xl border ${isDarkMode ? 'border-white/5 bg-black/20' : 'border-slate-200 bg-white'}`}>
+                             <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm shrink-0">
+                               {child.name.charAt(0).toUpperCase()}
+                             </div>
+                             <div className="flex-1 min-w-0">
+                               <p className={`text-sm font-bold truncate ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{child.name}</p>
+                               <p className={`text-[11px] truncate ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{child.email}</p>
+                             </div>
+                             <span className="text-[10px] font-black uppercase tracking-wider text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-500/20">Verified</span>
+                           </div>
+                         ))}
+                       </div>
+                     </div>
+                   )}
+
+                   {/* Student seeing their Sponsors */}
+                   {profileData.sponsorships && profileData.sponsorships.length > 0 && (
+                     <div className={`p-5 rounded-[24px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                       <h4 className={`text-sm font-bold flex items-center gap-2 mb-4 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                         <HeartHandshake className="w-4 h-4 text-rose-500" /> Active Sponsors
+                       </h4>
+                       <div className="space-y-3">
+                         {profileData.sponsorships.map(sponsorLink => sponsorLink.sponsor && (
+                           <div key={sponsorLink.id} className={`flex items-center gap-3 p-3 rounded-xl border ${isDarkMode ? 'border-white/5 bg-black/20' : 'border-slate-200 bg-white'}`}>
+                             <div className="w-10 h-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-sm shrink-0">
+                               {sponsorLink.sponsor.name.charAt(0).toUpperCase()}
+                             </div>
+                             <div className="flex-1 min-w-0">
+                               <p className={`text-sm font-bold truncate ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{sponsorLink.sponsor.name}</p>
+                               <p className={`text-[11px] truncate ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{sponsorLink.sponsor.email}</p>
+                             </div>
+                             <span className="text-[10px] font-black uppercase tracking-wider text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-500/20">Active</span>
+                           </div>
+                         ))}
+                       </div>
+                     </div>
+                   )}
+
+                   {/* Sponsor seeing their Supported Students */}
+                   {profileData.sponsoredStudents && profileData.sponsoredStudents.length > 0 && (
+                     <div className={`p-5 rounded-[24px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                       <h4 className={`text-sm font-bold flex items-center gap-2 mb-4 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                         <HeartHandshake className="w-4 h-4 text-rose-500" /> Sponsored Students
+                       </h4>
+                       <div className="space-y-3">
+                         {profileData.sponsoredStudents.map(sponsorLink => sponsorLink.targetStudent && (
+                           <div key={sponsorLink.id} className={`flex items-center gap-3 p-3 rounded-xl border ${isDarkMode ? 'border-white/5 bg-black/20' : 'border-slate-200 bg-white'}`}>
+                             <div className="w-10 h-10 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold text-sm shrink-0">
+                               {sponsorLink.targetStudent.name.charAt(0).toUpperCase()}
+                             </div>
+                             <div className="flex-1 min-w-0">
+                               <p className={`text-sm font-bold truncate ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{sponsorLink.targetStudent.name}</p>
+                               <p className={`text-[11px] truncate ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{sponsorLink.targetStudent.email}</p>
+                             </div>
+                             <span className="text-[10px] font-black uppercase tracking-wider text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full border border-emerald-500/20">Active</span>
+                           </div>
+                         ))}
+                       </div>
+                     </div>
+                   )}
+                 </div>
+               </div>
+             )}
            </div>
         </div>
       </div>

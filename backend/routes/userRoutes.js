@@ -40,6 +40,19 @@ router.get('/profile', protect, async (req, res) => {
                             include: { instructor: { select: { name: true } } }
                         }
                     }
+                },
+                parents: { select: { id: true, name: true, email: true, avatar: true, phone: true } },
+                children: { select: { id: true, name: true, email: true, avatar: true, phone: true } },
+                sponsorships: { 
+                    include: { 
+                        sponsor: { select: { id: true, name: true, email: true, avatar: true } },
+                        targetStudent: { select: { id: true, name: true, email: true, avatar: true } }
+                    } 
+                },
+                sponsoredStudents: { 
+                    include: { 
+                        targetStudent: { select: { id: true, name: true, email: true, avatar: true } }
+                    } 
                 }
             }
         });

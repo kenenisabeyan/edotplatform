@@ -173,6 +173,27 @@ router.get('/enrolled', protect, async (req, res) => {
     }
 });
 
+router.get('/my-courses', protect, authorize('instructor', 'admin'), async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const query = req.user.role === 'admin' ? {} : { instructorId: userId };
+        
+        const courses = await prisma.course.findMany({
+            where: query,
+            include: {
+                instructor: { select: { name: true, email: true } },
+                lessons: true
+            },
+            orderBy: { createdAt: 'desc' }
+        });
+
+        res.json({ success: true, courses });
+    } catch (error) {
+        console.error('My courses error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 router.get('/:id', async (req, res) => {
     try {
         const course = await prisma.course.findUnique({

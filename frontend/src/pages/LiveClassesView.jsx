@@ -15,6 +15,7 @@ export default function LiveClassesView() {
   const [classes, setClasses] = useState([]);
   const [recordings, setRecordings] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   
   const [activeTab, setActiveTab] = useState('live'); // 'live' | 'recordings'
@@ -43,6 +44,19 @@ export default function LiveClassesView() {
     }
   }, [user, isInstructor]);
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const joinId = urlParams.get('join');
+    if (joinId && classes.length > 0) {
+      // Find the class to get meetLink just in case
+      const targetClass = classes.find(c => c.id === joinId);
+      if (targetClass) {
+        handleJoinClass(joinId, targetClass.meetLink);
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+  }, [classes]);
+
   const fetchClasses = async () => {
     try {
       setLoading(true);
@@ -62,14 +76,19 @@ export default function LiveClassesView() {
 
   const fetchCourses = async () => {
     try {
-      const { data } = await axios.get('/api/courses/my-courses', { withCredentials: true });
-      if (data.success) {
-        setCourses(data.courses);
-      }
+      const [coursesRes, groupsRes] = await Promise.all([
+        axios.get('/api/courses/my-courses', { withCredentials: true }).catch(() => ({ data: {} })),
+        axios.get('/api/messages/groups', { withCredentials: true }).catch(() => ({ data: {} }))
+      ]);
+      if (coursesRes.data?.success) setCourses(coursesRes.data.courses);
+      if (groupsRes.data?.success) setGroups(groupsRes.data.data);
     } catch (error) {
-      console.error('Failed to fetch courses:', error);
+      console.error('Failed to fetch instructor data:', error);
     }
   };
+
+  const [createdClass, setCreatedClass] = useState(null);
+  const [selectedGroupId, setSelectedGroupId] = useState('');
 
   const handleScheduleClass = async (e) => {
     e.preventDefault();
@@ -77,13 +96,27 @@ export default function LiveClassesView() {
       const { data } = await axios.post('/api/live-classes', formData, { withCredentials: true });
       if (data.success) {
         toast.success('Live class scheduled!');
-        setShowModal(false);
+        setCreatedClass(data.liveClass);
         fetchClasses();
-        setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60 });
       }
     } catch (error) {
       console.error(error);
       toast.error('Failed to schedule class');
+    }
+  };
+
+  const handleShareLink = async () => {
+    if (!createdClass) return;
+    try {
+      toast.loading('Sending invitations...', { id: 'shareToast' });
+      await axios.post(`/api/messages/broadcast`, {
+        courseId: selectedGroupId === 'course' ? createdClass.courseId : undefined,
+        groupId: selectedGroupId !== 'course' ? selectedGroupId : undefined,
+        content: `A new live session "${createdClass.title}" has been scheduled! Join here: ${window.location.origin}/dashboard/live_classes?join=${createdClass.id}`
+      }, { withCredentials: true });
+      toast.success('Invitations sent successfully!', { id: 'shareToast' });
+    } catch (err) {
+      toast.error('Failed to broadcast invitations.', { id: 'shareToast' });
     }
   };
 
@@ -384,7 +417,7 @@ export default function LiveClassesView() {
         )}
 
         {/* Schedule Modal */}
-        <PremiumModal isOpen={showModal} onClose={() => setShowModal(false)} maxWidth="max-w-lg">
+        <PremiumModal isOpen={showModal} onClose={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60 }); }} maxWidth="max-w-lg">
                  <div className="flex flex-col w-full h-full p-6 md:p-8">
                  {/* Brand Background Decorative Elements */}
                  <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#F97316]/10 to-transparent pointer-events-none z-0"></div>
@@ -392,49 +425,105 @@ export default function LiveClassesView() {
                  <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
                  
                 <div className={`px-8 py-6 flex items-center justify-between border-b relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-100'}`}>
-                  <h3 className={`text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Schedule Live Stream</h3>
-                  <button onClick={() => setShowModal(false)} className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}`}>
+                  <h3 className={`text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{createdClass ? 'Stream Scheduled!' : 'Schedule Live Stream'}</h3>
+                  <button onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60 }); }} className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}`}>
                     <X className="w-5 h-5" />
                   </button>
                 </div>
                 
-                <form onSubmit={handleScheduleClass} className="p-8 space-y-6 relative z-10">
-                  <div>
-                    <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Target Course</label>
-                    <select required value={formData.courseId} onChange={(e) => setFormData({...formData, courseId: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}>
-                      <option value="">Select a course mapping...</option>
-                      {courses.map(course => (
-                        <option key={course.id} value={course.id}>{course.title}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Session Title</label>
-                    <input required type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} placeholder="e.g., Week 3 Live Debugging" className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Syllabus / Description</label>
-                    <textarea rows="3" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} placeholder="What will be covered?" className={`w-full !px-6 py-3.5 !rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Date & Time</label>
-                      <input required type="datetime-local" value={formData.scheduledAt} onChange={(e) => setFormData({...formData, scheduledAt: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
+                {createdClass ? (
+                  <div className="p-8 space-y-6 relative z-10 text-center">
+                    <div className="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500/20">
+                      <CheckCircle2 className="w-10 h-10" />
                     </div>
-                    <div>
-                      <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Length (min)</label>
-                      <input required type="number" min="15" max="240" value={formData.durationMinutes} onChange={(e) => setFormData({...formData, durationMinutes: parseInt(e.target.value)})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
+                    <h4 className="text-xl font-bold">Meeting Ready to Share</h4>
+                    <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                      Your live session has been created. Copy the link below or broadcast it directly to enrolled students.
+                    </p>
+                    
+                    <div className={`p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-[#151B2B] border-white/10' : 'bg-slate-100 border-slate-200'}`}>
+                      <code className="text-xs truncate mr-4 text-orange-500 font-bold select-all">
+                        {`${window.location.origin}/dashboard/live_classes?join=${createdClass.id}`}
+                      </code>
+                      <button 
+                        onClick={() => {
+                          navigator.clipboard.writeText(`${window.location.origin}/dashboard/live_classes?join=${createdClass.id}`);
+                          toast.success('Link copied to clipboard!');
+                        }}
+                        className="text-xs font-bold bg-white text-black px-3 py-1.5 rounded-full shadow-sm hover:scale-105 transition-transform"
+                      >
+                        Copy
+                      </button>
+                    </div>
+
+                    <div className="pt-4 flex flex-col gap-3">
+                      <div className="flex gap-2">
+                        <select 
+                          value={selectedGroupId} 
+                          onChange={(e) => setSelectedGroupId(e.target.value)}
+                          className={`flex-1 px-4 py-3 rounded-full text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}
+                        >
+                          <option value="">Select Target Audience...</option>
+                          <option value="course">All Enrolled Students in Course</option>
+                          {groups?.map(g => (
+                            <option key={g.id} value={g.id}>Group: {g.name}</option>
+                          ))}
+                        </select>
+                        <button 
+                          onClick={handleShareLink}
+                          disabled={!selectedGroupId}
+                          className="flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-600 hover:to-orange-500 text-white px-5 py-3 rounded-full font-bold transition-all shadow-lg shadow-orange-500/20 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <Users className="w-4 h-4" /> Share
+                        </button>
+                      </div>
+                      <button 
+                        onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60 }); }}
+                        className={`w-full px-5 py-3 rounded-full font-bold text-sm transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-900'}`}
+                      >
+                        Done
+                      </button>
                     </div>
                   </div>
+                ) : (
+                  <form onSubmit={handleScheduleClass} className="p-8 space-y-6 relative z-10">
+                    <div>
+                      <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Target Course</label>
+                      <select required value={formData.courseId} onChange={(e) => setFormData({...formData, courseId: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}>
+                        <option value="">Select a course mapping...</option>
+                        {courses.map(course => (
+                          <option key={course.id} value={course.id}>{course.title}</option>
+                        ))}
+                      </select>
+                    </div>
 
-                  <div className="pt-6 flex items-center justify-end gap-3">
-                    <button type="button" onClick={() => setShowModal(false)} className={`px-6 py-3.5 rounded-[32px] font-bold text-sm transition-colors ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-100'}`}>Cancel</button>
-                    <button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-[32px] font-bold text-sm transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">Deploy Engine</button>
-                  </div>
-                </form>
+                    <div>
+                      <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Session Title</label>
+                      <input required type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} placeholder="e.g., Week 3 Live Debugging" className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Syllabus / Description</label>
+                      <textarea rows="3" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} placeholder="What will be covered?" className={`w-full !px-6 py-3.5 !rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Date & Time</label>
+                        <input required type="datetime-local" value={formData.scheduledAt} onChange={(e) => setFormData({...formData, scheduledAt: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Length (min)</label>
+                        <input required type="number" min="15" max="240" value={formData.durationMinutes} onChange={(e) => setFormData({...formData, durationMinutes: parseInt(e.target.value)})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
+                      </div>
+                    </div>
+
+                    <div className="pt-6 flex items-center justify-end gap-3">
+                      <button type="button" onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60 }); }} className={`px-6 py-3.5 rounded-[32px] font-bold text-sm transition-colors ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-100'}`}>Cancel</button>
+                      <button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-[32px] font-bold text-sm transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">Deploy Engine</button>
+                    </div>
+                  </form>
+                )}
                  </div>
         </PremiumModal>
 

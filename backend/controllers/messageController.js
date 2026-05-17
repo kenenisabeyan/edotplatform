@@ -65,6 +65,57 @@ export const sendMessage = async (req, res) => {
     }
 };
 
+export const broadcastMessage = async (req, res) => {
+    try {
+        const { courseId, groupId, content } = req.body;
+        const senderId = req.user.id;
+
+        if (!content) {
+            return res.status(400).json({ success: false, message: 'content is required' });
+        }
+
+        if (groupId) {
+            await prisma.message.create({
+                data: {
+                    senderId,
+                    groupId,
+                    content
+                }
+            });
+            return res.status(201).json({ success: true, message: 'Broadcasted to group' });
+        } else if (courseId) {
+            const enrollments = await prisma.enrollment.findMany({
+                where: { courseId, status: 'approved' },
+                select: { studentId: true }
+            });
+
+            if (enrollments.length === 0) {
+                return res.status(200).json({ success: true, message: 'No active students to broadcast to.' });
+            }
+
+            const messagesData = enrollments.map(en => ({
+                senderId,
+                receiverId: en.studentId,
+                content
+            }));
+
+            await prisma.message.createMany({
+                data: messagesData
+            });
+
+            return res.status(201).json({
+                success: true,
+                message: `Broadcasted to ${enrollments.length} students`
+            });
+        } else {
+            return res.status(400).json({ success: false, message: 'Either courseId or groupId is required' });
+        }
+    } catch (err) {
+        console.error('Broadcast message error:', err);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+};
+
 export const getConversation = async (req, res) => {
     try {
         const { userId } = req.params;

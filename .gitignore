@@ -37,3 +37,5 @@ backend/node_modules/node_modules/
 dist/
 build/
 .env
+
+frontend/src/assets/Qano.mp4
