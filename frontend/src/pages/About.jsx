@@ -30,10 +30,10 @@ export default function About() {
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
             <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-[#1A202C]'}`}>
                Building a Better Future Through <br className="hidden md:block" />
-               <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+               <span className="text-[#00D4FF] relative inline-block mt-2 whitespace-nowrap">
                   <span className="relative z-10">Education</span>
                   {/* Orange Underline */}
-                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316] z-0"></div>
+                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#00D4FF] z-0"></div>
                </span>
             </h1>
             <p className={`text-xl md:text-[20px] font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -54,7 +54,7 @@ export default function About() {
                      <img src={mahiImg} alt="Mahi" className="w-full h-full object-cover filter hover:grayscale-0 transition-all duration-500" />
                   </div>
                </div>
-               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square bg-[#F97316]/5 rounded-full blur-[100px] z-0 pointer-events-none"></div>
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square bg-[#00D4FF]/5 rounded-full blur-[100px] z-0 pointer-events-none"></div>
             </div>
             
             <div className="flex-1 text-left">
@@ -155,10 +155,10 @@ export default function About() {
          <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className={`relative p-12 rounded-[40px] overflow-hidden group ${isDarkMode ? 'bg-[#111827]' : 'bg-[#FFF8F0]'}`}>
                <div className="absolute top-0 right-0 p-8 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform duration-700">
-                  <Target className="w-48 h-48 text-[#F97316]" />
+                  <Target className="w-48 h-48 text-[#00D4FF]" />
                </div>
                <div className="relative z-10">
-                  <div className="w-16 h-16 rounded-2xl bg-[#F97316] text-white flex items-center justify-center mb-8 shadow-lg">
+                  <div className="w-16 h-16 rounded-2xl bg-[#00D4FF] text-white flex items-center justify-center mb-8 shadow-lg">
                      <Target className="w-8 h-8" />
                   </div>
                   <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Our Mission</h3>
@@ -189,7 +189,7 @@ export default function About() {
       <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto text-center">
             <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               Our <span className="text-[#F97316]">Unique Approach</span>
+               Our <span className="text-[#00D4FF]">Unique Approach</span>
             </h2>
             <p className={`text-xl max-w-3xl mx-auto leading-relaxed mb-20 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                EDOT stands out by combining education with real-world impact. This combination creates a system where learning is not only accessible, but also meaningful and transformative.
@@ -207,7 +207,7 @@ export default function About() {
                     ? 'from-[#d9c7ff] via-white to-[#ffdcb8] dark:from-purple-500/50 dark:via-transparent dark:to-orange-500/50'
                     : 'from-[#bce1ff] via-white to-[#b8ffea] dark:from-blue-500/50 dark:via-transparent dark:to-teal-500/50';
                  const innerCircle = isOddCard
-                    ? 'from-[#e0d4ff] to-[#ffebd4] dark:from-purple-900/50 dark:to-orange-900/50 text-[#F97316]'
+                    ? 'from-[#e0d4ff] to-[#ffebd4] dark:from-purple-900/50 dark:to-orange-900/50 text-[#00D4FF]'
                     : 'from-[#d4eeff] to-[#d4ffec] dark:from-blue-900/50 dark:to-teal-900/50 text-[#00D4FF]';
 
                  return (
@@ -254,7 +254,7 @@ export default function About() {
          <div className="max-w-[1200px] mx-auto">
             <div className="text-center mb-24">
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  The People Behind <span className="text-[#F97316]">EDOT</span>
+                  The People Behind <span className="text-[#00D4FF]">EDOT</span>
                </h2>
                <p className={`text-xl max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                   EDOT is built by a team passionate about education, technology, and creating opportunities. Each member contributes to developing a platform that is not only functional, but also impactful and scalable.
@@ -276,7 +276,7 @@ export default function About() {
                            <img src={member.image} alt={member.name} className="w-full h-full object-cover filter grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" />
                         </div>
                         <h4 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{member.name}</h4>
-                        <p className="text-[#F97316] font-bold text-center">{member.role}</p>
+                        <p className="text-[#00D4FF] font-bold text-center">{member.role}</p>
                      </div>
                   ))}
                </div>
@@ -316,7 +316,7 @@ export default function About() {
             </p>
 
             <div className="flex justify-center">
-               <Link to="/register" className="bg-[#F97316] text-[#ffffff] px-12 py-5 rounded-full font-black text-xl hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center gap-3">
+               <Link to="/register" className="bg-[#00D4FF] text-[#ffffff] px-12 py-5 rounded-full font-black text-xl hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center gap-3">
                  Join the Mission <ChevronRight className="w-6 h-6" />
                </Link>
             </div>

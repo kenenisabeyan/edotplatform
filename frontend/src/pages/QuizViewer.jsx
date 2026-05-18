@@ -144,7 +144,7 @@ export default function QuizViewer() {
             )}
             <button 
               onClick={() => navigate(`/lesson/${course.id}?courseId=${course.id}`)}
-              className="flex-1 px-6 py-4 bg-gradient-to-r from-[#F97316] to-[#F97316] text-[#0B1120] font-black rounded-xl hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,215,0,0.3)] inline-flex items-center justify-center gap-2   text-sm"
+              className="flex-1 px-6 py-4 bg-gradient-to-r from-[#00D4FF] to-[#00D4FF] text-[#0B1120] font-black rounded-xl hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,215,0,0.3)] inline-flex items-center justify-center gap-2   text-sm"
             >
               {passed ? 'Claim Certificate' : 'Go Back'} <ArrowRight className="w-4 h-4" />
             </button>
@@ -166,7 +166,7 @@ export default function QuizViewer() {
     <div className={`min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 relative overflow-hidden transition-colors duration-500 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
       
       {/* Background Ornaments */}
-      <div className="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] bg-[#F97316]/5 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] bg-[#00D4FF]/5 rounded-full blur-[100px] pointer-events-none"></div>
       
       {/* Header */}
       <div className="w-full max-w-3xl mb-8 flex justify-between items-center relative z-10">
@@ -177,7 +177,7 @@ export default function QuizViewer() {
           <ArrowLeft className="w-4 h-4" /> Exit
         </button>
         <div className="flex items-center gap-4">
-          <span className="font-bold text-[#F97316] bg-[#F97316]/10 px-4 py-2 rounded-lg border border-[#F97316]/20 shadow-[0_0_15px_rgba(255,215,0,0.1)] text-xs">
+          <span className="font-bold text-[#00D4FF] bg-[#00D4FF]/10 px-4 py-2 rounded-lg border border-[#00D4FF]/20 shadow-[0_0_15px_rgba(255,215,0,0.1)] text-xs">
             {course?.title} - Final Challenge
           </span>
           <ThemeDropdown />
@@ -190,11 +190,11 @@ export default function QuizViewer() {
         <div className={`p-6 md:px-12 border-b ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
           <div className={`flex justify-between text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
             <span>Question {currentQuestion + 1} of {questions.length}</span>
-            <span className="text-[#F97316]">{Math.round(progress)}% Complete</span>
+            <span className="text-[#00D4FF]">{Math.round(progress)}% Complete</span>
           </div>
           <div className={`h-1.5 rounded-full overflow-hidden border ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
             <div 
-              className="h-full bg-gradient-to-r from-[#F97316] to-[#F97316] shadow-[0_0_10px_rgba(255,215,0,0.5)] transition-all duration-500 ease-out"
+              className="h-full bg-gradient-to-r from-[#00D4FF] to-[#00D4FF] shadow-[0_0_10px_rgba(255,215,0,0.5)] transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
@@ -202,7 +202,7 @@ export default function QuizViewer() {
 
         {/* Question Area */}
         <div className="p-8 sm:p-12 relative">
-          <div className="absolute inset-0 bg-[#F97316]/5 opacity-20 pointer-events-none blur-3xl"></div>
+          <div className="absolute inset-0 bg-[#00D4FF]/5 opacity-20 pointer-events-none blur-3xl"></div>
           
           <h2 className={`text-2xl sm:text-3xl font-display font-bold leading-snug mb-10 relative z-10 drop-shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             {question?.text || question?.question} {/* Handling both formats strictly */}
@@ -217,16 +217,16 @@ export default function QuizViewer() {
                   onClick={() => handleSelectOption(index)}
                   className={`w-full text-left flex items-center p-5 rounded-xl border-2 transition-all ${
                     isSelected 
-                      ? 'border-[#F97316] bg-[#F97316]/10 shadow-[0_0_15px_rgba(255,215,0,0.15)]' 
+                      ? 'border-[#00D4FF] bg-[#00D4FF]/10 shadow-[0_0_15px_rgba(255,215,0,0.15)]' 
                       : (isDarkMode ? 'border-white/5 hover:border-white/20 hover:bg-white/5' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-100')
                   }`}
                 >
                   <div className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center shrink-0 transition-colors ${
-                    isSelected ? 'border-[#F97316]' : (isDarkMode ? 'border-white/20' : 'border-slate-300')
+                    isSelected ? 'border-[#00D4FF]' : (isDarkMode ? 'border-white/20' : 'border-slate-300')
                   }`}>
-                    {isSelected && <div className="w-3 h-3 rounded-full bg-[#F97316] shadow-[0_0_5px_rgba(255,215,0,0.8)]"></div>}
+                    {isSelected && <div className="w-3 h-3 rounded-full bg-[#00D4FF] shadow-[0_0_5px_rgba(255,215,0,0.8)]"></div>}
                   </div>
-                  <span className={`text-lg font-bold ${isSelected ? 'text-[#F97316]' : (isDarkMode ? 'text-slate-300' : 'text-slate-700')}`}>
+                  <span className={`text-lg font-bold ${isSelected ? 'text-[#00D4FF]' : (isDarkMode ? 'text-slate-300' : 'text-slate-700')}`}>
                     {option}
                   </span>
                 </button>

@@ -109,7 +109,7 @@ export default function CustomDropdown({
           if (!isOpen) setSearchQuery('');
           setIsOpen(!isOpen);
         }}
-        className={`w-full flex items-center justify-between px-5 py-3 border !rounded-full text-sm focus:outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/30 transition-all shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white hover:border-white/20' : 'bg-white border-slate-200 text-slate-900 hover:border-slate-300'}`}
+        className={`w-full flex items-center justify-between px-5 py-3 border !rounded-full text-sm focus:outline-none focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/30 transition-all shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white hover:border-white/20' : 'bg-white border-slate-200 text-slate-900 hover:border-slate-300'}`}
       >
         <span className={`truncate ${!value || value === '' ? (isDarkMode ? 'text-slate-400' : 'text-slate-500') : (isDarkMode ? 'text-white' : 'text-slate-900') + ' font-medium'}`}>
           {getSelectedLabel()}
@@ -144,7 +144,7 @@ export default function CustomDropdown({
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search..."
-                    className={`w-full !pl-10 !pr-3 !py-1.5 border !rounded-full text-xs focus:outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'bg-[#0B1120] placeholder-slate-500 border-white/10 text-white' : 'bg-white placeholder-slate-400 border-slate-200 text-slate-900'}`}
+                    className={`w-full !pl-10 !pr-3 !py-1.5 border !rounded-full text-xs focus:outline-none focus:border-[#00D4FF]/50 ${isDarkMode ? 'bg-[#0B1120] placeholder-slate-500 border-white/10 text-white' : 'bg-white placeholder-slate-400 border-slate-200 text-slate-900'}`}
                   />
                 </div>
               </div>
@@ -174,7 +174,7 @@ export default function CustomDropdown({
                             }}
                             className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-all text-left ${
                               selected 
-                              ? `bg-[#F97316]/10 text-[#F97316] font-bold` 
+                              ? `bg-[#00D4FF]/10 text-[#00D4FF] font-bold` 
                               : (isDarkMode ? 'text-slate-300 hover:bg-white/5 hover:text-white font-medium' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium')
                             }`}
                           >
@@ -182,7 +182,7 @@ export default function CustomDropdown({
                               {opt.icon && <span className="shrink-0">{opt.icon}</span>}
                               {opt.render ? opt.render : opt.label}
                             </span>
-                            {selected && <Check className="w-4 h-4 ml-2 shrink-0 text-[#F97316]" />}
+                            {selected && <Check className="w-4 h-4 ml-2 shrink-0 text-[#00D4FF]" />}
                           </button>
                         );
                       })}
@@ -202,7 +202,7 @@ export default function CustomDropdown({
                       }}
                       className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-all text-left ${
                         selected 
-                        ? `bg-[#F97316]/10 text-[#F97316] font-bold` 
+                        ? `bg-[#00D4FF]/10 text-[#00D4FF] font-bold` 
                         : (isDarkMode ? 'text-slate-300 hover:bg-white/5 hover:text-white font-medium' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900 font-medium')
                       }`}
                     >
@@ -210,7 +210,7 @@ export default function CustomDropdown({
                         {opt.icon && <span className="shrink-0">{opt.icon}</span>}
                         {opt.render ? opt.render : opt.label}
                       </span>
-                      {selected && <Check className="w-4 h-4 ml-2 shrink-0 text-[#F97316]" />}
+                      {selected && <Check className="w-4 h-4 ml-2 shrink-0 text-[#00D4FF]" />}
                     </button>
                   );
                 })

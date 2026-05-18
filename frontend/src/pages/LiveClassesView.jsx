@@ -216,13 +216,13 @@ export default function LiveClassesView() {
             <div className={`flex p-1 rounded-full border ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}`}>
                <button 
                  onClick={() => setActiveTab('live')}
-                 className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${activeTab === 'live' ? 'bg-orange-500 text-white shadow-md shadow-orange-500/20' : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
+                 className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${activeTab === 'live' ? 'bg-[#00D4FF] text-white shadow-md shadow-orange-500/20' : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
                >
                  Live Sessions
                </button>
                <button 
                  onClick={() => setActiveTab('recordings')}
-                 className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${activeTab === 'recordings' ? 'bg-orange-500 text-white shadow-md shadow-orange-500/20' : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
+                 className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${activeTab === 'recordings' ? 'bg-[#00D4FF] text-white shadow-md shadow-orange-500/20' : isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900'}`}
                >
                  Secured Replays
                </button>
@@ -251,7 +251,7 @@ export default function LiveClassesView() {
         {/* Loading State */}
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#00D4FF]"></div>
           </div>
         ) : activeTab === 'live' ? (
           /* Live Classes Tab */
@@ -275,7 +275,7 @@ export default function LiveClassesView() {
                       key={c.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className={`relative overflow-hidden rounded-[32px] border ${isDarkMode ? 'bg-[#0B1221] border-white/5 hover:border-orange-500/30' : 'bg-white border-slate-200 hover:border-orange-300'} transition-all p-6 group`}
+                      className={`relative overflow-hidden rounded-[32px] border ${isDarkMode ? 'bg-[#0B1221] border-white/5 hover:border-[#00D4FF]/30' : 'bg-white border-slate-200 hover:border-orange-300'} transition-all p-6 group`}
                     >
                       {isLive && (
                         <div className="absolute top-4 right-4 flex items-center gap-2 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
@@ -305,11 +305,11 @@ export default function LiveClassesView() {
 
                       <div className={`space-y-3 mb-8 p-4 rounded-[32px] ${isDarkMode ? 'bg-white/5' : 'bg-slate-50'}`}>
                         <div className={`flex items-center gap-3 text-xs font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
-                          <Clock className="w-4 h-4 text-orange-500" />
+                          <Clock className="w-4 h-4 text-[#00D4FF]" />
                           {format(date, 'MMM d, yyyy • h:mm a')} <span className="opacity-50">({c.durationMinutes}m)</span>
                         </div>
                         <div className={`flex items-center gap-3 text-xs font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
-                          <Users className="w-4 h-4 text-orange-500" />
+                          <Users className="w-4 h-4 text-[#00D4FF]" />
                           {c.instructor?.name || 'EDOT Team'}
                         </div>
                       </div>
@@ -319,7 +319,7 @@ export default function LiveClassesView() {
                           onClick={() => handleJoinClass(c.id, c.meetLink)}
                           className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-[32px] font-bold transition-all text-sm ${
                             isLive 
-                              ? 'bg-orange-500 hover:bg-orange-600 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)]' 
+                              ? 'bg-[#00D4FF] hover:bg-orange-600 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)]' 
                               : isDarkMode 
                                 ? 'bg-white/10 hover:bg-white/20 text-white border border-white/5' 
                                 : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-200'
@@ -420,8 +420,8 @@ export default function LiveClassesView() {
         <PremiumModal isOpen={showModal} onClose={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60 }); }} maxWidth="max-w-lg">
                  <div className="flex flex-col w-full h-full p-6 md:p-8">
                  {/* Brand Background Decorative Elements */}
-                 <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#F97316]/10 to-transparent pointer-events-none z-0"></div>
-                 <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#F97316]/20 blur-[80px] pointer-events-none z-0"></div>
+                 <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
+                 <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
                  <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
                  
                 <div className={`px-8 py-6 flex items-center justify-between border-b relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-100'}`}>
@@ -442,7 +442,7 @@ export default function LiveClassesView() {
                     </p>
                     
                     <div className={`p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-[#151B2B] border-white/10' : 'bg-slate-100 border-slate-200'}`}>
-                      <code className="text-xs truncate mr-4 text-orange-500 font-bold select-all">
+                      <code className="text-xs truncate mr-4 text-[#00D4FF] font-bold select-all">
                         {`${window.location.origin}/dashboard/live_classes?join=${createdClass.id}`}
                       </code>
                       <button 
@@ -461,7 +461,7 @@ export default function LiveClassesView() {
                         <select 
                           value={selectedGroupId} 
                           onChange={(e) => setSelectedGroupId(e.target.value)}
-                          className={`flex-1 px-4 py-3 rounded-full text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}
+                          className={`flex-1 px-4 py-3 rounded-full text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}
                         >
                           <option value="">Select Target Audience...</option>
                           <option value="course">All Enrolled Students in Course</option>
@@ -489,7 +489,7 @@ export default function LiveClassesView() {
                   <form onSubmit={handleScheduleClass} className="p-8 space-y-6 relative z-10">
                     <div>
                       <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Target Course</label>
-                      <select required value={formData.courseId} onChange={(e) => setFormData({...formData, courseId: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}>
+                      <select required value={formData.courseId} onChange={(e) => setFormData({...formData, courseId: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}>
                         <option value="">Select a course mapping...</option>
                         {courses.map(course => (
                           <option key={course.id} value={course.id}>{course.title}</option>
@@ -499,28 +499,28 @@ export default function LiveClassesView() {
 
                     <div>
                       <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Session Title</label>
-                      <input required type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} placeholder="e.g., Week 3 Live Debugging" className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
+                      <input required type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} placeholder="e.g., Week 3 Live Debugging" className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}/>
                     </div>
 
                     <div>
                       <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Syllabus / Description</label>
-                      <textarea rows="3" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} placeholder="What will be covered?" className={`w-full !px-6 py-3.5 !rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
+                      <textarea rows="3" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} placeholder="What will be covered?" className={`w-full !px-6 py-3.5 !rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}/>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Date & Time</label>
-                        <input required type="datetime-local" value={formData.scheduledAt} onChange={(e) => setFormData({...formData, scheduledAt: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
+                        <input required type="datetime-local" value={formData.scheduledAt} onChange={(e) => setFormData({...formData, scheduledAt: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}/>
                       </div>
                       <div>
                         <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Length (min)</label>
-                        <input required type="number" min="15" max="240" value={formData.durationMinutes} onChange={(e) => setFormData({...formData, durationMinutes: parseInt(e.target.value)})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-orange-500/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-orange-500/50'}`}/>
+                        <input required type="number" min="15" max="240" value={formData.durationMinutes} onChange={(e) => setFormData({...formData, durationMinutes: parseInt(e.target.value)})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}/>
                       </div>
                     </div>
 
                     <div className="pt-6 flex items-center justify-end gap-3">
                       <button type="button" onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60 }); }} className={`px-6 py-3.5 rounded-[32px] font-bold text-sm transition-colors ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-100'}`}>Cancel</button>
-                      <button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-[32px] font-bold text-sm transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">Deploy Engine</button>
+                      <button type="submit" className="bg-[#00D4FF] hover:bg-orange-600 text-white px-8 py-3.5 rounded-[32px] font-bold text-sm transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">Deploy Engine</button>
                     </div>
                   </form>
                 )}

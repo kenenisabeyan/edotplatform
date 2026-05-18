@@ -161,12 +161,12 @@ const StudentOverview = ({
             Keep learning, keep growing. You're doing great!
           </p>
           <motion.button 
-            whileHover={{ scale: 1.02, backgroundColor: "#FFF5E6", borderColor: "#F97316", boxShadow: "0px 8px 16px rgba(249, 115, 22, 0.15)" }}
+            whileHover={{ scale: 1.02, backgroundColor: "#FFF5E6", borderColor: "#00D4FF", boxShadow: "0px 8px 16px rgba(249, 115, 22, 0.15)" }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveTab('courses')} 
             className={`px-6 py-2.5 font-bold text-[14px] rounded-xl transition-all flex items-center gap-2 w-max shadow-sm
-            ${isDarkMode ? 'bg-[#F97316]/20 border border-[#F97316] text-[#F97316]' 
-                         : 'bg-[#FFFFFF] border border-[#F97316] text-[#F97316]'}`}
+            ${isDarkMode ? 'bg-[#00D4FF]/20 border border-[#00D4FF] text-[#00D4FF]' 
+                         : 'bg-[#FFFFFF] border border-[#00D4FF] text-[#00D4FF]'}`}
           >
             <span className="text-xl leading-none font-medium mb-0.5">+</span> Start a Lesson
           </motion.button>
@@ -197,7 +197,7 @@ const StudentOverview = ({
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
             whileHover={{ scale: 1.05, boxShadow: "0px 15px 30px rgba(0,0,0,0.15)" }}
-            className={`rounded-full shadow-[0_10px_40px_rgb(0,0,0,0.12)] w-[160px] h-[160px] relative shrink-0 border-[8px] transition-colors duration-500 ${daysStudied >= 7 ? 'border-[#F97316] shadow-[#F97316]/30' : daysStudied >= 3 ? 'border-[#00D4FF] shadow-[#00D4FF]/30' : isDarkMode ? 'border-slate-700' : 'border-white'}`}
+            className={`rounded-full shadow-[0_10px_40px_rgb(0,0,0,0.12)] w-[160px] h-[160px] relative shrink-0 border-[8px] transition-colors duration-500 ${daysStudied >= 7 ? 'border-[#00D4FF] shadow-[#00D4FF]/30' : daysStudied >= 3 ? 'border-[#00D4FF] shadow-[#00D4FF]/30' : isDarkMode ? 'border-slate-700' : 'border-white'}`}
           >
              <img 
                src={user?.avatar && user.avatar !== 'default-avatar.png' ? (user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`) : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'Student')}&background=F97316&color=fff&size=256&font-size=0.4`}
@@ -215,7 +215,7 @@ const StudentOverview = ({
             className={`p-5 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.06)] flex flex-col justify-center w-[150px] h-[160px] ${isDarkMode ? 'bg-[#1E293B] border border-slate-700' : 'bg-[#FFFFFF] border border-[#E5E7EB]'}`}
           >
             <div className="flex items-center gap-2 mb-2">
-              <Flame className="w-8 h-8 text-[#F97316]" fill="#F97316" />
+              <Flame className="w-8 h-8 text-[#00D4FF]" fill="#00D4FF" />
               <span className={`text-[32px] leading-none font-black ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>{daysStudied || 0}</span>
             </div>
             <span className={`text-[13px] font-bold ${isDarkMode ? 'text-slate-400' : 'text-[#6B7280]'}`}>Day Streak</span>
@@ -223,7 +223,7 @@ const StudentOverview = ({
               {daysStudied >= 7 ? "You're on fire! 🔥" : daysStudied >= 3 ? "Keep it up!" : "Start a streak!"}
             </span>
             <div className="w-full h-2 bg-[#F5F7FF] dark:bg-slate-800 rounded-full overflow-hidden">
-              <div className="h-full bg-[#F97316] rounded-full transition-all duration-1000" style={{ width: `${Math.min(100, (daysStudied / 7) * 100)}%` }}></div>
+              <div className="h-full bg-[#00D4FF] rounded-full transition-all duration-1000" style={{ width: `${Math.min(100, (daysStudied / 7) * 100)}%` }}></div>
             </div>
           </motion.div>
         </div>
@@ -235,7 +235,7 @@ const StudentOverview = ({
           { title: 'Enrolled Courses', value: totalEnrolled.toString(), subtitle: 'Courses', trend: '', icon: ({className}) => <BookOpen className={className} fill="currentColor" strokeWidth={1} />, color: 'text-emerald-500', bg: 'bg-emerald-50 dark:bg-emerald-500/10' },
           { title: 'Average Progress', value: `${averageProgress}%`, subtitle: 'Across all courses', trend: '', icon: ({className}) => <TrendingUp className={className} strokeWidth={2.5} />, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-500/10' },
           { title: 'Completed Lessons', value: totalLessonsCompleted.toString(), subtitle: 'Lessons', trend: '', icon: ({className}) => <CheckCircle className={className} fill="currentColor" stroke="white" strokeWidth={1.5} />, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-500/10' },
-          { title: 'Certificates', value: certificateTotal.toString(), subtitle: certificateSubtitle, action: 'View all certificates →', icon: ({className}) => <Award className={className} fill="currentColor" strokeWidth={1} />, color: 'text-[#F97316]', bg: 'bg-orange-50 dark:bg-[#F97316]/10' },
+          { title: 'Certificates', value: certificateTotal.toString(), subtitle: certificateSubtitle, action: 'View all certificates →', icon: ({className}) => <Award className={className} fill="currentColor" strokeWidth={1} />, color: 'text-[#00D4FF]', bg: 'bg-orange-50 dark:bg-[#00D4FF]/10' },
         ].map((stat, i) => (
           <motion.div key={i} variants={itemVariants} className={`p-6 rounded-[24px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
             <div className="flex items-start gap-4">
@@ -255,7 +255,7 @@ const StudentOverview = ({
                      <p className="text-[11px] font-bold text-emerald-500">{stat.trend}</p>
                    )}
                    {stat.action && (
-                     <button onClick={toggleCertificateDropdown} className="text-[11px] font-bold text-[#F97316] hover:underline text-left">
+                     <button onClick={toggleCertificateDropdown} className="text-[11px] font-bold text-[#00D4FF] hover:underline text-left">
                        {stat.action}
                      </button>
                    )}
@@ -269,16 +269,16 @@ const StudentOverview = ({
       <PremiumModal isOpen={certificateDropdownOpen} onClose={() => setCertificateDropdownOpen(false)} maxWidth="max-w-2xl">
                  <div className="flex flex-col w-full h-full p-6 md:p-8">
              {/* Brand Background Decorative Elements */}
-             <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#F97316]/10 to-transparent pointer-events-none z-0"></div>
+             <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
              <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
-             <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#F97316]/20 blur-[80px] pointer-events-none z-0"></div>
+             <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
 
              <div className="relative z-10 flex flex-col flex-1 max-h-[85vh] overflow-hidden">
               {/* Header */}
               <div className="flex items-start justify-between pb-6 border-b border-slate-200/50 dark:border-slate-700/50">
                 <div className="flex items-center gap-4">
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${isDarkMode ? 'bg-[#1E293B] border border-slate-700' : 'bg-orange-50 border border-orange-100'}`}>
-                    <Award className="w-6 h-6 text-[#F97316]" />
+                    <Award className="w-6 h-6 text-[#00D4FF]" />
                   </div>
                   <div>
                     <h3 className={`text-xl font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Your Certificates</h3>
@@ -301,15 +301,15 @@ const StudentOverview = ({
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <h4 className={`text-xs font-bold uppercase tracking-widest ${isDarkMode ? 'text-orange-400' : 'text-orange-600'}`}>Ready to Claim</h4>
-                      <span className={`text-[11px] font-bold px-2.5 py-1 rounded-md ${isDarkMode ? 'bg-orange-500/20 text-orange-300' : 'bg-orange-100 text-orange-700'}`}>{readyCertificates.length} Available</span>
+                      <span className={`text-[11px] font-bold px-2.5 py-1 rounded-md ${isDarkMode ? 'bg-[#00D4FF]/20 text-orange-300' : 'bg-orange-100 text-orange-700'}`}>{readyCertificates.length} Available</span>
                     </div>
                     <div className="grid gap-3">
                       {readyCertificates.map((course) => {
                         const courseId = course.course?.id || course.courseId;
                         return (
-                          <div key={courseId} className={`rounded-[20px] border p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:shadow-lg ${isDarkMode ? 'border-slate-700/50 bg-[#121A2F]/80 hover:bg-[#121A2F]' : 'border-slate-200/80 bg-white hover:border-[#F97316]/30'}`}>
+                          <div key={courseId} className={`rounded-[20px] border p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:shadow-lg ${isDarkMode ? 'border-slate-700/50 bg-[#121A2F]/80 hover:bg-[#121A2F]' : 'border-slate-200/80 bg-white hover:border-[#00D4FF]/30'}`}>
                             <div className="flex items-center gap-4">
-                              <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${isDarkMode ? 'bg-orange-500/10 text-orange-400' : 'bg-orange-50 text-orange-500'}`}>
+                              <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${isDarkMode ? 'bg-[#00D4FF]/10 text-orange-400' : 'bg-orange-50 text-[#00D4FF]'}`}>
                                 <Star className="w-5 h-5 fill-current" />
                               </div>
                               <div>
@@ -320,7 +320,7 @@ const StudentOverview = ({
                             <button
                               onClick={() => handleClaimCertificate(courseId)}
                               disabled={claimingCertificateId === courseId}
-                              className={`shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-sm flex items-center justify-center gap-2 ${claimingCertificateId === courseId ? 'bg-slate-300 text-slate-700 cursor-not-allowed' : 'bg-[#F97316] hover:bg-[#EA580C] text-white hover:shadow-[#F97316]/20 hover:shadow-lg hover:-translate-y-0.5'}`}
+                              className={`shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-sm flex items-center justify-center gap-2 ${claimingCertificateId === courseId ? 'bg-slate-300 text-slate-700 cursor-not-allowed' : 'bg-[#00D4FF] hover:bg-[#EA580C] text-white hover:shadow-[#00D4FF]/20 hover:shadow-lg hover:-translate-y-0.5'}`}
                             >
                               {claimingCertificateId === courseId ? (
                                 <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> Issuing...</>
@@ -374,7 +374,7 @@ const StudentOverview = ({
                     </p>
                     <button 
                       onClick={() => { setCertificateDropdownOpen(false); setActiveTab('courses'); }} 
-                      className="mt-8 px-8 py-3.5 rounded-full bg-[#F97316] text-white font-bold hover:bg-[#EA580C] shadow-lg shadow-[#F97316]/20 transition-all hover:-translate-y-1"
+                      className="mt-8 px-8 py-3.5 rounded-full bg-[#00D4FF] text-white font-bold hover:bg-[#EA580C] shadow-lg shadow-[#00D4FF]/20 transition-all hover:-translate-y-1"
                     >
                       Browse Courses
                     </button>
@@ -419,7 +419,7 @@ const StudentOverview = ({
                  <defs>
                    <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                      <stop offset="0%" stopColor="#FDBA74" />
-                     <stop offset="100%" stopColor="#F97316" />
+                     <stop offset="100%" stopColor="#00D4FF" />
                    </linearGradient>
                  </defs>
                </svg>
@@ -444,7 +444,7 @@ const StudentOverview = ({
                  <span className={`text-[9px] ${mutedTextClass}`}>Courses</span>
                </div>
                <div className="flex flex-col items-center">
-                 <span className="text-[#F97316] font-bold text-[10px] mb-1">Certificates</span>
+                 <span className="text-[#00D4FF] font-bold text-[10px] mb-1">Certificates</span>
                  <span className={`text-lg font-black ${textClass}`}>{certificateEarned}</span>
                  <span className={`text-[9px] ${mutedTextClass}`}>Earned</span>
                </div>
@@ -466,7 +466,7 @@ const StudentOverview = ({
           </div>
           
           <div className="flex items-center gap-2 mb-6">
-             <Target className="w-4 h-4 text-[#F97316] shrink-0" />
+             <Target className="w-4 h-4 text-[#00D4FF] shrink-0" />
              <span className={`text-[11px] font-bold ${mutedTextClass}`}>Goal: {studyGoal} hours</span>
           </div>
 
@@ -538,7 +538,7 @@ const StudentOverview = ({
                <div className="space-y-3 w-full">
                  {dashboardStats.certificates.slice(0, 3).map((cert, idx) => (
                    <div key={idx} className={`flex items-center gap-3 p-3 rounded-xl border ${isDarkMode ? 'bg-[#121A2F] border-slate-700' : 'bg-slate-50 border-slate-100'}`}>
-                     <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isDarkMode ? 'bg-orange-500/10 text-orange-400' : 'bg-orange-100 text-orange-600'}`}>
+                     <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${isDarkMode ? 'bg-[#00D4FF]/10 text-orange-400' : 'bg-orange-100 text-orange-600'}`}>
                        <Award className="w-5 h-5" />
                      </div>
                      <div className="flex-1 min-w-0">
@@ -575,7 +575,7 @@ const StudentOverview = ({
                      {/* Gold Seal & Ribbon */}
                      <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-center">
                         <div className="w-7 h-10 bg-slate-400 dark:bg-slate-500 absolute top-4 z-0" style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%)" }}></div>
-                        <div className="w-10 h-10 rounded-full bg-[#F97316] border-[3px] border-orange-200 dark:border-orange-900 shadow-sm z-10 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-[#00D4FF] border-[3px] border-orange-200 dark:border-orange-900 shadow-sm z-10 flex items-center justify-center">
                            <div className="w-5 h-5 rounded-full border-2 border-orange-300 dark:border-orange-800 opacity-50"></div>
                         </div>
                      </div>
@@ -598,7 +598,7 @@ const StudentOverview = ({
                     </p>
                     <button 
                       onClick={() => setActiveTab('courses')}
-                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 ${isDarkMode ? 'bg-[#F97316] hover:bg-[#EA580C] text-white' : 'bg-[#F97316] hover:bg-[#EA580C] text-white'} shadow-sm`}
+                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 ${isDarkMode ? 'bg-[#00D4FF] hover:bg-[#EA580C] text-white' : 'bg-[#00D4FF] hover:bg-[#EA580C] text-white'} shadow-sm`}
                     >
                       Start Now
                     </button>
@@ -613,7 +613,7 @@ const StudentOverview = ({
                     </p>
                     <button 
                       onClick={() => setActiveTab('certificates')}
-                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 bg-[#F97316] hover:bg-[#EA580C] text-white shadow-sm`}
+                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 bg-[#00D4FF] hover:bg-[#EA580C] text-white shadow-sm`}
                     >
                       Claim Now ({certificateReady})
                     </button>
@@ -628,7 +628,7 @@ const StudentOverview = ({
                     </p>
                     <button 
                       onClick={() => setActiveTab('certificates')}
-                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 ${isDarkMode ? 'bg-[#F97316] hover:bg-[#EA580C] text-white' : 'bg-[#F97316] hover:bg-[#EA580C] text-white'} shadow-sm`}
+                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 ${isDarkMode ? 'bg-[#00D4FF] hover:bg-[#EA580C] text-white' : 'bg-[#00D4FF] hover:bg-[#EA580C] text-white'} shadow-sm`}
                     >
                       View Certificates
                     </button>
@@ -640,14 +640,14 @@ const StudentOverview = ({
                     </h4>
                     <button 
                       onClick={() => setActiveTab('certificates')}
-                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 bg-[#F97316] hover:bg-[#EA580C] text-white shadow-sm`}
+                      className={`w-full py-3 rounded-[10px] font-bold text-[13px] transition-all mb-5 bg-[#00D4FF] hover:bg-[#EA580C] text-white shadow-sm`}
                     >
                       Claim Now ({certificateReady})
                     </button>
                   </>
                 )}
                 
-                <button onClick={toggleCertificateDropdown} className="text-[11px] font-medium text-[#F97316] hover:underline flex items-center justify-center gap-1">
+                <button onClick={toggleCertificateDropdown} className="text-[11px] font-medium text-[#00D4FF] hover:underline flex items-center justify-center gap-1">
                   View all certificates <span className="text-[12px]">→</span>
                 </button>
               </div>
@@ -676,7 +676,7 @@ const StudentOverview = ({
                 <div className={`w-10 h-10 rounded-[0.8rem] flex items-center justify-center shrink-0 border ${
                   idx === 0 ? 'bg-indigo-50 border-indigo-100 text-indigo-500 dark:bg-indigo-500/10 dark:border-indigo-500/20' : 
                   idx === 1 ? 'bg-emerald-50 border-emerald-100 text-emerald-500 dark:bg-emerald-500/10 dark:border-emerald-500/20' : 
-                  'bg-orange-50 border-orange-100 text-orange-500 dark:bg-orange-500/10 dark:border-orange-500/20'
+                  'bg-orange-50 border-orange-100 text-[#00D4FF] dark:bg-[#00D4FF]/10 dark:border-[#00D4FF]/20'
                 }`}>
                   {idx === 0 ? <Atom className="w-5 h-5" /> : idx === 1 ? <Code className="w-5 h-5" /> : <Calculator className="w-5 h-5" />}
                 </div>
@@ -722,11 +722,11 @@ const StudentOverview = ({
                <div key={i} className={`flex flex-col items-center text-center p-4 md:py-6 rounded-[24px] ${isDarkMode ? ach.darkBg : ach.lightBg || 'bg-slate-50'}`}>
                  <div className="relative mb-5 flex items-center justify-center">
                     {/* Glowing Aura */}
-                    <div className="absolute inset-0 blur-xl opacity-40 scale-150" style={{ backgroundColor: ach.color || '#F97316' }}></div>
+                    <div className="absolute inset-0 blur-xl opacity-40 scale-150" style={{ backgroundColor: ach.color || '#00D4FF' }}></div>
                     
                     {/* Hexagon Badge */}
                     <div className="relative w-14 h-14 flex items-center justify-center z-10" 
-                         style={{ backgroundColor: ach.color || '#F97316', clipPath: "polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)" }}>
+                         style={{ backgroundColor: ach.color || '#00D4FF', clipPath: "polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)" }}>
                       
                       {/* Inner border effect */}
                       <div className="w-[48px] h-[48px] flex items-center justify-center border-[1.5px] border-white/30"
@@ -756,7 +756,7 @@ const StudentOverview = ({
         <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[32px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
           <div className="flex justify-between items-center mb-6">
             <h3 className={`text-[15px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>Recent Messages</h3>
-            <button onClick={() => setActiveTab('message')} className={`text-[12px] font-bold flex items-center gap-1 px-3 py-1 rounded-full border transition-all ${isDarkMode ? 'text-blue-400 border-orange-500/30 hover:bg-orange-500/10' : 'text-blue-500 border-orange-200 hover:bg-orange-50'}`}>
+            <button onClick={() => setActiveTab('message')} className={`text-[12px] font-bold flex items-center gap-1 px-3 py-1 rounded-full border transition-all ${isDarkMode ? 'text-blue-400 border-[#00D4FF]/30 hover:bg-[#00D4FF]/10' : 'text-blue-500 border-orange-200 hover:bg-orange-50'}`}>
               Open Chat <ChevronRight className="w-3 h-3" />
             </button>
           </div>
@@ -764,7 +764,7 @@ const StudentOverview = ({
           <div className="flex-1 flex flex-col gap-4">
             {loadingMessages ? (
               <div className="flex-1 flex items-center justify-center">
-                 <div className="animate-spin w-6 h-6 border-2 border-[#F97316] border-t-transparent rounded-full"></div>
+                 <div className="animate-spin w-6 h-6 border-2 border-[#00D4FF] border-t-transparent rounded-full"></div>
               </div>
             ) : recentContacts.length === 0 ? (
               <div className={`flex-1 flex flex-col items-center justify-center text-center p-4 text-[12px] font-medium ${mutedTextClass}`}>
@@ -861,12 +861,12 @@ const StudentOverview = ({
       {/* Messages Modal */}
       <PremiumModal isOpen={messagesModalOpen} onClose={() => setMessagesModalOpen(false)} maxWidth="max-w-2xl">
         <div className="flex flex-col w-full h-full p-6 md:p-8">
-          <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#F97316]/10 to-transparent pointer-events-none z-0"></div>
+          <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
           <div className="relative z-10 flex flex-col flex-1 max-h-[85vh] overflow-hidden">
             <div className="flex items-start justify-between pb-6 border-b border-slate-200/50 dark:border-slate-700/50">
               <div className="flex items-center gap-4">
                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${isDarkMode ? 'bg-[#1E293B] border border-slate-700' : 'bg-orange-50 border border-orange-100'}`}>
-                  <MessageSquare className="w-6 h-6 text-[#F97316]" />
+                  <MessageSquare className="w-6 h-6 text-[#00D4FF]" />
                 </div>
                 <div>
                   <h3 className={`text-xl font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>All Recent Messages</h3>
@@ -887,7 +887,7 @@ const StudentOverview = ({
                 </div>
               ) : (
                 allRecentContacts.map((contact, idx) => (
-                  <div key={idx} onClick={() => { setMessagesModalOpen(false); setActiveTab('message'); }} className={`flex items-center gap-4 p-4 rounded-[20px] border cursor-pointer transition-all ${isDarkMode ? 'border-slate-700 bg-[#121A2F]/50 hover:bg-[#121A2F]' : 'border-slate-200 bg-white hover:border-[#F97316]/30'}`}>
+                  <div key={idx} onClick={() => { setMessagesModalOpen(false); setActiveTab('message'); }} className={`flex items-center gap-4 p-4 rounded-[20px] border cursor-pointer transition-all ${isDarkMode ? 'border-slate-700 bg-[#121A2F]/50 hover:bg-[#121A2F]' : 'border-slate-200 bg-white hover:border-[#00D4FF]/30'}`}>
                     <div className="relative">
                       <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-white dark:border-[#0B1D3A] shadow-sm bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15] p-[2px]">
                          <div className="w-full h-full rounded-full bg-white dark:bg-[#1E293B] flex items-center justify-center text-[16px] font-bold text-blue-500 overflow-hidden">

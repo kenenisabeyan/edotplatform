@@ -19,7 +19,7 @@ import COURSE_CATEGORIES, { MAIN_CATEGORIES } from '../constants/courseCategorie
 const CATEGORY_DETAILS = {
   "Social Science": {
     icon: Globe,
-    color: "#F97316", // Orange
+    color: "#00D4FF", // Orange
     darkColor: "#C2410C",
     ribbon: "SOCIAL SCIENCE",
     description: "This curriculum path is designed to enable learners to travel inside human society, increasing awareness to grow understanding of history, behavior, and structural consciousness.",
@@ -51,7 +51,7 @@ const CATEGORY_DETAILS = {
   },
   "Business & Entrepreneurship": {
     icon: Target,
-    color: "#F97316", // Yellow
+    color: "#00D4FF", // Yellow
     darkColor: "#CA8A04",
     ribbon: "BUSINESS",
     description: "This premium curriculum enables future leaders to navigate markets independently. It helps construct financial stability, leadership, and powerful entrepreneurial ecosystems.",
@@ -120,7 +120,7 @@ const CentralEDOTLogo = () => {
   const isDarkMode = useThemeMode();
   return (
   <div className="flex flex-col items-center justify-center relative w-full h-full z-20 scale-[0.88] hover:scale-[0.93] transition-transform duration-500">
-    <div className="absolute inset-0 bg-gradient-to-b from-[#F97316] to-[#F97316] opacity-30 blur-2xl rounded-full"></div>
+    <div className="absolute inset-0 bg-gradient-to-b from-[#00D4FF] to-[#00D4FF] opacity-30 blur-2xl rounded-full"></div>
     {/* Hexagon Shape */}
     <div 
        className="w-full h-full bg-gradient-to-b from-[#00D4FF] to-[#0099CC] shadow-[0_0_50px_rgba(0,212,255,0.6)] flex flex-col items-center justify-center p-[4px] relative z-10"
@@ -134,7 +134,7 @@ const CentralEDOTLogo = () => {
          <div className={`absolute right-0 top-0 w-1/2 h-full bg-white/5 pointer-events-none border-l ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}></div>
          
          <div className="relative z-10 text-center flex flex-col items-center justify-center mt-3">
-           <span className={`font-black text-2xl md:text-4xl tracking-[0.1em] drop-shadow-md pb-1 border-b-2 border-[#F97316] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>EDOT</span>
+           <span className={`font-black text-2xl md:text-4xl tracking-[0.1em] drop-shadow-md pb-1 border-b-2 border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>EDOT</span>
            <div className={`w-20 h-20 md:w-[120px] md:h-[120px] rounded-full mt-4 mx-auto shadow-xl flex items-center justify-center overflow-hidden border-[4px] ${isDarkMode ? 'bg-white border-[#0B1120]' : 'bg-white border-slate-100'}`}>
              <img src={edotLogo} alt="EDOT Hub" className="w-full h-full object-contain scale-90" />
            </div>
@@ -539,9 +539,9 @@ export default function Courses() {
                <div>
                   <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-[#1A202C]'}`}>
                      Explore Structured <br className="hidden md:block" />
-                     <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+                     <span className="text-[#00D4FF] relative inline-block mt-2 whitespace-nowrap">
                         <span className="relative z-10">Learning Paths</span>
-                        <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316] z-0"></div>
+                        <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#00D4FF] z-0"></div>
                      </span>
                   </h1>
                   <p className={`text-xl md:text-[20px] font-medium max-w-3xl mx-auto lg:mx-0 leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -569,7 +569,7 @@ export default function Courses() {
                </div>
             </div>
             <div className="text-left">
-               <div className="w-16 h-16 bg-[#F97316] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
+               <div className="w-16 h-16 bg-[#00D4FF] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
                   <Target className="w-8 h-8" />
                </div>
             <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Not Just Courses — Structured Learning</h2>
@@ -832,7 +832,7 @@ export default function Courses() {
               {/* Built for Real Progress */}
               <div className={`p-10 rounded-[40px] border relative overflow-hidden group ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-[#FFF8F0] border-orange-100'}`}>
                  <div className="relative z-10">
-                    <div className="w-16 h-16 bg-[#F97316] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
+                    <div className="w-16 h-16 bg-[#00D4FF] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
                        <CheckCircle className="w-8 h-8" />
                     </div>
                     <h3 className={`text-3xl font-black mb-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Built for Real Progress</h3>
@@ -842,7 +842,7 @@ export default function Courses() {
                     <ul className="space-y-4">
                        {['Step-by-step modules', 'Video lessons and resources', 'Quizzes and assessments', 'Progress tracking dashboard', 'Instructor support and feedback'].map((item, i) => (
                           <li key={i} className="flex items-center gap-3">
-                             <CheckCircle className="w-5 h-5 text-[#F97316]" />
+                             <CheckCircle className="w-5 h-5 text-[#00D4FF]" />
                              <span className={`font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-800'}`}>{item}</span>
                           </li>
                        ))}
@@ -899,7 +899,7 @@ export default function Courses() {
         <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-slate-50 border-slate-200'}`}>
            <div className="max-w-[1000px] mx-auto text-center">
               <h2 className={`text-5xl md:text-6xl font-black mb-8 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                 Start Your <span className="text-[#F97316]">Learning Journey</span>
+                 Start Your <span className="text-[#00D4FF]">Learning Journey</span>
               </h2>
               <p className={`text-2xl mb-12 max-w-2xl mx-auto font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                  Choose your path, follow structured learning, and build skills that matter.
@@ -909,7 +909,7 @@ export default function Courses() {
                  <button onClick={() => document.getElementById('course-catalog').scrollIntoView({ behavior: 'smooth' })} className="bg-[#0B1120] text-white dark:bg-white dark:text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:bg-slate-700 dark:hover:bg-slate-200 hover:-translate-y-1 transition-all duration-300 shadow-xl">
                    Explore Courses
                  </button>
-                 <Link to="/register" className="bg-[#F97316] text-[#ffffff] px-10 py-4 rounded-full font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">
+                 <Link to="/register" className="bg-[#00D4FF] text-[#ffffff] px-10 py-4 rounded-full font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">
                    Start Learning <ChevronRight className="w-5 h-5" />
                  </Link>
               </div>

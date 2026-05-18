@@ -144,7 +144,7 @@ export default function CertificatesView() {
     doc.rect(0, 0, 297, 210, 'F');
     
     // Outer Orange Border
-    doc.setDrawColor(249, 115, 22); // #F97316
+    doc.setDrawColor(249, 115, 22); // #00D4FF
     doc.setLineWidth(1);
     doc.rect(5, 5, 287, 200);
     // Inner Orange Border
@@ -394,7 +394,7 @@ export default function CertificatesView() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className={`w-10 h-10 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+        <div className={`w-10 h-10 border-4 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
       </div>
     );
   }
@@ -406,7 +406,7 @@ export default function CertificatesView() {
         <p className="text-sm mb-6">{error}</p>
         <button
           onClick={fetchData}
-          className="inline-flex items-center justify-center rounded-full-full bg-[#F97316] px-6 py-3 text-sm font-bold text-white hover:bg-[#EA580C]"
+          className="inline-flex items-center justify-center rounded-full-full bg-[#00D4FF] px-6 py-3 text-sm font-bold text-white hover:bg-[#EA580C]"
         >
           Retry
         </button>
@@ -473,7 +473,7 @@ export default function CertificatesView() {
                     <div key={`claim-${courseId}`} className={`rounded-3xl border p-6 shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
                       <div className="flex items-center gap-4 mb-4">
                         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${isDarkMode ? 'bg-[#1E2A44]' : 'bg-slate-100'}`}>
-                          <Award className="w-7 h-7 text-[#F97316]" />
+                          <Award className="w-7 h-7 text-[#00D4FF]" />
                         </div>
                         <div>
                           <h3 className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{enrollment.course?.title || 'Completed Course'}</h3>
@@ -486,7 +486,7 @@ export default function CertificatesView() {
                       <button
                         onClick={() => handleClaimCertificate(courseId)}
                         disabled={claimingCourseId === courseId}
-                        className={`w-full inline-flex justify-center items-center gap-2 rounded-full px-5 py-3 font-bold transition ${claimingCourseId === courseId ? 'bg-slate-500 text-white cursor-wait' : 'bg-[#F97316] hover:bg-[#EA580C] text-white'}`}
+                        className={`w-full inline-flex justify-center items-center gap-2 rounded-full px-5 py-3 font-bold transition ${claimingCourseId === courseId ? 'bg-slate-500 text-white cursor-wait' : 'bg-[#00D4FF] hover:bg-[#EA580C] text-white'}`}
                       >
                         {claimingCourseId === courseId ? 'Claiming…' : 'Claim Certificate'}
                       </button>
@@ -543,7 +543,7 @@ export default function CertificatesView() {
                     </div>
                     <button
                       onClick={() => window.open(`/course/${enrollment.course?.id || getCourseId(enrollment)}`, '_blank')}
-                      className={`inline-flex justify-center w-full items-center gap-2 rounded-full px-4 py-3 font-bold transition ${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-[#F97316] hover:bg-[#EA580C] text-white'}`}
+                      className={`inline-flex justify-center w-full items-center gap-2 rounded-full px-4 py-3 font-bold transition ${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-[#00D4FF] hover:bg-[#EA580C] text-white'}`}
                     >
                       Continue Course
                     </button>

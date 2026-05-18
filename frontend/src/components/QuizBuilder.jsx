@@ -33,7 +33,7 @@ export default function QuizBuilder({ quiz, setQuiz, title = "Mini-Quiz Question
   return (
     <div className={`border !rounded-[32px] p-6 mt-6 shadow-inner backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
       <h4 className={`font-bold text-lg mb-5 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-        <div className="w-2 h-6 bg-[#F97316] rounded-full"></div>
+        <div className="w-2 h-6 bg-[#00D4FF] rounded-full"></div>
         {title}
       </h4>
       
@@ -54,7 +54,7 @@ export default function QuizBuilder({ quiz, setQuiz, title = "Mini-Quiz Question
               required
               value={q.question}
               onChange={(e) => updateQuestion(qIndex, 'question', e.target.value)}
-              className={`w-full px-4 py-3 border !rounded-full focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 outline-none font-semibold placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
+              className={`w-full px-4 py-3 border !rounded-full focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/50 outline-none font-semibold placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}
               placeholder="e.g., What is the primary purpose of React?"
             />
           </div>

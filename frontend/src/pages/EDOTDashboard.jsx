@@ -86,6 +86,15 @@ export default function EDOTDashboard() {
     refetchInterval: 30000
   });
 
+  const { data: sectionsData = [] } = useQuery({
+    queryKey: ['dashboardSections'],
+    queryFn: async () => {
+      const { data } = await api.get('/sections');
+      return data.data || [];
+    },
+    enabled: userRole === 'admin'
+  });
+
   const loading = loadingStats && userRole !== 'sponsor';
 
   const SmartCard = ({ title, value, icon: Icon }) => {
@@ -198,7 +207,7 @@ export default function EDOTDashboard() {
       lines: [
         { key: 'courses', name: 'Courses', color: '#00D4FF' },
         { key: 'students', name: 'Students', color: '#10B981' },
-        { key: 'revenue', name: 'Revenue', color: '#F97316' }
+        { key: 'revenue', name: 'Revenue', color: '#00D4FF' }
       ]
     };
     widgetConfig = {
@@ -227,7 +236,7 @@ export default function EDOTDashboard() {
     
     const instructorLines = [];
     if (stats?.courseNames?.[0]) instructorLines.push({ key: 'value1', name: stats.courseNames[0], color: '#00D4FF' });
-    if (stats?.courseNames?.[1]) instructorLines.push({ key: 'value2', name: stats.courseNames[1], color: '#F97316' });
+    if (stats?.courseNames?.[1]) instructorLines.push({ key: 'value2', name: stats.courseNames[1], color: '#00D4FF' });
     if (stats?.courseNames?.[2]) instructorLines.push({ key: 'value3', name: stats.courseNames[2], color: '#E30A17' });
 
     areaConfig = {
@@ -259,12 +268,12 @@ export default function EDOTDashboard() {
       title: 'Academic Progress Ring',
       valStr: `${stats?.percentile || 0}%\nPROGRESS`,
       valNum: stats?.percentile || 0,
-      ringColor: '#F97316'
+      ringColor: '#00D4FF'
     };
     areaConfig = {
       title: 'Weekly Study Goal',
       data: stats?.weeklyStudyData || [],
-      lines: [{ key: 'hours', name: 'Study Hours', color: '#F97316' }]
+      lines: [{ key: 'hours', name: 'Study Hours', color: '#00D4FF' }]
     };
     widgetConfig = {
       type: 'claim',
@@ -320,7 +329,7 @@ export default function EDOTDashboard() {
     areaConfig = {
       title: 'Milestone Timeline',
       data: stats?.performanceTimeline || [],
-      lines: [{ key: 'progress', name: 'Growth', color: '#00D4FF' }, { key: 'target', name: 'Target', color: '#F97316' }]
+      lines: [{ key: 'progress', name: 'Growth', color: '#00D4FF' }, { key: 'target', name: 'Target', color: '#00D4FF' }]
     };
     widgetConfig = {
       type: 'communication',
@@ -505,7 +514,7 @@ export default function EDOTDashboard() {
             {userRole === 'instructor' && (
               <button 
                 onClick={() => navigate('/dashboard/builder')}
-                className="px-4 py-2 rounded-lg border border-[#F97316] text-[#F97316] font-semibold hover:bg-[#F97316]/20 shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all"
+                className="px-4 py-2 rounded-lg border border-[#00D4FF] text-[#00D4FF] font-semibold hover:bg-[#00D4FF]/20 shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all"
               >
                 + Create New Course
               </button>
@@ -513,7 +522,7 @@ export default function EDOTDashboard() {
             {userRole === 'student' && (
               <button 
                 onClick={() => navigate('/dashboard/courses')}
-                className="px-4 py-2 rounded-lg border border-[#F97316] text-[#F97316] font-semibold hover:bg-[#F97316]/10 shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all"
+                className="px-4 py-2 rounded-lg border border-[#00D4FF] text-[#00D4FF] font-semibold hover:bg-[#00D4FF]/10 shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all"
               >
                 + Start a Lesson
               </button>
@@ -763,15 +772,15 @@ export default function EDOTDashboard() {
                        <rect x="20" y="25" width="40" height="50" rx="4" fill="#E2E8F0" />
                        <rect x="30" y="15" width="45" height="55" rx="4" fill="#CBD5E1" />
                        <rect x="40" y="20" width="50" height="60" rx="4" fill="#F8FAFC" />
-                       <circle cx="65" cy="50" r="12" fill="#F97316" />
+                       <circle cx="65" cy="50" r="12" fill="#00D4FF" />
                        <circle cx="65" cy="50" r="9" fill="#FDE047" />
                        <circle cx="65" cy="50" r="6" fill="#FEF08A" />
-                       <path d="M57 60 L61 75 L65 70 L69 75 L73 60" fill="#F97316" />
+                       <path d="M57 60 L61 75 L65 70 L69 75 L73 60" fill="#00D4FF" />
                      </svg>
                    </div>
                    <button 
                      onClick={() => navigate('/dashboard/certificates')}
-                     className="w-full py-3 bg-[#F97316] hover:bg-[#F97316] text-[#0B1120] font-bold rounded-xl transition-colors text-sm shadow-[0_0_15px_rgba(255,215,0,0.3)]"
+                     className="w-full py-3 bg-[#00D4FF] hover:bg-[#00D4FF] text-[#0B1120] font-bold rounded-xl transition-colors text-sm shadow-[0_0_15px_rgba(255,215,0,0.3)]"
                    >
                      {widgetConfig.action}
                    </button>
@@ -786,12 +795,12 @@ export default function EDOTDashboard() {
                    <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />
                  </div>
                  <div className="flex-1 flex flex-col items-center justify-center text-center">
-                   <div className="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-[#00D4FF]/20 to-[#F97316]/20 flex items-center justify-center border border-[#F97316]/30">
-                     <Mail className="w-10 h-10 text-[#F97316]" />
+                   <div className="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-[#00D4FF]/20 to-[#00D4FF]/20 flex items-center justify-center border border-[#00D4FF]/30">
+                     <Mail className="w-10 h-10 text-[#00D4FF]" />
                    </div>
                    <button 
                      onClick={() => navigate('/dashboard/messages')}
-                     className="w-full py-3 border-2 border-[#F97316] text-[#F97316] hover:bg-[#F97316] hover:text-[#0B1120] font-bold rounded-xl transition-all text-sm shadow-[inset_0_0_15px_rgba(255,215,0,0.1)]"
+                     className="w-full py-3 border-2 border-[#00D4FF] text-[#00D4FF] hover:bg-[#00D4FF] hover:text-[#0B1120] font-bold rounded-xl transition-all text-sm shadow-[inset_0_0_15px_rgba(255,215,0,0.1)]"
                    >
                      {widgetConfig.action}
                    </button>
@@ -908,7 +917,7 @@ export default function EDOTDashboard() {
             <div className="grid gap-3">
               <button onClick={() => navigate('/dashboard/builder')} className="w-full rounded-2xl border border-[#0EA5E9] bg-[#0EA5E9]/10 text-[#0EA5E9] py-3 font-semibold">Create Course</button>
               <button onClick={() => navigate('/dashboard/approvals')} className="w-full rounded-2xl border border-[#34D399] bg-[#34D399]/10 text-[#065F46] py-3 font-semibold">Approve Course</button>
-              <button onClick={() => navigate('/dashboard/users')} className="w-full rounded-2xl border border-[#F97316] bg-[#F97316]/10 text-[#92400E] py-3 font-semibold">Add Instructor</button>
+              <button onClick={() => navigate('/dashboard/users')} className="w-full rounded-2xl border border-[#00D4FF] bg-[#00D4FF]/10 text-[#92400E] py-3 font-semibold">Add Instructor</button>
               <button onClick={() => navigate('/dashboard/notice')} className="w-full rounded-2xl border border-[#8B5CF6] bg-[#8B5CF6]/10 text-[#5B21B6] py-3 font-semibold">Broadcast Message</button>
             </div>
             <div className="mt-6 relative">
@@ -939,6 +948,49 @@ export default function EDOTDashboard() {
                   </div>
                 )}
               </div>
+            </div>
+
+            {/* Active Sections */}
+            <div className="mt-6 relative border-t pt-5 dark:border-white/10 border-slate-200">
+              <div className="flex justify-between items-center mb-4">
+                <h4 className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Active Sections</h4>
+                <div className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${isDarkMode ? 'bg-[#00D4FF]/20 text-[#00D4FF]' : 'bg-cyan-100 text-cyan-600'}`}>{sectionsData.length} total</div>
+              </div>
+              <div className="space-y-3">
+                {sectionsData.length > 0 ? [...sectionsData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3).map((sec, idx) => (
+                  <div key={`quick-sec-${idx}`} className={`rounded-2xl p-4 border transition-colors hover:border-[#00D4FF]/50 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/50 shadow-sm' : 'border-slate-200 bg-white shadow-sm hover:shadow-md'}`}>
+                    <p className={`text-sm font-black flex items-center gap-2 mb-1.5 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00D4FF]'}`}>
+                      <Users className="w-4 h-4" /> {sec.name || 'Unnamed Section'}
+                    </p>
+                    <p className={`text-[11px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Course: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.course?.title || 'Unknown'}</span></p>
+                    <p className={`text-[11px] font-bold mt-0.5 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Instructor: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.instructor?.name || 'Unassigned'}</span></p>
+                    
+                    <div className="mt-3 pt-2 border-t flex flex-wrap gap-1.5 items-center dark:border-white/5 border-slate-100">
+                      <span className={`text-[10px] font-bold mr-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Members:</span>
+                      {sec.students?.slice(0,3).map(st => (
+                        <span key={st.id} className={`text-[9px] font-semibold px-2 py-0.5 rounded-md border ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20' : 'bg-blue-50 text-blue-600 border-blue-100'}`}>
+                          {st.name}
+                        </span>
+                      ))}
+                      {sec.students?.length > 3 && (
+                        <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-md border ${isDarkMode ? 'bg-white/10 text-slate-300 border-white/5' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                          +{sec.students.length - 3} more
+                        </span>
+                      )}
+                      {!sec.students?.length && (
+                         <span className={`text-[9px] italic ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>No students linked yet</span>
+                      )}
+                    </div>
+                  </div>
+                )) : (
+                  <div className={`rounded-2xl p-4 text-center text-xs ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                    No active sections found.
+                  </div>
+                )}
+              </div>
+              <button onClick={() => navigate('/dashboard/sections')} className="w-full mt-3 py-2 text-xs font-bold text-[#00D4FF] hover:bg-[#00D4FF]/10 rounded-lg transition-colors border border-transparent hover:border-[#00D4FF]/20">
+                Manage All Sections
+              </button>
             </div>
           </Card>
         </div>

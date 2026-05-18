@@ -67,7 +67,7 @@ export default function StudentCourses() {
              <select 
                value={selectedCategory} 
                onChange={(e) => setSelectedCategory(e.target.value)}
-               className={`w-full sm:w-64 pl-10 pr-4 py-2.5 rounded-xl border appearance-none text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#F97316]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-slate-200' : 'bg-white border-slate-200 text-slate-700 shadow-sm'}`}
+               className={`w-full sm:w-64 pl-10 pr-4 py-2.5 rounded-xl border appearance-none text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-slate-200' : 'bg-white border-slate-200 text-slate-700 shadow-sm'}`}
              >
                <option value="All">All Categories</option>
                {PACKAGES.map(pkg => (

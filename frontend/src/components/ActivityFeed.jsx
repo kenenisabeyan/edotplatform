@@ -43,7 +43,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
 
   const getIconForType = (type) => {
     switch (type) {
-      case 'auth': return <LogIn className="w-5 h-5 text-[#F97316]" />;
+      case 'auth': return <LogIn className="w-5 h-5 text-[#00D4FF]" />;
       case 'course': return <BookOpen className="w-5 h-5 text-blue-400" />;
       case 'enrollment': return <CheckCircle className="w-5 h-5 text-[#00D4FF]" />;
       case 'learning': return <Activity className="w-5 h-5 text-purple-400" />;
@@ -55,7 +55,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
 
   const getBgColorForType = (type) => {
     switch (type) {
-      case 'auth': return 'bg-[#F97316]/10 border-[#F97316]/30 shadow-[0_0_15px_rgba(249,115,22,0.1)]';
+      case 'auth': return 'bg-[#00D4FF]/10 border-[#00D4FF]/30 shadow-[0_0_15px_rgba(249,115,22,0.1)]';
       case 'course': return 'bg-blue-500/100/10 border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.1)]';
       case 'enrollment': return 'bg-[#00D4FF]/10 border-[#00D4FF]/30 shadow-[0_0_15px_rgba(0,138,50,0.1)]';
       case 'learning': return 'bg-purple-500/100/10 border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.1)]';
@@ -68,7 +68,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-40">
-        <div className={`w-8 h-8 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+        <div className={`w-8 h-8 border-4 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
       </div>
     );
   }
@@ -90,7 +90,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
       {activities.map((activity, index) => (
         <div key={activity.id || index} className="flex gap-4 items-start relative group">
           {index !== activities.length - 1 && (
-            <div className={`absolute left-6 top-10 bottom-[-1rem] w-px -z-10 group-hover:bg-[#F97316]/20 transition-colors ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}></div>
+            <div className={`absolute left-6 top-10 bottom-[-1rem] w-px -z-10 group-hover:bg-[#00D4FF]/20 transition-colors ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}></div>
           )}
           <div className={`w-12 h-12 shrink-0 rounded-2xl border flex items-center justify-center shadow-sm transition-transform group-hover:scale-110 duration-300 relative z-10 ${getBgColorForType(activity.type)}`}>
             {getIconForType(activity.type)}
@@ -104,7 +104,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
             </div>
             {isAdmin && activity.user && (
               <p className={`text-xs mb-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-                <span className={`font-bold text-[9px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>User:</span> {activity.user.name} <span className="text-[9px] font-black   bg-[#F97316]/10 border border-[#F97316]/20 text-[#F97316] px-1.5 py-0.5 rounded ml-1">{activity.user.role}</span>
+                <span className={`font-bold text-[9px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>User:</span> {activity.user.name} <span className="text-[9px] font-black   bg-[#00D4FF]/10 border border-[#00D4FF]/20 text-[#00D4FF] px-1.5 py-0.5 rounded ml-1">{activity.user.role}</span>
               </p>
             )}
             {activity.details && (
@@ -136,7 +136,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
                {/* Parent Support Portal action */}
                {user?.role === 'parent' && activity.visibility === 'insight' && activity.insightFlag === 'concern' && (
                  <div className="flex gap-2">
-                   <button onClick={() => navigate('/dashboard/message')} className="text-[10px] font-black   text-[#F97316] hover:bg-[#F97316]/20 bg-[#F97316]/10 border border-[#F97316]/20 px-3 py-1 rounded-md transition-colors flex items-center gap-1.5 shadow-[0_0_10px_rgba(249,115,22,0.1)]">
+                   <button onClick={() => navigate('/dashboard/message')} className="text-[10px] font-black   text-[#00D4FF] hover:bg-[#00D4FF]/20 bg-[#00D4FF]/10 border border-[#00D4FF]/20 px-3 py-1 rounded-md transition-colors flex items-center gap-1.5 shadow-[0_0_10px_rgba(249,115,22,0.1)]">
                      <MessageSquare className="w-3 h-3" /> Contact Faculty
                    </button>
                  </div>

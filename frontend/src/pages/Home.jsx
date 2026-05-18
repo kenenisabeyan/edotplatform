@@ -134,7 +134,7 @@ export default function Home() {
                   <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
                     <Link
                       to="/register?role=student"
-                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#F97316] px-8 py-3.5 text-base font-bold text-white shadow-lg hover:bg-[#EA580C] transition-all duration-300"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#00D4FF] px-8 py-3.5 text-base font-bold text-white shadow-lg hover:bg-[#EA580C] transition-all duration-300"
                     >
                       Start Learning
                       <ArrowRight className="w-5 h-5" />
@@ -144,7 +144,7 @@ export default function Home() {
                   <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
                     <Link
                       to="/register?role=sponsor"
-                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#F97316] bg-white px-8 py-3.5 text-base font-bold text-[#F97316] shadow-sm hover:bg-orange-50 transition-all duration-300"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#00D4FF] bg-white px-8 py-3.5 text-base font-bold text-[#00D4FF] shadow-sm hover:bg-orange-50 transition-all duration-300"
                     >
                       Sponsor a Student
                       <Heart className="w-4 h-4" />
@@ -165,7 +165,7 @@ export default function Home() {
                     <img src="https://i.pravatar.cc/100?img=12" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
                   </div>
                   <div className="text-[15px]">
-                    <p className="font-semibold text-slate-800">Join <span className="text-[#F97316]">10,000+</span> learners</p>
+                    <p className="font-semibold text-slate-800">Join <span className="text-[#00D4FF]">10,000+</span> learners</p>
                     <p className="text-slate-500 font-medium">growing every day</p>
                   </div>
                 </motion.div>
@@ -268,7 +268,7 @@ export default function Home() {
                     desc: 'Support education, empower learners and change lives.',
                     icon: Heart,
                     cardBg: 'bg-orange-50/70',
-                    iconColor: 'text-orange-500',
+                    iconColor: 'text-[#00D4FF]',
                   },
                   {
                     title: 'Admins',
@@ -477,7 +477,7 @@ export default function Home() {
                viewport={{ once: true }}
             >
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  Knowledge That <span className="text-[#F97316]">Grows With You</span>
+                  Knowledge That <span className="text-[#00D4FF]">Grows With You</span>
                </h2>
                <p className={`text-xl mb-16 font-medium max-w-2xl mx-auto ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                   From foundational education to professional skills, EDOT supports every stage of learning.
@@ -490,7 +490,7 @@ export default function Home() {
                  { title: "Social Sciences", icon: Globe, color: "text-green-500", bg: "bg-green-100 dark:bg-green-900/30" },
                  { title: "Languages", icon: Languages, color: "text-purple-500", bg: "bg-purple-100 dark:bg-purple-900/30" },
                  { title: "Technology & Development", icon: Laptop, color: "text-[#00D4FF]", bg: "bg-[#001030] dark:bg-[#0B1120]" },
-                 { title: "Business & Entrepreneurship", icon: Briefcase, color: "text-[#F97316]", bg: "bg-orange-100 dark:bg-orange-900/30" },
+                 { title: "Business & Entrepreneurship", icon: Briefcase, color: "text-[#00D4FF]", bg: "bg-orange-100 dark:bg-orange-900/30" },
                  { title: "Personal Development", icon: Target, color: "text-rose-500", bg: "bg-rose-100 dark:bg-rose-900/30" }
                ].map((cat, i) => (
                  <motion.div
@@ -523,7 +523,7 @@ export default function Home() {
                className="text-center mb-20"
             >
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  One Platform — <span className="text-[#F97316]">Every Role Connected</span>
+                  One Platform — <span className="text-[#00D4FF]">Every Role Connected</span>
                </h2>
             </motion.div>
 
@@ -552,9 +552,9 @@ export default function Home() {
                      transition={{ delay: idx * 0.1, duration: 0.6 }}
                      viewport={{ once: true }}
                      whileHover={{ y: -12 }}
-                     className={`relative flex flex-col items-center text-center p-10 rounded-[32px] overflow-hidden group border transition-all duration-500 hover:-translate-y-3 ${isDarkMode ? 'bg-[#111827] border-white/10 hover:border-[#F97316]/50' : 'bg-slate-50 border-slate-200 hover:bg-white hover:border-[#F97316]/50 hover:shadow-[0_20px_40px_rgba(249,115,22,0.1)]'}`}
+                     className={`relative flex flex-col items-center text-center p-10 rounded-[32px] overflow-hidden group border transition-all duration-500 hover:-translate-y-3 ${isDarkMode ? 'bg-[#111827] border-white/10 hover:border-[#00D4FF]/50' : 'bg-slate-50 border-slate-200 hover:bg-white hover:border-[#00D4FF]/50 hover:shadow-[0_20px_40px_rgba(249,115,22,0.1)]'}`}
                   >
-                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#F97316] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00D4FF] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                      <motion.div
                         whileHover={{ scale: 1.1, rotate: 3 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 10 }}
@@ -591,7 +591,7 @@ export default function Home() {
                      <Handshake className="w-4 h-4" /> Sponsorship
                   </div>
                   <h2 className={`text-4xl md:text-5xl lg:text-6xl font-black mb-8 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                     Education Powered by <span className="text-[#F97316]">Opportunity</span>
+                     Education Powered by <span className="text-[#00D4FF]">Opportunity</span>
                   </h2>
                   <p className={`text-xl leading-relaxed mb-10 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                      EDOT connects learners with sponsors who want to make a difference. Support is not just financial — it's a pathway to real change.
@@ -609,10 +609,10 @@ export default function Home() {
                            whileInView={{ opacity: 1, y: 0 }}
                            transition={{ delay: idx * 0.1 + 0.4, duration: 0.6 }}
                            viewport={{ once: true }}
-                           className={`flex items-center gap-5 p-5 rounded-2xl border transition-colors ${isDarkMode ? 'bg-[#111827] border-white/5 hover:border-orange-500/30' : 'bg-white border-orange-100 hover:border-orange-200 shadow-sm'}`}
+                           className={`flex items-center gap-5 p-5 rounded-2xl border transition-colors ${isDarkMode ? 'bg-[#111827] border-white/5 hover:border-[#00D4FF]/30' : 'bg-white border-orange-100 hover:border-orange-200 shadow-sm'}`}
                         >
                            <div className="w-12 h-12 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center shrink-0">
-                              <Heart className="w-6 h-6 text-[#F97316]" />
+                              <Heart className="w-6 h-6 text-[#00D4FF]" />
                            </div>
                            <span className={`text-lg font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>{point}</span>
                         </motion.div>
@@ -622,7 +622,7 @@ export default function Home() {
                   <motion.button
                      whileHover={{ scale: 1.05, y: -2 }}
                      whileTap={{ scale: 0.98 }}
-                     className="w-full sm:w-auto bg-[#F97316] text-white font-black px-12 py-5 rounded-full hover:bg-[#e66a00] transition-all text-xl shadow-[0_15px_30px_rgba(249,115,22,0.3)] hover:-translate-y-1 duration-300"
+                     className="w-full sm:w-auto bg-[#00D4FF] text-white font-black px-12 py-5 rounded-full hover:bg-[#e66a00] transition-all text-xl shadow-[0_15px_30px_rgba(249,115,22,0.3)] hover:-translate-y-1 duration-300"
                   >
                      Become a Sponsor
                   </motion.button>
@@ -639,8 +639,8 @@ export default function Home() {
                      <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" alt="Mentor helping student" className="w-full h-full object-cover" />
                      {/* Floating badge */}
                      <div className="absolute bottom-8 right-8 bg-white/90 dark:bg-[#0B1120]/90 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4">
-                        <div className="w-12 h-12 bg-[#F97316]/20 rounded-full flex items-center justify-center shrink-0">
-                           <Gift className="w-6 h-6 text-[#F97316]" />
+                        <div className="w-12 h-12 bg-[#00D4FF]/20 rounded-full flex items-center justify-center shrink-0">
+                           <Gift className="w-6 h-6 text-[#00D4FF]" />
                         </div>
                         <div>
                            <div className="font-black text-xl text-slate-900 dark:text-white">Transform</div>
@@ -703,7 +703,7 @@ export default function Home() {
          {/* Premium Abstract Background */}
          <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
-            <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[#F97316]/10 blur-[100px] rounded-full pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none"></div>
             <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none"></div>
          </div>
 
@@ -735,9 +735,9 @@ export default function Home() {
                      viewport={{ once: true }}
                      className="relative group"
                   >
-                     <div className="absolute inset-0 bg-gradient-to-b from-[#F97316]/0 to-[#F97316]/20 rounded-[32px] transform scale-90 group-hover:scale-100 transition-transform duration-500"></div>
+                     <div className="absolute inset-0 bg-gradient-to-b from-[#00D4FF]/0 to-[#00D4FF]/20 rounded-[32px] transform scale-90 group-hover:scale-100 transition-transform duration-500"></div>
                      <div className="relative p-6">
-                        <div className="text-5xl md:text-6xl font-black text-[#F97316] mb-4 tracking-tight drop-shadow-[0_0_15px_rgba(249,115,22,0.4)]">{stat.num}</div>
+                        <div className="text-5xl md:text-6xl font-black text-[#00D4FF] mb-4 tracking-tight drop-shadow-[0_0_15px_rgba(249,115,22,0.4)]">{stat.num}</div>
                         <div className="text-lg font-bold leading-snug text-slate-200">{stat.label}</div>
                      </div>
                   </motion.div>
@@ -817,12 +817,12 @@ export default function Home() {
                      transition={{ delay: idx * 0.1, duration: 0.6 }}
                      viewport={{ once: true }}
                      whileHover={{ y: -8 }}
-                     className={`p-10 rounded-[32px] shadow-sm border relative overflow-hidden group ${isDarkMode ? 'bg-[#111827] border-white/5 hover:border-[#F97316]/30' : 'bg-slate-50 border-slate-200 hover:border-[#F97316]/30 hover:shadow-xl'}`}
+                     className={`p-10 rounded-[32px] shadow-sm border relative overflow-hidden group ${isDarkMode ? 'bg-[#111827] border-white/5 hover:border-[#00D4FF]/30' : 'bg-slate-50 border-slate-200 hover:border-[#00D4FF]/30 hover:shadow-xl'}`}
                   >
-                     <Quote className="absolute top-8 right-8 w-16 h-16 text-[#F97316] opacity-10 group-hover:opacity-20 transition-opacity duration-300" />
+                     <Quote className="absolute top-8 right-8 w-16 h-16 text-[#00D4FF] opacity-10 group-hover:opacity-20 transition-opacity duration-300" />
                      <p className={`text-2xl font-medium italic leading-relaxed mb-10 relative z-10 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>"{test.quote}"</p>
                      <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#F97316] to-[#e66a00] flex items-center justify-center text-white shadow-md">
+                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#00D4FF] to-[#e66a00] flex items-center justify-center text-white shadow-md">
                            <test.icon className="w-6 h-6" />
                         </div>
                         <span className={`text-xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{test.role}</span>
@@ -846,7 +846,7 @@ export default function Home() {
                initial={{ opacity: 0, x: 20, scale: 0.9 }}
                animate={{ opacity: 0.45, x: 0, scale: 1 }}
                transition={{ duration: 1.4, ease: 'easeOut', delay: 0.1 }}
-               className="absolute right-0 top-20 w-80 h-80 rounded-full bg-[#F97316]/20 blur-3xl"
+               className="absolute right-0 top-20 w-80 h-80 rounded-full bg-[#00D4FF]/20 blur-3xl"
             />
             <motion.div
                initial={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -890,7 +890,7 @@ export default function Home() {
                className="flex flex-col sm:flex-row justify-center items-center gap-6"
             >
                <motion.div whileHover={{ y: -4 }} whileTap={{ scale: 0.98 }}>
-                  <Link to="/register?role=student" className="w-full sm:w-auto bg-[#F97316] text-[#ffffff] px-12 py-5 rounded-full font-black text-xl hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)]">
+                  <Link to="/register?role=student" className="w-full sm:w-auto bg-[#00D4FF] text-[#ffffff] px-12 py-5 rounded-full font-black text-xl hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)]">
                     Start Learning
                   </Link>
                </motion.div>

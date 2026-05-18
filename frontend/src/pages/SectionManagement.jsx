@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import api from '../utils/api';
-import { Layers, Plus, Link as LinkIcon, Users, UserPlus, BookOpen, Trash2, ShieldAlert, Loader, ChevronDown, ChevronRight } from 'lucide-react';
+import { Layers, Plus, Link as LinkIcon, Users, UserPlus, BookOpen, Trash2, ShieldAlert, Loader, ChevronDown, ChevronRight, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-hot-toast';
 
 export default function SectionManagement() {
   const isDarkMode = useThemeMode();
@@ -78,11 +79,12 @@ export default function SectionManagement() {
     try {
       const res = await api.post('/sections', { ...formData, courseId: formData.course, instructorId: formData.instructor });
       if (res.data?.success) {
+         toast.success('Section created successfully!');
          setFormData({ name: '', batch: '', category: '', course: '', instructor: '' });
          fetchCoreData();
       }
     } catch (error) {
-      alert(error.response?.data?.message || 'Error creating section');
+      toast.error(error.response?.data?.message || 'Error creating section');
     }
   };
 
@@ -90,12 +92,12 @@ export default function SectionManagement() {
     if (!selectedSection) return;
     try {
       const res = await api.post(`/sections/${selectedSection.id}/auto-assign`);
-      alert(res.data.message);
+      toast.success(res.data.message || 'Students auto-assigned successfully');
       fetchCoreData();
       const updated = await api.get(`/sections/${selectedSection.id}`);
       setSelectedSection(updated.data.data);
     } catch (error) {
-      alert(error.response?.data?.message || 'Error auto-assigning students');
+      toast.error(error.response?.data?.message || 'Error auto-assigning students');
     }
   };
 
@@ -103,10 +105,11 @@ export default function SectionManagement() {
     if (!window.confirm("Are you sure you want to delete this section?")) return;
     try {
       await api.delete(`/sections/${id}`);
+      toast.success('Section deleted successfully');
       fetchCoreData();
       if (selectedSection?.id === id) setSelectedSection(null);
     } catch (error) {
-       alert(error.response?.data?.message || 'Error deleting section');
+       toast.error(error.response?.data?.message || 'Error deleting section');
     }
   };
 
@@ -115,32 +118,34 @@ export default function SectionManagement() {
     if (!selectedSection || !studentToAdd) return;
     try {
       await api.post(`/sections/${selectedSection.id}/add-student`, { studentId: studentToAdd });
+      toast.success('Student added successfully');
       setStudentToAdd('');
       fetchCoreData(); // refresh
       const updated = await api.get(`/sections/${selectedSection.id}`);
       setSelectedSection(updated.data.data);
     } catch (error) {
-      alert(error.response?.data?.message || 'Error adding student');
+      toast.error(error.response?.data?.message || 'Error adding student');
     }
   };
 
   const handleRemoveStudent = async (sectionId, studentId) => {
     try {
       await api.delete(`/sections/${sectionId}/students/${studentId}`);
+      toast.success('Student removed successfully');
       fetchCoreData();
       if (selectedSection?.id === sectionId) {
          const updated = await api.get(`/sections/${sectionId}`);
          setSelectedSection(updated.data.data);
       }
     } catch (error) {
-      alert(error.response?.data?.message || 'Error removing student');
+      toast.error(error.response?.data?.message || 'Error removing student');
     }
   };
 
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-         <Loader className="w-10 h-10 text-[#F97316] animate-spin" />
+         <Loader className="w-10 h-10 text-[#00D4FF] animate-spin" />
       </div>
     );
   }
@@ -163,7 +168,7 @@ export default function SectionManagement() {
              {/* Create Card */}
              <div className={`border rounded-[2rem] p-6 lg:p-8 relative overflow-hidden transition-all shadow-sm hover:shadow-md ${isDarkMode ? 'bg-[#0B1120]/80 border-white/5' : 'bg-white border-slate-100'}`}>
                 <h3 className={`text-xl font-bold mb-6 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-[#0B1221]'}`}>
-                  <Layers className="w-5 h-5 text-[#F97316]" /> New Section
+                  <Layers className="w-5 h-5 text-[#00D4FF]" /> New Section
                 </h3>
                 
                 <form onSubmit={handleCreateSection} className="space-y-5">
@@ -264,66 +269,7 @@ export default function SectionManagement() {
                 </form>
              </div>
 
-             {/* Selected Section Detail / Enrollment */}
-             {selectedSection && (
-               <div className={`border rounded-[2rem] p-6 lg:p-8 animate-fade-in-up shadow-sm hover:shadow-md ${isDarkMode ? 'bg-[#0B1120]/80 border-white/5' : 'bg-white border-slate-100'}`}>
-                  <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between mb-8 gap-4">
-                     <h3 className={`text-xl font-bold flex flex-col gap-1 ${isDarkMode ? 'text-white' : 'text-[#0B1221]'}`}>
-                       <span className="flex items-center gap-2"><UserPlus className="w-5 h-5 text-[#F97316]" /> Student Roster</span>
-                     </h3>
-                     <span className={`text-[10px] px-3 py-1.5 rounded border text-center font-bold max-w-full truncate ${isDarkMode ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-600 border-emerald-200'}`}>
-                       {selectedSection.name}
-                     </span>
-                  </div>
-                  
-                  <form onSubmit={handleAddStudent} className="flex flex-col gap-4 mb-8">
-                    <div>
-                      <label className={`block text-[11px] font-bold mb-2 uppercase tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Enroll New Learner</label>
-                      <div className="relative">
-                        <select value={studentToAdd} onChange={e => setStudentToAdd(e.target.value)} required className={`w-full border rounded-xl px-4 py-3.5 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#F97316]/20 focus:border-[#F97316]/50 transition-all cursor-pointer ${isDarkMode ? 'bg-[#151e32]/50 border-white/5 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                          <option value="" disabled>Search & Select Student...</option>
-                          {validators.students.filter(stu => !selectedSection.students.find(s => s.id === stu.id)).map(stu => (
-                             <option key={stu.id} value={stu.id}>{stu.name} - {stu.email}</option>
-                          ))}
-                        </select>
-                        <ChevronDown className={`w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-3 w-full mt-2">
-                      <button type="submit" className={`flex-1 py-3 rounded-full font-bold text-[13px] bg-[#00D4FF] hover:bg-[#00BCE6] shadow-sm text-[#0B1221] transition-all`}>
-                        + Add Manually
-                      </button>
-                      <button type="button" onClick={handleAutoAssign} className={`flex-1 py-3 rounded-full font-bold text-[13px] bg-[#F97316] hover:bg-[#E66000] shadow-sm text-white transition-all`}>
-                        Auto-Assign Batch
-                      </button>
-                    </div>
-                  </form>
-
-                  <div className={`max-h-[300px] overflow-y-auto space-y-3 pr-2 scrollbar-hide border-t pt-6 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                    <p className={`text-[11px] font-bold uppercase tracking-wide mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{selectedSection.students.length} Learners Enrolled</p>
-                    {selectedSection.students.map(student => (
-                      <div key={student.id} className={`flex items-center justify-between border p-3 rounded-2xl transition-colors ${isDarkMode ? 'bg-[#151e32]/30 border-white/5 hover:border-white/10' : 'bg-white border-slate-100 hover:shadow-sm'}`}>
-                        <div className="flex items-center gap-3">
-                          <div className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-[13px] border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-600 border-blue-100'}`}>
-                             {student.name?.[0]?.toUpperCase()}
-                          </div>
-                          <div className="flex flex-col">
-                            <span className={`text-[13px] font-bold ${isDarkMode ? 'text-white' : 'text-[#0B1221]'}`}>{student.name}</span>
-                            <span className={`text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{student.email}</span>
-                          </div>
-                        </div>
-                        <button onClick={() => handleRemoveStudent(selectedSection.id, student.id)} className={`p-2 rounded-xl transition-colors ${isDarkMode ? 'text-rose-500 hover:bg-rose-500/10' : 'text-rose-400 hover:bg-rose-50 hover:text-rose-600'}`}>
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
-                    {selectedSection.students.length === 0 && (
-                      <div className={`text-center text-sm py-6 italic ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No students linked to this array yet.</div>
-                    )}
-                  </div>
-               </div>
-             )}
+             {/* Student Roster Modal extracted from here */}
          </div>
 
          {/* Sections List */}
@@ -347,7 +293,7 @@ export default function SectionManagement() {
                      className={`flex items-center justify-between p-4 md:p-5 rounded-[1.25rem] cursor-pointer transition-all ${isDarkMode ? 'bg-[#0B1120]/60 border border-white/5 hover:border-white/10' : 'bg-[#F4F7FB] border border-slate-100 hover:shadow-md shadow-sm'}`}
                    >
                      <div className="flex items-center gap-4">
-                       <div className={`w-10 h-10 shrink-0 flex items-center justify-center font-black rounded-xl text-lg shadow-sm ${isDarkMode ? 'bg-[#151e32] text-[#F97316]' : 'bg-white text-[#F97316]'}`}>
+                       <div className={`w-10 h-10 shrink-0 flex items-center justify-center font-black rounded-xl text-lg shadow-sm ${isDarkMode ? 'bg-[#151e32] text-[#00D4FF]' : 'bg-white text-[#00D4FF]'}`}>
                          {idx + 1}
                        </div>
                        <h4 className={`text-xl font-black ${isDarkMode ? 'text-white' : 'text-[#0B1120]'}`}>
@@ -355,7 +301,7 @@ export default function SectionManagement() {
                        </h4>
                      </div>
                      <div className="flex items-center gap-4">
-                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isDarkMode ? 'bg-[#F97316]/10 text-[#F97316] border-[#F97316]/20' : 'bg-orange-100 text-[#F97316] border-orange-200'}`}>
+                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20' : 'bg-orange-100 text-[#00D4FF] border-orange-200'}`}>
                          {groupSections.length} Sections
                        </span>
                        <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-sm ${isDarkMode ? 'bg-[#151e32] text-slate-400' : 'bg-white text-slate-500'}`}>
@@ -379,11 +325,11 @@ export default function SectionManagement() {
                              className={`p-6 rounded-[1.5rem] border transition-all duration-300 cursor-pointer group relative overflow-hidden flex flex-col justify-between min-h-[220px] ${
                                selectedSection?.id === sec.id 
                                ? (isDarkMode ? 'bg-gradient-to-br from-[#0B1120] to-[#00D4FF]/10 border-[#00D4FF]/50 shadow-[0_0_30px_rgba(0,212,255,0.15)] ring-1 ring-[#00D4FF]/50' : 'bg-gradient-to-br from-white to-[#00D4FF]/5 border-[#00D4FF]/50 shadow-lg ring-1 ring-[#00D4FF]/50') 
-                               : (isDarkMode ? 'bg-[#0B1120]/80 border-white/10 hover:border-white/20 hover:bg-[#0B1120]' : 'bg-white border-slate-200 hover:border-[#00D4FF]/30 hover:shadow-xl shadow-sm')
+                               : (isDarkMode ? 'bg-[#0B1120]/80 border-[#F97316]/30 hover:border-[#00D4FF]/50 hover:bg-[#0B1120]' : 'bg-white border-[#F97316]/30 hover:border-[#00D4FF]/50 hover:shadow-xl shadow-sm')
                              }`}
                            >
                               {/* Selection Indicator Strip */}
-                              <div className={`absolute top-0 left-0 w-1.5 h-full transition-all duration-300 ${selectedSection?.id === sec.id ? 'bg-[#00D4FF]' : 'bg-transparent group-hover:bg-[#00D4FF]/30'}`}></div>
+                              <div className={`absolute top-0 left-0 w-1.5 h-full transition-all duration-300 ${selectedSection?.id === sec.id ? 'bg-[#00D4FF]' : 'bg-[#F97316] group-hover:bg-[#00D4FF]'}`}></div>
 
                               <div className="flex justify-between items-start relative z-10 pl-2">
                                  <div className="flex-1 pr-4">
@@ -392,7 +338,7 @@ export default function SectionManagement() {
                                        {sec.course.title}
                                      </div>
                                    )}
-                                   <h5 className={`font-black text-lg leading-snug mb-1 transition-colors ${selectedSection?.id === sec.id ? 'text-[#00D4FF]' : (isDarkMode ? 'text-white group-hover:text-[#F97316]' : 'text-slate-900 group-hover:text-[#F97316]')}`}>
+                                   <h5 className={`font-black text-lg leading-snug mb-1 transition-colors ${selectedSection?.id === sec.id ? 'text-[#00D4FF]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`}>
                                      {sec.name}
                                    </h5>
                                    <div className="flex items-center gap-2 mt-2">
@@ -425,10 +371,10 @@ export default function SectionManagement() {
 
                                  <div className="flex items-center justify-between mt-1">
                                     <div className={`flex items-center gap-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                                       <Users className={`w-4 h-4 ${selectedSection?.id === sec.id ? 'text-[#00D4FF]' : 'text-slate-400'}`} />
+                                       <Users className={`w-4 h-4 ${selectedSection?.id === sec.id ? 'text-[#00D4FF]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`} />
                                        <span className="text-xs font-bold">{sec.students?.length || 0} Enrolled</span>
                                     </div>
-                                    <div className={`text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all ${selectedSection?.id === sec.id ? 'text-[#00D4FF]' : 'text-slate-400 group-hover:text-[#F97316]'}`}>
+                                    <div className={`text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all ${selectedSection?.id === sec.id ? 'text-[#00D4FF]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`}>
                                        Manage <ChevronRight className="w-3 h-3" />
                                     </div>
                                  </div>
@@ -451,6 +397,76 @@ export default function SectionManagement() {
            )}
          </div>
       </div>
+
+      {/* Selected Section Detail / Enrollment Modal */}
+      {selectedSection && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedSection(null)}>
+          <div onClick={(e) => e.stopPropagation()} className={`relative w-full max-w-xl max-h-[90vh] overflow-y-auto border rounded-[2rem] p-6 lg:p-8 shadow-2xl animate-fade-in-up ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-100'}`}>
+            <button 
+              onClick={() => setSelectedSection(null)}
+              className={`absolute top-6 right-6 p-2 rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10 text-slate-400 hover:text-white' : 'hover:bg-slate-100 text-slate-500 hover:text-slate-900'}`}
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between mb-8 gap-4 pr-12">
+               <h3 className={`text-xl font-bold flex flex-col gap-1 ${isDarkMode ? 'text-white' : 'text-[#0B1221]'}`}>
+                 <span className="flex items-center gap-2"><UserPlus className="w-5 h-5 text-[#00D4FF]" /> Student Roster</span>
+               </h3>
+               <span className={`text-[10px] px-3 py-1.5 rounded border text-center font-bold max-w-full truncate ${isDarkMode ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-600 border-emerald-200'}`}>
+                 {selectedSection.name}
+               </span>
+            </div>
+            
+            <form onSubmit={handleAddStudent} className="flex flex-col gap-4 mb-8">
+              <div>
+                <label className={`block text-[11px] font-bold mb-2 uppercase tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Enroll New Learner</label>
+                <div className="relative">
+                  <select value={studentToAdd} onChange={e => setStudentToAdd(e.target.value)} required className={`w-full border rounded-xl px-4 py-3.5 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/20 focus:border-[#00D4FF]/50 transition-all cursor-pointer ${isDarkMode ? 'bg-[#151e32]/50 border-white/5 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                    <option value="" disabled>Search & Select Student...</option>
+                    {validators.students.filter(stu => !selectedSection.students.find(s => s.id === stu.id)).map(stu => (
+                       <option key={stu.id} value={stu.id}>{stu.name} - {stu.email}</option>
+                    ))}
+                  </select>
+                  <ChevronDown className={`w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 w-full mt-2">
+                <button type="submit" className={`flex-1 py-3 rounded-full font-bold text-[13px] bg-[#00D4FF] hover:bg-[#00BCE6] shadow-sm text-[#0B1221] transition-all`}>
+                  + Add Manually
+                </button>
+                <button type="button" onClick={handleAutoAssign} className={`flex-1 py-3 rounded-full font-bold text-[13px] bg-[#F97316] hover:bg-[#EA580C] shadow-sm text-white transition-all`}>
+                  Auto-Assign Batch
+                </button>
+              </div>
+            </form>
+
+            <div className={`max-h-[300px] overflow-y-auto space-y-3 pr-2 scrollbar-hide border-t pt-6 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+              <p className={`text-[11px] font-bold uppercase tracking-wide mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{selectedSection.students.length} Learners Enrolled</p>
+              {selectedSection.students.map(student => (
+                <div key={student.id} className={`flex items-center justify-between border p-3 rounded-2xl transition-colors ${isDarkMode ? 'bg-[#151e32]/30 border-white/5 hover:border-white/10' : 'bg-white border-slate-100 hover:shadow-sm'}`}>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-[13px] border ${isDarkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-600 border-blue-100'}`}>
+                       {student.name?.[0]?.toUpperCase()}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className={`text-[13px] font-bold ${isDarkMode ? 'text-white' : 'text-[#0B1221]'}`}>{student.name}</span>
+                      <span className={`text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{student.email}</span>
+                    </div>
+                  </div>
+                  <button onClick={() => handleRemoveStudent(selectedSection.id, student.id)} className={`p-2 rounded-xl transition-colors ${isDarkMode ? 'text-rose-500 hover:bg-rose-500/10' : 'text-rose-400 hover:bg-rose-50 hover:text-rose-600'}`}>
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+              {selectedSection.students.length === 0 && (
+                <div className={`text-center text-sm py-6 italic ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No students linked to this array yet.</div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

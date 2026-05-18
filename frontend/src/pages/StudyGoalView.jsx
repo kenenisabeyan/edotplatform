@@ -45,7 +45,7 @@ export default function StudyGoalView() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="w-8 h-8 border-4 border-[#F97316] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-[#00D4FF] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -110,7 +110,7 @@ export default function StudyGoalView() {
       <div className={`border-b pb-6 mb-8 flex justify-between items-end ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h1 className="text-3xl md:text-4xl font-display font-black flex items-center gap-3">
-            <Target className="w-8 h-8 text-[#F97316]" />
+            <Target className="w-8 h-8 text-[#00D4FF]" />
             Study Goals
           </h1>
           <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -128,7 +128,7 @@ export default function StudyGoalView() {
                 <button
                   key={tab}
                   onClick={() => { setGoalTab(tab); setIsEditing(false); }}
-                  className={`flex-1 py-2 text-[11px] font-bold rounded-lg capitalize transition-all duration-300 ${goalTab === tab ? 'bg-gradient-to-r from-[#F97316] to-[#00D4FF] text-white shadow-[0_4px_12px_rgba(249,115,22,0.3)]' : (isDarkMode ? 'text-slate-400 hover:text-[#00D4FF]' : 'text-slate-500 hover:text-[#00D4FF]')}`}
+                  className={`flex-1 py-2 text-[11px] font-bold rounded-lg capitalize transition-all duration-300 ${goalTab === tab ? 'bg-gradient-to-r from-[#00D4FF] to-[#00D4FF] text-white shadow-[0_4px_12px_rgba(249,115,22,0.3)]' : (isDarkMode ? 'text-slate-400 hover:text-[#00D4FF]' : 'text-slate-500 hover:text-[#00D4FF]')}`}
                 >
                   {tab}
                 </button>
@@ -162,7 +162,7 @@ export default function StudyGoalView() {
                  </div>
                  <div className="flex gap-3 w-full max-w-[200px]">
                    <button onClick={() => setIsEditing(false)} className={`flex-1 py-2.5 rounded-xl font-bold text-[13px] transition-colors ${isDarkMode ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>Cancel</button>
-                   <button onClick={handleSaveGoal} className="flex-1 py-2.5 rounded-xl font-bold text-[13px] text-white bg-gradient-to-r from-[#F97316] to-[#00D4FF] shadow-[0_4px_12px_rgba(0,212,255,0.3)] hover:shadow-[0_6px_16px_rgba(0,212,255,0.4)] transition-all">Save</button>
+                   <button onClick={handleSaveGoal} className="flex-1 py-2.5 rounded-xl font-bold text-[13px] text-white bg-gradient-to-r from-[#00D4FF] to-[#00D4FF] shadow-[0_4px_12px_rgba(0,212,255,0.3)] hover:shadow-[0_6px_16px_rgba(0,212,255,0.4)] transition-all">Save</button>
                  </div>
               </div>
             )}
@@ -172,7 +172,7 @@ export default function StudyGoalView() {
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
               <defs>
                 <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#F97316" />
+                  <stop offset="0%" stopColor="#00D4FF" />
                   <stop offset="100%" stopColor="#00D4FF" />
                 </linearGradient>
               </defs>
@@ -198,12 +198,12 @@ export default function StudyGoalView() {
         <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
            <Card hover={false} className={`relative overflow-hidden p-8 rounded-[24px] border shadow-sm flex flex-col justify-between ${isDarkMode ? 'bg-[#0B1D3A]/50 border-white/10' : 'bg-white border-slate-200'}`}>
              <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-               <TrendingUp className="w-24 h-24 text-[#F97316]" />
+               <TrendingUp className="w-24 h-24 text-[#00D4FF]" />
              </div>
              <div>
                <div className="flex items-center gap-3 mb-6">
-                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center border shadow-sm ${isDarkMode ? 'bg-orange-500/20 border-orange-500/30' : 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200'}`}>
-                   <TrendingUp className="w-5 h-5 text-[#F97316]" />
+                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center border shadow-sm ${isDarkMode ? 'bg-[#00D4FF]/20 border-[#00D4FF]/30' : 'bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200'}`}>
+                   <TrendingUp className="w-5 h-5 text-[#00D4FF]" />
                  </div>
                  <p className={`text-sm font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Study Streak</p>
                </div>
@@ -217,10 +217,10 @@ export default function StudyGoalView() {
              <div className="flex justify-between items-center w-full gap-1">
                {weeklyStudyData.map((day, i) => (
                  <div key={i} className="flex flex-col items-center gap-2">
-                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${day.hours > 0 ? 'bg-gradient-to-r from-[#F97316] to-[#00D4FF] text-white shadow-[0_2px_8px_rgba(249,115,22,0.3)]' : (isDarkMode ? 'bg-slate-800 text-slate-500 border border-slate-700' : 'bg-slate-100 text-slate-400 border border-slate-200')}`}>
+                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${day.hours > 0 ? 'bg-gradient-to-r from-[#00D4FF] to-[#00D4FF] text-white shadow-[0_2px_8px_rgba(249,115,22,0.3)]' : (isDarkMode ? 'bg-slate-800 text-slate-500 border border-slate-700' : 'bg-slate-100 text-slate-400 border border-slate-200')}`}>
                      {day.hours > 0 ? '✓' : ''}
                    </div>
-                   <span className={`text-[9px] font-bold uppercase ${day.hours > 0 ? (isDarkMode ? 'text-[#00D4FF]' : 'text-[#F97316]') : (isDarkMode ? 'text-slate-600' : 'text-slate-400')}`}>{day.name}</span>
+                   <span className={`text-[9px] font-bold uppercase ${day.hours > 0 ? (isDarkMode ? 'text-[#00D4FF]' : 'text-[#00D4FF]') : (isDarkMode ? 'text-slate-600' : 'text-slate-400')}`}>{day.name}</span>
                  </div>
                ))}
              </div>
@@ -251,7 +251,7 @@ export default function StudyGoalView() {
                </div>
                <div className={`w-full h-3 rounded-full overflow-hidden ${isDarkMode ? 'bg-slate-800 border border-slate-700' : 'bg-slate-100 border border-slate-200'}`}>
                  <div 
-                   className="h-full bg-gradient-to-r from-[#F97316] to-[#00D4FF] rounded-full relative"
+                   className="h-full bg-gradient-to-r from-[#00D4FF] to-[#00D4FF] rounded-full relative"
                    style={{ width: `${Math.min(100, ((daysStudied > 0 ? (totalWeeklyHours / daysStudied) : 0) / goals.daily) * 100)}%` }}
                  >
                    <div className="absolute inset-0 bg-white/20 w-full animate-pulse"></div>
@@ -296,7 +296,7 @@ export default function StudyGoalView() {
                Study To-Do List
                <span className="text-[11px] font-medium text-slate-500">Manage your tasks by category</span>
              </h3>
-             <span className="text-xs font-bold px-3 py-1 rounded-full text-white bg-gradient-to-r from-[#F97316] to-[#00D4FF] shadow-[0_2px_10px_rgba(0,212,255,0.2)]">
+             <span className="text-xs font-bold px-3 py-1 rounded-full text-white bg-gradient-to-r from-[#00D4FF] to-[#00D4FF] shadow-[0_2px_10px_rgba(0,212,255,0.2)]">
                {currentTodos.filter(t => t.completed).length}/{currentTodos.length} Done
              </span>
           </div>
@@ -306,7 +306,7 @@ export default function StudyGoalView() {
                 <button
                   key={tab}
                   onClick={() => setTodoTab(tab)}
-                  className={`flex-1 py-2 text-[11px] font-bold rounded-lg capitalize transition-all duration-300 ${todoTab === tab ? 'bg-gradient-to-r from-[#F97316] to-[#00D4FF] text-white shadow-[0_4px_12px_rgba(249,115,22,0.3)]' : (isDarkMode ? 'text-slate-400 hover:text-[#00D4FF]' : 'text-slate-500 hover:text-[#00D4FF]')}`}
+                  className={`flex-1 py-2 text-[11px] font-bold rounded-lg capitalize transition-all duration-300 ${todoTab === tab ? 'bg-gradient-to-r from-[#00D4FF] to-[#00D4FF] text-white shadow-[0_4px_12px_rgba(249,115,22,0.3)]' : (isDarkMode ? 'text-slate-400 hover:text-[#00D4FF]' : 'text-slate-500 hover:text-[#00D4FF]')}`}
                 >
                   {tab}
                 </button>
@@ -324,7 +324,7 @@ export default function StudyGoalView() {
             />
             <button 
               onClick={() => addTodo({ key: 'Enter' })} 
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#F97316] transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#00D4FF] transition-colors"
             >
               <Plus className="w-5 h-5" />
             </button>
@@ -341,7 +341,7 @@ export default function StudyGoalView() {
                   {todo.completed ? (
                     <CheckCircle2 className="w-5 h-5 text-[#00D4FF] drop-shadow-[0_0_5px_rgba(0,212,255,0.5)]" />
                   ) : (
-                    <Circle className="w-5 h-5 text-slate-400 group-hover:text-[#F97316] transition-colors" />
+                    <Circle className="w-5 h-5 text-slate-400 group-hover:text-[#00D4FF] transition-colors" />
                   )}
                 </div>
                 <p className={`flex-1 text-sm font-medium transition-all ${todo.completed ? (isDarkMode ? 'text-slate-500 line-through' : 'text-slate-400 line-through') : (isDarkMode ? 'text-slate-200' : 'text-slate-700')}`}>

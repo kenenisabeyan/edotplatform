@@ -35,15 +35,15 @@ export default function Contact() {
            {/* Premium CSS Background */}
            <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
               <div className={`absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]`}></div>
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#EBC176]/10 dark:bg-[#EBC176]/10 blur-[120px] rounded-full pointer-events-none"></div>
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#2563EB]/10 dark:bg-[#2563EB]/10 blur-[120px] rounded-full pointer-events-none"></div>
            </div>
            <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
               <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-[#1A202C]'}`}>
                  Let’s Connect and <br className="hidden md:block" />
-                 <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+                 <span className="text-[#00D4FF] relative inline-block mt-2 whitespace-nowrap">
                     <span className="relative z-10">Build the Future</span>
                     {/* Orange Underline */}
-                    <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316] z-0"></div>
+                    <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#00D4FF] z-0"></div>
                  </span>
               </h1>
               <p className={`text-xl md:text-[20px] font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -62,8 +62,8 @@ export default function Contact() {
                   
                   {submitted ? (
                     <div className="flex flex-col items-center justify-center text-center py-24 relative z-10 w-full h-full animate-in fade-in zoom-in duration-500">
-                      <div className="w-24 h-24 rounded-full flex items-center justify-center mb-8 border bg-[#EBC176]/10 border-[#EBC176]/20">
-                        <CheckCircle className="w-12 h-12 text-[#EBC176]" />
+                      <div className="w-24 h-24 rounded-full flex items-center justify-center mb-8 border bg-[#2563EB]/10 border-[#2563EB]/20">
+                        <CheckCircle className="w-12 h-12 text-[#2563EB]" />
                       </div>
                       <h3 className="text-3xl font-bold mb-4">Message Sent Successfully!</h3>
                       <p className={`max-w-sm mx-auto leading-relaxed text-[15px] ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -86,7 +86,7 @@ export default function Contact() {
                             onChange={e => setFormData({...formData, name: e.target.value})} 
                             required 
                             placeholder="e.g. Abebe Kebede"
-                            className={`w-full px-5 py-4 border rounded-xl focus:outline-none transition-all text-[15px] ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-600 focus:border-[#EBC176]/50' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#EBC176]/50 shadow-sm'}`} 
+                            className={`w-full px-5 py-4 border rounded-xl focus:outline-none transition-all text-[15px] ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-600 focus:border-[#2563EB]/50' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#2563EB]/50 shadow-sm'}`} 
                           />
                         </div>
                         <div>
@@ -97,7 +97,7 @@ export default function Contact() {
                             onChange={e => setFormData({...formData, email: e.target.value})} 
                             required 
                             placeholder="abebe@example.com"
-                            className={`w-full px-5 py-4 border rounded-xl focus:outline-none transition-all text-[15px] ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-600 focus:border-[#EBC176]/50' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#EBC176]/50 shadow-sm'}`} 
+                            className={`w-full px-5 py-4 border rounded-xl focus:outline-none transition-all text-[15px] ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-600 focus:border-[#2563EB]/50' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#2563EB]/50 shadow-sm'}`} 
                           />
                         </div>
                       </div>
@@ -109,7 +109,7 @@ export default function Contact() {
                             <select 
                               value={formData.role} 
                               onChange={e => setFormData({...formData, role: e.target.value})} 
-                              className={`w-full px-5 py-4 border rounded-xl focus:outline-none transition-all text-[15px] appearance-none cursor-pointer ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#EBC176]/50' : 'bg-slate-50 border-slate-200 text-slate-900 focus:border-[#EBC176]/50 shadow-sm'}`}
+                              className={`w-full px-5 py-4 border rounded-xl focus:outline-none transition-all text-[15px] appearance-none cursor-pointer ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#2563EB]/50' : 'bg-slate-50 border-slate-200 text-slate-900 focus:border-[#2563EB]/50 shadow-sm'}`}
                             >
                               <option value="Learner">Learner</option>
                               <option value="Instructor">Instructor</option>
@@ -131,7 +131,7 @@ export default function Contact() {
                             onChange={e => setFormData({...formData, subject: e.target.value})} 
                             required 
                             placeholder="How can we help?"
-                            className={`w-full px-5 py-4 border rounded-xl focus:outline-none transition-all text-[15px] ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-600 focus:border-[#EBC176]/50' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#EBC176]/50 shadow-sm'}`} 
+                            className={`w-full px-5 py-4 border rounded-xl focus:outline-none transition-all text-[15px] ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-600 focus:border-[#2563EB]/50' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#2563EB]/50 shadow-sm'}`} 
                           />
                         </div>
                       </div>
@@ -144,7 +144,7 @@ export default function Contact() {
                           onChange={e => setFormData({...formData, message: e.target.value})} 
                           required 
                           placeholder="Type your message here..."
-                          className={`w-full px-5 py-4 border !rounded-[32px] focus:outline-none transition-all resize-none text-[15px] ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-600 focus:border-[#EBC176]/50' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#EBC176]/50 shadow-sm'}`}
+                          className={`w-full px-5 py-4 border !rounded-[32px] focus:outline-none transition-all resize-none text-[15px] ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-600 focus:border-[#2563EB]/50' : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#2563EB]/50 shadow-sm'}`}
                         ></textarea>
                       </div>
                       
@@ -180,7 +180,7 @@ export default function Contact() {
                    
                    <div className="space-y-8">
                       <div className="flex items-start gap-5 group">
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${isDarkMode ? 'bg-[#EBC176]/10 text-[#EBC176] group-hover:bg-[#EBC176]/20' : 'bg-[#EBC176]/10 text-[#D97706] group-hover:bg-[#EBC176]/20'}`}>
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${isDarkMode ? 'bg-[#2563EB]/10 text-[#2563EB] group-hover:bg-[#2563EB]/20' : 'bg-[#2563EB]/10 text-[#1D4ED8] group-hover:bg-[#2563EB]/20'}`}>
                           <Phone className="w-5 h-5" />
                         </div>
                         <div>
@@ -191,17 +191,17 @@ export default function Contact() {
                       </div>
 
                       <div className="flex items-start gap-5 group">
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${isDarkMode ? 'bg-[#EBC176]/10 text-[#EBC176] group-hover:bg-[#EBC176]/20' : 'bg-[#EBC176]/10 text-[#D97706] group-hover:bg-[#EBC176]/20'}`}>
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${isDarkMode ? 'bg-[#2563EB]/10 text-[#2563EB] group-hover:bg-[#2563EB]/20' : 'bg-[#2563EB]/10 text-[#1D4ED8] group-hover:bg-[#2563EB]/20'}`}>
                           <Mail className="w-5 h-5" />
                         </div>
                         <div>
                           <p className={`text-sm font-semibold mb-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Email Address</p>
-                          <a href="mailto:support@edot.com" className="font-bold text-lg hover:text-[#EBC176] transition-colors">support@edot.com</a>
+                          <a href="mailto:support@edot.com" className="font-bold text-lg hover:text-[#2563EB] transition-colors">support@edot.com</a>
                         </div>
                       </div>
 
                       <div className="flex items-start gap-5 group">
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${isDarkMode ? 'bg-[#EBC176]/10 text-[#EBC176] group-hover:bg-[#EBC176]/20' : 'bg-[#EBC176]/10 text-[#D97706] group-hover:bg-[#EBC176]/20'}`}>
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${isDarkMode ? 'bg-[#2563EB]/10 text-[#2563EB] group-hover:bg-[#2563EB]/20' : 'bg-[#2563EB]/10 text-[#1D4ED8] group-hover:bg-[#2563EB]/20'}`}>
                           <MapPin className="w-5 h-5" />
                         </div>
                         <div>
@@ -245,9 +245,9 @@ export default function Contact() {
            <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
               
               {/* Partnership */}
-              <div className={`p-10 rounded-3xl border flex flex-col justify-between relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/10 hover:border-white/20' : 'bg-white border-slate-200 hover:border-[#EBC176]/50'} transition-colors`}>
+              <div className={`p-10 rounded-3xl border flex flex-col justify-between relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/10 hover:border-white/20' : 'bg-white border-slate-200 hover:border-[#2563EB]/50'} transition-colors`}>
                  <div className="relative z-10">
-                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${isDarkMode ? 'bg-[#EBC176]/10 text-[#EBC176]' : 'bg-[#EBC176]/10 text-[#D97706]'}`}>
+                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${isDarkMode ? 'bg-[#2563EB]/10 text-[#2563EB]' : 'bg-[#2563EB]/10 text-[#1D4ED8]'}`}>
                      <Handshake className="w-7 h-7" />
                    </div>
                    <h3 className="text-2xl font-bold mb-4">Work With Us</h3>
@@ -255,7 +255,7 @@ export default function Contact() {
                      We welcome partnerships with educators, institutions, and organizations who share our vision of improving education and creating opportunities.
                    </p>
                  </div>
-                 <Link to="/register?role=partner" className="inline-flex items-center gap-2 font-bold text-[#EBC176] hover:gap-3 transition-all relative z-10 w-fit">
+                 <Link to="/register?role=partner" className="inline-flex items-center gap-2 font-bold text-[#2563EB] hover:gap-3 transition-all relative z-10 w-fit">
                    Become a Partner <ArrowRight className="w-4 h-4" />
                  </Link>
                  

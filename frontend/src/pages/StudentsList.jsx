@@ -103,7 +103,7 @@ export default function StudentsList() {
         <div className={`flex gap-4 border-b pb-2 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
           <button 
             onClick={() => setTab('pending')}
-            className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'pending' ? 'text-[#F97316] border-b-2 border-[#F97316]' : 'text-slate-200 hover:text-white'}`}
+            className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'pending' ? 'text-[#00D4FF] border-b-2 border-[#00D4FF]' : 'text-slate-200 hover:text-white'}`}
           >
             Pending Approval ({pendingCount})
           </button>
@@ -149,14 +149,14 @@ export default function StudentsList() {
                   <td className={`p-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{stu.email}</td>
                   <td className="p-4">
                      {stu.status === 'pending' ? (
-                        <span className="px-3 py-1 bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><ShieldAlert className="w-3 h-3"/> Pending</span>
+                        <span className="px-3 py-1 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><ShieldAlert className="w-3 h-3"/> Pending</span>
                      ) : (
                         <span className="px-3 py-1 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><BadgeCheck className="w-3 h-3"/> Approved</span>
                      )}
                   </td>
                   <td className="p-4 text-center">
                       <div className="flex justify-center items-center">
-                        <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-full text-xs font-bold shadow-sm ${stu.certificates && stu.certificates.length > 0 ? 'bg-orange-100 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 border border-slate-200 dark:border-slate-700'}`}>
+                        <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-full text-xs font-bold shadow-sm ${stu.certificates && stu.certificates.length > 0 ? 'bg-orange-100 text-orange-600 dark:bg-[#00D4FF]/20 dark:text-orange-400 border border-orange-200 dark:border-[#00D4FF]/30' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 border border-slate-200 dark:border-slate-700'}`}>
                           {stu.certificates ? stu.certificates.length : 0}
                         </span>
                       </div>

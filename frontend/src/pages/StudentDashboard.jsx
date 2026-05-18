@@ -28,11 +28,11 @@ import SettingsView from './SettingsView';
 import CertificatesView from './CertificatesView';
 
 const CAT_COLORS = {
-  "Social Science": { main: "#F97316", dark: "#C2410C" }, 
+  "Social Science": { main: "#00D4FF", dark: "#C2410C" }, 
   "Mathematics & Natural Science": { main: "#3B82F6", dark: "#1D4ED8" }, 
   "Natural Language": { main: "#A855F7", dark: "#7E22CE" }, 
   "Programming & Technology": { main: "#6366F1", dark: "#4338CA" }, 
-  "Business & Entrepreneurship": { main: "#F97316", dark: "#CA8A04" }, 
+  "Business & Entrepreneurship": { main: "#00D4FF", dark: "#CA8A04" }, 
   "Personal Development": { main: "#22C55E", dark: "#15803D" }
 };
 
@@ -259,7 +259,7 @@ export default function StudentDashboard() {
     doc.rect(0, 0, 297, 210, 'F');
     
     // Outer Orange Border
-    doc.setDrawColor(249, 115, 22); // #F97316
+    doc.setDrawColor(249, 115, 22); // #00D4FF
     doc.setLineWidth(1);
     doc.rect(5, 5, 287, 200);
     // Inner Orange Border
@@ -580,7 +580,7 @@ export default function StudentDashboard() {
             <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <div>
                 <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  <BookOpen className="w-8 h-8 text-[#F97316]" />
+                  <BookOpen className="w-8 h-8 text-[#00D4FF]" />
                   My Courses
                 </h1>
                 <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Continue learning and track your progress.</p>
@@ -592,19 +592,19 @@ export default function StudentDashboard() {
             
             {enrolledCourses.length === 0 ? (
                <div className={`p-12 text-center rounded-[32px] border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}>
-                 <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 border ${isDarkMode ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-orange-50 text-orange-500 border-orange-100'}`}>
+                 <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 border ${isDarkMode ? 'bg-[#00D4FF]/10 text-orange-400 border-[#00D4FF]/20' : 'bg-orange-50 text-[#00D4FF] border-orange-100'}`}>
                    <BookOpen className="w-8 h-8" />
                  </div>
                  <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>No enrolled courses</h3>
                  <p className={`text-sm mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>You haven't enrolled in any courses yet. Check out the catalog!</p>
-                 <button onClick={() => setActiveTab('catalog')} className={`px-6 py-3 bg-[#F97316] hover:bg-[#EA580C] font-bold text-sm rounded-xl shadow-md transition-colors text-white`}>
+                 <button onClick={() => setActiveTab('catalog')} className={`px-6 py-3 bg-[#00D4FF] hover:bg-[#EA580C] font-bold text-sm rounded-xl shadow-md transition-colors text-white`}>
                    Explore Catalog
                  </button>
                </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {enrolledCourses.map((enrolled) => (
-                    <div key={enrolled.id} className={`rounded-[32px] border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-slate-700 hover:border-orange-500/50' : 'bg-white border-slate-200 hover:border-orange-300'}`}>
+                    <div key={enrolled.id} className={`rounded-[32px] border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-slate-700 hover:border-[#00D4FF]/50' : 'bg-white border-slate-200 hover:border-orange-300'}`}>
                        <div className="w-full h-40 bg-slate-100 dark:bg-slate-800 rounded-xl mb-4 overflow-hidden relative">
                          <img src={enrolled.course?.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' : (enrolled.course?.thumbnail || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80')} alt={enrolled.course?.title} className="w-full h-full object-cover" />
                        </div>
@@ -612,12 +612,12 @@ export default function StudentDashboard() {
                        <div className="mt-auto pt-4 space-y-3">
                          <div className="flex justify-between text-xs font-bold">
                            <span className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>Progress</span>
-                           <span className="text-[#F97316]">{enrolled.progress || 0}%</span>
+                           <span className="text-[#00D4FF]">{enrolled.progress || 0}%</span>
                          </div>
                          <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                           <div className="h-full bg-[#F97316] rounded-full" style={{width: `${enrolled.progress || 0}%`}}></div>
+                           <div className="h-full bg-[#00D4FF] rounded-full" style={{width: `${enrolled.progress || 0}%`}}></div>
                          </div>
-                         <button onClick={() => navigate(`/course/${enrolled.course?.id || enrolled.courseId}`)} className={`w-full py-2.5 mt-2 font-bold text-xs rounded-lg transition-colors ${isDarkMode ? 'bg-white/10 hover:bg-[#F97316] text-white' : 'bg-slate-100 hover:bg-[#F97316] text-slate-800 hover:text-white'}`}>
+                         <button onClick={() => navigate(`/course/${enrolled.course?.id || enrolled.courseId}`)} className={`w-full py-2.5 mt-2 font-bold text-xs rounded-lg transition-colors ${isDarkMode ? 'bg-white/10 hover:bg-[#00D4FF] text-white' : 'bg-slate-100 hover:bg-[#00D4FF] text-slate-800 hover:text-white'}`}>
                            Continue Learning
                          </button>
                        </div>
@@ -675,21 +675,21 @@ export default function StudentDashboard() {
                         {unclaimedCourses.map((enrolled) => (
                           <div 
                             key={`unclaimed-${enrolled.id || enrolled.course?.id}`} 
-                            className={`rounded-[32px] border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-orange-500/30 hover:border-orange-500' : 'bg-white border-orange-200 hover:border-orange-400'}`}
+                            className={`rounded-[32px] border shadow-sm p-6 flex flex-col h-full transition-all relative group ${isDarkMode ? 'bg-[#0B1120] border-[#00D4FF]/30 hover:border-[#00D4FF]' : 'bg-white border-orange-200 hover:border-orange-400'}`}
                           >
-                            <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto border ${isDarkMode ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-orange-50 text-orange-500 border-orange-100'}`}>
+                            <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto border ${isDarkMode ? 'bg-[#00D4FF]/10 text-orange-400 border-[#00D4FF]/20' : 'bg-orange-50 text-[#00D4FF] border-orange-100'}`}>
                               <Award className="w-8 h-8" />
                             </div>
                             <h3 className={`text-lg font-bold text-center mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
                               {enrolled.course?.title || 'Unknown Course'}
                             </h3>
-                            <p className={`text-[11px] font-medium text-center mb-8 flex-1 ${isDarkMode ? 'text-orange-400' : 'text-orange-500'}`}>
+                            <p className={`text-[11px] font-medium text-center mb-8 flex-1 ${isDarkMode ? 'text-orange-400' : 'text-[#00D4FF]'}`}>
                               Ready to be claimed!
                             </p>
                             
                             <button 
                               onClick={() => handleClaimCertificate(enrolled.course?.id || enrolled.courseId)}
-                              className={`w-full inline-flex justify-center items-center gap-2 px-6 py-3 font-bold text-sm rounded-xl transition-colors shadow-sm bg-[#F97316] hover:bg-[#EA580C] text-white`}
+                              className={`w-full inline-flex justify-center items-center gap-2 px-6 py-3 font-bold text-sm rounded-xl transition-colors shadow-sm bg-[#00D4FF] hover:bg-[#EA580C] text-white`}
                             >
                               Claim Now
                             </button>
@@ -751,9 +751,9 @@ export default function StudentDashboard() {
                         <input 
                             type="text" value={growthNote} onChange={e => setGrowthNote(e.target.value)}
                             placeholder="Set a new objective..."
-                            className={`flex-1 !px-5 !py-2 border !rounded-full outline-none focus:ring-2 focus:ring-[#f97316]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-slate-700 text-white placeholder:text-slate-500' : 'bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400'}`}
+                            className={`flex-1 !px-5 !py-2 border !rounded-full outline-none focus:ring-2 focus:ring-[#00D4FF]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-slate-700 text-white placeholder:text-slate-500' : 'bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400'}`}
                         />
-                        <button type="submit" className={`px-6 py-2 !rounded-full-full text-sm font-semibold bg-[#f97316] hover:bg-[#ea580c] shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Add</button>
+                        <button type="submit" className={`px-6 py-2 !rounded-full-full text-sm font-semibold bg-[#00D4FF] hover:bg-[#ea580c] shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Add</button>
                     </form>
                 </div>
                 
@@ -773,7 +773,7 @@ export default function StudentDashboard() {
                            <ul className="space-y-3">
                              {privateLogs.map(log => (
                                <li key={log.id} className={`p-3 rounded-lg border ${isDarkMode ? 'bg-[#121A2F] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-100 text-slate-700'} text-sm`}>
-                                  <span className="font-bold mr-2 text-[#F97316]">Goal:</span>
+                                  <span className="font-bold mr-2 text-[#00D4FF]">Goal:</span>
                                   {log.metadata?.goal || log.details || log.action}
                                </li>
                              ))}
@@ -850,7 +850,7 @@ export default function StudentDashboard() {
            <div className="relative w-full max-w-md">
              <Search className={`w-4 h-4 absolute left-5 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
              <input type="text" placeholder="Search courses, lessons..." 
-               className={`w-full !pl-12 !pr-4 !py-3 !rounded-full-full text-xs font-bold outline-none transition-all focus:border-[#F97316]/50 ${isDarkMode ? 'bg-[#121A2F] border-slate-800 text-white placeholder:text-slate-500' : 'bg-[#F9FAFB] border-transparent text-slate-700 placeholder:text-slate-400'}`} />
+               className={`w-full !pl-12 !pr-4 !py-3 !rounded-full-full text-xs font-bold outline-none transition-all focus:border-[#00D4FF]/50 ${isDarkMode ? 'bg-[#121A2F] border-slate-800 text-white placeholder:text-slate-500' : 'bg-[#F9FAFB] border-transparent text-slate-700 placeholder:text-slate-400'}`} />
            </div>
 
            <div className="flex items-center gap-4">

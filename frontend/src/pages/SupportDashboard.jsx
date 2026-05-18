@@ -286,7 +286,7 @@ export default function SupportDashboard() {
                     {/* Status Badge */}
                     <div>
                       {student.status === 'active' && <span className="px-3 py-1.5 text-[10px] font-black   bg-emerald-500/10 text-emerald-500 border-0 rounded-xl shadow-sm flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Active</span>}
-                      {student.status === 'at-risk' && <span className="px-3 py-1.5 text-[10px] font-black   bg-amber-500/10 text-amber-500 border-0 rounded-xl shadow-sm flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> At Risk</span>}
+                      {student.status === 'at-risk' && <span className="px-3 py-1.5 text-[10px] font-black   bg-[#00D4FF]/10 text-[#00D4FF] border-0 rounded-xl shadow-sm flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-[#00D4FF] animate-pulse"></span> At Risk</span>}
                       {student.status === 'completed' && <span className="px-3 py-1.5 text-[10px] font-black   bg-cyan-500/10 text-cyan-500 border-0 rounded-xl shadow-sm flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> Completed</span>}
                     </div>
                   </div>
@@ -299,7 +299,7 @@ export default function SupportDashboard() {
                     </div>
                     <div className={`h-3 w-full border-0 rounded-full overflow-hidden shadow-inner ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-100'}`}>
                       <div 
-                        className={`h-full rounded-full transition-all duration-[1500ms] ease-out ${student.status === 'active' ? 'bg-emerald-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : student.status === 'at-risk' ? 'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]' : 'bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]'}`} 
+                        className={`h-full rounded-full transition-all duration-[1500ms] ease-out ${student.status === 'active' ? 'bg-emerald-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]' : student.status === 'at-risk' ? 'bg-[#00D4FF] shadow-[0_0_10px_rgba(245,158,11,0.5)]' : 'bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]'}`} 
                         style={{ width: `${student.progress}%` }} 
                       />
                     </div>
@@ -413,7 +413,7 @@ export default function SupportDashboard() {
                        type="text" 
                        value={sponsorForm.studentId}
                        onChange={e => setSponsorForm({...sponsorForm, studentId: e.target.value})}
-                       className={`w-full border !px-5 !py-3 !rounded-full focus:outline-none focus:border-[#F97316]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
+                       className={`w-full border !px-5 !py-3 !rounded-full focus:outline-none focus:border-[#00D4FF]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
                        placeholder="Enter the UUID of the student..."
                     />
                  </div>
@@ -426,7 +426,7 @@ export default function SupportDashboard() {
                        min="1"
                        value={sponsorForm.amount}
                        onChange={e => setSponsorForm({...sponsorForm, amount: e.target.value})}
-                       className={`w-full border !px-5 !py-3 !rounded-full focus:outline-none focus:border-[#F97316]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
+                       className={`w-full border !px-5 !py-3 !rounded-full focus:outline-none focus:border-[#00D4FF]/50 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900 focus:bg-white'}`}
                     />
                  </div>
                  

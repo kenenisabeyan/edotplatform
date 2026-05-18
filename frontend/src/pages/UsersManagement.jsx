@@ -182,7 +182,7 @@ export default function UsersManagement() {
               placeholder="Search users..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full !pl-14 !pr-4 !py-2.5 border !rounded-full text-sm outline-none focus:ring-2 focus:ring-[#F97316] transition-shadow placeholder-slate-400 ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
+              className={`w-full !pl-14 !pr-4 !py-2.5 border !rounded-full text-sm outline-none focus:ring-2 focus:ring-[#00D4FF] transition-shadow placeholder-slate-400 ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
             />
           </div>
           <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto mt-3 sm:mt-0">
@@ -199,7 +199,7 @@ export default function UsersManagement() {
             </div>
             <button
               onClick={() => setShowAddForm((prev) => !prev)}
-              className={`px-4 py-2 rounded-lg font-bold text-sm shadow-sm transition-all ${showAddForm ? (isDarkMode ? 'bg-slate-700 text-white' : 'bg-slate-200 text-slate-800') : 'bg-[#F97316] hover:bg-[#EA580C] text-white'}`}
+              className={`px-4 py-2 rounded-lg font-bold text-sm shadow-sm transition-all ${showAddForm ? (isDarkMode ? 'bg-slate-700 text-white' : 'bg-slate-200 text-slate-800') : 'bg-[#00D4FF] hover:bg-[#EA580C] text-white'}`}
             >
               {showAddForm ? 'Close Add User' : '+ Add New User'}
             </button>
@@ -213,7 +213,7 @@ export default function UsersManagement() {
               value={newUser.name}
               onChange={(e) => setNewUser((prev) => ({ ...prev, name: e.target.value }))}
               placeholder="Full name"
-              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#00D4FF]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               required
             />
             <input
@@ -221,7 +221,7 @@ export default function UsersManagement() {
               value={newUser.email}
               onChange={(e) => setNewUser((prev) => ({ ...prev, email: e.target.value }))}
               placeholder="Email address"
-              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#00D4FF]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               required
             />
             <input
@@ -229,7 +229,7 @@ export default function UsersManagement() {
               value={newUser.password}
               onChange={(e) => setNewUser((prev) => ({ ...prev, password: e.target.value }))}
               placeholder="Temporary password"
-              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#F97316]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#00D4FF]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               required
             />
             <CustomDropdown
@@ -253,7 +253,7 @@ export default function UsersManagement() {
         )}
 
         {notice && (
-          <div className="mb-4 p-3 rounded-lg bg-[#F97316]/15 border border-[#F97316]/25 text-[#F97316] text-sm font-semibold">{notice}</div>
+          <div className="mb-4 p-3 rounded-lg bg-[#00D4FF]/15 border border-[#00D4FF]/25 text-[#00D4FF] text-sm font-semibold">{notice}</div>
         )}
 
         <div className="overflow-x-auto">
@@ -322,7 +322,7 @@ export default function UsersManagement() {
                     {/* Certificates Info */}
                     <td className="px-6 py-4 text-center">
                       <div className="flex justify-center items-center">
-                        <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-full text-xs font-bold shadow-sm ${u.certificates && u.certificates.length > 0 ? 'bg-orange-100 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 border border-slate-200 dark:border-slate-700'}`}>
+                        <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-full text-xs font-bold shadow-sm ${u.certificates && u.certificates.length > 0 ? 'bg-orange-100 text-orange-600 dark:bg-[#00D4FF]/20 dark:text-orange-400 border border-orange-200 dark:border-[#00D4FF]/30' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 border border-slate-200 dark:border-slate-700'}`}>
                           {u.certificates ? u.certificates.length : 0}
                         </span>
                       </div>
@@ -383,7 +383,7 @@ export default function UsersManagement() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex flex-wrap gap-2">
-                      <button onClick={() => resetUserPassword(u.id)} className={`text-xs px-3 py-1.5 rounded-lg border font-bold transition-colors ${isDarkMode ? 'bg-orange-500/15 text-yellow-300 border-orange-500/20 hover:bg-orange-500/25' : 'bg-orange-50 text-orange-600 border-orange-200 hover:bg-orange-100'}`}>Reset PW</button>
+                      <button onClick={() => resetUserPassword(u.id)} className={`text-xs px-3 py-1.5 rounded-lg border font-bold transition-colors ${isDarkMode ? 'bg-[#00D4FF]/15 text-yellow-300 border-[#00D4FF]/20 hover:bg-[#00D4FF]/25' : 'bg-orange-50 text-orange-600 border-orange-200 hover:bg-orange-100'}`}>Reset PW</button>
                       <button onClick={() => deleteUser(u.id)} className={`text-xs px-3 py-1.5 rounded-lg border font-bold transition-colors ${isDarkMode ? 'bg-red-500/15 text-red-300 border-red-500/20 hover:bg-red-500/25' : 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100'}`}>Delete</button>
                       <button onClick={() => showUserDetails(u)} className={`text-xs px-3 py-1.5 rounded-lg border font-bold transition-colors ${isDarkMode ? 'bg-[#0B1120]/40 text-slate-300 border-slate-500/20 hover:bg-white/10' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 shadow-sm'}`}>Details</button>
                     </div>

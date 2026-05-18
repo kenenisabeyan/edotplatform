@@ -134,7 +134,7 @@ export default function ProfileView() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className={`w-10 h-10 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+        <div className={`w-10 h-10 border-4 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
       </div>
     );
   }
@@ -179,7 +179,7 @@ export default function ProfileView() {
               )}
               
               <label htmlFor="avatar-upload" className={`absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-all backdrop-blur-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                {uploadingImage ? <Loader2 className="w-6 h-6 animate-spin text-[#F97316]" /> : <Camera className="w-6 h-6 text-[#F97316]" />}
+                {uploadingImage ? <Loader2 className="w-6 h-6 animate-spin text-[#00D4FF]" /> : <Camera className="w-6 h-6 text-[#00D4FF]" />}
                 <input 
                   id="avatar-upload" 
                   type="file" 
@@ -198,8 +198,8 @@ export default function ProfileView() {
              <form onSubmit={handleUpdate} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 <div className="space-y-2">
-                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Full Name</label>
-                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
+                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`}>Full Name</label>
+                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#00D4FF]/50 focus-within:ring-[#00D4FF]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
                     <User className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                     <input 
                       type="text" 
@@ -213,7 +213,7 @@ export default function ProfileView() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Email Address</label>
+                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`}>Email Address</label>
                   <div className={`relative border !rounded-full overflow-hidden opacity-50 ${isDarkMode ? 'border-white/5 bg-transparent text-slate-200' : 'border-slate-200 bg-slate-50 text-slate-600'}`}>
                     <Mail className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
                     <input 
@@ -228,8 +228,8 @@ export default function ProfileView() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Phone Number</label>
-                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
+                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`}>Phone Number</label>
+                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#00D4FF]/50 focus-within:ring-[#00D4FF]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
                     <Phone className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                     <input 
                       type="tel" 
@@ -243,8 +243,8 @@ export default function ProfileView() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Gender</label>
-                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
+                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`}>Gender</label>
+                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#00D4FF]/50 focus-within:ring-[#00D4FF]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
                     <User className={`absolute left-4 top-3.5 w-5 h-5 z-10 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                     <CustomDropdown 
                       value={formData.gender}
@@ -262,8 +262,8 @@ export default function ProfileView() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Date of Birth</label>
-                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
+                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`}>Date of Birth</label>
+                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#00D4FF]/50 focus-within:ring-[#00D4FF]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
                     <Calendar className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                     <input 
                       type="date" 
@@ -276,8 +276,8 @@ export default function ProfileView() {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Address</label>
-                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
+                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`}>Address</label>
+                  <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all ${isDarkMode ? 'border-white/10 focus-within:border-[#00D4FF]/50 focus-within:ring-[#00D4FF]/50' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500'}`}>
                     <MapPin className={`absolute left-4 top-3.5 w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
                     <input 
                       type="text" 
@@ -359,14 +359,14 @@ export default function ProfileView() {
                 )}
 
                 <div className="space-y-2 md:col-span-2">
-                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Bio</label>
+                  <label className={`text-xs font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`}>Bio</label>
                   <textarea 
                     name="bio"
                     value={formData.bio}
                     onChange={handleChange}
                     rows="4" 
                     placeholder="Tell us a little about yourself"
-                    className={`w-full !px-6 py-5 border !rounded-[32px] outline-none focus:ring-1 font-medium resize-none placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500'}`}
+                    className={`w-full !px-6 py-5 border !rounded-[32px] outline-none focus:ring-1 font-medium resize-none placeholder:text-slate-300 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#00D4FF]/50 focus:ring-[#00D4FF]/50' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500'}`}
                   ></textarea>
                 </div>
 

@@ -8,7 +8,7 @@ import api from '../utils/api';
 const StatBox = ({ title, value, percentage, type }) => {
   const isDarkMode = useThemeMode();
   return (
-  <div className={`p-4 md:p-6 rounded-3xl border shadow-sm overflow-hidden flex flex-col justify-center ${type === 'primary' ? 'bg-gradient-to-r from-[#00D4FF] to-[#0099CC] border-[#F97316]/50' : (isDarkMode ? 'bg-[#0B1120]/90 backdrop-blur-xl' : 'bg-white')} ${isDarkMode ? 'text-white border-white/10' : 'text-slate-900 border-slate-200'}`}>
+  <div className={`p-4 md:p-6 rounded-3xl border shadow-sm overflow-hidden flex flex-col justify-center ${type === 'primary' ? 'bg-gradient-to-r from-[#00D4FF] to-[#0099CC] border-[#00D4FF]/50' : (isDarkMode ? 'bg-[#0B1120]/90 backdrop-blur-xl' : 'bg-white')} ${isDarkMode ? 'text-white border-white/10' : 'text-slate-900 border-slate-200'}`}>
     <div className="flex justify-between items-start mb-2 md:mb-4">
       <h3 className={`font-black text-[10px] truncate ${type === 'primary' ? 'text-white/80' : (isDarkMode ? 'text-slate-200' : 'text-slate-500')}`}>{title}</h3>
       {percentage && (
@@ -20,7 +20,7 @@ const StatBox = ({ title, value, percentage, type }) => {
         </span>
       )}
     </div>
-    <h2 className={`text-2xl md:text-3xl lg:text-4xl font-black truncate w-full ${type === 'primary' ? 'text-white' : (isDarkMode ? 'text-[#F97316]' : 'text-slate-900')}`} title={value}>{value}</h2>
+    <h2 className={`text-2xl md:text-3xl lg:text-4xl font-black truncate w-full ${type === 'primary' ? 'text-white' : (isDarkMode ? 'text-[#00D4FF]' : 'text-slate-900')}`} title={value}>{value}</h2>
     <p className={`text-[9px] md:text-[10px] mt-1 md:mt-2 font-bold truncate ${type === 'primary' ? 'text-white/70' : (isDarkMode ? 'text-slate-300' : 'text-slate-500')}`}>Total Computed Ledger</p>
   </div>
 );
@@ -65,7 +65,7 @@ export default function FinanceFees() {
   ], [totalExpected]);
 
   if (loading) {
-     return <div className="flex justify-center items-center h-64"><div className={`w-10 h-10 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
+     return <div className="flex justify-center items-center h-64"><div className={`w-10 h-10 border-4 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
   }
 
   return (
@@ -98,15 +98,15 @@ export default function FinanceFees() {
                <AreaChart data={collectionData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
                  <defs>
                    <linearGradient id="colorColor" x1="0" y1="0" x2="0" y2="1">
-                     <stop offset="5%" stopColor="#F97316" stopOpacity={0.3}/>
-                     <stop offset="95%" stopColor="#F97316" stopOpacity={0}/>
+                     <stop offset="5%" stopColor="#00D4FF" stopOpacity={0.3}/>
+                     <stop offset="95%" stopColor="#00D4FF" stopOpacity={0}/>
                    </linearGradient>
                  </defs>
                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.05} />
                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
                  <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
                  <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B1120', color: '#fff', fontWeight: 'bold' }} />
-                 <Area type="monotone" dataKey="collection" stroke="#F97316" strokeWidth={3} fillOpacity={1} fill="url(#colorColor)" />
+                 <Area type="monotone" dataKey="collection" stroke="#00D4FF" strokeWidth={3} fillOpacity={1} fill="url(#colorColor)" />
                </AreaChart>
              </ResponsiveContainer>
            </div>
@@ -134,7 +134,7 @@ export default function FinanceFees() {
               <input 
                 type="text" 
                 placeholder="Search ledger..." 
-                className={`w-full !pl-14 !pr-4 !py-2.5 bg-[#0B1120] border !rounded-full-full text-sm font-medium outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 placeholder:text-slate-400 transition-all shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                className={`w-full !pl-14 !pr-4 !py-2.5 bg-[#0B1120] border !rounded-full-full text-sm font-medium outline-none focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/50 placeholder:text-slate-400 transition-all shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               />
             </div>
           </div>
@@ -159,7 +159,7 @@ export default function FinanceFees() {
                 <tr key={c.id} className="hover:bg-white/5/5 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/30 flex items-center justify-center font-black text-[10px] shrink-0   shadow-sm">
+                      <div className="w-8 h-8 rounded-full bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/30 flex items-center justify-center font-black text-[10px] shrink-0   shadow-sm">
                         {c.title.charAt(0)}
                       </div>
                       <div>
@@ -169,7 +169,7 @@ export default function FinanceFees() {
                     </div>
                   </td>
                   <td className={`px-6 py-4 text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{c.instructor?.name || 'Assigned Instructor'}</td>
-                  <td className="px-6 py-4 text-[#F97316] font-black ">${c.price || 0}</td>
+                  <td className="px-6 py-4 text-[#00D4FF] font-black ">${c.price || 0}</td>
                   <td className={`px-6 py-4 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{volume}</td>
                   <td className="px-6 py-4 text-[#00D4FF] font-black ">${(c.price || 0) * volume}</td>
                   <td className="px-6 py-4">

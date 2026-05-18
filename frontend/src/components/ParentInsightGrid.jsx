@@ -108,7 +108,7 @@ export default function ParentInsightGrid({ studentId }) {
                  </h3>
                  <p className={`text-xs mt-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Ref #${Math.random().toString(36).substring(7).toUpperCase()}</p>
                </div>
-               <span className="bg-amber-100 dark:bg-amber-500/100/20 text-amber-700 dark:text-amber-400 text-xs font-bold px-3 py-1 rounded-full  ">
+               <span className="bg-amber-100 dark:bg-[#00D4FF]/100/20 text-amber-700 dark:text-amber-400 text-xs font-bold px-3 py-1 rounded-full  ">
                  {invoice.status}
                </span>
             </CardHeader>

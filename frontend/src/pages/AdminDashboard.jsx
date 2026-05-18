@@ -304,9 +304,9 @@ export default function AdminDashboard() {
 
   const getStatusBadgeClasses = (status) => {
     if (status === 'approved') return 'bg-emerald-500/100/20 text-emerald-300 border border-emerald-300';
-    if (status === 'pending') return 'bg-amber-500/100/20 text-amber-300 border border-amber-300';
+    if (status === 'pending') return 'bg-[#00D4FF]/100/20 text-amber-300 border border-amber-300';
     if (status === 'rejected') return 'bg-rose-500/100/20 text-rose-300 border border-rose-300';
-    if (status === 'blocked') return 'bg-[#F97316]/20 text-[#F97316] border border-[#F97316]';
+    if (status === 'blocked') return 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]';
     return 'bg-[#0B1120]/40 backdrop-blur-xl0/20 text-slate-200 border border-slate-400';
   };
 
@@ -399,7 +399,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className={`p-6 rounded-[32px] border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
-                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[#00D4FF]/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <p className="text-sm font-medium text-gray-500 mb-1">Pending Approvals</p>
@@ -476,7 +476,7 @@ export default function AdminDashboard() {
                  </button>
                  <button 
                   onClick={() => setActiveTab('courses')} 
-                  className={`flex items-center gap-3 p-4 rounded-xl border hover:border-amber-300 hover:bg-amber-500/10 hover:text-amber-700 transition-colors text-left group ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}
+                  className={`flex items-center gap-3 p-4 rounded-xl border hover:border-amber-300 hover:bg-[#00D4FF]/10 hover:text-amber-700 transition-colors text-left group ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}
                  >
                    <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center group-hover:bg-amber-200 transition-colors">
                      <BookOpen className="w-5 h-5" />
@@ -657,7 +657,7 @@ export default function AdminDashboard() {
                           )}
                         <td className="px-6 py-4 text-center">
                           <div className="flex justify-center items-center">
-                            <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-full text-xs font-bold shadow-sm ${u.certificates && u.certificates.length > 0 ? 'bg-orange-100 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 border border-slate-200 dark:border-slate-700'}`}>
+                            <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-full text-xs font-bold shadow-sm ${u.certificates && u.certificates.length > 0 ? 'bg-orange-100 text-orange-600 dark:bg-[#00D4FF]/20 dark:text-orange-400 border border-orange-200 dark:border-[#00D4FF]/30' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 border border-slate-200 dark:border-slate-700'}`}>
                               {u.certificates ? u.certificates.length : 0}
                             </span>
                           </div>
@@ -732,7 +732,7 @@ export default function AdminDashboard() {
                       <div className="p-6 md:p-8 flex flex-col flex-1">
                         <div className="flex justify-between items-start mb-2 gap-4">
                           <h3 className={`text-xl font-bold leading-snug ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</h3>
-                          <span className="shrink-0 flex items-center gap-1.5 bg-amber-500/10 text-amber-700 px-3 py-1 rounded-full text-xs font-bold   border border-amber-200">
+                          <span className="shrink-0 flex items-center gap-1.5 bg-[#00D4FF]/10 text-amber-700 px-3 py-1 rounded-full text-xs font-bold   border border-amber-200">
                              <Clock className="w-3 h-3" /> Pending Review
                           </span>
                         </div>
@@ -879,7 +879,7 @@ export default function AdminDashboard() {
                 {/* Brand Background Decorative Elements */}
                 <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
                 <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
-                <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#F97316]/20 blur-[80px] pointer-events-none z-0"></div>
+                <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
 
                 <div className="flex justify-between items-start gap-4 mb-5 relative z-10 w-full">
                   <div className="flex items-center gap-4">
@@ -1003,7 +1003,7 @@ export default function AdminDashboard() {
                                ))
                            ) : selectedUser.role === 'instructor' ? (
                               (selectedUser.taughtCourses || []).filter(c => c.status === 'pending').map((c, idx) => (
-                                 <div key={idx} className="flex justify-between items-center bg-amber-500/100/10 px-2 py-1.5 rounded-lg border border-amber-500/20">
+                                 <div key={idx} className="flex justify-between items-center bg-[#00D4FF]/100/10 px-2 py-1.5 rounded-lg border border-[#00D4FF]/20">
                                     <span className="text-xs text-amber-200 font-medium truncate mr-2">{c.title}</span>
                                     <span className="text-[9px] font-bold shrink-0 text-amber-400">Needs Review</span>
                                  </div>

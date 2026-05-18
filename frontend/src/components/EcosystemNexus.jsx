@@ -64,7 +64,7 @@ export default function EcosystemNexus() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-64 space-y-4">
-        <div className={`w-12 h-12 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+        <div className={`w-12 h-12 border-4 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
         <p className={`text-sm font-black tracking-widest ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>ESTABLISHING SECURE NEXUS...</p>
       </div>
     );
@@ -90,7 +90,7 @@ export default function EcosystemNexus() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
         {/* Decorative background link line */}
-        <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-1 bg-gradient-to-r from-transparent via-[#F97316]/20 to-transparent -z-10"></div>
+        <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-1 bg-gradient-to-r from-transparent via-[#00D4FF]/20 to-transparent -z-10"></div>
         <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-1 bg-gradient-to-b from-transparent via-[#00D4FF]/20 to-transparent -z-10"></div>
 
         {/* Instructors Node */}
@@ -127,11 +127,11 @@ export default function EcosystemNexus() {
         </div>
 
         {/* Parent / Guardian Node */}
-        <div className={`p-6 rounded-[2rem] border shadow-lg relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/5 hover:border-[#F97316]/30' : 'bg-white border-slate-200 hover:border-[#F97316]/30'}`}>
-          <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none group-hover:bg-[#F97316]/20 transition-all duration-700" />
+        <div className={`p-6 rounded-[2rem] border shadow-lg relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/5 hover:border-[#00D4FF]/30' : 'bg-white border-slate-200 hover:border-[#00D4FF]/30'}`}>
+          <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none group-hover:bg-[#00D4FF]/20 transition-all duration-700" />
           <div className="flex items-center justify-between mb-6 relative z-10">
              <div className="flex items-center gap-3">
-               <div className="w-12 h-12 rounded-xl bg-[#F97316]/10 text-[#F97316] flex items-center justify-center border border-[#F97316]/20">
+               <div className="w-12 h-12 rounded-xl bg-[#00D4FF]/10 text-[#00D4FF] flex items-center justify-center border border-[#00D4FF]/20">
                  <Users className="w-6 h-6" />
                </div>
                <div>
@@ -143,7 +143,7 @@ export default function EcosystemNexus() {
           </div>
           <div className="space-y-4 relative z-10">
             {connections.parents.map((parent, i) => (
-              <div key={i} onClick={() => navigate('/dashboard/messages')} className={`p-4 rounded-xl border flex flex-col gap-3 cursor-pointer hover:-translate-y-0.5 transition-all ${isDarkMode ? 'bg-white/5 border-white/5 hover:border-[#F97316]/30 hover:bg-white/10' : 'bg-slate-50 border-slate-100 hover:border-[#F97316]/30 hover:bg-white'}`}>
+              <div key={i} onClick={() => navigate('/dashboard/messages')} className={`p-4 rounded-xl border flex flex-col gap-3 cursor-pointer hover:-translate-y-0.5 transition-all ${isDarkMode ? 'bg-white/5 border-white/5 hover:border-[#00D4FF]/30 hover:bg-white/10' : 'bg-slate-50 border-slate-100 hover:border-[#00D4FF]/30 hover:bg-white'}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <ShieldCheck className="w-5 h-5 text-emerald-500" />
@@ -172,11 +172,11 @@ export default function EcosystemNexus() {
                  <p className={`text-xs font-bold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Financial Backers</p>
                </div>
              </div>
-             <span className="text-xs font-black text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">PENDING ACTION</span>
+             <span className="text-xs font-black text-[#00D4FF] bg-[#00D4FF]/10 px-3 py-1 rounded-full">PENDING ACTION</span>
           </div>
           <div className="space-y-4 relative z-10">
             {connections.sponsors.map((sponsor, i) => (
-              <div key={i} className={`p-4 rounded-xl border flex flex-col gap-3 ${isDarkMode ? 'bg-white/5 border-amber-500/30' : 'bg-amber-50 border-amber-200'}`}>
+              <div key={i} className={`p-4 rounded-xl border flex flex-col gap-3 ${isDarkMode ? 'bg-white/5 border-[#00D4FF]/30' : 'bg-amber-50 border-amber-200'}`}>
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <User className={`w-5 h-5 ${isDarkMode ? 'text-slate-400' : 'text-amber-600'}`} />

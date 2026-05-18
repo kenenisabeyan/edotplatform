@@ -58,7 +58,7 @@ export default function NoticeView() {
   if (loading && notices.length === 0) {
     return (
       <div className="flex justify-center items-center h-[60vh]">
-        <div className={`w-12 h-12 border-4 border-t-[#F97316] rounded-full animate-spin shadow-[0_0_15px_rgba(255,215,0,0.5)] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+        <div className={`w-12 h-12 border-4 border-t-[#00D4FF] rounded-full animate-spin shadow-[0_0_15px_rgba(255,215,0,0.5)] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
       </div>
     );
   }
@@ -83,7 +83,7 @@ export default function NoticeView() {
           {canCreate && !showCreateForm && (
             <button 
               onClick={() => setShowCreateForm(true)}
-              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-[#F97316] to-orange-600 text-[#0B1120] font-black   text-xs rounded-xl shadow-[0_0_20px_rgba(255,215,0,0.2)] hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] hover:-translate-y-0.5 transition-all outline-none focus:ring-2 focus:ring-[#F97316]/50"
+              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-[#00D4FF] to-orange-600 text-[#0B1120] font-black   text-xs rounded-xl shadow-[0_0_20px_rgba(255,215,0,0.2)] hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] hover:-translate-y-0.5 transition-all outline-none focus:ring-2 focus:ring-[#00D4FF]/50"
             >
               <Plus className="w-4 h-4" /> Create Notice
             </button>
@@ -112,8 +112,8 @@ export default function NoticeView() {
           <form onSubmit={handleCreateNotice} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 space-y-2">
-                    <label className={`text-[10px] font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Announcement Title</label>
-                    <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all shadow-inner ${isDarkMode ? 'border-white/10 focus-within:border-[#F97316]/50 focus-within:ring-[#F97316]/50 bg-[#0B1120]' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500 bg-white'}`}>
+                    <label className={`text-[10px] font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`}>Announcement Title</label>
+                    <div className={`relative border !rounded-full overflow-hidden focus-within:ring-1 transition-all shadow-inner ${isDarkMode ? 'border-white/10 focus-within:border-[#00D4FF]/50 focus-within:ring-[#00D4FF]/50 bg-[#0B1120]' : 'border-slate-300 focus-within:border-indigo-500 focus-within:ring-indigo-500 bg-white'}`}>
                       <input 
                         type="text" 
                         required
@@ -125,7 +125,7 @@ export default function NoticeView() {
                     </div>
                 </div>
                 <div className="space-y-2">
-                    <label className={`text-[10px] font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Target Audience</label>
+                    <label className={`text-[10px] font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`}>Target Audience</label>
                     <CustomDropdown
                       value={newNotice.audience}
                       onChange={(val) => setNewNotice({ ...newNotice, audience: val })}
@@ -142,14 +142,14 @@ export default function NoticeView() {
             </div>
 
             <div className="space-y-2">
-                <label className={`text-[10px] font-black ${isDarkMode ? 'text-[#F97316]' : 'text-slate-700'}`}>Message Content</label>
+                <label className={`text-[10px] font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-slate-700'}`}>Message Content</label>
                 <textarea 
                   required
                   placeholder="Type your official announcement here..."
                   rows={5}
                   value={newNotice.content}
                   onChange={(e) => setNewNotice({ ...newNotice, content: e.target.value })}
-                  className={`w-full !px-6 py-5 border !rounded-[32px] outline-none focus:ring-1 font-medium resize-none shadow-inner transition-all text-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#F97316]/50 focus:ring-[#F97316]/50 placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 placeholder:text-slate-400'}`}
+                  className={`w-full !px-6 py-5 border !rounded-[32px] outline-none focus:ring-1 font-medium resize-none shadow-inner transition-all text-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white focus:border-[#00D4FF]/50 focus:ring-[#00D4FF]/50 placeholder:text-slate-300' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 placeholder:text-slate-400'}`}
                 ></textarea>
             </div>
 
@@ -171,7 +171,7 @@ export default function NoticeView() {
       {notices.length === 0 && !showCreateForm ? (
         <div className={`p-16 text-center rounded-[32px] border backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/95 border-slate-200'}`}>
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-repeat opacity-[0.03] pointer-events-none"></div>
-           <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-6 border shadow-inner ${isDarkMode ? 'bg-[#0B1120] text-[#F97316]/30 border-white/5' : 'bg-slate-100 text-slate-300 border-slate-200'}`}>
+           <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-6 border shadow-inner ${isDarkMode ? 'bg-[#0B1120] text-[#00D4FF]/30 border-white/5' : 'bg-slate-100 text-slate-300 border-slate-200'}`}>
              <BellRing className="w-10 h-10" />
            </div>
            <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>You're caught up!</h3>
@@ -180,20 +180,20 @@ export default function NoticeView() {
       ) : (
         <div className="grid grid-cols-1 gap-6">
           {notices.map((notice) => (
-            <div key={notice.id} className={`rounded-[32px] border backdrop-blur-xl shadow-2xl overflow-hidden p-6 md:p-8 transition-all duration-300 relative group flex flex-col md:flex-row gap-6 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10 hover:shadow-[0_0_30px_rgba(255,215,0,0.1)] hover:border-[#F97316]/30' : 'bg-white/95 border-slate-200 hover:shadow-lg hover:border-slate-300'}`}>
+            <div key={notice.id} className={`rounded-[32px] border backdrop-blur-xl shadow-2xl overflow-hidden p-6 md:p-8 transition-all duration-300 relative group flex flex-col md:flex-row gap-6 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10 hover:shadow-[0_0_30px_rgba(255,215,0,0.1)] hover:border-[#00D4FF]/30' : 'bg-white/95 border-slate-200 hover:shadow-lg hover:border-slate-300'}`}>
                 
-                <div className={`absolute top-0 left-0 w-1 h-full opacity-50 group-hover:opacity-100 transition-opacity ${isDarkMode ? 'bg-[#F97316]' : 'bg-indigo-500'}`}></div>
+                <div className={`absolute top-0 left-0 w-1 h-full opacity-50 group-hover:opacity-100 transition-opacity ${isDarkMode ? 'bg-[#00D4FF]' : 'bg-indigo-500'}`}></div>
                 
-                <div className={`w-14 h-14 border rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-[#F97316]' : 'bg-slate-50 border-slate-200 text-indigo-600'}`}>
+                <div className={`w-14 h-14 border rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-[#00D4FF]' : 'bg-slate-50 border-slate-200 text-indigo-600'}`}>
                   <Pin className="w-6 h-6 transform group-hover:rotate-12 transition-transform" />
                 </div>
                 
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 gap-3">
-                    <h3 className={`font-bold text-lg md:text-xl pr-4 transition-colors ${isDarkMode ? 'text-white group-hover:text-[#F97316]' : 'text-slate-900 group-hover:text-indigo-600'}`}>{notice.title}</h3>
+                    <h3 className={`font-bold text-lg md:text-xl pr-4 transition-colors ${isDarkMode ? 'text-white group-hover:text-[#00D4FF]' : 'text-slate-900 group-hover:text-indigo-600'}`}>{notice.title}</h3>
                     <div className="flex items-center gap-3 shrink-0">
                       <span className={`text-[9px]   font-black px-3 py-1.5 rounded-lg border shadow-sm ${
-                          notice.audience === 'all' ? 'bg-[#F97316]/10 border-[#F97316]/20 text-[#F97316]' :
+                          notice.audience === 'all' ? 'bg-[#00D4FF]/10 border-[#00D4FF]/20 text-[#00D4FF]' :
                           notice.audience === 'student' ? 'bg-[#00D4FF]/10 border-[#00D4FF]/20 text-[#00D4FF]' :
                           notice.audience === 'instructor' ? 'bg-blue-500/100/10 border-blue-500/20 text-blue-400' :
                           'bg-[#E30A17]/10 border-[#E30A17]/20 text-[#E30A17]'

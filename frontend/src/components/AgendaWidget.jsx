@@ -94,7 +94,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
       case 'meeting': return 'bg-blue-500/100/20 text-blue-400 border-blue-500/30';
       case 'exam': return 'bg-rose-500/100/20 text-rose-400 border-rose-500/30';
       case 'announcement': return 'bg-indigo-500/100/20 text-indigo-400 border-indigo-500/30';
-      case 'advice': return 'bg-amber-500/100/20 text-amber-400 border-amber-500/30';
+      case 'advice': return 'bg-[#00D4FF]/100/20 text-amber-400 border-[#00D4FF]/30';
       case 'support': return 'bg-emerald-500/100/20 text-emerald-400 border-emerald-500/30';
       default: return isDarkMode ? 'bg-[#0B1120]/40 backdrop-blur-xl text-slate-200 border-slate-500/30' : 'bg-slate-100 text-slate-600 border-slate-200';
     }
@@ -153,7 +153,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
                             </span>
                           )}
                        </div>
-                       <h4 className={`text-sm font-bold group-hover:text-[#F97316] transition-colors ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{evt.title}</h4>
+                       <h4 className={`text-sm font-bold group-hover:text-[#00D4FF] transition-colors ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{evt.title}</h4>
                        
                        <div className="flex items-center gap-1.5 mt-2">
                          {renderAvatarStack(evt)}
@@ -198,7 +198,7 @@ export default function AgendaWidget({ events, userRole, isAdmin, onDelete, onCr
       <PremiumModal isOpen={!!selectedEvent} onClose={() => setSelectedEvent(null)} maxWidth="max-w-lg">
                  <div className="flex flex-col w-full h-full p-6 md:p-8">
                <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
-               <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+               <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
                
                {/* Modal Header */}
                <div className={`px-6 py-5 border-b flex justify-between items-center relative z-10 ${isDarkMode ? 'border-white/5 bg-[#0B1120]/50' : 'border-slate-200 bg-slate-50/80'}`}>

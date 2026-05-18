@@ -105,23 +105,23 @@ export default function CourseDetails() {
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <Link to="/courses" className="inline-flex items-center gap-2 text-xs font-black text-[#F97316] hover:text-white transition-colors mb-10   bg-[#F97316]/10 px-4 py-2 rounded-full-full border border-[#F97316]/20 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)]">
+          <Link to="/courses" className="inline-flex items-center gap-2 text-xs font-black text-[#00D4FF] hover:text-white transition-colors mb-10   bg-[#00D4FF]/10 px-4 py-2 rounded-full-full border border-[#00D4FF]/20 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)]">
             <ArrowLeft className="w-4 h-4" /> Back to Catalog
           </Link>
 
           <div className="flex flex-col lg:flex-row gap-16 lg:items-center">
               {/* Left Hero */}
              <div className="lg:w-7/12">
-                <div className="mb-4 flex flex-wrap items-center gap-2 text-[#F97316] font-black text-[10px] sm:text-xs drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]">
+                <div className="mb-4 flex flex-wrap items-center gap-2 text-[#00D4FF] font-black text-[10px] sm:text-xs drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]">
                    <span>{course.mainCategory || 'SaaS Application'}</span>
                    {course.subCategory && (
                      <>
-                        <ChevronRight className="w-4 h-4 text-[#F97316]/40" />
+                        <ChevronRight className="w-4 h-4 text-[#00D4FF]/40" />
                         <span>{course.subCategory}</span>
                      </>
                    )}
                 </div>
-                <h1 className={`text-5xl md:text-7xl font-black mb-6 leading-tight text-transparent bg-clip-text drop-shadow-[0_0_25px_rgba(249,115,22,0.3)] ${isDarkMode ? 'bg-gradient-to-r from-white via-amber-100 to-[#F97316]' : 'bg-gradient-to-r from-slate-900 via-amber-600 to-[#00D4FF]'}`}>
+                <h1 className={`text-5xl md:text-7xl font-black mb-6 leading-tight text-transparent bg-clip-text drop-shadow-[0_0_25px_rgba(249,115,22,0.3)] ${isDarkMode ? 'bg-gradient-to-r from-white via-amber-100 to-[#00D4FF]' : 'bg-gradient-to-r from-slate-900 via-amber-600 to-[#00D4FF]'}`}>
                   {course.title}
                 </h1>
                 <p className={`text-lg md:text-xl font-medium leading-relaxed max-w-2xl mb-10 border-l-2 border-[#00D4FF]/50 pl-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -133,7 +133,7 @@ export default function CourseDetails() {
                      Instructor: <span className={`ml-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.instructor?.name || 'Kenenisa'}</span>
                    </div>
                    <div className="flex items-center gap-3">
-                     <MonitorPlay className="w-5 h-5 text-[#F97316] drop-shadow-[0_0_10px_rgba(249,115,22,0.4)]" />
+                     <MonitorPlay className="w-5 h-5 text-[#00D4FF] drop-shadow-[0_0_10px_rgba(249,115,22,0.4)]" />
                      Delivery: <span className={`ml-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Hybrid / Online</span>
                    </div>
                 </div>
@@ -177,8 +177,8 @@ export default function CourseDetails() {
                       onClick={() => setActiveTab(tab)}
                       className={`flex-1 min-w-fit py-4 px-8 font-black text-sm transition-all duration-300 rounded-2xl whitespace-nowrap border tracking-wide uppercase ${
                         activeTab === tab 
-                        ? 'border-[#F97316]/50 bg-gradient-to-r from-[#F97316]/10 to-[#00D4FF]/10 text-[#F97316] shadow-[0_0_25px_rgba(249,115,22,0.15)] scale-[1.02]' 
-                        : (isDarkMode ? 'border-white/5 bg-[#0B1120]/60 text-slate-400 hover:border-white/20 hover:text-white hover:bg-[#0B1120]/80' : 'border-slate-200 bg-white/80 text-slate-500 hover:border-[#F97316]/30 hover:text-slate-800 hover:bg-white')
+                        ? 'border-[#00D4FF]/50 bg-gradient-to-r from-[#00D4FF]/10 to-[#00D4FF]/10 text-[#00D4FF] shadow-[0_0_25px_rgba(249,115,22,0.15)] scale-[1.02]' 
+                        : (isDarkMode ? 'border-white/5 bg-[#0B1120]/60 text-slate-400 hover:border-white/20 hover:text-white hover:bg-[#0B1120]/80' : 'border-slate-200 bg-white/80 text-slate-500 hover:border-[#00D4FF]/30 hover:text-slate-800 hover:bg-white')
                       }`}
                     >
                       {tabLabel}
@@ -202,10 +202,10 @@ export default function CourseDetails() {
                      </div>
                   </div>
 
-                  <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#F97316]/40 to-transparent shadow-[0_0_50px_rgba(249,115,22,0.1)]">
+                  <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#00D4FF]/40 to-transparent shadow-[0_0_50px_rgba(249,115,22,0.1)]">
                      <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl h-full border relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 text-white border-white/5' : 'bg-white/95 text-slate-900 border-slate-100'}`}>
                         <h3 className="text-3xl font-black flex items-center gap-4 mb-10 relative z-10">
-                          <CheckCircle className="w-8 h-8 text-[#F97316] drop-shadow-[0_0_15px_rgba(249,115,22,0.4)]" /> 
+                          <CheckCircle className="w-8 h-8 text-[#00D4FF] drop-shadow-[0_0_15px_rgba(249,115,22,0.4)]" /> 
                           What You'll Learn
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
@@ -216,7 +216,7 @@ export default function CourseDetails() {
                              'Receive a formalized digital certification upon passing.',
                            ].map((point, i) => (
                               <div key={i} className={`flex gap-4 group ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                                 <ChevronRight className="w-5 h-5 text-[#F97316] shrink-0 group-hover:translate-x-1 transition-transform" />
+                                 <ChevronRight className="w-5 h-5 text-[#00D4FF] shrink-0 group-hover:translate-x-1 transition-transform" />
                                  <span className="font-bold text-sm leading-relaxed">{point}</span>
                               </div>
                            ))}
@@ -260,7 +260,7 @@ export default function CourseDetails() {
                                          <h4 className={`font-bold text-xl leading-tight mb-3 transition-colors tracking-tight ${isDarkMode ? 'text-white group-hover:text-indigo-300' : 'text-slate-800 group-hover:text-indigo-600'}`}>{lesson.title}</h4>
                                          <div className={`flex flex-wrap items-center gap-3 text-xs font-black ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                                            <span className="flex items-center gap-1.5"><PlayCircle className="w-3 h-3 text-[#00D4FF]" /> {lesson.duration}m Video</span>
-                                           {lesson.readingMaterials && <span className="flex items-center gap-1.5"><FileText className="w-3 h-3 text-[#F97316]" /> Docs</span>}
+                                           {lesson.readingMaterials && <span className="flex items-center gap-1.5"><FileText className="w-3 h-3 text-[#00D4FF]" /> Docs</span>}
                                            {lesson.quiz?.length > 0 && <span className="flex items-center gap-1.5"><BadgeAlert className="w-3 h-3 text-rose-500" /> Audit</span>}
                                          </div>
                                       </div>
@@ -284,7 +284,7 @@ export default function CourseDetails() {
 
               {/* Tab: Instructor */}
               {activeTab === 'instructor' && (
-                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#F97316]/40 to-transparent animate-in fade-in duration-500 slide-in-from-bottom-4 shadow-[0_0_50px_rgba(249,115,22,0.05)]">
+                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#00D4FF]/40 to-transparent animate-in fade-in duration-500 slide-in-from-bottom-4 shadow-[0_0_50px_rgba(249,115,22,0.05)]">
                   <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl flex flex-col md:flex-row items-center gap-12 text-center md:text-left border shadow-xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/5' : 'bg-white/95 border-slate-200'}`}>
                      <div className={`w-40 h-40 rounded-full overflow-hidden shrink-0 border-4 border-[#00D4FF] shadow-[0_0_30px_rgba(0,212,255,0.4)] ${isDarkMode ? 'bg-[#05070A]' : 'bg-slate-100'}`}>
                        <img src="https://ui-avatars.com/api/?name=Instructor&background=0B1120&color=FFFFFF" alt="Instructor" className="w-full h-full object-cover" />
@@ -307,7 +307,7 @@ export default function CourseDetails() {
                   <div className={`p-8 lg:p-12 relative overflow-hidden rounded-[32px] border ${isDarkMode ? 'bg-[#0B1221]/95 border-white/10' : 'bg-white/95 border-slate-200 shadow-xl'}`}>
                      <div className={`text-center mb-8 border-b pb-8 relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                        <h3 className={`font-black text-[11px] mb-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Program Value</h3>
-                       <div className="text-5xl font-black text-[#F97316] drop-shadow-[0_0_15px_rgba(249,115,22,0.3)]">
+                       <div className="text-5xl font-black text-[#00D4FF] drop-shadow-[0_0_15px_rgba(249,115,22,0.3)]">
                          ETB {course.price || '4.94'}
                        </div>
                     </div>
@@ -333,7 +333,7 @@ export default function CourseDetails() {
                           <div className="space-y-4">
                             <Link 
                               to={`/lesson/${course.lessons[0]?.id}?courseId=${course.id}`}
-                              className="w-full relative z-10 flex border-[1px] border-orange-300 items-center justify-center bg-gradient-to-r from-orange-500/10 to-[#F97316] text-[#05070A] font-black   py-5 rounded-full hover:scale-[1.03] transition-all shadow-[0_0_30px_rgba(249,115,22,0.4)] text-sm"
+                              className="w-full relative z-10 flex border-[1px] border-orange-300 items-center justify-center bg-gradient-to-r from-orange-500/10 to-[#00D4FF] text-[#05070A] font-black   py-5 rounded-full hover:scale-[1.03] transition-all shadow-[0_0_30px_rgba(249,115,22,0.4)] text-sm"
                             >
                               Start Learning
                             </Link>
@@ -345,7 +345,7 @@ export default function CourseDetails() {
                             </Link>
                           </div>
                         ) : enrollmentStatus === 'pending' ? (
-                          <div className="w-full relative z-10 flex items-center justify-center gap-3 bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/30 font-black   py-5 rounded-2xl opacity-90 cursor-wait shadow-[inset_0_0_20px_rgba(249,115,22,0.2)] text-sm">
+                          <div className="w-full relative z-10 flex items-center justify-center gap-3 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/30 font-black   py-5 rounded-2xl opacity-90 cursor-wait shadow-[inset_0_0_20px_rgba(249,115,22,0.2)] text-sm">
                             <Clock className="w-5 h-5" /> Pending Approval
                           </div>
                         ) : enrollmentStatus === 'rejected' ? (
@@ -356,7 +356,7 @@ export default function CourseDetails() {
                           <button 
                             onClick={handleEnroll}
                             disabled={enrolling}
-                            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-transparent to-[#00D4FF]/20 border border-[#F97316] text-[#F97316] font-semibold py-5 rounded-full hover:bg-[#F97316] hover:text-[#0B1120] transition-all shadow-[0_0_30px_rgba(0,212,255,0.3)] disabled:opacity-50 hover:scale-[1.03] text-sm"
+                            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-transparent to-[#00D4FF]/20 border border-[#00D4FF] text-[#00D4FF] font-semibold py-5 rounded-full hover:bg-[#00D4FF] hover:text-[#0B1120] transition-all shadow-[0_0_30px_rgba(0,212,255,0.3)] disabled:opacity-50 hover:scale-[1.03] text-sm"
                           >
                             {enrolling ? 'Processing...' : 'Enroll Now'} <ArrowRight className="w-5 h-5"/>
                           </button>

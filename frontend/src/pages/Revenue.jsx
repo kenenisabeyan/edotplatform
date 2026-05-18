@@ -69,7 +69,7 @@ export default function Revenue() {
           <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
             <CircleDollarSign className="w-8 h-8 text-[#00D4FF]" />
             Finance & Revenue
-            {loading && <div className={`w-5 h-5 border-2 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'} ml-3`}></div>}
+            {loading && <div className={`w-5 h-5 border-2 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'} ml-3`}></div>}
           </h1>
           <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Track platform monetization and subscription flow.</p>
         </div>
@@ -142,7 +142,7 @@ export default function Revenue() {
                     <tr key={idx} className={`border-b hover:bg-white/5/5 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                       <td className={`p-5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{new Date(course.createdAt).toLocaleDateString()}</td>
                       <td className="p-5 font-bold">{course.title}</td>
-                      <td className="p-5 text-[#F97316] ">${(course.price * course.totalStudents).toLocaleString()}</td>
+                      <td className="p-5 text-[#00D4FF] ">${(course.price * course.totalStudents).toLocaleString()}</td>
                       <td className="p-5"><span className="bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30 px-3 py-1 rounded-lg text-xs font-black  ">Settled</span></td>
                     </tr>
                  ))

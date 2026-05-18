@@ -18,7 +18,7 @@ export default function InstructorClasses() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className={`w-12 h-12 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+        <div className={`w-12 h-12 border-4 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
       </div>
     );
   }
@@ -54,9 +54,9 @@ export default function InstructorClasses() {
             {courses.map((course) => (
               <div 
                 key={course.id} 
-                className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden flex flex-col md:flex-row p-6 items-start md:items-center gap-6 hover:border-[#F97316]/30 transition-all relative group ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}
+                className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden flex flex-col md:flex-row p-6 items-start md:items-center gap-6 hover:border-[#00D4FF]/30 transition-all relative group ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#F97316] opacity-5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#00D4FF] opacity-5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform"></div>
                 <img 
                   src={course.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80' : course.thumbnail} 
                   alt={course.title} 
@@ -68,7 +68,7 @@ export default function InstructorClasses() {
                   <div className="flex items-center gap-4 mb-4 text-[10px] font-black  ">
                     <span className={`px-3 py-1.5 rounded-sm border ${
                         course.status === 'approved' ? 'bg-[#00D4FF]/20 text-[#00D4FF] border-[#00D4FF]/30' :
-                        course.status === 'pending' ? 'bg-amber-500/100/20 text-amber-500 border-amber-500/30' :
+                        course.status === 'pending' ? 'bg-[#00D4FF]/100/20 text-[#00D4FF] border-[#00D4FF]/30' :
                         course.status === 'rejected' ? 'bg-red-500/20 text-red-500 border-red-500/30' :
                         'bg-[#0B1120]/5 text-slate-200 border-white/10'
                     }`}>

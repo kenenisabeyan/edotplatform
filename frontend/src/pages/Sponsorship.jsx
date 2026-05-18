@@ -23,10 +23,10 @@ export default function Sponsorship() {
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
             <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-[#1A202C]'}`}>
                Give the Gift of <br className="hidden md:block" />
-               <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+               <span className="text-[#00D4FF] relative inline-block mt-2 whitespace-nowrap">
                   <span className="relative z-10">Education</span>
                   {/* Orange Underline */}
-                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316] z-0"></div>
+                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#00D4FF] z-0"></div>
                </span>
             </h1>
             <p className={`text-xl md:text-[20px] font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -71,7 +71,7 @@ export default function Sponsorship() {
                <div className="hidden md:block absolute top-1/2 left-[10%] right-[10%] h-0.5 bg-slate-200 dark:bg-white/10 -translate-y-1/2 z-0"></div>
                {[
                  { step: "01", title: "Select a Learner", desc: "Browse profiles of verified students who need support.", icon: Users, color: "text-[#00D4FF]", bg: "bg-blue-100 dark:bg-blue-900/30" },
-                 { step: "02", title: "Fund Education", desc: "Provide a secure micro-scholarship for their courses.", icon: Handshake, color: "text-[#F97316]", bg: "bg-orange-100 dark:bg-orange-900/30" },
+                 { step: "02", title: "Fund Education", desc: "Provide a secure micro-scholarship for their courses.", icon: Handshake, color: "text-[#00D4FF]", bg: "bg-orange-100 dark:bg-orange-900/30" },
                  { step: "03", title: "Track Progress", desc: "Watch their exam scores and module completions.", icon: Activity, color: "text-green-500", bg: "bg-green-100 dark:bg-green-900/30" },
                  { step: "04", title: "See the Impact", desc: "Celebrate their graduation and certification.", icon: Zap, color: "text-purple-500", bg: "bg-purple-100 dark:bg-purple-900/30" }
                ].map((item, i) => (
@@ -141,14 +141,14 @@ export default function Sponsorship() {
       <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-orange-50 border-slate-200'}`}>
          <div className="max-w-[1000px] mx-auto text-center">
             <h2 className={`text-5xl md:text-6xl font-black mb-8 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               Ready to <span className="text-[#F97316]">Change a Life?</span>
+               Ready to <span className="text-[#00D4FF]">Change a Life?</span>
             </h2>
             <p className={`text-2xl mb-12 max-w-2xl mx-auto font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                Join our network of sponsors today and start making a direct, trackable impact on students worldwide.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-               <Link to="/register" className="bg-[#F97316] text-[#ffffff] px-10 py-4 rounded-full font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">
+               <Link to="/register" className="bg-[#00D4FF] text-[#ffffff] px-10 py-4 rounded-full font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">
                  Become a Sponsor <ChevronRight className="w-5 h-5" />
                </Link>
             </div>

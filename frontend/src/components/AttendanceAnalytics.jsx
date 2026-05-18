@@ -31,7 +31,7 @@ export default function AttendanceAnalytics() {
   if (loading) {
     return (
       <div className="w-full h-48 flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-t-[#F97316] rounded-full animate-spin border-slate-200"></div>
+        <div className="w-8 h-8 border-4 border-t-[#00D4FF] rounded-full animate-spin border-slate-200"></div>
       </div>
     );
   }
@@ -57,7 +57,7 @@ export default function AttendanceAnalytics() {
 
   const pieData = [
     { name: 'Present', value: raw.present, color: '#00D4FF' },
-    { name: 'Late', value: raw.late, color: '#F97316' },
+    { name: 'Late', value: raw.late, color: '#00D4FF' },
     { name: 'Absent', value: raw.absent, color: '#E30A17' }
   ].filter(d => d.value > 0);
 
@@ -98,7 +98,7 @@ export default function AttendanceAnalytics() {
       {/* Weekly Trends */}
       <div className={`p-6 rounded-3xl border shadow-sm ${isDarkMode ? 'bg-[#0B1120]/70 border-white/10' : 'bg-white border-slate-200'}`}>
         <h3 className={`font-bold mb-4 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-          <TrendingUp className="w-5 h-5 text-[#F97316]" /> Weekly Flow
+          <TrendingUp className="w-5 h-5 text-[#00D4FF]" /> Weekly Flow
         </h3>
         <div className="h-48 w-full">
           <ResponsiveContainer width="100%" height="100%">

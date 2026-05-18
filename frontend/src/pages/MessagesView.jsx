@@ -498,7 +498,7 @@ export default function MessagesView() {
                    placeholder="Search messages..." 
                    value={searchQuery}
                    onChange={(e) => setSearchQuery(e.target.value)}
-                   className={`w-full !pl-14 !pr-4 !py-2.5 !rounded-full border text-[14px] focus:outline-none transition-all ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white placeholder-slate-400 focus:border-[#F97316]' : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:border-[#F97316] focus:ring-1 focus:ring-[#F97316]/20'}`}
+                   className={`w-full !pl-14 !pr-4 !py-2.5 !rounded-full border text-[14px] focus:outline-none transition-all ${isDarkMode ? 'bg-[#1E293B] border-white/10 text-white placeholder-slate-400 focus:border-[#00D4FF]' : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF]/20'}`}
                  />
                  <Search className={`absolute left-5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] ml-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
                </div>
@@ -809,7 +809,7 @@ export default function MessagesView() {
                         placeholder={isChannelReadOnly ? "Only channel admins may post here." : "Type a message or paste code/links here..."} 
                         rows={1}
                         disabled={isChannelReadOnly}
-                        className={`flex-1 border transition-all duration-200 focus:outline-none focus:border-[#F97316] focus:ring-1 focus:ring-[#F97316]/20 text-[15px] font-medium !py-3 !px-4 placeholder-slate-400 min-w-0 resize-none max-h-36 overflow-auto custom-scrollbar leading-[1.4] disabled:cursor-not-allowed ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white !rounded-full' : 'bg-white border-slate-200 text-slate-800 !rounded-full'}`}
+                        className={`flex-1 border transition-all duration-200 focus:outline-none focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF]/20 text-[15px] font-medium !py-3 !px-4 placeholder-slate-400 min-w-0 resize-none max-h-36 overflow-auto custom-scrollbar leading-[1.4] disabled:cursor-not-allowed ${isDarkMode ? 'bg-[#0B1120] border-white/10 text-white !rounded-full' : 'bg-white border-slate-200 text-slate-800 !rounded-full'}`}
                       />
                       <div className="flex items-center gap-1 self-end mb-0.5">
                         <button type="button" disabled={isChannelReadOnly} onClick={() => fileInputRef.current?.click()} className={`p-2 rounded-full transition-colors shrink-0 outline-none ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}>
@@ -865,7 +865,7 @@ export default function MessagesView() {
                  {/* Brand Background Decorative Elements */}
                  <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
                  <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
-                 <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#F97316]/20 blur-[80px] pointer-events-none z-0"></div>
+                 <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
 
                <div className="p-8 flex flex-col items-center relative z-10">
                   <div className={`p-[3px] rounded-full mb-6 bg-gradient-to-tr from-[#4ade80] via-[#fb923c] to-[#facc15]`}>

@@ -19,15 +19,15 @@ export default function Impact() {
          {/* Premium CSS Background */}
          <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
             <div className={`absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]`}></div>
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#F97316]/10 dark:bg-[#F97316]/10 blur-[120px] rounded-full pointer-events-none"></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#00D4FF]/10 dark:bg-[#00D4FF]/10 blur-[120px] rounded-full pointer-events-none"></div>
          </div>
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
             <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-[#1A202C]'}`}>
                Transforming Education Into <br className="hidden md:block" />
-               <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+               <span className="text-[#00D4FF] relative inline-block mt-2 whitespace-nowrap">
                   <span className="relative z-10">Real Opportunity</span>
                   {/* Orange Underline */}
-                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316] z-0"></div>
+                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#00D4FF] z-0"></div>
                </span>
             </h1>
             <p className={`text-xl md:text-[20px] font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -85,7 +85,7 @@ export default function Impact() {
                {[
                  { title: "Learners", desc: "Follow clear learning paths", icon: BookOpen, color: "text-[#00D4FF]", bg: "bg-[#00D4FF]/20" },
                  { title: "Instructors", desc: "Provide structured guidance", icon: Users, color: "text-blue-500", bg: "bg-blue-500/20" },
-                 { title: "Parents", desc: "Stay informed and engaged", icon: ShieldCheck, color: "text-[#F97316]", bg: "bg-[#F97316]/20" },
+                 { title: "Parents", desc: "Stay informed and engaged", icon: ShieldCheck, color: "text-[#00D4FF]", bg: "bg-[#00D4FF]/20" },
                  { title: "Sponsors", desc: "Enable access and track real impact", icon: Award, color: "text-green-500", bg: "bg-green-500/20" }
                ].map((item, i) => (
                   <div key={i} className={`p-8 rounded-[32px] border text-center transition-transform hover:-translate-y-2 ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
@@ -177,7 +177,7 @@ export default function Impact() {
                </p>
                <div className="grid grid-cols-2 gap-6 mt-8">
                   <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                     <div className="text-4xl font-black text-[#F97316] mb-2">94%</div>
+                     <div className="text-4xl font-black text-[#00D4FF] mb-2">94%</div>
                      <div className={`text-sm font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Completion Rate</div>
                   </div>
                   <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
@@ -228,7 +228,7 @@ export default function Impact() {
             {/* Long-Term Vision */}
             <div className={`p-10 rounded-[40px] border relative overflow-hidden group ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-[#FFF8F0] border-orange-100'}`}>
                <div className="relative z-10">
-                  <div className="w-16 h-16 bg-[#F97316] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
+                  <div className="w-16 h-16 bg-[#00D4FF] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
                      <Milestone className="w-8 h-8" />
                   </div>
                   <h3 className={`text-3xl font-black mb-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Building a Future Through Education</h3>
@@ -238,7 +238,7 @@ export default function Impact() {
                   <ul className="space-y-4">
                      {['Reducing educational inequality', 'Developing practical, job-ready skills', 'Strengthening communities through knowledge', 'Supporting innovation and economic growth'].map((item, i) => (
                         <li key={i} className="flex items-center gap-3">
-                           <CheckCircle className="w-5 h-5 text-[#F97316]" />
+                           <CheckCircle className="w-5 h-5 text-[#00D4FF]" />
                            <span className={`font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-800'}`}>{item}</span>
                         </li>
                      ))}
@@ -290,7 +290,7 @@ export default function Impact() {
       <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-slate-50 border-slate-200'}`}>
          <div className="max-w-[1000px] mx-auto text-center">
             <h2 className={`text-5xl md:text-6xl font-black mb-8 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               Impact Starts With Access — <span className="text-[#F97316]">And Grows With Opportunity</span>
+               Impact Starts With Access — <span className="text-[#00D4FF]">And Grows With Opportunity</span>
             </h2>
             <p className={`text-2xl mb-12 max-w-2xl mx-auto font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                EDOT is not just about improving how people learn. It is about ensuring that learning leads to opportunity — and that opportunity is accessible to everyone.
@@ -300,7 +300,7 @@ export default function Impact() {
                <Link to="/courses" className="bg-[#0B1120] text-white dark:bg-white dark:text-slate-900 px-10 py-4 rounded-full font-black text-lg hover:bg-slate-700 dark:hover:bg-slate-200 hover:-translate-y-1 transition-all duration-300 shadow-xl">
                  Explore the Ecosystem
                </Link>
-               <Link to="/register" className="bg-[#F97316] text-[#ffffff] px-10 py-4 rounded-full font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">
+               <Link to="/register" className="bg-[#00D4FF] text-[#ffffff] px-10 py-4 rounded-full font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">
                  Join the Impact <ChevronRight className="w-5 h-5" />
                </Link>
             </div>

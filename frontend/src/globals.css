@@ -268,7 +268,7 @@ button, .btn, .cta {
   background: var(--brand-primary) !important;
   background-image: none !important;
   color: #FFFFFF !important;
-  box-shadow: 0 4px 12px rgba(235, 193, 118, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
   border: none !important;
 }
 
@@ -289,7 +289,7 @@ button, .btn, .cta {
 
 [data-theme="light"] input:focus, [data-theme="light"] textarea:focus, [data-theme="light"] select:focus {
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 2px rgba(235, 193, 118, 0.2);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
   outline: none;
 }
 
@@ -391,7 +391,7 @@ button, .btn, .cta {
 }
 
 [data-theme="extra-dark"] .shadow-\[0_0_20px_rgba\(0\,138\,50\,0\.3\)\] {
-  box-shadow: 0 0 20px rgba(235, 193, 118, 0.15) !important;
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.15) !important;
 }
 
 @layer base {
@@ -436,7 +436,7 @@ button, .btn, .cta {
   }
 
   button, [role="button"], input[type="submit"], input[type="button"] {
-    @apply rounded-full focus:outline-none focus:ring-2 focus:ring-[#EBC176]/50;
+    @apply rounded-full focus:outline-none focus:ring-2 focus:ring-[#2563EB]/50;
     cursor: pointer !important;
   }
 
@@ -557,7 +557,7 @@ button, .btn, .cta {
   }
 
   .btn-primary {
-    @apply bg-[#EBC176] text-white hover:bg-[#C48828] hover:shadow-md;
+    @apply bg-[#2563EB] text-white hover:bg-[#1D4ED8] hover:shadow-md;
   }
 
   .btn-outline {
@@ -620,7 +620,7 @@ button, .btn, .cta {
   }
 
   .form-control, .form-group input:not([type="checkbox"]):not([type="radio"]), .form-group select, .form-group textarea {
-    @apply w-full px-3.5 py-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#EBC176] focus:border-transparent placeholder-slate-400 text-[15px];
+    @apply w-full px-3.5 py-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent placeholder-slate-400 text-[15px];
   }
 
   /* Shared Auth Cards */

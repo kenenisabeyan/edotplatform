@@ -79,7 +79,7 @@ export default function Performance() {
   }, [user]);
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64"><div className={`w-8 h-8 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
+    return <div className="flex justify-center items-center h-64"><div className={`w-8 h-8 border-4 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div></div>;
   }
 
   return (
@@ -136,7 +136,7 @@ export default function Performance() {
                 <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
                 <Tooltip cursor={{fill: 'rgba(255, 255, 255, 0.05)'}} contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B1120', color: '#fff', fontWeight: 'bold' }} />
                 <Bar dataKey="students" name="Active Students" fill="#4B5563" radius={[6, 6, 0, 0]} />
-                <Bar dataKey="teachers" name="Active Instructors" fill="#F97316" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="teachers" name="Active Instructors" fill="#00D4FF" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -154,7 +154,7 @@ export default function Performance() {
                    <div key={idx} className={`flex justify-between items-center bg-[#0B1120] border px-4 py-3 rounded-2xl hover:border-white/10 transition-colors ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                       <div>
                          <h4 className={`font-bold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{student.name}</h4>
-                         <p className="text-[10px] font-bold   text-[#F97316]">{student.course}</p>
+                         <p className="text-[10px] font-bold   text-[#00D4FF]">{student.course}</p>
                       </div>
                       <div className="flex flex-col items-end">
                          <span className="text-[#00D4FF] font-black text-sm">{student.score}%</span>

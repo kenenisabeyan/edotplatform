@@ -322,13 +322,13 @@ export default function Lesson() {
                            className={`w-full p-5 sm:p-6 flex justify-between items-center transition-colors ${isPhaseExp ? 'bg-[#0B1120]/5' : 'hover:bg-white/5/5'}`}
                         >
                            <div className="flex items-center gap-6 text-left">
-                              <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-inner ${lCompleted ? 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30' : 'bg-[#0B1120] text-[#F97316] border '} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                              <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-inner ${lCompleted ? 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30' : 'bg-[#0B1120] text-[#00D4FF] border '} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                                  {lCompleted ? <CheckCircle2 className="w-6 h-6"/> : (pIdx + 1)}
                               </div>
                               <h2 className={`text-2xl sm:text-3xl font-display font-black tracking-tight leading-snug ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{phaseName}</h2>
                            </div>
                            <div className={`shrink-0 ml-4 hidden sm:block p-2 rounded-full border ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100'}`}>
-                              {isPhaseExp ? <ChevronUp className="w-5 h-5 text-[#F97316]" /> : <ChevronDown className={`w-5 h-5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />}
+                              {isPhaseExp ? <ChevronUp className="w-5 h-5 text-[#00D4FF]" /> : <ChevronDown className={`w-5 h-5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />}
                            </div>
                         </button>
                         
@@ -380,7 +380,7 @@ export default function Lesson() {
                                                    </span>
                                                    <div className="flex items-center gap-4">
                                                       {isCompleted ? <Unlock className="w-4 h-4 text-[#00D4FF]" /> : <Lock className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />}
-                                                      <div className={`p-1.5 rounded-full ${playingVideoId === lId ? 'bg-[#F97316]/10 text-[#F97316]' : 'bg-[#0B1120]/5 group-hover:text-white'} ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+                                                      <div className={`p-1.5 rounded-full ${playingVideoId === lId ? 'bg-[#00D4FF]/10 text-[#00D4FF]' : 'bg-[#0B1120]/5 group-hover:text-white'} ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
                                                         {playingVideoId === lId ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                                                       </div>
                                                    </div>
@@ -397,7 +397,7 @@ export default function Lesson() {
                                                             <SmartVideoPlayer url={resolveVideoUrl(finalVideoUrl)} controls={isActive} />
                                                           ) : (
                                                             <div className="w-full h-full flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-[#0B1120] to-black">
-                                                               <BadgeAlert className="w-16 h-16 text-amber-500 mb-4 drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
+                                                               <BadgeAlert className="w-16 h-16 text-[#00D4FF] mb-4 drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
                                                                <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No Visual Feed Available</h3>
                                                                <p className={`text-sm max-w-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>The instructor has not uploaded a video for this module yet, or the signal is currently unreachable.</p>
                                                             </div>
@@ -438,7 +438,7 @@ export default function Lesson() {
                                                 <button onClick={() => {
                                                    setActiveModal({ type: 'quiz', lessonId: lesson.id, phaseIndex: pIdx + 1 });
                                                    if (!quizAttempts[lesson.id]) setQuizAttempts(prev => ({ ...prev, [lesson.id]: 1 }));
-                                                }} className="px-4 py-2 bg-[#F97316]/10 text-[#F97316] rounded-lg text-xs font-bold hover:bg-[#F97316] hover:text-white transition-colors">
+                                                }} className="px-4 py-2 bg-[#00D4FF]/10 text-[#00D4FF] rounded-lg text-xs font-bold hover:bg-[#00D4FF] hover:text-white transition-colors">
                                                    Start Quiz
                                                 </button>
                                              </div>
@@ -494,7 +494,7 @@ export default function Lesson() {
          {course.lessons?.length > 0 && completedList.length >= course.lessons.length && (
             <div className="mt-12 bg-gradient-to-r from-[#008A32]/20 to-[#00A13B]/10 rounded-3xl border border-[#00D4FF]/30 p-8 sm:p-12 text-center animate-in zoom-in duration-500 shadow-[0_0_40px_rgba(0,138,50,0.15)] relative overflow-hidden">
                <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/20 rounded-full blur-[80px] pointer-events-none"></div>
-               <Award className={`w-20 h-20 mx-auto mb-6 drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] ${certificateData ? 'text-[#00D4FF]' : 'text-[#F97316]'}`} />
+               <Award className={`w-20 h-20 mx-auto mb-6 drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] ${certificateData ? 'text-[#00D4FF]' : 'text-[#00D4FF]'}`} />
                <h2 className={`text-3xl font-black mb-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                   {certificateData ? 'Certificate Secured' : 'Course Protocol Completed'}
                </h2>
@@ -517,7 +517,7 @@ export default function Lesson() {
                      <button 
                         onClick={handleClaimCertificate}
                         disabled={generatingCertificate}
-                        className={`px-10 py-5 font-black   rounded-full transition-all flex items-center justify-center gap-3 mx-auto shadow-xl ${generatingCertificate ? 'bg-[#F97316]/50 text-black/50 cursor-not-allowed' : 'bg-gradient-to-r from-[#F97316] to-orange-500 text-black hover:scale-105'}`}
+                        className={`px-10 py-5 font-black   rounded-full transition-all flex items-center justify-center gap-3 mx-auto shadow-xl ${generatingCertificate ? 'bg-[#00D4FF]/50 text-black/50 cursor-not-allowed' : 'bg-gradient-to-r from-[#00D4FF] to-orange-500 text-black hover:scale-105'}`}
                      >
                         <Award className={`w-6 h-6 ${generatingCertificate ? 'animate-pulse' : ''}`} /> 
                         {generatingCertificate ? 'Synthesizing...' : 'Claim Official Certificate'}
@@ -536,7 +536,7 @@ export default function Lesson() {
       {/* Modal Overlay for Assessment */}
       <PremiumModal isOpen={activeModal?.type === 'quiz'} onClose={() => setActiveModal(null)} maxWidth="max-w-3xl">
                <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
-               <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+               <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
                
                {/* Modal Header */}
                <div className={`flex justify-between items-center p-5 md:p-6 border-b shadow-sm relative z-10 ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10' : 'bg-white/50 border-slate-200'}`}>
@@ -568,7 +568,7 @@ export default function Lesson() {
                                                  type="radio" 
                                                  checked={isSelected} 
                                                  onChange={() => setQuizAnswers(prev => ({...prev, [`${lId}-${qIndex}`]: oIndex}))} 
-                                                 className={`w-4 h-4 text-[#F97316] focus:ring-[#F97316] focus:ring-2 focus:ring-offset-1 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/20' : 'bg-white border-slate-300'}`}
+                                                 className={`w-4 h-4 text-[#00D4FF] focus:ring-[#00D4FF] focus:ring-2 focus:ring-offset-1 transition-all ${isDarkMode ? 'bg-[#0B1120] border-white/20' : 'bg-white border-slate-300'}`}
                                               />
                                               <span className={`ml-3 text-[14px] transition-colors ${isSelected ? (isDarkMode ? 'text-white font-bold' : 'text-slate-900 font-medium') : (isDarkMode ? 'text-slate-300 group-hover:text-white' : 'text-slate-600 group-hover:text-slate-900')}`}>{opt}</span>
                                            </label>
@@ -591,7 +591,7 @@ export default function Lesson() {
                               <div className="text-[3.5rem] font-black text-[#2563eb] leading-none mb-3 tracking-tighter">
                                  {score} / {total}
                               </div>
-                              <p className="text-slate-700 font-bold mb-1 text-sm">Grade: <span className={passed ? "text-emerald-500" : "text-amber-500"}>{grade}</span></p>
+                              <p className="text-slate-700 font-bold mb-1 text-sm">Grade: <span className={passed ? "text-emerald-500" : "text-[#00D4FF]"}>{grade}</span></p>
                               <p className={`text-xs mb-8 font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Attempt #{attemptNum}</p>
                               
                               {passed ? (

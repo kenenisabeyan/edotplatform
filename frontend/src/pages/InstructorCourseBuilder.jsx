@@ -311,7 +311,7 @@ export default function InstructorCourseBuilder() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-transparent">
-        <div className="w-12 h-12 border-4 border-[#F97316]/30 border-t-[#F97316] rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-[#00D4FF]/30 border-t-[#00D4FF] rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -329,7 +329,7 @@ export default function InstructorCourseBuilder() {
               <ArrowLeft className="w-4 h-4" /> Back
             </button>
             <span className="text-white/20">|</span>
-            <span className="text-[#F97316]">Create Course</span>
+            <span className="text-[#00D4FF]">Create Course</span>
             <span className="text-white/20">/</span>
             <span className={`font-semibold truncate max-w-[150px] sm:max-w-xs ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{formData.title || 'Untitled Course'}</span>
           </div>
@@ -340,7 +340,7 @@ export default function InstructorCourseBuilder() {
             <button 
               onClick={saveCourseData}
               disabled={saving}
-              className={`inline-flex items-center gap-1.5 px-4 py-2 font-semibold rounded-full transition-colors text-sm disabled:opacity-50 bg-[#F97316] hover:bg-[#00A3CC] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`inline-flex items-center gap-1.5 px-4 py-2 font-semibold rounded-full transition-colors text-sm disabled:opacity-50 bg-[#00D4FF] hover:bg-[#00A3CC] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
             >
                {saving ? 'Saving...' : 'Save Draft'}
             </button>
@@ -357,7 +357,7 @@ export default function InstructorCourseBuilder() {
             <div className="flex items-center justify-between relative">
               <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-white/10 -z-10"></div>
               <div 
-                className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-[#F97316] to-[#E30A17] -z-10 transition-all duration-500"
+                className="absolute left-0 top-1/2 -translate-y-1/2 h-[2px] bg-gradient-to-r from-[#00D4FF] to-[#E30A17] -z-10 transition-all duration-500"
                 style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
               ></div>
               
@@ -369,12 +369,12 @@ export default function InstructorCourseBuilder() {
                 return (
                   <div key={idx} className={`flex items-center gap-3 px-2 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors ${
-                      isActive ? `${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'} text-[#F97316] border-2 border-[#F97316]` : 
-                      isCompleted ? 'bg-[#F97316] text-white border-2 border-[#F97316]' : `${isDarkMode ? 'bg-[#0B1120] border-white/20' : 'bg-slate-50 border-slate-200'} text-slate-400`
+                      isActive ? `${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'} text-[#00D4FF] border-2 border-[#00D4FF]` : 
+                      isCompleted ? 'bg-[#00D4FF] text-white border-2 border-[#00D4FF]' : `${isDarkMode ? 'bg-[#0B1120] border-white/20' : 'bg-slate-50 border-slate-200'} text-slate-400`
                     }`}>
                       {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : stepNum}
                     </div>
-                    <span className={`text-sm font-semibold hidden sm:block ${isActive ? 'text-[#F97316]' : isCompleted ? 'text-[#F97316]' : 'text-slate-400'}`}>
+                    <span className={`text-sm font-semibold hidden sm:block ${isActive ? 'text-[#00D4FF]' : isCompleted ? 'text-[#00D4FF]' : 'text-slate-400'}`}>
                       {step.title}
                     </span>
                   </div>
@@ -399,7 +399,7 @@ export default function InstructorCourseBuilder() {
                       value={formData.title} 
                       onChange={e => setFormData({...formData, title: e.target.value})} 
                       required 
-                      className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all placeholder:text-slate-300 font-semibold ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                      className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none transition-all placeholder:text-slate-300 font-semibold ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       placeholder="E.g., Complete Modern JavaScript Bootcamp" 
                     />
                   </div>
@@ -409,7 +409,7 @@ export default function InstructorCourseBuilder() {
                     <textarea 
                       value={formData.description} 
                       onChange={e => setFormData({...formData, description: e.target.value})} 
-                      className={`w-full !px-5 !py-3 !rounded-[32px] border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all resize-y placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                      className={`w-full !px-5 !py-3 !rounded-[32px] border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none transition-all resize-y placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       rows="4" 
                       placeholder="What will students learn in this course? Detail the curriculum and learning outcomes."
                     ></textarea>
@@ -467,7 +467,7 @@ export default function InstructorCourseBuilder() {
                         value={formData.duration} 
                         onChange={e => setFormData({...formData, duration: Number(e.target.value)})} 
                         required 
-                        className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all font-semibold ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                        className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none transition-all font-semibold ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       />
                     </div>
                   </div>
@@ -481,9 +481,9 @@ export default function InstructorCourseBuilder() {
                   
                   <div>
                     <label className={`block text-sm font-bold mb-2 flex items-center justify-between ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                      <span className="flex items-center gap-2"><ImageIcon className="w-4 h-4 text-[#F97316]" /> Course Thumbnail URL</span>
+                      <span className="flex items-center gap-2"><ImageIcon className="w-4 h-4 text-[#00D4FF]" /> Course Thumbnail URL</span>
                       <label 
-                        className={`cursor-pointer text-xs font-bold transition-all px-3 py-1 rounded-md border flex items-center gap-1 ${dragActive.thumbnail ? 'border-[#F97316] bg-[#F97316]/10 text-[#F97316]' : 'border-transparent text-[#F97316] hover:text-white'}`}
+                        className={`cursor-pointer text-xs font-bold transition-all px-3 py-1 rounded-md border flex items-center gap-1 ${dragActive.thumbnail ? 'border-[#00D4FF] bg-[#00D4FF]/10 text-[#00D4FF]' : 'border-transparent text-[#00D4FF] hover:text-white'}`}
                         onDragEnter={(e) => handleDrag(e, 'thumbnail')}
                         onDragLeave={(e) => handleDrag(e, 'thumbnail')}
                         onDragOver={(e) => handleDrag(e, 'thumbnail')}
@@ -503,7 +503,7 @@ export default function InstructorCourseBuilder() {
                       type="url" 
                       value={formData.thumbnail} 
                       onChange={e => setFormData({...formData, thumbnail: e.target.value})} 
-                      className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                      className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none transition-all placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       placeholder="https://example.com/beautiful-course-cover.jpg" 
                     />
                     {formData.thumbnail && (
@@ -516,14 +516,14 @@ export default function InstructorCourseBuilder() {
                   {/* Course Video URL */}
                   <div>
                     <label className={`block text-sm font-bold mb-2 flex items-center justify-between ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                      <span className="flex items-center gap-2"><PlayCircle className="w-4 h-4 text-[#F97316]" /> Course Video URL (Intro)</span>
+                      <span className="flex items-center gap-2"><PlayCircle className="w-4 h-4 text-[#00D4FF]" /> Course Video URL (Intro)</span>
                       <span className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Recommended: YouTube, Vimeo, Google Drive</span>
                     </label>
                     <input 
                       type="url" 
                       value={formData.videoUrl} 
                       onChange={e => setFormData({...formData, videoUrl: e.target.value})} 
-                      className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
+                      className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none transition-all placeholder:text-slate-300 font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       placeholder="Paste YouTube, Vimeo, or Drive link here for fast loading..." 
                     />
                     {formData.videoUrl && (
@@ -543,7 +543,7 @@ export default function InstructorCourseBuilder() {
                             type="text" 
                             value={item}
                             onChange={(e) => handleArrayChange('whatYouWillLearn', index, e.target.value)}
-                            className={`flex-1 !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all text-sm placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`flex-1 !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none transition-all text-sm placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             placeholder={`Learning outcome ${index + 1}`}
                           />
                           <button 
@@ -556,7 +556,7 @@ export default function InstructorCourseBuilder() {
                       ))}
                       <button 
                         onClick={() => addArrayItem('whatYouWillLearn')}
-                        className="text-sm font-bold text-[#F97316] hover:text-[#F97316]/80 flex items-center gap-1.5"
+                        className="text-sm font-bold text-[#00D4FF] hover:text-[#00D4FF]/80 flex items-center gap-1.5"
                       >
                         <PlusCircle className="w-4 h-4" /> Add Outcome
                       </button>
@@ -571,7 +571,7 @@ export default function InstructorCourseBuilder() {
                             type="text" 
                             value={item}
                             onChange={(e) => handleArrayChange('requirements', index, e.target.value)}
-                            className={`flex-1 !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none transition-all text-sm placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`flex-1 !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none transition-all text-sm placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             placeholder={`Requirement ${index + 1}`}
                           />
                           <button 
@@ -584,7 +584,7 @@ export default function InstructorCourseBuilder() {
                       ))}
                       <button 
                         onClick={() => addArrayItem('requirements')}
-                        className="text-sm font-bold text-[#F97316] hover:text-[#F97316]/80 flex items-center gap-1.5"
+                        className="text-sm font-bold text-[#00D4FF] hover:text-[#00D4FF]/80 flex items-center gap-1.5"
                       >
                         <PlusCircle className="w-4 h-4" /> Add Requirement
                       </button>
@@ -605,9 +605,9 @@ export default function InstructorCourseBuilder() {
                       {phases.map((phase, pIdx) => {
                         const phaseLessons = lessons.filter(l => l.phase === phase);
                         return (
-                          <div key={pIdx} className={`border border-[#F97316]/20 rounded-2xl overflow-hidden shadow-sm ${isDarkMode ? 'bg-[#0B1120]/30' : 'bg-white'}`}>
-                            <div className={`p-4 border-b border-[#F97316]/20 flex items-center justify-between ${isDarkMode ? 'bg-[#0B1120]/80' : 'bg-slate-50'}`}>
-                              <h3 className="font-bold text-[#F97316] text-lg flex items-center gap-2">
+                          <div key={pIdx} className={`border border-[#00D4FF]/20 rounded-2xl overflow-hidden shadow-sm ${isDarkMode ? 'bg-[#0B1120]/30' : 'bg-white'}`}>
+                            <div className={`p-4 border-b border-[#00D4FF]/20 flex items-center justify-between ${isDarkMode ? 'bg-[#0B1120]/80' : 'bg-slate-50'}`}>
+                              <h3 className="font-bold text-[#00D4FF] text-lg flex items-center gap-2">
                                 <LayoutList className="w-5 h-5" /> {phase}
                               </h3>
                               <span className={`text-xs font-medium px-3 py-1 rounded-full border ${isDarkMode ? 'text-slate-400 bg-[#0B1120] border-white/10' : 'text-slate-500 bg-white border-slate-200'}`}>
@@ -619,14 +619,14 @@ export default function InstructorCourseBuilder() {
                               {phaseLessons.length > 0 ? (
                                 phaseLessons.map((lesson, idx) => (
                                   <div key={lesson.id || idx} className={`border hover:border-white/20 p-4 rounded-xl flex items-center gap-4 transition-colors ${isDarkMode ? 'bg-[#0B1120]/50 border-white/5' : 'bg-slate-100 border-slate-100'}`}>
-                                    <div className="w-8 h-8 rounded-full bg-[#F97316]/10 text-[#F97316] flex items-center justify-center shrink-0 font-bold border border-[#F97316]/20 text-sm">
+                                    <div className="w-8 h-8 rounded-full bg-[#00D4FF]/10 text-[#00D4FF] flex items-center justify-center shrink-0 font-bold border border-[#00D4FF]/20 text-sm">
                                       {idx + 1}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <h4 className={`font-bold truncate text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{lesson.title}</h4>
                                     </div>
                                     <div className={`text-xs flex items-center gap-1.5 font-medium shrink-0 px-2.5 py-1.5 rounded-lg border ${isDarkMode ? 'text-slate-300 bg-[#0B1120] border-white/5' : 'text-slate-500 bg-white border-slate-100'}`}>
-                                      <PlayCircle className="w-3.5 h-3.5 text-[#F97316]" /> {lesson.duration}m
+                                      <PlayCircle className="w-3.5 h-3.5 text-[#00D4FF]" /> {lesson.duration}m
                                     </div>
                                   </div>
                                 ))
@@ -637,7 +637,7 @@ export default function InstructorCourseBuilder() {
                               {showLessonFormForPhase !== phase && (
                                 <button 
                                   onClick={() => setShowLessonFormForPhase(phase)}
-                                  className={`w-full py-3 mt-2 border border-dashed border-[#F97316]/30 rounded-xl text-[#F97316] text-sm font-bold hover:bg-[#F97316]/10 transition-colors flex items-center justify-center gap-1.5 ${isDarkMode ? 'bg-[#0B1120]/40' : 'bg-slate-50'}`}
+                                  className={`w-full py-3 mt-2 border border-dashed border-[#00D4FF]/30 rounded-xl text-[#00D4FF] text-sm font-bold hover:bg-[#00D4FF]/10 transition-colors flex items-center justify-center gap-1.5 ${isDarkMode ? 'bg-[#0B1120]/40' : 'bg-slate-50'}`}
                                 >
                                   <PlusCircle className="w-4 h-4" /> Add Lesson to {phase}
                                 </button>
@@ -649,7 +649,7 @@ export default function InstructorCourseBuilder() {
                     </div>
                   ) : (
                     <div className={`border border-dashed border-white/20 rounded-2xl p-10 text-center mb-6 ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}>
-                      <LayoutList className="w-12 h-12 text-[#F97316] mx-auto mb-3 opacity-50" />
+                      <LayoutList className="w-12 h-12 text-[#00D4FF] mx-auto mb-3 opacity-50" />
                       <h3 className={`text-lg font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No curriculum phases yet</h3>
                       <p className={`mb-6 text-sm max-w-sm mx-auto ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Start building your curriculum by adding your first phase (e.g., "Phase 1: Foundations").</p>
                     </div>
@@ -658,7 +658,7 @@ export default function InstructorCourseBuilder() {
                   {!showPhaseInput ? (
                     <button 
                       onClick={() => setShowPhaseInput(true)}
-                      className={`w-full py-4 border border-dashed border-[#F97316]/50 rounded-xl text-[#F97316] font-bold hover:bg-[#F97316]/10 transition-colors flex items-center justify-center gap-2 shadow-sm mt-4 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
+                      className={`w-full py-4 border border-dashed border-[#00D4FF]/50 rounded-xl text-[#00D4FF] font-bold hover:bg-[#00D4FF]/10 transition-colors flex items-center justify-center gap-2 shadow-sm mt-4 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
                     >
                       <PlusCircle className="w-5 h-5" /> Add New Phase
                     </button>
@@ -667,10 +667,10 @@ export default function InstructorCourseBuilder() {
                       <PremiumModal isOpen={showPhaseInput} onClose={() => setShowPhaseInput(false)} maxWidth="max-w-lg">
                         <div className="p-6 md:p-8 flex flex-col h-full w-full">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
-                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
                             <div className={`flex justify-between items-center mb-6 border-b pb-4 relative z-10 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                           <h3 className={`font-bold text-xl flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                            <PlusCircle className="w-6 h-6 text-[#F97316]" /> Create New Phase
+                            <PlusCircle className="w-6 h-6 text-[#00D4FF]" /> Create New Phase
                           </h3>
                           <button onClick={() => setShowPhaseInput(false)} className={`hover:text-white text-2xl transition-colors leading-none ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>&times;</button>
                         </div>
@@ -684,7 +684,7 @@ export default function InstructorCourseBuilder() {
                               onChange={e => setNewPhaseName(e.target.value)}
                               onKeyDown={(e) => { if(e.key === 'Enter') handleAddPhase(); }}
                               placeholder='e.g., Phase 1: Foundations'
-                              className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                              className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             />
                           </div>
                           <div className="flex gap-3 pt-4 mt-4">
@@ -697,7 +697,7 @@ export default function InstructorCourseBuilder() {
                             <button 
                               onClick={handleAddPhase}
                               disabled={!newPhaseName.trim()}
-                              className={`flex-1 py-3 px-4 font-semibold rounded-full hover:shadow-lg hover:shadow-[#F97316]/20 border transition-colors disabled:opacity-50 bg-[#F97316] hover:bg-[#00A3CC] shadow-md border-[#F97316] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                              className={`flex-1 py-3 px-4 font-semibold rounded-full hover:shadow-lg hover:shadow-[#00D4FF]/20 border transition-colors disabled:opacity-50 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                             >
                               Add Phase
                             </button>
@@ -712,10 +712,10 @@ export default function InstructorCourseBuilder() {
                       <PremiumModal isOpen={showLessonFormForPhase} onClose={() => setShowLessonFormForPhase(null)} maxWidth="max-w-2xl">
                         <div className="p-6 md:p-8 flex flex-col h-full w-full">
                           <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
-                          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none -z-10" />
+                          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#00D4FF]/10 rounded-full blur-3xl pointer-events-none -z-10" />
                           <div className={`flex justify-between items-center mb-6 border-b pb-4 shrink-0 relative z-10 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
                           <h3 className={`font-bold text-xl flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                            <PlayCircle className="w-6 h-6 text-[#F97316]" /> New Lesson for <span className="text-[#F97316] bg-[#F97316]/10 border border-[#F97316]/20 px-3 py-1 rounded-lg text-sm">{showLessonFormForPhase}</span>
+                            <PlayCircle className="w-6 h-6 text-[#00D4FF]" /> New Lesson for <span className="text-[#00D4FF] bg-[#00D4FF]/10 border border-[#00D4FF]/20 px-3 py-1 rounded-lg text-sm">{showLessonFormForPhase}</span>
                           </h3>
                           <button onClick={() => setShowLessonFormForPhase(null)} className={`hover:text-white text-2xl transition-colors leading-none ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>&times;</button>
                         </div>
@@ -727,7 +727,7 @@ export default function InstructorCourseBuilder() {
                             required 
                             value={lessonForm.title}
                             onChange={e => setLessonForm({...lessonForm, title: e.target.value})}
-                            className={`w-full !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`w-full !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                           />
                         </div>
                         <div>
@@ -735,7 +735,7 @@ export default function InstructorCourseBuilder() {
                           <textarea 
                             value={lessonForm.description}
                             onChange={e => setLessonForm({...lessonForm, description: e.target.value})}
-                            className={`w-full !px-5 !py-2.5 !rounded-[32px] border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none resize-y ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`w-full !px-5 !py-2.5 !rounded-[32px] border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none resize-y ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             rows="2"
                           ></textarea>
                         </div>
@@ -754,7 +754,7 @@ export default function InstructorCourseBuilder() {
                                   if (e.target.value === '') setLastFetchedDurationUrl('');
                                 }}
                                 placeholder="Paste YouTube, Vimeo, or Drive URL here..."
-                                className={`flex-1 !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none min-w-0 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                                className={`flex-1 !px-5 !py-2.5 !rounded-full border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none min-w-0 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                               />
                             </div>
                             
@@ -792,7 +792,7 @@ export default function InstructorCourseBuilder() {
                           <div className="flex justify-between items-center mb-1.5 mt-4">
                             <label className={`block text-sm font-bold flex items-center gap-1.5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}><FileText className="w-4 h-4 text-blue-400"/> Reading Materials & Notes</label>
                             <label 
-                              className={`cursor-pointer text-xs font-bold transition-all px-3 py-1 rounded-md border flex items-center gap-1 ${dragActive.readingMaterials ? 'border-[#F97316] bg-[#F97316]/10 text-[#F97316]' : 'border-transparent text-[#F97316] hover:text-white'}`}
+                              className={`cursor-pointer text-xs font-bold transition-all px-3 py-1 rounded-md border flex items-center gap-1 ${dragActive.readingMaterials ? 'border-[#00D4FF] bg-[#00D4FF]/10 text-[#00D4FF]' : 'border-transparent text-[#00D4FF] hover:text-white'}`}
                               onDragEnter={(e) => handleDrag(e, 'readingMaterials')}
                               onDragLeave={(e) => handleDrag(e, 'readingMaterials')}
                               onDragOver={(e) => handleDrag(e, 'readingMaterials')}
@@ -811,7 +811,7 @@ export default function InstructorCourseBuilder() {
                           <textarea 
                             value={lessonForm.readingMaterials}
                             onChange={e => setLessonForm({...lessonForm, readingMaterials: e.target.value})}
-                            className={`w-full !px-5 !py-2.5 !rounded-[32px] border focus:ring-1 focus:ring-[#F97316] focus:border-[#F97316] outline-none min-h-[100px] placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
+                            className={`w-full !px-5 !py-2.5 !rounded-[32px] border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none min-h-[100px] placeholder:text-slate-300 ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`}
                             placeholder="Add markdown notes, links, or text for students to read. Uploading a document inserts its link here."
                           ></textarea>
                         </div>
@@ -835,7 +835,7 @@ export default function InstructorCourseBuilder() {
                           <button 
                             type="submit" 
                             disabled={saving}
-                            className={`flex-1 py-3 px-4 font-semibold rounded-full hover:shadow-lg hover:shadow-[#00D4FF]/20 border transition-colors disabled:opacity-50 bg-[#F97316] hover:bg-[#00A3CC] shadow-md border-[#F97316] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                            className={`flex-1 py-3 px-4 font-semibold rounded-full hover:shadow-lg hover:shadow-[#00D4FF]/20 border transition-colors disabled:opacity-50 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                           >
                             Save Lesson
                           </button>
@@ -856,14 +856,14 @@ export default function InstructorCourseBuilder() {
                   
                   <div className={`border !rounded-[32px] p-6 md:p-8 mb-8 backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                     <div className="flex flex-col sm:flex-row items-center gap-6">
-                      <div className="w-20 h-20 bg-[#F97316]/10 rounded-full flex gap-1 items-center justify-center text-[#F97316] shadow-sm shrink-0 border-4 border-[#F97316]/20">
+                      <div className="w-20 h-20 bg-[#00D4FF]/10 rounded-full flex gap-1 items-center justify-center text-[#00D4FF] shadow-sm shrink-0 border-4 border-[#00D4FF]/20">
                         <Banknote className="w-10 h-10" />
                       </div>
                       <div className="flex-1 w-full text-center sm:text-left">
-                        <label className="block text-sm font-bold text-[#F97316] mb-2">Set Course Price (ETB)</label>
+                        <label className="block text-sm font-bold text-[#00D4FF] mb-2">Set Course Price (ETB)</label>
                         <div className="relative max-w-xs mx-auto sm:mx-0">
                           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <span className="font-bold text-[#F97316]">Br</span>
+                            <span className="font-bold text-[#00D4FF]">Br</span>
                           </div>
                           <input 
                             type="number" 
@@ -871,7 +871,7 @@ export default function InstructorCourseBuilder() {
                             step="0.01"
                             value={formData.price}
                             onChange={e => setFormData({...formData, price: Number(e.target.value)})}
-                            className={`w-full !pl-[60px] pr-4 py-4 text-2xl font-bold !rounded-[32px] border-2 border-[#F97316]/30 focus:ring-1 focus:ring-[#00D4FF] focus:border-[#F97316] outline-none transition-all shadow-inner ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`}
+                            className={`w-full !pl-[60px] pr-4 py-4 text-2xl font-bold !rounded-[32px] border-2 border-[#00D4FF]/30 focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none transition-all shadow-inner ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`}
                           />
                         </div>
                         <p className={`mt-3 text-sm ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Set to 0 to make this course free for all students.</p>
@@ -881,7 +881,7 @@ export default function InstructorCourseBuilder() {
 
                   <div className={`border !rounded-[32px] p-6 mb-8 backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                     <h3 className={`font-bold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                       <CheckCircle2 className="w-5 h-5 text-[#F97316]" /> Final Course Certification Exam
+                       <CheckCircle2 className="w-5 h-5 text-[#00D4FF]" /> Final Course Certification Exam
                     </h3>
                     <p className={`text-sm mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>You can require a final exam for students to earn their certificate.</p>
                     <label className="flex items-center gap-3 mb-6 cursor-pointer">
@@ -889,7 +889,7 @@ export default function InstructorCourseBuilder() {
                         type="checkbox" 
                         checked={formData.isExamRequired}
                         onChange={e => setFormData({...formData, isExamRequired: e.target.checked})}
-                        className={`w-5 h-5 text-[#F97316] border-white/20 rounded focus:ring-[#00D4FF] focus:ring-offset-[#0B1120] ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
+                        className={`w-5 h-5 text-[#00D4FF] border-white/20 rounded focus:ring-[#00D4FF] focus:ring-offset-[#0B1120] ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
                       />
                       <span className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Require Final Exam for Certification</span>
                     </label>
@@ -907,7 +907,7 @@ export default function InstructorCourseBuilder() {
 
                   <div className={`border !rounded-[32px] p-6 backdrop-blur-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
                     <h3 className={`font-bold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                       <CheckCircle2 className="w-5 h-5 text-[#F97316]" /> Pre-flight Checklist
+                       <CheckCircle2 className="w-5 h-5 text-[#00D4FF]" /> Pre-flight Checklist
                     </h3>
                     <ul className={`space-y-2 text-sm ml-7 list-disc ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                       <li>Course title and detailed description are complete.</li>
@@ -936,7 +936,7 @@ export default function InstructorCourseBuilder() {
                   <button 
                     onClick={nextStep}
                     disabled={saving || (currentStep === 1 && !formData.title)}
-                    className={`w-full sm:w-auto px-8 py-2.5 font-semibold rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#F97316] hover:bg-[#00A3CC] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                    className={`w-full sm:w-auto px-8 py-2.5 font-semibold rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#00D4FF] hover:bg-[#00A3CC] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                   >
                     Save & Continue <ChevronRight className="w-4 h-4" />
                   </button>
@@ -944,7 +944,7 @@ export default function InstructorCourseBuilder() {
                   <button 
                     onClick={handleSubmitForReview}
                     disabled={saving || lessons.length === 0}
-                    className={`w-full sm:w-auto px-8 py-2.5 font-semibold rounded-full hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#F97316] hover:bg-[#00A3CC] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                    className={`w-full sm:w-auto px-8 py-2.5 font-semibold rounded-full hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 bg-[#00D4FF] hover:bg-[#00A3CC] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                   >
                     <Send className="w-4 h-4" /> {isAdmin ? 'Publish Course' : 'Submit for Review'}
                   </button>

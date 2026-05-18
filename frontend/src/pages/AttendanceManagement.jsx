@@ -161,12 +161,12 @@ export default function AttendanceManagement() {
               return (
                  <div key={userItem.userId} className={`flex flex-col border p-4 rounded-3xl backdrop-blur-md transition-all duration-300 shadow-md ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'} ${
                     currentStatus === 'present' ? 'border-b-4 border-b-[#00D4FF]' : 
-                    currentStatus === 'late' ? 'border-b-4 border-b-[#F97316]' : 
+                    currentStatus === 'late' ? 'border-b-4 border-b-[#00D4FF]' : 
                     'border-b-4 border-b-[#E30A17]'
                  }`}>
                     <div className="flex items-center gap-3 mb-4">
                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-sm
-                          ${listRole === 'Instructor' ? 'bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/30' : 'bg-[#0B1120]/10 text-white border border-white/20'}
+                          ${listRole === 'Instructor' ? 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30' : 'bg-[#0B1120]/10 text-white border border-white/20'}
                        `}>
                           {userItem.name.charAt(0).toUpperCase()}
                        </div>
@@ -193,7 +193,7 @@ export default function AttendanceManagement() {
                         </label>
 
                         <label className={`flex-1 flex justify-center items-center gap-1.5 py-2 rounded-lg cursor-pointer transition-all duration-200 ${
-                           currentStatus === 'late' ? 'bg-[#F97316]/20 text-[#F97316] shadow-[0_0_10px_rgba(249,115,22,0.3)]' : (isDarkMode ? 'text-slate-300 hover:bg-white/5/5 hover:text-slate-300' : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700')
+                           currentStatus === 'late' ? 'bg-[#00D4FF]/20 text-[#00D4FF] shadow-[0_0_10px_rgba(249,115,22,0.3)]' : (isDarkMode ? 'text-slate-300 hover:bg-white/5/5 hover:text-slate-300' : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700')
                         }`}>
                            <input 
                               type="radio" 
@@ -254,7 +254,7 @@ export default function AttendanceManagement() {
       </div>
 
       <div className={`backdrop-blur-xl p-8 !rounded-[32px] border shadow-2xl flex flex-col md:flex-row gap-6 mt-4 relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/70 border-white/10' : 'bg-white border-slate-200'}`}>
-         <div className="absolute top-0 right-0 w-64 h-64 bg-[#F97316]/5 blur-[120px] rounded-full pointer-events-none"></div>
+         <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/5 blur-[120px] rounded-full pointer-events-none"></div>
          
          <div className="w-full md:w-[40%]">
             <label className={`block text-xs font-bold mb-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Target Course</label>
@@ -302,9 +302,9 @@ export default function AttendanceManagement() {
                  type="date" 
                  value={date}
                  onChange={(e) => setDate(e.target.value)}
-                 className={`w-full !pl-14 pr-4 py-3 border !rounded-full text-sm font-bold focus:outline-none focus:border-[#F97316] transition-colors ${isDarkMode ? 'bg-black/40 border-white/10 text-white hover:bg-black/60' : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'}`}
+                 className={`w-full !pl-14 pr-4 py-3 border !rounded-full text-sm font-bold focus:outline-none focus:border-[#00D4FF] transition-colors ${isDarkMode ? 'bg-black/40 border-white/10 text-white hover:bg-black/60' : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'}`}
               />
-              <Calendar className="absolute left-4 top-3.5 w-4 h-4 text-[#F97316]" />
+              <Calendar className="absolute left-4 top-3.5 w-4 h-4 text-[#00D4FF]" />
             </div>
          </div>
       </div>
@@ -317,7 +317,7 @@ export default function AttendanceManagement() {
          </div>
       ) : loading ? (
          <div className="flex-1 flex justify-center items-center py-20">
-            <div className={`w-12 h-12 border-4 border-t-[#F97316] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
+            <div className={`w-12 h-12 border-4 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
          </div>
       ) : attendanceRecords.length === 0 ? (
          <div className="flex-1 flex flex-col items-center justify-center opacity-40 py-24">

@@ -44,7 +44,7 @@ const CoursePlayerPage = () => {
   const videoMaterial = materials.find(m => m.fileType === 'video');
   const otherMaterials = materials.filter(m => m.fileType !== 'video');
 
-  if (loading) return <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div></div>;
+  if (loading) return <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00D4FF]"></div></div>;
 
   return (
     <div className={`min-h-screen flex flex-col md:flex-row ${isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'}`}>
@@ -54,7 +54,7 @@ const CoursePlayerPage = () => {
           <h2 className="text-lg font-bold text-gray-100">Course Content</h2>
           <div className="mt-2 flex items-center gap-2">
             <div className="w-full bg-gray-800 rounded-full h-1.5">
-              <div className="bg-orange-500 h-1.5 rounded-full" style={{ width: progress?.isComplete ? '100%' : '30%' }}></div>
+              <div className="bg-[#00D4FF] h-1.5 rounded-full" style={{ width: progress?.isComplete ? '100%' : '30%' }}></div>
             </div>
             <span className="text-xs text-gray-400 font-medium">{progress?.isComplete ? '100%' : '30%'}</span>
           </div>
@@ -62,10 +62,10 @@ const CoursePlayerPage = () => {
         
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
           {/* Example static list, ideally this is mapped from course.lessons */}
-          <div className="bg-[#1A202C] border border-orange-500/30 rounded-lg p-3 cursor-pointer">
+          <div className="bg-[#1A202C] border border-[#00D4FF]/30 rounded-lg p-3 cursor-pointer">
             <div className="flex items-center gap-3">
               {progress?.isComplete ? (
-                <CheckCircle2 className="w-5 h-5 text-orange-500 shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-[#00D4FF] shrink-0" />
               ) : (
                 <Circle className="w-5 h-5 text-gray-500 shrink-0" />
               )}
@@ -89,7 +89,7 @@ const CoursePlayerPage = () => {
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <span>Course Name</span>
               <ChevronRight className="w-4 h-4" />
-              <span className="text-orange-500">Current Lesson</span>
+              <span className="text-[#00D4FF]">Current Lesson</span>
             </div>
             <h1 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
               {videoMaterial?.title || 'Lesson Video'}
@@ -113,7 +113,7 @@ const CoursePlayerPage = () => {
           {/* Reading Materials Section */}
           <div className="bg-[#151A23] border border-gray-800 rounded-xl p-6">
             <h3 className={`text-xl font-bold mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              <FileText className="text-orange-500" /> Additional Resources
+              <FileText className="text-[#00D4FF]" /> Additional Resources
             </h3>
             
             {otherMaterials.length > 0 ? (
@@ -124,10 +124,10 @@ const CoursePlayerPage = () => {
                     href={mat.fileUrl} 
                     target="_blank" 
                     rel="noreferrer"
-                    className="flex items-center gap-4 p-4 rounded-full bg-gray-800/50 border border-gray-700 hover:border-orange-500/50 transition-colors group"
+                    className="flex items-center gap-4 p-4 rounded-full bg-gray-800/50 border border-gray-700 hover:border-[#00D4FF]/50 transition-colors group"
                   >
-                    <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center shrink-0 group-hover:bg-orange-500/20">
-                      <File className="w-5 h-5 text-orange-500" />
+                    <div className="w-10 h-10 rounded-full bg-[#00D4FF]/10 flex items-center justify-center shrink-0 group-hover:bg-[#00D4FF]/20">
+                      <File className="w-5 h-5 text-[#00D4FF]" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-200 truncate group-hover:text-white">{mat.title}</p>

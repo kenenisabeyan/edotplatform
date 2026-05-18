@@ -6,10 +6,10 @@ export default function SummaryCard({ title, value, percentage, isPositive, icon
   const isDarkMode = useThemeMode();
   const colorClasses = {
     blue: 'from-blue-500 to-indigo-600 text-blue-400 bg-blue-500/100/10',
-    green: 'from-[#00D4FF] to-[#0099CC] text-[#F97316] bg-[#F97316]/10',
-    gold: 'from-[#F97316] to-orange-600 text-[#F97316] bg-[#F97316]/10',
+    green: 'from-[#00D4FF] to-[#0099CC] text-[#00D4FF] bg-[#00D4FF]/10',
+    gold: 'from-[#00D4FF] to-orange-600 text-[#00D4FF] bg-[#00D4FF]/10',
     purple: 'from-purple-500 to-fuchsia-600 text-purple-400 bg-purple-500/100/10',
-    orange: 'from-orange-500 to-amber-600 text-orange-400 bg-orange-500/10',
+    orange: 'from-orange-500 to-amber-600 text-orange-400 bg-[#00D4FF]/10',
   };
   const theme = colorClasses[colorTheme] || colorClasses.blue;
   const gradient = theme.split(' text-')[0];

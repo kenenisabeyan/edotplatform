@@ -131,11 +131,11 @@ export default function CommandK() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed inset-x-0 top-[12vh] mx-auto z-[201] w-full max-w-3xl px-4 sm:px-0"
           >
-            <div className="overflow-hidden rounded-3xl bg-[#0B1120]/95 shadow-2xl shadow-[#F97316]/10 border border-[#F97316]/30 backdrop-blur-2xl">
+            <div className="overflow-hidden rounded-3xl bg-[#0B1120]/95 shadow-2xl shadow-[#00D4FF]/10 border border-[#00D4FF]/30 backdrop-blur-2xl">
               
               {/* Search Header */}
               <div className={`relative flex items-center px-5 py-4 border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                <Search className={`w-6 h-6 transition-colors ${isSearching ? 'text-[#F97316] animate-pulse' : 'text-[#F97316]'}`} />
+                <Search className={`w-6 h-6 transition-colors ${isSearching ? 'text-[#00D4FF] animate-pulse' : 'text-[#00D4FF]'}`} />
                 <input
                   ref={inputRef}
                   className={`w-full bg-transparent border-0 focus:ring-0 px-5 placeholder-slate-500 outline-none text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
@@ -144,7 +144,7 @@ export default function CommandK() {
                   onChange={(e) => setQuery(e.target.value)}
                   spellCheck="false"
                 />
-                {isSearching ? <Loader2 className="w-5 h-5 text-[#F97316] animate-spin" /> : (
+                {isSearching ? <Loader2 className="w-5 h-5 text-[#00D4FF] animate-spin" /> : (
                 <button
                   onClick={() => setIsOpen(false)}
                   className={`px-2.5 py-1 text-[10px] font-black rounded-lg border hover:text-white transition-colors ${isDarkMode ? 'text-slate-200 bg-[#0B1120]/5 border-white/10' : 'text-slate-600 bg-slate-50 border-slate-200'}`}
@@ -159,7 +159,7 @@ export default function CommandK() {
                 {results.length === 0 && !isSearching ? (
                   <div className={`px-4 py-16 text-center text-sm flex flex-col items-center ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                     <Search className={`w-10 h-10 mb-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />
-                    <p>No platform entries found for <span className="font-bold text-[#F97316]">"{query}"</span></p>
+                    <p>No platform entries found for <span className="font-bold text-[#00D4FF]">"{query}"</span></p>
                   </div>
                 ) : (
                   <div className="space-y-4">
@@ -187,11 +187,11 @@ export default function CommandK() {
                                   onMouseEnter={() => setSelectedIndex(currentIndex)}
                                   className={`flex w-full items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 ${
                                     isSelected 
-                                      ? 'bg-[#F97316]/10 border border-[#F97316]/20 text-white shadow-[0_0_15px_rgba(249,115,22,0.1)]' 
+                                      ? 'bg-[#00D4FF]/10 border border-[#00D4FF]/20 text-white shadow-[0_0_15px_rgba(249,115,22,0.1)]' 
                                       : 'border border-transparent text-slate-200 hover:bg-white/5/5'
                                   }`}
                                 >
-                                  <div className={`p-2 rounded-xl transition-colors ${isSelected ? 'bg-[#F97316] text-[#0B1120]' : 'bg-[#0B1120]/5 '} ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                                  <div className={`p-2 rounded-xl transition-colors ${isSelected ? 'bg-[#00D4FF] text-[#0B1120]' : 'bg-[#0B1120]/5 '} ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                                      <Icon className="w-4 h-4" />
                                   </div>
                                   <div className="flex flex-col items-start flex-1 overflow-hidden">
@@ -199,7 +199,7 @@ export default function CommandK() {
                                     {item.subtitle && <span className={`text-[11px] font-semibold truncate w-full text-left mt-0.5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{item.subtitle}</span>}
                                   </div>
                                   
-                                  {isSelected && <ArrowRight className="w-4 h-4 ml-auto text-[#F97316] shrink-0 pointer-events-none" />}
+                                  {isSelected && <ArrowRight className="w-4 h-4 ml-auto text-[#00D4FF] shrink-0 pointer-events-none" />}
                                 </button>
                               </li>
                             )
@@ -212,12 +212,12 @@ export default function CommandK() {
               </div>
               
               {/* Footer Tooltip */}
-              <div className="flex items-center justify-between px-6 py-3 border-t border-[#F97316]/20 bg-black/40 backdrop-blur-md shrink-0">
+              <div className="flex items-center justify-between px-6 py-3 border-t border-[#00D4FF]/20 bg-black/40 backdrop-blur-md shrink-0">
                 <span className={`text-[10px] flex items-center gap-1.5 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                   Navigate <span className={`px-1.5 py-0.5 rounded border ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>&uarr;</span> <span className={`px-1.5 py-0.5 rounded border ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>&darr;</span>
                 </span>
-                <span className="text-[10px] text-[#F97316]/70 flex items-center gap-1.5 font-bold  ">
-                  Open Selected <span className="px-2 py-0.5 rounded bg-[#F97316]/10 border border-[#F97316]/30 text-[#F97316]">Enter</span>
+                <span className="text-[10px] text-[#00D4FF]/70 flex items-center gap-1.5 font-bold  ">
+                  Open Selected <span className="px-2 py-0.5 rounded bg-[#00D4FF]/10 border border-[#00D4FF]/30 text-[#00D4FF]">Enter</span>
                 </span>
               </div>
             </div>

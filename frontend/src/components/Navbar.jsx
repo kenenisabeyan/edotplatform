@@ -55,9 +55,9 @@ export default function Navbar() {
   const navLinkClass = ({ isActive }) => 
     `relative text-[15px] font-medium transition-all px-2 py-1.5 ${
       isActive 
-        ? 'text-[#F97316]'
-        : isDarkMode || isTransparentDarkBg ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-[#F97316]'
-    } ${isActive ? 'after:content-[\'\'] after:absolute after:left-2 after:-bottom-1.5 after:w-[calc(100%-16px)] after:h-[3px] after:bg-[#F97316] after:rounded-full' : ''}`;
+        ? 'text-[#00D4FF]'
+        : isDarkMode || isTransparentDarkBg ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-[#00D4FF]'
+    } ${isActive ? 'after:content-[\'\'] after:absolute after:left-2 after:-bottom-1.5 after:w-[calc(100%-16px)] after:h-[3px] after:bg-[#00D4FF] after:rounded-full' : ''}`;
 
   return (
     <header 
@@ -94,9 +94,9 @@ export default function Navbar() {
           <ThemeDropdown />
           {isAuthenticated ? (
             <div className="flex items-center gap-5">
-              <Link to="/dashboard/messages" className={`relative transition-colors hover:text-[#F97316] ${isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-600'}`}>
+              <Link to="/dashboard/messages" className={`relative transition-colors hover:text-[#00D4FF] ${isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-600'}`}>
                 <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#F97316] text-[8px] font-bold text-white flex items-center justify-center rounded-full border border-transparent">1</span>
+                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#00D4FF] text-[8px] font-bold text-white flex items-center justify-center rounded-full border border-transparent">1</span>
               </Link>
               
               <div className="relative" ref={userDropdownRef}>
@@ -104,7 +104,7 @@ export default function Navbar() {
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                   className={`flex items-center gap-2 transition-transform hover:scale-105 focus:outline-none`}
                 >
-                  <div className="w-9 h-9 rounded-full bg-[#F97316] flex items-center justify-center text-white shadow-md">
+                  <div className="w-9 h-9 rounded-full bg-[#00D4FF] flex items-center justify-center text-white shadow-md">
                     <span className="font-bold text-sm">{user?.name?.charAt(0) || 'U'}</span>
                   </div>
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform ${userDropdownOpen ? 'rotate-180' : ''} ${isDarkMode ? 'text-white' : 'text-slate-700'}`} />
@@ -155,18 +155,18 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className={`lg:hidden absolute top-full left-0 w-full bg-white dark:bg-[#0B1120] max-h-[calc(100vh-70px)] overflow-y-auto ${isDarkMode ? '' : ''}`}>
           <div className="p-4 flex flex-col space-y-1">
-            <NavLink to="/" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#F97316]/10 text-[#F97316]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Home</NavLink>
-            <NavLink to="/courses" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#F97316]/10 text-[#F97316]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Courses</NavLink>
-            <NavLink to="/about" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#F97316]/10 text-[#F97316]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>About</NavLink>
-            <NavLink to="/impact" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#F97316]/10 text-[#F97316]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Impact</NavLink>
-            <NavLink to="/sponsorship" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#F97316]/10 text-[#F97316]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Sponsorship</NavLink>
-            <NavLink to="/contact" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#F97316]/10 text-[#F97316]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Contact</NavLink>
+            <NavLink to="/" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#00D4FF]/10 text-[#00D4FF]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Home</NavLink>
+            <NavLink to="/courses" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#00D4FF]/10 text-[#00D4FF]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Courses</NavLink>
+            <NavLink to="/about" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#00D4FF]/10 text-[#00D4FF]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>About</NavLink>
+            <NavLink to="/impact" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#00D4FF]/10 text-[#00D4FF]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Impact</NavLink>
+            <NavLink to="/sponsorship" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#00D4FF]/10 text-[#00D4FF]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Sponsorship</NavLink>
+            <NavLink to="/contact" className={({isActive}) => `px-4 py-3 rounded-lg text-[15px] font-medium ${isActive ? 'bg-[#00D4FF]/10 text-[#00D4FF]' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'}`}>Contact</NavLink>
             
             <div className={`mt-4 pt-4 ${isDarkMode ? '' : ''}`}>
               {isAuthenticated ? (
                 <div className="flex flex-col gap-2">
                   <div className={`px-4 py-3 flex items-center gap-3 rounded-lg border ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-100'}`}>
-                    <div className="w-10 h-10 rounded-full bg-[#F97316] flex items-center justify-center text-white font-bold text-sm">{user?.name?.charAt(0) || 'U'}</div>
+                    <div className="w-10 h-10 rounded-full bg-[#00D4FF] flex items-center justify-center text-white font-bold text-sm">{user?.name?.charAt(0) || 'U'}</div>
                     <div>
                       <p className={`text-[14px] font-medium ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.name}</p>
                       <p className="text-[12px] text-slate-500">{user?.email}</p>

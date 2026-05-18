@@ -29,7 +29,7 @@ export default function ProudMomentsFeed() {
   if (achievements.length === 0 || achievements.every(ach => ach.badges.length === 0)) {
     return (
       <div className={`bg-transparent/50 rounded-2xl border p-8 text-center flex flex-col items-center ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-         <div className="w-12 h-12 bg-amber-500/10 rounded-full flex items-center justify-center mb-3">
+         <div className="w-12 h-12 bg-[#00D4FF]/10 rounded-full flex items-center justify-center mb-3">
            <Award className="w-6 h-6 text-amber-300" />
          </div>
          <p className={`font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No proud moments yet.</p>
@@ -45,7 +45,7 @@ export default function ProudMomentsFeed() {
         return (
           <div key={idx} className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border border-amber-100 p-6 shadow-sm">
             <h4 className="font-bold text-amber-900 mb-4 flex items-center gap-2">
-              <Star className="text-amber-500 w-5 h-5"/> 
+              <Star className="text-[#00D4FF] w-5 h-5"/> 
               {ach.user?.name}'s Showcase
             </h4>
             <div className="grid gap-3">

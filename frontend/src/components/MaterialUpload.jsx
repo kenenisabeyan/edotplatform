@@ -105,10 +105,10 @@ const MaterialUpload = ({ lessonId, onUploadSuccess }) => {
       <div 
         {...getRootProps()} 
         className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200
-          ${isDragActive ? 'border-orange-500 bg-orange-500/10' : 'border-gray-700 bg-gray-800/50 hover:border-gray-500'}`}
+          ${isDragActive ? 'border-[#00D4FF] bg-[#00D4FF]/10' : 'border-gray-700 bg-gray-800/50 hover:border-gray-500'}`}
       >
         <input {...getInputProps()} />
-        <UploadCloud className={`mx-auto h-12 w-12 mb-3 ${isDragActive ? 'text-orange-500' : 'text-gray-400'}`} />
+        <UploadCloud className={`mx-auto h-12 w-12 mb-3 ${isDragActive ? 'text-[#00D4FF]' : 'text-gray-400'}`} />
         <p className="text-gray-300 font-medium text-lg">
           {isDragActive ? 'Drop files here...' : 'Drag & drop files here'}
         </p>
@@ -138,7 +138,7 @@ const MaterialUpload = ({ lessonId, onUploadSuccess }) => {
                 {f.status === 'uploading' && (
                   <div className="flex items-center space-x-2">
                     <div className="w-24 h-2 bg-gray-700 rounded-full overflow-hidden">
-                      <div className="h-full bg-orange-500 transition-all duration-300" style={{ width: `${progress}%` }}></div>
+                      <div className="h-full bg-[#00D4FF] transition-all duration-300" style={{ width: `${progress}%` }}></div>
                     </div>
                     <span className="text-xs text-gray-400">{progress}%</span>
                   </div>

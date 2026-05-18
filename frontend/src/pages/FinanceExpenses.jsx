@@ -175,7 +175,7 @@ export default function FinanceExpenses() {
                   <td className="px-6 py-4">
                     <span className="flex items-center gap-2 font-bold text-[13px]">
                       {exp.category === 'Server Hosting' && <Server className="w-4 h-4 text-blue-500" />}
-                      {exp.category === 'Marketing' && <Megaphone className="w-4 h-4 text-amber-500" />}
+                      {exp.category === 'Marketing' && <Megaphone className="w-4 h-4 text-[#00D4FF]" />}
                       {exp.category === 'Instructor Payouts' && <Briefcase className="w-4 h-4 text-emerald-500" />}
                       {exp.category}
                     </span>
@@ -184,7 +184,7 @@ export default function FinanceExpenses() {
                   <td className="px-6 py-4 font-black text-rose-500">${exp.amount.toLocaleString()}</td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex items-center gap-1.5 px-3 py-1 border rounded-full text-[10px] font-black uppercase tracking-wider ${
-                      exp.status === 'paid' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-amber-500/10 text-amber-500 border-amber-500/20'
+                      exp.status === 'paid' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20'
                     }`}>
                       {exp.status === 'paid' && <CheckCircle2 className="w-3 h-3" />}
                       {exp.status}

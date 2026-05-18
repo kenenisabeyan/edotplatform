@@ -29,7 +29,7 @@ export default function AgendaCreationModal({ isOpen, onClose, onAgendaCreated, 
     { id: 'meeting', label: 'Meeting', icon: Users, color: 'bg-blue-500/100' },
     { id: 'exam', label: 'Exam', icon: BookOpen, color: 'bg-rose-500/100' },
     { id: 'announcement', label: 'Announcement', icon: Bell, color: 'bg-indigo-500/100' },
-    { id: 'advice', label: 'Advice', icon: AlertCircle, color: 'bg-amber-500/100' },
+    { id: 'advice', label: 'Advice', icon: AlertCircle, color: 'bg-[#00D4FF]/100' },
     { id: 'support', label: 'Support', icon: HeartHandshake, color: 'bg-emerald-500/100' }
   ];
 
