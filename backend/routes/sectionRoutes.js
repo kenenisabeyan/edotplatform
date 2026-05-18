@@ -53,6 +53,12 @@ router.get('/', protect, async (req, res) => {
         const query = {};
         if (req.query.courseId) query.courseId = req.query.courseId;
 
+        if (req.user.role === 'instructor') {
+            query.instructorId = req.user.id;
+        } else if (req.user.role === 'student') {
+            query.students = { some: { id: req.user.id } };
+        }
+
         const sections = await prisma.section.findMany({
             where: query,
             include: {

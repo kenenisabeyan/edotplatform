@@ -8,7 +8,7 @@ import {
 import { 
   Award, TrendingUp, CheckCircle2, 
   Flame, Target, ChevronRight, PlayCircle, BookOpen, Clock, BarChart2, Star,
-  CheckCircle, ArrowUpRight, GraduationCap, ShieldCheck, MoreHorizontal, Atom, Code, Calculator, MessageSquare
+  CheckCircle, ArrowUpRight, GraduationCap, ShieldCheck, MoreHorizontal, Atom, Code, Calculator, MessageSquare, Users
 } from 'lucide-react';
 import api from '../../utils/api';
 import PremiumModal from '../PremiumModal';
@@ -23,6 +23,7 @@ const StudentOverview = ({
   isDarkMode,
   setActiveTab,
   dashboardStats,
+  sectionsData = [],
   certificateSummary = { claimed: 0, readyToClaim: 0, total: 0 }
 }) => {
   const navigate = useNavigate();
@@ -921,7 +922,63 @@ const StudentOverview = ({
           </div>
         </div>
       </PremiumModal>
-      
+
+      {/* Shared Global Block: Active Sections */}
+      {sectionsData.length > 0 && (
+        <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[32px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className={`font-black text-[15px] tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Your Sections</h3>
+              <p className={`text-[12px] font-medium mt-0.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Groups and cohorts you are a part of</p>
+            </div>
+            <div className={`text-[11px] px-3 py-1 rounded-full font-bold shadow-sm ${isDarkMode ? 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30' : 'bg-cyan-50 text-cyan-700 border border-cyan-200'}`}>
+              {sectionsData.length} sections
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[...sectionsData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3).map((sec, idx) => (
+              <div key={`global-sec-${idx}`} className={`rounded-[24px] p-5 border transition-all duration-300 hover:-translate-y-1 ${isDarkMode ? 'border-white/10 bg-white/5 shadow-sm hover:shadow-[0_15px_30px_rgba(0,212,255,0.1)] hover:border-[#00D4FF]/30' : 'border-slate-200 bg-slate-50 shadow-sm hover:shadow-lg hover:border-cyan-200'}`}>
+                <div className="flex items-start justify-between mb-3">
+                  <p className={`text-sm font-black flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    <Users className="w-5 h-5 text-[#00D4FF]" /> {sec.name || 'Unnamed Section'}
+                  </p>
+                </div>
+                <div className="space-y-1.5 mb-4">
+                  <p className={`text-[12px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Course: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.course?.title || 'Unknown'}</span></p>
+                  <p className={`text-[12px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Instructor: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.instructor?.name || 'Unassigned'}</span></p>
+                </div>
+                
+                <div className="pt-3 border-t flex flex-wrap gap-1.5 items-center dark:border-white/10 border-slate-200">
+                  <span className={`text-[10px] font-bold mr-1 uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Members:</span>
+                  {sec.students?.slice(0, 3).map(st => (
+                    <span key={st.id} className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20' : 'bg-cyan-50 text-cyan-700 border-cyan-200'}`}>
+                      {st.name?.split(' ')[0]}
+                    </span>
+                  ))}
+                  {sec.students?.length > 3 && (
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isDarkMode ? 'bg-white/5 text-slate-300 border-white/10' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                      +{sec.students.length - 3}
+                    </span>
+                  )}
+                  {!sec.students?.length && (
+                    <span className={`text-[10px] italic ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>No students yet</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-5 flex justify-end">
+            <button 
+              onClick={() => navigate('/dashboard/sections')} 
+              className="text-[12px] font-bold text-[#00D4FF] hover:text-[#00A3CC] transition-colors flex items-center gap-1"
+            >
+              View All Sections &rarr;
+            </button>
+          </div>
+        </motion.div>
+      )}
 
     </motion.div>
   );

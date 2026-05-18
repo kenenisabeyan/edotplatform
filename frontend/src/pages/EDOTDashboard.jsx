@@ -92,34 +92,35 @@ export default function EDOTDashboard() {
       const { data } = await api.get('/sections');
       return data.data || [];
     },
-    enabled: userRole === 'admin'
+    enabled: ['admin', 'instructor', 'student'].includes(userRole)
   });
 
   const loading = loadingStats && userRole !== 'sponsor';
 
   const SmartCard = ({ title, value, icon: Icon }) => {
-    let glowClass = 'hover:shadow-[0_0_25px_rgba(0,212,255,0.2)]'; // Cyan glow for admin
-    if (userRole === 'admin') {
-      glowClass = 'hover:shadow-[0_0_25px_rgba(0,212,255,0.2)]'; // Cyan glow
-    } else if (userRole === 'instructor') {
-      glowClass = 'hover:shadow-[0_0_25px_rgba(249,115,22,0.2)]'; // Orange glow
-    } else if (userRole === 'student') {
-      glowClass = 'hover:shadow-[0_0_25px_rgba(249,115,22,0.2)]'; // Orange glow
-    } else if (userRole === 'parent') {
-      glowClass = 'hover:shadow-[0_0_25px_rgba(0,212,255,0.2)]'; // Cyan glow
+    let accentColor = '#00D4FF'; // Default Cyan
+    let glowClass = 'hover:shadow-[0_10px_30px_rgba(0,212,255,0.15)] hover:border-[#00D4FF]/40';
+    
+    if (userRole === 'instructor' || userRole === 'student') {
+      accentColor = '#F97316'; // Orange
+      glowClass = 'hover:shadow-[0_10px_30px_rgba(249,115,22,0.15)] hover:border-[#F97316]/40';
     }
 
     return (
-      <motion.div whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-        <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl flex flex-col justify-between group relative overflow-hidden transition-all duration-300 ${glowClass} ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <div className="flex items-center gap-4 mb-6">
-            <div className={`w-10 h-10 rounded-xl border flex items-center justify-center ${isDarkMode ? 'bg-[#0B1120]/10 border-white/20 text-white' : 'bg-slate-100 border-slate-200 text-slate-800'}`}>
-              {Icon && <Icon className="w-5 h-5" />}
+      <motion.div whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} className="h-full">
+        <Card hover={false} className={`h-full rounded-3xl p-6 md:p-8 border backdrop-blur-2xl flex flex-col justify-between group relative overflow-hidden transition-all duration-500 ${glowClass} ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-white/80 border-slate-200 shadow-sm'}`}>
+          {/* Abstract Hover Background */}
+          <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-2xl pointer-events-none -translate-y-1/2 translate-x-1/2" style={{ backgroundColor: accentColor }}></div>
+          
+          <div className="flex items-center gap-4 mb-8 relative z-10">
+            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors duration-500 ${isDarkMode ? 'bg-white/5 border border-white/10' : 'bg-slate-50 border border-slate-100'} group-hover:bg-transparent group-hover:border-transparent`} style={{ color: isDarkMode ? '#fff' : '#1e293b' }}>
+               <div className="absolute inset-0 opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-500" style={{ backgroundColor: accentColor }}></div>
+               {Icon && <Icon className="w-5 h-5 relative z-10 transition-colors duration-500" style={{ color: 'inherit' }} />}
             </div>
-            <h3 className={`text-sm font-medium ${isDarkMode ? 'text-gray-500' : 'text-slate-500'}`}>{title}</h3>
+            <h3 className={`text-sm font-bold tracking-wide uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{title}</h3>
           </div>
-          <div>
-            <h2 className={`text-2xl md:text-3xl font-bold max-w-[90%] truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{value}</h2>
+          <div className="relative z-10">
+            <h2 className={`text-3xl md:text-4xl font-black max-w-[90%] truncate tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{value}</h2>
           </div>
         </Card>
       </motion.div>
@@ -205,9 +206,9 @@ export default function EDOTDashboard() {
          { name: 'Jun', revenue: 1640, students: 560, courses: 36 }
       ],
       lines: [
-        { key: 'courses', name: 'Courses', color: '#00D4FF' },
-        { key: 'students', name: 'Students', color: '#10B981' },
-        { key: 'revenue', name: 'Revenue', color: '#00D4FF' }
+        { key: 'courses', name: 'Courses', color: '#00D4FF' }, // Brand Cyan
+        { key: 'students', name: 'Students', color: '#F97316' }, // Brand Orange
+        { key: 'revenue', name: 'Revenue', color: '#10B981' } // Emerald
       ]
     };
     widgetConfig = {
@@ -235,9 +236,9 @@ export default function EDOTDashboard() {
     };
     
     const instructorLines = [];
-    if (stats?.courseNames?.[0]) instructorLines.push({ key: 'value1', name: stats.courseNames[0], color: '#00D4FF' });
-    if (stats?.courseNames?.[1]) instructorLines.push({ key: 'value2', name: stats.courseNames[1], color: '#00D4FF' });
-    if (stats?.courseNames?.[2]) instructorLines.push({ key: 'value3', name: stats.courseNames[2], color: '#E30A17' });
+    if (stats?.courseNames?.[0]) instructorLines.push({ key: 'value1', name: stats.courseNames[0], color: '#00D4FF' }); // Brand Cyan
+    if (stats?.courseNames?.[1]) instructorLines.push({ key: 'value2', name: stats.courseNames[1], color: '#F97316' }); // Brand Orange
+    if (stats?.courseNames?.[2]) instructorLines.push({ key: 'value3', name: stats.courseNames[2], color: '#10B981' }); // Emerald
 
     areaConfig = {
       title: 'Student Engagement Insights',
@@ -329,7 +330,7 @@ export default function EDOTDashboard() {
     areaConfig = {
       title: 'Milestone Timeline',
       data: stats?.performanceTimeline || [],
-      lines: [{ key: 'progress', name: 'Growth', color: '#00D4FF' }, { key: 'target', name: 'Target', color: '#00D4FF' }]
+      lines: [{ key: 'progress', name: 'Growth', color: '#00D4FF' }, { key: 'target', name: 'Target', color: '#F97316' }]
     };
     widgetConfig = {
       type: 'communication',
@@ -442,6 +443,7 @@ export default function EDOTDashboard() {
       isDarkMode={isDarkMode}
       setActiveTab={dashboardAction}
       dashboardStats={stats}
+      sectionsData={sectionsData}
       certificateSummary={{
         claimed: certificateEarnedCount,
         readyToClaim: readyToClaimCount,
@@ -477,64 +479,72 @@ export default function EDOTDashboard() {
         if (showNotificationsMenu) setShowNotificationsMenu(false);
       }}
     >
-      {/* 1. Welcome Banner (Heritage Glow) */}
-      <div className={`rounded-2xl p-8 border relative overflow-hidden backdrop-blur-xl ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200 shadow-sm'}`}>
-        {/* Heritage Mesh Glow placed completely underneath text */}
-        <div className={`absolute inset-0 opacity-10 pointer-events-none ${headerConfig.gradient}`}></div>
-        <div className="relative z-10">
-          <h1 className={`text-2xl md:text-3xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-            {headerConfig.title}
-          </h1>
-          {headerConfig.subtitle && (
-            <p className={`text-sm font-normal ${isDarkMode ? 'text-gray-500' : 'text-slate-500'}`}>{headerConfig.subtitle}</p>
-          )}
+      {/* 1. Ultra-Modern Welcome Banner */}
+      <div className={`rounded-[2rem] p-8 md:p-10 border relative overflow-hidden backdrop-blur-2xl shadow-xl transition-all duration-500 ${isDarkMode ? 'bg-[#0B1120]/60 border-white/10' : 'bg-white/60 border-white/50'}`}>
+        {/* Dynamic Abstract Background Elements */}
+        <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#00D4FF]/20 to-transparent rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/3`}></div>
+        <div className={`absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-[#F97316]/10 to-transparent rounded-full blur-3xl pointer-events-none translate-y-1/2 -translate-x-1/4`}></div>
+        <div className={`absolute inset-0 opacity-20 pointer-events-none ${headerConfig.gradient}`}></div>
+        
+        <div className="relative z-10 flex flex-col lg:flex-row gap-8 justify-between items-start lg:items-center">
+          <div className="flex-1">
+            <h1 className={`text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+              {headerConfig.title}
+            </h1>
+            {headerConfig.subtitle && (
+              <p className={`text-base font-medium max-w-2xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>{headerConfig.subtitle}</p>
+            )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
-            <div className={`rounded-2xl p-4 border ${isDarkMode ? 'bg-[#0B1120]/10 border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
-              <p className="text-xs font-semibold tracking-[0.18em] uppercase mb-2">Platform Status</p>
-              <p className="text-lg font-semibold">Healthy</p>
-              <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>System operations are running smoothly.</p>
-            </div>
-            <div className={`rounded-2xl p-4 border ${isDarkMode ? 'bg-[#0B1120]/10 border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'}`}>
-              <p className="text-xs font-semibold tracking-[0.18em] uppercase mb-2">Active Now</p>
-              <p className="text-2xl font-semibold">{stats?.engagement?.studentEngagement?.activeStudents ?? stats?.dailyActiveUsers ?? 0}</p>
-              <p className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>users currently active on platform</p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              {userRole === 'admin' && (
+                <button 
+                  onClick={() => setIsAgendaModalOpen(true)}
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-bold hover:-translate-y-1 shadow-[0_10px_20px_-10px_rgba(0,212,255,0.5)] transition-all flex items-center gap-2"
+                >
+                  <Bell className="w-4 h-4" /> Broadcast Notice
+                </button>
+              )}
+              {userRole === 'instructor' && (
+                <button 
+                  onClick={() => navigate('/dashboard/builder')}
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#F97316] to-[#EA580C] text-white font-bold hover:-translate-y-1 shadow-[0_10px_20px_-10px_rgba(249,115,22,0.5)] transition-all flex items-center gap-2"
+                >
+                  <BookOpen className="w-4 h-4" /> Create New Course
+                </button>
+              )}
+              {userRole === 'student' && (
+                <button 
+                  onClick={() => navigate('/dashboard/courses')}
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-bold hover:-translate-y-1 shadow-[0_10px_20px_-10px_rgba(0,212,255,0.5)] transition-all flex items-center gap-2"
+                >
+                  <PlayCircle className="w-4 h-4" /> Start a Lesson
+                </button>
+              )}
+              {userRole === 'parent' && (
+                <button 
+                  onClick={() => navigate('/dashboard/messages')}
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-bold hover:-translate-y-1 shadow-[0_10px_20px_-10px_rgba(0,212,255,0.5)] transition-all flex items-center gap-2"
+                >
+                  <Mail className="w-4 h-4" /> Message Instructor
+                </button>
+              )}
             </div>
           </div>
 
-          <div className="mt-5">
-            {userRole === 'admin' && (
-              <button 
-                onClick={() => setIsAgendaModalOpen(true)}
-                className="px-4 py-2 rounded-lg border border-[#00D4FF] text-[#00D4FF] font-semibold hover:bg-[#00D4FF]/20 shadow-[0_0_20px_rgba(0,212,255,0.3)] transition-all"
-              >
-                + Broadcast Notice
-              </button>
-            )}
-            {userRole === 'instructor' && (
-              <button 
-                onClick={() => navigate('/dashboard/builder')}
-                className="px-4 py-2 rounded-lg border border-[#00D4FF] text-[#00D4FF] font-semibold hover:bg-[#00D4FF]/20 shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all"
-              >
-                + Create New Course
-              </button>
-            )}
-            {userRole === 'student' && (
-              <button 
-                onClick={() => navigate('/dashboard/courses')}
-                className="px-4 py-2 rounded-lg border border-[#00D4FF] text-[#00D4FF] font-semibold hover:bg-[#00D4FF]/10 shadow-[0_0_20px_rgba(249,115,22,0.3)] transition-all"
-              >
-                + Start a Lesson
-              </button>
-            )}
-            {userRole === 'parent' && (
-              <button 
-                onClick={() => navigate('/dashboard/messages')}
-                className="px-4 py-2 rounded-lg border border-[#00D4FF] text-[#00D4FF] font-semibold hover:bg-[#00D4FF]/20 shadow-[0_0_20px_rgba(0,212,255,0.3)] transition-all"
-              >
-                ✉️ Message Instructor
-              </button>
-            )}
+          <div className="w-full lg:w-auto flex flex-col sm:flex-row gap-4 shrink-0">
+            <div className={`rounded-3xl p-5 border backdrop-blur-md flex-1 min-w-[160px] transition-all hover:scale-105 ${isDarkMode ? 'bg-white/5 border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)]' : 'bg-white/50 border-white shadow-[0_8px_32px_rgba(31,38,135,0.05)]'}`}>
+              <p className={`text-[10px] font-black tracking-widest uppercase mb-2 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00D4FF]'}`}>Platform Status</p>
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <p className={`text-2xl font-black leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Healthy</p>
+              </div>
+              <p className={`text-xs font-medium mt-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>All systems nominal</p>
+            </div>
+            <div className={`rounded-3xl p-5 border backdrop-blur-md flex-1 min-w-[160px] transition-all hover:scale-105 ${isDarkMode ? 'bg-white/5 border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)]' : 'bg-white/50 border-white shadow-[0_8px_32px_rgba(31,38,135,0.05)]'}`}>
+              <p className={`text-[10px] font-black tracking-widest uppercase mb-2 ${isDarkMode ? 'text-[#F97316]' : 'text-[#F97316]'}`}>Active Now</p>
+              <p className={`text-3xl font-black leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.activeStudents ?? stats?.dailyActiveUsers ?? 0}</p>
+              <p className={`text-xs font-medium mt-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Users live right now</p>
+            </div>
           </div>
         </div>
       </div>
@@ -550,7 +560,7 @@ export default function EDOTDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left Widget: Essential Activities Gauges */}
-        <Card hover={false} className={`lg:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col relative min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+        <Card hover={false} className={`lg:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col relative h-[400px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
           <h3 className={`font-semibold text-sm mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Essential Activities</h3>
           
           <div className="grid grid-cols-2 gap-4 flex-1">
@@ -665,7 +675,7 @@ export default function EDOTDashboard() {
         </Card>
 
         {/* Right Widget: Line/Area Chart */}
-        <Card hover={false} className={`lg:col-span-5 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+        <Card hover={false} className={`lg:col-span-5 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col h-[400px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
           <div className="flex justify-between items-center mb-6 shrink-0 relative">
             <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{areaConfig.title}</h3>
             <div 
@@ -716,15 +726,15 @@ export default function EDOTDashboard() {
 
          {/* Right Side Block: Top Courses for Admin, alternative widgets for others */}
          {userRole === 'admin' ? (
-           <Card hover={false} className={`lg:col-span-4 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-             <div className="flex items-start justify-between gap-4 mb-6">
+           <Card hover={false} className={`lg:col-span-4 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col h-[400px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+             <div className="flex items-start justify-between gap-4 mb-6 shrink-0">
                <div>
                  <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Top Courses</h3>
                  <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>This month’s best performers</p>
                </div>
                <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{topCourseRankings.length} items</span>
              </div>
-             <div className="space-y-4">
+             <div className="space-y-4 overflow-y-auto flex-1 pr-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-white/10">
                {topCourseRankings.length ? topCourseRankings.map((course, index) => (
                  <div key={course.id || index} className={`rounded-3xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
                    <div className="flex items-center justify-between gap-3">
@@ -950,50 +960,66 @@ export default function EDOTDashboard() {
               </div>
             </div>
 
-            {/* Active Sections */}
-            <div className="mt-6 relative border-t pt-5 dark:border-white/10 border-slate-200">
-              <div className="flex justify-between items-center mb-4">
-                <h4 className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Active Sections</h4>
-                <div className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${isDarkMode ? 'bg-[#00D4FF]/20 text-[#00D4FF]' : 'bg-cyan-100 text-cyan-600'}`}>{sectionsData.length} total</div>
-              </div>
-              <div className="space-y-3">
-                {sectionsData.length > 0 ? [...sectionsData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3).map((sec, idx) => (
-                  <div key={`quick-sec-${idx}`} className={`rounded-2xl p-4 border transition-colors hover:border-[#00D4FF]/50 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/50 shadow-sm' : 'border-slate-200 bg-white shadow-sm hover:shadow-md'}`}>
-                    <p className={`text-sm font-black flex items-center gap-2 mb-1.5 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00D4FF]'}`}>
-                      <Users className="w-4 h-4" /> {sec.name || 'Unnamed Section'}
-                    </p>
-                    <p className={`text-[11px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Course: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.course?.title || 'Unknown'}</span></p>
-                    <p className={`text-[11px] font-bold mt-0.5 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Instructor: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.instructor?.name || 'Unassigned'}</span></p>
-                    
-                    <div className="mt-3 pt-2 border-t flex flex-wrap gap-1.5 items-center dark:border-white/5 border-slate-100">
-                      <span className={`text-[10px] font-bold mr-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Members:</span>
-                      {sec.students?.slice(0,3).map(st => (
-                        <span key={st.id} className={`text-[9px] font-semibold px-2 py-0.5 rounded-md border ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20' : 'bg-blue-50 text-blue-600 border-blue-100'}`}>
-                          {st.name}
-                        </span>
-                      ))}
-                      {sec.students?.length > 3 && (
-                        <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-md border ${isDarkMode ? 'bg-white/10 text-slate-300 border-white/5' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                          +{sec.students.length - 3} more
-                        </span>
-                      )}
-                      {!sec.students?.length && (
-                         <span className={`text-[9px] italic ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>No students linked yet</span>
-                      )}
-                    </div>
-                  </div>
-                )) : (
-                  <div className={`rounded-2xl p-4 text-center text-xs ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
-                    No active sections found.
-                  </div>
-                )}
-              </div>
-              <button onClick={() => navigate('/dashboard/sections')} className="w-full mt-3 py-2 text-xs font-bold text-[#00D4FF] hover:bg-[#00D4FF]/10 rounded-lg transition-colors border border-transparent hover:border-[#00D4FF]/20">
-                Manage All Sections
-              </button>
-            </div>
+
           </Card>
         </div>
+      )}
+
+      {/* Shared Global Block: Active Sections */}
+      {['admin', 'instructor', 'student'].includes(userRole) && sectionsData.length > 0 && (
+        <Card hover={false} className={`rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className={`font-black text-xl tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{userRole === 'admin' ? 'Active Sections' : 'Your Sections'}</h3>
+              <p className={`text-sm font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Groups and cohorts you are a part of</p>
+            </div>
+            <div className={`text-xs px-3 py-1 rounded-full font-bold shadow-sm ${isDarkMode ? 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30' : 'bg-cyan-50 text-cyan-700 border border-cyan-200'}`}>
+              {sectionsData.length} sections
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[...sectionsData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3).map((sec, idx) => (
+              <div key={`global-sec-${idx}`} className={`rounded-3xl p-5 border transition-all duration-300 hover:-translate-y-1 ${isDarkMode ? 'border-white/10 bg-white/5 shadow-sm hover:shadow-[0_15px_30px_rgba(0,212,255,0.1)] hover:border-[#00D4FF]/30' : 'border-slate-200 bg-slate-50 shadow-sm hover:shadow-lg hover:border-cyan-200'}`}>
+                <div className="flex items-start justify-between mb-3">
+                  <p className={`text-lg font-black flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    <Users className="w-5 h-5 text-[#00D4FF]" /> {sec.name || 'Unnamed Section'}
+                  </p>
+                </div>
+                <div className="space-y-1.5 mb-4">
+                  <p className={`text-[12px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Course: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.course?.title || 'Unknown'}</span></p>
+                  <p className={`text-[12px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Instructor: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.instructor?.name || 'Unassigned'}</span></p>
+                </div>
+                
+                <div className="pt-3 border-t flex flex-wrap gap-1.5 items-center dark:border-white/10 border-slate-200">
+                  <span className={`text-[10px] font-bold mr-1 uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Members:</span>
+                  {sec.students?.slice(0, 3).map(st => (
+                    <span key={st.id} className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20' : 'bg-cyan-50 text-cyan-700 border-cyan-200'}`}>
+                      {st.name?.split(' ')[0]}
+                    </span>
+                  ))}
+                  {sec.students?.length > 3 && (
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isDarkMode ? 'bg-white/5 text-slate-300 border-white/10' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                      +{sec.students.length - 3}
+                    </span>
+                  )}
+                  {!sec.students?.length && (
+                    <span className={`text-[10px] italic ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>No students yet</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-5 flex justify-end">
+            <button 
+              onClick={() => navigate('/dashboard/sections')} 
+              className="text-sm font-bold text-[#00D4FF] hover:text-[#00A3CC] transition-colors flex items-center gap-1"
+            >
+              {userRole === 'admin' ? 'Manage All Sections' : 'View All Sections'} &rarr;
+            </button>
+          </div>
+        </Card>
       )}
 
       {userRole === 'admin' && events.length > 0 && (

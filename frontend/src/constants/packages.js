@@ -3,7 +3,7 @@ export const PACKAGES = [
     id: 'c_orange',
     title: 'Social Science Courses',
     category: 'EDOT CORE',
-    color: '#00D4FF',
+    color: '#F97316',
     darkColor: '#C2410C',
     ribbon: 'SOCIAL SCIENCE',
     description: "This curriculum path is designed to enable learners to travel inside human society, increasing awareness to grow understanding of history, behavior, and structural consciousness.",

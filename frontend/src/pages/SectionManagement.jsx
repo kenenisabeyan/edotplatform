@@ -164,7 +164,8 @@ export default function SectionManagement() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
          {/* Form & Management */}
-         <div className="lg:col-span-1 space-y-8">
+         {user?.role !== 'student' && (
+           <div className="lg:col-span-1 space-y-8">
              {/* Create Card */}
              <div className={`border rounded-[2rem] p-6 lg:p-8 relative overflow-hidden transition-all shadow-sm hover:shadow-md ${isDarkMode ? 'bg-[#0B1120]/80 border-white/5' : 'bg-white border-slate-100'}`}>
                 <h3 className={`text-xl font-bold mb-6 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-[#0B1221]'}`}>
@@ -270,10 +271,11 @@ export default function SectionManagement() {
              </div>
 
              {/* Student Roster Modal extracted from here */}
-         </div>
+           </div>
+         )}
 
          {/* Sections List */}
-         <div className="lg:col-span-2 space-y-6">
+         <div className={`${user?.role !== 'student' ? 'lg:col-span-2' : 'lg:col-span-3'} space-y-6`}>
            <h3 className={`text-xl font-bold flex items-center gap-2 px-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><Layers className="w-5 h-5 text-[#00D4FF]" /> Category Groups</h3>
            
            {(() => {
@@ -350,13 +352,15 @@ export default function SectionManagement() {
                                    </div>
                                  </div>
                                  
-                                 <button 
-                                   onClick={(e) => { e.stopPropagation(); handleDeleteSection(sec.id); }} 
-                                   className={`shrink-0 transition-all p-2 rounded-xl border ${isDarkMode ? 'bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white border-rose-500/20' : 'bg-rose-50 text-rose-500 hover:bg-rose-500 hover:text-white border-rose-100'} opacity-0 group-hover:opacity-100 shadow-sm`}
-                                   title="Delete Section"
-                                 >
-                                    <Trash2 className="w-4 h-4" />
-                                 </button>
+                                 {user?.role !== 'student' && (
+                                   <button 
+                                     onClick={(e) => { e.stopPropagation(); handleDeleteSection(sec.id); }} 
+                                     className={`shrink-0 transition-all p-2 rounded-xl border ${isDarkMode ? 'bg-rose-500/10 text-rose-400 hover:bg-rose-500 hover:text-white border-rose-500/20' : 'bg-rose-50 text-rose-500 hover:bg-rose-500 hover:text-white border-rose-100'} opacity-0 group-hover:opacity-100 shadow-sm`}
+                                     title="Delete Section"
+                                   >
+                                      <Trash2 className="w-4 h-4" />
+                                   </button>
+                                 )}
                               </div>
                               
                               <div className="mt-6 pt-5 border-t pl-2 relative z-10 flex flex-col gap-3" style={{ borderColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' }}>
@@ -375,7 +379,7 @@ export default function SectionManagement() {
                                        <span className="text-xs font-bold">{sec.students?.length || 0} Enrolled</span>
                                     </div>
                                     <div className={`text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all ${selectedSection?.id === sec.id ? 'text-[#00D4FF]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`}>
-                                       Manage <ChevronRight className="w-3 h-3" />
+                                       {user?.role === 'student' ? 'View' : 'Manage'} <ChevronRight className="w-3 h-3" />
                                     </div>
                                  </div>
                               </div>
@@ -418,29 +422,31 @@ export default function SectionManagement() {
                </span>
             </div>
             
-            <form onSubmit={handleAddStudent} className="flex flex-col gap-4 mb-8">
-              <div>
-                <label className={`block text-[11px] font-bold mb-2 uppercase tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Enroll New Learner</label>
-                <div className="relative">
-                  <select value={studentToAdd} onChange={e => setStudentToAdd(e.target.value)} required className={`w-full border rounded-xl px-4 py-3.5 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/20 focus:border-[#00D4FF]/50 transition-all cursor-pointer ${isDarkMode ? 'bg-[#151e32]/50 border-white/5 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
-                    <option value="" disabled>Search & Select Student...</option>
-                    {validators.students.filter(stu => !selectedSection.students.find(s => s.id === stu.id)).map(stu => (
-                       <option key={stu.id} value={stu.id}>{stu.name} - {stu.email}</option>
-                    ))}
-                  </select>
-                  <ChevronDown className={`w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
+            {user?.role !== 'student' && (
+              <form onSubmit={handleAddStudent} className="flex flex-col gap-4 mb-8">
+                <div>
+                  <label className={`block text-[11px] font-bold mb-2 uppercase tracking-wide ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Enroll New Learner</label>
+                  <div className="relative">
+                    <select value={studentToAdd} onChange={e => setStudentToAdd(e.target.value)} required className={`w-full border rounded-xl px-4 py-3.5 text-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/20 focus:border-[#00D4FF]/50 transition-all cursor-pointer ${isDarkMode ? 'bg-[#151e32]/50 border-white/5 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'}`}>
+                      <option value="" disabled>Search & Select Student...</option>
+                      {validators.students.filter(stu => !selectedSection.students.find(s => s.id === stu.id)).map(stu => (
+                         <option key={stu.id} value={stu.id}>{stu.name} - {stu.email}</option>
+                      ))}
+                    </select>
+                    <ChevronDown className={`w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />
+                  </div>
                 </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3 w-full mt-2">
-                <button type="submit" className={`flex-1 py-3 rounded-full font-bold text-[13px] bg-[#00D4FF] hover:bg-[#00BCE6] shadow-sm text-[#0B1221] transition-all`}>
-                  + Add Manually
-                </button>
-                <button type="button" onClick={handleAutoAssign} className={`flex-1 py-3 rounded-full font-bold text-[13px] bg-[#F97316] hover:bg-[#EA580C] shadow-sm text-white transition-all`}>
-                  Auto-Assign Batch
-                </button>
-              </div>
-            </form>
+  
+                <div className="flex flex-col sm:flex-row gap-3 w-full mt-2">
+                  <button type="submit" className={`flex-1 py-3 rounded-full font-bold text-[13px] bg-[#00D4FF] hover:bg-[#00BCE6] shadow-sm text-[#0B1221] transition-all`}>
+                    + Add Manually
+                  </button>
+                  <button type="button" onClick={handleAutoAssign} className={`flex-1 py-3 rounded-full font-bold text-[13px] bg-[#F97316] hover:bg-[#EA580C] shadow-sm text-white transition-all`}>
+                    Auto-Assign Batch
+                  </button>
+                </div>
+              </form>
+            )}
 
             <div className={`max-h-[300px] overflow-y-auto space-y-3 pr-2 scrollbar-hide border-t pt-6 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
               <p className={`text-[11px] font-bold uppercase tracking-wide mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{selectedSection.students.length} Learners Enrolled</p>
@@ -455,9 +461,11 @@ export default function SectionManagement() {
                       <span className={`text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{student.email}</span>
                     </div>
                   </div>
-                  <button onClick={() => handleRemoveStudent(selectedSection.id, student.id)} className={`p-2 rounded-xl transition-colors ${isDarkMode ? 'text-rose-500 hover:bg-rose-500/10' : 'text-rose-400 hover:bg-rose-50 hover:text-rose-600'}`}>
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  {user?.role !== 'student' && (
+                    <button onClick={() => handleRemoveStudent(selectedSection.id, student.id)} className={`p-2 rounded-xl transition-colors ${isDarkMode ? 'text-rose-500 hover:bg-rose-500/10' : 'text-rose-400 hover:bg-rose-50 hover:text-rose-600'}`}>
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
               ))}
               {selectedSection.students.length === 0 && (
