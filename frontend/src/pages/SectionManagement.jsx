@@ -167,9 +167,10 @@ export default function SectionManagement() {
          {user?.role !== 'student' && (
            <div className="lg:col-span-1 space-y-8">
              {/* Create Card */}
-             <div className={`border rounded-[2rem] p-6 lg:p-8 relative overflow-hidden transition-all shadow-sm hover:shadow-md ${isDarkMode ? 'bg-[#0B1120]/80 border-white/5' : 'bg-white border-slate-100'}`}>
-                <h3 className={`text-xl font-bold mb-6 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-[#0B1221]'}`}>
-                  <Layers className="w-5 h-5 text-[#00D4FF]" /> New Section
+             <div className={`border rounded-[2.5rem] p-8 lg:p-10 relative overflow-hidden transition-all shadow-xl hover:shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10 hover:border-white/20' : 'bg-white border-slate-200 hover:border-[#00D4FF]/30'}`}>
+                <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
+                <h3 className={`text-2xl font-black mb-8 flex items-center gap-3 relative z-10 ${isDarkMode ? 'text-white' : 'text-[#0B1221]'}`}>
+                  <Layers className="w-6 h-6 text-[#00D4FF] drop-shadow-[0_0_8px_rgba(0,212,255,0.5)]" /> New Section
                 </h3>
                 
                 <form onSubmit={handleCreateSection} className="space-y-5">
@@ -264,8 +265,9 @@ export default function SectionManagement() {
                     </div>
                   </div>
 
-                  <button type="submit" className={`w-full mt-4 font-bold py-3.5 rounded-full transition-all flex items-center justify-center gap-2 bg-[#00D4FF] hover:bg-[#00BCE6] shadow-md hover:shadow-lg text-sm text-[#0B1221]`}>
-                    <Plus className="w-4 h-4" /> Create Section
+                  <button type="submit" className={`w-full mt-6 group relative overflow-hidden px-6 py-4 rounded-full font-black text-sm shadow-lg transition-all hover:scale-105 border border-white/20 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:shadow-[0_0_30px_rgba(0,212,255,0.4)]`}>
+                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+                    <span className="relative z-10 drop-shadow-md flex items-center justify-center gap-2"><Plus className="w-4 h-4" /> Create Section</span>
                   </button>
                 </form>
              </div>
@@ -404,11 +406,13 @@ export default function SectionManagement() {
 
       {/* Selected Section Detail / Enrollment Modal */}
       {selectedSection && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedSection(null)}>
-          <div onClick={(e) => e.stopPropagation()} className={`relative w-full max-w-xl max-h-[90vh] overflow-y-auto border rounded-[2rem] p-6 lg:p-8 shadow-2xl animate-fade-in-up ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-100'}`}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in duration-300" onClick={() => setSelectedSection(null)}>
+          <div onClick={(e) => e.stopPropagation()} className={`relative w-full max-w-xl max-h-[90vh] overflow-hidden flex flex-col border rounded-[2.5rem] p-8 shadow-2xl animate-in zoom-in-95 duration-500 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#00D4FF]/10 blur-[80px] rounded-full pointer-events-none mix-blend-screen"></div>
+            
             <button 
               onClick={() => setSelectedSection(null)}
-              className={`absolute top-6 right-6 p-2 rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10 text-slate-400 hover:text-white' : 'hover:bg-slate-100 text-slate-500 hover:text-slate-900'}`}
+              className={`absolute top-6 right-6 p-2 rounded-full transition-colors z-20 ${isDarkMode ? 'hover:bg-white/10 text-slate-400 hover:text-white' : 'hover:bg-slate-100 text-slate-500 hover:text-slate-900'}`}
             >
               <X className="w-5 h-5" />
             </button>
@@ -469,7 +473,7 @@ export default function SectionManagement() {
                 </div>
               ))}
               {selectedSection.students.length === 0 && (
-                <div className={`text-center text-sm py-6 italic ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No students linked to this array yet.</div>
+                <div className={`text-center text-sm py-8 font-bold italic rounded-3xl border ${isDarkMode ? 'bg-white/5 border-white/5 text-slate-400' : 'bg-slate-50 border-slate-200 text-slate-500'}`}>No students linked to this cohort yet.</div>
               )}
             </div>
           </div>

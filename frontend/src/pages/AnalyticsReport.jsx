@@ -67,11 +67,15 @@ export default function AnalyticsReport() {
           </div>
         </div>
         <div className="flex gap-3">
-          <button className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm transition-colors border bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-            <Filter className="w-4 h-4" /> Filter
+          <button className={`group relative overflow-hidden flex items-center gap-2 px-6 py-2.5 rounded-full font-bold text-sm transition-all border shadow-lg hover:shadow-xl hover:-translate-y-0.5 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10 text-white hover:border-[#00D4FF]/30' : 'bg-white border-slate-200 text-slate-900 hover:border-[#00D4FF]/30'}`}>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#00D4FF]/10 to-[#2563EB]/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <Filter className="w-4 h-4 relative z-10 text-[#00D4FF]" /> 
+            <span className="relative z-10">Filter Data</span>
           </button>
-          <button className={`flex items-center gap-2 hover:shadow-[0_0_15px_rgba(0,138,50,0.4)] px-5 py-2.5 rounded-full font-semibold text-sm transition-all hover:-translate-y-0.5 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-            <Download className="w-4 h-4" /> Export PDF
+          <button className={`group relative overflow-hidden flex items-center gap-2 px-6 py-2.5 rounded-full font-black text-sm transition-all shadow-lg hover:shadow-[0_0_30px_rgba(0,212,255,0.4)] hover:-translate-y-0.5 hover:scale-105 border border-white/20 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white`}>
+            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+            <Download className="w-4 h-4 relative z-10 drop-shadow-md" /> 
+            <span className="relative z-10 drop-shadow-md">Export PDF Report</span>
           </button>
         </div>
       </div>
@@ -84,75 +88,110 @@ export default function AnalyticsReport() {
         <div className="space-y-6">
            {/* Report Summary Cards */}
            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-             <div className="bg-gradient-to-br from-[#00D4FF] to-orange-600 rounded-3xl p-6 text-black shadow-[0_0_30px_rgba(249,115,22,0.2)] relative overflow-hidden group hover:-translate-y-1 transition-all cursor-pointer">
-               <div className={`absolute right-0 top-0 w-32 h-32 rounded-full blur-2xl group-hover:bg-white/5/30 transition-all ${isDarkMode ? 'bg-[#0B1120]/20' : 'bg-slate-100'}`}></div>
+             <div className="bg-gradient-to-br from-[#00D4FF] to-[#2563EB] rounded-[2.5rem] p-8 text-white shadow-[0_0_40px_rgba(0,212,255,0.2)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-500 cursor-pointer">
+               <div className="absolute right-[-20%] top-[-20%] w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-500 pointer-events-none"></div>
                <div className="relative z-10">
-                 <div className="flex justify-between items-center mb-4">
-                   <div className="p-2 bg-black/10 rounded-xl backdrop-blur-sm shadow-inner"><CircleDollarSign className="w-6 h-6" /></div>
-                   <span className="flex items-center gap-1 text-[10px] font-black bg-black/10 px-2 py-1 rounded-md backdrop-blur-sm  "><TrendingUp className="w-3 h-3" /> +24%</span>
+                 <div className="flex justify-between items-center mb-6">
+                   <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-md shadow-inner border border-white/20"><CircleDollarSign className="w-6 h-6" /></div>
+                   <span className="flex items-center gap-1 text-[11px] font-black uppercase tracking-wider bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/10 shadow-sm"><TrendingUp className="w-3 h-3" /> +24%</span>
                  </div>
-                 <h2 className="text-4xl font-black mb-1">${(reportData.totalRevenue || 0).toLocaleString()}</h2>
-                 <p className="text-black/70 font-bold   text-xs mt-2">{user?.role === 'admin' ? 'Total Quarterly Revenue' : 'Total Course Earnings'}</p>
+                 <h2 className="text-5xl font-black font-display mb-2 drop-shadow-md">${(reportData.totalRevenue || 0).toLocaleString()}</h2>
+                 <p className="text-white/80 font-bold text-sm tracking-wide">{user?.role === 'admin' ? 'Total Quarterly Revenue' : 'Total Course Earnings'}</p>
                </div>
              </div>
              
-             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex flex-col justify-between group hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-               <div className="absolute right-[-10%] top-[-10%] w-32 h-32 bg-[#00D4FF]/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-               <div className="flex justify-between items-center mb-4 relative z-10">
-                 <div className="p-3 bg-[#00D4FF]/10 border border-[#00D4FF]/30 text-[#00D4FF] rounded-xl"><Users className="w-6 h-6" /></div>
+             <div className={`p-8 rounded-[2.5rem] border shadow-2xl flex flex-col justify-between group hover:-translate-y-1 transition-all duration-500 cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-gradient-to-br from-[#0B1120]/80 to-[#0f172a]/80 border-white/10 hover:border-[#00D4FF]/30' : 'bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:border-[#00D4FF]/30'}`}>
+               <div className="absolute right-0 bottom-0 w-48 h-48 bg-[#00D4FF]/10 rounded-full blur-[80px] opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen"></div>
+               <div className="flex justify-between items-center mb-6 relative z-10">
+                 <div className="p-3 bg-gradient-to-br from-[#00D4FF]/20 to-[#2563EB]/20 border border-[#00D4FF]/30 text-[#00D4FF] rounded-2xl shadow-inner"><Users className="w-6 h-6" /></div>
                </div>
-               <div className="relative z-10">
-                 <h2 className={`text-4xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{reportData.totalActiveLearners || 0}</h2>
-                 <p className="text-[#00D4FF] font-bold text-xs  ">Active Learners</p>
+               <div className="relative z-10 mt-auto">
+                 <h2 className={`text-5xl font-black font-display mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{reportData.totalActiveLearners || 0}</h2>
+                 <p className="text-[#00D4FF] font-bold text-sm tracking-wide">Active Learners</p>
                </div>
              </div>
 
-             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex flex-col justify-between group hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-               <div className="absolute right-[-10%] top-[-10%] w-32 h-32 bg-blue-500/100/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-               <div className="flex justify-between items-center mb-4 relative z-10">
-                 <div className="p-3 bg-blue-500/100/10 border border-blue-500/30 text-blue-400 rounded-xl"><BookOpen className="w-6 h-6" /></div>
+             <div className={`p-8 rounded-[2.5rem] border shadow-2xl flex flex-col justify-between group hover:-translate-y-1 transition-all duration-500 cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-gradient-to-br from-[#0B1120]/80 to-[#0f172a]/80 border-white/10 hover:border-[#2563EB]/30' : 'bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:border-[#2563EB]/30'}`}>
+               <div className="absolute right-0 bottom-0 w-48 h-48 bg-[#2563EB]/10 rounded-full blur-[80px] opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen"></div>
+               <div className="flex justify-between items-center mb-6 relative z-10">
+                 <div className="p-3 bg-gradient-to-br from-[#2563EB]/20 to-[#00D4FF]/20 border border-[#2563EB]/30 text-[#2563EB] rounded-2xl shadow-inner"><BookOpen className="w-6 h-6" /></div>
                </div>
-               <div className="relative z-10">
-                 <h2 className={`text-4xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{reportData.totalCourseCompletions || 0}</h2>
-                 <p className="text-blue-400 font-bold text-xs  ">Course Completions</p>
+               <div className="relative z-10 mt-auto">
+                 <h2 className={`text-5xl font-black font-display mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{reportData.totalCourseCompletions || 0}</h2>
+                 <p className="text-[#2563EB] font-bold text-sm tracking-wide">Course Completions</p>
                </div>
              </div>
            </div>
 
            {/* Detailed Charts */}
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-                <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Revenue Trajectory</h3>
-                <div className="h-72">
+             <div className={`p-8 rounded-[2.5rem] border shadow-2xl relative overflow-hidden group ${isDarkMode ? 'bg-gradient-to-br from-[#0B1120]/80 to-[#0f172a]/80 border-white/10' : 'bg-gradient-to-br from-white to-slate-50 border-slate-200'}`}>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/5 rounded-full blur-[80px] pointer-events-none mix-blend-screen"></div>
+                <h3 className={`text-xl font-black font-display mb-6 relative z-10 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                   <span className="w-2.5 h-2.5 rounded-full bg-[#00D4FF]"></span> Revenue Trajectory
+                </h3>
+                <div className="h-72 relative z-10">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={reportData.revenueData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                       <defs>
                         <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#00D4FF" stopOpacity={0.8}/>
-                          <stop offset="95%" stopColor="#00D4FF" stopOpacity={0.1}/>
+                          <stop offset="5%" stopColor="#00D4FF" stopOpacity={0.6}/>
+                          <stop offset="95%" stopColor="#2563EB" stopOpacity={0.05}/>
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.1} />
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
-                      <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
-                      <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B1120', color: '#fff', fontWeight: 'bold' }} />
-                      <Area type="monotone" dataKey="revenue" stroke="#00D4FF" strokeWidth={4} fillOpacity={1} fill="url(#colorRevenue)" />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? "rgba(255,255,255,0.05)" : "#f1f5f9"} />
+                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 11, fontWeight: 600}} dy={10} />
+                      <YAxis axisLine={false} tickLine={false} tick={{fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 11, fontWeight: 600}} dx={-10} />
+                      <Tooltip 
+                         contentStyle={{ 
+                            borderRadius: '16px', 
+                            border: isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid #E2E8F0', 
+                            boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)', 
+                            background: isDarkMode ? '#0f172a' : '#ffffff', 
+                            color: isDarkMode ? '#fff' : '#0f172a', 
+                            fontWeight: 'bold' 
+                         }} 
+                      />
+                      <Area type="monotone" dataKey="revenue" stroke="#00D4FF" strokeWidth={4} fillOpacity={1} fill="url(#colorRevenue)" className="drop-shadow-lg" />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
              </div>
 
-             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-                <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Platform Engagement</h3>
-                <div className="h-72">
+             <div className={`p-8 rounded-[2.5rem] border shadow-2xl relative overflow-hidden group ${isDarkMode ? 'bg-gradient-to-br from-[#0B1120]/80 to-[#0f172a]/80 border-white/10' : 'bg-gradient-to-br from-white to-slate-50 border-slate-200'}`}>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#2563EB]/5 rounded-full blur-[80px] pointer-events-none mix-blend-screen"></div>
+                <h3 className={`text-xl font-black font-display mb-6 relative z-10 flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                   <span className="w-2.5 h-2.5 rounded-full bg-[#2563EB]"></span> Platform Engagement
+                </h3>
+                <div className="h-72 relative z-10">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={reportData.engagementData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.1} />
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
-                      <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
-                      <Tooltip cursor={{fill: 'rgba(255, 255, 255, 0.05)'}} contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)', background: '#0B1120', color: '#fff', fontWeight: 'bold' }} />
-                      <Bar dataKey="students" fill="#00D4FF" radius={[6, 6, 0, 0]} name="Students" barSize={20} />
-                      <Bar dataKey="teachers" fill="#4B5563" radius={[6, 6, 0, 0]} name="Teachers" barSize={20} />
+                      <defs>
+                        <linearGradient id="barStudents" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#00D4FF" stopOpacity={1}/>
+                          <stop offset="100%" stopColor="#0088cc" stopOpacity={0.8}/>
+                        </linearGradient>
+                        <linearGradient id="barTeachers" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#2563EB" stopOpacity={1}/>
+                          <stop offset="100%" stopColor="#1e40af" stopOpacity={0.8}/>
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? "rgba(255,255,255,0.05)" : "#f1f5f9"} />
+                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 11, fontWeight: 600}} dy={10} />
+                      <YAxis axisLine={false} tickLine={false} tick={{fill: isDarkMode ? '#94a3b8' : '#64748b', fontSize: 11, fontWeight: 600}} dx={-10} />
+                      <Tooltip 
+                         cursor={{fill: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0,0,0,0.02)'}} 
+                         contentStyle={{ 
+                            borderRadius: '16px', 
+                            border: isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid #E2E8F0', 
+                            boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)', 
+                            background: isDarkMode ? '#0f172a' : '#ffffff', 
+                            color: isDarkMode ? '#fff' : '#0f172a', 
+                            fontWeight: 'bold' 
+                         }} 
+                      />
+                      <Bar dataKey="students" fill="url(#barStudents)" radius={[6, 6, 0, 0]} name="Students" barSize={20} className="drop-shadow-md hover:opacity-80 transition-opacity" />
+                      <Bar dataKey="teachers" fill="url(#barTeachers)" radius={[6, 6, 0, 0]} name="Teachers" barSize={20} className="drop-shadow-md hover:opacity-80 transition-opacity" />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -161,21 +200,24 @@ export default function AnalyticsReport() {
 
            {/* Footer Stats Grid */}
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-             <div className={`backdrop-blur-xl p-6 rounded-3xl border shadow-2xl flex items-center ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-                <div className="h-48 w-1/2">
+             <div className={`p-8 rounded-[2.5rem] border shadow-2xl flex items-center relative overflow-hidden group ${isDarkMode ? 'bg-gradient-to-br from-[#0B1120]/80 to-[#0f172a]/80 border-white/10 hover:border-[#00D4FF]/30' : 'bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:border-[#00D4FF]/30'}`}>
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#00D4FF]/10 rounded-full blur-[80px] pointer-events-none mix-blend-screen opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                <div className="h-48 w-1/2 relative z-10">
                    <ResponsiveContainer width="100%" height="100%">
                      <PieChart>
-                       <Pie data={reportData.courseCompletionData} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value" stroke="none">
+                       <Pie data={reportData.courseCompletionData} innerRadius={55} outerRadius={80} paddingAngle={6} dataKey="value" stroke={isDarkMode ? '#0B1120' : '#ffffff'} strokeWidth={3}>
                          {(reportData.courseCompletionData || []).map((entry, index) => (
-                           <Cell key={`cell-${index}`} fill={entry.color || COLORS[index % COLORS.length]} />
+                           <Cell key={`cell-${index}`} fill={entry.color || COLORS[index % COLORS.length]} className="drop-shadow-sm hover:opacity-80 transition-opacity outline-none" />
                          ))}
                        </Pie>
-                       <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: '#0B1120', color: '#fff' }} />
+                       <Tooltip contentStyle={{ borderRadius: '16px', border: isDarkMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid #E2E8F0', background: isDarkMode ? '#0f172a' : '#ffffff', color: isDarkMode ? '#fff' : '#0f172a', fontWeight: 'bold', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.1)' }} />
                      </PieChart>
                    </ResponsiveContainer>
                 </div>
-                <div className="w-1/2 pl-6">
-                   <h3 className={`text-lg font-bold mb-5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Course Overview</h3>
+                <div className="w-1/2 pl-6 relative z-10">
+                   <h3 className={`text-xl font-black font-display mb-5 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                      <span className="w-2 h-2 rounded-full bg-[#00D4FF]"></span> Course Overview
+                   </h3>
                    <div className="space-y-4">
                      {(reportData.courseCompletionData || []).map((item, idx) => (
                         <div key={idx} className="flex justify-between items-center text-sm">
@@ -190,14 +232,24 @@ export default function AnalyticsReport() {
                 </div>
              </div>
 
-             <div className={`bg-gradient-to-br from-[#1a1f2e] to-[#0B1120] p-8 rounded-3xl border shadow-inner flex flex-col justify-center relative overflow-hidden ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-               <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none"></div>
-               <h3 className="text-xl font-bold text-[#00D4FF] mb-3 relative z-10">Automated Insight AI</h3>
-               <p className={`font-medium leading-relaxed text-sm mb-6 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-                 Platform performance is actively monitored. Automated insights will generate here automatically once enough interaction data aligns with algorithmic thresholds.
+             <div className={`p-8 rounded-[2.5rem] border shadow-2xl flex flex-col justify-center relative overflow-hidden group ${isDarkMode ? 'bg-gradient-to-br from-[#0B1120]/90 to-[#0f172a]/90 border-white/10' : 'bg-gradient-to-br from-white to-slate-50 border-slate-200'}`}>
+               <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-gradient-to-br from-[#00D4FF]/20 to-[#2563EB]/20 rounded-full blur-[80px] pointer-events-none mix-blend-screen opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+               <div className="absolute bottom-[-20%] left-[-10%] w-64 h-64 bg-gradient-to-tr from-[#2563EB]/10 to-[#00D4FF]/10 rounded-full blur-[80px] pointer-events-none mix-blend-screen opacity-50 group-hover:opacity-100 transition-opacity duration-700 delay-100"></div>
+               
+               <div className="flex items-center gap-3 mb-4 relative z-10">
+                 <div className="p-2.5 bg-gradient-to-tr from-[#00D4FF]/20 to-[#2563EB]/20 rounded-2xl border border-[#00D4FF]/30">
+                   <div className="w-5 h-5 border-2 border-[#00D4FF] border-t-transparent rounded-full animate-spin"></div>
+                 </div>
+                 <h3 className="text-2xl font-black font-display bg-clip-text text-transparent bg-gradient-to-r from-[#00D4FF] to-[#2563EB]">Automated Insight AI</h3>
+               </div>
+               
+               <p className={`font-bold leading-relaxed text-sm mb-8 relative z-10 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                 Platform performance is actively monitored. AI-driven strategic insights will compile here automatically once sufficient historical engagement data aligns with algorithmic forecasting thresholds.
                </p>
-               <button className={`self-start text-sm font-semibold px-6 py-3 rounded-full transition-all border relative z-10 hover:shadow-lg bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                 Generate Briefing
+               <button className={`group/btn relative overflow-hidden self-start flex items-center gap-2 px-8 py-3.5 rounded-full font-black text-sm transition-all shadow-[0_0_20px_rgba(0,212,255,0.2)] hover:shadow-[0_0_30px_rgba(0,212,255,0.4)] hover:-translate-y-0.5 hover:scale-105 border border-white/20 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white`}>
+                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-out"></div>
+                 <span className="relative z-10 drop-shadow-md">Generate Executive Briefing</span>
+                 <ArrowLeft className="w-4 h-4 rotate-180 relative z-10 drop-shadow-md group-hover/btn:translate-x-1 transition-transform" />
                </button>
              </div>
            </div>

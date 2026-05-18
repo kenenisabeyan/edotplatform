@@ -16,10 +16,13 @@
   --text-muted: #64748B;
   --bg-card: #181F2A;
   --bg-elevated: #232B3A;
-  --border-radius: 12px; /* Sleek SaaS borders */
+  --border-radius: 16px; /* Sleek SaaS borders */
   --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --accent-blue: #2563EB; /* Replaced with primary */
   --accent-orange: #00D4FF; /* Replaced with secondary cyan */
+  --premium-glow: 0 0 25px rgba(37, 99, 235, 0.15);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.05);
   --gray-50: #F8FAFC;
   --gray-100: #F1F5F9;
   --gray-200: #E2E8F0;
@@ -445,19 +448,21 @@ button, .btn, .cta {
   }
 
   .glass-panel {
-    background: var(--bg-card);
-    border: 1px solid var(--border-glass);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border-radius: 12px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
     padding: 1.5rem;
   }
   
   .section-card {
     background: var(--bg-card);
     border: 1px solid var(--border-glass);
-    border-radius: 12px;
+    border-radius: 20px;
     padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--premium-glow);
   }
 
   .card-grid {
@@ -508,15 +513,17 @@ button, .btn, .cta {
   .glass-card {
     background: var(--bg-card);
     border: 1px solid var(--border-glass);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border-radius: 12px;
-    transition: all .2s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+    border-radius: 24px;
+    transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark .glass-card {
-    background: #111827;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   }
 
   .hover-scale {

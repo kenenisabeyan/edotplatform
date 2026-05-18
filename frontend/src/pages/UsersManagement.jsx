@@ -158,40 +158,47 @@ export default function UsersManagement() {
 
   return (
     <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen -mx-4 md:-mx-8 lg:-mx-12 -mt-4 md:-mt-8 p-6 md:p-8">
-      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 pb-6 pt-2 mb-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-            <Users className="w-8 h-8 text-[#00D4FF]" />
-            Global User Management
+             <div className="p-2.5 bg-gradient-to-tr from-[#00D4FF]/20 to-[#2563EB]/20 rounded-2xl border border-[#00D4FF]/30">
+               <Users className="w-8 h-8 text-[#00D4FF] drop-shadow-[0_0_8px_rgba(0,212,255,0.5)]" />
+             </div>
+             Global User Management
           </h1>
-          <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-            Approve registrations and promote user roles across the platform.
+          <p className={`text-sm mt-3 font-medium flex items-center gap-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+             <span className="w-2 h-2 rounded-full bg-[#00D4FF] animate-pulse"></span>
+             Approve registrations and promote user roles across the platform.
           </p>
         </div>
-        <div className="bg-[#00D4FF]/10 px-4 py-2.5 rounded-xl text-sm font-bold text-[#00D4FF] flex items-center gap-2 border border-[#00D4FF]/20 shadow-sm">
-          <ShieldCheck className="w-4 h-4" /> Super Admin Access Active
+        <div className="bg-gradient-to-r from-[#00D4FF]/10 to-[#2563EB]/10 px-6 py-3 rounded-2xl text-sm font-black tracking-wide text-[#00D4FF] flex items-center gap-2 border border-[#00D4FF]/30 shadow-[0_0_20px_rgba(0,212,255,0.15)] animate-in slide-in-from-right">
+          <ShieldCheck className="w-5 h-5 drop-shadow-md" /> Super Admin Access Active
         </div>
       </div>
 
-      <div className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
-        <div className={`pb-4 border-b flex flex-wrap justify-between items-center gap-3 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-          <div className="relative w-full sm:w-72">
-            <Search className={`w-[18px] h-[18px] absolute left-5 top-1/2 -translate-y-1/2 ml-0.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />
+      <div className={`rounded-[2.5rem] p-8 border backdrop-blur-2xl shadow-2xl overflow-hidden relative transition-all duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/80' : 'border-slate-200 bg-white/90 hover:border-[#2563EB]/30'}`}>
+         <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
+         <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#2563EB]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
+         
+        <div className={`pb-6 border-b flex flex-wrap justify-between items-center gap-4 relative z-10 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+          <div className="relative w-full sm:w-80 group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] rounded-full opacity-0 group-hover:opacity-30 transition duration-300 blur-sm pointer-events-none"></div>
+            <Search className={`w-[18px] h-[18px] absolute left-5 top-1/2 -translate-y-1/2 ml-0.5 z-10 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`} />
             <input 
               type="text"
               placeholder="Search users..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full !pl-14 !pr-4 !py-2.5 border !rounded-full text-sm outline-none focus:ring-2 focus:ring-[#00D4FF] transition-shadow placeholder-slate-400 ${isDarkMode ? 'bg-[#0B1120]/5 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}
+              className={`w-full relative z-10 !pl-14 !pr-4 !py-3 border !rounded-full text-sm font-bold outline-none focus:ring-2 focus:ring-[#00D4FF]/50 transition-all shadow-sm placeholder-slate-400 ${isDarkMode ? 'bg-black/60 border-white/10 text-white hover:bg-black/80' : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'}`}
             />
           </div>
           <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto mt-3 sm:mt-0">
-            <div className={`flex gap-1 p-1 rounded-xl border ${isDarkMode ? 'bg-[#121A2F] border-slate-700' : 'bg-slate-100 border-slate-200'}`}>
+            <div className={`flex gap-1 p-1.5 rounded-2xl border transition-colors ${isDarkMode ? 'bg-black/40 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
               {['all', 'student', 'instructor', 'parent', 'admin'].map(r => (
                 <button 
                   key={r} 
                   onClick={() => setRoleFilter(r)} 
-                  className={`px-3 py-1.5 text-xs font-bold rounded-lg capitalize transition-colors ${roleFilter === r ? 'bg-[#00D4FF] text-white shadow-md' : isDarkMode ? 'text-slate-400 hover:text-slate-200 hover:bg-white/5' : 'text-slate-500 hover:text-slate-800 hover:bg-white'}`}
+                  className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 ${roleFilter === r ? 'bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white shadow-[0_5px_15px_rgba(0,212,255,0.3)] scale-105' : isDarkMode ? 'text-slate-400 hover:text-white hover:bg-white/10' : 'text-slate-500 hover:text-slate-900 hover:bg-white hover:shadow-sm'}`}
                 >
                   {r}
                 </button>
@@ -199,21 +206,22 @@ export default function UsersManagement() {
             </div>
             <button
               onClick={() => setShowAddForm((prev) => !prev)}
-              className={`px-4 py-2 rounded-lg font-bold text-sm shadow-sm transition-all ${showAddForm ? (isDarkMode ? 'bg-slate-700 text-white' : 'bg-slate-200 text-slate-800') : 'bg-[#00D4FF] hover:bg-[#EA580C] text-white'}`}
+              className={`group relative overflow-hidden px-6 py-3 rounded-full font-black text-sm shadow-lg transition-all hover:scale-105 border ${showAddForm ? (isDarkMode ? 'bg-slate-700/80 text-white border-white/20 hover:bg-slate-600' : 'bg-slate-200 text-slate-800 border-slate-300 hover:bg-slate-300') : 'bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white border-white/20 hover:shadow-[0_0_30px_rgba(0,212,255,0.4)]'}`}
             >
-              {showAddForm ? 'Close Add User' : '+ Add New User'}
+              {!showAddForm && <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>}
+              <span className="relative z-10 drop-shadow-md">{showAddForm ? 'Close Interface' : '+ Initialize User'}</span>
             </button>
           </div>
         </div>
 
         {showAddForm && (
-          <form onSubmit={createUser} className="mt-4 mb-5 grid grid-cols-1 md:grid-cols-5 gap-3 items-end">
+          <form onSubmit={createUser} className="mt-6 mb-8 grid grid-cols-1 md:grid-cols-5 gap-4 items-end relative z-10 animate-in slide-in-from-top-4">
             <input
               type="text"
               value={newUser.name}
               onChange={(e) => setNewUser((prev) => ({ ...prev, name: e.target.value }))}
               placeholder="Full name"
-              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#00D4FF]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 !px-5 !py-3 !rounded-full border font-bold text-sm outline-none focus:border-[#00D4FF] focus:ring-2 focus:ring-[#00D4FF]/20 transition-all shadow-sm ${isDarkMode ? 'bg-black/60 border-white/10 text-white hover:bg-black/80' : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'}`}
               required
             />
             <input
@@ -221,7 +229,7 @@ export default function UsersManagement() {
               value={newUser.email}
               onChange={(e) => setNewUser((prev) => ({ ...prev, email: e.target.value }))}
               placeholder="Email address"
-              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#00D4FF]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 !px-5 !py-3 !rounded-full border font-bold text-sm outline-none focus:border-[#00D4FF] focus:ring-2 focus:ring-[#00D4FF]/20 transition-all shadow-sm ${isDarkMode ? 'bg-black/60 border-white/10 text-white hover:bg-black/80' : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'}`}
               required
             />
             <input
@@ -229,7 +237,7 @@ export default function UsersManagement() {
               value={newUser.password}
               onChange={(e) => setNewUser((prev) => ({ ...prev, password: e.target.value }))}
               placeholder="Temporary password"
-              className={`col-span-1 md:col-span-1 !px-5 !py-2 !rounded-full border bg-black/10 outline-none focus:border-[#00D4FF]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 !px-5 !py-3 !rounded-full border font-bold text-sm outline-none focus:border-[#00D4FF] focus:ring-2 focus:ring-[#00D4FF]/20 transition-all shadow-sm ${isDarkMode ? 'bg-black/60 border-white/10 text-white hover:bg-black/80' : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'}`}
               required
             />
             <CustomDropdown
@@ -245,94 +253,100 @@ export default function UsersManagement() {
             />
             <button
               type="submit"
-              className={`col-span-1 md:col-span-1 px-4 py-2 rounded-full font-semibold bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`col-span-1 md:col-span-1 group relative overflow-hidden px-6 py-3 rounded-full font-black text-sm shadow-lg transition-all hover:scale-105 border border-white/20 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:shadow-[0_0_30px_rgba(0,212,255,0.4)]`}
             >
-              Create User
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+              <span className="relative z-10 drop-shadow-md">Provision User</span>
             </button>
           </form>
         )}
 
         {notice && (
-          <div className="mb-4 p-3 rounded-lg bg-[#00D4FF]/15 border border-[#00D4FF]/25 text-[#00D4FF] text-sm font-semibold">{notice}</div>
+          <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-[#00D4FF]/10 to-[#2563EB]/10 border border-[#00D4FF]/30 text-[#00D4FF] text-sm font-black tracking-wide flex items-center gap-2 shadow-[0_0_20px_rgba(0,212,255,0.15)] relative z-10">
+             <CheckCircle2 className="w-5 h-5 drop-shadow-md" /> {notice}
+          </div>
         )}
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto relative z-10 custom-scrollbar pb-6">
           <table className="w-full text-left border-collapse min-w-[900px]">
             <thead>
-                <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200' : 'bg-slate-100 text-slate-700'} border-b ${isDarkMode ? 'border-white/5' : 'border-slate-200'}`}>
-                  <th className="px-6 py-4">Name</th>
-                  <th className="px-6 py-4">Email</th>
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4">Joined</th>
-                  <th className="px-6 py-4 text-center">Certificates</th>
-                  <th className="px-6 py-4">Role Management</th>
-                  <th className="px-6 py-4">Connections</th>
-                  <th className="px-6 py-4">Actions</th>
+                <tr className={`text-xs font-black uppercase tracking-wider ${isDarkMode ? 'bg-[#0B1120]/40 text-slate-400' : 'bg-slate-100/80 text-slate-500'} border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <th className="px-6 py-5 rounded-tl-2xl">User Identity</th>
+                  <th className="px-6 py-5">Contact Details</th>
+                  <th className="px-6 py-5">Access State</th>
+                  <th className="px-6 py-5">Provisioned</th>
+                  <th className="px-6 py-5 text-center">Badges</th>
+                  <th className="px-6 py-5">Role Tier</th>
+                  <th className="px-6 py-5">Network Map</th>
+                  <th className="px-6 py-5 rounded-tr-2xl">Admin Actions</th>
                 </tr>
               </thead>
-              <tbody className={`divide-y text-sm font-medium ${isDarkMode ? 'divide-white/5 text-slate-300' : 'divide-slate-200 text-slate-700'}`}>
+              <tbody className={`divide-y text-sm font-bold ${isDarkMode ? 'divide-white/5 text-slate-300' : 'divide-slate-200 text-slate-700'}`}>
                 {loading ? (
                   <tr>
-                    <td colSpan="6" className="p-12 text-center">
-                      <div className="w-8 h-8 border-4 border-[#E30A17]/30 border-t-[#E30A17] rounded-full animate-spin mx-auto"></div>
+                    <td colSpan="8" className="p-16 text-center">
+                      <div className="w-12 h-12 border-4 border-t-[#00D4FF] rounded-full animate-spin mx-auto shadow-[0_0_15px_rgba(0,212,255,0.5)]"></div>
                     </td>
                   </tr>
                 ) : errorMsg ? (
                   <tr>
-                    <td colSpan="6" className="p-8 text-center text-[#E30A17] font-bold">Error: {errorMsg}</td>
+                    <td colSpan="8" className="p-12 text-center text-[#E30A17] font-black tracking-wide drop-shadow-md">System Error: {errorMsg}</td>
                   </tr>
                 ) : filteredUsers.length === 0 ? (
                   <tr>
-                    <td colSpan="6" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No users found.</td>
+                    <td colSpan="8" className={`p-12 text-center font-bold italic ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No users registered matching these parameters.</td>
                   </tr>
                 ) : filteredUsers.map((u) => (
-                  <tr key={u.id} className="hover:bg-white/5/5 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <UserAvatar user={u} className="w-8 h-8 text-xs" />
-                        <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{u.name || 'Unknown'}</span>
+                  <tr key={u.id} className={`transition-colors duration-300 ${isDarkMode ? 'hover:bg-[#00D4FF]/5' : 'hover:bg-[#2563EB]/5'}`}>
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-4">
+                        <div className="relative">
+                           <UserAvatar user={u} className="w-10 h-10 text-sm shadow-md border border-white/10" />
+                           {u.role === 'admin' && <ShieldCheck className="w-4 h-4 text-[#00D4FF] absolute -bottom-1 -right-1 drop-shadow-md bg-[#0B1120] rounded-full" />}
+                        </div>
+                        <span className={`font-black text-base ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{u.name || 'Unknown'}</span>
                       </div>
                     </td>
-                    <td className={`px-6 py-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>{u.email}</td>
+                    <td className={`px-6 py-5 font-bold ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>{u.email}</td>
                     
                     {/* Status Control */}
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-5">
                       {u.status === 'pending' ? (
                         <div className="flex gap-2 relative z-10 w-max">
-                            <button onClick={() => updateUserStatus(u.id, 'approved')} className="text-xs font-bold bg-[#00D4FF]/10 text-[#00D4FF] hover:bg-[#00D4FF]/20 px-3 py-1.5 rounded-lg border border-[#00D4FF]/20 transition-colors shadow-sm">Approve</button>
-                            <button onClick={() => updateUserStatus(u.id, 'rejected')} className="text-xs font-bold bg-[#E30A17]/10 text-[#E30A17] hover:bg-[#E30A17]/20 px-3 py-1.5 rounded-lg border border-[#E30A17]/20 transition-colors shadow-sm">Reject</button>
+                            <button onClick={() => updateUserStatus(u.id, 'approved')} className="text-[11px] uppercase tracking-wider font-black bg-gradient-to-r from-[#00D4FF]/20 to-[#00D4FF]/10 text-[#00D4FF] hover:from-[#00D4FF]/30 hover:to-[#00D4FF]/20 px-4 py-2 rounded-xl border border-[#00D4FF]/30 transition-all shadow-[0_0_10px_rgba(0,212,255,0.1)] hover:scale-105">Approve</button>
+                            <button onClick={() => updateUserStatus(u.id, 'rejected')} className="text-[11px] uppercase tracking-wider font-black bg-gradient-to-r from-[#E30A17]/20 to-[#E30A17]/10 text-[#E30A17] hover:from-[#E30A17]/30 hover:to-[#E30A17]/20 px-4 py-2 rounded-xl border border-[#E30A17]/30 transition-all shadow-[0_0_10px_rgba(227,10,23,0.1)] hover:scale-105">Reject</button>
                         </div>
                       ) : (
-                        <span className={`inline-flex w-max items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold   border ${
-                          u.status === 'approved' ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20' : 
-                          u.status === 'rejected' ? 'bg-[#E30A17]/10 text-[#E30A17] border-[#E30A17]/20' : 
-                          'bg-[#0B1120]/5 text-slate-300 border-white/10'
+                        <span className={`inline-flex w-max items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-black uppercase tracking-wider shadow-sm border ${
+                          u.status === 'approved' ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/30' : 
+                          u.status === 'rejected' ? 'bg-[#E30A17]/10 text-[#E30A17] border-[#E30A17]/30' : 
+                          'bg-[#0B1120]/20 text-slate-400 border-white/10'
                         }`}>
-                          {u.status === 'approved' ? <CheckCircle2 className="w-3.5 h-3.5" /> : u.status === 'rejected' ? <XCircle className="w-3.5 h-3.5" /> : null}
+                          {u.status === 'approved' ? <CheckCircle2 className="w-4 h-4 drop-shadow-sm" /> : u.status === 'rejected' ? <XCircle className="w-4 h-4 drop-shadow-sm" /> : null}
                           {u.status}
                         </span>
                       )}
                     </td>
 
                     {/* Joined Date */}
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-5 whitespace-nowrap font-bold">
                       {new Date(u.createdAt || Date.now()).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                     </td>
 
                     {/* Certificates Info */}
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-6 py-5 text-center">
                       <div className="flex justify-center items-center">
-                        <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-full text-xs font-bold shadow-sm ${u.certificates && u.certificates.length > 0 ? 'bg-orange-100 text-orange-600 dark:bg-[#00D4FF]/20 dark:text-orange-400 border border-orange-200 dark:border-[#00D4FF]/30' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 border border-slate-200 dark:border-slate-700'}`}>
+                        <span className={`inline-flex items-center justify-center min-w-[2.5rem] px-2.5 py-1.5 rounded-full text-[11px] font-black tracking-wider shadow-sm border ${u.certificates && u.certificates.length > 0 ? 'bg-[#F97316]/10 text-[#F97316] border-[#F97316]/30 drop-shadow-[0_0_8px_rgba(249,115,22,0.3)]' : isDarkMode ? 'bg-[#0B1120]/40 text-slate-500 border-slate-700' : 'bg-slate-100 text-slate-400 border-slate-200'}`}>
                           {u.certificates ? u.certificates.length : 0}
                         </span>
                       </div>
                     </td>
                   
                   {/* Role Control */}
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-5">
                       {u.id === user?.id ? (
                         <div className="opacity-50 cursor-not-allowed">
-                           <CustomDropdown value={u.role} onChange={() => {}} options={[{ label: u.role, value: u.role }]} />
+                           <CustomDropdown value={u.role} onChange={() => {}} options={[{ label: u.role, value: u.role }]} className="w-36" />
                         </div>
                       ) : (
                         <CustomDropdown
@@ -344,13 +358,13 @@ export default function UsersManagement() {
                             { label: 'Instructor', value: 'instructor' },
                             { label: 'Admin', value: 'admin' }
                           ]}
-                          className="w-32"
+                          className="w-36 font-bold"
                         />
                       )}
                   </td>
 
                   {/* Assignment Control */}
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-5">
                     {u.role === 'student' ? (
                       <div className="flex flex-col gap-2 w-44">
                         <CustomDropdown
@@ -378,14 +392,14 @@ export default function UsersManagement() {
                         )}
                       </div>
                     ) : (
-                      <span className={`text-sm italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>N/A</span>
+                      <span className={`text-[11px] font-black uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>N/A</span>
                     )}
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex flex-wrap gap-2">
-                      <button onClick={() => resetUserPassword(u.id)} className={`text-xs px-3 py-1.5 rounded-lg border font-bold transition-colors ${isDarkMode ? 'bg-[#00D4FF]/15 text-yellow-300 border-[#00D4FF]/20 hover:bg-[#00D4FF]/25' : 'bg-orange-50 text-orange-600 border-orange-200 hover:bg-orange-100'}`}>Reset PW</button>
-                      <button onClick={() => deleteUser(u.id)} className={`text-xs px-3 py-1.5 rounded-lg border font-bold transition-colors ${isDarkMode ? 'bg-red-500/15 text-red-300 border-red-500/20 hover:bg-red-500/25' : 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100'}`}>Delete</button>
-                      <button onClick={() => showUserDetails(u)} className={`text-xs px-3 py-1.5 rounded-lg border font-bold transition-colors ${isDarkMode ? 'bg-[#0B1120]/40 text-slate-300 border-slate-500/20 hover:bg-white/10' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 shadow-sm'}`}>Details</button>
+                  <td className="px-6 py-5">
+                    <div className="flex flex-wrap gap-3">
+                      <button onClick={() => resetUserPassword(u.id)} className={`text-[11px] uppercase tracking-wider px-3.5 py-1.5 rounded-xl border font-black transition-all hover:scale-105 shadow-sm ${isDarkMode ? 'bg-[#F97316]/10 text-[#F97316] border-[#F97316]/30 hover:bg-[#F97316]/20' : 'bg-orange-50 text-orange-600 border-orange-200 hover:bg-orange-100'}`}>Reset PW</button>
+                      <button onClick={() => deleteUser(u.id)} className={`text-[11px] uppercase tracking-wider px-3.5 py-1.5 rounded-xl border font-black transition-all hover:scale-105 shadow-sm ${isDarkMode ? 'bg-[#E30A17]/10 text-[#E30A17] border-[#E30A17]/30 hover:bg-[#E30A17]/20' : 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100'}`}>Delete</button>
+                      <button onClick={() => showUserDetails(u)} className={`text-[11px] uppercase tracking-wider px-3.5 py-1.5 rounded-xl border font-black transition-all hover:scale-105 shadow-sm ${isDarkMode ? 'bg-gradient-to-r from-[#00D4FF]/10 to-[#2563EB]/10 text-[#00D4FF] border-[#00D4FF]/30 hover:border-[#00D4FF]/50 hover:shadow-[0_0_15px_rgba(0,212,255,0.2)]' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50 shadow-sm'}`}>Details</button>
                     </div>
                   </td>
                 </tr>

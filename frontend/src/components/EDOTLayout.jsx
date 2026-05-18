@@ -237,7 +237,6 @@ export default function EDOTLayout() {
       menu1: [
         { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
         { name: 'My Courses', icon: BookOpen, path: '/dashboard/courses' },
-        { name: 'My Sections', icon: Users, path: '/dashboard/sections' },
         { name: 'Study Goal', icon: Target, path: '/dashboard/study-goal' },
         { name: 'Live Classes', icon: Video, path: '/dashboard/live-classes' },
         { name: 'Achievements', icon: Award, path: '/dashboard/achievements' },

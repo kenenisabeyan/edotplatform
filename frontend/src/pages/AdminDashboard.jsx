@@ -359,7 +359,7 @@ export default function AdminDashboard() {
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-              <div className={`p-6 rounded-[32px] border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+              <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
                 <div className="flex justify-between items-start mb-4">
                   <div>
@@ -372,7 +372,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className={`p-6 rounded-[32px] border border-rose-200 shadow-sm relative overflow-hidden group hover:border-rose-300 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
+              <div className={`p-6 rounded-[24px] border border-rose-200/50 glass-panel shadow-lg relative overflow-hidden group hover:border-rose-300 hover:-translate-y-1 transition-all duration-300`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
                 <div className="flex justify-between items-start mb-4">
                   <div>
@@ -385,7 +385,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className={`p-6 rounded-[32px] border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+              <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
                 <div className="flex justify-between items-start mb-4">
                   <div>
@@ -398,7 +398,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className={`p-6 rounded-[32px] border shadow-sm relative overflow-hidden group ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+              <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-[#00D4FF]/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
                 <div className="flex justify-between items-start mb-4">
                   <div>
@@ -413,7 +413,7 @@ export default function AdminDashboard() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-              <div className={`p-6 rounded-[32px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+              <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <h3 className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Revenue Overview (YTD)</h3>
                 <div className="h-[300px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -431,7 +431,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className={`p-6 rounded-[32px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+              <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <h3 className={`text-lg font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>User Distribution</h3>
                 <div className="h-[300px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
@@ -459,8 +459,10 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div className={`p-6 lg:p-8 rounded-[32px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
-               <h3 className={`text-xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Quick Actions</h3>
+            <div className={`p-6 lg:p-8 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+               <h3 className={`text-xl font-bold mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                 <Layers className="w-5 h-5 text-[#2563EB]" /> Quick Actions
+               </h3>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                  <button 
                   onClick={() => setActiveTab('users')} 
@@ -525,9 +527,12 @@ export default function AdminDashboard() {
                </div>
             </div>
 
-            <div className={`p-6 lg:p-8 rounded-[32px] border shadow-sm mt-8 ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className={`p-6 lg:p-8 rounded-[24px] border glass-panel shadow-lg mt-8 relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+               <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-bl-full -z-10"></div>
                <div className="flex justify-between items-center mb-6">
-                 <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Intervention Overview</h3>
+                 <h3 className={`text-xl font-bold flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                   <Activity className="w-5 h-5 text-indigo-500" /> Intervention Overview
+                 </h3>
                  <span className="text-xs font-bold text-indigo-600 bg-indigo-100 px-2 py-1 rounded-md  ">Live Support Monitor</span>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -594,7 +599,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             
-            <div className={`rounded-[32px] border shadow-sm overflow-hidden ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className={`rounded-[24px] border glass-panel shadow-lg overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse min-w-[800px]">
                   <thead>
@@ -706,7 +711,7 @@ export default function AdminDashboard() {
             </div>
 
             {pendingCourses.length === 0 ? (
-               <div className={`p-12 text-center rounded-[32px] border shadow-sm flex flex-col items-center justify-center ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+               <div className={`p-12 text-center rounded-[24px] border glass-panel shadow-lg flex flex-col items-center justify-center relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                  <div className="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mb-4">
                    <CheckCircle2 className="w-10 h-10" />
                  </div>
@@ -716,7 +721,7 @@ export default function AdminDashboard() {
             ) : (
                 <div className="grid grid-cols-1 gap-6">
                   {pendingCourses.map(c => (
-                    <div key={c.id} className={`rounded-[32px] border shadow-sm overflow-hidden flex flex-col md:flex-row group ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+                    <div key={c.id} className={`rounded-[24px] border glass-panel shadow-lg overflow-hidden flex flex-col md:flex-row group hover:-translate-y-1 transition-all duration-300 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                       
                       <div className={`w-full md:w-64 h-48 md:h-auto shrink-0 relative backdrop-blur-xl ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}>
                         <img 
@@ -767,7 +772,7 @@ export default function AdminDashboard() {
                 </div>
             )}
 
-            <div className={`mt-8 p-6 rounded-[32px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className={`mt-8 p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <div className="flex justify-between items-center mb-4">
                 <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Enrollment Approval Queue</h3>
                 <span className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{stats?.pendingEnrollments ?? 0} pending</span>
@@ -810,7 +815,7 @@ export default function AdminDashboard() {
         return (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <h2 className={`text-2xl font-display font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>System Logs</h2>
-            <div className={`p-6 rounded-[32px] border shadow-sm ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+            <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <div className="flex justify-between items-center mb-6">
                   <span className={`font-semibold flex items-center gap-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><Activity className="w-5 h-5" /> All Platform Activity</span>
                   <button className={`text-sm font-semibold px-3 py-1.5 rounded-full transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Export CSV</button>
@@ -902,7 +907,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
-                  <div className={`p-4 rounded-[32px] border bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div className={`p-4 rounded-[24px] border glass-panel shadow-lg bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                     <h4 className={`text-sm font-bold mb-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Relationship Map</h4>
                     {selectedUser.role === 'student' && (
                       <div className="space-y-2">
@@ -949,7 +954,7 @@ export default function AdminDashboard() {
                     )}
                   </div>
 
-                  <div className={`p-4 rounded-[32px] border bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div className={`p-4 rounded-[24px] border glass-panel shadow-lg bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                     <h4 className={`text-sm font-bold mb-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Activity Matrix (Recent)</h4>
                     <div className="max-h-48 overflow-auto space-y-2">
                       {(selectedUserActivities.length > 0) ? selectedUserActivities.map((activity) => (
@@ -964,7 +969,7 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
-                  <div className={`p-4 rounded-[32px] border bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div className={`p-4 rounded-[24px] border glass-panel shadow-lg bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                     <h4 className={`text-sm font-bold mb-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Extended Insights</h4>
                     <div className="flex flex-col gap-4">
                       <div>
@@ -1022,7 +1027,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  <div className={`p-4 rounded-[32px] border bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div className={`p-4 rounded-[24px] border glass-panel bg-black/40 shadow-lg ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                     <h4 className={`text-sm font-bold mb-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Performance Snapshot</h4>
                     <div className="flex items-center justify-center mb-3">
                       <RadialBarChart width={200} height={200} cx="50%" cy="50%" innerRadius="62%" outerRadius="100%" barSize={12} data={[{ name: 'Progress', value: selectedUserCompletion, fill: '#00D4FF' }]}>
@@ -1033,7 +1038,7 @@ export default function AdminDashboard() {
                     <p className="text-center text-sm text-emerald-200 font-semibold">Average progress: {selectedUserCompletion}%</p>
                   </div>
 
-                  <div className={`p-4 rounded-[32px] border bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div className={`p-4 rounded-[24px] border glass-panel bg-black/40 shadow-lg ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                     {(selectedUser.role === 'student') ? (
                       <>
                         <h4 className={`text-sm font-bold mb-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Student Dossier</h4>
@@ -1138,7 +1143,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                <div className={`mt-6 p-4 rounded-[32px] border bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                <div className={`mt-6 p-4 rounded-[24px] border glass-panel bg-black/40 shadow-lg ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                   <h4 className={`text-sm font-bold mb-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Quick Admin Overrides</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-end">
                     <div>
@@ -1189,7 +1194,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                <div className={`mt-5 p-4 rounded-[32px] border bg-black/40 grid grid-cols-1 md:grid-cols-2 gap-3 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                <div className={`mt-5 p-4 rounded-[24px] border glass-panel bg-black/40 shadow-lg grid grid-cols-1 md:grid-cols-2 gap-3 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                   <button onClick={saveUserUpdates} className={`px-4 py-2 rounded-full font-semibold text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Save changes</button>
                   <button onClick={() => deleteAdminUser(selectedUser.id)} className={`px-4 py-2 rounded-lg bg-rose-500/100 font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Delete user</button>
                 </div>

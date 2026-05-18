@@ -108,22 +108,27 @@ export default function AdminCourseApprovals() {
       
       {loading && courses.length === 0 && pendingEnrollments.length === 0 && activeEnrollments.length === 0 ? (
         <div className="flex justify-center items-center h-64">
-          <div className="w-12 h-12 border-4 border-[#00D4FF]/20 border-t-[#00D4FF] rounded-full animate-spin shadow-[0_0_15px_rgba(249,115,22,0.4)]"></div>
+          <div className="w-12 h-12 border-4 border-[#00D4FF]/20 border-t-[#00D4FF] rounded-full animate-spin shadow-[0_0_15px_rgba(0,212,255,0.4)]"></div>
         </div>
       ) : activeTab === 'pending' && (courses.length === 0 && pendingEnrollments.length === 0) ? (
-          <div className={`p-16 text-center rounded-3xl border shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/90' : 'border-slate-200 bg-white/95'}`}>
-            <div className={`w-24 h-24 border rounded-full flex items-center justify-center mb-6 relative group border border-[#00D4FF]/30 text-[#00D4FF] ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200 border-white/10' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
-              <ClipboardCheck className="w-12 h-12" />
+          <div className={`p-16 text-center rounded-[2.5rem] border shadow-2xl backdrop-blur-2xl flex flex-col items-center justify-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/80' : 'border-slate-200 bg-white/90'}`}>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-[#00D4FF]/10 to-[#2563EB]/10 blur-[80px] rounded-full pointer-events-none mix-blend-screen"></div>
+            <div className={`w-28 h-28 border rounded-[2rem] flex items-center justify-center mb-6 relative group border border-[#00D4FF]/30 text-[#00D4FF] shadow-[0_0_30px_rgba(0,212,255,0.15)] bg-gradient-to-tr from-[#00D4FF]/10 to-[#2563EB]/10`}>
+              <ClipboardCheck className="w-12 h-12 drop-shadow-lg" />
             </div>
-            <h3 className={`text-2xl font-black mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Queue Clear</h3>
-            <p className={`max-w-sm mb-8 text-sm font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>There are no pending course or enrollment approvals waiting for your review.</p>
+            <h3 className={`text-4xl font-display font-black tracking-tight mb-3 relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Queue Clear</h3>
+            <p className={`max-w-sm mb-8 text-sm font-medium relative z-10 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>There are no pending course or enrollment approvals waiting for your review.</p>
           </div>
       ) : activeTab === 'pending' ? (
           <div className="grid grid-cols-1 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {courses.length > 0 && (
-              <div className={`rounded-3xl p-6 border backdrop-blur-xl shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
-                <h3 className={`font-black text-lg mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><AlertCircle className="w-5 h-5 text-[#00D4FF]"/> New Course Approvals ({courses.length})</h3>
-                <div className="grid gap-6">
+              <div className={`rounded-[2.5rem] p-8 border backdrop-blur-2xl shadow-2xl relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-200 hover:border-[#2563EB]/30'}`}>
+                <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
+                <h3 className={`font-black text-xl mb-6 flex items-center gap-3 relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                   <AlertCircle className="w-6 h-6 text-[#00D4FF] drop-shadow-[0_0_8px_rgba(0,212,255,0.5)]"/> 
+                   New Course Approvals ({courses.length})
+                </h3>
+                <div className="grid gap-6 relative z-10">
                   <AnimatePresence>
                   {courses.map(c => (
                     <motion.div 
@@ -132,16 +137,16 @@ export default function AdminCourseApprovals() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
                       key={c.id} 
-                      className={`rounded-2xl border shadow-inner overflow-hidden flex flex-col md:flex-row group transition-all ${isDarkMode ? 'border-white/10 bg-[#0B1120]' : 'border-slate-200 bg-white'}`}
+                      className={`rounded-[2rem] border shadow-lg hover:shadow-2xl overflow-hidden flex flex-col md:flex-row group transition-all duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/60 hover:bg-[#0B1120]' : 'border-slate-200 bg-white hover:border-[#00D4FF]/30'}`}
                     >
-                      <div className="w-full md:w-64 h-56 md:h-auto shrink-0 relative bg-black/40">
+                      <div className="w-full md:w-72 h-56 md:h-auto shrink-0 relative bg-black/40 overflow-hidden">
                         <img 
                           src={c.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' : c.thumbnail} 
                           alt={c.title} 
-                          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
+                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" 
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-80 md:opacity-50"></div>
-                        <div className={`absolute top-4 left-4 backdrop-blur-sm px-3 py-1.5 rounded-lg text-xs font-black text-[#00D4FF] shadow-sm border ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-80"></div>
+                        <div className={`absolute top-4 left-4 backdrop-blur-xl px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider text-[#00D4FF] shadow-[0_0_15px_rgba(0,212,255,0.2)] border ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
                           {c.mainCategory || 'General'}
                         </div>
                       </div>
@@ -182,9 +187,13 @@ export default function AdminCourseApprovals() {
             )}
 
             {pendingEnrollments.length > 0 && (
-              <div className={`rounded-3xl p-6 border backdrop-blur-xl shadow-2xl mt-4 ${isDarkMode ? 'bg-[#0B1120]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
-                <h3 className={`font-black text-lg mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><Users className="w-5 h-5 text-[#00D4FF]"/> Enrollment Requests ({pendingEnrollments.length})</h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className={`rounded-[2.5rem] p-8 border backdrop-blur-2xl shadow-2xl mt-8 relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-200 hover:border-[#2563EB]/30'}`}>
+                <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#2563EB]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
+                <h3 className={`font-black text-xl mb-6 flex items-center gap-3 relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                   <Users className="w-6 h-6 text-[#00D4FF] drop-shadow-[0_0_8px_rgba(0,212,255,0.5)]"/> 
+                   Enrollment Requests ({pendingEnrollments.length})
+                </h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
                   <AnimatePresence>
                   {pendingEnrollments.map(en => (
                     <motion.div 
@@ -239,17 +248,22 @@ export default function AdminCourseApprovals() {
             )}
           </div>
       ) : activeTab === 'active' && activeEnrollments.length === 0 ? (
-          <div className={`p-16 text-center rounded-3xl border shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/90' : 'border-slate-200 bg-white/95'}`}>
-            <div className={`w-24 h-24 border rounded-full flex items-center justify-center mb-6 relative group border border-blue-500/30 text-blue-500 ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200 border-white/10' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
-              <BadgeInfo className="w-12 h-12" />
+          <div className={`p-16 text-center rounded-[2.5rem] border shadow-2xl backdrop-blur-2xl flex flex-col items-center justify-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/80' : 'border-slate-200 bg-white/90'}`}>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-[#2563EB]/10 to-[#00D4FF]/10 blur-[80px] rounded-full pointer-events-none mix-blend-screen"></div>
+            <div className={`w-28 h-28 border rounded-[2rem] flex items-center justify-center mb-6 relative group border border-[#2563EB]/30 text-[#2563EB] shadow-[0_0_30px_rgba(37,99,235,0.15)] bg-gradient-to-tr from-[#2563EB]/10 to-[#00D4FF]/10`}>
+              <BadgeInfo className="w-12 h-12 drop-shadow-lg" />
             </div>
-            <h3 className={`text-2xl font-black mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No Active Enrollments</h3>
-            <p className={`max-w-sm mb-8 text-sm font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>There are currently zero active students in the system.</p>
+            <h3 className={`text-4xl font-display font-black tracking-tight mb-3 relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No Active Enrollments</h3>
+            <p className={`max-w-sm mb-8 text-sm font-medium relative z-10 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>There are currently zero active students in the system.</p>
           </div>
       ) : (
-          <div className={`rounded-3xl p-6 border backdrop-blur-xl shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-500 ${isDarkMode ? 'bg-[#0B1120]/40 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
-            <h3 className={`font-black text-lg mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}><CheckCircle2 className="w-5 h-5 text-[#00D4FF]"/> Active Authorized Enrollments ({activeEnrollments.length})</h3>
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className={`rounded-[2.5rem] p-8 border backdrop-blur-2xl shadow-2xl relative overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-[#00D4FF]/10 to-[#2563EB]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
+            <h3 className={`font-black text-xl mb-8 flex items-center gap-3 relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+               <CheckCircle2 className="w-6 h-6 text-[#00D4FF] drop-shadow-[0_0_8px_rgba(0,212,255,0.5)]"/> 
+               Active Authorized Enrollments ({activeEnrollments.length})
+            </h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 relative z-10">
               <AnimatePresence>
               {activeEnrollments.map(en => (
                 <motion.div 

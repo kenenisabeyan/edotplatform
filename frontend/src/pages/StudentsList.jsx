@@ -29,7 +29,7 @@ export default function StudentsList() {
     }
   });
 
-  const students = data.students || [];
+  const students = (data.students || []).filter(stu => stu.id !== user?.id && stu.role === 'student');
   const instructors = data.instructors || [];
 
   const handleApprove = async (id) => {

@@ -262,10 +262,19 @@ export const getDashboardAggregate = async (req, res) => {
     const total = present + absent + late;
     
     if (total === 0) {
-      return res.status(200).json({ success: true, data: [
-        { name: 'Present', value: 80, color: '#00D4FF' },
-        { name: 'Absent', value: 20, color: '#E30A17' }
-      ]});
+      return res.status(200).json({ 
+        success: true, 
+        data: [
+          { name: 'Present', value: 80, color: '#00D4FF' },
+          { name: 'Absent', value: 20, color: '#E30A17' }
+        ],
+        raw: { present: 0, late: 0, absent: 0, total: 0 },
+        analytics: {
+          monthlyTrends: {},
+          weeklyTrends: { Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0 },
+          lowAttendanceAlerts: []
+        }
+      });
     }
 
     res.status(200).json({
