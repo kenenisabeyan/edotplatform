@@ -114,7 +114,8 @@ const buildMonthlyRevenue = (courses, sponsorshipAmount = 0) => {
         const createdMonth = `${course.createdAt.getFullYear()}-${String(course.createdAt.getMonth() + 1).padStart(2, '0')}`;
         const target = months.find((m) => m.key === createdMonth);
         if (target) {
-            const revenue = (course.price || 0) * (course.totalStudents || 0);
+            const numStudents = course.actualStudents ?? course.totalStudents ?? 0;
+            const revenue = (course.price || 0) * numStudents;
             const month = monthly.find((m) => m.name === target.label);
             if (month) {
                 month.courseRevenue += revenue;
@@ -1129,13 +1130,16 @@ router.get('/analytics', async (req, res) => {
             select: { id: true, title: true, price: true, totalStudents: true, isPublished: true, createdAt: true, instructorId: true }
         });
 
-        const courses = await prisma.course.findMany({ select: { price: true, totalStudents: true, createdAt: true, isPublished: true } });
+        const progressRecords = await prisma.userCourseProgress.findMany({ select: { courseId: true, progress: true, completed: true, status: true } });
+        const courses = await prisma.course.findMany({ select: { id: true, price: true, totalStudents: true, createdAt: true, isPublished: true } });
+        courses.forEach(c => {
+             c.actualStudents = progressRecords.filter(r => r.courseId === c.id).length;
+        });
+
         const sponsorshipSummary = await prisma.sponsorship.aggregate({ _sum: { amount: true }, where: { termsAccepted: true, status: 'accepted' } });
         const revenueResult = buildMonthlyRevenue(courses, sponsorshipSummary._sum?.amount || 0);
         const revenueData = revenueResult.monthlyRevenue;
         const totalRevenue = revenueResult.totalRevenue;
-
-        const progressRecords = await prisma.userCourseProgress.findMany({ select: { courseId: true, progress: true, completed: true, status: true } });
         const topCourses = dashboardRes
             .filter((course) => course.isPublished)
             .map(course => {
@@ -1192,7 +1196,11 @@ router.get('/attendance', async (req, res) => {
 
 router.get('/revenue', async (req, res) => {
     try {
-        const courses = await prisma.course.findMany({ select: { price: true, totalStudents: true, createdAt: true, isPublished: true } });
+        const courses = await prisma.course.findMany({ select: { id: true, price: true, totalStudents: true, createdAt: true, isPublished: true } });
+        const progressRecords = await prisma.userCourseProgress.findMany({ select: { courseId: true } });
+        courses.forEach(c => {
+             c.actualStudents = progressRecords.filter(r => r.courseId === c.id).length;
+        });
         const sponsorshipSummary = await prisma.sponsorship.aggregate({ _sum: { amount: true }, where: { termsAccepted: true, status: 'accepted' } });
         const monthlyRevenue = buildMonthlyRevenue(courses, sponsorshipSummary._sum?.amount || 0);
         res.status(200).json({ success: true, data: monthlyRevenue });
