@@ -14,6 +14,7 @@ const qanoVideo = 'https://res.cloudinary.com/dacck6udl/video/upload/v1778415967
 export default function Home() {
   const isDarkMode = useThemeMode();
   const [totalUsers, setTotalUsers] = useState('10k+');
+  const [recentUsers, setRecentUsers] = useState([]);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef(null);
 
@@ -31,6 +32,9 @@ export default function Home() {
     const fetchUsers = async () => {
       const data = await getRecentPublicUsers();
       if (data && data.success) {
+        if (data.users && data.users.length > 0) {
+           setRecentUsers(data.users);
+        }
         if (data.totalCount > 10000) {
            setTotalUsers('10k+');
         } else if (data.totalCount >= 15) {
@@ -159,13 +163,27 @@ export default function Home() {
                   className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4"
                 >
                   <div className="flex -space-x-3">
-                    <img src="https://i.pravatar.cc/100?img=11" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
-                    <img src="https://i.pravatar.cc/100?img=32" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
-                    <img src="https://i.pravatar.cc/100?img=44" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
-                    <img src="https://i.pravatar.cc/100?img=12" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
+                    {recentUsers.length > 0 ? (
+                      recentUsers.map((user) => (
+                        <div key={user.id} className="relative group">
+                          <img 
+                            src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`} 
+                            alt={user.name} 
+                            className="w-11 h-11 rounded-full border-2 border-white object-cover shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:z-10 relative" 
+                          />
+                        </div>
+                      ))
+                    ) : (
+                      <>
+                        <img src="https://i.pravatar.cc/100?img=11" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
+                        <img src="https://i.pravatar.cc/100?img=32" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
+                        <img src="https://i.pravatar.cc/100?img=44" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
+                        <img src="https://i.pravatar.cc/100?img=12" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
+                      </>
+                    )}
                   </div>
                   <div className="text-[15px]">
-                    <p className="font-semibold text-slate-800">Join <span className="text-[#00D4FF]">10,000+</span> learners</p>
+                    <p className="font-semibold text-slate-800">Join <span className="text-[#00D4FF]">{totalUsers}</span> learners</p>
                     <p className="text-slate-500 font-medium">growing every day</p>
                   </div>
                 </motion.div>

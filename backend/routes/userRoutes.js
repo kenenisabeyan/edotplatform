@@ -9,7 +9,7 @@ router.get('/public/recent', async (req, res) => {
     try {
         const users = await prisma.user.findMany({
             orderBy: { createdAt: 'desc' },
-            take: 3,
+            take: 4,
             select: { id: true, name: true, avatar: true }
         });
         
