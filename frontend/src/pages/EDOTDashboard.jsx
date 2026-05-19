@@ -66,7 +66,7 @@ export default function EDOTDashboard() {
         };
       }
       if (userRole === 'admin') {
-        const { data } = await api.get('/dashboard/stats');
+        const { data } = await api.get('/admin/dashboard');
         return data.data;
       }
       const { data } = await api.get(`/${userRole}/dashboard`);
