@@ -388,6 +388,7 @@ model CourseReport {
   id             String   @id @default(uuid())
   courseId       String
   course         Course   @relation(fields: [courseId], references: [id])
+  section        String   @default("Main Section")
   instructorId   String
   instructor     User     @relation("CourseReportInstructor", fields: [instructorId], references: [id])
   term           String   @default("Fall Term")

@@ -191,6 +191,8 @@ export default function InstructorDashboard() {
             <div className={`mt-8 backdrop-blur-xl p-8 rounded-[24px] glass-panel border shadow-2xl relative overflow-hidden ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/5 rounded-bl-full -z-10"></div>
                <h3 className={`text-xl font-black mb-6 flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                 Recent Activity
+               </h3>
                <ActivityFeed isAdmin={false} limit={5} />
             </div>
           </div>
@@ -206,7 +208,7 @@ export default function InstructorDashboard() {
               </h2>
               <button 
                 onClick={() => navigate('/instructor/builder')} 
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#00D4FF] to-orange-600 text-white font-black   text-[11px] rounded-xl hover:-translate-y-0.5 transition-transform shadow-[0_0_20px_rgba(255,215,0,0.3)]"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white font-black   text-[11px] rounded-xl hover:-translate-y-0.5 transition-transform shadow-[0_0_20px_rgba(37,99,235,0.4)]"
               >
                 <PlusCircle className="w-4 h-4" /> Create Course
               </button>
@@ -221,7 +223,7 @@ export default function InstructorDashboard() {
                  <p className={`max-w-sm mb-6 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Share your knowledge with the world by creating your first complete course.</p>
                  <button 
                   onClick={() => navigate('/instructor/builder')} 
-                  className="px-8 py-3.5 bg-gradient-to-r from-[#00D4FF] to-orange-600 text-white font-black   text-xs rounded-xl hover:-translate-y-0.5 transition-transform shadow-[0_0_20px_rgba(255,215,0,0.3)]"
+                  className="px-8 py-3.5 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white font-black   text-xs rounded-xl hover:-translate-y-0.5 transition-transform shadow-[0_0_20px_rgba(37,99,235,0.4)]"
                  >
                    Start Creating
                  </button>
@@ -281,7 +283,7 @@ export default function InstructorDashboard() {
                                  </button>
                                  <button 
                                   onClick={() => handleSubmitReview(c.id)} 
-                                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00D4FF] to-orange-600 text-white font-bold   text-[10px] rounded-lg hover:shadow-[0_0_15px_rgba(255,215,0,0.3)] transition-all"
+                                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white font-bold   text-[10px] rounded-lg hover:shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all"
                                  >
                                    <Send className="w-4 h-4" /> Submit for Review
                                  </button>

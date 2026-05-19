@@ -50,6 +50,57 @@ export const getCourseAttendance = async (req, res) => {
   }
 };
 
+export const getAllAttendances = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    let whereCondition = {};
+    
+    // Check if user is instructor, limit to their courses if needed.
+    // However, Course relation might be tricky. Let's do it simply.
+    if (req.user.role === 'instructor') {
+       // Instructor might only see their own sections, but let's fetch based on course's instructor
+       const courses = await prisma.course.findMany({ where: { instructorId: userId }, select: { id: true }});
+       const courseIds = courses.map(c => c.id);
+       whereCondition = { courseId: { in: courseIds } };
+    }
+
+    const attendanceRecords = await prisma.attendance.findMany({
+      where: whereCondition,
+      orderBy: { date: 'desc' },
+      take: 20
+    });
+
+    const allUserIds = new Set();
+    attendanceRecords.forEach(att => {
+        const recs = att.records ? (Array.isArray(att.records) ? att.records : [att.records]) : [];
+        recs.forEach(r => { if (r.user) allUserIds.add(r.user); });
+    });
+    
+    const users = await prisma.user.findMany({
+        where: { id: { in: Array.from(allUserIds) } },
+        select: { id: true, name: true, email: true, avatar: true, role: true }
+    });
+    
+    const userMap = {};
+    users.forEach(u => { userMap[u.id] = u; });
+
+    const enrichedAttendance = attendanceRecords.map(att => {
+        const attObj = { ...att };
+        const recs = attObj.records ? (Array.isArray(attObj.records) ? attObj.records : [attObj.records]) : [];
+        
+        attObj.records = recs.map(r => ({
+            ...r,
+            user: userMap[r.user] || r.user 
+        }));
+        return attObj;
+    });
+
+    res.status(200).json({ success: true, count: enrichedAttendance.length, data: enrichedAttendance });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 export const getAttendanceByQuery = async (req, res) => {
   try {
     const { courseId, section, date } = req.query;
@@ -133,6 +184,86 @@ export const submitAttendance = async (req, res) => {
     });
 
     res.status(200).json({ success: true, data: attendance });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const submitSelfAttendance = async (req, res) => {
+  try {
+    const { courseId } = req.body;
+    let { section } = req.body;
+    const userId = req.user.id;
+    const role = req.user.role;
+
+    if (!courseId) {
+      return res.status(400).json({ success: false, message: 'Please provide courseId' });
+    }
+
+    if (!section) {
+       const sectionDoc = await prisma.section.findFirst({
+           where: {
+               courseId: courseId,
+               students: { some: { id: userId } }
+           }
+       });
+       if (sectionDoc) {
+           section = sectionDoc.name;
+       } else {
+           section = "Main Section";
+       }
+    }
+
+    const queryDate = new Date();
+    const startOfDay = new Date(Date.UTC(queryDate.getUTCFullYear(), queryDate.getUTCMonth(), queryDate.getUTCDate()));
+
+    let attendance = await prisma.attendance.findUnique({
+      where: {
+          courseId_section_date: {
+             courseId,
+             section,
+             date: startOfDay
+          }
+      }
+    });
+
+    let records = [];
+    if (attendance && attendance.records) {
+       records = Array.isArray(attendance.records) ? attendance.records : [attendance.records];
+    }
+
+    const existingIndex = records.findIndex(r => r.user === userId);
+    
+    if (existingIndex !== -1) {
+       return res.status(200).json({ success: true, message: 'Attendance already marked for today', data: attendance });
+    }
+
+    records.push({
+       user: userId,
+       role: role,
+       status: 'present'
+    });
+
+    attendance = await prisma.attendance.upsert({
+      where: {
+          courseId_section_date: {
+             courseId,
+             section,
+             date: startOfDay
+          }
+      },
+      update: {
+          records: records
+      },
+      create: {
+          courseId,
+          section,
+          date: startOfDay,
+          records: records
+      }
+    });
+
+    res.status(200).json({ success: true, message: 'Attendance marked successfully', data: attendance });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -298,7 +429,7 @@ export const getDashboardAggregate = async (req, res) => {
 
 export const submitFinalReport = async (req, res) => {
   try {
-    const { courseId, term, studentRecords } = req.body;
+    const { courseId, term, section, studentRecords } = req.body;
     const userId = req.user.id;
     
     const courseObj = await prisma.course.findUnique({ where: { id: courseId } });
@@ -310,10 +441,11 @@ export const submitFinalReport = async (req, res) => {
 
     const instructorIdToUse = req.user.role === 'admin' ? courseObj.instructorId : userId;
     const reportTerm = term || 'Fall Term';
+    const reportSection = section || 'Main Section';
     
     const recordsPayload = {
       create: studentRecords.map(r => ({
-        studentId: r.student || r.studentId, // Support frontend payload variations
+        studentId: r.student || r.studentId,
         attendancePercentage: r.attendancePercentage || 0,
         finalGrade: r.finalGrade || 'Pending',
         remarks: r.remarks || ''
@@ -324,7 +456,8 @@ export const submitFinalReport = async (req, res) => {
         where: {
             courseId,
             instructorId: instructorIdToUse,
-            term: reportTerm
+            term: reportTerm,
+            section: reportSection
         }
     });
 
@@ -345,6 +478,7 @@ export const submitFinalReport = async (req, res) => {
                 courseId,
                 instructorId: instructorIdToUse,
                 term: reportTerm,
+                section: reportSection,
                 status: 'submitted',
                 records: recordsPayload
             },
@@ -364,6 +498,8 @@ export const getFinalReports = async (req, res) => {
     let whereCondition = {};
     if (req.user.role === 'instructor') {
        whereCondition = { instructorId: userId };
+    } else if (req.user.role === 'student') {
+       whereCondition = { records: { some: { studentId: userId } } };
     }
     
     const reports = await prisma.courseReport.findMany({

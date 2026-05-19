@@ -215,6 +215,20 @@ export default function StudentDashboard() {
     }
   };
 
+  const handleSelfAttendance = async (courseId) => {
+    try {
+      const { data } = await api.post('/attendance/self', { courseId });
+      if (data.success) {
+        alert(data.message || 'Attendance marked successfully for today!');
+      } else {
+        alert(data.message || 'Could not mark attendance.');
+      }
+    } catch (err) {
+      console.error('Failed to mark attendance', err);
+      alert(err.response?.data?.message || 'Failed to mark attendance.');
+    }
+  };
+
   // useMemo replaced by dashboard data from the endpoint.
 
   const handleLogout = async () => {
@@ -617,9 +631,14 @@ export default function StudentDashboard() {
                          <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                            <div className="h-full bg-[#00D4FF] rounded-full" style={{width: `${enrolled.progress || 0}%`}}></div>
                          </div>
-                         <button onClick={() => navigate(`/course/${enrolled.course?.id || enrolled.courseId}`)} className={`w-full py-2.5 mt-2 font-bold text-xs rounded-lg transition-colors ${isDarkMode ? 'bg-white/10 hover:bg-[#00D4FF] text-white' : 'bg-slate-100 hover:bg-[#00D4FF] text-slate-800 hover:text-white'}`}>
-                           Continue Learning
-                         </button>
+                         <div className="flex gap-2 mt-2">
+                           <button onClick={() => navigate(`/course/${enrolled.course?.id || enrolled.courseId}`)} className={`flex-1 py-2.5 font-bold text-xs rounded-lg transition-colors ${isDarkMode ? 'bg-white/10 hover:bg-[#00D4FF] text-white' : 'bg-slate-100 hover:bg-[#00D4FF] text-slate-800 hover:text-white'}`}>
+                             Continue Learning
+                           </button>
+                           <button onClick={() => handleSelfAttendance(enrolled.course?.id || enrolled.courseId)} className={`flex-1 py-2.5 font-bold text-xs rounded-lg border transition-colors ${isDarkMode ? 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500 hover:text-white' : 'bg-green-50 text-green-600 border-green-200 hover:bg-green-500 hover:text-white'}`}>
+                             Check In
+                           </button>
+                         </div>
                        </div>
                     </div>
                   ))}

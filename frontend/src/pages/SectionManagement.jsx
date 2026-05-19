@@ -142,6 +142,43 @@ export default function SectionManagement() {
     }
   };
 
+  const exportAllSectionsCSV = () => {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += `"Category","Section Name","Course","Batch","Instructor","Enrolled Students"\n`;
+    sections.forEach(sec => {
+       const category = sec.course?.mainCategory || 'Uncategorized';
+       const course = sec.course?.title || 'Unknown';
+       const instructor = sec.instructor?.name || 'Unassigned';
+       const enrolled = sec.students?.length || 0;
+       csvContent += `"${category}","${sec.name}","${course}","${sec.batch || ''}","${instructor}","${enrolled}"\n`;
+    });
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "All_Sections.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportSectionRosterCSV = () => {
+    if (!selectedSection) return;
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += `"Section","Course","Batch","Instructor"\n`;
+    csvContent += `"${selectedSection.name}","${selectedSection.course?.title || 'Unknown'}","${selectedSection.batch || ''}","${selectedSection.instructor?.name || 'Unassigned'}"\n\n`;
+    csvContent += `"Student Name","Email"\n`;
+    (selectedSection.students || []).forEach(s => {
+        csvContent += `"${s.name}","${s.email}"\n`;
+    });
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${selectedSection.name.replace(/\s+/g, '_')}_Roster.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
@@ -159,6 +196,14 @@ export default function SectionManagement() {
              Section Management
           </h1>
           <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Create groupings, assign instructors, and organize students tightly into cohorts.</p>
+        </div>
+        <div className="flex items-center gap-3 mt-4 md:mt-0">
+           <button 
+             onClick={exportAllSectionsCSV}
+             className={`px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-wider transition-all duration-300 border shadow-sm hover:-translate-y-0.5 hover:shadow-md ${isDarkMode ? 'bg-[#0f172a] text-[#00D4FF] border-[#00D4FF]/30 hover:border-[#00D4FF]' : 'bg-white text-[#2563EB] border-blue-200 hover:border-blue-400'}`}
+           >
+             Extract All Sections
+           </button>
         </div>
       </div>
 
@@ -421,9 +466,17 @@ export default function SectionManagement() {
                <h3 className={`text-xl font-bold flex flex-col gap-1 ${isDarkMode ? 'text-white' : 'text-[#0B1221]'}`}>
                  <span className="flex items-center gap-2"><UserPlus className="w-5 h-5 text-[#00D4FF]" /> Student Roster</span>
                </h3>
-               <span className={`text-[10px] px-3 py-1.5 rounded border text-center font-bold max-w-full truncate ${isDarkMode ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-600 border-emerald-200'}`}>
-                 {selectedSection.name}
-               </span>
+               <div className="flex flex-wrap items-center gap-3">
+                 <span className={`text-[10px] px-3 py-1.5 rounded border text-center font-bold max-w-full truncate ${isDarkMode ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-600 border-emerald-200'}`}>
+                   {selectedSection.name}
+                 </span>
+                 <button 
+                   onClick={exportSectionRosterCSV}
+                   className={`px-3 py-1.5 rounded text-[10px] font-black uppercase tracking-wider transition-all duration-300 border hover:-translate-y-0.5 ${isDarkMode ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20 hover:border-indigo-400/50' : 'bg-indigo-50 text-indigo-600 border-indigo-200 hover:border-indigo-400'}`}
+                 >
+                   Extract Roster
+                 </button>
+               </div>
             </div>
             
             {user?.role !== 'student' && (

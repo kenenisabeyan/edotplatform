@@ -223,7 +223,6 @@ export default function EDOTLayout() {
         { name: 'Message', icon: MessageSquare, path: '/dashboard/messages' },
         { name: 'Study Goal', icon: Target, path: '/dashboard/study-goal' },
         { name: 'Achievements', icon: Award, path: '/dashboard/achievements' },
-        { name: 'Sponsorships', icon: HeartHandshake, path: '/dashboard/support' },
         { name: 'Ecosystem Nexus', icon: ShieldCheck, path: '/dashboard/ecosystem' },
       ],
       showFinance: false,
@@ -237,6 +236,7 @@ export default function EDOTLayout() {
       menu1: [
         { name: 'Dashboard', icon: Home, path: '/dashboard', exact: true },
         { name: 'My Courses', icon: BookOpen, path: '/dashboard/courses' },
+        { name: 'Attendance', icon: ClipboardCheck, path: '/dashboard/attendance' },
         { name: 'Study Goal', icon: Target, path: '/dashboard/study-goal' },
         { name: 'Live Classes', icon: Video, path: '/dashboard/live-classes' },
         { name: 'Achievements', icon: Award, path: '/dashboard/achievements' },
@@ -247,7 +247,6 @@ export default function EDOTLayout() {
         { name: 'Library', icon: BookOpen, path: '/dashboard/library' },
         { name: 'Message', icon: MessageSquare, path: '/dashboard/messages' },
         { name: 'Certificates', icon: Award, path: '/dashboard/certificates' },
-        { name: 'Sponsorships', icon: HeartHandshake, path: '/dashboard/support' },
         { name: 'Ecosystem Nexus', icon: ShieldCheck, path: '/dashboard/ecosystem' },
       ],
       showFinance: false,

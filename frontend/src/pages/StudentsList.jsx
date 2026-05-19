@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import api from '../utils/api';
-import { Check, X, ShieldAlert, BadgeCheck, UserPlus, GraduationCap } from 'lucide-react';
+import { Check, X, ShieldAlert, BadgeCheck, UserPlus, GraduationCap, History } from 'lucide-react';
 import UserAvatar from '../components/UserAvatar';
 import CustomDropdown from '../components/CustomDropdown';
 import { useAuth } from '../context/AuthContext';
@@ -14,6 +14,27 @@ export default function StudentsList() {
   const rolePrefix = isAdmin ? '/admin' : '/instructor';
 
   const [tab, setTab] = useState('approved'); // Default to approved
+  const [selectedStudentHistory, setSelectedStudentHistory] = useState(null);
+
+  const { data: reportsData = [] } = useQuery({
+    queryKey: ['attendanceReports'],
+    queryFn: async () => {
+       const res = await api.get('/attendance/reports');
+       return res.data.data || [];
+    }
+  });
+
+  const getStudentReports = (studentId) => {
+      return reportsData.filter(rep => rep.studentRecords?.some(r => r.studentId === studentId)).map(rep => {
+          const rec = rep.studentRecords.find(r => r.studentId === studentId);
+          return {
+              courseTitle: rep.course?.title || 'Unknown Course',
+              term: rep.term,
+              attendancePercentage: rec.attendancePercentage,
+              remarks: rec.remarks
+          };
+      });
+  };
 
   const { data = {}, isLoading: loading, refetch: fetchData } = useQuery({
     queryKey: ['adminStudentsAndInstructors', isAdmin, rolePrefix],
@@ -125,6 +146,7 @@ export default function StudentsList() {
                 <th className="p-4">Email</th>
                 <th className="p-4">Status</th>
                 <th className="p-4 text-center">Certificates</th>
+                <th className="p-4 text-center">Attendance</th>
                 {isAdmin && <th className="p-4">Instructor Assignment</th>}
                 {isAdmin && tab === 'pending' && <th className="p-4">Actions</th>}
               </tr>
@@ -132,13 +154,13 @@ export default function StudentsList() {
             <tbody className={`text-sm font-normal ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
               {loading ? (
                 <tr>
-                   <td colSpan="5" className="p-12 text-center">
+                   <td colSpan="7" className="p-12 text-center">
                      <div className="w-8 h-8 border-4 border-[#00D4FF]/30 border-t-[#00D4FF] rounded-full animate-spin mx-auto"></div>
                    </td>
                 </tr>
               ) : filteredStudents.length === 0 ? (
                 <tr>
-                   <td colSpan="5" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No {tab} students found.</td>
+                   <td colSpan="7" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No {tab} students found.</td>
                 </tr>
               ) : filteredStudents.map(stu => (
                 <tr key={stu.id} className={`border-b hover:bg-white/5/5 transition ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
@@ -160,6 +182,14 @@ export default function StudentsList() {
                           {stu.certificates ? stu.certificates.length : 0}
                         </span>
                       </div>
+                  </td>
+                  <td className="p-4 text-center">
+                    <button 
+                      onClick={() => setSelectedStudentHistory({ student: stu, reports: getStudentReports(stu.id) })}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20 hover:bg-[#00D4FF]/20' : 'bg-blue-50 text-[#2563EB] border-blue-200 hover:bg-blue-100'}`}
+                    >
+                      View History
+                    </button>
                   </td>
                   {isAdmin && (
                     <td className="p-4">
@@ -194,6 +224,48 @@ export default function StudentsList() {
           </table>
         </div>
       </div>
+
+      {selectedStudentHistory && (
+         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
+            <div className={`w-full max-w-lg rounded-2xl border shadow-2xl overflow-hidden ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
+               <div className={`p-6 border-b flex justify-between items-center ${isDarkMode ? 'border-white/10' : 'border-slate-100'}`}>
+                  <h3 className={`text-xl font-black flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                     <History className="w-5 h-5 text-[#00D4FF]" />
+                     Attendance History - {selectedStudentHistory.student.name}
+                  </h3>
+                  <button onClick={() => setSelectedStudentHistory(null)} className={`hover:text-red-500 transition-colors ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                     <X className="w-5 h-5" />
+                  </button>
+               </div>
+               <div className="p-6 max-h-[60vh] overflow-y-auto">
+                  {selectedStudentHistory.reports.length === 0 ? (
+                     <div className={`p-8 text-center font-bold italic rounded-xl ${isDarkMode ? 'bg-white/5 text-slate-400' : 'bg-slate-50 text-slate-500'}`}>
+                        No attendance history on record.
+                     </div>
+                  ) : (
+                     <div className="space-y-4">
+                        {selectedStudentHistory.reports.map((rep, idx) => (
+                           <div key={idx} className={`p-4 rounded-xl border ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                              <div className="flex justify-between items-start mb-2">
+                                 <div>
+                                    <h4 className={`font-bold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{rep.courseTitle}</h4>
+                                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{rep.term}</p>
+                                 </div>
+                                 <span className={`px-2.5 py-1 rounded-full text-xs font-black ${rep.attendancePercentage >= 75 ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'}`}>
+                                    {rep.attendancePercentage}%
+                                 </span>
+                              </div>
+                              {rep.remarks && (
+                                 <p className={`text-xs italic mt-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>"{rep.remarks}"</p>
+                              )}
+                           </div>
+                        ))}
+                     </div>
+                  )}
+               </div>
+            </div>
+         </div>
+      )}
     </div>
   );
 }
