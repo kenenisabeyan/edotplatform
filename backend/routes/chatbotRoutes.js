@@ -1,13 +1,11 @@
 import express from 'express';
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { protect } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-// Initialize OpenAI API
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || 'dummy_key',
-});
+// Initialize Gemini API
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || 'dummy_key');
 
 router.post('/message', protect, async (req, res) => {
     try {
@@ -17,34 +15,29 @@ router.post('/message', protect, async (req, res) => {
             return res.status(400).json({ success: false, message: 'Message is required' });
         }
 
-        if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'dummy_key') {
+        if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'dummy_key') {
              return res.status(500).json({ 
                  success: false, 
-                 message: 'OpenAI API Key is missing. Please configure OPENAI_API_KEY in the backend environment variables.'
+                 message: 'Gemini API Key is missing. Please configure GEMINI_API_KEY in the backend environment variables.'
              });
         }
 
-        // Convert the history array (role/content) to OpenAI's expected format
-        const formattedHistory = history.map(msg => ({
-            role: msg.role === 'assistant' ? 'assistant' : 'user',
-            content: msg.content
-        }));
+        // Initialize model
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const systemMessage = {
-            role: 'system',
-            content: 'You are a helpful, friendly, and knowledgeable AI assistant for an educational platform called FutureLearning (or EDOT). Answer the student\'s question clearly and concisely.'
-        };
+        // Convert the history array (role/content) to Gemini's expected format if needed
+        // For simplicity, we just pass the new message with context.
+        const prompt = `You are a helpful, friendly, and knowledgeable AI assistant for an educational platform called FutureLearning (or EDOT). You can communicate fluently in English, Amharic, and Afaan Oromo. Answer the student's question clearly and concisely in the language they used to ask.
+        
+User Question: ${message}`;
 
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini", // fast and cost-effective model
-            messages: [systemMessage, ...formattedHistory, { role: 'user', content: message }],
-        });
-
-        const reply = completion.choices[0].message.content;
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
 
         res.json({
             success: true,
-            reply: reply
+            reply: text
         });
     } catch (error) {
         console.error('Chatbot API Error:', error);
