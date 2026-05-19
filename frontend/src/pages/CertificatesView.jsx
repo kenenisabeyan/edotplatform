@@ -4,6 +4,7 @@ import { jsPDF } from 'jspdf';
 import { Award, Download } from 'lucide-react';
 import api from '../utils/api';
 import useThemeMode from '../hooks/useThemeMode';
+import QRCode from 'qrcode';
 
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 
@@ -369,18 +370,14 @@ export default function CertificatesView() {
     doc.setFillColor(249, 115, 22);
     doc.circle(148.5, sigY, 6, 'F');
     
-    // QR Code visual
-    doc.setFillColor(0, 0, 0);
-    doc.rect(260, 180, 16, 16, 'F');
-    doc.setFillColor(255, 255, 255);
-    doc.rect(261, 181, 14, 14, 'F');
-    doc.setFillColor(0, 0, 0);
-    doc.rect(262, 182, 3, 3, 'F');
-    doc.rect(270, 182, 3, 3, 'F');
-    doc.rect(262, 190, 3, 3, 'F');
-    doc.rect(266, 186, 2, 2, 'F');
-    doc.rect(268, 189, 4, 2, 'F');
-    doc.rect(263, 187, 2, 2, 'F');
+    // QR Code visual (Real)
+    try {
+      const verifyUrl = `${window.location.origin}/verify-certificate/${certId}`;
+      const qrDataUrl = await QRCode.toDataURL(verifyUrl, { margin: 0, color: { dark: '#0B1120', light: '#FFFFFF' } });
+      doc.addImage(qrDataUrl, 'PNG', 260, 180, 16, 16);
+    } catch (e) {
+      console.error('Failed to generate QR code', e);
+    }
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6);

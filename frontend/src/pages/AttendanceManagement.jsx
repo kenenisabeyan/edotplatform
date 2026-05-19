@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import api from '../utils/api';
 import { useAuth } from '../context/AuthContext';
-import { Calendar, Save, UserCheck, ShieldAlert, GraduationCap, CheckCircle2, XCircle, Clock, Download, FileText, History, Send } from 'lucide-react';
+import { Calendar, Save, UserCheck, ShieldAlert, GraduationCap, CheckCircle2, XCircle, Clock, Download, FileText, History, Send, QrCode, MonitorPlay } from 'lucide-react';
 import CustomDropdown from '../components/CustomDropdown';
 import AttendanceAnalytics from '../components/AttendanceAnalytics';
+import QRScannerModal from '../components/QRScannerModal';
+import SessionQRModal from '../components/SessionQRModal';
 import { useQuery } from '@tanstack/react-query';
 
 export default function AttendanceManagement() {
@@ -32,6 +34,8 @@ export default function AttendanceManagement() {
   const [activeTab, setActiveTab] = useState('daily');
   const [historyRecords, setHistoryRecords] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
+  const [showScanner, setShowScanner] = useState(false);
+  const [showSessionQR, setShowSessionQR] = useState(false);
 
   const { data: globalReports = [], isLoading: loadingGlobalReports } = useQuery({
     queryKey: ['globalAttendanceReports'],
@@ -185,6 +189,32 @@ export default function AttendanceManagement() {
     setAttendanceRecords(prev => prev.map(record => 
        record.userId === userId ? { ...record, status: newStatus } : record
     ));
+  };
+
+  const handleScanSuccess = async (scannedData) => {
+    if (scannedData.type === 'session_attendance') {
+        try {
+            await api.post('/attendance/self', { 
+               courseId: scannedData.courseId, 
+               section: scannedData.section 
+            });
+            alert("Check-in successful! You are marked as present for this class session.");
+            setRefreshKey(prev => prev + 1);
+        } catch (err) {
+            alert(err.response?.data?.message || 'Failed to check-in.');
+        }
+    } else {
+        const userId = typeof scannedData === 'string' ? scannedData : scannedData.userId;
+        const userExists = attendanceRecords.some(r => r.userId === userId);
+        if (userExists) {
+          handleStatusChange(userId, 'present');
+          setMessage(`Student successfully scanned and marked present!`);
+          setTimeout(() => setMessage(''), 3000);
+        } else {
+          setMessage(`Error: Scanned ID not found in this class section.`);
+          setTimeout(() => setMessage(''), 3000);
+        }
+    }
   };
 
   const handleSave = async () => {
@@ -353,14 +383,22 @@ export default function AttendanceManagement() {
   if (user?.role === 'student') {
     return (
       <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
-        <div className={`mb-8 border-b pb-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-           <h1 className={`text-4xl font-black flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              <History className="w-8 h-8 text-[#00D4FF]" />
-              Official Attendance Records
-           </h1>
-           <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-              Review your final term attendance records as released by your instructors.
-           </p>
+        <div className={`mb-8 border-b pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+           <div>
+               <h1 className={`text-4xl font-black flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                  <History className="w-8 h-8 text-[#00D4FF]" />
+                  Official Attendance Records
+               </h1>
+               <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                  Review your final term attendance records as released by your instructors.
+               </p>
+           </div>
+           <button 
+             onClick={() => setShowScanner(true)}
+             className={`shrink-0 px-6 py-3 rounded-full font-bold text-sm transition-all flex items-center gap-2 shadow-lg hover:scale-105 ${isDarkMode ? 'bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white border border-white/20' : 'bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white'}`}
+           >
+             <QrCode className="w-4 h-4" /> Scan Class QR
+           </button>
         </div>
         
         {loadingGlobalReports ? (
@@ -795,6 +833,18 @@ export default function AttendanceManagement() {
             <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-10">
                <div className={`p-2 rounded-full border shadow-[0_20px_50px_rgba(0,0,0,0.3)] backdrop-blur-2xl flex items-center gap-2 md:gap-4 ${isDarkMode ? 'bg-[#0B1120]/90 border-white/20' : 'bg-white/90 border-slate-300'}`}>
                   <button 
+                     onClick={() => setShowScanner(true)}
+                     className={`px-4 py-2 rounded-full font-bold text-xs transition-colors whitespace-nowrap flex items-center gap-1.5 ${isDarkMode ? 'text-[#00D4FF] hover:bg-[#00D4FF]/10' : 'text-[#2563EB] hover:bg-blue-50'}`}
+                  >
+                     <QrCode className="w-4 h-4" /> Scan ID
+                  </button>
+                  <button 
+                     onClick={() => setShowSessionQR(true)}
+                     className={`px-4 py-2 rounded-full font-bold text-xs transition-colors whitespace-nowrap flex items-center gap-1.5 ${isDarkMode ? 'text-purple-400 hover:bg-purple-400/10' : 'text-purple-600 hover:bg-purple-50'}`}
+                  >
+                     <MonitorPlay className="w-4 h-4" /> Project QR
+                  </button>
+                  <button 
                      onClick={() => setAttendanceRecords(prev => prev.map(r => ({...r, status: 'present'})))}
                      className={`px-4 py-2 rounded-full font-bold text-xs transition-colors whitespace-nowrap ${isDarkMode ? 'text-slate-300 hover:bg-white/10 hover:text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}`}
                   >
@@ -816,6 +866,19 @@ export default function AttendanceManagement() {
                </div>
             </div>
          </div>
+      )}
+      <QRScannerModal 
+        isOpen={showScanner} 
+        onClose={() => setShowScanner(false)} 
+        onScanSuccess={handleScanSuccess} 
+      />
+      {selectedCourse && selectedSection && (
+        <SessionQRModal 
+          isOpen={showSessionQR}
+          onClose={() => setShowSessionQR(false)}
+          courseId={selectedCourse}
+          section={sections.find(s => s.id === selectedSection)?.name || 'Main Section'}
+        />
       )}
     </div>
   );

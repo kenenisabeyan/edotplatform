@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
-import { User, Mail, Phone, MapPin, Save, AlertCircle, CircleCheck, Camera, Loader2, Briefcase, Calendar, ShieldCheck, Link as LinkIcon, HeartHandshake } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Save, AlertCircle, CircleCheck, Camera, Loader2, Briefcase, Calendar, ShieldCheck, Link as LinkIcon, HeartHandshake, QrCode } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 import CustomDropdown from '../components/CustomDropdown';
 import useThemeMode from '../hooks/useThemeMode';
 
@@ -194,6 +195,27 @@ export default function ProfileView() {
            <div className="pt-20">
              {message && <div className="mb-6 p-4 bg-[#00D4FF]/10 text-[#00D4FF] rounded-xl text-sm font-bold border border-[#00D4FF]/20 flex items-center gap-2 shadow-sm"><CircleCheck className="w-4 h-4" /> {message}</div>}
              {error && <div className="mb-6 p-4 bg-[#E30A17]/10 text-[#E30A17] rounded-xl text-sm font-bold border border-[#E30A17]/20 flex items-center gap-2 shadow-sm"><AlertCircle className="w-4 h-4" /> {error}</div>}
+
+             <div className={`mb-8 p-6 rounded-[24px] border shadow-md flex flex-col md:flex-row items-center gap-6 ${isDarkMode ? 'bg-gradient-to-r from-[#0B1120] to-[#00D4FF]/10 border-white/10' : 'bg-gradient-to-r from-slate-50 to-[#00D4FF]/5 border-[#00D4FF]/20'}`}>
+               <div className="p-3 bg-white rounded-2xl shadow-sm shrink-0 hover:scale-105 transition-transform duration-300">
+                  <QRCodeSVG 
+                    value={JSON.stringify({ userId: user?.id, email: user?.email, role: user?.role, type: 'digital_id' })} 
+                    size={110}
+                    bgColor={"#ffffff"}
+                    fgColor={"#0f172a"}
+                    level={"Q"}
+                  />
+               </div>
+               <div className="flex-1 text-center md:text-left">
+                  <h3 className={`text-xl font-bold flex items-center justify-center md:justify-start gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    <QrCode className="w-5 h-5 text-[#00D4FF]" /> Digital ID Card
+                  </h3>
+                  <p className={`text-sm mt-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    Use this secure QR code for fast attendance scanning, secure campus entry, and identity verification.
+                  </p>
+                  <p className="text-xs font-mono mt-3 text-[#00D4FF] bg-[#00D4FF]/10 px-3 py-1.5 rounded-full inline-block border border-[#00D4FF]/20 font-bold">ID: {user?.id?.substring(0,8).toUpperCase()}</p>
+               </div>
+             </div>
 
              <form onSubmit={handleUpdate} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
