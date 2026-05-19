@@ -18,18 +18,25 @@ router.get('/', protect, checkNotBlocked, async (req, res) => {
 
 router.post('/', protect, authorize('admin', 'instructor'), async (req, res) => {
     try {
-        const { title, author, category, fileUrl } = req.body;
+        const { title, author, category, fileUrl, courseId } = req.body;
         if (!title || !author || !fileUrl) {
             return res.status(400).json({ success: false, message: 'Please provide all required fields' });
         }
+        
+        const payload = {
+            title,
+            author,
+            category: category || 'General',
+            fileUrl,
+            uploadedById: req.user.id
+        };
+        
+        if (courseId && courseId !== 'general') {
+            payload.courseId = courseId;
+        }
+        
         const resource = await prisma.library.create({
-            data: {
-                title,
-                author,
-                category: category || 'General',
-                fileUrl,
-                uploadedById: req.user.id
-            }
+            data: payload
         });
         res.status(201).json({ success: true, data: resource });
     } catch (err) {

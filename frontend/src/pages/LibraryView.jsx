@@ -135,12 +135,12 @@ export default function LibraryView() {
   const canUpload = user?.role === 'admin' || user?.role === 'instructor';
 
   const pendingQueue = resources.filter((r) => r.status === 'pending');
-  const studentEnrolledCourses = user?.enrolledCourses || [];
+  const studentEnrolledCourses = user?.enrolledCourses?.map(e => e.courseId || e.course?.id) || [];
   const isBlocked = user?.status === 'blocked';
 
   const visibleResources = resources.filter((r) => {
     if (user?.role === 'student') {
-      return r.status === 'approved' && studentEnrolledCourses.includes(r.courseId);
+      return r.status === 'approved' && (!r.courseId || r.courseId === 'general' || studentEnrolledCourses.includes(r.courseId));
     }
     if (user?.role === 'parent') {
       return true;
@@ -421,7 +421,7 @@ export default function LibraryView() {
           )}
 
           <form onSubmit={handleUploadSubmit} className="space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="space-y-1 md:col-span-1">
                     <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Document Title</label>
                     <input 
@@ -451,6 +451,17 @@ export default function LibraryView() {
                         { label: 'History & Social Science', value: 'History' },
                         { label: 'Research Papers', value: 'Research' },
                         { label: 'Curriculum / Syllabus', value: 'Syllabus' }
+                      ]}
+                    />
+                </div>
+                <div className="space-y-1">
+                    <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Related Course</label>
+                    <CustomDropdown 
+                      value={uploadData.courseId || ''}
+                      onChange={(val) => setUploadData({ ...uploadData, courseId: val })}
+                      options={[
+                        { label: 'General (No Course)', value: '' },
+                        ...courses.map(c => ({ label: c.title, value: c.id }))
                       ]}
                     />
                 </div>
