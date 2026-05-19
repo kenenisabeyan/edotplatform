@@ -57,6 +57,7 @@ import AchievementsView from './pages/AchievementsView';
 import { Outlet } from 'react-router-dom';
 
 import ErrorBoundary from './components/ErrorBoundary';
+import ChatbotWidget from './components/ChatbotWidget';
 
 function MainLayout() {
   const isDarkMode = useThemeMode();
@@ -236,6 +237,7 @@ export default function App() {
       {/* Global 404 Catch-All */}
       <Route path="*" element={<NotFound />} />
     </Routes>
+    <ChatbotWidget />
     </>
   );
 }

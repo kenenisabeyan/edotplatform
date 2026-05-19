@@ -37,6 +37,7 @@ import newDashboardRoutes from './routes/newDashboardRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import liveClassRoutes from './routes/liveClassRoutes.js';
 import expenseRoutes from './routes/expenseRoutes.js';
+import chatbotRoutes from './routes/chatbotRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -110,6 +111,7 @@ app.use('/api/live-classes', liveClassRoutes);
 app.use('/api', newDashboardRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/expenses', expenseRoutes);
+app.use('/api/chatbot', chatbotRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
