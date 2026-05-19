@@ -1190,10 +1190,19 @@ router.get('/analytics', async (req, res) => {
             };
         });
 
+        const progressLogs = await prisma.progressLog.findMany({ select: { videoSegments: true } });
+        let totalSegments = 0;
+        progressLogs.forEach(log => {
+             if (log.videoSegments) {
+                 totalSegments += Array.isArray(log.videoSegments) ? log.videoSegments.length : 1;
+             }
+        });
+        const realStudyHours = Math.round((totalSegments * 30) / 3600);
+
         const engagementSummary = {
             dailyActiveUsers: await prisma.activity.count({ where: { createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } } }),
             lessonsCompleted: progressRecords.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length,
-            studyHours: Math.round(progressRecords.length * 0.35),
+            studyHours: realStudyHours,
             courseActivity: progressRecords.length
         };
 

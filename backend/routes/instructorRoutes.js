@@ -262,6 +262,13 @@ router.get('/analytics/detailed', async (req, res) => {
             { name: 'Drafts', value: (total - published), color: '#f59e0b' }
         ];
 
+        const completionsCount = await prisma.userCourseProgress.count({
+            where: {
+                courseId: { in: courseIds },
+                OR: [{ completed: true }, { progress: { gte: 100 } }, { status: 'completed' }]
+            }
+        });
+
         res.status(200).json({
             success: true,
             data: {
@@ -270,7 +277,7 @@ router.get('/analytics/detailed', async (req, res) => {
                 courseCompletionData,
                 totalRevenue: revenueData.reduce((acc, curr) => acc + curr.revenue, 0),
                 totalActiveLearners: users.length,
-                totalCourseCompletions: 0 
+                totalCourseCompletions: completionsCount 
             }
         });
 
