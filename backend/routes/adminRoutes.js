@@ -1342,7 +1342,15 @@ router.get('/activities', async (req, res) => {
             orderBy: { createdAt: 'desc' },
             take: 20
         });
-        res.status(200).json({ success: true, data: activities });
+        const formattedActivities = activities.map(act => ({
+            id: act.id,
+            type: act.type || 'system',
+            title: act.action || 'Activity',
+            studentName: act.user?.name || 'System',
+            itemTitle: act.details || '',
+            date: act.createdAt
+        }));
+        res.status(200).json({ success: true, data: formattedActivities });
     } catch (error) {
         console.error('Activities fetch error:', error);
         res.status(500).json({ success: false, message: 'Server error', error: error.message });
