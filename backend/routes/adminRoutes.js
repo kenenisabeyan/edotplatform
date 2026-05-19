@@ -1146,15 +1146,17 @@ router.get('/analytics', async (req, res) => {
                 const courseProgress = progressRecords.filter((record) => record.courseId === course.id);
                 const completions = courseProgress.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length;
                 const completionRate = courseProgress.length ? Math.round((completions / courseProgress.length) * 100) : 0;
+                const avgProgress = courseProgress.length ? Math.round(courseProgress.reduce((sum, r) => sum + (r.progress || 0), 0) / courseProgress.length) : 0;
                 return {
                     id: course.id,
                     title: course.title,
                     realEnrollments: courseProgress.length,
                     enrollments: courseProgress.length,
-                    completionRate
+                    completionRate,
+                    avgProgress
                 };
             })
-            .sort((a, b) => b.realEnrollments - a.realEnrollments)
+            .sort((a, b) => b.avgProgress - a.avgProgress || b.realEnrollments - a.realEnrollments)
             .slice(0, 5)
             .map((course, index) => ({
                 id: course.id,
@@ -1241,10 +1243,11 @@ router.get('/top-courses', async (req, res) => {
                     ...course,
                     realEnrollments: progress.length,
                     completionRate: progress.length ? Math.round((completions / progress.length) * 100) : 0,
+                    avgProgress: progress.length ? Math.round(progress.reduce((sum, r) => sum + (r.progress || 0), 0) / progress.length) : 0,
                     engagementScore: Math.round(((completions || 0) / Math.max(progress.length, 1)) * 100)
                 };
             })
-            .sort((a, b) => b.realEnrollments - a.realEnrollments)
+            .sort((a, b) => b.avgProgress - a.avgProgress || b.realEnrollments - a.realEnrollments)
             .slice(0, 5)
             .map((course, index) => ({
                 ...course,
