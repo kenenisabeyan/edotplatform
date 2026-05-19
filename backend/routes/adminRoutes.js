@@ -1131,7 +1131,9 @@ router.get('/analytics', async (req, res) => {
 
         const courses = await prisma.course.findMany({ select: { price: true, totalStudents: true, createdAt: true, isPublished: true } });
         const sponsorshipSummary = await prisma.sponsorship.aggregate({ _sum: { amount: true }, where: { termsAccepted: true, status: 'accepted' } });
-        const revenueData = buildMonthlyRevenue(courses, sponsorshipSummary._sum?.amount || 0).monthlyRevenue;
+        const revenueResult = buildMonthlyRevenue(courses, sponsorshipSummary._sum?.amount || 0);
+        const revenueData = revenueResult.monthlyRevenue;
+        const totalRevenue = revenueResult.totalRevenue;
 
         const progressRecords = await prisma.userCourseProgress.findMany({ select: { courseId: true, progress: true, completed: true, status: true } });
         const topCourses = dashboardRes
@@ -1163,7 +1165,7 @@ router.get('/analytics', async (req, res) => {
             courseActivity: progressRecords.length
         };
 
-        res.status(200).json({ success: true, data: { topCourses, instructorPerformance: instructorMetrics, engagementSummary, revenueData } });
+        res.status(200).json({ success: true, data: { topCourses, instructorPerformance: instructorMetrics, engagementSummary, revenueData, totalRevenue } });
     } catch (error) {
         console.error('Analytics error:', error);
         res.status(500).json({ success: false, message: 'Server error', error: error.message });

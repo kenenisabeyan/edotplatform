@@ -66,8 +66,24 @@ export default function EDOTDashboard() {
         };
       }
       if (userRole === 'admin') {
-        const { data } = await api.get('/admin/dashboard');
-        return data.data;
+        const [dashRes, analyticsRes, activitiesRes] = await Promise.all([
+          api.get('/admin/dashboard').catch(() => ({ data: { data: {} } })),
+          api.get('/admin/analytics').catch(() => ({ data: { data: {} } })),
+          api.get('/admin/activities').catch(() => ({ data: { data: [] } }))
+        ]);
+        
+        const baseStats = dashRes.data?.data || {};
+        const analyticsStats = analyticsRes.data?.data || {};
+        const activities = activitiesRes.data?.data || [];
+        
+        return {
+          ...baseStats,
+          analytics: analyticsStats,
+          topCourses: analyticsStats.topCourses || [],
+          instructorPerformance: analyticsStats.instructorPerformance || [],
+          engagement: analyticsStats.engagementSummary || {},
+          recentActivities: activities
+        };
       }
       const { data } = await api.get(`/${userRole}/dashboard`);
       return data.data;
@@ -168,7 +184,7 @@ export default function EDOTDashboard() {
   const monthlyRevenueSeries = Array.isArray(stats?.analytics?.revenueData) ? stats.analytics.revenueData : (Array.isArray(stats?.monthlyRevenue) ? stats.monthlyRevenue : []);
   const currentMonthRevenue = typeof stats?.dashboardStats?.totalRevenue === 'number'
     ? stats.dashboardStats.totalRevenue
-    : stats?.finance?.totalRevenue ?? 0;
+    : (stats?.analytics?.totalRevenue ?? stats?.finance?.totalRevenue ?? 0);
   const patternPerformanceData = monthlyRevenueSeries.map((item) => ({
     name: item.name,
     revenue: item.revenue || 0,
