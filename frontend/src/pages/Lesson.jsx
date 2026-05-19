@@ -334,34 +334,50 @@ export default function Lesson() {
                         
                         {/* Phase Expanded Content */}
                         {isPhaseExp && (
-                           <div className={`p-4 sm:p-8 bg-gradient-to-b from-[#0B1120] to-[#0B1120] border-t space-y-4 animate-in slide-in-from-top-2 duration-300 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                           <div className={`p-4 sm:p-8 border-t space-y-6 animate-in slide-in-from-top-2 duration-500 ${isDarkMode ? 'bg-[#0B1120]/40 border-white/5' : 'bg-slate-50 border-slate-100 shadow-inner'}`}>
                               
                               {/* Category: To-Do List */}
-                              <div className={`rounded-2xl border overflow-hidden bg-[#0B1120] shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                                 <button onClick={() => toggleCat(pId, 'todo')} className="w-full p-5 flex justify-between items-center hover:bg-white/5/5 transition-colors group">
-                                    <span className={`font-bold flex items-center gap-4 group-hover:text-white ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><div className="w-8 h-8 rounded-full bg-indigo-500/100/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20"><CheckSquare className="w-4 h-4" /></div> To-Do List</span>
-                                    <span className={`text-[10px] flex items-center gap-2 font-bold group-hover:text-[#FFC107] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                                       {expandedCategory[`${pId}-todo`] ? 'Collapse' : 'Expand'} {expandedCategory[`${pId}-todo`] ? <ChevronUp className="w-3 h-3"/> : <ChevronDown className="w-3 h-3"/>}
+                              <div className={`rounded-3xl border overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10 hover:border-indigo-500/30' : 'bg-white border-slate-200 hover:border-indigo-200'}`}>
+                                 <button onClick={() => toggleCat(pId, 'todo')} className={`w-full p-6 flex justify-between items-center transition-colors group ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-50'}`}>
+                                    <span className={`font-black text-lg flex items-center gap-5 transition-colors ${isDarkMode ? 'text-slate-200 group-hover:text-white' : 'text-slate-700 group-hover:text-indigo-700'}`}>
+                                       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 ${isDarkMode ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : 'bg-indigo-50 text-indigo-600 border-indigo-100'}`}>
+                                          <CheckSquare className="w-6 h-6" />
+                                       </div> 
+                                       To-Do List
+                                    </span>
+                                    <span className={`text-xs flex items-center gap-2 font-bold transition-colors ${isDarkMode ? 'text-slate-400 group-hover:text-indigo-400' : 'text-slate-400 group-hover:text-indigo-600'}`}>
+                                       {expandedCategory[`${pId}-todo`] ? 'Collapse' : 'Expand'} 
+                                       <div className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 group-hover:bg-indigo-500/20' : 'bg-slate-100 group-hover:bg-indigo-100'}`}>
+                                          {expandedCategory[`${pId}-todo`] ? <ChevronUp className="w-4 h-4"/> : <ChevronDown className="w-4 h-4"/>}
+                                       </div>
                                     </span>
                                  </button>
                                  {expandedCategory[`${pId}-todo`] && (
-                                    <div className={`p-6 border-t text-sm leading-relaxed border-l-[3px] border-l-indigo-500/50 whitespace-pre-wrap ${isDarkMode ? 'border-white/5 bg-[#0B1120] text-slate-300' : 'border-slate-100 bg-white text-slate-500'}`}>
+                                    <div className={`p-8 border-t text-base leading-relaxed border-l-4 whitespace-pre-wrap transition-all ${isDarkMode ? 'border-white/5 bg-[#0B1120] text-slate-300 border-l-indigo-500/50' : 'border-slate-100 bg-slate-50/50 text-slate-600 border-l-indigo-400'}`}>
                                        {allDescriptions}
                                     </div>
                                  )}
                               </div>
 
                               {/* Category: Class Videos */}
-                              <div className={`rounded-2xl border overflow-hidden bg-[#0B1120] shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                                 <button onClick={() => toggleCat(pId, 'videos')} className="w-full p-5 flex justify-between items-center hover:bg-white/5/5 transition-colors group">
-                                    <span className={`font-bold flex items-center gap-4 group-hover:text-white ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><div className="w-8 h-8 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center border border-red-500/20"><PlayCircle className="w-4 h-4" /></div> Class Videos</span>
-                                    <span className={`text-[10px] flex items-center gap-2 font-bold group-hover:text-[#FFC107] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                                       {expandedCategory[`${pId}-videos`] ? 'Collapse' : 'Expand'} {expandedCategory[`${pId}-videos`] ? <ChevronUp className="w-3 h-3"/> : <ChevronDown className="w-3 h-3"/>}
+                              <div className={`rounded-3xl border overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10 hover:border-red-500/30' : 'bg-white border-slate-200 hover:border-red-200'}`}>
+                                 <button onClick={() => toggleCat(pId, 'videos')} className={`w-full p-6 flex justify-between items-center transition-colors group ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-50'}`}>
+                                    <span className={`font-black text-lg flex items-center gap-5 transition-colors ${isDarkMode ? 'text-slate-200 group-hover:text-white' : 'text-slate-700 group-hover:text-red-700'}`}>
+                                       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 ${isDarkMode ? 'bg-red-500/20 text-red-400 border-red-500/30' : 'bg-rose-50 text-rose-600 border-rose-100'}`}>
+                                          <PlayCircle className="w-6 h-6" />
+                                       </div> 
+                                       Class Videos
+                                    </span>
+                                    <span className={`text-xs flex items-center gap-2 font-bold transition-colors ${isDarkMode ? 'text-slate-400 group-hover:text-red-400' : 'text-slate-400 group-hover:text-red-600'}`}>
+                                       {expandedCategory[`${pId}-videos`] ? 'Collapse' : 'Expand'} 
+                                       <div className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 group-hover:bg-red-500/20' : 'bg-slate-100 group-hover:bg-rose-100'}`}>
+                                          {expandedCategory[`${pId}-videos`] ? <ChevronUp className="w-4 h-4"/> : <ChevronDown className="w-4 h-4"/>}
+                                       </div>
                                     </span>
                                  </button>
                                  
                                  {expandedCategory[`${pId}-videos`] && (
-                                    <div className={`border-t p-2 ${isDarkMode ? 'border-white/5 bg-[#0B1120]' : 'border-slate-100 bg-white'}`}>
+                                    <div className={`border-t p-4 ${isDarkMode ? 'border-white/5 bg-[#0B1120]' : 'border-slate-100 bg-slate-50/50'}`}>
                                        {phaseLessons.map(lesson => {
                                           const lId = lesson.id;
                                           const videoMat = lessonMaterials[lId]?.find(m => m.fileType === 'video');
@@ -372,16 +388,18 @@ export default function Lesson() {
                                              <div key={lId} className="w-full">
                                                 <button 
                                                    onClick={() => setPlayingVideoId(playingVideoId === lId ? null : lId)} 
-                                                   className={`w-full p-4 flex justify-between items-center hover:bg-white/5/5 transition-colors border rounded-xl bg-[#0B1120] mt-2 mb-2 group ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}
+                                                   className={`w-full p-5 flex justify-between items-center transition-all duration-300 border rounded-2xl mt-2 mb-2 group shadow-sm hover:shadow-md ${playingVideoId === lId ? (isDarkMode ? 'border-red-500/30 bg-[#0B1120]' : 'border-red-200 bg-white') : (isDarkMode ? 'border-white/5 bg-[#0B1120]/50 hover:bg-[#0B1120]' : 'border-slate-200 bg-white hover:bg-slate-50')}`}
                                                 >
-                                                   <span className={`font-bold text-sm flex items-center gap-3 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                                                      <PlayCircle className="w-5 h-5 text-red-500" />
+                                                   <span className={`font-bold text-base flex items-center gap-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>
+                                                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isCompleted ? (isDarkMode ? 'bg-[#00D4FF]/20' : 'bg-cyan-100') : (isDarkMode ? 'bg-white/5' : 'bg-slate-100')}`}>
+                                                         {isCompleted ? <Unlock className="w-4 h-4 text-[#00D4FF]" /> : <Lock className={`w-4 h-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-400'}`} />}
+                                                      </div>
                                                       {lesson.title}
                                                    </span>
                                                    <div className="flex items-center gap-4">
-                                                      {isCompleted ? <Unlock className="w-4 h-4 text-[#00D4FF]" /> : <Lock className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />}
-                                                      <div className={`p-1.5 rounded-full ${playingVideoId === lId ? 'bg-[#00D4FF]/10 text-[#00D4FF]' : 'bg-[#0B1120]/5 group-hover:text-white'} ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-                                                        {playingVideoId === lId ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                                                      <span className={`text-xs font-black px-3 py-1.5 rounded-lg border ${isDarkMode ? 'bg-[#0B1120] text-slate-400 border-white/10' : 'bg-white text-slate-500 border-slate-200'}`}>{lesson.duration}m</span>
+                                                      <div className={`p-2 rounded-full transition-colors ${playingVideoId === lId ? 'bg-red-500/10 text-red-500' : (isDarkMode ? 'bg-[#0B1120] text-slate-400 group-hover:text-white' : 'bg-slate-50 text-slate-500 group-hover:text-slate-900')}`}>
+                                                        {playingVideoId === lId ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                                                       </div>
                                                    </div>
                                                 </button>
@@ -389,25 +407,25 @@ export default function Lesson() {
                                                 {/* Embedded Video Player */}
                                                 {playingVideoId === lId && (
                                                    <div 
-                                                     className={`m-2 mt-4 p-4 md:p-6 bg-[#0B1120] border rounded-2xl animate-in slide-in-from-top-2 duration-300 relative overflow-hidden group select-none ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}
+                                                     className={`m-2 md:m-4 p-4 md:p-6 border rounded-3xl animate-in slide-in-from-top-2 duration-300 relative overflow-hidden shadow-lg ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}
                                                      onContextMenu={(e) => e.preventDefault()}
                                                    >
-                                                      <div className={`aspect-video w-full rounded-xl overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.8)] border relative bg-black ${!isActive ? 'grayscale opacity-75 blur-[2px]' : ''} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                                                      <div className={`aspect-video w-full rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.15)] border relative bg-black ${!isActive ? 'grayscale opacity-75 blur-[2px]' : ''} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                                                          {finalVideoUrl ? (
                                                             <SmartVideoPlayer url={resolveVideoUrl(finalVideoUrl)} controls={isActive} />
                                                           ) : (
-                                                            <div className="w-full h-full flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-[#0B1120] to-black">
-                                                               <BadgeAlert className="w-16 h-16 text-[#00D4FF] mb-4 drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
-                                                               <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>No Visual Feed Available</h3>
-                                                               <p className={`text-sm max-w-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>The instructor has not uploaded a video for this module yet, or the signal is currently unreachable.</p>
+                                                            <div className={`w-full h-full flex flex-col items-center justify-center text-center p-6 ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120] to-black' : 'bg-gradient-to-b from-slate-800 to-black'}`}>
+                                                               <BadgeAlert className="w-16 h-16 text-red-500 mb-4 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
+                                                               <h3 className="text-xl font-bold mb-2 text-white">No Visual Feed Available</h3>
+                                                               <p className="text-sm max-w-sm text-slate-400">The instructor has not uploaded a video for this module yet, or the signal is currently unreachable.</p>
                                                             </div>
                                                           )}
                                                       </div>
                                                       {(!isActive || isBlocked) && (
-                                                         <div className={`absolute inset-0 z-20 flex flex-col items-center justify-center backdrop-blur-md text-center px-4 rounded-xl m-6 ${isDarkMode ? 'bg-[#0B1120]/80' : 'bg-white/90'}`}>
-                                                            <Lock className="w-16 h-16 text-red-500 mb-6 drop-shadow-[0_0_15px_rgba(239,68,68,0.6)]" />
-                                                            <h3 className={`text-3xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Signal Locked</h3>
-                                                            <p className="text-[#FFC107] text-xs font-bold  ">Clearance Authorization Required</p>
+                                                         <div className={`absolute inset-0 z-20 flex flex-col items-center justify-center backdrop-blur-md text-center px-4 rounded-2xl m-6 border ${isDarkMode ? 'bg-[#0B1120]/80 border-red-500/30' : 'bg-white/90 border-red-200'}`}>
+                                                            <Lock className="w-20 h-20 text-red-500 mb-6 drop-shadow-[0_0_20px_rgba(239,68,68,0.6)]" />
+                                                            <h3 className={`text-4xl font-black mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Signal Locked</h3>
+                                                            <p className="text-red-500 text-sm font-bold bg-red-500/10 px-4 py-2 rounded-full border border-red-500/20">Clearance Authorization Required</p>
                                                          </div>
                                                       )}
                                                    </div>
@@ -420,65 +438,83 @@ export default function Lesson() {
                               </div>
 
                               {/* Category: Checklists */}
-                              <div className={`rounded-2xl border overflow-hidden bg-[#0B1120] shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                                 <button onClick={() => toggleCat(pId, 'checklists')} className="w-full p-5 flex justify-between items-center hover:bg-white/5/5 transition-colors group">
-                                    <span className={`font-bold flex items-center gap-4 group-hover:text-white ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><div className="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center border border-emerald-500/20"><CheckCircle2 className="w-4 h-4" /></div> Checklists</span>
-                                    <span className={`text-[10px] flex items-center gap-2 font-bold group-hover:text-[#FFC107] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                                       {expandedCategory[`${pId}-checklists`] ? 'Collapse' : 'Expand'} {expandedCategory[`${pId}-checklists`] ? <ChevronUp className="w-3 h-3"/> : <ChevronDown className="w-3 h-3"/>}
+                              <div className={`rounded-3xl border overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10 hover:border-emerald-500/30' : 'bg-white border-slate-200 hover:border-emerald-200'}`}>
+                                 <button onClick={() => toggleCat(pId, 'checklists')} className={`w-full p-6 flex justify-between items-center transition-colors group ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-50'}`}>
+                                    <span className={`font-black text-lg flex items-center gap-5 transition-colors ${isDarkMode ? 'text-slate-200 group-hover:text-white' : 'text-slate-700 group-hover:text-emerald-700'}`}>
+                                       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 ${isDarkMode ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-emerald-50 text-emerald-600 border-emerald-100'}`}>
+                                          <CheckCircle2 className="w-6 h-6" />
+                                       </div> 
+                                       Checklists
+                                    </span>
+                                    <span className={`text-xs flex items-center gap-2 font-bold transition-colors ${isDarkMode ? 'text-slate-400 group-hover:text-emerald-400' : 'text-slate-400 group-hover:text-emerald-600'}`}>
+                                       {expandedCategory[`${pId}-checklists`] ? 'Collapse' : 'Expand'} 
+                                       <div className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 group-hover:bg-emerald-500/20' : 'bg-slate-100 group-hover:bg-emerald-100'}`}>
+                                          {expandedCategory[`${pId}-checklists`] ? <ChevronUp className="w-4 h-4"/> : <ChevronDown className="w-4 h-4"/>}
+                                       </div>
                                     </span>
                                  </button>
                                  {expandedCategory[`${pId}-checklists`] && (
-                                    <div className={`border-t p-4 flex flex-col space-y-3 ${isDarkMode ? 'border-white/5 bg-[#0B1120]' : 'border-slate-100 bg-white'}`}>
+                                    <div className={`border-t p-6 flex flex-col space-y-4 ${isDarkMode ? 'border-white/5 bg-[#0B1120]' : 'border-slate-100 bg-slate-50/50'}`}>
                                        {phaseLessons.map(lesson => (
                                           lesson.quiz?.length > 0 ? (
-                                             <div key={lesson.id} className={`flex justify-between items-center p-4 rounded-xl border ${isDarkMode ? 'bg-[#0B1120]/50 border-white/5' : 'bg-slate-100 border-slate-100'}`}>
+                                             <div key={lesson.id} className={`flex justify-between items-center p-5 rounded-2xl border transition-all hover:shadow-md ${isDarkMode ? 'bg-[#0B1120]/50 border-white/5 hover:border-emerald-500/30' : 'bg-white border-slate-200 hover:border-emerald-200'}`}>
                                                 <div className="flex flex-col">
-                                                   <span className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{lesson.title} - Quiz</span>
+                                                   <span className={`text-base font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{lesson.title}</span>
+                                                   <span className={`text-xs font-semibold mt-1 ${isDarkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>Required Assessment</span>
                                                 </div>
                                                 <button onClick={() => {
                                                    setActiveModal({ type: 'quiz', lessonId: lesson.id, phaseIndex: pIdx + 1 });
                                                    if (!quizAttempts[lesson.id]) setQuizAttempts(prev => ({ ...prev, [lesson.id]: 1 }));
-                                                }} className="px-4 py-2 bg-[#00D4FF]/10 text-[#00D4FF] rounded-lg text-xs font-bold hover:bg-[#00D4FF] hover:text-white transition-colors">
+                                                }} className={`px-6 py-2.5 rounded-xl text-sm font-black transition-all shadow-sm ${isDarkMode ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white border border-emerald-500/30 hover:shadow-[0_0_15px_rgba(16,185,129,0.4)]' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-500 hover:text-white border border-emerald-200 hover:shadow-[0_0_15px_rgba(16,185,129,0.3)]'}`}>
                                                    Start Quiz
                                                 </button>
                                              </div>
                                           ) : null
                                        ))}
                                        {phaseLessons.every(l => !l.quiz?.length) && (
-                                          <div className={`text-sm text-center py-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No checklists available for this phase.</div>
+                                          <div className={`text-base font-medium text-center py-8 rounded-2xl border border-dashed ${isDarkMode ? 'text-slate-400 bg-[#0B1120]/50 border-white/10' : 'text-slate-500 bg-white border-slate-200'}`}>No checklists available for this phase.</div>
                                        )}
                                     </div>
                                  )}
                               </div>
 
                               {/* Category: Notes */}
-                              <div className={`rounded-2xl border overflow-hidden bg-[#0B1120] shadow-sm ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                                 <button onClick={() => toggleCat(pId, 'notes')} className="w-full p-5 flex justify-between items-center hover:bg-white/5/5 transition-colors group">
-                                    <span className={`font-bold flex items-center gap-4 group-hover:text-white ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}><div className="w-8 h-8 rounded-full bg-indigo-500/100/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20"><FileText className="w-4 h-4" /></div> Notes</span>
-                                    <span className={`text-[10px] flex items-center gap-2 font-bold group-hover:text-[#FFC107] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
-                                       {expandedCategory[`${pId}-notes`] ? 'Collapse' : 'Expand'} {expandedCategory[`${pId}-notes`] ? <ChevronUp className="w-3 h-3"/> : <ChevronDown className="w-3 h-3"/>}
+                              <div className={`rounded-3xl border overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10 hover:border-[#00D4FF]/30' : 'bg-white border-slate-200 hover:border-cyan-200'}`}>
+                                 <button onClick={() => toggleCat(pId, 'notes')} className={`w-full p-6 flex justify-between items-center transition-colors group ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-50'}`}>
+                                    <span className={`font-black text-lg flex items-center gap-5 transition-colors ${isDarkMode ? 'text-slate-200 group-hover:text-white' : 'text-slate-700 group-hover:text-cyan-700'}`}>
+                                       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 ${isDarkMode ? 'bg-[#00D4FF]/20 text-[#00D4FF] border-[#00D4FF]/30' : 'bg-cyan-50 text-cyan-600 border-cyan-100'}`}>
+                                          <FileText className="w-6 h-6" />
+                                       </div> 
+                                       Notes & Resources
+                                    </span>
+                                    <span className={`text-xs flex items-center gap-2 font-bold transition-colors ${isDarkMode ? 'text-slate-400 group-hover:text-[#00D4FF]' : 'text-slate-400 group-hover:text-cyan-600'}`}>
+                                       {expandedCategory[`${pId}-notes`] ? 'Collapse' : 'Expand'} 
+                                       <div className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 group-hover:bg-[#00D4FF]/20' : 'bg-slate-100 group-hover:bg-cyan-100'}`}>
+                                          {expandedCategory[`${pId}-notes`] ? <ChevronUp className="w-4 h-4"/> : <ChevronDown className="w-4 h-4"/>}
+                                       </div>
                                     </span>
                                  </button>
                                  {expandedCategory[`${pId}-notes`] && (
-                                    <div className={`p-6 border-t text-sm leading-relaxed border-l-[3px] border-l-indigo-500/50 whitespace-pre-wrap ${isDarkMode ? 'border-white/5 bg-[#0B1120] text-slate-300' : 'border-slate-100 bg-white text-slate-500'}`}>
+                                    <div className={`p-8 border-t text-base leading-relaxed border-l-4 whitespace-pre-wrap transition-all ${isDarkMode ? 'border-white/5 bg-[#0B1120] text-slate-300 border-l-[#00D4FF]/50' : 'border-slate-100 bg-slate-50/50 text-slate-600 border-l-cyan-400'}`}>
                                        {allReadingMaterials || 'No notes available for this phase.'}
                                     </div>
                                  )}
                               </div>
 
                               {/* Phase Completion Trigger */}
-                              <div className={`pt-8 mt-6 border-t font-sans flex justify-center md:justify-end ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                              <div className={`pt-10 pb-2 mt-8 font-sans flex justify-center md:justify-end border-t border-dashed ${isDarkMode ? 'border-white/10' : 'border-slate-300'}`}>
                                  <button
                                     onClick={async () => { for (const lesson of phaseLessons) { if (!completedList.includes(lesson.id)) { await verifyPhaseCompletion(lesson.id); } } }}
                                     disabled={!isActive || lCompleted}
-                                    className={`w-full md:w-auto px-8 py-5 font-black text-xs rounded-2xl transition-all flex items-center justify-center gap-3 ${
-                                       lCompleted ? 'bg-[#00D4FF] text-white shadow-[0_0_20px_rgba(0,138,50,0.3)]' 
-                                       : !isActive ? 'bg-[#0B1120] text-slate-300 border-2 border-white/5 cursor-not-allowed' 
-                                       : 'bg-[#1e48bc] hover:bg-[#295ce8] text-white shadow-lg'
+                                    className={`w-full md:w-auto px-10 py-5 font-black text-sm rounded-full transition-all duration-300 flex items-center justify-center gap-3 border-2 overflow-hidden relative group ${
+                                       lCompleted ? 'bg-emerald-500 border-emerald-400 text-white shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)]' 
+                                       : !isActive ? `cursor-not-allowed ${isDarkMode ? 'bg-[#0B1120] text-slate-500 border-white/5' : 'bg-slate-100 text-slate-400 border-slate-200'}` 
+                                       : 'bg-[#1e48bc] hover:bg-[#295ce8] border-transparent text-white shadow-[0_0_20px_rgba(30,72,188,0.4)] hover:shadow-[0_0_30px_rgba(41,92,232,0.6)] hover:scale-[1.02]'
                                     }`}
                                  >
-                                    <CheckCircle2 className="w-5 h-5" /> 
-                                    {lCompleted ? 'Phase Resolved' : 'Complete Phase Assessment'}
+                                    {!lCompleted && isActive && <div className="absolute inset-0 bg-white/20 translate-y-[100%] group-hover:translate-y-[0%] transition-transform duration-300 ease-out z-0"></div>}
+                                    <CheckCircle2 className="w-5 h-5 relative z-10" /> 
+                                    <span className="relative z-10">{lCompleted ? 'Phase Resolved' : 'Complete Phase Assessment'}</span>
                                  </button>
                               </div>
 
