@@ -1138,20 +1138,27 @@ router.get('/analytics', async (req, res) => {
         const progressRecords = await prisma.userCourseProgress.findMany({ select: { courseId: true, progress: true, completed: true, status: true } });
         const topCourses = dashboardRes
             .filter((course) => course.isPublished)
-            .sort((a, b) => (b.totalStudents || 0) - (a.totalStudents || 0))
-            .slice(0, 5)
-            .map((course, index) => {
+            .map(course => {
                 const courseProgress = progressRecords.filter((record) => record.courseId === course.id);
                 const completions = courseProgress.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length;
                 const completionRate = courseProgress.length ? Math.round((completions / courseProgress.length) * 100) : 0;
                 return {
                     id: course.id,
                     title: course.title,
-                    enrollments: course.totalStudents || 0,
-                    completionRate,
-                    ranking: index + 1
+                    realEnrollments: courseProgress.length,
+                    enrollments: courseProgress.length,
+                    completionRate
                 };
-            });
+            })
+            .sort((a, b) => b.realEnrollments - a.realEnrollments)
+            .slice(0, 5)
+            .map((course, index) => ({
+                id: course.id,
+                title: course.title,
+                enrollments: course.enrollments,
+                completionRate: course.completionRate,
+                ranking: index + 1
+            }));
 
         const instructorMetrics = await prisma.user.findMany({
             where: { role: 'instructor', status: 'approved' },
@@ -1200,18 +1207,22 @@ router.get('/top-courses', async (req, res) => {
         const courses = await prisma.course.findMany({ where: { isPublished: true }, select: { id: true, title: true, thumbnail: true, totalStudents: true } });
         const progressRecords = await prisma.userCourseProgress.findMany({ select: { courseId: true, progress: true, completed: true, status: true } });
         const topCourses = courses
-            .sort((a, b) => (b.totalStudents || 0) - (a.totalStudents || 0))
-            .slice(0, 5)
-            .map((course, index) => {
+            .map((course) => {
                 const progress = progressRecords.filter((record) => record.courseId === course.id);
                 const completions = progress.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length;
                 return {
                     ...course,
-                    rank: index + 1,
+                    realEnrollments: progress.length,
                     completionRate: progress.length ? Math.round((completions / progress.length) * 100) : 0,
                     engagementScore: Math.round(((completions || 0) / Math.max(progress.length, 1)) * 100)
                 };
-            });
+            })
+            .sort((a, b) => b.realEnrollments - a.realEnrollments)
+            .slice(0, 5)
+            .map((course, index) => ({
+                ...course,
+                rank: index + 1
+            }));
 
         res.status(200).json({ success: true, data: topCourses });
     } catch (error) {
@@ -1242,7 +1253,7 @@ router.get('/instructors', async (req, res) => {
             const courseProgress = progressRecords.filter((record) => courseIds.includes(record.courseId));
             const completions = courseProgress.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length;
             const averageCompletion = courseProgress.length ? Math.round((completions / courseProgress.length) * 100) : 0;
-            const studentCount = courses.reduce((sum, course) => sum + (course.totalStudents || 0), 0);
+            const studentCount = courseProgress.length;
             let present = 0;
             let total = 0;
 
