@@ -275,7 +275,7 @@ export default function Lesson() {
       </div>
 
       {/* Main Container */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-8 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-8 relative z-10">
          
          {/* Course Header Template */}
          <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
