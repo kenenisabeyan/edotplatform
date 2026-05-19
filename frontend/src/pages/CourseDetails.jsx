@@ -105,7 +105,7 @@ export default function CourseDetails() {
       <div className="relative z-10 pt-20 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <Link to="/courses" className="inline-flex items-center gap-2 text-xs font-black text-[#00D4FF] hover:text-white transition-colors mb-10   bg-[#00D4FF]/10 px-4 py-2 rounded-full-full border border-[#00D4FF]/20 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)]">
+          <Link to="/courses" className={`inline-flex items-center justify-center min-w-[140px] gap-2 font-bold transition-colors px-8 py-2.5 rounded-full border shadow-md text-white bg-[#1e48bc] hover:bg-[#295ce8] border-transparent mb-10`}>
             <ArrowLeft className="w-4 h-4" /> Back to Catalog
           </Link>
 

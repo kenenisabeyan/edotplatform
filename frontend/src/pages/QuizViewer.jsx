@@ -172,7 +172,7 @@ export default function QuizViewer() {
       <div className="w-full max-w-3xl mb-8 flex justify-between items-center relative z-10">
         <button 
           onClick={() => navigate(`/lesson/${course.id}?courseId=${course.id}`)}
-          className={`hover:text-white font-bold text-xs flex items-center gap-2 transition-colors border px-4 py-2 rounded-lg ${isDarkMode ? 'text-slate-200 border-white/10 bg-[#0B1120]/5' : 'text-slate-600 border-slate-200 bg-slate-50'}`}
+          className={`flex items-center justify-center min-w-[140px] gap-2 font-bold transition-colors px-8 py-2.5 rounded-full border shadow-md text-white bg-[#1e48bc] hover:bg-[#295ce8] border-transparent`}
         >
           <ArrowLeft className="w-4 h-4" /> Exit
         </button>

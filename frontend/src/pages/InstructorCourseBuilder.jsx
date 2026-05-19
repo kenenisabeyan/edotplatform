@@ -324,7 +324,7 @@ export default function InstructorCourseBuilder() {
           <div className="flex items-center gap-3 text-sm font-medium">
             <button 
               onClick={() => navigate('/dashboard/my-courses')}
-              className={`hover:text-white transition-colors flex items-center gap-1.5 pr-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
+              className={`flex items-center justify-center min-w-[140px] gap-2 font-bold transition-colors px-8 py-2.5 rounded-full border shadow-md text-white bg-[#1e48bc] hover:bg-[#295ce8] border-transparent`}
             >
               <ArrowLeft className="w-4 h-4" /> Back
             </button>
