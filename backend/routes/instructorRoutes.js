@@ -236,9 +236,11 @@ router.get('/analytics/detailed', async (req, res) => {
             let m = new Date(d.getFullYear(), d.getMonth() - i, 1);
             let monthRev = 0;
             courses.forEach(c => {
-                if (c.isPublished && c.price && c.totalStudents) {
+                const actualStudents = enrollments.filter(e => e.courseId === c.id).length;
+                if (c.isPublished && c.price && (actualStudents > 0 || c.totalStudents)) {
+                    const numStudents = actualStudents > 0 ? actualStudents : (c.totalStudents || 0);
                     if (new Date(c.createdAt) <= new Date(m.getFullYear(), m.getMonth() + 1, 0)) {
-                         monthRev += (c.price * c.totalStudents); 
+                         monthRev += (c.price * numStudents); 
                     }
                 }
             });

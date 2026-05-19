@@ -376,7 +376,11 @@ export default function EDOTDashboard() {
   const recentActivities = Array.isArray(stats?.recentActivities) ? stats.recentActivities.slice(0, 5) : (Array.isArray(stats?.recentActivity) ? stats.recentActivity.slice(0, 5) : []);
   const notifications = clearedNotifications ? [] : (Array.isArray(stats?.notifications) ? stats.notifications.slice(0, 5) : []);
   const events = Array.isArray(stats?.events) ? stats.events.slice(0, 4) : [];
-  const studentEngagement = stats?.engagement?.studentEngagement || stats?.studentEngagement || {};
+  const studentEngagement = {
+    activeStudents: stats?.engagement?.dailyActiveUsers || stats?.studentEngagement?.activeStudents || 0,
+    lessonsCompleted: stats?.engagement?.lessonsCompleted || stats?.studentEngagement?.lessonsCompleted || 0,
+    studyHours: stats?.engagement?.studyHours || stats?.studentEngagement?.studyHours || 0
+  };
   const instructorPerformanceRaw = stats?.engagement?.instructorPerformance || stats?.instructorPerformance;
   const instructorPerformance = Array.isArray(instructorPerformanceRaw) ? instructorPerformanceRaw.slice(0, 3) : [];
 

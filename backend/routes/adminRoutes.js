@@ -1164,9 +1164,28 @@ router.get('/analytics', async (req, res) => {
                 ranking: index + 1
             }));
 
-        const instructorMetrics = await prisma.user.findMany({
+        const rawInstructorMetrics = await prisma.user.findMany({
             where: { role: 'instructor', status: 'approved' },
             select: { id: true, name: true, avatar: true, coursesTaught: { select: { id: true, title: true, totalStudents: true } } }
+        });
+
+        const instructorMetrics = rawInstructorMetrics.map(inst => {
+            const courses = inst.coursesTaught || [];
+            const courseIds = courses.map(c => c.id);
+            const courseProgress = progressRecords.filter(r => courseIds.includes(r.courseId));
+            const completions = courseProgress.filter((record) => record.completed || record.progress >= 100 || record.status === 'completed').length;
+            const completionRate = courseProgress.length ? Math.round((completions / courseProgress.length) * 100) : 0;
+            
+            return {
+                id: inst.id,
+                name: inst.name,
+                avatar: inst.avatar,
+                studentCount: courseProgress.length,
+                coursesTaught: courses.length,
+                completionRate,
+                performanceScore: completionRate,
+                attendanceRate: 100
+            };
         });
 
         const engagementSummary = {
