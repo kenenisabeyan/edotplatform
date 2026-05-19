@@ -8,6 +8,6 @@ router.get('/', protect, getMyActivities);
 router.post('/', protect, createActivity);
 router.get('/insights', protect, authorize('parent', 'admin'), getInsightsForParent);
 router.put('/:id/flag', protect, authorize('instructor', 'admin'), flagActivity);
-router.get('/all', protect, authorize('admin'), getAllActivities);
+router.get('/all', protect, getAllActivities);
 
 export default router;

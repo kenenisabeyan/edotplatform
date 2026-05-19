@@ -85,8 +85,25 @@ export default function EDOTDashboard() {
           recentActivities: activities
         };
       }
-      const { data } = await api.get(`/${userRole}/dashboard`);
-      return data.data;
+      const [dashRes, activitiesRes] = await Promise.all([
+        api.get(`/${userRole}/dashboard`),
+        api.get('/activity/all').catch(() => ({ data: { data: [] } }))
+      ]);
+      
+      const activities = activitiesRes.data?.data || [];
+      const formattedActivities = activities.map(act => ({
+          id: act.id,
+          type: act.type || 'system',
+          title: act.action || 'Activity',
+          studentName: act.user?.name || 'System',
+          itemTitle: act.details || '',
+          date: act.createdAt
+      }));
+
+      return {
+        ...dashRes.data.data,
+        recentActivities: formattedActivities
+      };
     },
     enabled: !!user,
     refetchInterval: 30000

@@ -61,21 +61,23 @@ export const getParentDashboardStats = async (req, res) => {
 
     const averageProgress = progressCount > 0 ? Math.round(totalProgress / progressCount) : 0;
 
-    const performanceTimeline = [
-      { name: 'Week 1', progress: 10, target: 15 },
-      { name: 'Week 2', progress: 25, target: 30 },
-      { name: 'Week 3', progress: 35, target: 45 },
-      { name: 'Week 4', progress: 50, target: 60 },
-      { name: 'Week 5', progress: 75, target: 75 },
-      { name: 'Week 6', progress: 85, target: 90 },
-      { name: 'Week 7', progress: 95, target: 100 },
-    ];
+    const performanceTimeline = [];
 
-    const recentActivity = [
-      { id: 1, type: 'course_completed', title: 'React Fundamentals', studentName: children[0]?.name || 'Student', date: new Date(Date.now() - 86400000).toISOString() },
-      { id: 2, type: 'quiz_passed', title: 'JavaScript Basics Quiz', score: 95, studentName: children[0]?.name || 'Student', date: new Date(Date.now() - 172800000).toISOString() },
-      { id: 3, type: 'lesson_watched', title: 'Introduction to Hooks', studentName: children[0]?.name || 'Student', date: new Date(Date.now() - 259200000).toISOString() },
-    ];
+    const childrenIds = children.map(c => c.id);
+    const rawActivities = await prisma.activity.findMany({
+      where: { userId: { in: childrenIds } },
+      include: { user: { select: { name: true } } },
+      orderBy: { createdAt: 'desc' },
+      take: 5
+    });
+    
+    const recentActivity = rawActivities.map(act => ({
+      id: act.id,
+      type: act.type || 'system',
+      title: act.action,
+      studentName: act.user?.name || 'Student',
+      date: act.createdAt
+    }));
 
     const primaryLearner = children.length > 0 ? {
       id: children[0].id,
@@ -150,41 +152,11 @@ export const getParentLearners = async (req, res) => {
     }
     
     const mappedChildren = parent.children.map(child => {
-      const generatedActivities = child.activities && child.activities.length > 0 ? child.activities : [
-        {
-           id: 'mock1',
-           type: 'intervention',
-           insightFlag: 'Warning',
-           action: 'Psychological Fatigue Indicator',
-           details: 'System detected a 30% drop in interaction speed and irregular login hours during the late night.',
-           createdAt: new Date(Date.now() - 86400000).toISOString(),
-           metadata: { severity: 'High', recommendation: 'Schedule a 1-on-1 check-in or reduce homework load.' }
-        },
-        {
-           id: 'mock2',
-           type: 'alert',
-           insightFlag: 'Critical',
-           action: 'Attendance Drop',
-           details: 'Missed 2 consecutive live sessions in Math 101.',
-           createdAt: new Date(Date.now() - 172800000).toISOString(),
-           metadata: { severity: 'Critical', recommendation: 'Message the instructor immediately.' }
-        },
-        {
-           id: 'mock3',
-           type: 'insight',
-           insightFlag: 'Positive',
-           action: 'Resilience Detected',
-           details: 'Recovered from a low quiz score with a 95% on the makeup exam.',
-           createdAt: new Date(Date.now() - 400000000).toISOString(),
-           metadata: { severity: 'Low', recommendation: 'Provide positive reinforcement!' }
-        }
-      ];
-
       return {
         ...child,
         _id: child.id,
         enrolledCourses: child.userCourseProgress || [],
-        activities: generatedActivities
+        activities: child.activities || []
       };
     });
 
