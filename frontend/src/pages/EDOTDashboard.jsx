@@ -879,12 +879,16 @@ export default function EDOTDashboard() {
               <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{instructorPerformance.length} instructors</span>
             </div>
             <div className="space-y-4">
-              {instructorPerformance.length ? instructorPerformance.map((inst) => (
+              {instructorPerformance.length ? instructorPerformance.map((inst) => {
+                const coursesCount = Array.isArray(inst.coursesTaught) ? inst.coursesTaught.length : (inst.coursesTaught ?? 0);
+                const studentCount = inst.studentCount ?? (Array.isArray(inst.coursesTaught) ? inst.coursesTaught.reduce((sum, c) => sum + (c.totalStudents || 0), 0) : 0);
+                
+                return (
                 <div key={inst.id} className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
                   <div className="flex items-center justify-between gap-3">
                     <div>
                       <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{inst.name}</p>
-                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{inst.coursesTaught ?? 0} courses · {inst.studentCount ?? 0} students</p>
+                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{coursesCount} courses · {studentCount} students</p>
                     </div>
                     <span className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{inst.performanceScore ?? 0}%</span>
                   </div>
@@ -897,7 +901,8 @@ export default function EDOTDashboard() {
                     </div>
                   </div>
                 </div>
-              )) : (
+                );
+              }) : (
                 <div className={`rounded-2xl p-6 text-center ${isDarkMode ? 'bg-white/5 text-slate-300' : 'bg-slate-50 text-slate-600'}`}>
                   No instructor data yet.
                 </div>
