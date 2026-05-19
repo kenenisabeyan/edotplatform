@@ -365,10 +365,10 @@ export default function EDOTDashboard() {
 
   let gauge1 = 0, gauge2 = 0, gauge3 = 0, gauge4 = 0;
   if (userRole === 'admin') {
-     gauge1 = Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.activeStudents ?? stats?.dailyActiveUsers ?? 0) / (stats?.dashboardStats?.totalStudents ?? stats?.totalStudents ?? 1)) * 100));
-     gauge2 = Math.round(stats?.engagement?.courseCompletionRate ?? stats?.courseCompletionRate ?? 0);
-     gauge3 = Math.min(100, Math.round(((stats?.engagement?.studentEngagement?.lessonsCompleted ?? stats?.studentEngagement?.lessonsCompleted ?? 0) / 20) * 100));
-     gauge4 = Math.min(100, (stats?.engagement?.communityActivity ?? stats?.recentActivities?.length ?? stats?.recentActivity?.length ?? 0) * 5);
+     gauge1 = Math.min(100, Math.round(((stats?.engagement?.dailyActiveUsers ?? 0) / Math.max(stats?.totalStudents ?? 1, 1)) * 100));
+     gauge2 = stats?.topCourses?.length ? Math.round(stats.topCourses.reduce((sum, c) => sum + (c.completionRate || 0), 0) / stats.topCourses.length) : 0;
+     gauge3 = Math.min(100, stats?.engagement?.lessonsCompleted ?? 0);
+     gauge4 = Math.min(100, (stats?.recentActivities?.length ?? 0) * 5);
   } else if (userRole === 'instructor') {
      gauge1 = stats?.totalStudents ? 100 : 0;
      gauge2 = stats?.totalCourses ? Math.round((stats.activeCourses/stats.totalCourses)*100) : 0;
