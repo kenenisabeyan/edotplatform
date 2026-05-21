@@ -73,7 +73,7 @@ function NavItem({ item, metrics, role, sidebarCollapsed, onLinkClick, isDarkMod
       end={item.exact}
       onClick={() => onLinkClick(false)}
       className={({ isActive }) =>
-        `group relative flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300 text-[13px] ${
+        `group relative flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-300 text-[13px] ${
           isActive
             ? isDarkMode 
               ? 'bg-[#22C55E]/10 text-[#22C55E] font-bold border-l-4 border-[#22C55E]' 
@@ -317,8 +317,8 @@ export default function EDOTLayout() {
       {/* Sidebar */}
       <aside 
         className={`dashboard-sidebar tilet-border-sidebar fixed md:sticky top-0 left-0 h-screen md:h-full z-60 transition-colors duration-300
-        ${mobileMenuOpen ? 'translate-x-0 w-64 bg-[#0B1120]/95 text-white' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#F8FAFC]'}`}
-        ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-64 md:w-56'}
+        ${mobileMenuOpen ? 'translate-x-0 w-56 bg-[#0B1120]/95 text-white' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#F8FAFC]'}`}
+        ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-56 md:w-48'}
       `}
         style={{ borderRight: '2px solid #475569', boxShadow: '12px 0px 30px rgba(71, 85, 105, 0.4)' }}
       >
@@ -328,7 +328,7 @@ export default function EDOTLayout() {
           </button>
         )}
         <div 
-          className={`p-6 pt-8 pb-4 flex flex-col items-center justify-center gap-2 relative ${mobileMenuOpen ? 'items-center' : ''}`}
+          className={`p-4 pt-6 pb-3 flex flex-col items-center justify-center gap-2 relative ${mobileMenuOpen ? 'items-center' : ''}`}
           style={{ borderBottom: '2px solid #475569', boxShadow: '0px 12px 30px rgba(71, 85, 105, 0.3)' }}
         >
            <NavLink to="/">
@@ -350,18 +350,18 @@ export default function EDOTLayout() {
           {!mobileMenuOpen && (
             <button 
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className={`absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-lg border transition-colors ${isDarkMode ? 'border-slate-800 hover:bg-slate-800 text-slate-400' : 'border-slate-200 hover:bg-slate-50 text-slate-400'}`}
+              className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg border transition-colors ${isDarkMode ? 'border-slate-800 hover:bg-slate-800 text-slate-400' : 'border-slate-200 hover:bg-slate-50 text-slate-400'}`}
             >
               {sidebarCollapsed ? <PanelLeftOpen className="w-3.5 h-3.5" /> : <PanelLeftClose className="w-3.5 h-3.5" />}
             </button>
           )}
         </div>
 
-        <div className="overflow-y-auto overflow-x-hidden p-4 space-y-8 flex-1 scrollbar-hide mt-4">
+        <div className="overflow-y-auto overflow-x-hidden p-3 space-y-6 flex-1 scrollbar-hide mt-3">
            
            {/* Section: MAIN */}
            <div>
-             {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>MAIN</p>}
+             {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>MAIN</p>}
              <nav className="space-y-2">
                {navItemsMenu1.map(item => (
                  <NavItem key={item.name} item={item} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} isDarkMode={isDarkMode} />
@@ -372,7 +372,7 @@ export default function EDOTLayout() {
                <div>
                  <button 
                    onClick={() => setFinanceOpen(!financeOpen)}
-                   className={`w-full flex items-center justify-between px-4 py-3 xl:py-3.5 rounded-xl transition-all duration-300 text-sm font-medium hover:bg-white/5/5 hover:text-white ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
+                   className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-300 text-sm font-medium hover:bg-white/5/5 hover:text-white ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
                  >
                    <div className="flex items-center gap-3">
                      <Wallet className="w-5 h-5 shrink-0 transition-transform hover:scale-110 duration-300" />
@@ -381,7 +381,7 @@ export default function EDOTLayout() {
                    {!sidebarCollapsed && <ChevronDown className={`w-4 h-4 transition-transform ${financeOpen ? 'rotate-180' : ''}`} />}
                  </button>
                  {financeOpen && !sidebarCollapsed && (
-                   <div className="pl-12 pr-4 py-2 space-y-1 animate-in slide-in-from-top-2 duration-200">
+                   <div className="pl-10 pr-3 py-2 space-y-1 animate-in slide-in-from-top-2 duration-200">
                      <NavLink to="/dashboard/finance/fees" className={({isActive}) => `block py-2.5 text-sm transition-colors ${isActive ? 'text-[#00D4FF] font-semibold' : 'text-slate-200 hover:text-white font-medium'}`}>
                        Fees Collection
                      </NavLink>
@@ -397,7 +397,7 @@ export default function EDOTLayout() {
 
            {/* Section: MANAGEMENT */}
            <div>
-             {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>MANAGEMENT</p>}
+             {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>MANAGEMENT</p>}
              <nav className="space-y-2">
                {navItemsMenu2.map(item => (
                  <NavItem key={item.name} item={item} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} isDarkMode={isDarkMode} />
@@ -407,7 +407,7 @@ export default function EDOTLayout() {
 
            {/* Section: COMMUNICATION */}
            <div>
-             {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>SETTINGS</p>}
+             {!sidebarCollapsed && <p className={`text-[11px] font-bold mb-3 px-3 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>SETTINGS</p>}
              <nav className="space-y-2">
                <NavItem item={{ name: 'Profile', icon: User, path: '/dashboard/profile' }} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} isDarkMode={isDarkMode} />
                <NavItem item={{ name: 'Setting', icon: Settings, path: '/dashboard/settings' }} metrics={metrics} role={role} sidebarCollapsed={sidebarCollapsed} onLinkClick={setMobileMenuOpen} isDarkMode={isDarkMode} />
@@ -417,12 +417,12 @@ export default function EDOTLayout() {
 
         {/* Bottom area (Logout) */}
         <div 
-          className="p-4 mt-auto"
+          className="p-3 mt-auto"
           style={{ borderTop: '2px solid #475569' }}
         >
           <button 
             onClick={handleLogout}
-            className={`w-full flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-full hover:bg-rose-500/100/10 hover:text-rose-400 transition-colors font-medium ${sidebarCollapsed ? 'md:px-0' : ''} ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
+            className={`w-full flex items-center justify-center md:justify-start gap-3 px-3 py-2.5 rounded-full hover:bg-rose-500/100/10 hover:text-rose-400 transition-colors font-medium ${sidebarCollapsed ? 'md:px-0' : ''} ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}
           >
             <LogOut className="w-5 h-5 shrink-0" />
             {!sidebarCollapsed && <span className="animate-in fade-in">Log out</span>}
