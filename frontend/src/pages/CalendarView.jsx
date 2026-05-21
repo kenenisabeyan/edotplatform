@@ -30,12 +30,12 @@ export default function CalendarView() {
          allEvents = [...calendarData.data];
       }
       
-      if (liveData?.data) {
-         const liveEvents = liveData.data.map(lc => ({
+      if (liveData?.liveClasses) {
+         const liveEvents = liveData.liveClasses.map(lc => ({
             id: lc.id,
             title: `🔴 ${lc.title || 'Live Session'}`,
-            date: new Date(lc.startTime).toISOString().split('T')[0],
-            time: new Date(lc.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            date: new Date(lc.scheduledAt).toISOString().split('T')[0],
+            time: new Date(lc.scheduledAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             color: 'bg-[#00D4FF]/10 text-orange-400 border-[#00D4FF]/30'
          }));
          allEvents = [...allEvents, ...liveEvents];
@@ -74,7 +74,7 @@ export default function CalendarView() {
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   return (
-    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full">
       {/* Header Matrix */}
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>

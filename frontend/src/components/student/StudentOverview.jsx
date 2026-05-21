@@ -142,7 +142,7 @@ const StudentOverview = ({
   const progressStrokeDashoffset = circumference - (progressPercentage / 100) * circumference;
 
   return (
-<motion.div variants={containerVariants} initial="hidden" animate="visible" className="relative space-y-6 w-full max-w-[1400px] mx-auto pb-10" ref={dropdownRef}>
+<motion.div variants={containerVariants} initial="hidden" animate="visible" className="relative space-y-6 w-full max-w-none pb-10" ref={dropdownRef}>
       
       {/* Hero Banner */}
       {/* Hero Banner */}

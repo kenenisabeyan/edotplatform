@@ -188,7 +188,7 @@ export default function SectionManagement() {
   }
 
   return (
-    <div className={`p-6 md:p-10 max-w-7xl mx-auto ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+    <div className={`p-6 md:p-10 max-w-none w-full ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>

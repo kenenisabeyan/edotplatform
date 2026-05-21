@@ -382,7 +382,7 @@ export default function AttendanceManagement() {
 
   if (user?.role === 'student') {
     return (
-      <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
+      <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full font-sans">
         <div className={`mb-8 border-b pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
            <div>
                <h1 className={`text-4xl font-black flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
@@ -465,7 +465,7 @@ export default function AttendanceManagement() {
   }
 
   return (
-    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full">
       
       {/* Analytics Dashboard */}
       {user && (user.role === 'admin' || user.role === 'instructor') && (

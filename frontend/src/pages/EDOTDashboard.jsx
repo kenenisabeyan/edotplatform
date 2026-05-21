@@ -510,7 +510,7 @@ export default function EDOTDashboard() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.5 }}
-      className="space-y-6 max-w-[1600px] mx-auto pb-10"
+      className="space-y-6 max-w-none w-full pb-10"
       onClick={() => {
         if (showRechartsMenu) setShowRechartsMenu(false);
         if (showNotificationsMenu) setShowNotificationsMenu(false);

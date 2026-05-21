@@ -44,58 +44,71 @@ export const getLiveClasses = async (req, res) => {
 
 export const createLiveClass = async (req, res) => {
   try {
-    const { courseId, title, description, scheduledAt, durationMinutes } = req.body;
+    const { courseId, title, description, scheduledAt, durationMinutes, platform, meetLink } = req.body;
     const instructorId = req.user.id;
 
     if (req.user.role !== 'instructor' && req.user.role !== 'admin') {
       return res.status(403).json({ success: false, message: 'Only instructors can schedule classes' });
     }
 
-    let meetLink = null;
+    let finalMeetLink = null;
     let googleEventId = null;
+    const chosenPlatform = platform || 'studio';
 
-    // Try creating google meet link
-    try {
-      if (process.env.GOOGLE_REFRESH_TOKEN) {
-        const event = {
-          summary: title,
-          description: description,
-          start: {
-            dateTime: new Date(scheduledAt).toISOString(),
-            timeZone: 'Africa/Addis_Ababa',
-          },
-          end: {
-            dateTime: new Date(new Date(scheduledAt).getTime() + durationMinutes * 60000).toISOString(),
-            timeZone: 'Africa/Addis_Ababa',
-          },
-          conferenceData: {
-            createRequest: {
-              requestId: `edot-meet-${Date.now()}`,
-              conferenceSolutionKey: { type: 'hangoutsMeet' }
+    if (chosenPlatform === 'google_meet') {
+      if (meetLink && meetLink.trim()) {
+        finalMeetLink = meetLink.trim();
+      } else {
+        // Try creating google meet link via Google Calendar API if refresh token is available
+        try {
+          if (process.env.GOOGLE_REFRESH_TOKEN) {
+            const event = {
+              summary: title,
+              description: description,
+              start: {
+                dateTime: new Date(scheduledAt).toISOString(),
+                timeZone: 'Africa/Addis_Ababa',
+              },
+              end: {
+                dateTime: new Date(new Date(scheduledAt).getTime() + durationMinutes * 60000).toISOString(),
+                timeZone: 'Africa/Addis_Ababa',
+              },
+              conferenceData: {
+                createRequest: {
+                  requestId: `edot-meet-${Date.now()}`,
+                  conferenceSolutionKey: { type: 'hangoutsMeet' }
+                }
+              }
+            };
+
+            const response = await calendar.events.insert({
+              calendarId: 'primary',
+              resource: event,
+              conferenceDataVersion: 1,
+            });
+
+            if (response.data.conferenceData) {
+              finalMeetLink = response.data.conferenceData.entryPoints[0].uri;
+              googleEventId = response.data.id;
             }
           }
-        };
+        } catch (googleError) {
+          console.error('Failed to create Google Meet link:', googleError);
+        }
 
-        const response = await calendar.events.insert({
-          calendarId: 'primary',
-          resource: event,
-          conferenceDataVersion: 1,
-        });
-
-        if (response.data.conferenceData) {
-          meetLink = response.data.conferenceData.entryPoints[0].uri;
-          googleEventId = response.data.id;
+        if (!finalMeetLink) {
+          finalMeetLink = `https://meet.google.com/edot-${Math.random().toString(36).substring(7)}`;
         }
       }
-    } catch (googleError) {
-      console.error('Failed to create Google Meet link:', googleError);
-      // We will continue and create the DB record without it or with a fallback
-      meetLink = `https://meet.google.com/fallback-${Date.now()}`;
-    }
-
-    // Fallback if no credentials
-    if (!meetLink) {
-      meetLink = `https://meet.google.com/edot-${Math.random().toString(36).substring(7)}`;
+    } else if (chosenPlatform === 'zoom') {
+      if (meetLink && meetLink.trim()) {
+        finalMeetLink = meetLink.trim();
+      } else {
+        finalMeetLink = `https://zoom.us/j/${Math.floor(100000000 + Math.random() * 900000000)}`;
+      }
+    } else {
+      // EDOT Live Studio (LiveKit)
+      finalMeetLink = null;
     }
 
     const liveClass = await prisma.liveClass.create({
@@ -106,8 +119,9 @@ export const createLiveClass = async (req, res) => {
         description,
         scheduledAt: new Date(scheduledAt),
         durationMinutes,
-        meetLink,
-        googleEventId
+        meetLink: finalMeetLink,
+        googleEventId,
+        platform: chosenPlatform
       },
       include: {
         instructor: {
@@ -164,6 +178,13 @@ export const joinLiveClass = async (req, res) => {
     }
 
     if (req.io) req.io.emit('attendance_update', { classId: id, studentId });
+
+    if (liveClass.platform === 'google_meet' || liveClass.platform === 'zoom') {
+      return res.json({ 
+        success: true, 
+        meetLink: liveClass.meetLink 
+      });
+    }
 
     // Generate LiveKit Token
     const roomName = `edot-class-${id}`;

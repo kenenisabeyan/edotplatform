@@ -349,8 +349,21 @@ export default function CourseDetails() {
                             <Clock className="w-5 h-5" /> Pending Approval
                           </div>
                         ) : enrollmentStatus === 'rejected' ? (
-                          <div className="w-full relative z-10 flex items-center justify-center gap-3 bg-rose-500/100/10 text-rose-500 border border-rose-500/30 font-black   py-5 rounded-2xl cursor-not-allowed shadow-[inset_0_0_20px_rgba(244,63,94,0.2)] text-sm">
-                            Access Denied
+                          <div className="space-y-4">
+                            <div className="w-full relative z-10 flex items-center justify-center gap-3 bg-rose-500/10 text-rose-500 border border-rose-500/30 font-black py-5 rounded-2xl cursor-not-allowed shadow-[inset_0_0_20px_rgba(244,63,94,0.1)] text-sm">
+                              Access Denied
+                            </div>
+                            {enrollmentStatusData?.rejectionReason && (
+                              <div className={`p-5 rounded-2xl border flex flex-col gap-2 relative overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300 ${isDarkMode ? 'border-rose-500/20 bg-rose-500/5' : 'border-rose-200 bg-rose-50/50'}`}>
+                                <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/5 rounded-full blur-[30px] pointer-events-none"></div>
+                                <div className="flex items-center gap-2 text-xs font-black text-rose-500">
+                                  <BadgeAlert className="w-4 h-4" /> Rejection Reason:
+                                </div>
+                                <p className={`text-xs font-medium leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                                  {enrollmentStatusData.rejectionReason}
+                                </p>
+                              </div>
+                            )}
                           </div>
                         ) : (
                           <button 

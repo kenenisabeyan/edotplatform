@@ -106,7 +106,7 @@ export default function InstructorDashboard() {
         const engagementData = React.useMemo(() => analytics?.engagementData || [], [analytics]);
 
         return (
-          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none mx-auto w-full">
             <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <div>
                 <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
@@ -426,7 +426,7 @@ export default function InstructorDashboard() {
 
       {/* Main Content Area */}
       <main className="flex-1 p-6 md:p-8 lg:p-10 overflow-y-auto">
-        <div className="max-w-[1400px] mx-auto relative">
+        <div className="max-w-none w-full relative">
           
           {/* Top Header mapped from image requirements */}
           <header className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 w-full">

@@ -273,11 +273,21 @@ export default function AdminDashboard() {
 
   const handleEnrollmentApproval = async (enrollmentId, status) => {
     try {
-      await api.put(`/admin/enrollments/${enrollmentId}/status`, { status });
+      if (status === 'active' || status === 'approved') {
+        if (!window.confirm('Are you sure you want to approve this enrollment?')) return;
+        await api.post(`/admin/enrollments/${enrollmentId}/approve`);
+      } else {
+        const rejectionReason = window.prompt('Please enter a rejection reason:', 'Rejected by admin');
+        if (rejectionReason === null) return; // User cancelled prompt
+        await api.post(`/admin/enrollments/${enrollmentId}/reject`, {
+          rejectionReason: rejectionReason.trim() || 'Rejected by admin'
+        });
+      }
       fetchPendingEnrollments();
       fetchUsers();
     } catch (err) {
       console.error('Failed to update enrollment', err);
+      alert('Failed to update enrollment status');
     }
   };
 
@@ -845,7 +855,7 @@ export default function AdminDashboard() {
 
       {/* Main Content Area */}
       <main className="flex-1 p-6 md:p-8 lg:p-10 overflow-y-auto">
-        <div className="max-w-[1400px] mx-auto relative">
+        <div className="max-w-none w-full relative">
           
           {/* Top Header mapped from image requirements */}
           <header className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 w-full">

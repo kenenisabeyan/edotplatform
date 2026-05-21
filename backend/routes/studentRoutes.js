@@ -64,7 +64,8 @@ router.get('/courses/:courseId/status', async (req, res) => {
         res.status(200).json({ 
             success: true, 
             status: currentStatus,
-            progress: progress || null
+            progress: progress || null,
+            rejectionReason: enrollment ? (enrollment.rejectionReason || enrollment.reason) : ''
         });
     } catch (error) {
         console.error('Fetch enrollment status error:', error);

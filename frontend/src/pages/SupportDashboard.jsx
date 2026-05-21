@@ -88,7 +88,7 @@ export default function SupportDashboard() {
   const { stats = null, supportedStudents = [], recentImpact = [], currentCycle = null } = data || {};
 
   return (
-    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full">
       
       {/* Header Section */}
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>

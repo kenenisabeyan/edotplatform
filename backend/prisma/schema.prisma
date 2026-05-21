@@ -705,6 +705,7 @@ model LiveClass {
   durationMinutes  Int      @default(60)
   meetLink         String?
   googleEventId    String?
+  platform         String   @default("studio")
   status           String   @default("scheduled") // scheduled, live, completed, cancelled
   
   attendances      LiveClassAttendance[]

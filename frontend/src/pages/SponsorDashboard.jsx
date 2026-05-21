@@ -94,7 +94,7 @@ export default function SponsorDashboard() {
     } ${isDarkMode ? 'dark:bg-slate-800/50 dark:hover:bg-slate-800 dark:text-slate-300 dark:hover:text-white' : ''}`;
 
   return (
-    <div className="max-w-[1000px] mx-auto space-y-6 animate-in fade-in zoom-in duration-500 p-6">
+    <div className="max-w-none w-full space-y-6 animate-in fade-in zoom-in duration-500 p-6">
       
       {/* Top Bar: Title & Actions */}
               <div className="flex items-center justify-between">

@@ -26,7 +26,7 @@ export default function LiveClassesView() {
   const [livekitSession, setLivekitSession] = useState(null);
   
   const [formData, setFormData] = useState({
-    courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60
+    courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60, platform: 'studio', meetLink: ''
   });
 
   const [uploadForm, setUploadForm] = useState({
@@ -277,6 +277,26 @@ export default function LiveClassesView() {
                       animate={{ opacity: 1, y: 0 }}
                       className={`relative overflow-hidden rounded-[32px] border ${isDarkMode ? 'bg-[#0B1221] border-white/5 hover:border-[#00D4FF]/30' : 'bg-white border-slate-200 hover:border-orange-300'} transition-all p-6 group`}
                     >
+                      {/* Platform Badge */}
+                      <div className={`absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-wider ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                        {c.platform === 'google_meet' ? (
+                          <>
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+                            <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>Google Meet</span>
+                          </>
+                        ) : c.platform === 'zoom' ? (
+                          <>
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></span>
+                            <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>Zoom</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#00D4FF] shadow-[0_0_8px_rgba(0,212,255,0.8)]"></span>
+                            <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>Live Studio</span>
+                          </>
+                        )}
+                      </div>
+
                       {isLive && (
                         <div className="absolute top-4 right-4 flex items-center gap-2 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
                           <span className="relative flex h-2 w-2">
@@ -292,7 +312,7 @@ export default function LiveClassesView() {
                         </div>
                       )}
                       
-                      <div className="mt-2 mb-4 pr-16">
+                      <div className="mt-8 mb-4 pr-16">
                         <span className={`text-[10px] font-black tracking-widest uppercase flex items-center gap-1.5 ${isDarkMode ? 'text-orange-400' : 'text-orange-600'}`}>
                           <CalendarIcon className="w-3 h-3" /> {c.course?.title || 'General Session'}
                         </span>
@@ -319,14 +339,34 @@ export default function LiveClassesView() {
                           onClick={() => handleJoinClass(c.id, c.meetLink)}
                           className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-[32px] font-bold transition-all text-sm ${
                             isLive 
-                              ? 'bg-[#00D4FF] hover:bg-orange-600 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)]' 
+                              ? c.platform === 'google_meet'
+                                ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-[0_0_20px_rgba(16,185,129,0.3)]'
+                                : c.platform === 'zoom'
+                                  ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-[0_0_20px_rgba(37,99,235,0.3)]'
+                                  : 'bg-[#00D4FF] hover:bg-orange-600 text-white shadow-[0_0_20px_rgba(249,115,22,0.3)]' 
                               : isDarkMode 
                                 ? 'bg-white/10 hover:bg-white/20 text-white border border-white/5' 
                                 : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-200'
                           }`}
                         >
-                          <Video className="w-5 h-5" />
-                          {isLive ? 'Join Live Studio' : `Starts ${formatDistanceToNow(date, { addSuffix: true })}`}
+                          {c.platform === 'google_meet' ? (
+                            <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M16 16V12L20 16V8L16 12V8C16 6.9 15.1 6 14 6H4C2.9 6 2 6.9 2 8V16C2 17.1 2.9 18 4 18H14C15.1 18 16 17.1 16 16Z" fill="currentColor"/>
+                            </svg>
+                          ) : c.platform === 'zoom' ? (
+                            <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13.5L14 11.25V13C14 13.55 13.55 14 13 14H7C6.45 14 6 13.55 6 13V8C6 7.45 6.45 7 7 7H13C13.55 7 14 7.45 14 8V9.75L17 7.5V13.5Z" fill="currentColor"/>
+                            </svg>
+                          ) : (
+                            <Video className="w-5 h-5 shrink-0" />
+                          )}
+                          {isLive 
+                            ? c.platform === 'google_meet' 
+                              ? 'Join Google Meet' 
+                              : c.platform === 'zoom' 
+                                ? 'Join Zoom Meeting' 
+                                : 'Join Live Studio' 
+                            : `Starts ${formatDistanceToNow(date, { addSuffix: true })}`}
                         </button>
                       ) : (
                         <button
@@ -417,7 +457,7 @@ export default function LiveClassesView() {
         )}
 
         {/* Schedule Modal */}
-        <PremiumModal isOpen={showModal} onClose={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60 }); }} maxWidth="max-w-lg">
+        <PremiumModal isOpen={showModal} onClose={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60, platform: 'studio', meetLink: '' }); }} maxWidth="max-w-lg">
                  <div className="flex flex-col w-full h-full p-6 md:p-8">
                  {/* Brand Background Decorative Elements */}
                  <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
@@ -426,7 +466,7 @@ export default function LiveClassesView() {
                  
                 <div className={`px-8 py-6 flex items-center justify-between border-b relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-100'}`}>
                   <h3 className={`text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{createdClass ? 'Stream Scheduled!' : 'Schedule Live Stream'}</h3>
-                  <button onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60 }); }} className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}`}>
+                  <button onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60, platform: 'studio', meetLink: '' }); }} className={`p-2 rounded-full transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-slate-300' : 'bg-slate-100 hover:bg-slate-200 text-slate-600'}`}>
                     <X className="w-5 h-5" />
                   </button>
                 </div>
@@ -478,7 +518,7 @@ export default function LiveClassesView() {
                         </button>
                       </div>
                       <button 
-                        onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60 }); }}
+                        onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60, platform: 'studio', meetLink: '' }); }}
                         className={`w-full px-5 py-3 rounded-full font-bold text-sm transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-900'}`}
                       >
                         Done
@@ -497,7 +537,7 @@ export default function LiveClassesView() {
                       </select>
                     </div>
 
-                    <div>
+<div>
                       <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Session Title</label>
                       <input required type="text" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} placeholder="e.g., Week 3 Live Debugging" className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}/>
                     </div>
@@ -506,6 +546,77 @@ export default function LiveClassesView() {
                       <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Syllabus / Description</label>
                       <textarea rows="3" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} placeholder="What will be covered?" className={`w-full !px-6 py-3.5 !rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}/>
                     </div>
+
+                    <div>
+                      <label className="block text-xs font-black mb-3 uppercase tracking-widest opacity-60">Streaming Platform</label>
+                      <div className="grid grid-cols-3 gap-3 p-1.5 rounded-[32px] border dark:border-white/10 dark:bg-[#151B2B] bg-slate-100 border-slate-200">
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, platform: 'studio', meetLink: '' })}
+                          className={`flex flex-col items-center justify-center py-3 px-2 rounded-[28px] text-xs font-bold transition-all gap-1.5 ${
+                            formData.platform === 'studio'
+                              ? 'bg-[#00D4FF] text-white shadow-md shadow-[#00D4FF]/30 scale-105'
+                              : 'text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/5'
+                          }`}
+                        >
+                          <Video className="w-5 h-5" />
+                          <span>EDOT Studio</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, platform: 'google_meet' })}
+                          className={`flex flex-col items-center justify-center py-3 px-2 rounded-[28px] text-xs font-bold transition-all gap-1.5 ${
+                            formData.platform === 'google_meet'
+                              ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/30 scale-105'
+                              : 'text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/5'
+                          }`}
+                        >
+                          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 16V12L20 16V8L16 12V8C16 6.9 15.1 6 14 6H4C2.9 6 2 6.9 2 8V16C2 17.1 2.9 18 4 18H14C15.1 18 16 17.1 16 16Z" fill="currentColor"/>
+                          </svg>
+                          <span>Google Meet</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, platform: 'zoom' })}
+                          className={`flex flex-col items-center justify-center py-3 px-2 rounded-[28px] text-xs font-bold transition-all gap-1.5 ${
+                            formData.platform === 'zoom'
+                              ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 scale-105'
+                              : 'text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/5'
+                          }`}
+                        >
+                          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13.5L14 11.25V13C14 13.55 13.55 14 13 14H7C6.45 14 6 13.55 6 13V8C6 7.45 6.45 7 7 7H13C13.55 7 14 7.45 14 8V9.75L17 7.5V13.5Z" fill="currentColor"/>
+                          </svg>
+                          <span>Zoom</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <AnimatePresence>
+                      {formData.platform !== 'studio' && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="overflow-hidden space-y-2"
+                        >
+                          <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">
+                            {formData.platform === 'google_meet' ? 'Google Meet Link (Optional)' : 'Zoom Meeting Link (Optional)'}
+                          </label>
+                          <input
+                            type="url"
+                            value={formData.meetLink}
+                            onChange={(e) => setFormData({ ...formData, meetLink: e.target.value })}
+                            placeholder={formData.platform === 'google_meet' ? "e.g., https://meet.google.com/abc-defg-hij" : "e.g., https://zoom.us/j/123456789"}
+                            className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}
+                          />
+                          <p className="text-[10px] opacity-50 px-2 leading-normal">
+                            Leave blank to let the platform automatically generate a meeting URL for you.
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
@@ -519,7 +630,7 @@ export default function LiveClassesView() {
                     </div>
 
                     <div className="pt-6 flex items-center justify-end gap-3">
-                      <button type="button" onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60 }); }} className={`px-6 py-3.5 rounded-[32px] font-bold text-sm transition-colors ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-100'}`}>Cancel</button>
+                      <button type="button" onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60, platform: 'studio', meetLink: '' }); }} className={`px-6 py-3.5 rounded-[32px] font-bold text-sm transition-colors ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-100'}`}>Cancel</button>
                       <button type="submit" className="bg-[#00D4FF] hover:bg-orange-600 text-white px-8 py-3.5 rounded-[32px] font-bold text-sm transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">Deploy Engine</button>
                     </div>
                   </form>

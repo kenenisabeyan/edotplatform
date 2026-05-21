@@ -26,7 +26,7 @@ export default function AchievementsView() {
   const achievements = Array.isArray(achievementsData) ? achievementsData : [];
 
   return (
-    <div className={`animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+    <div className={`animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
       <div className={`border-b pb-6 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <h1 className="text-3xl md:text-4xl font-display font-black flex items-center gap-3">
           <Award className="w-8 h-8 text-[#00D4FF]" />

@@ -20,7 +20,7 @@ const StatBox = ({ title, value, subtitle, type, icon: Icon }) => {
            </div>
         )}
       </div>
-      <h2 className={`text-2xl md:text-3xl lg:text-4xl font-black truncate w-full relative z-10 ${type === 'primary' ? 'text-white' : (isDarkMode ? 'text-rose-500' : 'text-rose-600')}`} title={value}>{value}</h2>
+      <h2 className={`text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl font-black tracking-tight w-full relative z-10 ${type === 'primary' ? 'text-white' : (isDarkMode ? 'text-rose-500' : 'text-rose-600')}`} title={value}>{value}</h2>
       <p className={`text-[9px] md:text-[10px] mt-1 md:mt-2 font-bold truncate relative z-10 ${type === 'primary' ? 'text-white/70' : (isDarkMode ? 'text-slate-300' : 'text-slate-500')}`}>{subtitle}</p>
       
       {/* Background Graphic */}

@@ -95,7 +95,13 @@ export default function CertificatesView() {
       console.error('Failed to claim certificate', err);
       const serverMessage = err.response?.data?.message;
       const blockedReasons = err.response?.data?.blocked_by;
-      if (Array.isArray(blockedReasons) && blockedReasons.length > 0) {
+      const approvalRequired = err.response?.data?.approvalRequired;
+
+      if (approvalRequired) {
+        const approvalErrorText = "Certificate Generation Denied: Your enrollment must be approved by an admin first.";
+        setError(approvalErrorText);
+        alert(approvalErrorText);
+      } else if (Array.isArray(blockedReasons) && blockedReasons.length > 0) {
         const reasonText = blockedReasons.map(item => `${item.lesson}: ${item.reason}`).join('\n');
         setError(`Certificate blocked: ${reasonText}`);
         alert(`Certificate blocked:\n${reasonText}`);
@@ -373,7 +379,11 @@ export default function CertificatesView() {
     // QR Code visual (Real)
     try {
       const verifyUrl = `${window.location.origin}/verify-certificate/${certId}`;
-      const qrDataUrl = await QRCode.toDataURL(verifyUrl, { margin: 0, color: { dark: '#0B1120', light: '#FFFFFF' } });
+      const qrDataUrl = await QRCode.toDataURL(verifyUrl, {
+        margin: 0,
+        width: 300,
+        color: { dark: '#0B1120', light: '#FFFFFF' }
+      });
       doc.addImage(qrDataUrl, 'PNG', 260, 180, 16, 16);
     } catch (e) {
       console.error('Failed to generate QR code', e);
@@ -430,7 +440,7 @@ export default function CertificatesView() {
   const claimableCount = claimableCourses.length;
 
   return (
-    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full">
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>

@@ -20,7 +20,7 @@ const StatBox = ({ title, value, percentage, type }) => {
         </span>
       )}
     </div>
-    <h2 className={`text-2xl md:text-3xl lg:text-4xl font-black truncate w-full ${type === 'primary' ? 'text-white' : (isDarkMode ? 'text-[#00D4FF]' : 'text-slate-900')}`} title={value}>{value}</h2>
+    <h2 className={`text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl font-black tracking-tight w-full ${type === 'primary' ? 'text-white' : (isDarkMode ? 'text-[#00D4FF]' : 'text-slate-900')}`} title={value}>{value}</h2>
     <p className={`text-[9px] md:text-[10px] mt-1 md:mt-2 font-bold truncate ${type === 'primary' ? 'text-white/70' : (isDarkMode ? 'text-slate-300' : 'text-slate-500')}`}>Total Computed Ledger</p>
   </div>
 );
@@ -69,7 +69,7 @@ export default function FinanceFees() {
   }
 
   return (
-    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full">
+    <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none mx-auto w-full">
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>

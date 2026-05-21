@@ -56,17 +56,53 @@ export default function AdminCourseApprovals() {
     }
   };
 
+  const [rejectionModalOpen, setRejectionModalOpen] = useState(false);
+  const [pendingRejectionId, setPendingRejectionId] = useState(null);
+  const [rejectionReason, setRejectionReason] = useState('');
+
   const handleEnrollmentStatusUpdate = async (enrollmentId, newStatus, isRollback = false) => {
-    const actionText = newStatus === 'approved' || newStatus === 'active' ? 'approve' : (isRollback ? 'revoke/rollback' : 'reject');
+    if (newStatus === 'rejected' && !isRollback) {
+      // Trigger the rejection modal instead of raw confirm
+      setPendingRejectionId(enrollmentId);
+      setRejectionReason('');
+      setRejectionModalOpen(true);
+      return;
+    }
+
+    const actionText = newStatus === 'approved' || newStatus === 'active' ? 'approve' : 'revoke/rollback';
     if (!window.confirm(`Are you sure you want to ${actionText} this enrollment?`)) return;
 
     setProcessing(enrollmentId);
     try {
-      await api.put(`/admin/enrollments/${enrollmentId}/status`, { status: newStatus === 'approved' ? 'active' : newStatus });
+      if (newStatus === 'approved' || newStatus === 'active') {
+        await api.post(`/admin/enrollments/${enrollmentId}/approve`);
+      } else {
+        // Rollback / revoke uses the PUT status endpoint
+        await api.put(`/admin/enrollments/${enrollmentId}/status`, { status: 'rejected', reason: 'Revoked by admin' });
+      }
       fetchData();
     } catch (err) {
       console.error('Failed to update enrollment status', err);
       alert('Failed to update enrollment status');
+    } finally {
+      setProcessing(null);
+    }
+  };
+
+  const submitRejection = async () => {
+    if (!pendingRejectionId) return;
+    setProcessing(pendingRejectionId);
+    try {
+      await api.post(`/admin/enrollments/${pendingRejectionId}/reject`, {
+        rejectionReason: rejectionReason.trim() || 'Rejected by admin'
+      });
+      setRejectionModalOpen(false);
+      setPendingRejectionId(null);
+      setRejectionReason('');
+      fetchData();
+    } catch (err) {
+      console.error('Failed to reject enrollment', err);
+      alert('Failed to reject enrollment');
     } finally {
       setProcessing(null);
     }
@@ -80,7 +116,7 @@ export default function AdminCourseApprovals() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.5 }}
-      className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans"
+      className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full font-sans"
     >
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
@@ -311,6 +347,93 @@ export default function AdminCourseApprovals() {
             </div>
           </div>
       )}
+      <AnimatePresence>
+        {rejectionModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className={`w-full max-w-md p-6 rounded-3xl border shadow-2xl relative overflow-hidden ${
+                isDarkMode ? 'bg-[#0B1120] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900'
+              }`}
+            >
+              {/* Decorative background blur */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#E30A17]/5 rounded-full blur-[40px] pointer-events-none"></div>
+
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-xl font-black flex items-center gap-2">
+                  <AlertCircle className="w-5 h-5 text-[#E30A17]" />
+                  Reject Enrollment
+                </h3>
+                <button
+                  onClick={() => {
+                    setRejectionModalOpen(false);
+                    setPendingRejectionId(null);
+                    setRejectionReason('');
+                  }}
+                  className={`p-1.5 rounded-lg border transition-colors ${
+                    isDarkMode ? 'border-white/10 hover:bg-white/5 text-slate-400 hover:text-white' : 'border-slate-200 hover:bg-slate-50 text-slate-500 hover:text-slate-900'
+                  }`}
+                >
+                  <XSquare className="w-5 h-5" />
+                </button>
+              </div>
+
+              <p className={`text-xs mb-4 font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                Please provide a clear reason for rejecting this student's enrollment request. The student will be notified and see this reason on their dashboard.
+              </p>
+
+              <div className="mb-6">
+                <label className={`block text-[10px] font-black uppercase tracking-wider mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
+                  Rejection Reason
+                </label>
+                <textarea
+                  value={rejectionReason}
+                  onChange={(e) => setRejectionReason(e.target.value)}
+                  placeholder="e.g. Please verify your payment details or contact support."
+                  rows={4}
+                  className={`w-full p-4 rounded-2xl border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/50 transition-all resize-none ${
+                    isDarkMode 
+                      ? 'bg-black/40 border-white/10 text-white placeholder-slate-500 focus:border-[#00D4FF]' 
+                      : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-[#00D4FF]'
+                  }`}
+                />
+              </div>
+
+              <div className="flex gap-3 justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRejectionModalOpen(false);
+                    setPendingRejectionId(null);
+                    setRejectionReason('');
+                  }}
+                  className={`px-5 py-2.5 rounded-xl border text-xs font-black transition-colors ${
+                    isDarkMode ? 'border-white/10 bg-transparent text-slate-300 hover:bg-white/5' : 'border-slate-200 bg-transparent text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  disabled={processing === pendingRejectionId}
+                  onClick={submitRejection}
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#E30A17] to-[#B30006] text-white text-xs font-black hover:shadow-[0_0_20px_rgba(227,10,23,0.3)] transition-all disabled:opacity-50"
+                >
+                  {processing === pendingRejectionId ? 'Processing...' : 'Confirm Rejection'}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

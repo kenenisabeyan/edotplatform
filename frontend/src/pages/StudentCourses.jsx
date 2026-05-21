@@ -52,7 +52,7 @@ export default function StudentCourses() {
          </div>
       </div>
 
-      <div className="max-w-[1400px] mx-auto w-full p-6 md:p-8 pt-1">
+      <div className="max-w-none w-full p-6 md:p-8 pt-1">
         
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
            <div className="text-white/90">

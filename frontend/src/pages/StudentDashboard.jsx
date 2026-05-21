@@ -555,7 +555,7 @@ export default function StudentDashboard() {
       }
       case 'catalog': {
         return (
-          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
+          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full font-sans">
             <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <div>
                 <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
@@ -567,7 +567,7 @@ export default function StudentDashboard() {
               </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-[1200px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-none w-full">
               {PACKAGES.map((pkg, idx) => {
                 const pkgCategoryName = pkg.title.replace(' Courses', '');
                 const matchedCourses = dbCourses.filter(c => c.mainCategory === pkgCategoryName);
@@ -590,7 +590,7 @@ export default function StudentDashboard() {
 
       case 'courses': {
         return (
-          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
+          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full font-sans">
             <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <div>
                 <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
@@ -658,7 +658,7 @@ export default function StudentDashboard() {
         });
 
         return (
-          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-7xl mx-auto w-full font-sans">
+          <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full font-sans">
             <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
               <div>
                 <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
@@ -808,12 +808,12 @@ export default function StudentDashboard() {
       case 'ecosystem':
         return <EcosystemNexus />;
       case 'library':
-        return <div className="p-8 max-w-7xl mx-auto"><LibraryView /></div>;
+        return <div className="p-8 max-w-none w-full"><LibraryView /></div>;
       case 'message':
-        return <div className="p-8 max-w-7xl mx-auto"><MessagesView /></div>;
+        return <div className="p-8 max-w-none w-full"><MessagesView /></div>;
 
       case 'notice':
-        return <div className="p-8 max-w-7xl mx-auto"><NoticeView /></div>;
+        return <div className="p-8 max-w-none w-full"><NoticeView /></div>;
       case 'sponsorships':
         return (
            <div className={`p-12 text-center rounded-[24px] glass-panel border m-8 shadow-lg ${isDarkMode ? 'border-slate-700' : 'border-slate-200'}`}>
@@ -898,7 +898,7 @@ export default function StudentDashboard() {
         
         {/* Main Content Area */}
         <main className={`flex-1 overflow-y-auto relative ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
-          <div className="max-w-[1400px] mx-auto p-6 md:p-8 relative z-10 w-full">
+          <div className="max-w-none w-full p-6 md:p-8 relative z-10">
             {renderContent()}
           </div>
         </main>
