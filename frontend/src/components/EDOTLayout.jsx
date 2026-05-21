@@ -317,8 +317,8 @@ export default function EDOTLayout() {
       {/* Sidebar */}
       <aside 
         className={`dashboard-sidebar tilet-border-sidebar fixed md:sticky top-0 left-0 h-screen md:h-full z-60 transition-colors duration-300
-        ${mobileMenuOpen ? 'translate-x-0 w-80 bg-[#0B1120]/95 text-white' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#F8FAFC]'}`}
-        ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-80 md:w-64'}
+        ${mobileMenuOpen ? 'translate-x-0 w-64 bg-[#0B1120]/95 text-white' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#F8FAFC]'}`}
+        ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-64 md:w-56'}
       `}
         style={{ borderRight: '2px solid #475569', boxShadow: '12px 0px 30px rgba(71, 85, 105, 0.4)' }}
       >
