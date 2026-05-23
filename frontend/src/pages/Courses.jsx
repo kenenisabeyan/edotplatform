@@ -525,26 +525,30 @@ export default function Courses() {
 
   return (
     <div style={{ backgroundColor: isDarkMode ? '#0B1120' : '#ffffff' }} className={`min-h-screen w-full font-sans overflow-x-hidden relative transition-colors duration-300 ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}`}>
-
-
+      
       {/* 1. HERO SECTION */}
-      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden ${isDarkMode ? '' : ''}`}>
-         {/* Premium CSS Background */}
-         <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
-            <div className={`absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]`}></div>
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#00D4FF]/10 dark:bg-[#00D4FF]/10 blur-[120px] rounded-full pointer-events-none"></div>
-         </div>
-         <div className={`relative z-10 max-w-[1000px] mx-auto mt-8 overflow-hidden rounded-[40px] border border-transparent bg-gradient-to-br from-[#F8FBFF] via-[#FFFFFF] to-[#EEF7FF] shadow-[0_28px_80px_-40px_rgba(15,23,42,0.35)] transition-colors duration-500 ${isDarkMode ? 'dark:bg-[#111827] dark:shadow-none' : ''}`}>
+      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden bg-[#EBFDFC] dark:bg-[#081F1A] border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+         
+         {/* Concentric Circle 1 (light green) */}
+         <div className="absolute left-[-20%] top-[-30%] w-[90%] h-[160%] rounded-full bg-[#D5F5EE] dark:bg-[#0c2f28] z-0 pointer-events-none"></div>
+         
+         {/* Concentric Circle 2 (medium/vibrant green, pushed to the right) */}
+         <div className="absolute right-[-15%] top-[-25%] w-[80%] h-[150%] rounded-full bg-[#3EDAA9] dark:bg-[#0f6b54] opacity-95 z-0 pointer-events-none"></div>
+
+         {/* Subtle decorative grid overlay */}
+         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#0ea5e903_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e903_1px,transparent_1px)] bg-[size:44px_44px] pointer-events-none"></div>
+
+         <div className={`relative z-10 max-w-[1000px] mx-auto mt-8 overflow-hidden rounded-[40px] border border-transparent bg-white/90 shadow-[0_28px_80px_-40px_rgba(15,23,42,0.35)] transition-colors duration-500 ${isDarkMode ? 'dark:bg-[#111827]/90 dark:shadow-none' : ''}`}>
             <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-center text-center lg:text-left px-8 py-12">
                <div>
-                  <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight ${isDarkMode ? 'text-white' : 'text-[#1A202C]'}`}>
+                  <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight text-[#0F172A] dark:text-white`}>
                      Explore Structured <br className="hidden md:block" />
-                     <span className="text-[#00D4FF] relative inline-block mt-2 whitespace-nowrap">
+                     <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
                         <span className="relative z-10">Learning Paths</span>
-                        <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#00D4FF] z-0"></div>
+                        <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316]/20 z-0"></div>
                      </span>
                   </h1>
-                  <p className={`text-xl md:text-[20px] font-medium max-w-3xl mx-auto lg:mx-0 leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                  <p className={`text-xl md:text-[20px] font-semibold max-w-3xl mx-auto lg:mx-0 leading-relaxed text-slate-700 dark:text-slate-300`}>
                      From foundational education to advanced professional skills, EDOT provides guided learning designed for real progress and real outcomes.
                   </p>
                </div>

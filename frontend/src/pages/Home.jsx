@@ -16,15 +16,20 @@ export default function Home() {
   const [totalUsers, setTotalUsers] = useState('10k+');
   const [recentUsers, setRecentUsers] = useState([]);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [activeRole, setActiveRole] = useState('learner');
   const videoRef = useRef(null);
 
   const handlePlayVideo = () => {
     if (videoRef.current) {
       videoRef.current.muted = false;
       videoRef.current.controls = true;
+      videoRef.current.loop = false;
       videoRef.current.currentTime = 0;
-      videoRef.current.play();
-      setIsVideoPlaying(true);
+      videoRef.current.play().then(() => {
+        setIsVideoPlaying(true);
+      }).catch(err => {
+        console.error("Play failed:", err);
+      });
     }
   };
 
@@ -53,180 +58,162 @@ export default function Home() {
     <div className="min-h-screen w-full">
       
       {/* ===== PREMIUM HERO SECTION ===== */}
-      <div className="relative w-full overflow-hidden">
-        <div className="absolute inset-0 z-0 overflow-hidden bg-[#E8FCFC]">
-          {/* Subtle dotted pattern on the left */}
-          <div className="absolute left-0 top-0 bottom-0 w-[60%] bg-[radial-gradient(circle,#06B6D4_1.5px,transparent_1px)] bg-[size:28px_28px] opacity-[0.08] pointer-events-none [mask-image:linear-gradient(to_right,black_10%,transparent_90%)]"></div>
-          
-          {/* SVG Waves Background */}
-          <svg className="absolute inset-0 w-full h-full object-cover" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="waveGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#A7F3D0" stopOpacity="0.8" />
-                <stop offset="50%" stopColor="#6EE7B7" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#34D399" stopOpacity="1" />
-              </linearGradient>
-              <linearGradient id="waveGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#D1FAE5" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#A7F3D0" stopOpacity="0.8" />
-              </linearGradient>
-              <linearGradient id="waveGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#10B981" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="#059669" stopOpacity="0.6" />
-              </linearGradient>
-            </defs>
+      <div className="relative w-full overflow-hidden bg-[#EBFDFC] dark:bg-[#081F1A]">
+        
+        {/* Concentric Circle 1 (light green) */}
+        <div className="absolute left-[-20%] top-[-30%] w-[90%] h-[160%] rounded-full bg-[#D5F5EE] dark:bg-[#0c2f28] z-0 pointer-events-none"></div>
+        
+        {/* Concentric Circle 2 (medium/vibrant green, pushed to the right) */}
+        <div className="absolute right-[-15%] top-[-25%] w-[80%] h-[150%] rounded-full bg-[#3EDAA9] dark:bg-[#0f6b54] opacity-95 z-0 pointer-events-none"></div>
 
-            {/* Back Wave (Lighter, larger sweep) */}
-            <path d="M 450 0 C 650 350, 250 650, -100 900 L 1440 900 L 1440 0 Z" fill="url(#waveGrad2)" />
+        {/* Subtle decorative grid overlay */}
+        <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#0ea5e903_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e903_1px,transparent_1px)] bg-[size:44px_44px] pointer-events-none"></div>
 
-            {/* Middle Wave (Main crisp S-curve) */}
-            <path d="M 550 0 C 700 400, 350 700, 50 900 L 1440 900 L 1440 0 Z" fill="url(#waveGrad1)" />
+        <section className="relative z-10 pt-24 pb-16 lg:pt-32 lg:pb-24 px-6 md:px-8 lg:px-16">
+          <div className="max-w-[1300px] mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-8 items-center">
 
-            {/* Bottom Right Wave (Darker anchor) */}
-            <path d="M 800 900 C 1000 650, 1200 500, 1440 400 L 1440 900 Z" fill="url(#waveGrad3)" />
-          </svg>
-        </div>
-
-        <section className="relative z-10 pt-24 pb-20 lg:pt-28 lg:pb-32 px-6 md:px-8 lg:px-12">
-          <div className="max-w-[1400px] mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-16 items-center">
-
-              {/* LEFT COLUMN */}
+              {/* LEFT COLUMN: Content & CTAs */}
               <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0, x: -40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="flex flex-col items-start text-left"
               >
+                {/* Floating Tag */}
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.96 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.1, duration: 0.5 }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#22D3EE] text-white shadow-sm mb-8"
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00D4FF] dark:bg-[#00D4FF]/25 border border-[#00D4FF]/40 text-[#0F172A] dark:text-[#00D4FF] shadow-sm mb-6"
                 >
-                  <Heart className="w-4 h-4" />
-                  <span className="text-[13px] font-bold tracking-wide">Building a brighter future through education</span>
+                  <Heart className="w-3.5 h-3.5 fill-[#0F172A] dark:fill-[#00D4FF] text-[#0F172A] dark:text-[#00D4FF]" />
+                  <span className="text-[12px] font-bold uppercase tracking-wider">Building a brighter future through education</span>
                 </motion.div>
 
-                <motion.h1
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.8 }}
-                  className="text-5xl md:text-6xl lg:text-7xl font-black leading-[0.98] tracking-tight text-[#111827]"
-                >
-                  Every Learner
-                  <br />
-                  Deserves a Chance
-                  <br />
-                  to <span className="text-[#FF7A00]">Succeed.</span>
-                </motion.h1>
+                {/* Headline */}
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.08] tracking-tight text-[#0F172A] dark:text-white">
+                  Every Learner <br />
+                  Deserves a Chance <br />
+                  to <span className="text-[#F97316]">Succeed.</span>
+                </h1>
 
-                <motion.p
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.8 }}
-                  className="max-w-xl text-[17px] leading-relaxed text-slate-600 font-medium mt-6"
-                >
+                {/* Subtext */}
+                <p className="max-w-xl text-[16px] md:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 font-semibold mt-6">
                   EDOT brings learners, instructors, parents, and sponsors together in a premium learning ecosystem designed for real growth, community support, and measurable impact.
-                </motion.p>
+                </p>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.8 }}
-                  className="mt-10 flex flex-col sm:flex-row gap-4"
-                >
-                  <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
+                {/* Call To Actions */}
+                <div className="mt-8 flex flex-col sm:flex-row gap-4 w-full sm:w-auto z-10">
+                  <motion.div whileHover={{ scale: 1.025 }} whileTap={{ scale: 0.985 }} className="w-full sm:w-auto">
                     <Link
                       to="/register?role=student"
-                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#00D4FF] px-8 py-3.5 text-base font-bold text-white shadow-lg hover:bg-[#EA580C] transition-all duration-300"
+                      className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto rounded-xl bg-[#00D4FF] text-slate-900 px-8 py-4 text-[15px] font-bold shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/20 hover:bg-[#00c5eb] transition-all duration-300"
                     >
                       Start Learning
-                      <ArrowRight className="w-5 h-5" />
+                      <ArrowRight className="w-4.5 h-4.5" strokeWidth={2.5} />
                     </Link>
                   </motion.div>
 
-                  <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
+                  <motion.div whileHover={{ scale: 1.025 }} whileTap={{ scale: 0.985 }} className="w-full sm:w-auto">
                     <Link
                       to="/register?role=sponsor"
-                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#00D4FF] bg-white px-8 py-3.5 text-base font-bold text-[#00D4FF] shadow-sm hover:bg-orange-50 transition-all duration-300"
+                      className="inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-xl border border-white bg-white/90 px-8 py-4 text-[15px] font-bold text-[#0D9488] shadow-sm hover:bg-white hover:border-teal-100 transition-all duration-300"
                     >
                       Sponsor a Student
-                      <Heart className="w-4 h-4" />
+                      <Heart className="w-4 h-4 text-teal-600 fill-teal-600/10" strokeWidth={2.5} />
                     </Link>
                   </motion.div>
-                </motion.div>
+                </div>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.8 }}
-                  className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4"
-                >
-                  <div className="flex -space-x-3">
-                    {recentUsers.length > 0 ? (
-                      recentUsers.map((user) => (
-                        <div key={user.id} className="relative group">
-                          <img 
-                            src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random`} 
-                            alt={user.name} 
-                            className="w-11 h-11 rounded-full border-2 border-white object-cover shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:z-10 relative" 
-                          />
+                {/* Avatars Overlap & Trust Metrics */}
+                <div className="mt-10 flex items-center gap-3.5">
+                  <div className="flex -space-x-2.5">
+                    {recentUsers.slice(0, 3).map((user, idx) => (
+                      user.avatar ? (
+                        <img 
+                          key={user.id || idx} 
+                          src={user.avatar} 
+                          alt={user.name} 
+                          className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-900 object-cover shadow-sm" 
+                        />
+                      ) : (
+                        <div 
+                          key={user.id || idx} 
+                          className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-900 bg-sky-100 dark:bg-sky-950 flex items-center justify-center text-[10px] font-bold text-sky-700 dark:text-sky-300 shadow-sm"
+                        >
+                          {user.name ? user.name.substring(0, 3) : 'EDO'}
                         </div>
-                      ))
-                    ) : (
+                      )
+                    ))}
+                    {recentUsers.length === 0 && (
                       <>
-                        <img src="https://i.pravatar.cc/100?img=11" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
-                        <img src="https://i.pravatar.cc/100?img=32" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
-                        <img src="https://i.pravatar.cc/100?img=44" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
-                        <img src="https://i.pravatar.cc/100?img=12" alt="Learner" className="w-11 h-11 rounded-full border-2 border-white object-cover" />
+                        <img src="https://i.pravatar.cc/100?img=12" alt="Student" className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-900 object-cover shadow-sm" />
+                        <img src="https://i.pravatar.cc/100?img=33" alt="Student" className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-900 object-cover shadow-sm" />
+                        <img src="https://i.pravatar.cc/100?img=47" alt="Student" className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-900 object-cover shadow-sm" />
                       </>
                     )}
                   </div>
-                  <div className="text-[15px]">
-                    <p className="font-semibold text-slate-800">Join <span className="text-[#00D4FF]">{totalUsers}</span> learners</p>
-                    <p className="text-slate-500 font-medium">growing every day</p>
+                  <div className="text-[13px] md:text-sm font-semibold text-slate-700 dark:text-slate-300 leading-snug">
+                    Join <span className="text-blue-600 dark:text-sky-400 font-bold">{totalUsers}</span> learners <br />
+                    growing every day
                   </div>
-                </motion.div>
-
-
+                </div>
               </motion.div>
 
-              {/* RIGHT COLUMN */}
+              {/* RIGHT COLUMN: Premium Video Card */}
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.9 }}
-                className="relative"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.9 }}
+                className="relative flex justify-center items-center py-8 lg:py-0"
               >
-                <div className="relative mx-auto w-full max-w-[560px] lg:max-w-[620px]">
+                <div className="relative w-full max-w-[640px]">
+                  {/* Premium Ambient Background Glow */}
+                  <div className="absolute -inset-4 rounded-[40px] bg-gradient-to-r from-blue-500 to-[#00D4FF] opacity-25 blur-2xl group-hover:opacity-35 transition-opacity duration-500 -z-10"></div>
+                  
                   <motion.div
-                    whileHover={!isVideoPlaying ? { scale: 1.02, y: -8 } : {}}
+                    whileHover={!isVideoPlaying ? { scale: 1.02, y: -6 } : {}}
                     transition={{ type: 'spring', stiffness: 240, damping: 18 }}
-                    className="relative overflow-hidden rounded-[32px] shadow-[0_0_40px_rgba(34,211,238,0.6)] bg-black group"
+                    className="relative overflow-hidden rounded-[32px] border-[6px] border-white dark:border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] bg-slate-950 group aspect-[4/3]"
                   >
                     <video
                       ref={videoRef}
                       src={qanoVideo}
-                      autoPlay={!isVideoPlaying}
+                      autoPlay
                       muted={!isVideoPlaying}
                       loop={!isVideoPlaying}
                       playsInline
-                      disablePictureInPicture
-                      disableRemotePlayback
-                      controlsList="nodownload noplaybackrate"
-                      className={`w-full h-[540px] object-cover rounded-[24px] transition-all duration-500`}
+                      className="w-full h-full object-cover transition-all duration-500"
+                      onPlay={() => {
+                        if (videoRef.current && videoRef.current.muted === false) {
+                          setIsVideoPlaying(true);
+                        }
+                      }}
+                      onPause={() => {
+                        if (videoRef.current && videoRef.current.muted === false) {
+                          setIsVideoPlaying(false);
+                          if (videoRef.current) {
+                            videoRef.current.controls = false;
+                            videoRef.current.muted = true;
+                            videoRef.current.loop = true;
+                            videoRef.current.play().catch(() => {});
+                          }
+                        }
+                      }}
                       onEnded={() => {
                         setIsVideoPlaying(false);
                         if (videoRef.current) {
                           videoRef.current.controls = false;
                           videoRef.current.muted = true;
-                          videoRef.current.play();
+                          videoRef.current.loop = true;
+                          videoRef.current.play().catch(() => {});
                         }
                       }}
                     />
 
                     {!isVideoPlaying && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-transparent group-hover:bg-black/10 transition-all duration-500">
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/25 transition-all duration-500">
                         <div className="relative flex items-center justify-center">
                           {/* Water ripple movements */}
                           <div className="absolute inset-[-12px] rounded-[32px] bg-white/20 animate-ping" style={{ animationDuration: '3s' }}></div>
@@ -236,7 +223,7 @@ export default function Home() {
                             onClick={handlePlayVideo}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="relative flex h-[64px] w-[88px] items-center justify-center rounded-[20px] bg-[#1a1a1a]/90 backdrop-blur-md shadow-xl transition-all duration-300 pl-1 group-hover:bg-[#1a1a1a] group-hover:shadow-2xl"
+                            className="relative flex h-[64px] w-[88px] items-center justify-center rounded-[20px] bg-[#1a1a1a]/95 backdrop-blur-md shadow-xl transition-all duration-300 pl-1 hover:bg-[#1a1a1a] hover:shadow-2xl cursor-pointer"
                             aria-label="Play introduction video"
                           >
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="text-white">
@@ -247,82 +234,63 @@ export default function Home() {
                       </div>
                     )}
                   </motion.div>
-
                 </div>
               </motion.div>
+
             </div>
           </div>
         </section>
 
-        {/* ===== FEATURE CARD STRIP (Now inside Hero Background) ===== */}
-        <section className="relative z-10 px-6 md:px-8 lg:px-12 mt-12 pb-24">
+        {/* ===== PREMIUM BOTTOM FEATURE BANNER ===== */}
+        <section className="relative z-10 px-6 md:px-8 lg:px-16 pb-24">
           <div className="max-w-[1300px] mx-auto">
-            <div className="rounded-[32px] bg-white shadow-xl px-8 py-8 sm:px-12">
-              <div className="flex flex-col lg:flex-row items-stretch justify-between gap-4 xl:gap-2">
+            <div className="rounded-[32px] bg-[#0F172A] dark:bg-[#0B1120] border border-white/5 shadow-2xl px-8 py-10 sm:px-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-slate-800/80 items-stretch">
                 {[
                   {
-                    title: 'Students',
-                    desc: 'Learn new skills, track progress and achieve goals.',
+                    title: 'Quality Education',
+                    desc: 'Access world-class learning anytime, anywhere.',
                     icon: GraduationCap,
-                    cardBg: 'bg-blue-50/70',
-                    iconColor: 'text-blue-600',
+                    iconBg: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
                   },
                   {
-                    title: 'Instructors',
-                    desc: 'Create courses, teach and inspire learners.',
-                    icon: UserCheck,
-                    cardBg: 'bg-green-50/70',
-                    iconColor: 'text-green-600',
-                  },
-                  {
-                    title: 'Parents',
-                    desc: 'Monitor progress, attendance and achievements.',
+                    title: 'Global Community',
+                    desc: 'Join a diverse community of learners and educators.',
                     icon: Users,
-                    cardBg: 'bg-purple-50/70',
-                    iconColor: 'text-purple-600',
+                    iconBg: 'bg-sky-500/10 text-sky-400 border border-sky-500/20',
                   },
                   {
-                    title: 'Sponsors',
-                    desc: 'Support education, empower learners and change lives.',
+                    title: 'Certified Courses',
+                    desc: 'Earn recognized certificates to boost your future.',
+                    icon: Award,
+                    iconBg: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
+                  },
+                  {
+                    title: 'Make an Impact',
+                    desc: 'Sponsor a learner and help build a brighter tomorrow.',
                     icon: Heart,
-                    cardBg: 'bg-orange-50/70',
-                    iconColor: 'text-[#00D4FF]',
-                  },
-                  {
-                    title: 'Admins',
-                    desc: 'Manage the platform, ensure quality and create opportunities.',
-                    icon: Shield,
-                    cardBg: 'bg-red-50/70',
-                    iconColor: 'text-red-500',
+                    iconBg: 'bg-rose-500/10 text-rose-400 border border-rose-500/20',
                   }
-                ].map((item, idx, arr) => (
-                  <React.Fragment key={idx}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 16 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: '-100px' }}
-                      transition={{ delay: idx * 0.1, duration: 0.5 }}
-                      whileHover={{ y: -4 }}
-                      className={`flex flex-col items-start p-5 xl:p-6 rounded-2xl border border-white/60 ${item.cardBg} flex-1 min-w-[200px] shadow-sm hover:shadow-md transition-all`}
-                    >
-                      <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm ${item.iconColor}`}>
-                        <item.icon className="w-5 h-5" strokeWidth={2.5} />
-                      </div>
-                      <h3 className="text-[17px] font-bold text-[#111827] mb-2">{item.title}</h3>
-                      <p className="text-[13px] text-slate-600 font-medium leading-relaxed">{item.desc}</p>
-                    </motion.div>
-                    {idx < arr.length - 1 && (
-                      <div className="hidden lg:flex items-center justify-center px-1 xl:px-2 text-slate-400 shrink-0">
-                        <ArrowRight className="w-5 h-5" />
-                      </div>
-                    )}
-                  </React.Fragment>
+                ].map((item, idx) => (
+                  <div key={idx} className="flex gap-4.5 items-start pt-6 lg:pt-0 lg:pl-8 first:pt-0 first:pl-0">
+                    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-sm ${item.iconBg}`}>
+                      <item.icon className="w-5.5 h-5.5" strokeWidth={2} />
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-[15px] font-extrabold text-white mb-1.5">{item.title}</h4>
+                      <p className="text-[12.5px] text-slate-400 font-medium leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
         </section>
+
+
+
       </div>
+
 
       {/* ABOUT SECTION */}
       <section id="about" className={`relative w-full pt-32 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10 bg-gradient-to-b from-[#0B1120] to-[#111827]' : 'border-slate-200 bg-gradient-to-b from-[#FAFAFA] to-white'}`}>
@@ -531,59 +499,362 @@ export default function Home() {
       </section>
 
       {/* 5. BUILT FOR EVERYONE IN EDUCATION */}
-      <section id="audience" className={`py-32 relative z-20 overflow-hidden border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-200'}`}>
+      <section id="audience" className={`py-32 relative z-20 overflow-hidden border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto px-6">
             <motion.div
                initial={{ opacity: 0, y: 20 }}
                whileInView={{ opacity: 1, y: 0 }}
                transition={{ duration: 0.8 }}
                viewport={{ once: true }}
-               className="text-center mb-20"
+               className="text-center mb-16"
             >
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                   One Platform — <span className="text-[#00D4FF]">Every Role Connected</span>
                </h2>
+               <p className={`text-lg md:text-xl font-medium max-w-2xl mx-auto ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                  Click a role below to preview how our premium, secure workspaces are uniquely tailored to guide, support, and accelerate their learning journey.
+               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-               {[{
-                  title: 'Learners',
-                  icon: GraduationCap,
-                  description: 'Learn step-by-step, track your progress, and build skills for your future.'
-               },{
-                  title: 'Instructors',
-                  icon: BookOpen,
-                  description: 'Create impactful courses and guide learners with structured teaching tools.'
-               },{
-                  title: 'Parents',
-                  icon: Users,
-                  description: 'Stay involved with real-time insights into learning progress and performance.'
-               },{
-                  title: 'Sponsors',
-                  icon: Heart,
-                  description: 'Support learners in need and track the real impact of your contribution.'
-               }].map((item, idx) => (
-                  <motion.div
-                     key={idx}
-                     initial={{ opacity: 0, y: 30 }}
-                     whileInView={{ opacity: 1, y: 0 }}
-                     transition={{ delay: idx * 0.1, duration: 0.6 }}
-                     viewport={{ once: true }}
-                     whileHover={{ y: -12 }}
-                     className={`relative flex flex-col items-center text-center p-10 rounded-[32px] overflow-hidden group border transition-all duration-500 hover:-translate-y-3 ${isDarkMode ? 'bg-[#111827] border-white/10 hover:border-[#00D4FF]/50' : 'bg-slate-50 border-slate-200 hover:bg-white hover:border-[#00D4FF]/50 hover:shadow-[0_20px_40px_rgba(249,115,22,0.1)]'}`}
-                  >
-                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00D4FF] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                     <motion.div
-                        whileHover={{ scale: 1.1, rotate: 3 }}
-                        transition={{ type: 'spring', stiffness: 300, damping: 10 }}
-                        className={`w-20 h-20 rounded-full flex items-center justify-center mb-8 shadow-inner transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white border border-slate-100'}`}
+            {/* Premium Selector Tabs */}
+            <div className="flex flex-wrap justify-center gap-4 mb-16">
+               {[
+                 { id: 'learner', title: 'Learners', icon: GraduationCap, color: 'text-cyan-400 border-cyan-400 bg-cyan-400/10' },
+                 { id: 'instructor', title: 'Instructors', icon: BookOpen, color: 'text-emerald-400 border-emerald-400 bg-emerald-400/10' },
+                 { id: 'parent', title: 'Parents', icon: Users, color: 'text-indigo-400 border-indigo-400 bg-indigo-400/10' },
+                 { id: 'sponsor', title: 'Sponsors', icon: Heart, color: 'text-rose-400 border-rose-400 bg-rose-400/10' }
+               ].map((role) => {
+                  const isActive = activeRole === role.id;
+                  const Icon = role.icon;
+                  return (
+                     <motion.button
+                       key={role.id}
+                       whileHover={{ scale: 1.05 }}
+                       whileTap={{ scale: 0.95 }}
+                       onClick={() => setActiveRole(role.id)}
+                       className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl font-bold text-sm border-2 cursor-pointer transition-all duration-300 ${
+                         isActive 
+                           ? `${role.color} shadow-lg shadow-[#00D4FF]/10` 
+                           : (isDarkMode ? 'border-white/5 bg-slate-900/60 text-slate-400 hover:text-white hover:border-white/20' : 'border-slate-200 bg-white text-slate-500 hover:text-slate-900 hover:border-slate-350 hover:shadow-sm')
+                       }`}
                      >
-                        <item.icon className={`w-10 h-10 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#0940B5]'}`} />
-                     </motion.div>
-                     <h3 className={`text-2xl font-black mb-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{item.title}</h3>
-                     <p className={`text-lg leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>{item.description}</p>
-                  </motion.div>
-               ))}
+                       <Icon className="w-5 h-5" />
+                       {role.title}
+                     </motion.button>
+                  );
+               })}
+            </div>
+
+            {/* Sandbox Container */}
+            <div className={`rounded-3xl border p-8 md:p-12 relative overflow-hidden transition-all duration-500 shadow-2xl ${isDarkMode ? 'bg-[#111827] border-white/5 shadow-black/40' : 'bg-white border-slate-200 shadow-slate-200/50'}`}>
+               
+               {/* Ambient Glow behind sandbox */}
+               <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-20 dark:opacity-30">
+                 {activeRole === 'learner' && <div className="absolute -right-20 -bottom-20 w-[400px] h-[400px] rounded-full bg-cyan-500 blur-[100px]" />}
+                 {activeRole === 'instructor' && <div className="absolute -right-20 -bottom-20 w-[400px] h-[400px] rounded-full bg-emerald-500 blur-[100px]" />}
+                 {activeRole === 'parent' && <div className="absolute -right-20 -bottom-20 w-[400px] h-[400px] rounded-full bg-indigo-500 blur-[100px]" />}
+                 {activeRole === 'sponsor' && <div className="absolute -right-20 -bottom-20 w-[400px] h-[400px] rounded-full bg-rose-500 blur-[100px]" />}
+               </div>
+
+               <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
+                  
+                  {/* LEFT COLUMN: Features & Explanations */}
+                  <div className="text-left">
+                     {activeRole === 'learner' && (
+                        <motion.div
+                          key="learner-left"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                           <span className="text-xs font-bold uppercase tracking-widest text-cyan-400 bg-cyan-400/10 px-3.5 py-1.5 rounded-full border border-cyan-400/20 mb-6 inline-block">Premium Student Workspace</span>
+                           <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>A Structured Path from Curiosity to Mastery</h3>
+                           <p className={`text-lg leading-relaxed mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
+                              Students on EDOT enjoy a highly immersive workspace. Instead of viewing isolated videos, learners follow structured curriculum tracks, practice with interactive quizzes, and receive verified credentials that boost their academic and professional goals.
+                           </p>
+                           <div className="space-y-4 mb-10">
+                              {[
+                                "Linear lesson progressions with rich media players",
+                                "Embedded smart testing modules for immediate feedback",
+                                "Direct socket communication with subject-matter mentors",
+                                "Encrypted student portfolio and completion certificates"
+                              ].map((item, idx) => (
+                                 <div key={idx} className="flex items-center gap-3">
+                                    <div className="w-5 h-5 rounded-full bg-cyan-500/15 text-cyan-400 flex items-center justify-center shrink-0">
+                                       <CheckCircle className="w-3.5 h-3.5" />
+                                    </div>
+                                    <span className={`text-[15px] font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{item}</span>
+                                 </div>
+                              ))}
+                           </div>
+                           <Link to="/register?role=student" className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold px-8 py-4 text-[14px] shadow-lg shadow-cyan-500/10 hover:-translate-y-0.5 transition-all duration-300">
+                              Register as a Learner <ArrowRight className="w-4 h-4" />
+                           </Link>
+                        </motion.div>
+                     )}
+
+                     {activeRole === 'instructor' && (
+                        <motion.div
+                          key="instructor-left"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                           <span className="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-400/10 px-3.5 py-1.5 rounded-full border border-emerald-400/20 mb-6 inline-block">Educator Command Center</span>
+                           <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Complete Teaching Autonomy & Insights</h3>
+                           <p className={`text-lg leading-relaxed mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
+                              Instructors have absolute authority to design curricula and publish lessons. With built-in analytical metrics, teachers can easily audit attendance, monitor overall class performance, and deliver personalized guidance directly.
+                           </p>
+                           <div className="space-y-4 mb-10">
+                              {[
+                                "Seamless drag-and-drop dynamic course builder",
+                                "Student attendance matrices and automated progress charts",
+                                "Admin-instructor course approval and publishing workflows",
+                                "Direct video lecture uploads powered by Cloudinary and Multer"
+                              ].map((item, idx) => (
+                                 <div key={idx} className="flex items-center gap-3">
+                                    <div className="w-5 h-5 rounded-full bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
+                                       <CheckCircle className="w-3.5 h-3.5" />
+                                    </div>
+                                    <span className={`text-[15px] font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{item}</span>
+                                 </div>
+                              ))}
+                           </div>
+                           <Link to="/register?role=instructor" className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold px-8 py-4 text-[14px] shadow-lg shadow-emerald-500/10 hover:-translate-y-0.5 transition-all duration-300">
+                              Join as an Instructor <ArrowRight className="w-4 h-4" />
+                           </Link>
+                        </motion.div>
+                     )}
+
+                     {activeRole === 'parent' && (
+                        <motion.div
+                          key="parent-left"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                           <span className="text-xs font-bold uppercase tracking-widest text-indigo-400 bg-indigo-400/10 px-3.5 py-1.5 rounded-full border border-indigo-400/20 mb-6 inline-block">Parent Insight Portal</span>
+                           <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Active Progress Tracking & Connection</h3>
+                           <p className={`text-lg leading-relaxed mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
+                              EDOT connects parents directly to their child's academic journey. By establishing a secure connection through unique credentials, parents gain absolute visibility into their children's daily progress, study goals, and overall performance.
+                           </p>
+                           <div className="space-y-4 mb-10">
+                              {[
+                                "Instant linking using highly secure, encrypted connection keys",
+                                "Real-time updates of child's course completion timelines",
+                                "Direct access to instructors and study achievement notices",
+                                "Comprehensive overview of daily, weekly, and yearly attendance"
+                              ].map((item, idx) => (
+                                 <div key={idx} className="flex items-center gap-3">
+                                    <div className="w-5 h-5 rounded-full bg-[#00D4FF]/20 text-[#00D4FF] flex items-center justify-center shrink-0">
+                                       <CheckCircle className="w-3.5 h-3.5" />
+                                    </div>
+                                    <span className={`text-[15px] font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{item}</span>
+                                 </div>
+                              ))}
+                           </div>
+                           <Link to="/register?role=parent" className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 hover:bg-indigo-650 text-white font-bold px-8 py-4 text-[14px] shadow-lg shadow-indigo-500/10 hover:-translate-y-0.5 transition-all duration-300">
+                              Connect as a Parent <ArrowRight className="w-4 h-4" />
+                           </Link>
+                        </motion.div>
+                     )}
+
+                     {activeRole === 'sponsor' && (
+                        <motion.div
+                          key="sponsor-left"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                           <span className="text-xs font-bold uppercase tracking-widest text-rose-400 bg-rose-400/10 px-3.5 py-1.5 rounded-full border border-rose-400/20 mb-6 inline-block">Transparent Sponsorship Board</span>
+                           <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Fund Futures, Track Outcomes</h3>
+                           <p className={`text-lg leading-relaxed mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
+                              Sponsors can support bright minds directly. The system ensures complete transparency, allowing you to fund education for students in need, authorize connections securely, and track progress metrics in real time.
+                           </p>
+                           <div className="space-y-4 mb-10">
+                              {[
+                                "Verifiable student profiles and background connection systems",
+                                "Explicit agreement terms and active/pending status trackers",
+                                "Direct messaging and study milestone achievement feeds",
+                                "Verified outcome reports to measure real social impact"
+                              ].map((item, idx) => (
+                                 <div key={idx} className="flex items-center gap-3">
+                                    <div className="w-5 h-5 rounded-full bg-rose-500/15 text-rose-400 flex items-center justify-center shrink-0">
+                                       <CheckCircle className="w-3.5 h-3.5" />
+                                    </div>
+                                    <span className={`text-[15px] font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{item}</span>
+                                 </div>
+                              ))}
+                           </div>
+                           <Link to="/register?role=sponsor" className="inline-flex items-center gap-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold px-8 py-4 text-[14px] shadow-lg shadow-rose-500/10 hover:-translate-y-0.5 transition-all duration-300">
+                              Become a Sponsor <ArrowRight className="w-4 h-4" />
+                           </Link>
+                        </motion.div>
+                     )}
+                  </div>
+
+                  {/* RIGHT COLUMN: Interactive Mockup Card */}
+                  <div className="flex justify-center items-center">
+                     {activeRole === 'learner' && (
+                        <motion.div
+                          key="learner-right"
+                          initial={{ opacity: 0, scale: 0.9, y: 15 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                          className={`w-full max-w-[420px] rounded-3xl border p-6 shadow-2xl relative overflow-hidden ${
+                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-white border-slate-200 shadow-slate-300/40'
+                          }`}
+                        >
+                          <div className="flex justify-between items-center mb-4">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-400">Student Course Progress</span>
+                            <span className="text-[10px] bg-cyan-400/20 text-cyan-400 px-2.5 py-0.5 rounded-full font-bold">In Progress</span>
+                          </div>
+                          <h4 className={`text-lg font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Python & Data Science Mastery</h4>
+                          <p className={`text-xs mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Instructor: Kenenisa Beyan</p>
+                          
+                          {/* Animating Progress Bar */}
+                          <div className={`w-full rounded-full h-2.5 mb-2 overflow-hidden ${isDarkMode ? 'bg-slate-800' : 'bg-slate-100'}`}>
+                            <motion.div 
+                              initial={{ width: 0 }}
+                              animate={{ width: '80%' }}
+                              transition={{ duration: 0.8, delay: 0.2 }}
+                              className="bg-cyan-500 h-2.5 rounded-full"
+                            />
+                          </div>
+                          <div className="flex justify-between text-[11px] text-slate-400 font-bold mb-6">
+                            <span>80% Completed</span>
+                            <span>12/15 Lessons</span>
+                          </div>
+
+                          {/* Next up item */}
+                          <div className={`rounded-xl p-3.5 border flex justify-between items-center ${isDarkMode ? 'bg-slate-900/60 border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                            <div className="text-left">
+                              <span className="text-[9px] uppercase font-bold text-slate-500">Next Lesson</span>
+                              <p className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>13. Machine Learning Foundations</p>
+                            </div>
+                            <button className="h-8 w-8 bg-cyan-500 text-slate-900 rounded-full flex items-center justify-center font-bold hover:scale-110 transition-transform cursor-pointer shadow-md pl-0.5">
+                              ▶
+                            </button>
+                          </div>
+                        </motion.div>
+                     )}
+
+                     {activeRole === 'instructor' && (
+                        <motion.div
+                          key="instructor-right"
+                          initial={{ opacity: 0, scale: 0.9, y: 15 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                          className={`w-full max-w-[420px] rounded-3xl border p-6 shadow-2xl relative overflow-hidden ${
+                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-white border-slate-200 shadow-slate-300/40'
+                          }`}
+                        >
+                          <div className="flex justify-between items-center mb-6">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Educator Command Center</span>
+                            <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">Active Auditing</span>
+                          </div>
+                          
+                          {/* Stats Grid */}
+                          <div className="grid grid-cols-2 gap-4 mb-6">
+                            <div className={`rounded-2xl p-4 border text-left ${isDarkMode ? 'bg-slate-900/80 border-white/5' : 'bg-slate-50 border-slate-150'}`}>
+                              <span className="text-[9px] text-slate-500 uppercase font-bold block mb-1">Total Enrolled</span>
+                              <span className={`text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>2,480</span>
+                              <span className="text-[9px] text-emerald-400 font-bold block mt-1">↑ 12% this week</span>
+                            </div>
+                            <div className={`rounded-2xl p-4 border text-left ${isDarkMode ? 'bg-slate-900/80 border-white/5' : 'bg-slate-50 border-slate-150'}`}>
+                              <span className="text-[9px] text-slate-500 uppercase font-bold block mb-1">Avg. Quiz Score</span>
+                              <span className={`text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>92%</span>
+                              <span className="text-[9px] text-emerald-400 font-bold block mt-1">Verified Success</span>
+                            </div>
+                          </div>
+
+                          {/* Activity list */}
+                          <div className={`p-3.5 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-slate-900/40 border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                            <div className="flex items-center gap-2.5 text-left">
+                              <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">AB</div>
+                              <div>
+                                <p className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Abebe Demise</p>
+                                <p className="text-[9px] text-slate-500">Submitted Quiz 4</p>
+                              </div>
+                            </div>
+                            <span className="text-[10px] font-bold text-emerald-400">Graded (10/10)</span>
+                          </div>
+                        </motion.div>
+                     )}
+
+                     {activeRole === 'parent' && (
+                        <motion.div
+                          key="parent-right"
+                          initial={{ opacity: 0, scale: 0.9, y: 15 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                          className={`w-full max-w-[420px] rounded-3xl border p-6 shadow-2xl relative overflow-hidden ${
+                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-white border-slate-200 shadow-slate-300/40'
+                          }`}
+                        >
+                          <div className="flex justify-between items-center mb-6">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">Parent Insight Portal</span>
+                            <span className="text-[10px] bg-indigo-500/20 text-indigo-400 px-2.5 py-0.5 rounded-full font-bold">Encrypted E2E Link</span>
+                          </div>
+
+                          <div className={`rounded-2xl p-4 border text-left mb-4 ${isDarkMode ? 'bg-slate-900/80 border-white/5' : 'bg-slate-50 border-slate-150'}`}>
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="text-xs font-bold text-slate-500">Child's Attendance Today</span>
+                              <span className="text-xs font-bold text-indigo-500 dark:text-indigo-400">100% Present</span>
+                            </div>
+                            <div className={`w-full rounded-full h-2 overflow-hidden ${isDarkMode ? 'bg-slate-800' : 'bg-slate-200'}`}>
+                              <div className="bg-indigo-500 h-2 rounded-full w-full"></div>
+                            </div>
+                          </div>
+
+                          <div className={`rounded-2xl p-4 border text-left ${isDarkMode ? 'bg-slate-900/80 border-white/5' : 'bg-slate-50 border-slate-150'}`}>
+                            <span className="text-[9px] text-slate-500 uppercase font-bold block mb-1">Encrypted Connection Key</span>
+                            <div className={`flex justify-between items-center p-2.5 rounded-xl border ${isDarkMode ? 'bg-slate-950 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
+                              <code className="text-[11px] font-mono text-emerald-500 dark:text-emerald-400 font-bold">E2E-CONN-PARENT-89A2</code>
+                              <span className="text-[9px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">Linked</span>
+                            </div>
+                          </div>
+                        </motion.div>
+                     )}
+
+                     {activeRole === 'sponsor' && (
+                        <motion.div
+                          key="sponsor-right"
+                          initial={{ opacity: 0, scale: 0.9, y: 15 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                          className={`w-full max-w-[420px] rounded-3xl border p-6 shadow-2xl relative overflow-hidden ${
+                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-white border-slate-200 shadow-slate-300/40'
+                          }`}
+                        >
+                          <div className="flex justify-between items-center mb-6">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-rose-400">Sponsor Impact Board</span>
+                            <span className="text-[10px] bg-rose-500/20 text-rose-400 px-2.5 py-0.5 rounded-full font-bold">Active Support</span>
+                          </div>
+
+                          <div className={`rounded-2xl p-4 border text-left mb-4 ${isDarkMode ? 'bg-slate-900/80 border-white/5' : 'bg-slate-50 border-slate-150'}`}>
+                            <div className="flex justify-between items-center mb-1">
+                              <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Marta Girma</span>
+                              <span className="text-xs font-bold text-rose-500 dark:text-rose-400">Funded 85%</span>
+                            </div>
+                            <p className="text-[10px] text-slate-500 mb-3 text-left">Goal: Software Engineering Track</p>
+                            <div className={`w-full rounded-full h-2 overflow-hidden ${isDarkMode ? 'bg-slate-800' : 'bg-slate-200'}`}>
+                              <div className="bg-rose-500 h-2 rounded-full w-[85%]"></div>
+                            </div>
+                          </div>
+
+                          <div className={`p-3 rounded-xl border flex items-center gap-3 text-left ${isDarkMode ? 'bg-slate-900/40 border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                            <div className="w-8 h-8 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-400 font-bold text-sm shrink-0">🎓</div>
+                            <div>
+                              <p className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Milestone Achieved</p>
+                              <p className="text-[9px] text-slate-500 leading-tight">Marta completed Advanced Algorithms quiz</p>
+                            </div>
+                          </div>
+                        </motion.div>
+                     )}
+                  </div>
+
+               </div>
             </div>
          </div>
       </section>
@@ -637,13 +908,12 @@ export default function Home() {
                      ))}
                   </div>
 
-                  <motion.button
-                     whileHover={{ scale: 1.05, y: -2 }}
-                     whileTap={{ scale: 0.98 }}
-                     className="w-full sm:w-auto bg-[#00D4FF] text-white font-black px-12 py-5 rounded-full hover:bg-[#e66a00] transition-all text-xl shadow-[0_15px_30px_rgba(249,115,22,0.3)] hover:-translate-y-1 duration-300"
+                  <Link
+                     to="/register?role=sponsor"
+                     className="inline-flex items-center justify-center w-full sm:w-auto bg-[#00D4FF] text-white font-black px-12 py-5 rounded-full hover:bg-[#00c5eb] transition-all text-xl shadow-[0_15px_30px_rgba(0,212,255,0.3)] hover:-translate-y-1 duration-300"
                   >
                      Become a Sponsor
-                  </motion.button>
+                  </Link>
                </motion.div>
 
                <motion.div
@@ -918,15 +1188,13 @@ export default function Home() {
                   </Link>
                </motion.div>
                <motion.div whileHover={{ y: -4 }} whileTap={{ scale: 0.98 }}>
-                  <button className={`w-full sm:w-auto px-12 py-5 rounded-full font-black text-xl transition-all duration-300 border-2 hover:-translate-y-1 ${isDarkMode ? 'bg-transparent text-white border-white/20 hover:bg-white/10 hover:border-white' : 'bg-transparent text-slate-800 border-slate-300 hover:bg-slate-100 hover:border-slate-800'}`}>
+                  <Link to="/register?role=sponsor" className={`inline-flex items-center justify-center w-full sm:w-auto px-12 py-5 rounded-full font-black text-xl transition-all duration-300 border-2 hover:-translate-y-1 ${isDarkMode ? 'bg-transparent text-white border-white/20 hover:bg-white/10 hover:border-white' : 'bg-transparent text-slate-800 border-slate-300 hover:bg-slate-100 hover:border-slate-800'}`}>
                     Sponsor a Student
-                  </button>
+                  </Link>
                </motion.div>
             </motion.div>
          </motion.div>
       </section>
-
-      {/* 12. FOOTER - SUPPORTED BY */}
       <footer className={`border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto px-6 py-16">
             <motion.div

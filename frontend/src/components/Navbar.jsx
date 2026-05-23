@@ -59,9 +59,11 @@ export default function Navbar() {
         : isDarkMode || isTransparentDarkBg ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-[#00D4FF]'
     } ${isActive ? 'after:content-[\'\'] after:absolute after:left-2 after:-bottom-1.5 after:w-[calc(100%-16px)] after:h-[3px] after:bg-[#00D4FF] after:rounded-full' : ''}`;
 
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+
   return (
     <header 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'} py-6`}
+      className={`${isAuthPage ? 'relative' : 'fixed top-0 left-0'} w-full z-50 transition-all duration-300 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'} py-6`}
       style={{ borderBottom: '2px solid #475569', boxShadow: '0px 12px 30px rgba(71, 85, 105, 0.4)' }}
     >
       <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
