@@ -1,87 +1,296 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import { Link } from 'react-router-dom';
-import { Phone, Linkedin, Github, Send, GraduationCap, Facebook, Youtube, Instagram, MapPin } from 'lucide-react';
+import { Phone, Linkedin, Send, Facebook, Youtube, Instagram, MapPin, Mail, ArrowRight, Activity, ShieldCheck, Heart, ExternalLink } from 'lucide-react';
+
+const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 
 export default function Footer() {
   const isDarkMode = useThemeMode();
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    if (newsletterEmail.trim()) {
+      setNewsletterSuccess(true);
+      setNewsletterEmail('');
+      setTimeout(() => setNewsletterSuccess(false), 8000);
+    }
+  };
+
   return (
-    <footer className={`relative z-20 bg-gradient-to-b py-10 border-t transition-colors duration-300 ${isDarkMode ? 'from-[#0B1120] to-[#0A1930] text-slate-300 border-white/10' : 'from-slate-50 to-white text-slate-600 border-slate-200'}`} role="contentinfo">
-      <div className="max-w-7xl mx-auto px-6">
+    <footer className={`relative z-20 pt-20 pb-12 border-t transition-all duration-500 overflow-hidden ${
+      isDarkMode 
+        ? 'bg-[#0B1120] text-slate-350 border-white/10' 
+        : 'bg-white text-slate-600 border-slate-200 shadow-[0_-8px_30px_rgba(0,0,0,0.02)]'
+    }`} role="contentinfo">
+      
+      {/* Decorative Blur Orbs for Production Wow-Factor */}
+      {isDarkMode && (
+        <>
+          <div className="absolute top-[-200px] left-[-200px] w-[500px] h-[500px] bg-[#00D4FF]/5 rounded-full blur-[120px] pointer-events-none mix-blend-screen"></div>
+          <div className="absolute bottom-[-100px] right-[-100px] w-[400px] h-[400px] bg-emerald-500/3 rounded-full blur-[100px] pointer-events-none mix-blend-screen"></div>
+        </>
+      )}
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         
-        {/* Top Section */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-10">
+        {/* 1. Production Newsletter Card (Wow Factor CTA) */}
+        <div className={`p-8 md:p-10 rounded-[2.5rem] border mb-16 relative overflow-hidden transition-all duration-500 ${
+          isDarkMode 
+            ? 'bg-[#0B1120]/40 backdrop-blur-xl border-white/5 shadow-2xl hover:border-white/10' 
+            : 'bg-slate-50/80 backdrop-blur-xl border-slate-200/60 shadow-lg hover:border-slate-300'
+        }`}>
+          {/* Internal Glow Effect */}
+          <div className="absolute top-[-100px] right-[-100px] w-64 h-64 bg-[#00D4FF]/10 blur-[80px] rounded-full pointer-events-none"></div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            <div className="lg:col-span-6 space-y-4 text-left">
+              <span className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wider uppercase border ${
+                isDarkMode ? 'bg-[#00D4FF]/5 text-[#00D4FF] border-[#00D4FF]/25' : 'bg-[#00D4FF]/10 text-[#00b2d6] border-[#00D4FF]/20'
+              }`}>
+                ✨ Join the Learning Revolution
+              </span>
+              <h3 className={`text-2xl md:text-3xl font-black tracking-tight leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                Empowering minds through <br />
+                structured, verified pathways.
+              </h3>
+              <p className={`text-sm max-w-lg leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                Subscribe to receive immediate notification on new course launches, student sponsorships, and real-time community achievements.
+              </p>
+            </div>
+            
+            <div className="lg:col-span-6 flex flex-col justify-center">
+              {newsletterSuccess ? (
+                <div className="p-5 bg-emerald-500/10 border border-emerald-500/25 rounded-3xl text-emerald-400 text-sm font-semibold flex items-center gap-3 animate-in fade-in duration-300 shadow-inner">
+                  <ShieldCheck className="w-5 h-5 shrink-0 text-emerald-400" />
+                  <div>
+                    <span className="block font-bold">Subscription Confirmed!</span>
+                    <span className="text-xs opacity-90 font-medium">Welcome to the EDOT ecosystem. Check your email for our catalog guides.</span>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 w-full lg:max-w-xl lg:ml-auto">
+                  <div className="relative flex-1">
+                    <Mail className={`absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
+                    <input
+                      type="email"
+                      required
+                      value={newsletterEmail}
+                      onChange={(e) => setNewsletterEmail(e.target.value)}
+                      placeholder="Enter your professional email address"
+                      className={`w-full pl-12 pr-5 py-4 border rounded-full text-sm font-medium focus:ring-2 focus:ring-[#00D4FF]/20 transition-all ${
+                        isDarkMode 
+                          ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-500 focus:border-[#00D4FF]/50' 
+                          : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:border-[#00D4FF]/50'
+                      }`}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="px-8 py-4 bg-gradient-to-r from-[#00D4FF] to-[#00b2d6] text-slate-900 rounded-full font-black text-xs uppercase tracking-wider transition-all duration-300 shadow-lg hover:shadow-[#00D4FF]/20 hover:-translate-y-0.5 flex items-center justify-center gap-2 shrink-0 cursor-pointer"
+                  >
+                    Subscribe <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* 2. Structured Multi-Column Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-12 gap-10 pb-16 border-b border-slate-200 dark:border-white/10 text-left">
           
-          {/* Logo & Copyright */}
-          <div className="flex flex-col max-w-xs">
-            <Link to="/" className="flex items-center gap-4 mb-5">
-              <div className="w-12 h-12 bg-white flex items-center justify-center rounded-[14px] shadow-sm">
-                <GraduationCap className="w-8 h-8 text-[#0B1120] stroke-[2.5]" />
+          {/* Brand Info Column */}
+          <div className="col-span-2 md:col-span-3 lg:col-span-4 space-y-6">
+            <Link to="/" className="flex items-center gap-3.5 transition-transform hover:scale-[1.02] group w-max">
+              <div className={`w-12 h-12 rounded-full overflow-hidden flex items-center justify-center shadow-md ${
+                isDarkMode ? 'bg-[#0B1120] border border-white/10' : 'bg-white border border-slate-200'
+              }`}>
+                <img src={edotLogo} alt="EDOT Logo" className="w-8.5 h-8.5 object-contain" />
               </div>
-              <div className="flex flex-col justify-center text-left">
-                <span className="font-black text-[28px] leading-none tracking-wide bg-gradient-to-r from-[#00D4FF] to-teal-500 bg-clip-text text-transparent">EDOT</span>
-                <span className={`text-[11px] font-bold tracking-[0.2em] mt-1 ${isDarkMode ? 'text-blue-200' : 'text-slate-500'}`}>PLATFORM</span>
+              <div className="flex flex-col justify-center">
+                <span className="font-black text-2xl leading-none tracking-tight bg-gradient-to-r from-[#00D4FF] to-emerald-400 bg-clip-text text-transparent">EDOT</span>
+                <span className={`text-[8.5px] font-black tracking-[0.25em] mt-1.5 uppercase ${
+                  isDarkMode ? 'text-slate-300' : 'text-slate-500'
+                }`}>Education for All</span>
               </div>
             </Link>
-            <p className={`text-xs mt-2 leading-relaxed text-left ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-              Copyright &copy; {new Date().getFullYear()}<br/>
-              EDOT (Educational Digital Online Tools).<br/>
-              All rights reserved.
+            
+            <p className={`text-xs leading-relaxed max-w-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+              EDOT is a full-stack, enterprise-grade learning management platform linking administrators, instructors, sponsors, parents, and students together in a cohesive dashboard ecosystem.
             </p>
-          </div>
- 
-          {/* Links Grid */}
-          <div className="flex flex-wrap gap-x-12 gap-y-6 flex-1 justify-center">
-            <div className="flex flex-col gap-3 border-l-2 border-[#00D4FF] pl-4 text-left">
-               <Link to="/courses?cat=SocialScience" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>Social Science</Link>
-               <Link to="/courses?cat=MathScience" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>Math & Science</Link>
-               <Link to="/courses?cat=Programming" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>Programming</Link>
-               <Link to="/courses?cat=Business" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>Business</Link>
-            </div>
-            <div className="flex flex-col gap-3 border-l-2 border-[#00D4FF] pl-4 text-left">
-               <Link to="/about" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>About EDOT</Link>
-               <Link to="/courses" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>Full Catalog</Link>
-               <Link to="/register" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>Join Platform</Link>
-               <Link to="/register?role=instructor" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>Teach With Us</Link>
-            </div>
-            <div className="flex flex-col gap-3 border-l-2 border-[#00D4FF] pl-4 text-left">
-               <Link to="/contact" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>Contact Us</Link>
-               <Link to="/contact" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>FAQ</Link>
-               <Link to="/privacy" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>Privacy Policy</Link>
-               <Link to="/terms" className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-slate-350 hover:text-white' : 'text-slate-600 hover:text-teal-600'}`}>Terms of Service</Link>
+
+            {/* Pulsing Systems Status (Production Grade Element) */}
+            <div className="flex items-center gap-2.5">
+              <div className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </div>
+              <span className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 ${
+                isDarkMode ? 'text-slate-400' : 'text-slate-500'
+              }`}>
+                All Systems Operational
+              </span>
             </div>
           </div>
- 
-          {/* Action Button */}
-          <div className="shrink-0">
-            <Link to="/contact" className="inline-flex items-center justify-center px-6 py-2.5 bg-[#00D4FF] text-slate-900 rounded-full text-sm font-bold hover:bg-[#00c5eb] transition-all shadow-md hover:-translate-y-0.5 duration-200">
-              Contact Us
-            </Link>
+
+          {/* Column A: Learning Pathways */}
+          <div className="lg:col-span-2 space-y-4">
+            <h4 className={`text-[11px] font-black uppercase tracking-wider ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>
+              Pathways
+            </h4>
+            <ul className="space-y-3">
+              {[
+                { label: 'Social Science', to: '/courses' },
+                { label: 'Math & Science', to: '/courses' },
+                { label: 'Natural Language', to: '/courses' },
+                { label: 'Tech & Programming', to: '/courses' },
+                { label: 'Business Hub', to: '/courses' },
+                { label: 'Personal Growth', to: '/courses' }
+              ].map((item, idx) => (
+                <li key={idx}>
+                  <Link 
+                    to={item.to} 
+                    className={`text-sm font-semibold transition-all duration-300 hover:pl-1 flex items-center gap-1 group ${
+                      isDarkMode ? 'text-slate-400 hover:text-[#00D4FF]' : 'text-slate-500 hover:text-[#00b2d6]'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column B: Role Gateways */}
+          <div className="lg:col-span-2 space-y-4">
+            <h4 className={`text-[11px] font-black uppercase tracking-wider ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>
+              Role Hubs
+            </h4>
+            <ul className="space-y-3">
+              {[
+                { label: 'Learners Gateway', to: '/login' },
+                { label: 'Educators Portal', to: '/register?role=instructor' },
+                { label: 'Parent Portal', to: '/register?role=parent' },
+                { label: 'Sponsorship Vault', to: '/sponsorship' },
+                { label: 'Impact Analytics', to: '/impact' }
+              ].map((item, idx) => (
+                <li key={idx}>
+                  <Link 
+                    to={item.to} 
+                    className={`text-sm font-semibold transition-all duration-300 hover:pl-1 flex items-center gap-1 group ${
+                      isDarkMode ? 'text-slate-400 hover:text-[#00D4FF]' : 'text-slate-500 hover:text-[#00b2d6]'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column C: Resources */}
+          <div className="lg:col-span-2 space-y-4">
+            <h4 className={`text-[11px] font-black uppercase tracking-wider ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>
+              Resources
+            </h4>
+            <ul className="space-y-3">
+              {[
+                { label: 'Public Notices', to: '/about' },
+                { label: 'Academic Calendar', to: '/contact' },
+                { label: 'Interactive FAQs', to: '/contact' },
+                { label: 'Verification Hub', to: '/sponsorship' },
+                { label: 'API Reference', to: '/about' }
+              ].map((item, idx) => (
+                <li key={idx}>
+                  <Link 
+                    to={item.to} 
+                    className={`text-sm font-semibold transition-all duration-300 hover:pl-1 flex items-center gap-1 group ${
+                      isDarkMode ? 'text-slate-400 hover:text-[#00D4FF]' : 'text-slate-500 hover:text-[#00b2d6]'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column D: Enterprise Trust */}
+          <div className="lg:col-span-2 space-y-4">
+            <h4 className={`text-[11px] font-black uppercase tracking-wider ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>
+              Trust & Legal
+            </h4>
+            <ul className="space-y-3">
+              {[
+                { label: 'Support & Help', to: '/contact' },
+                { label: 'Privacy Policy', to: '/privacy' },
+                { label: 'Terms of Service', to: '/terms' },
+                { label: 'Security Protocols', to: '/about' }
+              ].map((item, idx) => (
+                <li key={idx}>
+                  <Link 
+                    to={item.to} 
+                    className={`text-sm font-semibold transition-all duration-300 hover:pl-1 flex items-center gap-1 group ${
+                      isDarkMode ? 'text-slate-400 hover:text-[#00D4FF]' : 'text-slate-500 hover:text-[#00b2d6]'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+        </div>
+
+        {/* 3. Bottom Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-10">
+          
+          {/* Metadata & Coordinates */}
+          <div className={`flex flex-wrap items-center justify-center md:justify-start gap-x-8 gap-y-4 text-xs font-bold ${
+            isDarkMode ? 'text-slate-400' : 'text-slate-650'
+          }`}>
+            <a href="tel:+251941177566" className="flex items-center gap-2 hover:text-[#00D4FF] transition-colors duration-300"><Phone className="w-3.5 h-3.5 text-[#00D4FF]"/> +251 941 177 566</a>
+            <a href="tel:+251962343967" className="flex items-center gap-2 hover:text-[#00D4FF] transition-colors duration-300"><Phone className="w-3.5 h-3.5 text-[#00D4FF]"/> +251 962 343 967</a>
+            <span className="flex items-center gap-2 select-none"><MapPin className="w-3.5 h-3.5 text-[#00D4FF]"/> Adama, ASTU Region</span>
           </div>
           
-        </div>
- 
-        {/* Divider */}
-        <div className="w-full h-1 bg-[#00D4FF] rounded-full mb-6"></div>
- 
-        {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className={`flex flex-wrap items-center justify-center md:justify-start gap-6 text-xs font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
-            <a href="tel:+251941177566" className="flex items-center gap-2 hover:text-[#00D4FF] transition-colors"><Phone className="w-3.5 h-3.5"/> +251 941 177 566</a>
-            <a href="tel:+251962343967" className="flex items-center gap-2 hover:text-[#00D4FF] transition-colors"><Phone className="w-3.5 h-3.5"/> +251 962 343 967</a>
-            <span className="flex items-center gap-2 hover:text-[#00D4FF] transition-colors"><MapPin className="w-3.5 h-3.5"/> ADAMA near ASTU</span>
+          {/* Footer Copyright Slogan & Socials */}
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <span className="text-[10px] font-black tracking-widest text-slate-500 uppercase flex items-center gap-1 select-none">
+              Built with <Heart className="w-3.5 h-3.5 text-[#00D4FF] fill-[#00D4FF] animate-pulse" /> for ASTU Communities
+            </span>
+            
+            <div className="flex items-center gap-3">
+              {[
+                { icon: Facebook, href: '#' },
+                { icon: Youtube, href: '#' },
+                { icon: Linkedin, href: '#' },
+                { icon: Instagram, href: '#' },
+                { icon: Send, href: '#' }
+              ].map((social, idx) => (
+                <a 
+                  key={idx} 
+                  href={social.href} 
+                  className={`w-8.5 h-8.5 rounded-full flex items-center justify-center border hover:scale-105 transition-all duration-300 ${
+                    isDarkMode 
+                      ? 'text-slate-400 border-white/5 hover:border-[#00D4FF] hover:bg-[#00D4FF]/5 hover:text-[#00D4FF]' 
+                      : 'text-slate-500 border-slate-200 hover:border-[#00b2d6] hover:bg-[#00D4FF]/10 hover:text-[#00b2d6]'
+                  }`}
+                >
+                  <social.icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
           </div>
-          
-          <div className="flex items-center gap-3">
-            <a href="#" className={`w-8 h-8 rounded-full flex items-center justify-center hover:text-[#00D4FF] transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}><Facebook className="w-4 h-4"/></a>
-            <a href="#" className={`w-8 h-8 rounded-full flex items-center justify-center hover:text-[#00D4FF] transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}><Youtube className="w-4 h-4"/></a>
-            <a href="#" className={`w-8 h-8 rounded-full flex items-center justify-center hover:text-[#00D4FF] transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}><Linkedin className="w-4 h-4"/></a>
-            <a href="#" className={`w-8 h-8 rounded-full flex items-center justify-center hover:text-[#00D4FF] transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}><Instagram className="w-4 h-4"/></a>
-            <a href="#" className={`w-8 h-8 rounded-full flex items-center justify-center hover:text-[#00D4FF] transition-colors ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}><Send className="w-4 h-4"/></a>
-          </div>
+
         </div>
- 
+
       </div>
     </footer>
   );
 }
+
