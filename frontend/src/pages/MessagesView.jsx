@@ -11,9 +11,14 @@ import { io } from 'socket.io-client';
 import AgendaCreationModal from '../components/AgendaCreationModal';
 import LiveRoom from './LiveRoom';
 
-const SOCKET_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:5005'
-  : `${window.location.protocol}//${window.location.hostname}`;
+const getSocketUrl = () => {
+  const apiEnv = import.meta.env.VITE_API_URL;
+  if (apiEnv) {
+    return apiEnv.replace(/\/api$/, '').replace(/\/$/, '');
+  }
+  return import.meta.env.PROD ? 'https://edotplatform-2.onrender.com' : 'http://localhost:5005';
+};
+const SOCKET_BASE_URL = getSocketUrl();
 
 const socket = io(SOCKET_BASE_URL, {
   withCredentials: true
