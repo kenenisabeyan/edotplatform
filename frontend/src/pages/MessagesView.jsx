@@ -16,7 +16,7 @@ const getSocketUrl = () => {
   if (apiEnv) {
     return apiEnv.replace(/\/api$/, '').replace(/\/$/, '');
   }
-  return import.meta.env.PROD ? 'https://edotplatform-2.onrender.com' : 'http://localhost:5005';
+  return import.meta.env.PROD ? 'https://edotplatform.onrender.com' : 'http://localhost:5005';
 };
 const SOCKET_BASE_URL = getSocketUrl();
 

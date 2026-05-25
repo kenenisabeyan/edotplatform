@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://edotplatform-2.onrender.com/api' : 'http://localhost:5000/api');
+let API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://edotplatform.onrender.com/api' : 'http://localhost:5000/api');
 if (API_BASE_URL && !API_BASE_URL.endsWith('/api')) {
     API_BASE_URL = API_BASE_URL.replace(/\/$/, '') + '/api';
 }
