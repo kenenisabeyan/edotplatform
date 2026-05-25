@@ -14,24 +14,43 @@ export default function Sponsorship() {
     <div className={`min-h-screen w-full font-sans overflow-x-hidden relative transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-[#ffffff] text-slate-800'}`}>
       
       {/* 1. HERO SECTION */}
-      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b bg-[#EBFDFC] dark:bg-[#081F1A] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b transition-colors duration-500 ${
+        isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'
+      }`}>
          
-         {/* Concentric Circle 1 (light green) */}
-         <div className="absolute left-[-20%] top-[-30%] w-[90%] h-[160%] rounded-full bg-[#D5F5EE] dark:bg-[#0c2f28] z-0 pointer-events-none"></div>
-         
-         {/* Concentric Circle 2 (medium/vibrant green, pushed to the right) */}
-         <div className="absolute right-[-15%] top-[-25%] w-[80%] h-[150%] rounded-full bg-[#3EDAA9] dark:bg-[#0f6b54] opacity-95 z-0 pointer-events-none"></div>
+         {/* Dynamic Bold Sharp Geometric Zigzag Structures cutting bottom-left to top-right */}
+         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+           <svg className="absolute w-full h-full" viewBox="0 0 1440 850" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+             {/* Cyan Dynamic Sharp Zigzag */}
+             <path d="M-100 900 L320 680 L200 480 L800 280 L680 160 L1500 -120 L1600 -120 L1600 1000 Z" fill="url(#cyanGeometricGrad)" opacity={isDarkMode ? "0.22" : "0.14"}/>
+             {/* Orange Dynamic Sharp Zigzag */}
+             <path d="M-200 1000 L270 760 L140 560 L740 360 L620 240 L1420 -60 L1500 -60 L1500 1100 Z" fill="url(#orangeGeometricGrad)" opacity={isDarkMode ? "0.18" : "0.12"}/>
+             
+             <defs>
+               <linearGradient id="cyanGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#19C2E8" />
+                 <stop offset="60%" stopColor="#00D4FF" stopOpacity="0.3" />
+                 <stop offset="100%" stopColor="#00D4FF" stopOpacity="0" />
+               </linearGradient>
+               <linearGradient id="orangeGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#FF6A00" />
+                 <stop offset="60%" stopColor="#FFB700" stopOpacity="0.3" />
+                 <stop offset="100%" stopColor="#FFB700" stopOpacity="0" />
+               </linearGradient>
+             </defs>
+           </svg>
+         </div>
 
          {/* Subtle decorative grid overlay */}
-         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#0ea5e903_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e903_1px,transparent_1px)] bg-[size:44px_44px] pointer-events-none"></div>
+         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
 
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
             <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight text-[#0F172A] dark:text-white`}>
                Give the Gift of <br className="hidden md:block" />
-               <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+               <span className="text-[#FF6A00] relative inline-block mt-2 whitespace-nowrap">
                   <span className="relative z-10">Education</span>
                   {/* Underline */}
-                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316]/20 z-0"></div>
+                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#FF6A00]/20 z-0"></div>
                </span>
             </h1>
             <p className={`text-xl md:text-[20px] font-semibold max-w-3xl mx-auto leading-relaxed text-slate-700 dark:text-slate-300`}>
@@ -67,7 +86,7 @@ export default function Sponsorship() {
       {/* 3. HOW IT WORKS (Icons only, step-by-step) */}
       <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto text-center">
-            <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>How Sponsorship <span className="text-[#00D4FF]">Works</span></h2>
+            <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>How Sponsorship <span className="text-[#19C2E8]">Works</span></h2>
             <p className={`text-xl max-w-3xl mx-auto mb-16 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                A transparent, end-to-end system designed to ensure every dollar directly supports learning.
             </p>
@@ -75,8 +94,8 @@ export default function Sponsorship() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
                <div className="hidden md:block absolute top-1/2 left-[10%] right-[10%] h-0.5 bg-slate-200 dark:bg-white/10 -translate-y-1/2 z-0"></div>
                {[
-                 { step: "01", title: "Select a Learner", desc: "Browse profiles of verified students who need support.", icon: Users, color: "text-[#00D4FF]", bg: "bg-blue-100 dark:bg-blue-900/30" },
-                 { step: "02", title: "Fund Education", desc: "Provide a secure micro-scholarship for their courses.", icon: Handshake, color: "text-[#00D4FF]", bg: "bg-orange-100 dark:bg-orange-900/30" },
+                 { step: "01", title: "Select a Learner", desc: "Browse profiles of verified students who need support.", icon: Users, color: "text-[#19C2E8]", bg: "bg-blue-100 dark:bg-blue-900/30" },
+                 { step: "02", title: "Fund Education", desc: "Provide a secure micro-scholarship for their courses.", icon: Handshake, color: "text-[#19C2E8]", bg: "bg-orange-100 dark:bg-orange-900/30" },
                  { step: "03", title: "Track Progress", desc: "Watch their exam scores and module completions.", icon: Activity, color: "text-green-500", bg: "bg-green-100 dark:bg-green-900/30" },
                  { step: "04", title: "See the Impact", desc: "Celebrate their graduation and certification.", icon: Zap, color: "text-purple-500", bg: "bg-purple-100 dark:bg-purple-900/30" }
                ].map((item, i) => (
@@ -97,7 +116,7 @@ export default function Sponsorship() {
       <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-[#00D4FF] font-bold text-sm mb-6 uppercase tracking-wider">
+               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-[#19C2E8] font-bold text-sm mb-6 uppercase tracking-wider">
                   <ShieldCheck className="w-4 h-4" /> 100% Transparent
                </div>
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Total Visibility Into Your Impact</h2>
@@ -112,7 +131,7 @@ export default function Sponsorship() {
                     "Receive updates when milestones are reached"
                   ].map((text, i) => (
                      <li key={i} className="flex items-center gap-4">
-                        <CheckCircle className="w-6 h-6 text-[#00D4FF] shrink-0" />
+                        <CheckCircle className="w-6 h-6 text-[#19C2E8] shrink-0" />
                         <span className={`text-lg font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>{text}</span>
                      </li>
                   ))}
@@ -146,14 +165,14 @@ export default function Sponsorship() {
       <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-orange-50 border-slate-200'}`}>
          <div className="max-w-[1000px] mx-auto text-center">
             <h2 className={`text-5xl md:text-6xl font-black mb-8 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               Ready to <span className="text-[#00D4FF]">Change a Life?</span>
+               Ready to <span className="text-[#19C2E8]">Change a Life?</span>
             </h2>
             <p className={`text-2xl mb-12 max-w-2xl mx-auto font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                Join our network of sponsors today and start making a direct, trackable impact on students worldwide.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-               <Link to="/register" className="bg-[#00D4FF] text-[#ffffff] px-10 py-4 rounded-full font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">
+               <Link to="/register" className="bg-gradient-to-r from-[#19C2E8] to-[#00D4FF] text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:shadow-cyan-500/20 hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-cyan-500/10 flex items-center justify-center gap-3">
                  Become a Sponsor <ChevronRight className="w-5 h-5" />
                </Link>
             </div>

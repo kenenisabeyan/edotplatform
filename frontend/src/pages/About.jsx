@@ -21,24 +21,43 @@ export default function About() {
     <div className={`min-h-screen w-full transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-white text-slate-900'}`}>
       
       {/* 1. HERO SECTION */}
-      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b bg-[#EBFDFC] dark:bg-[#081F1A] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b transition-colors duration-500 ${
+        isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'
+      }`}>
          
-         {/* Concentric Circle 1 (light green) */}
-         <div className="absolute left-[-20%] top-[-30%] w-[90%] h-[160%] rounded-full bg-[#D5F5EE] dark:bg-[#0c2f28] z-0 pointer-events-none"></div>
-         
-         {/* Concentric Circle 2 (medium/vibrant green, pushed to the right) */}
-         <div className="absolute right-[-15%] top-[-25%] w-[80%] h-[150%] rounded-full bg-[#3EDAA9] dark:bg-[#0f6b54] opacity-95 z-0 pointer-events-none"></div>
+         {/* Dynamic Bold Sharp Geometric Zigzag Structures cutting bottom-left to top-right */}
+         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+           <svg className="absolute w-full h-full" viewBox="0 0 1440 850" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+             {/* Cyan Dynamic Sharp Zigzag */}
+             <path d="M-100 900 L320 680 L200 480 L800 280 L680 160 L1500 -120 L1600 -120 L1600 1000 Z" fill="url(#cyanGeometricGrad)" opacity={isDarkMode ? "0.22" : "0.14"}/>
+             {/* Orange Dynamic Sharp Zigzag */}
+             <path d="M-200 1000 L270 760 L140 560 L740 360 L620 240 L1420 -60 L1500 -60 L1500 1100 Z" fill="url(#orangeGeometricGrad)" opacity={isDarkMode ? "0.18" : "0.12"}/>
+             
+             <defs>
+               <linearGradient id="cyanGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#19C2E8" />
+                 <stop offset="60%" stopColor="#00D4FF" stopOpacity="0.3" />
+                 <stop offset="100%" stopColor="#00D4FF" stopOpacity="0" />
+               </linearGradient>
+               <linearGradient id="orangeGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#FF6A00" />
+                 <stop offset="60%" stopColor="#FFB700" stopOpacity="0.3" />
+                 <stop offset="100%" stopColor="#FFB700" stopOpacity="0" />
+               </linearGradient>
+             </defs>
+           </svg>
+         </div>
 
          {/* Subtle decorative grid overlay */}
-         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#0ea5e903_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e903_1px,transparent_1px)] bg-[size:44px_44px] pointer-events-none"></div>
+         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
 
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
             <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight text-[#0F172A] dark:text-white`}>
                Building a Better Future Through <br className="hidden md:block" />
-               <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+               <span className="text-[#FF6A00] relative inline-block mt-2 whitespace-nowrap">
                   <span className="relative z-10">Education</span>
                   {/* Underline */}
-                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316]/20 z-0"></div>
+                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#FF6A00]/20 z-0"></div>
                </span>
             </h1>
             <p className={`text-xl md:text-[20px] font-semibold max-w-3xl mx-auto leading-relaxed text-slate-700 dark:text-slate-300`}>
@@ -59,7 +78,7 @@ export default function About() {
                      <img src={mahiImg} alt="Mahi" className="w-full h-full object-cover filter hover:grayscale-0 transition-all duration-500" />
                   </div>
                </div>
-               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square bg-[#00D4FF]/5 rounded-full blur-[100px] z-0 pointer-events-none"></div>
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square bg-[#19C2E8]/5 rounded-full blur-[100px] z-0 pointer-events-none"></div>
             </div>
             
             <div className="flex-1 text-left">
@@ -133,14 +152,14 @@ export default function About() {
                
                <div className="space-y-4">
                   {[
-                    "Structured learning paths from basic to advanced levels",
-                    "Personalized learning experiences based on pace and level",
-                    "Real-time support and interaction",
-                    "Progress tracking for accountability and improvement",
-                    "Sponsorship integration to support learners in need"
+                     "Structured learning paths from basic to advanced levels",
+                     "Personalized learning experiences based on pace and level",
+                     "Real-time support and interaction",
+                     "Progress tracking for accountability and improvement",
+                     "Sponsorship integration to support learners in need"
                   ].map((point, idx) => (
                     <div key={idx} className="flex items-start gap-4">
-                       <div className="w-6 h-6 mt-0.5 rounded-full bg-[#00D4FF]/20 text-[#00D4FF] flex items-center justify-center shrink-0">
+                       <div className="w-6 h-6 mt-0.5 rounded-full bg-[#19C2E8]/20 text-[#19C2E8] flex items-center justify-center shrink-0">
                           <CheckCircle className="w-4 h-4" />
                        </div>
                        <span className={`text-[16px] font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>{point}</span>
@@ -149,7 +168,7 @@ export default function About() {
                </div>
             </div>
             
-            <div className="flex-1 w-full rounded-[40px] overflow-hidden shadow-2xl border-[6px] border-[#00D4FF]/10 h-[500px]">
+            <div className="flex-1 w-full rounded-[40px] overflow-hidden shadow-2xl border-[6px] border-[#19C2E8]/10 h-[500px]">
                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Platform Dashboard Interface" className="w-full h-full object-cover" />
             </div>
          </div>
@@ -160,10 +179,10 @@ export default function About() {
          <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className={`relative p-12 rounded-[40px] overflow-hidden group ${isDarkMode ? 'bg-[#111827]' : 'bg-[#FFF8F0]'}`}>
                <div className="absolute top-0 right-0 p-8 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform duration-700">
-                  <Target className="w-48 h-48 text-[#00D4FF]" />
+                  <Target className="w-48 h-48 text-[#19C2E8]" />
                </div>
                <div className="relative z-10">
-                  <div className="w-16 h-16 rounded-2xl bg-[#00D4FF] text-white flex items-center justify-center mb-8 shadow-lg">
+                  <div className="w-16 h-16 rounded-2xl bg-[#19C2E8] text-white flex items-center justify-center mb-8 shadow-lg">
                      <Target className="w-8 h-8" />
                   </div>
                   <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Our Mission</h3>
@@ -175,10 +194,10 @@ export default function About() {
 
             <div className={`relative p-12 rounded-[40px] overflow-hidden group ${isDarkMode ? 'bg-[#111827]' : 'bg-[#F0FAFF]'}`}>
                <div className="absolute top-0 right-0 p-8 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform duration-700">
-                  <Globe className="w-48 h-48 text-[#00D4FF]" />
+                  <Globe className="w-48 h-48 text-[#19C2E8]" />
                </div>
                <div className="relative z-10">
-                  <div className="w-16 h-16 rounded-2xl bg-[#00D4FF] text-white flex items-center justify-center mb-8 shadow-lg">
+                  <div className="w-16 h-16 rounded-2xl bg-[#19C2E8] text-white flex items-center justify-center mb-8 shadow-lg">
                      <Globe className="w-8 h-8" />
                   </div>
                   <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Our Vision</h3>
@@ -194,7 +213,7 @@ export default function About() {
       <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto text-center">
             <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               Our <span className="text-[#00D4FF]">Unique Approach</span>
+               Our <span className="text-[#19C2E8]">Unique Approach</span>
             </h2>
             <p className={`text-xl max-w-3xl mx-auto leading-relaxed mb-20 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                EDOT stands out by combining education with real-world impact. This combination creates a system where learning is not only accessible, but also meaningful and transformative.
@@ -212,8 +231,8 @@ export default function About() {
                     ? 'from-[#d9c7ff] via-white to-[#ffdcb8] dark:from-purple-500/50 dark:via-transparent dark:to-orange-500/50'
                     : 'from-[#bce1ff] via-white to-[#b8ffea] dark:from-blue-500/50 dark:via-transparent dark:to-teal-500/50';
                  const innerCircle = isOddCard
-                    ? 'from-[#e0d4ff] to-[#ffebd4] dark:from-purple-900/50 dark:to-orange-900/50 text-[#00D4FF]'
-                    : 'from-[#d4eeff] to-[#d4ffec] dark:from-blue-900/50 dark:to-teal-900/50 text-[#00D4FF]';
+                    ? 'from-[#e0d4ff] to-[#ffebd4] dark:from-purple-900/50 dark:to-orange-900/50 text-[#19C2E8]'
+                    : 'from-[#d4eeff] to-[#d4ffec] dark:from-blue-900/50 dark:to-teal-900/50 text-[#19C2E8]';
 
                  return (
                  <div key={idx} className={`relative p-[1px] rounded-[32px] bg-gradient-to-br ${outerGradient} shadow-[0_10px_40px_rgba(0,0,0,0.08)] group hover:-translate-y-2 transition-transform duration-300`}>
@@ -231,13 +250,13 @@ export default function About() {
          </div>
       </section>
 
-      {/* 7. BUILT THROUGH INNOVATION */}
-      <section className={`py-32 px-6 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
-         <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="text-left">
-               <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-[#00D4FF] text-white rounded-2xl flex items-center justify-center mb-8 shadow-xl shadow-blue-500/30 transform rotate-3">
-                  <Zap className="w-10 h-10" />
-               </div>
+       {/* 7. BUILT THROUGH INNOVATION */}
+       <section className={`py-32 px-6 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
+          <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+             <div className="text-left">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-[#19C2E8] text-white rounded-2xl flex items-center justify-center mb-8 shadow-xl shadow-blue-500/30 transform rotate-3">
+                   <Zap className="w-10 h-10" />
+                </div>
                <h2 className={`text-4xl md:text-5xl font-black mb-8 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                   From Idea to Real-World Solution
                </h2>
@@ -254,13 +273,13 @@ export default function About() {
          </div>
       </section>
 
-      {/* 8. OUR TEAM & FOUNDERS */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-[#F8FAFC] border-slate-200'}`}>
-         <div className="max-w-[1200px] mx-auto">
-            <div className="text-center mb-24">
-               <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  The People Behind <span className="text-[#00D4FF]">EDOT</span>
-               </h2>
+       {/* 8. OUR TEAM & FOUNDERS */}
+       <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-[#F8FAFC] border-slate-200'}`}>
+          <div className="max-w-[1200px] mx-auto">
+             <div className="text-center mb-24">
+                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                   The People Behind <span className="text-[#19C2E8]">EDOT</span>
+                </h2>
                <p className={`text-xl max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                   EDOT is built by a team passionate about education, technology, and creating opportunities. Each member contributes to developing a platform that is not only functional, but also impactful and scalable.
                </p>
@@ -270,20 +289,20 @@ export default function About() {
             <div className="mb-16">
                <h3 className={`text-3xl font-black mb-10 text-center uppercase tracking-widest ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>The Founders</h3>
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                  {[
-                     { name: 'Kenenisa Beyan', role: 'Chief Executive Officer (CEO)', image: kenoImg },
-                     { name: 'Mahlet Zena', role: 'Chief Operations Officer (COO)', image: mahiImg },
-                     { name: 'Firomsa Guteta', role: 'Chief Technology Officer (CTO)', image: firoImg },
-                     { name: 'Yobsan Girma', role: 'Chief Financial Officer (CFO)', image: yobsanImg }
-                  ].map((member, i) => (
-                     <div key={i} className="flex flex-col items-center group">
-                        <div className={`w-48 h-48 rounded-[2rem] overflow-hidden mb-6 shadow-2xl transition-transform duration-500 group-hover:-translate-y-4 ${isDarkMode ? 'border-4 border-slate-800' : 'border-4 border-white'}`}>
-                           <img src={member.image} alt={member.name} className="w-full h-full object-cover filter grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" />
-                        </div>
-                        <h4 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{member.name}</h4>
-                        <p className="text-[#00D4FF] font-bold text-center">{member.role}</p>
-                     </div>
-                  ))}
+                                {[
+                      { name: 'Kenenisa Beyan', role: 'Chief Executive Officer (CEO)', image: kenoImg },
+                      { name: 'Mahlet Zena', role: 'Chief Operations Officer (COO)', image: mahiImg },
+                      { name: 'Firomsa Guteta', role: 'Chief Technology Officer (CTO)', image: firoImg },
+                      { name: 'Yobsan Girma', role: 'Chief Financial Officer (CFO)', image: yobsanImg }
+                   ].map((member, i) => (
+                      <div key={i} className="flex flex-col items-center group">
+                         <div className={`w-48 h-48 rounded-[2rem] overflow-hidden mb-6 shadow-2xl transition-transform duration-500 group-hover:-translate-y-4 ${isDarkMode ? 'border-4 border-slate-800' : 'border-4 border-white'}`}>
+                            <img src={member.image} alt={member.name} className="w-full h-full object-cover filter grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" />
+                         </div>
+                         <h4 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{member.name}</h4>
+                         <p className="text-[#19C2E8] font-bold text-center">{member.role}</p>
+                      </div>
+                   ))}
                </div>
             </div>
 
@@ -291,42 +310,42 @@ export default function About() {
             <div>
                <h3 className={`text-3xl font-black mb-10 text-center uppercase tracking-widest ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Core Team</h3>
                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                  {[
-                     { name: 'Yohannes Belete', role: 'Lead Frontend Engineer', image: joImg },
-                     { name: 'Haylemekot Bantealem', role: 'Head of Education Content', image: hayleImg },
-                     { name: 'Bethelhem Yehuala', role: 'UI/UX & Design Lead', image: bettyImg },
-                     { name: 'Chala Temesgen', role: 'Backend Infrastructure Lead', image: chalaImg }
-                  ].map((member, i) => (
-                     <div key={i} className="flex flex-col items-center group">
-                        <div className={`w-40 h-40 rounded-[2rem] overflow-hidden mb-6 shadow-xl transition-transform duration-500 group-hover:-translate-y-3 ${isDarkMode ? 'border-4 border-slate-800' : 'border-4 border-white'}`}>
-                           <img src={member.image} alt={member.name} className="w-full h-full object-cover filter grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" />
-                        </div>
-                        <h4 className={`text-xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{member.name}</h4>
-                        <p className="text-[#00D4FF] font-bold text-center text-sm">{member.role}</p>
-                     </div>
-                  ))}
+                                {[
+                      { name: 'Yohannes Belete', role: 'Lead Frontend Engineer', image: joImg },
+                      { name: 'Haylemekot Bantealem', role: 'Head of Education Content', image: hayleImg },
+                      { name: 'Bethelhem Yehuala', role: 'UI/UX & Design Lead', image: bettyImg },
+                      { name: 'Chala Temesgen', role: 'Backend Infrastructure Lead', image: chalaImg }
+                   ].map((member, i) => (
+                      <div key={i} className="flex flex-col items-center group">
+                         <div className={`w-40 h-40 rounded-[2rem] overflow-hidden mb-6 shadow-xl transition-transform duration-500 group-hover:-translate-y-3 ${isDarkMode ? 'border-4 border-slate-800' : 'border-4 border-white'}`}>
+                            <img src={member.image} alt={member.name} className="w-full h-full object-cover filter grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" />
+                         </div>
+                         <h4 className={`text-xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{member.name}</h4>
+                         <p className="text-[#19C2E8] font-bold text-center text-sm">{member.role}</p>
+                      </div>
+                   ))}
                </div>
             </div>
          </div>
       </section>
 
-      {/* 9. CLOSING SECTION */}
-      <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-slate-50 border-slate-200'}`}>
-         <div className="max-w-[1000px] mx-auto text-center">
-            <h2 className={`text-5xl md:text-6xl lg:text-7xl font-black mb-10 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               Education That Creates <span className="text-[#00D4FF]">Opportunity</span>
-            </h2>
-            <p className={`text-2xl mb-16 max-w-3xl mx-auto font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-               EDOT is not just about learning — it is about unlocking potential, reducing inequality, and building a future where everyone has the chance to succeed.
-            </p>
-
-            <div className="flex justify-center">
-               <Link to="/register" className="bg-[#00D4FF] text-[#ffffff] px-12 py-5 rounded-full font-black text-xl hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center gap-3">
-                 Join the Mission <ChevronRight className="w-6 h-6" />
-               </Link>
-            </div>
-         </div>
-      </section>
+       {/* 9. CLOSING SECTION */}
+       <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-slate-50 border-slate-200'}`}>
+          <div className="max-w-[1000px] mx-auto text-center">
+             <h2 className={`text-5xl md:text-6xl lg:text-7xl font-black mb-10 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                Education That Creates <span className="text-[#FF6A00]">Opportunity</span>
+             </h2>
+             <p className={`text-2xl mb-16 max-w-3xl mx-auto font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                EDOT is not just about learning — it is about unlocking potential, reducing inequality, and building a future where everyone has the chance to succeed.
+             </p>
+ 
+             <div className="flex justify-center">
+                <Link to="/register" className="bg-gradient-to-r from-[#19C2E8] to-[#00D4FF] text-slate-900 px-12 py-5 rounded-xl font-black text-xl hover:shadow-cyan-500/20 hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-cyan-500/10 flex items-center gap-3">
+                  Join the Mission <ChevronRight className="w-6 h-6" />
+                </Link>
+             </div>
+          </div>
+       </section>
 
       {/* FOOTER PADDING */}
       <div className="pb-12"></div>

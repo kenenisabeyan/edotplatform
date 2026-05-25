@@ -31,24 +31,43 @@ export default function Contact() {
       <div className="relative z-10 pt-24">
         
         {/* 1. HERO SECTION */}
-        <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b bg-[#EBFDFC] dark:bg-[#081F1A] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+        <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b transition-colors duration-500 ${
+          isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'
+        }`}>
            
-           {/* Concentric Circle 1 (light green) */}
-           <div className="absolute left-[-20%] top-[-30%] w-[90%] h-[160%] rounded-full bg-[#D5F5EE] dark:bg-[#0c2f28] z-0 pointer-events-none"></div>
-           
-           {/* Concentric Circle 2 (medium/vibrant green, pushed to the right) */}
-           <div className="absolute right-[-15%] top-[-25%] w-[80%] h-[150%] rounded-full bg-[#3EDAA9] dark:bg-[#0f6b54] opacity-95 z-0 pointer-events-none"></div>
+           {/* Dynamic Bold Sharp Geometric Zigzag Structures cutting bottom-left to top-right */}
+           <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+             <svg className="absolute w-full h-full" viewBox="0 0 1440 850" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+               {/* Cyan Dynamic Sharp Zigzag */}
+               <path d="M-100 900 L320 680 L200 480 L800 280 L680 160 L1500 -120 L1600 -120 L1600 1000 Z" fill="url(#cyanGeometricGrad)" opacity={isDarkMode ? "0.22" : "0.14"}/>
+               {/* Orange Dynamic Sharp Zigzag */}
+               <path d="M-200 1000 L270 760 L140 560 L740 360 L620 240 L1420 -60 L1500 -60 L1500 1100 Z" fill="url(#orangeGeometricGrad)" opacity={isDarkMode ? "0.18" : "0.12"}/>
+               
+               <defs>
+                 <linearGradient id="cyanGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                   <stop offset="0%" stopColor="#19C2E8" />
+                   <stop offset="60%" stopColor="#00D4FF" stopOpacity="0.3" />
+                   <stop offset="100%" stopColor="#00D4FF" stopOpacity="0" />
+                 </linearGradient>
+                 <linearGradient id="orangeGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                   <stop offset="0%" stopColor="#FF6A00" />
+                   <stop offset="60%" stopColor="#FFB700" stopOpacity="0.3" />
+                   <stop offset="100%" stopColor="#FFB700" stopOpacity="0" />
+                 </linearGradient>
+               </defs>
+             </svg>
+           </div>
 
            {/* Subtle decorative grid overlay */}
-           <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#0ea5e903_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e903_1px,transparent_1px)] bg-[size:44px_44px] pointer-events-none"></div>
+           <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
 
            <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
               <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight text-[#0F172A] dark:text-white`}>
                  Let’s Connect and <br className="hidden md:block" />
-                 <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+                 <span className="text-[#FF6A00] relative inline-block mt-2 whitespace-nowrap">
                     <span className="relative z-10">Build the Future</span>
                     {/* Underline */}
-                    <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316]/20 z-0"></div>
+                    <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#FF6A00]/20 z-0"></div>
                  </span>
               </h1>
               <p className={`text-xl md:text-[20px] font-semibold max-w-3xl mx-auto leading-relaxed text-slate-700 dark:text-slate-300`}>
@@ -156,10 +175,10 @@ export default function Contact() {
                       <button 
                         type="submit" 
                         disabled={loadingSubmit}
-                        className="btn-primary w-full py-4 text-[15px] flex items-center justify-center gap-3 mt-4 transition-transform hover:scale-[1.02]"
+                        className="w-full py-4 text-[15px] flex items-center justify-center gap-3 mt-4 rounded-xl font-bold bg-gradient-to-r from-[#19C2E8] to-[#00D4FF] text-slate-900 shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/20 transition-all duration-300 hover:scale-[1.01]"
                       >
                         {loadingSubmit ? (
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          <div className="w-5 h-5 border-2 border-slate-900/30 border-t-slate-900 rounded-full animate-spin"></div>
                         ) : (
                           <Send className="w-5 h-5" />
                         )}

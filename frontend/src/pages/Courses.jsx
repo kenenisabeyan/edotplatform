@@ -527,25 +527,44 @@ export default function Courses() {
     <div style={{ backgroundColor: isDarkMode ? '#0B1120' : '#ffffff' }} className={`min-h-screen w-full font-sans overflow-x-hidden relative transition-colors duration-300 ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}`}>
       
       {/* 1. HERO SECTION */}
-      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden bg-[#EBFDFC] dark:bg-[#081F1A] border-b ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden transition-colors duration-500 border-b ${
+        isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'
+      }`}>
          
-         {/* Concentric Circle 1 (light green) */}
-         <div className="absolute left-[-20%] top-[-30%] w-[90%] h-[160%] rounded-full bg-[#D5F5EE] dark:bg-[#0c2f28] z-0 pointer-events-none"></div>
-         
-         {/* Concentric Circle 2 (medium/vibrant green, pushed to the right) */}
-         <div className="absolute right-[-15%] top-[-25%] w-[80%] h-[150%] rounded-full bg-[#3EDAA9] dark:bg-[#0f6b54] opacity-95 z-0 pointer-events-none"></div>
+         {/* Dynamic Bold Sharp Geometric Zigzag Structures cutting bottom-left to top-right */}
+         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+           <svg className="absolute w-full h-full" viewBox="0 0 1440 850" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+             {/* Cyan Dynamic Sharp Zigzag */}
+             <path d="M-100 900 L320 680 L200 480 L800 280 L680 160 L1500 -120 L1600 -120 L1600 1000 Z" fill="url(#cyanGeometricGrad)" opacity={isDarkMode ? "0.22" : "0.14"}/>
+             {/* Orange Dynamic Sharp Zigzag */}
+             <path d="M-200 1000 L270 760 L140 560 L740 360 L620 240 L1420 -60 L1500 -60 L1500 1100 Z" fill="url(#orangeGeometricGrad)" opacity={isDarkMode ? "0.18" : "0.12"}/>
+             
+             <defs>
+               <linearGradient id="cyanGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#19C2E8" />
+                 <stop offset="60%" stopColor="#00D4FF" stopOpacity="0.3" />
+                 <stop offset="100%" stopColor="#00D4FF" stopOpacity="0" />
+               </linearGradient>
+               <linearGradient id="orangeGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#FF6A00" />
+                 <stop offset="60%" stopColor="#FFB700" stopOpacity="0.3" />
+                 <stop offset="100%" stopColor="#FFB700" stopOpacity="0" />
+               </linearGradient>
+             </defs>
+           </svg>
+         </div>
 
          {/* Subtle decorative grid overlay */}
-         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#0ea5e903_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e903_1px,transparent_1px)] bg-[size:44px_44px] pointer-events-none"></div>
+         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
 
          <div className={`relative z-10 max-w-[1000px] mx-auto mt-8 overflow-hidden rounded-[40px] border border-transparent bg-white/90 shadow-[0_28px_80px_-40px_rgba(15,23,42,0.35)] transition-colors duration-500 ${isDarkMode ? 'dark:bg-[#111827]/90 dark:shadow-none' : ''}`}>
             <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-center text-center lg:text-left px-8 py-12">
                <div>
                   <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight text-[#0F172A] dark:text-white`}>
                      Explore Structured <br className="hidden md:block" />
-                     <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+                     <span className="text-[#FF6A00] relative inline-block mt-2 whitespace-nowrap">
                         <span className="relative z-10">Learning Paths</span>
-                        <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316]/20 z-0"></div>
+                        <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#FF6A00]/20 z-0"></div>
                      </span>
                   </h1>
                   <p className={`text-xl md:text-[20px] font-semibold max-w-3xl mx-auto lg:mx-0 leading-relaxed text-slate-700 dark:text-slate-300`}>
@@ -573,7 +592,7 @@ export default function Courses() {
                </div>
             </div>
             <div className="text-left">
-               <div className="w-16 h-16 bg-[#00D4FF] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
+               <div className="w-16 h-16 bg-[#19C2E8] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
                   <Target className="w-8 h-8" />
                </div>
             <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Not Just Courses — Structured Learning</h2>

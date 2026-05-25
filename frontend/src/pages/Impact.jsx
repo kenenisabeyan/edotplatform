@@ -15,24 +15,43 @@ export default function Impact() {
     <div className={`min-h-screen w-full font-sans overflow-x-hidden relative transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-[#ffffff] text-slate-800'}`}>
       
       {/* 1. HERO SECTION */}
-      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b bg-[#EBFDFC] dark:bg-[#081F1A] ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b transition-colors duration-500 ${
+        isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'
+      }`}>
          
-         {/* Concentric Circle 1 (light green) */}
-         <div className="absolute left-[-20%] top-[-30%] w-[90%] h-[160%] rounded-full bg-[#D5F5EE] dark:bg-[#0c2f28] z-0 pointer-events-none"></div>
-         
-         {/* Concentric Circle 2 (medium/vibrant green, pushed to the right) */}
-         <div className="absolute right-[-15%] top-[-25%] w-[80%] h-[150%] rounded-full bg-[#3EDAA9] dark:bg-[#0f6b54] opacity-95 z-0 pointer-events-none"></div>
+         {/* Dynamic Bold Sharp Geometric Zigzag Structures cutting bottom-left to top-right */}
+         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+           <svg className="absolute w-full h-full" viewBox="0 0 1440 850" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+             {/* Cyan Dynamic Sharp Zigzag */}
+             <path d="M-100 900 L320 680 L200 480 L800 280 L680 160 L1500 -120 L1600 -120 L1600 1000 Z" fill="url(#cyanGeometricGrad)" opacity={isDarkMode ? "0.22" : "0.14"}/>
+             {/* Orange Dynamic Sharp Zigzag */}
+             <path d="M-200 1000 L270 760 L140 560 L740 360 L620 240 L1420 -60 L1500 -60 L1500 1100 Z" fill="url(#orangeGeometricGrad)" opacity={isDarkMode ? "0.18" : "0.12"}/>
+             
+             <defs>
+               <linearGradient id="cyanGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#19C2E8" />
+                 <stop offset="60%" stopColor="#00D4FF" stopOpacity="0.3" />
+                 <stop offset="100%" stopColor="#00D4FF" stopOpacity="0" />
+               </linearGradient>
+               <linearGradient id="orangeGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#FF6A00" />
+                 <stop offset="60%" stopColor="#FFB700" stopOpacity="0.3" />
+                 <stop offset="100%" stopColor="#FFB700" stopOpacity="0" />
+               </linearGradient>
+             </defs>
+           </svg>
+         </div>
 
          {/* Subtle decorative grid overlay */}
-         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#0ea5e903_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e903_1px,transparent_1px)] bg-[size:44px_44px] pointer-events-none"></div>
+         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
 
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
             <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight text-[#0F172A] dark:text-white`}>
                Transforming Education Into <br className="hidden md:block" />
-               <span className="text-[#F97316] relative inline-block mt-2 whitespace-nowrap">
+               <span className="text-[#FF6A00] relative inline-block mt-2 whitespace-nowrap">
                   <span className="relative z-10">Real Opportunity</span>
                   {/* Underline */}
-                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#F97316]/20 z-0"></div>
+                  <div className="absolute w-full h-1.5 bottom-1 left-0 bg-[#FF6A00]/20 z-0"></div>
                </span>
             </h1>
             <p className={`text-xl md:text-[20px] font-semibold max-w-3xl mx-auto leading-relaxed text-slate-700 dark:text-slate-300`}>
@@ -81,16 +100,16 @@ export default function Impact() {
       {/* 3. WHAT EDOT CHANGES */}
       <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto text-center">
-            <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>From Fragmented Learning to <span className="text-[#00D4FF]">Structured Growth</span></h2>
+            <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>From Fragmented Learning to <span className="text-[#19C2E8]">Structured Growth</span></h2>
             <p className={`text-xl max-w-3xl mx-auto mb-16 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                EDOT introduces a new approach — where learning is guided, progress is visible, and opportunity is built into the system. Instead of isolated courses, EDOT creates a connected ecosystem.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                {[
-                 { title: "Learners", desc: "Follow clear learning paths", icon: BookOpen, color: "text-[#00D4FF]", bg: "bg-[#00D4FF]/20" },
+                 { title: "Learners", desc: "Follow clear learning paths", icon: BookOpen, color: "text-[#19C2E8]", bg: "bg-[#19C2E8]/20" },
                  { title: "Instructors", desc: "Provide structured guidance", icon: Users, color: "text-blue-500", bg: "bg-blue-500/20" },
-                 { title: "Parents", desc: "Stay informed and engaged", icon: ShieldCheck, color: "text-[#00D4FF]", bg: "bg-[#00D4FF]/20" },
+                 { title: "Parents", desc: "Stay informed and engaged", icon: ShieldCheck, color: "text-[#19C2E8]", bg: "bg-[#19C2E8]/20" },
                  { title: "Sponsors", desc: "Enable access and track real impact", icon: Award, color: "text-green-500", bg: "bg-green-500/20" }
                ].map((item, i) => (
                   <div key={i} className={`p-8 rounded-[32px] border text-center transition-transform hover:-translate-y-2 ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
@@ -131,7 +150,7 @@ export default function Impact() {
 
                {/* With EDOT */}
                <div className={`p-10 rounded-[40px] border ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-[#F0FAFF] border-blue-100 shadow-xl'}`}>
-                  <h3 className={`text-3xl font-black mb-8 text-[#00D4FF] flex items-center gap-3`}><CheckCircle className="w-8 h-8" /> With EDOT</h3>
+                  <h3 className={`text-3xl font-black mb-8 text-[#19C2E8] flex items-center gap-3`}><CheckCircle className="w-8 h-8" /> With EDOT</h3>
                   <ul className="space-y-6">
                      {[
                        "Structured, guided learning paths",
@@ -140,7 +159,7 @@ export default function Impact() {
                        "Transparent tracking of progress and results"
                      ].map((text, i) => (
                         <li key={i} className="flex items-center gap-4">
-                           <div className="w-2 h-2 rounded-full bg-[#00D4FF]"></div>
+                           <div className="w-2 h-2 rounded-full bg-[#19C2E8]"></div>
                            <span className={`text-lg font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>{text}</span>
                         </li>
                      ))}
@@ -165,7 +184,7 @@ export default function Impact() {
                        "Progress tracking and performance improvement"
                      ].map((metric, i) => (
                         <li key={i} className="flex items-start gap-3">
-                           <TrendingUp className="w-5 h-5 text-[#00D4FF] shrink-0" />
+                           <TrendingUp className="w-5 h-5 text-[#19C2E8] shrink-0" />
                            <span className={`font-medium text-slate-200`}>{metric}</span>
                         </li>
                      ))}
@@ -173,7 +192,7 @@ export default function Impact() {
                </div>
             </div>
             <div>
-               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-[#00D4FF] font-bold text-sm mb-6 uppercase tracking-wider">
+               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-[#19C2E8] font-bold text-sm mb-6 uppercase tracking-wider">
                   <BarChart className="w-4 h-4" /> Data-Driven
                </div>
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Impact You Can See</h2>
@@ -182,11 +201,11 @@ export default function Impact() {
                </p>
                <div className="grid grid-cols-2 gap-6 mt-8">
                   <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                     <div className="text-4xl font-black text-[#00D4FF] mb-2">94%</div>
+                     <div className="text-4xl font-black text-[#FF6A00] mb-2">94%</div>
                      <div className={`text-sm font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Completion Rate</div>
                   </div>
                   <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                     <div className="text-4xl font-black text-[#00D4FF] mb-2">50k+</div>
+                     <div className="text-4xl font-black text-[#19C2E8] mb-2">50k+</div>
                      <div className={`text-sm font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Active Learners</div>
                   </div>
                </div>
@@ -197,7 +216,7 @@ export default function Impact() {
       {/* 6. EXPANDING ACCESS & SPONSORSHIP */}
       <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto text-center mb-16">
-            <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Opportunity, <span className="text-[#00D4FF]">Not Just Access</span></h2>
+            <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Opportunity, <span className="text-[#19C2E8]">Not Just Access</span></h2>
             <p className={`text-xl max-w-3xl mx-auto ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                One of the biggest barriers to education is financial limitation. EDOT addresses this through a sponsorship system that connects learners with supporters.
             </p>
@@ -212,7 +231,7 @@ export default function Impact() {
                  { title: "Community Focus", desc: "Empowering entire regions.", icon: Globe }
                ].map((item, idx) => (
                   <div key={idx} className={`p-8 rounded-[32px] border text-center transition-transform hover:-translate-y-2 ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-white border-slate-200 shadow-md'}`}>
-                     <div className="w-14 h-14 mx-auto rounded-xl bg-gradient-to-br from-[#00D4FF]/20 to-blue-500/20 text-[#00D4FF] flex items-center justify-center mb-4">
+                     <div className="w-14 h-14 mx-auto rounded-xl bg-gradient-to-br from-[#19C2E8]/20 to-blue-500/20 text-[#19C2E8] flex items-center justify-center mb-4">
                         <item.icon className="w-7 h-7" />
                      </div>
                      <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{item.title}</h3>
@@ -233,7 +252,7 @@ export default function Impact() {
             {/* Long-Term Vision */}
             <div className={`p-10 rounded-[40px] border relative overflow-hidden group ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-[#FFF8F0] border-orange-100'}`}>
                <div className="relative z-10">
-                  <div className="w-16 h-16 bg-[#00D4FF] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
+                  <div className="w-16 h-16 bg-[#19C2E8] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
                      <Milestone className="w-8 h-8" />
                   </div>
                   <h3 className={`text-3xl font-black mb-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Building a Future Through Education</h3>
@@ -243,7 +262,7 @@ export default function Impact() {
                   <ul className="space-y-4">
                      {['Reducing educational inequality', 'Developing practical, job-ready skills', 'Strengthening communities through knowledge', 'Supporting innovation and economic growth'].map((item, i) => (
                         <li key={i} className="flex items-center gap-3">
-                           <CheckCircle className="w-5 h-5 text-[#00D4FF]" />
+                           <CheckCircle className="w-5 h-5 text-[#19C2E8]" />
                            <span className={`font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-800'}`}>{item}</span>
                         </li>
                      ))}
@@ -254,7 +273,7 @@ export default function Impact() {
             {/* Scalable by Design */}
             <div className={`p-10 rounded-[40px] border relative overflow-hidden group ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-[#F0FAFF] border-blue-100'}`}>
                <div className="relative z-10">
-                  <div className="w-16 h-16 bg-[#00D4FF] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
+                  <div className="w-16 h-16 bg-[#19C2E8] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
                      <Network className="w-8 h-8" />
                   </div>
                   <h3 className={`text-3xl font-black mb-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Built to Grow and Expand</h3>
@@ -264,7 +283,7 @@ export default function Impact() {
                   <ul className="space-y-4">
                      {['Support diverse learning levels', 'Integrate new courses and domains', 'Connect more learners, instructors, and sponsors', 'Grow into a global education ecosystem'].map((item, i) => (
                         <li key={i} className="flex items-center gap-3">
-                           <CheckCircle className="w-5 h-5 text-[#00D4FF]" />
+                           <CheckCircle className="w-5 h-5 text-[#19C2E8]" />
                            <span className={`font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-800'}`}>{item}</span>
                         </li>
                      ))}
@@ -278,7 +297,7 @@ export default function Impact() {
       {/* 8. BUILT THROUGH INNOVATION (MiNT) */}
       <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1000px] mx-auto text-center">
-            <div className="w-20 h-20 mx-auto bg-gradient-to-br from-[#00D4FF] to-blue-600 text-white rounded-full flex items-center justify-center mb-8 shadow-xl">
+            <div className="w-20 h-20 mx-auto bg-gradient-to-br from-[#19C2E8] to-blue-600 text-white rounded-full flex items-center justify-center mb-8 shadow-xl">
                <Lightbulb className="w-10 h-10" />
             </div>
             <h2 className={`text-4xl md:text-5xl font-black mb-8 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Aligned With Broader Educational Goals</h2>
@@ -295,7 +314,7 @@ export default function Impact() {
       <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-slate-50 border-slate-200'}`}>
          <div className="max-w-[1000px] mx-auto text-center">
             <h2 className={`text-5xl md:text-6xl font-black mb-8 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               Impact Starts With Access — <span className="text-[#00D4FF]">And Grows With Opportunity</span>
+               Impact Starts With Access — <span className="text-[#FF6A00]">And Grows With Opportunity</span>
             </h2>
             <p className={`text-2xl mb-12 max-w-2xl mx-auto font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                EDOT is not just about improving how people learn. It is about ensuring that learning leads to opportunity — and that opportunity is accessible to everyone.
@@ -305,7 +324,7 @@ export default function Impact() {
                <Link to="/courses" className="bg-[#0B1120] text-white dark:bg-white dark:text-slate-900 px-10 py-4 rounded-full font-black text-lg hover:bg-slate-700 dark:hover:bg-slate-200 hover:-translate-y-1 transition-all duration-300 shadow-xl">
                  Explore the Ecosystem
                </Link>
-               <Link to="/register" className="bg-[#00D4FF] text-[#ffffff] px-10 py-4 rounded-full font-black text-lg hover:bg-[#e66a00] hover:-translate-y-1 transition-all duration-300 shadow-[0_15px_30px_rgba(249,115,22,0.3)] flex items-center justify-center gap-3">
+               <Link to="/register" className="bg-gradient-to-r from-[#19C2E8] to-[#00D4FF] text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:shadow-cyan-500/20 hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-cyan-500/10 flex items-center justify-center gap-3">
                  Join the Impact <ChevronRight className="w-5 h-5" />
                </Link>
             </div>
