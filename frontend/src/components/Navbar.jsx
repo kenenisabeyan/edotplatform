@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Menu, X, ChevronDown, LogOut, Settings, Bell, BookOpen, Shield } from 'lucide-react';
+import { Menu, X, ChevronDown, LogOut, Settings, Bell, BookOpen, Shield, LogIn, HelpCircle, ArrowRight } from 'lucide-react';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 import ThemeDropdown from './ThemeDropdown';
 
@@ -53,11 +53,11 @@ export default function Navbar() {
   };
 
   const navLinkClass = ({ isActive }) => 
-    `relative text-[15px] font-medium transition-all px-2 py-1.5 ${
+    `relative text-[15px] font-bold transition-all px-2.5 py-1.5 ${
       isActive 
-        ? 'text-[#00D4FF]'
-        : isDarkMode || isTransparentDarkBg ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-[#00D4FF]'
-    } ${isActive ? 'after:content-[\'\'] after:absolute after:left-2 after:-bottom-1.5 after:w-[calc(100%-16px)] after:h-[3px] after:bg-[#00D4FF] after:rounded-full' : ''}`;
+        ? 'text-[#19C2E8]'
+        : isDarkMode || isTransparentDarkBg ? 'text-slate-300 hover:text-white' : 'text-slate-650 hover:text-[#19C2E8]'
+    } ${isActive ? 'after:content-[\'\'] after:absolute after:left-2.5 after:-bottom-1.5 after:w-[calc(100%-20px)] after:h-[3px] after:bg-[#19C2E8] after:rounded-full' : ''}`;
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
@@ -70,13 +70,19 @@ export default function Navbar() {
         
         {/* LEFT: Logo */}
         <div className="flex items-center">
-          <Link to="/" className="flex items-center gap-3 transition-transform hover:scale-105 group">
-            <div className={`w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shadow-sm ${isDarkMode ? 'bg-[#0B1120] border border-white/10' : 'bg-white border border-slate-200'}`}>
-               <img src={edotLogo} alt="EDOT" className="w-8 h-8 object-contain" />
+          <Link to="/" className="flex items-center gap-3 transition-transform hover:scale-102 group">
+            <div className={`w-9 h-9 rounded-full overflow-hidden flex items-center justify-center shadow-sm ${
+              isDarkMode ? 'bg-[#0B1120] border border-white/10' : 'bg-white border border-slate-200'
+            }`}>
+               <img src={edotLogo} alt="EDOT" className="w-7 h-7 object-contain" />
             </div>
-            <div className="flex flex-col justify-center">
-              <span className={`text-[20px] font-black leading-none tracking-tight transition-colors ${isDarkMode || isTransparentDarkBg ? 'text-white' : 'text-slate-900'}`}>EDOT</span>
-              <span className={`text-[9px] font-bold tracking-widest mt-[2px] uppercase ${isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-500'}`}>Education for All</span>
+            <div className="flex flex-col justify-center text-left">
+              <span className={`text-[19px] font-black leading-none tracking-tight transition-colors ${
+                isDarkMode || isTransparentDarkBg ? 'text-white' : 'text-slate-900'
+              }`}>EDOT</span>
+              <span className={`text-[8.5px] font-black tracking-widest mt-1.5 uppercase ${
+                isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-500'
+              }`}>Education for All</span>
             </div>
           </Link>
         </div>
@@ -96,9 +102,9 @@ export default function Navbar() {
           <ThemeDropdown />
           {isAuthenticated ? (
             <div className="flex items-center gap-5">
-              <Link to="/dashboard/messages" className={`relative transition-colors hover:text-[#00D4FF] ${isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-600'}`}>
+              <Link to="/dashboard/messages" className={`relative transition-colors hover:text-[#19C2E8] ${isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-600'}`}>
                 <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#00D4FF] text-[8px] font-bold text-white flex items-center justify-center rounded-full border border-transparent">1</span>
+                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#19C2E8] text-[8px] font-bold text-white flex items-center justify-center rounded-full border border-transparent">1</span>
               </Link>
               
               <div className="relative" ref={userDropdownRef}>
@@ -106,7 +112,7 @@ export default function Navbar() {
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                   className={`flex items-center gap-2 transition-transform hover:scale-105 focus:outline-none`}
                 >
-                  <div className="w-9 h-9 rounded-full bg-[#00D4FF] flex items-center justify-center text-white shadow-md">
+                  <div className="w-9 h-9 rounded-full bg-[#19C2E8] flex items-center justify-center text-white shadow-md">
                     <span className="font-bold text-sm">{user?.name?.charAt(0) || 'U'}</span>
                   </div>
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform ${userDropdownOpen ? 'rotate-180' : ''} ${isDarkMode ? 'text-white' : 'text-slate-700'}`} />
@@ -118,13 +124,13 @@ export default function Navbar() {
                     <p className="text-[12px] text-slate-500 truncate mt-0.5">{user?.email || 'user@example.com'}</p>
                   </div>
                   <div className="p-2 space-y-1">
-                    <Link to="/dashboard" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>
+                    <Link to="/dashboard" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-650 hover:text-slate-900'}`}>
                       <Shield className="w-4 h-4" /> Dashboard
                     </Link>
-                    <Link to="/dashboard/courses" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>
+                    <Link to="/dashboard/courses" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-650 hover:text-slate-900'}`}>
                       <BookOpen className="w-4 h-4" /> My Learning
                     </Link>
-                    <Link to="/dashboard/settings" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>
+                    <Link to="/dashboard/settings" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-650 hover:text-slate-900'}`}>
                       <Settings className="w-4 h-4" /> Settings
                     </Link>
                   </div>
@@ -137,9 +143,35 @@ export default function Navbar() {
               </div>
             </div>
           ) : (
-            <div className="flex items-center gap-3">
-              <Link to="/login" className={`font-medium text-[15px] transition-colors ${isDarkMode || isTransparentDarkBg ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>Log In</Link>
-              <Link to="/register" className="btn btn-primary ml-2">Sign Up</Link>
+            <div className="flex items-center gap-4">
+              <Link 
+                to="/login" 
+                className={`flex items-center gap-2 font-bold text-[14px] transition-colors hover:text-[#19C2E8] ${
+                  isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-650'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-full border flex items-center justify-center ${
+                  isDarkMode ? 'border-slate-800 text-slate-350' : 'border-slate-200 text-slate-650'
+                }`}>
+                  <LogIn className="w-4 h-4" />
+                </div>
+                Log in
+              </Link>
+              <Link 
+                to="/register" 
+                className="bg-[#19C2E8] hover:bg-[#00c5eb] text-white px-6 py-2.5 rounded-full font-bold text-[14px] transition-colors shadow-sm ml-2 flex items-center gap-1.5"
+              >
+                Sign up
+              </Link>
+              <button 
+                onClick={() => navigate('/contact')}
+                className={`w-8 h-8 rounded-full border flex items-center justify-center transition-colors hover:text-[#19C2E8] ${
+                  isDarkMode ? 'border-slate-800 text-slate-350 hover:border-[#19C2E8]' : 'border-slate-200 text-slate-650 hover:border-[#19C2E8]'
+                }`}
+                aria-label="FAQ & Help"
+              >
+                <HelpCircle className="w-4.5 h-4.5" />
+              </button>
             </div>
           )}
         </div>
@@ -178,9 +210,15 @@ export default function Navbar() {
                   <button onClick={handleLogout} className="w-full text-left px-4 py-3 rounded-full text-[14px] font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10">Log Out</button>
                 </div>
               ) : (
-                <div className="flex flex-col gap-2 px-2 mt-2">
-                  <Link to="/login" className={`btn btn-outline w-full justify-center text-[14px] py-2.5`}>Log In</Link>
-                  <Link to="/register" className={`btn btn-primary w-full justify-center text-[14px] py-2.5`}>Sign Up</Link>
+                <div className="flex flex-col gap-2.5 px-2 mt-2">
+                  <Link to="/login" className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full border text-[14px] font-bold ${
+                    isDarkMode ? 'border-slate-800 text-white hover:bg-white/5' : 'border-slate-200 text-slate-700 hover:bg-slate-50'
+                  }`}>
+                    <LogIn className="w-4 h-4" strokeWidth={2.5} /> Log In
+                  </Link>
+                  <Link to="/register" className="w-full bg-[#19C2E8] hover:bg-[#00c5eb] text-white py-3 rounded-full font-bold text-[14px] flex items-center justify-center gap-1.5">
+                    Sign Up
+                  </Link>
                 </div>
               )}
             </div>

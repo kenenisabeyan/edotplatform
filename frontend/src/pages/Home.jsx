@@ -7,7 +7,7 @@ import {
   ArrowRight, BookOpen, BrainCircuit, Rocket, LineChart, Laptop, Target, UserCheck, Calculator, Globe, 
   PlayCircle, MessageSquare, Code, Cpu, Shield, Users, Gift, Star, ChevronDown, CheckCircle, Heart, Handshake, 
   LayoutDashboard, Languages, Briefcase, Zap, Newspaper, Quote, GitBranch, AlertTriangle, MonitorPlay, GraduationCap,
-  Award, Key, TrendingUp, Sparkles, Trophy, Zap as ZapIcon
+  Award, Key, TrendingUp, Sparkles, Trophy, Zap as ZapIcon, School
 } from 'lucide-react';
 const qanoVideo = 'https://res.cloudinary.com/dacck6udl/video/upload/v1778415967/edot/frontend/videos/yv9rdzpffbitbyumbn41.mov';
 
@@ -58,57 +58,131 @@ export default function Home() {
     <div className="min-h-screen w-full">
       
       {/* ===== PREMIUM HERO SECTION ===== */}
-      <div className="relative w-full overflow-hidden bg-[#EBFDFC] dark:bg-[#081F1A]">
+      <div className={`relative w-full overflow-hidden transition-colors duration-500 ${
+        isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-white text-slate-900'
+      }`}>
         
-        {/* Concentric Circle 1 (light green) */}
-        <div className="absolute left-[-20%] top-[-30%] w-[90%] h-[160%] rounded-full bg-[#D5F5EE] dark:bg-[#0c2f28] z-0 pointer-events-none"></div>
-        
-        {/* Concentric Circle 2 (medium/vibrant green, pushed to the right) */}
-        <div className="absolute right-[-15%] top-[-25%] w-[80%] h-[150%] rounded-full bg-[#3EDAA9] dark:bg-[#0f6b54] opacity-95 z-0 pointer-events-none"></div>
+        {/* Dynamic Bold Sharp Geometric Zigzag Structures cutting bottom-left to top-right */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+          <svg className="absolute w-full h-full" viewBox="0 0 1440 850" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            {/* Cyan Dynamic Sharp Zigzag */}
+            <path d="M-100 900 L320 680 L200 480 L800 280 L680 160 L1500 -120 L1600 -120 L1600 1000 Z" fill="url(#cyanGeometricGrad)" opacity={isDarkMode ? "0.22" : "0.14"}/>
+            {/* Orange Dynamic Sharp Zigzag */}
+            <path d="M-200 1000 L270 760 L140 560 L740 360 L620 240 L1420 -60 L1500 -60 L1500 1100 Z" fill="url(#orangeGeometricGrad)" opacity={isDarkMode ? "0.18" : "0.12"}/>
+            
+            <defs>
+              <linearGradient id="cyanGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#19C2E8" />
+                <stop offset="60%" stopColor="#00D4FF" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#00D4FF" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="orangeGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#FF6A00" />
+                <stop offset="60%" stopColor="#FFB700" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#FFB700" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
 
-        {/* Subtle decorative grid overlay */}
-        <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#0ea5e903_1px,transparent_1px),linear-gradient(to_bottom,#0ea5e903_1px,transparent_1px)] bg-[size:44px_44px] pointer-events-none"></div>
+        {/* Ambient background grid layer */}
+        <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
 
         <section className="relative z-10 pt-24 pb-16 lg:pt-32 lg:pb-24 px-6 md:px-8 lg:px-16">
           <div className="max-w-[1300px] mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-8 items-center">
 
-              {/* LEFT COLUMN: Content & CTAs */}
+              {/* LEFT COLUMN: Brand Tag, Headline, Micro-Cards */}
               <motion.div
                 initial={{ opacity: 0, x: -40 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="flex flex-col items-start text-left"
               >
-                {/* Floating Tag */}
+                {/* Brand Tagline Badge */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00D4FF] dark:bg-[#00D4FF]/25 border border-[#00D4FF]/40 text-[#0F172A] dark:text-[#00D4FF] shadow-sm mb-6"
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border shadow-sm mb-6 ${
+                    isDarkMode 
+                      ? 'bg-[#19C2E8]/10 border-[#19C2E8]/35 text-[#19C2E8]' 
+                      : 'bg-[#19C2E8]/10 border-[#19C2E8]/20 text-[#1294b2]'
+                  }`}
                 >
-                  <Heart className="w-3.5 h-3.5 fill-[#0F172A] dark:fill-[#00D4FF] text-[#0F172A] dark:text-[#00D4FF]" />
-                  <span className="text-[12px] font-bold uppercase tracking-wider">Building a brighter future through education</span>
+                  <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+                  <span className="text-[11px] font-black uppercase tracking-wider">Join the Learning Revolution</span>
                 </motion.div>
 
-                {/* Headline */}
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.08] tracking-tight text-[#0F172A] dark:text-white">
-                  Every Learner <br />
-                  Deserves a Chance <br />
-                  to <span className="text-[#F97316]">Succeed.</span>
+                {/* Bold Modern Headline */}
+                <h1 className={`text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight ${
+                  isDarkMode ? 'text-white' : 'text-slate-900'
+                }`}>
+                  Every Learner Deserves <br />
+                  <span className="bg-gradient-to-r from-[#FF6A00] to-[#FF9000] bg-clip-text text-transparent">a Chance to Succeed</span>
                 </h1>
 
-                {/* Subtext */}
-                <p className="max-w-xl text-[16px] md:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 font-semibold mt-6">
+                {/* Cohesive Subtext */}
+                <p className={`max-w-xl text-[15px] md:text-[16px] leading-relaxed font-semibold mt-5 ${
+                  isDarkMode ? 'text-slate-400' : 'text-slate-600'
+                }`}>
                   EDOT brings learners, instructors, parents, and sponsors together in a premium learning ecosystem designed for real growth, community support, and measurable impact.
                 </p>
 
-                {/* Call To Actions */}
+                {/* Dynamic 2x2 Grid of Micro-Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4.5 mt-8 w-full">
+                  {[
+                    {
+                      title: "Personalized Pathways",
+                      desc: "Tailored learning for your unique journey.",
+                      icon: GraduationCap,
+                      color: "text-[#19C2E8] bg-[#19C2E8]/10 border-[#19C2E8]/20"
+                    },
+                    {
+                      title: "Curated Courses",
+                      desc: "Explore thousands of expert-led courses.",
+                      icon: BookOpen,
+                      color: "text-[#FF6A00] bg-[#FF6A00]/10 border-[#FF6A00]/20"
+                    },
+                    {
+                      title: "Interactive Learning",
+                      desc: "Engaged with real-world projects.",
+                      icon: Laptop,
+                      color: "text-[#19C2E8] bg-[#19C2E8]/10 border-[#19C2E8]/20"
+                    },
+                    {
+                      title: "Community Support",
+                      desc: "Learn with peers and mentors.",
+                      icon: Users,
+                      color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20"
+                    }
+                  ].map((card, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ y: -4, scale: 1.015 }}
+                      className={`p-4.5 rounded-[20px] border flex gap-3 text-left transition-all duration-300 ${
+                        isDarkMode 
+                          ? 'bg-[#121A2F]/40 backdrop-blur-md border-white/5 shadow-lg' 
+                          : 'bg-white border-slate-200/80 shadow-md shadow-slate-100'
+                      }`}
+                    >
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${card.color}`}>
+                        <card.icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className={`text-[13px] font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{card.title}</h4>
+                        <p className={`text-[11.5px] font-semibold mt-1 leading-snug ${isDarkMode ? 'text-slate-450' : 'text-slate-500'}`}>{card.desc}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Primary Call to Actions */}
                 <div className="mt-8 flex flex-col sm:flex-row gap-4 w-full sm:w-auto z-10">
                   <motion.div whileHover={{ scale: 1.025 }} whileTap={{ scale: 0.985 }} className="w-full sm:w-auto">
                     <Link
                       to="/register?role=student"
-                      className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto rounded-xl bg-[#00D4FF] text-slate-900 px-8 py-4 text-[15px] font-bold shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/20 hover:bg-[#00c5eb] transition-all duration-300"
+                      className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto rounded-xl bg-gradient-to-r from-[#19C2E8] to-[#00D4FF] text-slate-900 px-8 py-4 text-[14px] font-bold shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/20 transition-all duration-300"
                     >
                       Start Learning
                       <ArrowRight className="w-4.5 h-4.5" strokeWidth={2.5} />
@@ -118,65 +192,37 @@ export default function Home() {
                   <motion.div whileHover={{ scale: 1.025 }} whileTap={{ scale: 0.985 }} className="w-full sm:w-auto">
                     <Link
                       to="/register?role=sponsor"
-                      className="inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-xl border border-white bg-white/90 px-8 py-4 text-[15px] font-bold text-[#0D9488] shadow-sm hover:bg-white hover:border-teal-100 transition-all duration-300"
+                      className={`inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-xl border px-8 py-4 text-[14px] font-bold transition-all duration-300 shadow-sm ${
+                        isDarkMode 
+                          ? 'border-white/10 bg-white/5 text-white hover:bg-white/10' 
+                          : 'border-slate-200 bg-white text-slate-800 hover:bg-slate-50'
+                      }`}
                     >
                       Sponsor a Student
-                      <Heart className="w-4 h-4 text-teal-600 fill-teal-600/10" strokeWidth={2.5} />
+                      <Heart className="w-4 h-4 text-rose-500 fill-rose-500/10" strokeWidth={2.5} />
                     </Link>
                   </motion.div>
                 </div>
-
-                {/* Avatars Overlap & Trust Metrics */}
-                <div className="mt-10 flex items-center gap-3.5">
-                  <div className="flex -space-x-2.5">
-                    {recentUsers.slice(0, 3).map((user, idx) => (
-                      user.avatar ? (
-                        <img 
-                          key={user.id || idx} 
-                          src={user.avatar} 
-                          alt={user.name} 
-                          className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-900 object-cover shadow-sm" 
-                        />
-                      ) : (
-                        <div 
-                          key={user.id || idx} 
-                          className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-900 bg-sky-100 dark:bg-sky-950 flex items-center justify-center text-[10px] font-bold text-sky-700 dark:text-sky-300 shadow-sm"
-                        >
-                          {user.name ? user.name.substring(0, 3) : 'EDO'}
-                        </div>
-                      )
-                    ))}
-                    {recentUsers.length === 0 && (
-                      <>
-                        <img src="https://i.pravatar.cc/100?img=12" alt="Student" className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-900 object-cover shadow-sm" />
-                        <img src="https://i.pravatar.cc/100?img=33" alt="Student" className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-900 object-cover shadow-sm" />
-                        <img src="https://i.pravatar.cc/100?img=47" alt="Student" className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-900 object-cover shadow-sm" />
-                      </>
-                    )}
-                  </div>
-                  <div className="text-[13px] md:text-sm font-semibold text-slate-700 dark:text-slate-300 leading-snug">
-                    Join <span className="text-blue-600 dark:text-sky-400 font-bold">{totalUsers}</span> learners <br />
-                    growing every day
-                  </div>
-                </div>
               </motion.div>
 
-              {/* RIGHT COLUMN: Premium Video Card */}
+              {/* RIGHT COLUMN: Premium Elegant Video Player with subtle glassmorphism */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2, duration: 0.9 }}
-                className="relative flex justify-center items-center py-8 lg:py-0"
+                className="relative flex flex-col justify-center items-center py-8 lg:py-0 w-full"
               >
-                <div className="relative w-full max-w-[640px]">
-                  {/* Premium Ambient Background Glow */}
-                  <div className="absolute -inset-4 rounded-[40px] bg-gradient-to-r from-blue-500 to-[#00D4FF] opacity-25 blur-2xl group-hover:opacity-35 transition-opacity duration-500 -z-10"></div>
+                <div className="relative w-full max-w-[560px]">
+                  {/* Subtle Geometric Glow under player */}
+                  <div className="absolute -inset-4 rounded-[40px] bg-gradient-to-r from-[#19C2E8] to-[#FF6A00] opacity-20 blur-2xl pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '4s' }}></div>
                   
                   <motion.div
-                    whileHover={!isVideoPlaying ? { scale: 1.02, y: -6 } : {}}
-                    transition={{ type: 'spring', stiffness: 240, damping: 18 }}
-                    className="relative overflow-hidden rounded-[32px] border-[6px] border-white dark:border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] bg-slate-950 group aspect-[4/3]"
+                    whileHover={!isVideoPlaying ? { scale: 1.015, y: -4 } : {}}
+                    className={`relative overflow-hidden rounded-[28px] border-[5px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] aspect-[16/10] flex flex-col justify-between transition-all duration-500 ${
+                      isDarkMode ? 'border-slate-800 bg-[#070b13]' : 'border-white bg-[#0A0A0A]'
+                    }`}
                   >
+                    {/* The HTML5 video player */}
                     <video
                       ref={videoRef}
                       src={qanoVideo}
@@ -212,28 +258,36 @@ export default function Home() {
                       }}
                     />
 
+                    {/* Circular cyan play overlay button */}
                     {!isVideoPlaying && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/25 transition-all duration-500">
-                        <div className="relative flex items-center justify-center">
-                          {/* Water ripple movements */}
-                          <div className="absolute inset-[-12px] rounded-[32px] bg-white/20 animate-ping" style={{ animationDuration: '3s' }}></div>
-                          <div className="absolute inset-[-24px] rounded-[40px] bg-white/10 animate-pulse" style={{ animationDuration: '2s' }}></div>
-
-                          <motion.button
-                            onClick={handlePlayVideo}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="relative flex h-[64px] w-[88px] items-center justify-center rounded-[20px] bg-[#1a1a1a]/95 backdrop-blur-md shadow-xl transition-all duration-300 pl-1 hover:bg-[#1a1a1a] hover:shadow-2xl cursor-pointer"
-                            aria-label="Play introduction video"
-                          >
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                              <path d="M7 4v16l13-8L7 4z" />
-                            </svg>
-                          </motion.button>
-                        </div>
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/15 group-hover:bg-black/25 transition-all duration-500">
+                        <motion.button
+                          onClick={handlePlayVideo}
+                          whileHover={{ scale: 1.08 }}
+                          whileTap={{ scale: 0.92 }}
+                          className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#19C2E8] shadow-[0_0_25px_rgba(25,194,232,0.4)] transition-all duration-300 cursor-pointer pl-1"
+                          aria-label="Play introduction video"
+                        >
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="text-slate-900">
+                            <path d="M7 4v16l13-8L7 4z" />
+                          </svg>
+                        </motion.button>
                       </div>
                     )}
                   </motion.div>
+                  
+                  {/* Web display coordinates bar underneath the monitor */}
+                  <div className={`mt-5 flex justify-between items-center text-[10px] font-black uppercase tracking-widest px-4 select-none ${
+                    isDarkMode ? 'text-slate-500' : 'text-slate-400'
+                  }`}>
+                    <Link to="/register?role=sponsor" className="hover:text-[#FF6A00] transition-colors">Sponsor a Student (Full Details)</Link>
+                    <div className="flex items-center gap-1">
+                      <span>Scroll for More</span>
+                      <ChevronDown className="w-3 h-3 text-[#19C2E8] animate-bounce" />
+                    </div>
+                    <Link to="/contact" className="hover:text-[#19C2E8] transition-colors font-bold">FAQ</Link>
+                    <span>© 2024 EDOT Platform</span>
+                  </div>
                 </div>
               </motion.div>
 
@@ -241,53 +295,149 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ===== PREMIUM BOTTOM FEATURE BANNER ===== */}
-        <section className="relative z-10 px-6 md:px-8 lg:px-16 pb-24">
+        {/* ===== PREMIUM DYNAMIC INTERACTIVE CONTROL DECK ===== */}
+        <section className="relative z-20 px-6 md:px-8 lg:px-16 pb-24">
           <div className="max-w-[1300px] mx-auto">
-            <div className="rounded-[32px] bg-[#0F172A] dark:bg-[#0B1120] border border-white/5 shadow-2xl px-8 py-10 sm:px-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-slate-800/80 items-stretch">
-                {[
-                  {
-                    title: 'Quality Education',
-                    desc: 'Access world-class learning anytime, anywhere.',
-                    icon: GraduationCap,
-                    iconBg: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
-                  },
-                  {
-                    title: 'Global Community',
-                    desc: 'Join a diverse community of learners and educators.',
-                    icon: Users,
-                    iconBg: 'bg-sky-500/10 text-sky-400 border border-sky-500/20',
-                  },
-                  {
-                    title: 'Certified Courses',
-                    desc: 'Earn recognized certificates to boost your future.',
-                    icon: Award,
-                    iconBg: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
-                  },
-                  {
-                    title: 'Make an Impact',
-                    desc: 'Sponsor a learner and help build a brighter tomorrow.',
-                    icon: Heart,
-                    iconBg: 'bg-rose-500/10 text-rose-400 border border-rose-500/20',
-                  }
-                ].map((item, idx) => (
-                  <div key={idx} className="flex gap-4.5 items-start pt-6 lg:pt-0 lg:pl-8 first:pt-0 first:pl-0">
-                    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-sm ${item.iconBg}`}>
-                      <item.icon className="w-5.5 h-5.5" strokeWidth={2} />
+            {/* The Control Panel Frame with amber & cyan LED strip glows */}
+            <div className={`rounded-[32px] p-1 border transition-all duration-500 shadow-2xl relative ${
+              isDarkMode 
+                ? 'bg-[#151D30] border-slate-700/60 shadow-[0_0_60px_rgba(25,194,232,0.15)] shadow-black/80' 
+                : 'bg-slate-100 border-slate-350 shadow-[0_0_60px_rgba(255,106,0,0.1)] shadow-slate-300/40'
+            }`}>
+              {/* LED Ambient Strip Light Accent (Amber and Cyan split glow) */}
+              <div className="absolute top-0 left-0 w-1/2 h-[3px] bg-gradient-to-r from-transparent to-[#19C2E8] blur-[1px]"></div>
+              <div className="absolute top-0 right-0 w-1/2 h-[3px] bg-gradient-to-l from-transparent to-[#FF6A00] blur-[1px]"></div>
+              
+              {/* Outer Control Deck Structure */}
+              <div className={`rounded-[30px] px-8 py-10 sm:px-12 relative overflow-hidden ${
+                isDarkMode ? 'bg-[#0B1120]' : 'bg-[#F8FAFC]'
+              }`}>
+                {/* Micro Keyboard Keycaps color matched */}
+                <div className="absolute top-3 right-6 flex gap-1.5 opacity-60 pointer-events-none">
+                  <span className="w-4 h-4 rounded bg-[#FF6A00] block shadow-sm border border-black/10"></span>
+                  <span className="w-4 h-4 rounded bg-[#19C2E8] block shadow-sm border border-black/10"></span>
+                  <span className="w-4 h-4 rounded bg-[#FF6A00] block shadow-sm border border-black/10"></span>
+                  <span className="w-4 h-4 rounded bg-[#19C2E8] block shadow-sm border border-black/10"></span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+                  {/* Modular Dashboard Bay 1 */}
+                  <motion.div 
+                    whileHover={{ y: -6, scale: 1.02 }}
+                    className={`rounded-2xl p-6 border transition-all duration-300 flex flex-col justify-between text-left ${
+                      isDarkMode 
+                        ? 'bg-[#121A2F]/90 border-slate-800/80 hover:border-[#19C2E8]/40 hover:shadow-[0_0_20px_rgba(25,194,232,0.1)]' 
+                        : 'bg-white border-slate-200 hover:border-[#19C2E8]/40 hover:shadow-[0_12px_24px_rgba(0,0,0,0.04)]'
+                    }`}
+                  >
+                    <div>
+                      {/* Holographic Glowing School/University Icon */}
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#19C2E8]/10 border border-[#19C2E8]/20 text-[#19C2E8] mb-4 shadow-[0_0_15px_rgba(25,194,232,0.2)]">
+                        <School className="w-6 h-6 animate-pulse" />
+                      </div>
+                      <h4 className={`text-[16px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Diverse Education</h4>
+                      <p className={`text-[12.5px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Find courses that match your interest and expand your horizons.</p>
                     </div>
-                    <div className="text-left">
-                      <h4 className="text-[15px] font-extrabold text-white mb-1.5">{item.title}</h4>
-                      <p className="text-[12.5px] text-slate-400 font-medium leading-relaxed">{item.desc}</p>
+                    <div className="mt-4 pt-4 border-t border-slate-200/10 dark:border-white/5 flex items-center justify-between text-[11px] font-bold text-[#19C2E8] uppercase tracking-wider">
+                      <span>Interactive Unit</span>
+                      <span className="h-2 w-2 rounded-full bg-[#19C2E8] animate-ping"></span>
                     </div>
+                  </motion.div>
+
+                  {/* Modular Dashboard Bay 2 */}
+                  <motion.div 
+                    whileHover={{ y: -6, scale: 1.02 }}
+                    className={`rounded-2xl p-6 border transition-all duration-300 flex flex-col justify-between text-left ${
+                      isDarkMode 
+                        ? 'bg-[#121A2F]/90 border-slate-800/80 hover:border-[#19C2E8]/40 hover:shadow-[0_0_20px_rgba(25,194,232,0.1)]' 
+                        : 'bg-white border-slate-200 hover:border-[#19C2E8]/40 hover:shadow-[0_12px_24px_rgba(0,0,0,0.04)]'
+                    }`}
+                  >
+                    <div>
+                      {/* Spinning neon digital globe icon */}
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#19C2E8]/10 border border-[#19C2E8]/20 text-[#19C2E8] mb-4 shadow-[0_0_15px_rgba(25,194,232,0.2)]">
+                        <Globe className="w-6 h-6 animate-[spin_10s_linear_infinite]" />
+                      </div>
+                      <h4 className={`text-[16px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Global Community</h4>
+                      <p className={`text-[12.5px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Connect with learners and expert educators from all around the world.</p>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-slate-200/10 dark:border-white/5 flex items-center justify-between text-[11px] font-bold text-[#19C2E8] uppercase tracking-wider">
+                      <span>Active Node</span>
+                      <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
+                    </div>
+                  </motion.div>
+
+                  {/* Modular Dashboard Bay 3 */}
+                  <motion.div 
+                    whileHover={{ y: -6, scale: 1.02 }}
+                    className={`rounded-2xl p-6 border transition-all duration-300 flex flex-col justify-between text-left ${
+                      isDarkMode 
+                        ? 'bg-[#121A2F]/90 border-slate-800/80 hover:border-[#FF6A00]/40 hover:shadow-[0_0_20px_rgba(255,106,0,0.1)]' 
+                        : 'bg-white border-slate-200 hover:border-[#FF6A00]/40 hover:shadow-[0_12px_24px_rgba(0,0,0,0.04)]'
+                    }`}
+                  >
+                    <div>
+                      {/* Glowing orange A+ badge/trophy emblem */}
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#FF6A00]/10 border border-[#FF6A00]/20 text-[#FF6A00] mb-4 shadow-[0_0_15px_rgba(255,106,0,0.2)]">
+                        <Award className="w-6 h-6 animate-bounce" />
+                      </div>
+                      <h4 className={`text-[16px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Certified Courses</h4>
+                      <p className={`text-[12.5px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Earn secure, recognized credentials designed to build your future.</p>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-slate-200/10 dark:border-white/5 flex items-center justify-between text-[11px] font-bold text-[#FF6A00] uppercase tracking-wider">
+                      <span>Credential Core</span>
+                      <span className="h-2 w-2 rounded-full bg-[#FF6A00]"></span>
+                    </div>
+                  </motion.div>
+
+                  {/* Modular Dashboard Bay 4 */}
+                  <motion.div 
+                    whileHover={{ y: -6, scale: 1.02 }}
+                    className={`rounded-2xl p-6 border transition-all duration-300 flex flex-col justify-between text-left ${
+                      isDarkMode 
+                        ? 'bg-[#121A2F]/90 border-slate-800/80 hover:border-[#FF6A00]/40 hover:shadow-[0_0_20px_rgba(255,106,0,0.1)]' 
+                        : 'bg-white border-slate-200 hover:border-[#FF6A00]/40 hover:shadow-[0_12px_24px_rgba(0,0,0,0.04)]'
+                    }`}
+                  >
+                    <div>
+                      {/* Glowing heart-in-hands/handshake icon */}
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#FF6A00]/10 border border-[#FF6A00]/20 text-[#FF6A00] mb-4 shadow-[0_0_15px_rgba(255,106,0,0.2)]">
+                        <Heart className="w-6 h-6 animate-pulse" />
+                      </div>
+                      <h4 className={`text-[16px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Support a Cause</h4>
+                      <p className={`text-[12.5px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Fund direct paths for students who need assistance to reach mastery.</p>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-slate-200/10 dark:border-white/5 flex items-center justify-between text-[11px] font-bold text-[#FF6A00] uppercase tracking-wider">
+                      <span>Sponsor Hub</span>
+                      <span className="h-2 w-2 rounded-full bg-rose-500 animate-ping"></span>
+                    </div>
+                  </motion.div>
+                </div>
+                
+                {/* Physical dialect knob "Scroll for More" */}
+                <div className="mt-12 flex justify-center items-center">
+                  <div className="relative flex items-center justify-center">
+                    <div className="absolute inset-0 bg-[#FF6A00]/10 dark:bg-[#19C2E8]/10 rounded-full blur-xl pointer-events-none scale-150 animate-pulse"></div>
+                    <motion.button 
+                      onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+                      whileHover={{ scale: 1.05, rotate: 10 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`relative flex flex-col items-center justify-center w-24 h-24 rounded-full border-4 shadow-xl cursor-pointer transition-colors duration-300 ${
+                        isDarkMode 
+                          ? 'bg-[#151D30] border-slate-700/80 text-[#19C2E8] hover:border-[#19C2E8]' 
+                          : 'bg-white border-slate-200 text-slate-800 hover:border-[#FF6A00]'
+                      }`}
+                    >
+                      <span className="text-[10px] font-black uppercase tracking-wider leading-none mb-1">Scroll</span>
+                      <span className="text-[9px] font-bold text-[#FF6A00] tracking-widest uppercase mb-1">For</span>
+                      <span className="text-[10px] font-black uppercase tracking-wider leading-none">More</span>
+                    </motion.button>
                   </div>
-                ))}
+                </div>
               </div>
             </div>
           </div>
         </section>
-
-
 
       </div>
 

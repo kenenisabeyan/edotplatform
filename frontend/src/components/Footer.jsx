@@ -80,7 +80,7 @@ export default function Footer() {
                       value={newsletterEmail}
                       onChange={(e) => setNewsletterEmail(e.target.value)}
                       placeholder="Enter your professional email address"
-                      className={`w-full pl-12 pr-5 py-4 border rounded-full text-sm font-medium focus:ring-2 focus:ring-[#00D4FF]/20 transition-all ${
+                      className={`w-full !pl-12 !pr-5 !py-4 border rounded-full text-sm font-medium focus:ring-2 focus:ring-[#00D4FF]/20 transition-all ${
                         isDarkMode 
                           ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-500 focus:border-[#00D4FF]/50' 
                           : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 focus:border-[#00D4FF]/50'

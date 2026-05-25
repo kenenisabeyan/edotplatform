@@ -38,7 +38,6 @@ import UserAvatar from './UserAvatar';
 import CommandK from './CommandK';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 import ThemeDropdown from './ThemeDropdown';
-import Footer from './Footer';
 
 function NavItem({ item, metrics, role, sidebarCollapsed, onLinkClick, isDarkMode }) {
   let badgeCount = 0;
@@ -555,7 +554,6 @@ export default function EDOTLayout() {
            <div className="flex-1 p-4 md:p-8 dashboard-main-content">
              <Outlet />
            </div>
-           <Footer />
         </div>
       </main>
     </div>
