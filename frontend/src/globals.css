@@ -644,3 +644,12 @@ button, .btn, .cta {
     @apply text-center mb-8;
   }
 }
+
+/* --- Dashboard Layout Height Fixes --- */
+.dashboard-main-content .min-h-screen {
+  min-height: 0 !important;
+}
+.dashboard-main-content > div {
+  flex-grow: 1;
+}
+

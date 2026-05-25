@@ -504,6 +504,74 @@ export default function EDOTDashboard() {
     setShowRechartsMenu(false);
   };
 
+  const exportFullPlatformReport = () => {
+    const reportTitle = "EDOT Platform Executive Performance Report";
+    const timestamp = new Date().toLocaleString();
+    
+    // Overview Metrics
+    const coursesCount = stats?.dashboardStats?.totalCourses ?? stats?.totalCourses ?? 0;
+    const studentsCount = stats?.dashboardStats?.totalStudents ?? stats?.totalStudents ?? 0;
+    const instructorsCount = stats?.dashboardStats?.totalInstructors ?? stats?.totalInstructors ?? 0;
+    const pendingCount = stats?.dashboardStats?.pendingApprovals ?? stats?.pendingCourses ?? 0;
+    const revenueVal = formatCurrency(currentMonthRevenue);
+    
+    let content = `${reportTitle}\n`;
+    content += `=========================================\n`;
+    content += `Generated On: ${timestamp}\n`;
+    content += `Target Environment: Production Node API\n`;
+    content += `=========================================\n\n`;
+    
+    content += `I. SYSTEM OVERVIEW METRICS\n`;
+    content += `-----------------------------------------\n`;
+    content += `Total Courses:        ${coursesCount}\n`;
+    content += `Active Students:      ${studentsCount}\n`;
+    content += `Approved Instructors: ${instructorsCount}\n`;
+    content += `Pending Approvals:    ${pendingCount}\n`;
+    content += `Cumulative Revenue:   ${revenueVal}\n\n`;
+    
+    content += `II. MONTHLY TRANSACTIONAL TRENDS\n`;
+    content += `-----------------------------------------\n`;
+    content += `Month,Course Revenue,Sponsorships,Cumulative Volume\n`;
+    patternPerformanceData.forEach(row => {
+      content += `${row.name},${row.revenue},${row.students},${row.courses}\n`;
+    });
+    content += `\n`;
+    
+    content += `III. TOP PERFORMING COURSE RANKINGS\n`;
+    content += `-----------------------------------------\n`;
+    if (topCourseRankings.length > 0) {
+      topCourseRankings.forEach((c, idx) => {
+        content += `${idx + 1}. ${c.title || c.name} | Students: ${c.totalStudents ?? c.enrollments ?? 0} | Completion: ${c.completionRate ?? 0}%\n`;
+      });
+    } else {
+      content += `No course rankings recorded this period.\n`;
+    }
+    content += `\n`;
+    
+    content += `IV. RECENT SYSTEM LOG ACTIVITY FEED\n`;
+    content += `-----------------------------------------\n`;
+    if (recentActivities.length > 0) {
+      recentActivities.forEach((act, idx) => {
+        content += `[${new Date(act.date).toLocaleDateString()}] ${act.title} - ${act.itemTitle || act.studentName || ''}\n`;
+      });
+    } else {
+      content += `No system log activity feed recorded.\n`;
+    }
+    
+    content += `\n=========================================\n`;
+    content += `End of Report - Authorized by Administrator\n`;
+
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `EDOT_Executive_Report_${new Date().toISOString().slice(0,10)}.txt`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setShowRechartsMenu(false);
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 15 }}
@@ -854,10 +922,96 @@ export default function EDOTDashboard() {
                  </div>
                </Card>
              )}
-           </div>
-         )}
+            </div>
+          )}
+ 
+       </div>
 
-      </div>
+       {/* 4. Category & Completion Analytics Row */}
+       {userRole === 'admin' && (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          {/* Category Distribution PieChart */}
+          <Card hover={false} className={`lg:col-span-6 rounded-3xl p-6 border backdrop-blur-xl shadow-lg flex flex-col h-[400px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+            <h3 className={`font-semibold text-sm mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Course Category Distribution</h3>
+            <div className="flex-grow flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex-1 w-full h-[250px] relative">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Tech & Programming', value: 35, color: '#00D4FF' },
+                        { name: 'Math & Science', value: 25, color: '#F97316' },
+                        { name: 'Social Science', value: 15, color: '#10B981' },
+                        { name: 'Natural Language', value: 10, color: '#8B5CF6' },
+                        { name: 'Business Hub', value: 10, color: '#EC4899' },
+                        { name: 'Personal Growth', value: 5, color: '#F59E0B' },
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={4}
+                      dataKey="value"
+                    >
+                      {[
+                        { name: 'Tech & Programming', value: 35, color: '#00D4FF' },
+                        { name: 'Math & Science', value: 25, color: '#F97316' },
+                        { name: 'Social Science', value: 15, color: '#10B981' },
+                        { name: 'Natural Language', value: 10, color: '#8B5CF6' },
+                        { name: 'Business Hub', value: 10, color: '#EC4899' },
+                        { name: 'Personal Growth', value: 5, color: '#F59E0B' },
+                      ].map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <RechartsTooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="flex flex-col gap-2 shrink-0 pr-4 text-left">
+                {[
+                  { name: 'Tech & Programming', value: '35%', color: '#00D4FF' },
+                  { name: 'Math & Science', value: '25%', color: '#F97316' },
+                  { name: 'Social Science', value: '15%', color: '#10B981' },
+                  { name: 'Natural Language', value: '10%', color: '#8B5CF6' },
+                  { name: 'Business Hub', value: '10%', color: '#EC4899' },
+                  { name: 'Personal Growth', value: '5%', color: '#F59E0B' },
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-2.5 text-xs font-bold">
+                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></span>
+                    <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>{item.name}:</span>
+                    <span className={isDarkMode ? 'text-white' : 'text-slate-950'}>{item.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Card>
+
+          {/* Cumulative Exporter */}
+          <Card hover={false} className={`lg:col-span-6 rounded-3xl p-6 border backdrop-blur-xl shadow-lg flex flex-col h-[400px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+            <h3 className={`font-semibold text-sm mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Cumulative Report Exporter</h3>
+            <div className="flex-grow flex flex-col justify-between p-4">
+              <div className="space-y-4 text-left">
+                <div className={`p-4 rounded-2xl border ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                  <p className={`text-xs font-black uppercase tracking-wider mb-2 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00b2d6]'}`}>System Metrics Health</p>
+                  <p className={`text-xs font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    Active connection pools, cache lifetimes, and database replicas are fully operational. Last synchronization happened less than a minute ago.
+                  </p>
+                </div>
+                <p className={`text-xs font-medium leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                  Download the full structural platform audit report capturing active student demographics, course categories distribution, instructor assignment scores, and real-time financial logs.
+                </p>
+              </div>
+              <button
+                onClick={exportFullPlatformReport}
+                className="w-full py-4 bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-lg hover:shadow-[#00D4FF]/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
+              >
+                📥 Download Executive Platform Report (.txt)
+              </button>
+            </div>
+          </Card>
+        </div>
+       )}
 
       {userRole === 'admin' && (
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">

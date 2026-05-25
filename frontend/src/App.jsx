@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
+import { io } from 'socket.io-client';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -93,6 +95,47 @@ function NotFound() {
 
 export default function App() {
   const isDarkMode = useThemeMode();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user?.id) return;
+
+    const SOCKET_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:5005'
+      : `${window.location.protocol}//${window.location.hostname}`;
+
+    const socket = io(SOCKET_BASE_URL, {
+      withCredentials: true
+    });
+
+    // Join room for direct direct alert push
+    socket.emit('join_room', `user_${user.id}`);
+
+    // Listen for direct direct alert events
+    socket.on('notification', (data) => {
+      toast.custom((t) => (
+        <div className={`p-4 max-w-sm w-full shadow-2xl rounded-2xl flex flex-col gap-2 border pointer-events-auto backdrop-blur-xl transition-all duration-500 hover:scale-[1.02] ${
+          t.visible ? 'animate-enter' : 'animate-leave'
+        } ${isDarkMode ? 'bg-[#0B1120]/95 border-white/10 text-white' : 'bg-white/95 border-slate-200 text-slate-900'}`}>
+          <div className="flex items-start gap-3">
+            <span className="text-xl">🔔</span>
+            <div className="flex-1 text-left min-w-0">
+              <span className="text-sm font-black block truncate leading-snug">{data.title}</span>
+              <span className={`text-[11.5px] font-medium leading-relaxed block mt-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{data.message}</span>
+            </div>
+          </div>
+        </div>
+      ), {
+        duration: 8000,
+        position: 'top-right'
+      });
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [user, isDarkMode]);
+
   return (
     <>
       <ScrollToTop />

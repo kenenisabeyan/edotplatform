@@ -109,7 +109,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
   if (authLoading) return null; // Avoid flashing the login page while checking session
 
   return (
-    <div className="min-h-[550px] lg:h-[calc(100vh-432px)] w-full flex flex-col lg:flex-row relative overflow-hidden bg-slate-50 dark:bg-[#0B1120] font-sans transition-colors duration-300">
+    <div className="min-h-[680px] lg:h-[calc(100vh-180px)] w-full flex flex-col lg:flex-row relative overflow-hidden bg-slate-50 dark:bg-[#0B1120] font-sans transition-colors duration-300">
       
       {/* LEFT SIDE VIEWPORT PANEL (50% width of body): Immersive Branding Showcase */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden flex-col justify-between p-10 bg-[#EBFDFC] dark:bg-[#081F1A] border-r border-slate-200 dark:border-white/10 select-none">
@@ -161,7 +161,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
       </div>
 
       {/* RIGHT SIDE VIEWPORT PANEL (50% width of body): Auth Box stretched to 100% Height & Width of this space */}
-      <div className="w-full lg:w-1/2 min-h-[550px] lg:h-[calc(100vh-432px)] flex flex-col md:flex-row relative overflow-hidden bg-white dark:bg-[#111827] transition-all duration-500 z-10">
+      <div className="w-full lg:w-1/2 min-h-[680px] lg:h-full flex flex-col md:flex-row relative overflow-hidden bg-white dark:bg-[#111827] transition-all duration-500 z-10">
          
          <div className={`w-full h-full flex flex-col ${isRegister ? 'md:flex-row' : 'md:flex-row-reverse'} transition-all duration-500`}>
             

@@ -15,6 +15,12 @@ export default function StudentsList() {
 
   const [tab, setTab] = useState('approved'); // Default to approved
   const [selectedStudentHistory, setSelectedStudentHistory] = useState(null);
+  
+  // Advanced Filter States
+  const [searchQuery, setSearchQuery] = useState('');
+  const [batchFilter, setBatchFilter] = useState('');
+  const [sectionFilter, setSectionFilter] = useState('');
+  const [instructorFilter, setInstructorFilter] = useState('');
 
   const { data: reportsData = [] } = useQuery({
     queryKey: ['attendanceReports'],
@@ -97,16 +103,44 @@ export default function StudentsList() {
         </div>
       )
     }));
-  }, [instructors]);
-
-
+  }, [instructors, isDarkMode]);
 
   const pendingCount = React.useMemo(() => students.filter(s => s.status === 'pending').length, [students]);
   const approvedCount = React.useMemo(() => students.filter(s => s.status === 'approved' || !s.status).length, [students]);
 
   const filteredStudents = React.useMemo(() => {
-    return students.filter(s => s.status === tab || (tab === 'approved' && !s.status));
-  }, [students, tab]);
+    return students.filter(s => {
+      // Role status match
+      const matchesTab = s.status === tab || (tab === 'approved' && !s.status);
+      if (!matchesTab) return false;
+
+      // Text search match
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        const matchesName = s.name?.toLowerCase().includes(query);
+        const matchesEmail = s.email?.toLowerCase().includes(query);
+        const matchesInst = s.assignedInstructor?.name?.toLowerCase().includes(query);
+        if (!matchesName && !matchesEmail && !matchesInst) return false;
+      }
+
+      // Batch filter match
+      if (batchFilter) {
+        if (s.batch !== batchFilter) return false;
+      }
+
+      // Section filter match
+      if (sectionFilter) {
+        if (s.section !== sectionFilter) return false;
+      }
+
+      // Instructor filter match
+      if (instructorFilter) {
+        if (s.assignedInstructor?.id !== instructorFilter) return false;
+      }
+
+      return true;
+    });
+  }, [students, tab, searchQuery, batchFilter, sectionFilter, instructorFilter]);
 
   return (
     <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full">
@@ -136,6 +170,83 @@ export default function StudentsList() {
           </button>
         </div>
       )}
+
+      {/* Modern Advanced Filter Panel */}
+      <div className={`p-5 rounded-3xl border backdrop-blur-xl flex flex-col md:flex-row gap-4 items-center ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+        <div className="relative flex-1 w-full">
+          <input
+            type="text"
+            placeholder="Search student name, email, or instructor..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={`w-full pl-5 pr-5 py-2.5 border rounded-full text-xs font-semibold focus:ring-2 focus:ring-[#00D4FF]/20 focus:outline-none transition-all ${
+              isDarkMode 
+                ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-400 focus:border-[#00D4FF]' 
+                : 'bg-white border-slate-200 text-slate-800 placeholder-slate-500 focus:border-[#00D4FF]'
+            }`}
+          />
+        </div>
+        <div className="flex flex-wrap gap-3 items-center w-full md:w-auto">
+          {/* Batch Selector */}
+          <select
+            value={batchFilter}
+            onChange={(e) => setBatchFilter(e.target.value)}
+            className={`px-4 py-2.5 border rounded-full text-xs font-semibold focus:outline-none cursor-pointer ${
+              isDarkMode ? 'bg-[#0B1120] border-white/10 text-slate-200 focus:border-[#00D4FF]' : 'bg-white border-slate-200 text-slate-700 focus:border-[#00D4FF]'
+            }`}
+          >
+            <option value="">All Batches</option>
+            <option value="2026">Batch 2026</option>
+            <option value="2027">Batch 2027</option>
+            <option value="2028">Batch 2028</option>
+          </select>
+
+          {/* Section Selector */}
+          <select
+            value={sectionFilter}
+            onChange={(e) => setSectionFilter(e.target.value)}
+            className={`px-4 py-2.5 border rounded-full text-xs font-semibold focus:outline-none cursor-pointer ${
+              isDarkMode ? 'bg-[#0B1120] border-white/10 text-slate-200 focus:border-[#00D4FF]' : 'bg-white border-slate-200 text-slate-700 focus:border-[#00D4FF]'
+            }`}
+          >
+            <option value="">All Sections</option>
+            <option value="A">Section A</option>
+            <option value="B">Section B</option>
+            <option value="C">Section C</option>
+          </select>
+
+          {/* Instructor Selector */}
+          {isAdmin && (
+            <select
+              value={instructorFilter}
+              onChange={(e) => setInstructorFilter(e.target.value)}
+              className={`px-4 py-2.5 border rounded-full text-xs font-semibold focus:outline-none cursor-pointer ${
+                isDarkMode ? 'bg-[#0B1120] border-white/10 text-slate-200 focus:border-[#00D4FF]' : 'bg-white border-slate-200 text-slate-700 focus:border-[#00D4FF]'
+              }`}
+            >
+              <option value="">All Instructors</option>
+              {instructors.map(inst => (
+                <option key={inst.id} value={inst.id}>{inst.name}</option>
+              ))}
+            </select>
+          )}
+
+          {/* Reset Filters */}
+          {(searchQuery || batchFilter || sectionFilter || instructorFilter) && (
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setBatchFilter('');
+                setSectionFilter('');
+                setInstructorFilter('');
+              }}
+              className="px-4 py-2.5 bg-red-500/10 text-red-500 hover:bg-red-500/20 text-xs font-bold rounded-full transition-all border border-red-500/20 cursor-pointer"
+            >
+              Reset
+            </button>
+          )}
+        </div>
+      </div>
 
       <div className={`rounded-2xl border backdrop-blur-xl shadow-lg overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
         <div className="overflow-x-auto">

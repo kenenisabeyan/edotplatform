@@ -13,6 +13,11 @@ export default function AdminCourseApprovals() {
   const [processing, setProcessing] = useState(null);
   const [activeTab, setActiveTab] = useState('pending'); // 'pending' or 'active'
 
+  // Search & Filter States
+  const [courseSearch, setCourseSearch] = useState('');
+  const [enrollmentSearch, setEnrollmentSearch] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
+
   const { data: queueData = {}, isLoading: loading, refetch: fetchData } = useQuery({
     queryKey: ['adminApprovals', activeTab],
     queryFn: async () => {
@@ -40,6 +45,49 @@ export default function AdminCourseApprovals() {
   const courses = queueData.courses || [];
   const pendingEnrollments = queueData.pendingEnrollments || [];
   const activeEnrollments = queueData.activeEnrollments || [];
+
+  // Derived filter arrays
+  const filteredCourses = React.useMemo(() => {
+    return courses.filter(c => {
+      if (courseSearch.trim()) {
+        const query = courseSearch.toLowerCase();
+        const matchesTitle = c.title?.toLowerCase().includes(query);
+        const matchesInstructor = c.instructor?.name?.toLowerCase().includes(query);
+        const matchesDesc = c.description?.toLowerCase().includes(query);
+        if (!matchesTitle && !matchesInstructor && !matchesDesc) return false;
+      }
+      if (categoryFilter) {
+        if (c.mainCategory !== categoryFilter) return false;
+      }
+      return true;
+    });
+  }, [courses, courseSearch, categoryFilter]);
+
+  const filteredPendingEnrollments = React.useMemo(() => {
+    return pendingEnrollments.filter(e => {
+      if (enrollmentSearch.trim()) {
+        const query = enrollmentSearch.toLowerCase();
+        const matchesStudent = e.studentName?.toLowerCase().includes(query);
+        const matchesEmail = e.studentEmail?.toLowerCase().includes(query);
+        const matchesCourse = e.courseTitle?.toLowerCase().includes(query);
+        if (!matchesStudent && !matchesEmail && !matchesCourse) return false;
+      }
+      return true;
+    });
+  }, [pendingEnrollments, enrollmentSearch]);
+
+  const filteredActiveEnrollments = React.useMemo(() => {
+    return activeEnrollments.filter(e => {
+      if (enrollmentSearch.trim()) {
+        const query = enrollmentSearch.toLowerCase();
+        const matchesStudent = e.studentName?.toLowerCase().includes(query);
+        const matchesEmail = e.studentEmail?.toLowerCase().includes(query);
+        const matchesCourse = e.courseTitle?.toLowerCase().includes(query);
+        if (!matchesStudent && !matchesEmail && !matchesCourse) return false;
+      }
+      return true;
+    });
+  }, [activeEnrollments, enrollmentSearch]);
 
   const handleStatusUpdate = async (courseId, newStatus) => {
     if (!window.confirm(`Are you sure you want to ${newStatus === 'approved' ? 'approve and publish' : 'reject'} this course?`)) return;
@@ -157,68 +205,143 @@ export default function AdminCourseApprovals() {
           </div>
       ) : activeTab === 'pending' ? (
           <div className="grid grid-cols-1 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {/* Filter controls for Course Queue */}
+            {courses.length > 0 && (
+              <div className={`p-5 rounded-3xl border backdrop-blur-xl flex flex-col md:flex-row gap-4 items-center ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                <div className="relative flex-1 w-full">
+                  <input
+                    type="text"
+                    placeholder="Search pending courses by title or instructor..."
+                    value={courseSearch}
+                    onChange={(e) => setCourseSearch(e.target.value)}
+                    className={`w-full pl-5 pr-5 py-2.5 border rounded-full text-xs font-semibold focus:ring-2 focus:ring-[#00D4FF]/20 focus:outline-none transition-all ${
+                      isDarkMode 
+                        ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-400 focus:border-[#00D4FF]' 
+                        : 'bg-white border-slate-200 text-slate-800 placeholder-slate-500 focus:border-[#00D4FF]'
+                    }`}
+                  />
+                </div>
+                <div className="flex gap-3 items-center w-full md:w-auto">
+                  <select
+                    value={categoryFilter}
+                    onChange={(e) => setCategoryFilter(e.target.value)}
+                    className={`px-4 py-2.5 border rounded-full text-xs font-semibold focus:outline-none cursor-pointer ${
+                      isDarkMode ? 'bg-[#0B1120] border-white/10 text-slate-200 focus:border-[#00D4FF]' : 'bg-white border-slate-200 text-slate-700 focus:border-[#00D4FF]'
+                    }`}
+                  >
+                    <option value="">All Categories</option>
+                    <option value="Social Science">Social Science</option>
+                    <option value="Math & Science">Math & Science</option>
+                    <option value="Natural Language">Natural Language</option>
+                    <option value="Tech & Programming">Tech & Programming</option>
+                    <option value="Business Hub">Business Hub</option>
+                    <option value="Personal Growth">Personal Growth</option>
+                  </select>
+                  {(courseSearch || categoryFilter) && (
+                    <button
+                      onClick={() => { setCourseSearch(''); setCategoryFilter(''); }}
+                      className="px-4 py-2.5 bg-red-500/10 text-red-500 hover:bg-red-500/20 text-xs font-bold rounded-full border border-red-500/20 cursor-pointer"
+                    >
+                      Reset
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
             {courses.length > 0 && (
               <div className={`rounded-[2.5rem] p-8 border backdrop-blur-2xl shadow-2xl relative overflow-hidden transition-all duration-500 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-200 hover:border-[#2563EB]/30'}`}>
                 <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
                 <h3 className={`font-black text-xl mb-6 flex items-center gap-3 relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                    <AlertCircle className="w-6 h-6 text-[#00D4FF] drop-shadow-[0_0_8px_rgba(0,212,255,0.5)]"/> 
-                   New Course Approvals ({courses.length})
+                   New Course Approvals ({filteredCourses.length})
                 </h3>
                 <div className="grid gap-6 relative z-10">
-                  <AnimatePresence>
-                  {courses.map(c => (
-                    <motion.div 
-                      layout
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      key={c.id} 
-                      className={`rounded-[2rem] border shadow-lg hover:shadow-2xl overflow-hidden flex flex-col md:flex-row group transition-all duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/60 hover:bg-[#0B1120]' : 'border-slate-200 bg-white hover:border-[#00D4FF]/30'}`}
-                    >
-                      <div className="w-full md:w-72 h-56 md:h-auto shrink-0 relative bg-black/40 overflow-hidden">
-                        <img 
-                          src={c.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' : c.thumbnail} 
-                          alt={c.title} 
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" 
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-80"></div>
-                        <div className={`absolute top-4 left-4 backdrop-blur-xl px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider text-[#00D4FF] shadow-[0_0_15px_rgba(0,212,255,0.2)] border ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
-                          {c.mainCategory || 'General'}
-                        </div>
-                      </div>
-                      <div className={`flex flex-col flex-1 relative z-10 -mt-6 md:mt-0 md:bg-transparent rounded-t-3xl md:rounded-none ${isDarkMode ? 'bg-[#0B1120]/90' : 'bg-white/95'}`}>
-                        <div className="p-6 flex-1">
-                          <h3 className={`text-xl font-black leading-snug break-words mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</h3>
-                          <div className={`flex flex-wrap gap-4 mb-4 text-[10px] font-black ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-                             <span className={`flex items-center gap-1 border px-2 py-1 rounded ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>Instructor: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{c.instructor?.name || 'Unknown'}</span></span>
-                             <span className={`flex items-center gap-1 border bg-[#00D4FF]/10 text-[#00D4FF] px-2 py-1 rounded ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Status: Pending</span>
-                          </div>
-                          <p className={`line-clamp-2 md:line-clamp-3 mb-0 text-sm font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{c.description}</p>
-                        </div>
-                        <div className={`p-5 border-t flex flex-col sm:flex-row justify-between items-center gap-5 ${isDarkMode ? 'border-white/5 bg-[#0B1120]/50' : 'border-slate-100 bg-slate-100'}`}>
-                          <span className={`text-[10px] font-black ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Submitted: <span className={isDarkMode ? 'text-slate-300' : 'text-slate-500'}>{new Date(c.createdAt || c.updatedAt).toLocaleDateString()}</span></span>
-                          <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-                            <button 
-                              disabled={processing === c.id}
-                              onClick={() => handleStatusUpdate(c.id, 'rejected')} 
-                              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-transparent text-[#E30A17] font-black text-xs   rounded-xl border border-[#E30A17]/30 hover:bg-[#E30A17]/10 transition-colors shadow-sm disabled:opacity-50"
-                            >
-                              <XSquare className="w-4 h-4" /> Reject
-                            </button>
-                            <button 
-                              disabled={processing === c.id}
-                              onClick={() => handleStatusUpdate(c.id, 'approved')} 
-                              className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00D4FF] to-[#0099CC] font-black text-xs rounded-xl hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all shadow-md disabled:opacity-50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
-                            >
-                              <CheckCircle2 className="w-4 h-4" /> Approve & Publish
-                            </button>
+                  {filteredCourses.length === 0 ? (
+                    <p className={`text-sm italic font-medium p-4 text-center ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No courses match your filter criteria.</p>
+                  ) : (
+                    <AnimatePresence>
+                    {filteredCourses.map(c => (
+                      <motion.div 
+                        layout
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        key={c.id} 
+                        className={`rounded-[2rem] border shadow-lg hover:shadow-2xl overflow-hidden flex flex-col md:flex-row group transition-all duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/60 hover:bg-[#0B1120]' : 'border-slate-200 bg-white hover:border-[#00D4FF]/30'}`}
+                      >
+                        <div className="w-full md:w-72 h-56 md:h-auto shrink-0 relative bg-black/40 overflow-hidden">
+                          <img 
+                            src={c.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' : c.thumbnail} 
+                            alt={c.title} 
+                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" 
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-80"></div>
+                          <div className={`absolute top-4 left-4 backdrop-blur-xl px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider text-[#00D4FF] shadow-[0_0_15px_rgba(0,212,255,0.2)] border ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+                            {c.mainCategory || 'General'}
                           </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                  </AnimatePresence>
+                        <div className={`flex flex-col flex-1 relative z-10 -mt-6 md:mt-0 md:bg-transparent rounded-t-3xl md:rounded-none ${isDarkMode ? 'bg-[#0B1120]/90' : 'bg-white/95'}`}>
+                          <div className="p-6 flex-1">
+                            <h3 className={`text-xl font-black leading-snug break-words mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</h3>
+                            <div className={`flex flex-wrap gap-4 mb-4 text-[10px] font-black ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+                               <span className={`flex items-center gap-1 border px-2 py-1 rounded ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>Instructor: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{c.instructor?.name || 'Unknown'}</span></span>
+                               <span className={`flex items-center gap-1 border bg-[#00D4FF]/10 text-[#00D4FF] px-2 py-1 rounded ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Status: Pending</span>
+                            </div>
+                            <p className={`line-clamp-2 md:line-clamp-3 mb-0 text-sm font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{c.description}</p>
+                          </div>
+                          <div className={`p-5 border-t flex flex-col sm:flex-row justify-between items-center gap-5 ${isDarkMode ? 'border-white/5 bg-[#0B1120]/50' : 'border-slate-100 bg-slate-100'}`}>
+                            <span className={`text-[10px] font-black ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Submitted: <span className={isDarkMode ? 'text-slate-300' : 'text-slate-500'}>{new Date(c.createdAt || c.updatedAt).toLocaleDateString()}</span></span>
+                            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                              <button 
+                                disabled={processing === c.id}
+                                onClick={() => handleStatusUpdate(c.id, 'rejected')} 
+                                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-transparent text-[#E30A17] font-black text-xs   rounded-xl border border-[#E30A17]/30 hover:bg-[#E30A17]/10 transition-colors shadow-sm disabled:opacity-50"
+                              >
+                                <XSquare className="w-4 h-4" /> Reject
+                              </button>
+                              <button 
+                                disabled={processing === c.id}
+                                onClick={() => handleStatusUpdate(c.id, 'approved')} 
+                                className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00D4FF] to-[#0099CC] font-black text-xs rounded-xl hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all shadow-md disabled:opacity-50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                              >
+                                <CheckCircle2 className="w-4 h-4" /> Approve & Publish
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                    </AnimatePresence>
+                  )}
                 </div>
+              </div>
+            )}
+
+            {/* Filter controls for Pending Enrollment Queue */}
+            {pendingEnrollments.length > 0 && (
+              <div className={`p-5 rounded-3xl border backdrop-blur-xl flex flex-col md:flex-row gap-4 items-center ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                <div className="relative flex-1 w-full">
+                  <input
+                    type="text"
+                    placeholder="Search pending enrollments by student details or course title..."
+                    value={enrollmentSearch}
+                    onChange={(e) => setEnrollmentSearch(e.target.value)}
+                    className={`w-full pl-5 pr-5 py-2.5 border rounded-full text-xs font-semibold focus:ring-2 focus:ring-[#00D4FF]/20 focus:outline-none transition-all ${
+                      isDarkMode 
+                        ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-400 focus:border-[#00D4FF]' 
+                        : 'bg-white border-slate-200 text-slate-800 placeholder-slate-500 focus:border-[#00D4FF]'
+                    }`}
+                  />
+                </div>
+                {enrollmentSearch && (
+                  <button
+                    onClick={() => setEnrollmentSearch('')}
+                    className="px-4 py-2.5 bg-red-500/10 text-red-500 hover:bg-red-500/20 text-xs font-bold rounded-full border border-red-500/20 cursor-pointer"
+                  >
+                    Reset
+                  </button>
+                )}
               </div>
             )}
 
@@ -227,58 +350,62 @@ export default function AdminCourseApprovals() {
                 <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#2563EB]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
                 <h3 className={`font-black text-xl mb-6 flex items-center gap-3 relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                    <Users className="w-6 h-6 text-[#00D4FF] drop-shadow-[0_0_8px_rgba(0,212,255,0.5)]"/> 
-                   Enrollment Requests ({pendingEnrollments.length})
+                   Enrollment Requests ({filteredPendingEnrollments.length})
                 </h3>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
-                  <AnimatePresence>
-                  {pendingEnrollments.map(en => (
-                    <motion.div 
-                      layout
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      key={en.id} 
-                      className={`rounded-2xl border p-5 flex flex-col justify-between hover:border-[#00D4FF]/30 transition-colors group shadow-lg relative overflow-hidden ${isDarkMode ? 'border-white/10 bg-[#0B1120]' : 'border-slate-200 bg-white'}`}
-                    >
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#00D4FF]/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-[#00D4FF]/10 transition-colors duration-500"></div>
-                      
-                      <div className="relative z-10">
-                        <div className="flex items-start justify-between mb-2">
-                           <h4 className={`font-black tracking-tight text-lg mb-1 break-words line-clamp-1 group-hover:text-[#00D4FF] transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{en.courseTitle}</h4>
-                           <span className={`text-[9px] font-black border px-2 py-0.5 rounded whitespace-nowrap ${isDarkMode ? 'text-slate-300 bg-[#0B1120]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>ID: {en.id.slice(0,6)}</span>
-                        </div>
+                  {filteredPendingEnrollments.length === 0 ? (
+                    <p className={`text-sm italic font-medium p-4 text-center lg:col-span-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No requests match your filter criteria.</p>
+                  ) : (
+                    <AnimatePresence>
+                    {filteredPendingEnrollments.map(en => (
+                      <motion.div 
+                        layout
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        key={en.id} 
+                        className={`rounded-2xl border p-5 flex flex-col justify-between hover:border-[#00D4FF]/30 transition-colors group shadow-lg relative overflow-hidden ${isDarkMode ? 'border-white/10 bg-[#0B1120]' : 'border-slate-200 bg-white'}`}
+                      >
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-[#00D4FF]/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-[#00D4FF]/10 transition-colors duration-500"></div>
                         
-                        <div className={`border p-3 rounded-xl mb-6 flex flex-col gap-1.5 mt-4 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                           <div className="flex items-center justify-between text-xs">
-                             <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Student</span>
-                             <span className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{en.studentName || 'System Unknown'}</span>
-                           </div>
-                           <div className="flex items-center justify-between text-xs">
-                             <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Email</span>
-                             <span className={`font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{en.studentEmail || 'N/A'}</span>
-                           </div>
-                           <div className={`flex items-center justify-between text-xs border-t pt-1.5 mt-1.5 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                             <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Submitted On</span>
-                             <span className={`font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{new Date(en.requestedAt).toLocaleDateString()}</span>
-                           </div>
+                        <div className="relative z-10">
+                          <div className="flex items-start justify-between mb-2">
+                             <h4 className={`font-black tracking-tight text-lg mb-1 break-words line-clamp-1 group-hover:text-[#00D4FF] transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{en.courseTitle}</h4>
+                             <span className={`text-[9px] font-black border px-2 py-0.5 rounded whitespace-nowrap ${isDarkMode ? 'text-slate-300 bg-[#0B1120]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>ID: {en.id.slice(0,6)}</span>
+                          </div>
+                          
+                          <div className={`border p-3 rounded-xl mb-6 flex flex-col gap-1.5 mt-4 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                             <div className="flex items-center justify-between text-xs">
+                               <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Student</span>
+                               <span className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{en.studentName || 'System Unknown'}</span>
+                             </div>
+                             <div className="flex items-center justify-between text-xs">
+                               <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Email</span>
+                               <span className={`font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{en.studentEmail || 'N/A'}</span>
+                             </div>
+                             <div className={`flex items-center justify-between text-xs border-t pt-1.5 mt-1.5 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                               <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Submitted On</span>
+                               <span className={`font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{new Date(en.requestedAt).toLocaleDateString()}</span>
+                             </div>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="flex gap-3 relative z-10 mt-auto">
-                        <button
-                          disabled={processing === en.id}
-                          onClick={() => handleEnrollmentStatusUpdate(en.id, 'rejected')}
-                          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-[#E30A17]/30 bg-transparent text-[#E30A17] text-xs font-black   hover:bg-[#E30A17]/10 transition-colors disabled:opacity-50"
-                        ><XSquare className="w-4 h-4"/> Reject</button>
-                        <button
-                          disabled={processing === en.id}
-                          onClick={() => handleEnrollmentStatusUpdate(en.id, 'active')}
-                          className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#00D4FF] to-[#0099CC] text-xs font-black hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all disabled:opacity-50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
-                        ><CheckCircle2 className="w-4 h-4"/> Ensure Access</button>
-                      </div>
-                    </motion.div>
-                  ))}
-                  </AnimatePresence>
+                        <div className="flex gap-3 relative z-10 mt-auto">
+                          <button
+                            disabled={processing === en.id}
+                            onClick={() => handleEnrollmentStatusUpdate(en.id, 'rejected')}
+                            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-[#E30A17]/30 bg-transparent text-[#E30A17] text-xs font-black   hover:bg-[#E30A17]/10 transition-colors disabled:opacity-50"
+                          ><XSquare className="w-4 h-4"/> Reject</button>
+                          <button
+                            disabled={processing === en.id}
+                            onClick={() => handleEnrollmentStatusUpdate(en.id, 'active')}
+                            className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-[#00D4FF] to-[#0099CC] text-xs font-black hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all disabled:opacity-50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                          ><CheckCircle2 className="w-4 h-4"/> Ensure Access</button>
+                        </div>
+                      </motion.div>
+                    ))}
+                    </AnimatePresence>
+                  )}
                 </div>
               </div>
             )}
@@ -295,55 +422,85 @@ export default function AdminCourseApprovals() {
       ) : (
           <div className={`rounded-[2.5rem] p-8 border backdrop-blur-2xl shadow-2xl relative overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
             <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-[#00D4FF]/10 to-[#2563EB]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
+            
+            {/* Filter controls for Active Enrollments */}
+            <div className={`p-5 rounded-3xl border backdrop-blur-xl flex flex-col md:flex-row gap-4 items-center mb-8 ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+              <div className="relative flex-1 w-full">
+                <input
+                  type="text"
+                  placeholder="Search active students or course names..."
+                  value={enrollmentSearch}
+                  onChange={(e) => setEnrollmentSearch(e.target.value)}
+                  className={`w-full pl-5 pr-5 py-2.5 border rounded-full text-xs font-semibold focus:ring-2 focus:ring-[#00D4FF]/20 focus:outline-none transition-all ${
+                    isDarkMode 
+                      ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-400 focus:border-[#00D4FF]' 
+                      : 'bg-white border-slate-200 text-slate-800 placeholder-slate-500 focus:border-[#00D4FF]'
+                  }`}
+                />
+              </div>
+              {enrollmentSearch && (
+                <button
+                  onClick={() => setEnrollmentSearch('')}
+                  className="px-4 py-2.5 bg-red-500/10 text-red-500 hover:bg-red-500/20 text-xs font-bold rounded-full border border-red-500/20 cursor-pointer"
+                >
+                  Reset
+                </button>
+              )}
+            </div>
+
             <h3 className={`font-black text-xl mb-8 flex items-center gap-3 relative z-10 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                <CheckCircle2 className="w-6 h-6 text-[#00D4FF] drop-shadow-[0_0_8px_rgba(0,212,255,0.5)]"/> 
-               Active Authorized Enrollments ({activeEnrollments.length})
+               Active Authorized Enrollments ({filteredActiveEnrollments.length})
             </h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 relative z-10">
-              <AnimatePresence>
-              {activeEnrollments.map(en => (
-                <motion.div 
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  key={en.id} 
-                  className={`rounded-2xl border border-[#00D4FF]/20 p-5 flex flex-col justify-between hover:border-[#00D4FF]/50 transition-colors group shadow-lg relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
-                >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#00D4FF]/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-[#00D4FF]/10 transition-colors duration-500"></div>
-                  
-                  <div className="relative z-10">
-                    <div className="flex items-start justify-between mb-2">
-                       <h4 className={`font-black tracking-tight text-lg mb-1 break-words line-clamp-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{en.courseTitle}</h4>
-                       <span className="text-[9px] font-black  text-[#00D4FF] bg-[#00D4FF]/10 border border-[#00D4FF]/30 px-2 py-0.5 rounded  whitespace-nowrap">Active</span>
-                    </div>
+              {filteredActiveEnrollments.length === 0 ? (
+                <p className={`text-sm italic font-medium p-4 text-center lg:col-span-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No active enrollments match your filter criteria.</p>
+              ) : (
+                <AnimatePresence>
+                {filteredActiveEnrollments.map(en => (
+                  <motion.div 
+                    layout
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    key={en.id} 
+                    className={`rounded-2xl border border-[#00D4FF]/20 p-5 flex flex-col justify-between hover:border-[#00D4FF]/50 transition-colors group shadow-lg relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
+                  >
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#00D4FF]/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-[#00D4FF]/10 transition-colors duration-500"></div>
                     
-                    <div className={`border p-3 rounded-xl mb-6 flex flex-col gap-1.5 mt-4 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                       <div className="flex items-center justify-between text-xs">
-                         <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Student</span>
-                         <span className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{en.studentName || 'System Unknown'}</span>
-                       </div>
-                       <div className="flex items-center justify-between text-xs">
-                         <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Email</span>
-                         <span className={`font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{en.studentEmail || 'N/A'}</span>
-                       </div>
-                       <div className={`flex items-center justify-between text-xs border-t pt-1.5 mt-1.5 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                         <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Verified On</span>
-                         <span className={`font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{new Date(en.requestedAt).toLocaleDateString()}</span>
-                       </div>
+                    <div className="relative z-10">
+                      <div className="flex items-start justify-between mb-2">
+                         <h4 className={`font-black tracking-tight text-lg mb-1 break-words line-clamp-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{en.courseTitle}</h4>
+                         <span className="text-[9px] font-black  text-[#00D4FF] bg-[#00D4FF]/10 border border-[#00D4FF]/30 px-2 py-0.5 rounded  whitespace-nowrap">Active</span>
+                      </div>
+                      
+                      <div className={`border p-3 rounded-xl mb-6 flex flex-col gap-1.5 mt-4 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                         <div className="flex items-center justify-between text-xs">
+                           <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Student</span>
+                           <span className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{en.studentName || 'System Unknown'}</span>
+                         </div>
+                         <div className="flex items-center justify-between text-xs">
+                           <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Email</span>
+                           <span className={`font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{en.studentEmail || 'N/A'}</span>
+                         </div>
+                         <div className={`flex items-center justify-between text-xs border-t pt-1.5 mt-1.5 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                           <span className={`font-black text-[10px] ${isDarkMode ? 'text-[#F97316]' : 'text-slate-500'}`}>Verified On</span>
+                           <span className={`font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{new Date(en.requestedAt).toLocaleDateString()}</span>
+                         </div>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="relative z-10 mt-auto">
-                    <button
-                      disabled={processing === en.id}
-                      onClick={() => handleEnrollmentStatusUpdate(en.id, 'rejected', true)}
-                      className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border bg-transparent hover:text-[#E30A17] hover:border-[#E30A17]/30 text-[10px] font-black hover:bg-[#E30A17]/10 transition-all disabled:opacity-50 ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}
-                    ><Undo2 className="w-3.5 h-3.5"/> Revoke Access / Rollback</button>
-                  </div>
-                </motion.div>
-              ))}
-              </AnimatePresence>
+                    <div className="relative z-10 mt-auto">
+                      <button
+                        disabled={processing === en.id}
+                        onClick={() => handleEnrollmentStatusUpdate(en.id, 'rejected', true)}
+                        className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border bg-transparent hover:text-[#E30A17] hover:border-[#E30A17]/30 text-[10px] font-black hover:bg-[#E30A17]/10 transition-all disabled:opacity-50 ${isDarkMode ? 'border-white/10 text-slate-200' : 'border-slate-200 text-slate-600'}`}
+                      ><Undo2 className="w-3.5 h-3.5"/> Revoke Access / Rollback</button>
+                    </div>
+                  </motion.div>
+                ))}
+                </AnimatePresence>
+              )}
             </div>
           </div>
       )}

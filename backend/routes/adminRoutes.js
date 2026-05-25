@@ -712,13 +712,46 @@ router.get('/courses/pending', async (req, res) => {
 
 router.put('/courses/:id/status', async (req, res) => {
     try {
+        const { status } = req.body;
         const course = await prisma.course.update({
             where: { id: req.params.id },
             data: {
-                status: req.body.status,
-                isPublished: req.body.status === 'approved'
+                status,
+                isPublished: status === 'approved'
             }
         });
+
+        // Create persistent notification in DB for instructor
+        const notifTitle = status === 'approved' ? 'Course Approved! 🎉' : 'Course Rejected';
+        const notifMessage = status === 'approved' 
+            ? `Your course "${course.title}" has been approved and published.`
+            : `Your course "${course.title}" was not approved by administration.`;
+
+        try {
+            await prisma.notification.create({
+                data: {
+                    userId: course.instructorId,
+                    type: 'course_update',
+                    title: notifTitle,
+                    message: notifMessage,
+                    relatedEntityType: 'course',
+                    relatedEntityId: course.id,
+                    actionUrl: '/dashboard/my-courses'
+                }
+            });
+
+            // Socket.io Real-Time Emit to instructor room
+            if (req.io) {
+                req.io.to(`user_${course.instructorId}`).emit('notification', {
+                    title: notifTitle,
+                    message: notifMessage,
+                    type: 'course_update'
+                });
+            }
+        } catch (notifErr) {
+            console.error('Notification creation failed for course update:', notifErr);
+        }
+
         res.status(200).json({ success: true, data: course });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server error', error: error.message });
@@ -916,6 +949,35 @@ router.post('/enrollments/:id/approve', async (req, res) => {
             data: { totalStudents: { increment: 1 } }
         });
 
+        // Create persistent notification in DB for student
+        const notifTitle = 'Enrollment Approved! 🎓';
+        const notifMessage = `You have been approved and enrolled in the course "${enrollment.course.title}".`;
+        
+        try {
+            await prisma.notification.create({
+                data: {
+                    userId: enrollment.studentId,
+                    type: 'enrollment_update',
+                    title: notifTitle,
+                    message: notifMessage,
+                    relatedEntityType: 'course',
+                    relatedEntityId: enrollment.courseId,
+                    actionUrl: '/dashboard/courses'
+                }
+            });
+
+            // Socket.io Real-Time Emit to student room
+            if (req.io) {
+                req.io.to(`user_${enrollment.studentId}`).emit('notification', {
+                    title: notifTitle,
+                    message: notifMessage,
+                    type: 'enrollment_update'
+                });
+            }
+        } catch (notifErr) {
+            console.error('Notification creation failed for enrollment approval:', notifErr);
+        }
+
         res.status(200).json({ 
             success: true, 
             message: `Enrollment approved for ${enrollment.student.name} in course ${enrollment.course.title}`,
@@ -969,6 +1031,35 @@ router.post('/enrollments/:id/reject', async (req, res) => {
                 where: { id: userProgress.id },
                 data: { status: 'rejected' }
             });
+        }
+
+        // Create persistent notification in DB for student
+        const notifTitle = 'Enrollment Request Update ❌';
+        const notifMessage = `Your enrollment request for "${enrollment.course.title}" was not approved. Reason: ${rejectionReason || 'Rejected by admin'}`;
+
+        try {
+            await prisma.notification.create({
+                data: {
+                    userId: enrollment.studentId,
+                    type: 'enrollment_update',
+                    title: notifTitle,
+                    message: notifMessage,
+                    relatedEntityType: 'course',
+                    relatedEntityId: enrollment.courseId,
+                    actionUrl: '/dashboard/courses'
+                }
+            });
+
+            // Socket.io Real-Time Emit to student room
+            if (req.io) {
+                req.io.to(`user_${enrollment.studentId}`).emit('notification', {
+                    title: notifTitle,
+                    message: notifMessage,
+                    type: 'enrollment_update'
+                });
+            }
+        } catch (notifErr) {
+            console.error('Notification creation failed for enrollment rejection:', notifErr);
         }
 
         res.status(200).json({ 
