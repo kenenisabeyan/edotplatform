@@ -529,12 +529,14 @@ export default function Home() {
 
                 </div>
 
+
                 {/* physical keyboard, dials, mouse, low-poly mountains desk setup */}
-                <div className="mt-10 flex flex-col lg:flex-row items-center justify-between gap-8 pt-8 border-t border-slate-800/80">
+                <div className="relative mt-12 pt-10 flex flex-col lg:flex-row items-center justify-between gap-8 z-10">
+                  {/* Glowing Brand Gradient Divider Line */}
+                  <div className="absolute top-0 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-[#19C2E8]/40 dark:via-[#19C2E8]/20 to-transparent"></div>
                   
                   {/* Accessory dials / wires on the left */}
                   <div className="flex items-center gap-3 select-none shrink-0 z-10">
-                    {/* Dual charcoal splitter bricks */}
                     <div className="charcoal-cable-brick">
                       <div className="cable-led-group">
                         <span className="cable-led-green"></span>
@@ -576,22 +578,58 @@ export default function Home() {
                   <div className="mechanical-keyboard-grid select-none hidden lg:grid">
                     {/* Row 1 (15 keys) */}
                     <div className="keyboard-keycap keycap-orange">esc</div>
-                    <div className="keyboard-keycap keycap-charcoal">1</div>
-                    <div className="keyboard-keycap keycap-charcoal">2</div>
-                    <div className="keyboard-keycap keycap-charcoal">3</div>
-                    <div className="keyboard-keycap keycap-charcoal">4</div>
-                    <div className="keyboard-keycap keycap-charcoal">5</div>
-                    <div className="keyboard-keycap keycap-charcoal">6</div>
-                    <div className="keyboard-keycap keycap-charcoal">7</div>
-                    <div className="keyboard-keycap keycap-charcoal">8</div>
-                    <div className="keyboard-keycap keycap-charcoal">9</div>
-                    <div className="keyboard-keycap keycap-charcoal">0</div>
-                    <div className="keyboard-keycap keycap-charcoal">-</div>
-                    <div className="keyboard-keycap keycap-charcoal">=</div>
-                    <div className="keyboard-keycap keycap-charcoal" style={{ gridColumn: 'span 2' }}>back</div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>!</span>
+                      <span>1</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>@</span>
+                      <span>2</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>#</span>
+                      <span>3</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>$</span>
+                      <span>4</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>%</span>
+                      <span>5</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>^</span>
+                      <span>6</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>{"&"}</span>
+                      <span>7</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>*</span>
+                      <span>8</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>(</span>
+                      <span>9</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>)</span>
+                      <span>0</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>_</span>
+                      <span>-</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>+</span>
+                      <span>=</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>back</div>
 
                     {/* Row 2 (15 keys equivalent) */}
-                    <div className="keyboard-keycap keycap-charcoal" style={{ gridColumn: 'span 1.5' }}>tab</div>
+                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 1.5' }}>tab</div>
                     <div className="keyboard-keycap keycap-cyan">q</div>
                     <div className="keyboard-keycap keycap-cream">w</div>
                     <div className="keyboard-keycap keycap-cream">e</div>
@@ -602,12 +640,21 @@ export default function Home() {
                     <div className="keyboard-keycap keycap-cream">i</div>
                     <div className="keyboard-keycap keycap-cream">o</div>
                     <div className="keyboard-keycap keycap-cream">p</div>
-                    <div className="keyboard-keycap keycap-charcoal">[</div>
-                    <div className="keyboard-keycap keycap-charcoal">]</div>
-                    <div className="keyboard-keycap keycap-charcoal" style={{ gridColumn: 'span 1.5' }}>\</div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>{"{"}</span>
+                      <span>{"["}</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>{"}"}</span>
+                      <span>{"]"}</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none" style={{ gridColumn: 'span 1.5' }}>
+                      <span>|</span>
+                      <span>\</span>
+                    </div>
 
                     {/* Row 3 (15 keys equivalent) */}
-                    <div className="keyboard-keycap keycap-charcoal" style={{ gridColumn: 'span 1.75' }}>caps</div>
+                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 1.75' }}>caps</div>
                     <div className="keyboard-keycap keycap-cream">a</div>
                     <div className="keyboard-keycap keycap-cream">s</div>
                     <div className="keyboard-keycap keycap-cream">d</div>
@@ -617,27 +664,56 @@ export default function Home() {
                     <div className="keyboard-keycap keycap-cream">j</div>
                     <div className="keyboard-keycap keycap-cream">k</div>
                     <div className="keyboard-keycap keycap-cream">l</div>
-                    <div className="keyboard-keycap keycap-charcoal">;</div>
-                    <div className="keyboard-keycap keycap-charcoal">'</div>
-                    <div className="keyboard-keycap keycap-cyan" style={{ gridColumn: 'span 2.25' }}>enter</div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>:</span>
+                      <span>;</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>"</span>
+                      <span>'</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-cyan font-bold" style={{ gridColumn: 'span 2.25' }}>enter</div>
 
-                    {/* Row 4 (Spacebar and mod keys) */}
-                    <div className="keyboard-keycap keycap-orange" style={{ gridColumn: 'span 2' }}>ctrl</div>
-                    <div className="keyboard-keycap keycap-charcoal" style={{ gridColumn: 'span 1.5' }}>alt</div>
-                    <div className="keyboard-keycap keycap-cream" style={{ gridColumn: 'span 6.5' }}></div>
-                    <div className="keyboard-keycap keycap-cyan" style={{ gridColumn: 'span 1.5' }}>alt</div>
-                    <div className="keyboard-keycap keycap-charcoal">fn</div>
-                    <div className="keyboard-keycap keycap-orange" style={{ gridColumn: 'span 2.5' }}>shift</div>
+                    {/* Row 4 (Letter row: Z, X, C, V, B, N, M & Symbols) */}
+                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2.25' }}>shift</div>
+                    <div className="keyboard-keycap keycap-cream">z</div>
+                    <div className="keyboard-keycap keycap-cream">x</div>
+                    <div className="keyboard-keycap keycap-cream">c</div>
+                    <div className="keyboard-keycap keycap-cream">v</div>
+                    <div className="keyboard-keycap keycap-cream">b</div>
+                    <div className="keyboard-keycap keycap-cream">n</div>
+                    <div className="keyboard-keycap keycap-cream">m</div>
+                    <div className="keyboard-keycap keycap-cream flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>{"<"}</span>
+                      <span>,</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-cream flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>{">"}</span>
+                      <span>.</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                      <span>?</span>
+                      <span>/</span>
+                    </div>
+                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2.75' }}>shift</div>
+
+                    {/* Row 5 (Spacebar and mod keys) */}
+                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2' }}>ctrl</div>
+                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 1.5' }}>alt</div>
+                    <div className="keyboard-keycap keycap-cream font-bold text-[6px]" style={{ gridColumn: 'span 6.5' }}>space</div>
+                    <div className="keyboard-keycap keycap-cyan font-bold" style={{ gridColumn: 'span 1.5' }}>alt</div>
+                    <div className="keyboard-keycap keycap-charcoal font-bold">fn</div>
+                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2.5' }}>ctrl</div>
                   </div>
 
                   {/* Trackball Mouse and low-poly mountains on the right */}
                   <div className="flex items-center gap-5 shrink-0 select-none">
                     {/* Ergonomic mouse representation */}
-                    <div className={`w-10 h-14 rounded-full border-2 shadow-md relative flex flex-col justify-start pt-2 items-center cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-slate-700 hover:border-cyan-400 shadow-black/50' : 'bg-[#e2e8f0] border-slate-300 hover:border-cyan-500 shadow-slate-300/40'}`}>
+                    <div className={`w-10 h-14 rounded-full border-2 shadow-md relative flex flex-col justify-start pt-2 items-center cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-slate-700 hover:border-[#19C2E8] shadow-black/50' : 'bg-[#e2e8f0] border-slate-300 hover:border-[#FF6A00] shadow-slate-300/40'}`}>
                       <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-600' : 'bg-slate-300 border-slate-400'}`}>
-                        <div className="w-2.5 h-2.5 rounded-full bg-rose-600 shadow-[0_0_4px_#ef4444]"></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#19C2E8] shadow-[0_0_6px_#19C2E8]"></div>
                       </div>
-                      <div className={`w-0.5 h-3 rounded-full mt-1 transition-colors duration-300 ${isDarkMode ? 'bg-slate-600' : 'bg-slate-400'}`}></div>
+                      <div className="w-0.5 h-3 rounded-full mt-1 bg-[#FF6A00] shadow-[0_0_4px_#FF6A00]"></div>
                     </div>
 
                     {/* Multi-layered low-poly mountain ornament */}

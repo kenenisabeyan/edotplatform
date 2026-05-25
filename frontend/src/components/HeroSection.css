@@ -416,11 +416,11 @@
   width: 98px;
   height: 98px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #64748B 0%, #0F172A 100%);
-  border: 3.5px solid #94A3B8;
+  background: linear-gradient(135deg, #19C2E8 0%, #FF6A00 100%) !important;
+  border: 3px solid #ffffff !important;
   box-shadow: 
-    0 10px 20px rgba(0, 0, 0, 0.65),
-    inset 0 1px 3px rgba(255,255,255,0.2);
+    0 10px 20px rgba(25, 194, 232, 0.25),
+    inset 0 1px 3px rgba(255,255,255,0.4) !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -899,38 +899,150 @@
 
 [data-theme="light"] .mechanical-keyboard-grid {
   background: #cbd5e1 !important;
-  border-color: #cbd5e1 !important;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.08) !important;
+  border: 3.5px solid #19C2E8 !important; /* Brand Cyan border */
+  box-shadow: inset 0 3px 6px rgba(15, 23, 42, 0.12), 0 0 15px rgba(25, 194, 232, 0.15) !important;
 }
 
 [data-theme="light"] .scroll-button-bezel {
-  background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%) !important;
-  border-color: #cbd5e1 !important;
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1), inset 0 1px 3px rgba(255,255,255,0.8) !important;
+  background: linear-gradient(135deg, #19C2E8 0%, #FF6A00 100%) !important; /* Brand gradient */
+  border: 3px solid #ffffff !important;
+  box-shadow: 0 12px 24px rgba(25, 194, 232, 0.2), inset 0 1px 3px rgba(255,255,255,0.6) !important;
 }
 
 [data-theme="light"] .scroll-button-dial {
-  background: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 100%) !important;
+  background: radial-gradient(circle at center, #ffffff 0%, #e2e8f0 100%) !important;
   border-color: #cbd5e1 !important;
-  box-shadow: inset 0 5px 8px rgba(255,255,255,0.9), 0 5px 6px rgba(15, 23, 42, 0.05) !important;
+  box-shadow: inset 0 3px 6px rgba(255,255,255,0.95), 0 4px 6px rgba(15, 23, 42, 0.05) !important;
 }
 
 [data-theme="light"] .scroll-button-dial span {
-  color: #475569 !important;
+  color: #1e293b !important;
+}
+[data-theme="light"] .scroll-button-dial span:nth-child(2) {
+  color: #FF6A00 !important; /* Brand orange "For" */
+  text-shadow: 0 0 2px rgba(255, 106, 0, 0.2);
+}
+
+[data-theme="light"] .knob-cyan .rotary-knob-bezel {
+  border-color: #19C2E8 !important; /* Brand Cyan border */
+  box-shadow: 0 0 8px rgba(25, 194, 232, 0.15) !important;
+}
+
+[data-theme="light"] .knob-orange .rotary-knob-bezel {
+  border-color: #FF6A00 !important; /* Brand Orange border */
+  box-shadow: 0 0 8px rgba(255, 106, 0, 0.15) !important;
 }
 
 [data-theme="light"] .keycap-charcoal {
-  background: #94a3b8 !important;
-  color: #f8fafc !important;
-  border-bottom: 2.5px solid #64748b !important;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05) !important;
+  background: #475569 !important;
+  color: #ffffff !important;
+  border-bottom: 2.5px solid #1e293b !important;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.1) !important;
 }
 
 [data-theme="light"] .keycap-charcoal:active {
-  background: #64748b !important;
+  background: #334155 !important;
+}
+
+[data-theme="light"] .keycap-cream {
+  background: #ffffff !important;
+  color: #334155 !important;
+  border-bottom: 2.5px solid #cbd5e1 !important;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.08) !important;
+}
+
+[data-theme="light"] .keycap-cream:active {
+  background: #f1f5f9 !important;
+}
+
+[data-theme="light"] .keycap-cyan {
+  background: #19C2E8 !important; /* Brand Cyan */
+  color: #ffffff !important;
+  border-bottom: 2.5px solid #00a5cc !important;
+  box-shadow: 0 2px 3px rgba(25, 194, 232, 0.2) !important;
+}
+
+[data-theme="light"] .keycap-cyan:active {
+  background: #00c5eb !important;
+}
+
+[data-theme="light"] .keycap-orange {
+  background: #FF6A00 !important; /* Brand Orange */
+  color: #ffffff !important;
+  border-bottom: 2.5px solid #cc5500 !important;
+  box-shadow: 0 2px 3px rgba(255, 106, 0, 0.2) !important;
+}
+
+[data-theme="light"] .keycap-orange:active {
+  background: #ff8533 !important;
 }
 
 [data-theme="light"] .ambient-neon-left,
 [data-theme="light"] .ambient-neon-right {
   opacity: 0.15 !important;
+}
+
+/* High Contrast Visibility Overrides for Holograms and Glowing Icons in Light Theme */
+[data-theme="light"] .hologram-pedestal-cyan {
+  background: radial-gradient(ellipse at center, rgba(3, 105, 161, 0.3) 0%, rgba(3, 105, 161, 0.08) 60%, transparent 100%) !important;
+  border: 1.5px solid rgba(3, 105, 161, 0.75) !important;
+  box-shadow: 
+    0 0 12px rgba(3, 105, 161, 0.3),
+    inset 0 0 6px rgba(3, 105, 161, 0.2) !important;
+}
+
+[data-theme="light"] .hologram-pedestal-orange {
+  background: radial-gradient(ellipse at center, rgba(194, 65, 12, 0.3) 0%, rgba(194, 65, 12, 0.08) 60%, transparent 100%) !important;
+  border: 1.5px solid rgba(194, 65, 12, 0.75) !important;
+  box-shadow: 
+    0 0 12px rgba(194, 65, 12, 0.3),
+    inset 0 0 6px rgba(194, 65, 12, 0.2) !important;
+}
+
+[data-theme="light"] .hologram-glow-cyan {
+  background: radial-gradient(circle, rgba(3, 105, 161, 0.35) 0%, transparent 70%) !important;
+}
+
+[data-theme="light"] .hologram-glow-orange {
+  background: radial-gradient(circle, rgba(194, 65, 12, 0.35) 0%, transparent 70%) !important;
+}
+
+[data-theme="light"] .console-slot svg {
+  filter: drop-shadow(0 4px 6px rgba(15, 23, 42, 0.15)) !important;
+}
+
+[data-theme="light"] .console-slot-cyan svg {
+  color: #0369A1 !important; /* sky-700 */
+}
+
+[data-theme="light"] .console-slot-orange svg {
+  color: #C2410C !important; /* orange-700 */
+}
+
+[data-theme="light"] .hologram-float-icon-cyan {
+  animation: float-cyan-light 4.5s ease-in-out infinite !important;
+}
+@keyframes float-cyan-light {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    filter: drop-shadow(0 4px 8px rgba(3, 105, 161, 0.5)) !important;
+  }
+  50% {
+    transform: translateY(-9px) rotate(1.5deg);
+    filter: drop-shadow(0 10px 16px rgba(3, 105, 161, 0.7)) !important;
+  }
+}
+
+[data-theme="light"] .hologram-float-icon-orange {
+  animation: float-orange-light 4.5s ease-in-out infinite !important;
+}
+@keyframes float-orange-light {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    filter: drop-shadow(0 4px 8px rgba(194, 65, 12, 0.5)) !important;
+  }
+  50% {
+    transform: translateY(-9px) rotate(-1.5deg);
+    filter: drop-shadow(0 10px 16px rgba(194, 65, 12, 0.7)) !important;
+  }
 }
