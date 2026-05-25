@@ -251,13 +251,16 @@ body {
   transition: var(--transition-main);
 }
 
-/* Navbar and footer */
-[data-theme="light"] header, [data-theme="light"] nav, [data-theme="light"] footer {
+[data-theme="light"] nav, [data-theme="light"] footer {
   background: #ffffff !important;
   color: var(--text-main) !important;
   border-radius: 0 !important;
   box-shadow: none;
   transition: var(--transition-main);
+}
+[data-theme="light"] header {
+  color: var(--text-main) !important;
+  border-radius: 0 !important;
 }
 
 /* Buttons */
@@ -314,10 +317,6 @@ button, .btn, .cta {
 }
 
 /* Exact UI morph to match screenshot 'image-1' for Light Mode */
-[data-theme="light"] header {
-  background-color: #ffffff !important;
-  backdrop-filter: none !important;
-}
 [data-theme="light"] header .text-white,
 [data-theme="light"] header .text-slate-200,
 [data-theme="light"] header .text-slate-300,

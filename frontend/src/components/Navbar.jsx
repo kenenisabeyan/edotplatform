@@ -61,10 +61,32 @@ export default function Navbar() {
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
+  const headerStyle = isDarkMode ? {
+    borderBottom: isScrolled ? '2.5px solid rgba(25, 194, 232, 0.35)' : '2px solid rgba(25, 194, 232, 0.2)',
+    boxShadow: isScrolled 
+      ? '0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(25, 194, 232, 0.1)' 
+      : '0 4px 20px rgba(0, 0, 0, 0.25)',
+    background: isScrolled ? 'rgba(11, 17, 32, 0.95)' : 'rgba(11, 17, 32, 0.85)',
+    backdropFilter: 'blur(12px)',
+    paddingTop: isScrolled ? '12px' : '20px',
+    paddingBottom: isScrolled ? '12px' : '20px',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+  } : {
+    borderBottom: isScrolled ? '2.5px solid #19C2E8' : '2.5px solid #19C2E8',
+    boxShadow: isScrolled 
+      ? '0 8px 24px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(25, 194, 232, 0.08)' 
+      : '0 10px 30px rgba(15, 23, 42, 0.05), 0 2px 8px rgba(25, 194, 232, 0.04)',
+    background: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.9)',
+    backdropFilter: 'blur(12px)',
+    paddingTop: isScrolled ? '12px' : '20px',
+    paddingBottom: isScrolled ? '12px' : '20px',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+  };
+
   return (
     <header 
-      className={`${isAuthPage ? 'relative' : 'fixed top-0 left-0'} w-full z-50 transition-all duration-300 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'} py-6`}
-      style={{ borderBottom: '2px solid #475569', boxShadow: '0px 12px 30px rgba(71, 85, 105, 0.4)' }}
+      className={`${isAuthPage ? 'relative' : 'fixed top-0 left-0'} w-full z-50`}
+      style={headerStyle}
     >
       <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
         

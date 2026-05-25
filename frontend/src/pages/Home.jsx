@@ -627,9 +627,8 @@ export default function Home() {
                       <span>=</span>
                     </div>
                     <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>back</div>
-
-                    {/* Row 2 (15 keys equivalent) */}
-                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 1.5' }}>tab</div>
+                     {/* Row 2 (15 keys equivalent) */}
+                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>tab</div>
                     <div className="keyboard-keycap keycap-cyan">q</div>
                     <div className="keyboard-keycap keycap-cream">w</div>
                     <div className="keyboard-keycap keycap-cream">e</div>
@@ -648,13 +647,13 @@ export default function Home() {
                       <span>{"}"}</span>
                       <span>{"]"}</span>
                     </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none" style={{ gridColumn: 'span 1.5' }}>
+                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
                       <span>|</span>
                       <span>\</span>
                     </div>
 
                     {/* Row 3 (15 keys equivalent) */}
-                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 1.75' }}>caps</div>
+                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>caps</div>
                     <div className="keyboard-keycap keycap-cream">a</div>
                     <div className="keyboard-keycap keycap-cream">s</div>
                     <div className="keyboard-keycap keycap-cream">d</div>
@@ -672,10 +671,10 @@ export default function Home() {
                       <span>"</span>
                       <span>'</span>
                     </div>
-                    <div className="keyboard-keycap keycap-cyan font-bold" style={{ gridColumn: 'span 2.25' }}>enter</div>
+                    <div className="keyboard-keycap keycap-cyan font-bold" style={{ gridColumn: 'span 2' }}>enter</div>
 
                     {/* Row 4 (Letter row: Z, X, C, V, B, N, M & Symbols) */}
-                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2.25' }}>shift</div>
+                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2' }}>shift</div>
                     <div className="keyboard-keycap keycap-cream">z</div>
                     <div className="keyboard-keycap keycap-cream">x</div>
                     <div className="keyboard-keycap keycap-cream">c</div>
@@ -695,15 +694,15 @@ export default function Home() {
                       <span>?</span>
                       <span>/</span>
                     </div>
-                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2.75' }}>shift</div>
+                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 3' }}>shift</div>
 
                     {/* Row 5 (Spacebar and mod keys) */}
                     <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2' }}>ctrl</div>
-                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 1.5' }}>alt</div>
-                    <div className="keyboard-keycap keycap-cream font-bold text-[6px]" style={{ gridColumn: 'span 6.5' }}>space</div>
-                    <div className="keyboard-keycap keycap-cyan font-bold" style={{ gridColumn: 'span 1.5' }}>alt</div>
-                    <div className="keyboard-keycap keycap-charcoal font-bold">fn</div>
-                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2.5' }}>ctrl</div>
+                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>alt</div>
+                    <div className="keyboard-keycap keycap-cream font-bold text-[6px]" style={{ gridColumn: 'span 5' }}>space</div>
+                    <div className="keyboard-keycap keycap-cyan font-bold" style={{ gridColumn: 'span 2' }}>alt</div>
+                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>fn</div>
+                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2' }}>ctrl</div>
                   </div>
 
                   {/* Trackball Mouse and low-poly mountains on the right */}
@@ -725,8 +724,6 @@ export default function Home() {
                         <polygon points="12,45 32,15 52,45" fill="#19C2E8" opacity="0.85"/>
                         {/* Medium orange peak in middle */}
                         <polygon points="30,45 48,8 65,45" fill="#FF6A00" opacity="0.7"/>
-                        {/* Glowing diamond/star in front */}
-                        <polygon points="48,32 51,26 54,32 60,35 54,38 51,44 48,38 42,35" fill="white" className="animate-pulse" />
                       </svg>
                     </div>
                   </div>
