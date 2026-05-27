@@ -20,6 +20,20 @@ export default function Home() {
   const [activeRole, setActiveRole] = useState('learner');
   const videoRef = useRef(null);
 
+  // Interactive control deck state
+  const [knobAngles, setKnobAngles] = useState([0, -25, 45, 15]);
+  const [silverDialAngle, setSilverDialAngle] = useState(0);
+
+  const rotateKnob = (index) => {
+    setKnobAngles(prev => {
+      const copy = [...prev];
+      let newAngle = copy[index] + 45;
+      if (newAngle > 180) newAngle = -180;
+      copy[index] = newAngle;
+      return copy;
+    });
+  };
+
   const frameStyle = isDarkMode ? {
     position: 'relative',
     background: 'transparent',
@@ -297,453 +311,508 @@ export default function Home() {
 
               </div>
             </section>
-
-          </div>
+          </div>
 
           {/* Curved Monitor Stand Base Removed */}
 
         </div>
+      </div>
 
-        {/* ===== PREMIUM REDESIGNED FUTURISTIC DECK INTERACTIVE CONSOLE ===== */}
-        <section className="relative z-20 px-6 md:px-8 lg:px-16 pb-12">
-          <div className="max-w-[1300px] mx-auto">
+      {/* ===== PREMIUM REDESIGNED FUTURISTIC DECK INTERACTIVE CONSOLE ===== */}
+      <section className={`relative w-full overflow-hidden py-24 transition-colors duration-500 border-b ${
+        isDarkMode ? 'bg-[#0B1120] text-white border-white/5' : 'bg-[#F8FAFC] text-slate-900 border-slate-200'
+      }`}>
+        
+        {/* Soft graph-paper grid background */}
+        <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+        
+        {/* Diagonal premium background gradients */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+          <svg className="absolute w-full h-full" viewBox="0 0 1440 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            {/* Soft cyan gradient on bottom-left */}
+            <path d="M-200 900 L200 700 L0 400 L500 200 L300 0 L-200 0 Z" fill="url(#cyanGeomSoft)" opacity={isDarkMode ? "0.15" : "0.08"}/>
+            {/* Soft orange gradient on top-right */}
+            <path d="M1600 -100 L1200 100 L1400 400 L900 600 L1100 800 L1600 800 Z" fill="url(#orangeGeomSoft)" opacity={isDarkMode ? "0.12" : "0.06"}/>
+            
+            <defs>
+              <linearGradient id="cyanGeomSoft" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#19C2E8" />
+                <stop offset="100%" stopColor="#00D4FF" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="orangeGeomSoft" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FF6A00" />
+                <stop offset="100%" stopColor="#FFB700" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <div className="max-w-[1300px] mx-auto px-6 relative z-10">
+          <div 
+            className="control-deck-frame"
+            style={frameStyle}
+          >
+            
+            {/* Cyan/Orange Neon LED strip ambient lights split glow */}
+            <div className="led-strip-glow led-cyan"></div>
+            <div className="led-strip-glow led-orange"></div>
+
             <div 
-              className="control-deck-frame"
-              style={frameStyle}
+              className="control-deck-surface"
+              style={surfaceStyle}
             >
               
-              {/* Cyan/Orange Neon LED strip ambient lights split glow */}
-              <div className="led-strip-glow led-cyan"></div>
-              <div className="led-strip-glow led-orange"></div>
+              {/* Keyboard keycaps dots decorations */}
+              <div className="absolute top-3 right-6 flex gap-1.5 opacity-60 pointer-events-none select-none">
+                <span className="w-3.5 h-3.5 rounded bg-[#FF6A00] block shadow-sm border border-black/10"></span>
+                <span className="w-3.5 h-3.5 rounded bg-[#19C2E8] block shadow-sm border border-black/10"></span>
+                <span className="w-3.5 h-3.5 rounded bg-[#FF6A00] block shadow-sm border border-black/10"></span>
+                <span className="w-3.5 h-3.5 rounded bg-[#19C2E8] block shadow-sm border border-black/10"></span>
+              </div>
 
-              <div 
-                className="control-deck-surface"
-                style={surfaceStyle}
-              >
+              {/* 4 Recess slots console grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
                 
-                {/* Keyboard keycaps dots decorations */}
-                <div className="absolute top-3 right-6 flex gap-1.5 opacity-60 pointer-events-none select-none">
-                  <span className="w-3.5 h-3.5 rounded bg-[#FF6A00] block shadow-sm border border-black/10"></span>
-                  <span className="w-3.5 h-3.5 rounded bg-[#19C2E8] block shadow-sm border border-black/10"></span>
-                  <span className="w-3.5 h-3.5 rounded bg-[#FF6A00] block shadow-sm border border-black/10"></span>
-                  <span className="w-3.5 h-3.5 rounded bg-[#19C2E8] block shadow-sm border border-black/10"></span>
+                {/* Modular Slot 1: Diverse Education */}
+                <div className="flex flex-col">
+                  <motion.div 
+                    whileHover={{ y: -6 }}
+                    className="console-slot console-slot-cyan"
+                    style={slotStyle}
+                  >
+                    {/* Floating glowing Glass Pedestal and holographic Classical greek temple icon */}
+                    <div className="relative h-24 flex items-center justify-center">
+                      <div className="absolute hologram-glow-cyan blur-md opacity-45 w-16 h-16 rounded-full"></div>
+                      <div className="hologram-float-icon-cyan relative z-10">
+                        {/* Greek Temple Column Glowing SVG */}
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 text-[#19C2E8] filter drop-shadow-[0_0_8px_#19C2E8]">
+                          <path d="M6 22 L32 6 L58 22 Z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" fill="rgba(25,194,232,0.1)"/>
+                          <rect x="8" y="22" width="48" height="4" rx="1" fill="currentColor"/>
+                          <rect x="13" y="28" width="5" height="24" rx="1" stroke="currentColor" strokeWidth="2" fill="rgba(25,194,232,0.15)"/>
+                          <rect x="24" y="28" width="5" height="24" rx="1" stroke="currentColor" strokeWidth="2" fill="rgba(25,194,232,0.15)"/>
+                          <rect x="35" y="28" width="5" height="24" rx="1" stroke="currentColor" strokeWidth="2" fill="rgba(25,194,232,0.15)"/>
+                          <rect x="46" y="28" width="5" height="24" rx="1" stroke="currentColor" strokeWidth="2" fill="rgba(25,194,232,0.15)"/>
+                          <rect x="4" y="52" width="56" height="6" rx="2" stroke="currentColor" strokeWidth="2" fill="currentColor"/>
+                        </svg>
+                      </div>
+                    </div>
+                    
+                    <div className="hologram-pedestal-cyan mb-4"></div>
+
+                    <div className="text-left mt-2">
+                      <h4 className={`text-[15px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-[#0F3057]'}`}>Diverse Education</h4>
+                      <p className={`text-[12px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Find courses that match your interests.</p>
+                    </div>
+                    
+                    <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-[10px] font-bold text-[#19C2E8] uppercase tracking-wider">
+                      <span>Interactive Unit</span>
+                      <span className="h-2 w-2 rounded-full bg-[#19C2E8] animate-ping"></span>
+                    </div>
+                  </motion.div>
+
+                  {/* Rotary dial knob */}
+                  <div 
+                    onClick={() => rotateKnob(0)}
+                    className="rotary-knob-container knob-cyan cursor-pointer"
+                  >
+                    <div className="rotary-knob-bezel">
+                      <div 
+                        className="rotary-knob-dial"
+                        style={{ transform: `rotate(${knobAngles[0]}deg)` }}
+                      ></div>
+                    </div>
+                    <span className="text-[8px] font-black uppercase text-slate-500 mt-1.5 tracking-widest">FREQ SELECT</span>
+                  </div>
                 </div>
 
-                {/* 4 Recess slots console grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
-                  
-                  {/* Modular Slot 1: Diverse Education */}
-                  <div className="flex flex-col">
-                    <motion.div 
-                      whileHover={{ y: -6 }}
-                      className="console-slot console-slot-cyan"
-                      style={slotStyle}
-                    >
-                      {/* Floating glowing Glass Pedestal and holographic Classical greek temple icon */}
-                      <div className="relative h-24 flex items-center justify-center">
-                        <div className="absolute hologram-glow-cyan blur-md opacity-45 w-16 h-16 rounded-full"></div>
-                        <div className="hologram-float-icon-cyan relative z-10">
-                          {/* Greek Temple Column Glowing SVG */}
-                          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 text-[#19C2E8] filter drop-shadow-[0_0_8px_#19C2E8]">
-                            <path d="M6 22 L32 6 L58 22 Z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" fill="rgba(25,194,232,0.1)"/>
-                            <rect x="8" y="22" width="48" height="4" rx="1" fill="currentColor"/>
-                            <rect x="13" y="28" width="5" height="24" rx="1" stroke="currentColor" strokeWidth="2" fill="rgba(25,194,232,0.15)"/>
-                            <rect x="24" y="28" width="5" height="24" rx="1" stroke="currentColor" strokeWidth="2" fill="rgba(25,194,232,0.15)"/>
-                            <rect x="35" y="28" width="5" height="24" rx="1" stroke="currentColor" strokeWidth="2" fill="rgba(25,194,232,0.15)"/>
-                            <rect x="46" y="28" width="5" height="24" rx="1" stroke="currentColor" strokeWidth="2" fill="rgba(25,194,232,0.15)"/>
-                            <rect x="4" y="52" width="56" height="6" rx="2" stroke="currentColor" strokeWidth="2" fill="currentColor"/>
-                          </svg>
-                        </div>
+                {/* Modular Slot 2: Global Community */}
+                <div className="flex flex-col">
+                  <motion.div 
+                    whileHover={{ y: -6 }}
+                    className="console-slot console-slot-cyan"
+                    style={slotStyle}
+                  >
+                    {/* Floating glowing Glass Pedestal and holographic Digital wireframe earth globe */}
+                    <div className="relative h-24 flex items-center justify-center">
+                      <div className="absolute hologram-glow-cyan blur-md opacity-45 w-16 h-16 rounded-full"></div>
+                      <div className="hologram-float-icon-cyan relative z-10" style={{ animationDelay: '0.5s' }}>
+                        {/* Earth Globe Wireframe with orbiting neon ring SVG */}
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 text-[#19C2E8] filter drop-shadow-[0_0_8px_#19C2E8]">
+                          <circle cx="32" cy="32" r="18" stroke="currentColor" strokeWidth="2" strokeDasharray="3 2" fill="rgba(25,194,232,0.05)"/>
+                          <ellipse cx="32" cy="32" rx="18" ry="7" stroke="currentColor" strokeWidth="1.5"/>
+                          <ellipse cx="32" cy="32" rx="7" ry="18" stroke="currentColor" strokeWidth="1.5"/>
+                          <ellipse cx="32" cy="32" rx="25" ry="4" stroke="currentColor" strokeWidth="2" transform="rotate(-22 32 32)" strokeLinecap="round" fill="none"/>
+                          <circle cx="12" cy="22" r="2.5" fill="#19C2E8"/>
+                          <circle cx="52" cy="42" r="2.5" fill="#19C2E8"/>
+                        </svg>
                       </div>
-                      
-                      <div className="hologram-pedestal-cyan mb-4"></div>
-
-                      <div className="text-left mt-2">
-                        <h4 className={`text-[15px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-[#0F3057]'}`}>Diverse Education</h4>
-                        <p className={`text-[12px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Find courses that match your interests.</p>
-                      </div>
-                      
-                      <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-[10px] font-bold text-[#19C2E8] uppercase tracking-wider">
-                        <span>Interactive Unit</span>
-                        <span className="h-2 w-2 rounded-full bg-[#19C2E8] animate-ping"></span>
-                      </div>
-                    </motion.div>
-
-                    {/* Rotary dial knob */}
-                    <div className="rotary-knob-container knob-cyan">
-                      <div className="rotary-knob-bezel">
-                        <div className="rotary-knob-dial"></div>
-                      </div>
-                      <span className="text-[8px] font-black uppercase text-slate-500 mt-1.5 tracking-widest">FREQ SELECT</span>
                     </div>
-                  </div>
+                    
+                    <div className="hologram-pedestal-cyan mb-4"></div>
 
-                  {/* Modular Slot 2: Global Community */}
-                  <div className="flex flex-col">
-                    <motion.div 
-                      whileHover={{ y: -6 }}
-                      className="console-slot console-slot-cyan"
-                      style={slotStyle}
-                    >
-                      {/* Floating glowing Glass Pedestal and holographic Digital wireframe earth globe */}
-                      <div className="relative h-24 flex items-center justify-center">
-                        <div className="absolute hologram-glow-cyan blur-md opacity-45 w-16 h-16 rounded-full"></div>
-                        <div className="hologram-float-icon-cyan relative z-10" style={{ animationDelay: '0.5s' }}>
-                          {/* Earth Globe Wireframe with orbiting neon ring SVG */}
-                          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 text-[#19C2E8] filter drop-shadow-[0_0_8px_#19C2E8]">
-                            <circle cx="32" cy="32" r="18" stroke="currentColor" strokeWidth="2" strokeDasharray="3 2" fill="rgba(25,194,232,0.05)"/>
-                            <ellipse cx="32" cy="32" rx="18" ry="7" stroke="currentColor" strokeWidth="1.5"/>
-                            <ellipse cx="32" cy="32" rx="7" ry="18" stroke="currentColor" strokeWidth="1.5"/>
-                            <ellipse cx="32" cy="32" rx="25" ry="4" stroke="currentColor" strokeWidth="2" transform="rotate(-22 32 32)" strokeLinecap="round" fill="none"/>
-                            <circle cx="12" cy="22" r="2.5" fill="#19C2E8"/>
-                            <circle cx="52" cy="42" r="2.5" fill="#19C2E8"/>
-                          </svg>
-                        </div>
-                      </div>
-                      
-                      <div className="hologram-pedestal-cyan mb-4"></div>
-
-                      <div className="text-left mt-2">
-                        <h4 className={`text-[15px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-[#0F3057]'}`}>Global Community</h4>
-                        <p className={`text-[12px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Connect with learners from around the world.</p>
-                      </div>
-
-                      {/* Diagnostic green LCD screen */}
-                      <div className={`text-[6px] ${isDarkMode ? 'console-slot-lcd' : 'console-slot-lcd-light'}`}>
-                        <div className="flex justify-between items-center text-[7px]">
-                          <span>SYS.NODE: ACTIVE</span>
-                          <span>98.2%</span>
-                        </div>
-                        <div className={`text-[5.5px] truncate mt-0.5 ${isDarkMode ? 'text-[#10B981]/60' : 'text-[#059669]/60'}`}>&gt; CONNECTING SECURE SENSORS...</div>
-                      </div>
-
-                      <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-[10px] font-bold text-[#19C2E8] uppercase tracking-wider">
-                        <span>Active Node</span>
-                        <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
-                      </div>
-                    </motion.div>
-
-                    {/* Rotary dial knob */}
-                    <div className="rotary-knob-container knob-cyan">
-                      <div className="rotary-knob-bezel">
-                        <div className="rotary-knob-dial"></div>
-                      </div>
-                      <span className="text-[8px] font-black uppercase text-slate-500 mt-1.5 tracking-widest">NODE GAIN</span>
+                    <div className="text-left mt-2">
+                      <h4 className={`text-[15px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-[#0F3057]'}`}>Global Community</h4>
+                      <p className={`text-[12px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Connect with learners from around the world.</p>
                     </div>
-                  </div>
 
-                  {/* Modular Slot 3: Certified Courses */}
-                  <div className="flex flex-col">
-                    <motion.div 
-                      whileHover={{ y: -6 }}
-                      className="console-slot console-slot-orange"
-                      style={slotStyle}
-                    >
-                      {/* Floating glowing Glass Pedestal and holographic A+ Ribbon medal */}
-                      <div className="relative h-24 flex items-center justify-center">
-                        <div className="absolute hologram-glow-orange blur-md opacity-45 w-16 h-16 rounded-full"></div>
-                        <div className="hologram-float-icon-orange relative z-10" style={{ animationDelay: '1s' }}>
-                          {/* Glowing A+ Badge Emblem SVG */}
-                          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 text-[#FF6A00] filter drop-shadow-[0_0_8px_#FF6A00]">
-                            <path d="M22 36 L16 58 L28 50 L34 56 L30 38" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="rgba(255,106,0,0.1)"/>
-                            <path d="M42 36 L48 58 L36 50 L30 56 L34 38" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="rgba(255,106,0,0.1)"/>
-                            <circle cx="32" cy="25" r="17" stroke="currentColor" strokeWidth="2.5" fill="rgba(255,106,0,0.15)" />
-                            <circle cx="32" cy="25" r="13" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" />
-                            <path d="M25 30 L29 18 L33 30 M26 26 L32 26" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
-                            <path d="M36 22 L40 22 M38 20 L38 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
-                          </svg>
-                        </div>
+                    {/* Diagnostic green LCD screen */}
+                    <div className={`text-[6px] ${isDarkMode ? 'console-slot-lcd' : 'console-slot-lcd-light'}`}>
+                      <div className="flex justify-between items-center text-[7px]">
+                        <span>SYS NODE: ACTIVE</span>
+                        <span>98.1%</span>
                       </div>
-                      
-                      <div className="hologram-pedestal-orange mb-4"></div>
-
-                      <div className="text-left mt-2">
-                        <h4 className={`text-[15px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-[#0F3057]'}`}>Certified Courses</h4>
-                        <p className={`text-[12px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Earn recognized credentials for your future.</p>
-                      </div>
-
-                      {/* Diagnostic green LCD screen */}
-                      <div className={`text-[6px] ${isDarkMode ? 'console-slot-lcd' : 'console-slot-lcd-light'}`}>
-                        <div className="flex justify-between items-center text-[7px]">
-                          <span>CERT.AUTH: APPROVED</span>
-                          <span>SEALED</span>
-                        </div>
-                        <div className={`text-[5.5px] truncate mt-0.5 ${isDarkMode ? 'text-[#10B981]/60' : 'text-[#059669]/60'}`}>&gt; GENERATING SHIELD HASH...</div>
-                      </div>
-
-                      <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-[10px] font-bold text-[#FF6A00] uppercase tracking-wider">
-                        <span>Credential Core</span>
-                        <span className="h-2 w-2 rounded-full bg-[#FF6A00]"></span>
-                      </div>
-                    </motion.div>
-
-                    {/* Rotary dial knob */}
-                    <div className="rotary-knob-container knob-orange">
-                      <div className="rotary-knob-bezel">
-                        <div className="rotary-knob-dial"></div>
-                      </div>
-                      <span className="text-[8px] font-black uppercase text-slate-500 mt-1.5 tracking-widest">CRED MATRIX</span>
+                      <div className={`text-[5.5px] truncate mt-0.5 ${isDarkMode ? 'text-[#10B981]/60' : 'text-[#059669]/60'}`}>&gt; CONNECTING SECURE SENSORS...</div>
                     </div>
-                  </div>
 
-                  {/* Modular Slot 4: Support a Cause */}
-                  <div className="flex flex-col">
-                    <motion.div 
-                      whileHover={{ y: -6 }}
-                      className="console-slot console-slot-orange"
-                      style={slotStyle}
-                    >
-                      {/* Floating glowing Glass Pedestal and holographic Hands holding heart */}
-                      <div className="relative h-24 flex items-center justify-center">
-                        <div className="absolute hologram-glow-orange blur-md opacity-45 w-16 h-16 rounded-full"></div>
-                        <div className="hologram-float-icon-orange relative z-10" style={{ animationDelay: '1.5s' }}>
-                          {/* Glowing cradling hands cradling pulsing neon heart SVG */}
-                          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 text-[#FF6A00] filter drop-shadow-[0_0_8px_#FF6A00]">
-                            <path d="M12 38 C14 44, 20 48, 28 48 C30 48, 32 46, 32 46 C32 46, 34 48, 36 48 C44 48, 50 44, 52 38 C54 34, 52 30, 48 30 C45 30, 43 32, 42 34 L32 42 L22 34 C21 32, 19 30, 16 30 C12 30, 10 34, 12 38 Z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" fill="rgba(255,106,0,0.1)"/>
-                            <path d="M32 30 C32 30, 27 25, 27 21.5 C27 18.5, 29.5 16, 32.5 16 C34 16, 35.5 17, 36 18 C36.5 17, 38 16, 39.5 16 C42.5 16, 45 18.5, 45 21.5 C45 25, 40 30, 40 30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="rgba(255,106,0,0.2)"/>
-                          </svg>
-                        </div>
-                      </div>
-                      
-                      <div className="hologram-pedestal-orange mb-4"></div>
-
-                      <div className="text-left mt-2">
-                        <h4 className={`text-[15px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-[#0F3057]'}`}>Support a Cause</h4>
-                        <p className={`text-[12px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Help others on their learning path.</p>
-                      </div>
-
-                      <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-[10px] font-bold text-[#FF6A00] uppercase tracking-wider">
-                        <span>Sponsor Hub</span>
-                        <span className="h-2 w-2 rounded-full bg-rose-500 animate-ping"></span>
-                      </div>
-                    </motion.div>
-
-                    {/* Rotary dial knob */}
-                    <div className="rotary-knob-container knob-orange">
-                      <div className="rotary-knob-bezel">
-                        <div className="rotary-knob-dial"></div>
-                      </div>
-                      <span className="text-[8px] font-black uppercase text-slate-500 mt-1.5 tracking-widest">SPONS LEVEL</span>
+                    <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-[10px] font-bold text-[#19C2E8] uppercase tracking-wider">
+                      <span>Active Node</span>
+                      <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
                     </div>
-                  </div>
+                  </motion.div>
 
+                  {/* Rotary dial knob */}
+                  <div 
+                    onClick={() => rotateKnob(1)}
+                    className="rotary-knob-container knob-cyan cursor-pointer"
+                  >
+                    <div className="rotary-knob-bezel">
+                      <div 
+                        className="rotary-knob-dial"
+                        style={{ transform: `rotate(${knobAngles[1]}deg)` }}
+                      ></div>
+                    </div>
+                    <span className="text-[8px] font-black uppercase text-slate-500 mt-1.5 tracking-widest">NODE GAIN</span>
+                  </div>
                 </div>
 
-
-                {/* physical keyboard, dials, mouse, low-poly mountains desk setup */}
-                <div className="relative mt-12 pt-10 flex flex-col lg:flex-row items-center justify-between gap-8 z-10">
-                  {/* Glowing Brand Gradient Divider Line */}
-                  <div className="absolute top-0 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-[#19C2E8]/40 dark:via-[#19C2E8]/20 to-transparent"></div>
-                  
-                  {/* Accessory dials / wires on the left */}
-                  <div className="flex items-center gap-3 select-none shrink-0 z-10">
-                    <div className="charcoal-cable-brick">
-                      <div className="cable-led-group">
-                        <span className="cable-led-green"></span>
-                        <span className="cable-led-red animate-pulse"></span>
+                {/* Modular Slot 3: Certified Courses */}
+                <div className="flex flex-col">
+                  <motion.div 
+                    whileHover={{ y: -6 }}
+                    className="console-slot console-slot-orange"
+                    style={slotStyle}
+                  >
+                    {/* Floating glowing Glass Pedestal and holographic A+ Ribbon medal */}
+                    <div className="relative h-24 flex items-center justify-center">
+                      <div className="absolute hologram-glow-orange blur-md opacity-45 w-16 h-16 rounded-full"></div>
+                      <div className="hologram-float-icon-orange relative z-10" style={{ animationDelay: '1s' }}>
+                        {/* Glowing A+ Badge Emblem SVG */}
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 text-[#FF6A00] filter drop-shadow-[0_0_8px_#FF6A00]">
+                          <path d="M22 36 L16 58 L28 50 L34 56 L30 38" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="rgba(255,106,0,0.1)"/>
+                          <path d="M42 36 L48 58 L36 50 L30 56 L34 38" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="rgba(255,106,0,0.1)"/>
+                          <circle cx="32" cy="25" r="17" stroke="currentColor" strokeWidth="2.5" fill="rgba(255,106,0,0.15)" />
+                          <circle cx="32" cy="25" r="13" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" />
+                          <path d="M25 30 L29 18 L33 30 M26 26 L32 26" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+                          <path d="M36 22 L40 22 M38 20 L38 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+                        </svg>
                       </div>
-                      <span className="text-[5px] font-black text-slate-500 uppercase tracking-widest leading-none">SPLIT 1</span>
                     </div>
-                    <div className="charcoal-cable-brick">
-                      <div className="cable-led-group">
-                        <span className="cable-led-green"></span>
-                        <span className="cable-led-green"></span>
+                    
+                    <div className="hologram-pedestal-orange mb-4"></div>
+
+                    <div className="text-left mt-2">
+                      <h4 className={`text-[15px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-[#0F3057]'}`}>Certified Courses</h4>
+                      <p className={`text-[12px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Earn recognized credentials for your future.</p>
+                    </div>
+
+                    {/* Diagnostic green LCD screen */}
+                    <div className={`text-[6px] ${isDarkMode ? 'console-slot-lcd' : 'console-slot-lcd-light'}`}>
+                      <div className="flex justify-between items-center text-[7px]">
+                        <span>CERT AUTH: APPROVED</span>
+                        <span>SEALED</span>
                       </div>
-                      <span className="text-[5px] font-black text-slate-500 uppercase tracking-widest leading-none">SPLIT 2</span>
+                      <div className={`text-[5.5px] truncate mt-0.5 ${isDarkMode ? 'text-[#10B981]/60' : 'text-[#059669]/60'}`}>&gt; GENERATING SHIELD HASH...</div>
                     </div>
 
-                    {/* Concentric square silver controller module with glowing blue dial */}
-                    <div className="silver-console-module">
-                      <div className="silver-dial"></div>
+                    <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-[10px] font-bold text-[#FF6A00] uppercase tracking-wider">
+                      <span>Credential Core</span>
+                      <span className="h-2 w-2 rounded-full bg-[#FF6A00]"></span>
                     </div>
+                  </motion.div>
+
+                  {/* Rotary dial knob */}
+                  <div 
+                    onClick={() => rotateKnob(2)}
+                    className="rotary-knob-container knob-orange cursor-pointer"
+                  >
+                    <div className="rotary-knob-bezel">
+                      <div 
+                        className="rotary-knob-dial"
+                        style={{ transform: `rotate(${knobAngles[2]}deg)` }}
+                      ></div>
+                    </div>
+                    <span className="text-[8px] font-black uppercase text-slate-500 mt-1.5 tracking-widest">CRED MATRIX</span>
                   </div>
-
-                  {/* Physical central mechanical push-button switch */}
-                  <div className="scroll-button-container">
-                    <div className="scroll-button-halo"></div>
-                    <div className="scroll-button-bezel">
-                      <button 
-                        onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-                        className="scroll-button-dial"
-                        title="Press to scroll down"
-                      >
-                        <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider leading-none mb-1">Scroll</span>
-                        <span className="text-[8px] font-bold text-[#FF6A00] tracking-widest uppercase mb-1">For</span>
-                        <span className="text-[9px] font-black uppercase text-slate-400 leading-none">More</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* mechanical keyboard mockup */}
-                  <div className="mechanical-keyboard-grid select-none hidden lg:grid">
-                    {/* Row 1 (15 keys) */}
-                    <div className="keyboard-keycap keycap-orange">esc</div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>!</span>
-                      <span>1</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>@</span>
-                      <span>2</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>#</span>
-                      <span>3</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>$</span>
-                      <span>4</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>%</span>
-                      <span>5</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>^</span>
-                      <span>6</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>{"&"}</span>
-                      <span>7</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>*</span>
-                      <span>8</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>(</span>
-                      <span>9</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>)</span>
-                      <span>0</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>_</span>
-                      <span>-</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>+</span>
-                      <span>=</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>back</div>
-                     {/* Row 2 (15 keys equivalent) */}
-                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>tab</div>
-                    <div className="keyboard-keycap keycap-cyan">q</div>
-                    <div className="keyboard-keycap keycap-cream">w</div>
-                    <div className="keyboard-keycap keycap-cream">e</div>
-                    <div className="keyboard-keycap keycap-cream">r</div>
-                    <div className="keyboard-keycap keycap-cream">t</div>
-                    <div className="keyboard-keycap keycap-cream">y</div>
-                    <div className="keyboard-keycap keycap-cream">u</div>
-                    <div className="keyboard-keycap keycap-cream">i</div>
-                    <div className="keyboard-keycap keycap-cream">o</div>
-                    <div className="keyboard-keycap keycap-cream">p</div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>{"{"}</span>
-                      <span>{"["}</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>{"}"}</span>
-                      <span>{"]"}</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>|</span>
-                      <span>\</span>
-                    </div>
-
-                    {/* Row 3 (15 keys equivalent) */}
-                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>caps</div>
-                    <div className="keyboard-keycap keycap-cream">a</div>
-                    <div className="keyboard-keycap keycap-cream">s</div>
-                    <div className="keyboard-keycap keycap-cream">d</div>
-                    <div className="keyboard-keycap keycap-cream">f</div>
-                    <div className="keyboard-keycap keycap-cream">g</div>
-                    <div className="keyboard-keycap keycap-cream">h</div>
-                    <div className="keyboard-keycap keycap-cream">j</div>
-                    <div className="keyboard-keycap keycap-cream">k</div>
-                    <div className="keyboard-keycap keycap-cream">l</div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>:</span>
-                      <span>;</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>"</span>
-                      <span>'</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-cyan font-bold" style={{ gridColumn: 'span 2' }}>enter</div>
-
-                    {/* Row 4 (Letter row: Z, X, C, V, B, N, M & Symbols) */}
-                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2' }}>shift</div>
-                    <div className="keyboard-keycap keycap-cream">z</div>
-                    <div className="keyboard-keycap keycap-cream">x</div>
-                    <div className="keyboard-keycap keycap-cream">c</div>
-                    <div className="keyboard-keycap keycap-cream">v</div>
-                    <div className="keyboard-keycap keycap-cream">b</div>
-                    <div className="keyboard-keycap keycap-cream">n</div>
-                    <div className="keyboard-keycap keycap-cream">m</div>
-                    <div className="keyboard-keycap keycap-cream flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>{"<"}</span>
-                      <span>,</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-cream flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>{">"}</span>
-                      <span>.</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
-                      <span>?</span>
-                      <span>/</span>
-                    </div>
-                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 3' }}>shift</div>
-
-                    {/* Row 5 (Spacebar and mod keys) */}
-                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2' }}>ctrl</div>
-                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>alt</div>
-                    <div className="keyboard-keycap keycap-cream font-bold text-[6px]" style={{ gridColumn: 'span 5' }}>space</div>
-                    <div className="keyboard-keycap keycap-cyan font-bold" style={{ gridColumn: 'span 2' }}>alt</div>
-                    <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>fn</div>
-                    <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2' }}>ctrl</div>
-                  </div>
-
-                  {/* Trackball Mouse and low-poly mountains on the right */}
-                  <div className="flex items-center gap-5 shrink-0 select-none">
-                    {/* Ergonomic mouse representation */}
-                    <div className={`w-10 h-14 rounded-full border-2 shadow-md relative flex flex-col justify-start pt-2 items-center cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-slate-700 hover:border-[#19C2E8] shadow-black/50' : 'bg-[#e2e8f0] border-slate-300 hover:border-[#FF6A00] shadow-slate-300/40'}`}>
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-600' : 'bg-slate-300 border-slate-400'}`}>
-                        <div className="w-2.5 h-2.5 rounded-full bg-[#19C2E8] shadow-[0_0_6px_#19C2E8]"></div>
-                      </div>
-                      <div className="w-0.5 h-3 rounded-full mt-1 bg-[#FF6A00] shadow-[0_0_4px_#FF6A00]"></div>
-                    </div>
-
-                    {/* Multi-layered low-poly mountain ornament */}
-                    <div className="flex items-end gap-0.5 h-14 shrink-0 relative z-10">
-                      <svg viewBox="0 0 70 45" className="w-20 h-14 text-[#19C2E8] filter drop-shadow-[0_2px_6px_rgba(25,194,232,0.3)]">
-                        {/* Small green peak in front */}
-                        <polygon points="5,45 20,28 35,45" fill="#10B981" opacity="0.55"/>
-                        {/* Large cyan peak in back */}
-                        <polygon points="12,45 32,15 52,45" fill="#19C2E8" opacity="0.85"/>
-                        {/* Medium orange peak in middle */}
-                        <polygon points="30,45 48,8 65,45" fill="#FF6A00" opacity="0.7"/>
-                      </svg>
-                    </div>
-                  </div>
-
                 </div>
 
-                {/* Lower control deck toolbar bar */}
-                <div className="mt-8 flex justify-between items-center text-[10px] font-black uppercase tracking-widest px-4 select-none border-t pt-6 control-deck-toolbar">
-                  <Link to="/register?role=sponsor" className="hover:text-[#FF6A00] transition-colors">Sponsor a Student (Full Details)</Link>
-                  <Link to="/impact" className="hover:text-[#19C2E8] transition-colors">Impact Reports</Link>
-                  <Link to="/contact" className="hover:text-[#19C2E8] transition-colors font-bold">FAQ</Link>
-                  <span>© 2024 EDOT Platform</span>
+                {/* Modular Slot 4: Support a Cause */}
+                <div className="flex flex-col">
+                  <motion.div 
+                    whileHover={{ y: -6 }}
+                    className="console-slot console-slot-orange"
+                    style={slotStyle}
+                  >
+                    {/* Floating glowing Glass Pedestal and holographic Hands holding heart */}
+                    <div className="relative h-24 flex items-center justify-center">
+                      <div className="absolute hologram-glow-orange blur-md opacity-45 w-16 h-16 rounded-full"></div>
+                      <div className="hologram-float-icon-orange relative z-10" style={{ animationDelay: '1.5s' }}>
+                        {/* Glowing cradling hands cradling pulsing neon heart SVG */}
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 text-[#FF6A00] filter drop-shadow-[0_0_8px_#FF6A00]">
+                          <path d="M12 38 C14 44, 20 48, 28 48 C30 48, 32 46, 32 46 C32 46, 34 48, 36 48 C44 48, 50 44, 52 38 C54 34, 52 30, 48 30 C45 30, 43 32, 42 34 L32 42 L22 34 C21 32, 19 30, 16 30 C12 30, 10 34, 12 38 Z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" fill="rgba(255,106,0,0.1)"/>
+                          <path d="M32 30 C32 30, 27 25, 27 21.5 C27 18.5, 29.5 16, 32.5 16 C34 16, 35.5 17, 36 18 C36.5 17, 38 16, 39.5 16 C42.5 16, 45 18.5, 45 21.5 C45 25, 40 30, 40 30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="rgba(255,106,0,0.2)"/>
+                        </svg>
+                      </div>
+                    </div>
+                    
+                    <div className="hologram-pedestal-orange mb-4"></div>
+
+                    <div className="text-left mt-2">
+                      <h4 className={`text-[15px] font-black tracking-tight mb-2 ${isDarkMode ? 'text-white' : 'text-[#0F3057]'}`}>Support a Cause</h4>
+                      <p className={`text-[12px] leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Help others on their learning path.</p>
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-[10px] font-bold text-[#FF6A00] uppercase tracking-wider">
+                      <span>Sponsor Hub</span>
+                      <span className="h-2 w-2 rounded-full bg-rose-500 animate-ping"></span>
+                    </div>
+                  </motion.div>
+
+                  {/* Rotary dial knob */}
+                  <div 
+                    onClick={() => rotateKnob(3)}
+                    className="rotary-knob-container knob-orange cursor-pointer"
+                  >
+                    <div className="rotary-knob-bezel">
+                      <div 
+                        className="rotary-knob-dial"
+                        style={{ transform: `rotate(${knobAngles[3]}deg)` }}
+                      ></div>
+                    </div>
+                    <span className="text-[8px] font-black uppercase text-slate-500 mt-1.5 tracking-widest">SPONS LEVEL</span>
+                  </div>
                 </div>
 
               </div>
+
+
+              {/* physical keyboard, dials, mouse, low-poly mountains desk setup */}
+              <div className="relative mt-12 pt-10 flex flex-col lg:flex-row items-center justify-between gap-8 z-10">
+                {/* Glowing Brand Gradient Divider Line */}
+                <div className="absolute top-0 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-[#19C2E8]/40 dark:via-[#19C2E8]/20 to-transparent"></div>
+                
+                {/* Accessory dials / wires on the left */}
+                <div className="flex items-center gap-3 select-none shrink-0 z-10">
+                  <div className="charcoal-cable-brick">
+                    <div className="cable-led-group">
+                      <span className="cable-led-green"></span>
+                      <span className="cable-led-red animate-pulse"></span>
+                    </div>
+                    <span className="text-[5px] font-black text-slate-500 uppercase tracking-widest leading-none">SPLIT 1</span>
+                  </div>
+                  <div className="charcoal-cable-brick">
+                    <div className="cable-led-group">
+                      <span className="cable-led-green"></span>
+                      <span className="cable-led-green"></span>
+                    </div>
+                    <span className="text-[5px] font-black text-slate-500 uppercase tracking-widest leading-none">SPLIT 2</span>
+                  </div>
+
+                  {/* Concentric square silver controller module with glowing blue dial */}
+                  <div 
+                    onClick={() => setSilverDialAngle(prev => (prev + 30) % 360)}
+                    className="silver-console-module cursor-pointer"
+                  >
+                    <div 
+                      className="silver-dial"
+                      style={{ transform: `rotate(${silverDialAngle}deg)` }}
+                    ></div>
+                  </div>
+                </div>
+
+                {/* Physical central mechanical push-button switch */}
+                <div className="scroll-button-container">
+                  <div className="scroll-button-halo"></div>
+                  <div className="scroll-button-bezel">
+                    <button 
+                      onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+                      className="scroll-button-dial"
+                      title="Press to scroll down"
+                    >
+                      <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider leading-none mb-1">Scroll</span>
+                      <span className="text-[8px] font-bold text-[#FF6A00] tracking-widest uppercase mb-1">For</span>
+                      <span className="text-[9px] font-black uppercase text-slate-400 leading-none">More</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* mechanical keyboard mockup */}
+                <div className="mechanical-keyboard-grid select-none hidden lg:grid">
+                  {/* Row 1 (15 keys) */}
+                  <div className="keyboard-keycap keycap-orange">esc</div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>!</span>
+                    <span>1</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>@</span>
+                    <span>2</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>#</span>
+                    <span>3</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>$</span>
+                    <span>4</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>%</span>
+                    <span>5</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>^</span>
+                    <span>6</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>{"&"}</span>
+                    <span>7</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>*</span>
+                    <span>8</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>(</span>
+                    <span>9</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>)</span>
+                    <span>0</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>_</span>
+                    <span>-</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>+</span>
+                    <span>=</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>back</div>
+                   {/* Row 2 (15 keys equivalent) */}
+                  <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>tab</div>
+                  <div className="keyboard-keycap keycap-cyan">q</div>
+                  <div className="keyboard-keycap keycap-cream">w</div>
+                  <div className="keyboard-keycap keycap-cream">e</div>
+                  <div className="keyboard-keycap keycap-cream">r</div>
+                  <div className="keyboard-keycap keycap-cream">t</div>
+                  <div className="keyboard-keycap keycap-cream">y</div>
+                  <div className="keyboard-keycap keycap-cream">u</div>
+                  <div className="keyboard-keycap keycap-cream">i</div>
+                  <div className="keyboard-keycap keycap-cream">o</div>
+                  <div className="keyboard-keycap keycap-cream">p</div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>{"{"}</span>
+                    <span>{"["}</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>{"}"}</span>
+                    <span>{"]"}</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>|</span>
+                    <span>\</span>
+                  </div>
+
+                  {/* Row 3 (15 keys equivalent) */}
+                  <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>caps</div>
+                  <div className="keyboard-keycap keycap-cream">a</div>
+                  <div className="keyboard-keycap keycap-cream">s</div>
+                  <div className="keyboard-keycap keycap-cream">d</div>
+                  <div className="keyboard-keycap keycap-cream">f</div>
+                  <div className="keyboard-keycap keycap-cream">g</div>
+                  <div className="keyboard-keycap keycap-cream">h</div>
+                  <div className="keyboard-keycap keycap-cream">j</div>
+                  <div className="keyboard-keycap keycap-cream">k</div>
+                  <div className="keyboard-keycap keycap-cream">l</div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>:</span>
+                    <span>;</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>"</span>
+                    <span>'</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-cyan font-bold" style={{ gridColumn: 'span 2' }}>enter</div>
+
+                  {/* Row 4 (Letter row: Z, X, C, V, B, N, M & Symbols) */}
+                  <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2' }}>shift</div>
+                  <div className="keyboard-keycap keycap-cream">z</div>
+                  <div className="keyboard-keycap keycap-cream">x</div>
+                  <div className="keyboard-keycap keycap-cream">c</div>
+                  <div className="keyboard-keycap keycap-cream">v</div>
+                  <div className="keyboard-keycap keycap-cream">b</div>
+                  <div className="keyboard-keycap keycap-cream">n</div>
+                  <div className="keyboard-keycap keycap-cream">m</div>
+                  <div className="keyboard-keycap keycap-cream flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>{"<"}</span>
+                    <span>,</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-cream flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>{">"}</span>
+                    <span>.</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-charcoal flex flex-col items-center justify-center text-[5.5px] leading-none">
+                    <span>?</span>
+                    <span>/</span>
+                  </div>
+                  <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 3' }}>shift</div>
+
+                  {/* Row 5 (Spacebar and mod keys) */}
+                  <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2' }}>ctrl</div>
+                  <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>alt</div>
+                  <div className="keyboard-keycap keycap-cream font-bold text-[6px]" style={{ gridColumn: 'span 5' }}>space</div>
+                  <div className="keyboard-keycap keycap-cyan font-bold" style={{ gridColumn: 'span 2' }}>alt</div>
+                  <div className="keyboard-keycap keycap-charcoal font-bold" style={{ gridColumn: 'span 2' }}>fn</div>
+                  <div className="keyboard-keycap keycap-orange font-bold" style={{ gridColumn: 'span 2' }}>ctrl</div>
+                </div>
+
+                {/* Trackball Mouse and low-poly mountains on the right */}
+                <div className="flex items-center gap-5 shrink-0 select-none">
+                  {/* Ergonomic mouse representation */}
+                  <div className={`w-10 h-14 rounded-full border-2 shadow-md relative flex flex-col justify-start pt-2 items-center cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-[#1e293b] border-slate-700 hover:border-[#19C2E8] shadow-black/50' : 'bg-[#e2e8f0] border-slate-300 hover:border-[#FF6A00] shadow-slate-300/40'}`}>
+                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-600' : 'bg-slate-300 border-slate-400'}`}>
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#19C2E8] shadow-[0_0_6px_#19C2E8]"></div>
+                    </div>
+                    <div className="w-0.5 h-3 rounded-full mt-1 bg-[#FF6A00] shadow-[0_0_4px_#FF6A00]"></div>
+                  </div>
+
+                  {/* Multi-layered low-poly mountain ornament */}
+                  <div className="flex items-end gap-0.5 h-14 shrink-0 relative z-10">
+                    <svg viewBox="0 0 70 45" className="w-20 h-14 text-[#19C2E8] filter drop-shadow-[0_2px_6px_rgba(25,194,232,0.3)]">
+                      {/* Small green peak in front */}
+                      <polygon points="5,45 20,28 35,45" fill="#10B981" opacity="0.55"/>
+                      {/* Large cyan peak in back */}
+                      <polygon points="12,45 32,15 52,45" fill="#19C2E8" opacity="0.85"/>
+                      {/* Medium orange peak in middle */}
+                      <polygon points="30,45 48,8 65,45" fill="#FF6A00" opacity="0.7"/>
+                    </svg>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Lower control deck toolbar bar */}
+              <div className="mt-8 flex justify-between items-center text-[10px] font-black uppercase tracking-widest px-4 select-none border-t pt-6 control-deck-toolbar">
+                <Link to="/register?role=sponsor" className="hover:text-[#FF6A00] transition-colors">Sponsor a Student (Full Details)</Link>
+                <Link to="/impact" className="hover:text-[#19C2E8] transition-colors">Impact Reports</Link>
+                <Link to="/contact" className="hover:text-[#19C2E8] transition-colors font-bold">FAQ</Link>
+                <span>© 2026 EDOT Platform</span>
+              </div>
+
             </div>
           </div>
-        </section>
-
-      </div>
+        </div>
+      </section>
 
 
       {/* ABOUT SECTION */}

@@ -350,6 +350,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 1.25rem;
+  transition: all 0.3s ease;
 }
 
 .rotary-knob-bezel {
@@ -364,6 +365,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Premium glowing halo rings around dials */
+.knob-cyan .rotary-knob-bezel {
+  border-color: rgba(25, 194, 232, 0.8) !important;
+  box-shadow: 
+    0 0 16px rgba(25, 194, 232, 0.45),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2) !important;
+}
+.knob-cyan:hover .rotary-knob-bezel {
+  border-color: #19C2E8 !important;
+  box-shadow: 
+    0 0 25px rgba(25, 194, 232, 0.75),
+    inset 0 1px 3px rgba(255, 255, 255, 0.35) !important;
+  transform: scale(1.05);
+}
+
+.knob-orange .rotary-knob-bezel {
+  border-color: rgba(255, 106, 0, 0.8) !important;
+  box-shadow: 
+    0 0 16px rgba(255, 106, 0, 0.45),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2) !important;
+}
+.knob-orange:hover .rotary-knob-bezel {
+  border-color: #FF6A00 !important;
+  box-shadow: 
+    0 0 25px rgba(255, 106, 0, 0.75),
+    inset 0 1px 3px rgba(255, 255, 255, 0.35) !important;
+  transform: scale(1.05);
 }
 
 .rotary-knob-dial {
@@ -399,9 +430,6 @@
   box-shadow: 0 0 6px #FF6A00;
 }
 
-.rotary-knob-container:hover .rotary-knob-dial {
-  transform: rotate(50deg);
-}
 
 /* CENTRAL DIAL / MECHANICAL PUSH-BUTTON */
 .scroll-button-container {
