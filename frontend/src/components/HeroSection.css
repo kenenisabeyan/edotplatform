@@ -1443,16 +1443,16 @@
   border-color: rgba(56, 189, 248, 0.6) !important;
 }
 .bubble-pathways::after {
-  border-color: transparent transparent transparent rgba(224, 242, 254, 0.6) !important;
+  border-color: rgba(224, 242, 254, 0.6) transparent transparent transparent !important;
 }
 [data-theme="dark"] .bubble-pathways::after {
-  border-color: transparent transparent transparent rgba(12, 74, 110, 0.25) !important;
+  border-color: rgba(12, 74, 110, 0.25) transparent transparent transparent !important;
 }
 .bubble-pathways:hover::after {
-  border-color: transparent transparent transparent rgba(224, 242, 254, 0.8) !important;
+  border-color: rgba(224, 242, 254, 0.8) transparent transparent transparent !important;
 }
 [data-theme="dark"] .bubble-pathways:hover::after {
-  border-color: transparent transparent transparent rgba(12, 74, 110, 0.35) !important;
+  border-color: rgba(12, 74, 110, 0.35) transparent transparent transparent !important;
 }
 
 /* Card 2: Red/Pink Tint (Curated Courses) */
@@ -1473,16 +1473,16 @@
   border-color: rgba(248, 113, 113, 0.6) !important;
 }
 .bubble-courses::after {
-  border-color: transparent rgba(254, 242, 242, 0.6) transparent transparent !important;
+  border-color: rgba(254, 242, 242, 0.6) transparent transparent transparent !important;
 }
 [data-theme="dark"] .bubble-courses::after {
-  border-color: transparent rgba(69, 10, 10, 0.25) transparent transparent !important;
+  border-color: rgba(69, 10, 10, 0.25) transparent transparent transparent !important;
 }
 .bubble-courses:hover::after {
-  border-color: transparent rgba(254, 242, 242, 0.8) transparent transparent !important;
+  border-color: rgba(254, 242, 242, 0.8) transparent transparent transparent !important;
 }
 [data-theme="dark"] .bubble-courses:hover::after {
-  border-color: transparent rgba(69, 10, 10, 0.35) transparent transparent !important;
+  border-color: rgba(69, 10, 10, 0.35) transparent transparent transparent !important;
 }
 
 /* Card 3: Orange/Amber Tint (Interactive Learning) */
@@ -1503,16 +1503,16 @@
   border-color: rgba(251, 146, 60, 0.6) !important;
 }
 .bubble-interactive::after {
-  border-color: transparent transparent transparent rgba(255, 247, 237, 0.6) !important;
+  border-color: transparent rgba(255, 247, 237, 0.6) transparent transparent !important;
 }
 [data-theme="dark"] .bubble-interactive::after {
-  border-color: transparent transparent transparent rgba(120, 53, 4, 0.2) !important;
+  border-color: transparent rgba(120, 53, 4, 0.2) transparent transparent !important;
 }
 .bubble-interactive:hover::after {
-  border-color: transparent transparent transparent rgba(255, 247, 237, 0.8) !important;
+  border-color: transparent rgba(255, 247, 237, 0.8) transparent transparent !important;
 }
 [data-theme="dark"] .bubble-interactive:hover::after {
-  border-color: transparent transparent transparent rgba(120, 53, 4, 0.3) !important;
+  border-color: transparent rgba(120, 53, 4, 0.3) transparent transparent !important;
 }
 
 /* Card 4: Green Tint (Community Support) */
@@ -1533,16 +1533,16 @@
   border-color: rgba(74, 222, 128, 0.6) !important;
 }
 .bubble-community::after {
-  border-color: transparent rgba(240, 253, 244, 0.6) transparent transparent !important;
+  border-color: transparent transparent transparent rgba(240, 253, 244, 0.6) !important;
 }
 [data-theme="dark"] .bubble-community::after {
-  border-color: transparent rgba(20, 83, 45, 0.2) transparent transparent !important;
+  border-color: transparent transparent transparent rgba(20, 83, 45, 0.2) !important;
 }
 .bubble-community:hover::after {
-  border-color: transparent rgba(240, 253, 244, 0.8) transparent transparent !important;
+  border-color: transparent transparent transparent rgba(240, 253, 244, 0.8) !important;
 }
 [data-theme="dark"] .bubble-community:hover::after {
-  border-color: transparent rgba(20, 83, 45, 0.3) transparent transparent !important;
+  border-color: transparent transparent transparent rgba(20, 83, 45, 0.3) !important;
 }
 
 /* Card icon square containers */
