@@ -4,8 +4,10 @@ import useThemeMode from '../hooks/useThemeMode';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   GraduationCap, BookOpen, Award, Users, Play, Pause, 
-  Volume2, VolumeX, Maximize, Settings, MapPin, Sparkles, Star 
+  Volume2, VolumeX, Maximize, Settings, MapPin, Sparkles, Star,
+  ArrowRight
 } from 'lucide-react';
+import { getRecentPublicUsers } from '../utils/api';
 import "./HeroSection.css";
 
 const qanoVideo = 'https://res.cloudinary.com/dacck6udl/video/upload/v1778415967/edot/frontend/videos/yv9rdzpffbitbyumbn41.mov';
@@ -17,8 +19,39 @@ export default function HeroSection() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(6); // Default 6 seconds video
   const [controlsHovered, setControlsHovered] = useState(false);
+  const [recentUsers, setRecentUsers] = useState([]);
+  const [totalCount, setTotalCount] = useState(1000);
   
   const videoRef = useRef(null);
+
+  // Fetch actual database users dynamically & pad with stunning Unsplash profiles matching target mockup
+  useEffect(() => {
+    let active = true;
+    const fetchUsers = async () => {
+      try {
+        const data = await getRecentPublicUsers();
+        if (active) {
+          const dbUsers = (data && data.success) ? (data.users || []) : [];
+          const placeholders = [
+            { id: 'p1', name: 'Kenenisa Beyan', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120&h=120' },
+            { id: 'p2', name: 'Chala Desta', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=120&h=120' },
+            { id: 'p3', name: 'Marta Alemu', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=120&h=120' },
+            { id: 'p4', name: 'Lensa Tolosa', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=120&h=120' }
+          ];
+          const merged = [...dbUsers];
+          for (let i = merged.length; i < 4; i++) {
+            merged.push(placeholders[i - dbUsers.length]);
+          }
+          setRecentUsers(merged);
+          setTotalCount((data && data.totalCount) ? data.totalCount : 1000);
+        }
+      } catch (err) {
+        console.error("Failed to fetch public users in hero:", err);
+      }
+    };
+    fetchUsers();
+    return () => { active = false; };
+  }, []);
 
   // Sync video time updates
   const handleTimeUpdate = () => {
@@ -286,6 +319,11 @@ export default function HeroSection() {
             <span className="premium-title-gradient">a Chance to Succeed</span>
           </h1>
 
+          {/* Subtitle below main heading */}
+          <p className="premium-hero-subtitle">
+            EDOT is a unified educational ecosystem designed to bridge structural gaps in learning. We empower students with personalized pathways, expert-led interactive courses, real-time parent tracking, and direct sponsorship networks to guarantee academic opportunity for every single learner.
+          </p>
+
           {/* Speech bubbles 2x2 Grid - Direct matching to screenshot layout and content */}
           <div className="speech-bubble-grid">
             
@@ -373,6 +411,24 @@ export default function HeroSection() {
               </motion.div>
             </motion.div>
 
+          </div>
+
+          {/* Brand Call-To-Action (CTA) Buttons below 2x2 grid */}
+          <div className="hero-cta-button-group">
+            <Link 
+              to="/register" 
+              className="hero-cta-btn btn-cyan-glowing"
+            >
+              <span>Explore Courses</span>
+              <ArrowRight className="w-4.5 h-4.5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link 
+              to="/register?role=sponsor" 
+              className="hero-cta-btn btn-orange-glowing"
+            >
+              <span>Sponsor a Student</span>
+              <Sparkles className="w-4.5 h-4.5 group-hover:scale-110 transition-transform" />
+            </Link>
           </div>
         </motion.div>
 
@@ -494,6 +550,40 @@ export default function HeroSection() {
               <Star className="w-8 h-8 fill-current text-white/90" strokeWidth={1} />
             </div>
           </div>
+
+          {/* Dynamic database users community stack widget placed under video */}
+          {recentUsers && recentUsers.length > 0 && (
+            <div className="community-stack-widget">
+              <div className="avatar-overlap-group">
+                {recentUsers.map((u, idx) => (
+                  <div 
+                    key={u.id || idx} 
+                    className="community-avatar-ring"
+                    style={{ zIndex: 10 - idx }}
+                  >
+                    {u.avatar ? (
+                      <img 
+                        src={u.avatar} 
+                        alt={u.name} 
+                        className="community-avatar-img"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(u.name)}`;
+                        }}
+                      />
+                    ) : (
+                      <div className="community-avatar-initials">
+                        {u.name ? u.name.charAt(0).toUpperCase() : 'U'}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <span className="community-stack-text">
+                Join our <span className="highlight-cyan font-extrabold">{totalCount}+</span> community.
+              </span>
+            </div>
+          )}
 
         </motion.div>
 
