@@ -1496,20 +1496,20 @@
 /* The Zigzag arrow container positioned in the back */
 .zigzag-arrow-backdrop {
   position: absolute;
-  top: 10%;
-  left: 22%;
-  width: 66%;
-  height: 80%;
-  z-index: 2;
+  top: 5%;
+  bottom: 5%;
+  left: 2%;
+  right: 2%;
+  z-index: -1;
   pointer-events: none;
 }
 
 @media (max-width: 1024px) {
   .zigzag-arrow-backdrop {
     top: 40%;
-    left: 5%;
-    width: 90%;
-    height: 50%;
+    bottom: 5%;
+    left: 2%;
+    right: 2%;
   }
 }
 

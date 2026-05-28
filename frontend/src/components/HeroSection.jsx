@@ -93,9 +93,11 @@ export default function HeroSection() {
       <div className="zigzag-arrow-backdrop">
         <svg 
           viewBox="0 0 580 400" 
+          width="100%"
+          height="100%"
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full opacity-95 filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
+          className="opacity-95 filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
         >
           {/* Volumetric Gradients & Filters */}
           <defs>
@@ -246,8 +248,8 @@ export default function HeroSection() {
         >
           {/* Tagline Pill - Exact text matching the screenshot */}
           <div className="tagline-badge-pill">
-            <MapPin className="w-4 h-4 fill-current" />
-            <span>Beilling careful flow through equation</span>
+            <Sparkles className="w-4 h-4 fill-current" />
+            <span>Channelling beautiful flow through education</span>
           </div>
 
           {/* Heading */}
@@ -275,7 +277,7 @@ export default function HeroSection() {
                 </div>
                 <div className="bubble-text-wrap">
                   <h4 className="bubble-title">Personalized Pathways</h4>
-                  <p className="bubble-desc">Tat and learning for your ensper journey.</p>
+                  <p className="bubble-desc">Tailored learning for your unique journey.</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -296,7 +298,7 @@ export default function HeroSection() {
                 </div>
                 <div className="bubble-text-wrap">
                   <h4 className="bubble-title">Curated Courses</h4>
-                  <p className="bubble-desc">Explore Thousands of expertied cowners.</p>
+                  <p className="bubble-desc">Explore thousands of expert-led courses.</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -317,7 +319,7 @@ export default function HeroSection() {
                 </div>
                 <div className="bubble-text-wrap">
                   <h4 className="bubble-title">Interactive Learning</h4>
-                  <p className="bubble-desc">Engaged with real world projects.</p>
+                  <p className="bubble-desc">Engage with real-world projects.</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -338,7 +340,7 @@ export default function HeroSection() {
                 </div>
                 <div className="bubble-text-wrap">
                   <h4 className="bubble-title">Community Support</h4>
-                  <p className="bubble-desc">Lean with gears and owners.</p>
+                  <p className="bubble-desc">Learn with peers and mentors.</p>
                 </div>
               </motion.div>
             </motion.div>
