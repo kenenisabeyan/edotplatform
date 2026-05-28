@@ -88,6 +88,153 @@ export default function HeroSection() {
       {/* Glowing Digital Mesh Grid */}
       <div className="digital-grid-overlay"></div>
 
+      {/* ================= STUNNING 3D ZIGZAG CENTERPIECE BACKGROUND ELEMENT ================= */}
+      {/* Mounted at the root parent level so it spans the entire hero layout behind columns */}
+      <div className="zigzag-arrow-backdrop">
+        <svg 
+          viewBox="0 0 580 400" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-full opacity-95 filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
+        >
+          {/* Volumetric Gradients & Filters */}
+          <defs>
+            {/* Neon Glow Filter */}
+            <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="6" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            
+            {/* 3D Arrow Gradients */}
+            <linearGradient id="arrowOrangeFront" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#ff7b00" />
+              <stop offset="100%" stopColor="#ff9f43" />
+            </linearGradient>
+            <linearGradient id="arrowOrangeSide" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#d35400" />
+              <stop offset="100%" stopColor="#e67e22" />
+            </linearGradient>
+            
+            <linearGradient id="arrowTealFront" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#00bfff" />
+              <stop offset="100%" stopColor="#4facfe" />
+            </linearGradient>
+            <linearGradient id="arrowTealSide" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#0086b3" />
+              <stop offset="100%" stopColor="#005c80" />
+            </linearGradient>
+            
+            <linearGradient id="neonCyanGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#19C2E8" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#00D4FF" stopOpacity="0.1" />
+            </linearGradient>
+          </defs>
+
+          {/* Glowing Ambient Light Trail behind 3D arrow */}
+          <path 
+            d="M 40 370 L 160 250 L 220 300 L 340 180 L 395 230 L 490 100" 
+            stroke="url(#neonCyanGlow)" 
+            strokeWidth="32" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+            className="opacity-30 blur-lg"
+            filter="url(#neonGlow)"
+          />
+
+          {/* ==========================================
+             VOLUMETRIC 3D ZIGZAG PARTS
+             ========================================== */}
+
+          {/* --- Segment 1: Orange Bottom-up Slope --- */}
+          <path d="M 30 365 L 42 377 L 42 387 L 30 375 Z" fill="#b33600" />
+          <path d="M 42 377 L 172 257 L 172 267 L 42 387 Z" fill="url(#arrowOrangeSide)" />
+          <path d="M 30 365 L 160 245 L 172 257 L 42 377 Z" fill="url(#arrowOrangeFront)" />
+
+          {/* --- Segment 2: Teal Turn Slope --- */}
+          <path d="M 160 245 L 172 231 L 172 221 L 160 235 Z" fill="#004d66" />
+          <path d="M 220 297 L 232 283 L 232 273 L 220 287 Z" fill="url(#arrowTealSide)" />
+          <path d="M 160 245 L 220 297 L 232 283 L 172 231 Z" fill="url(#arrowTealFront)" />
+
+          {/* --- Segment 3: Orange Middle Slope --- */}
+          <path d="M 232 283 L 352 163 L 352 173 L 232 293 Z" fill="url(#arrowOrangeSide)" />
+          <path d="M 220 297 L 340 177 L 352 189 L 232 309 Z" fill="url(#arrowOrangeFront)" />
+
+          {/* --- Segment 4: Teal Turn Slope --- */}
+          <path d="M 340 177 L 352 163 L 352 153 L 340 167 Z" fill="#004d66" />
+          <path d="M 395 229 L 407 215 L 407 205 L 395 219 Z" fill="url(#arrowTealSide)" />
+          <path d="M 340 177 L 395 229 L 407 215 L 352 163 Z" fill="url(#arrowTealFront)" />
+
+          {/* --- Segment 5: Orange Top Slope --- */}
+          <path d="M 407 215 L 507 115 L 507 125 L 407 225 Z" fill="url(#arrowOrangeSide)" />
+          <path d="M 395 229 L 495 129 L 507 141 L 407 241 Z" fill="url(#arrowOrangeFront)" />
+
+          {/* --- Segment 6: Massive Arrowhead --- */}
+          <path d="M 445 126 L 485 130 L 485 138 L 445 134 Z" fill="#004d66" />
+          <path d="M 485 130 L 500 144 L 500 152 L 485 138 Z" fill="url(#arrowTealSide)" />
+          <path 
+            d="M 445 126 L 514 94 L 500 144 L 485 130 L 445 126 Z" 
+            fill="url(#arrowTealFront)" 
+            stroke="#19C2E8" 
+            strokeWidth="1.5" 
+            filter="url(#neonGlow)"
+          />
+
+          {/* Secondary Trailing smaller blue arrow emphasizing acceleration */}
+          <path 
+            d="M 320 280 L 390 210" 
+            stroke="url(#arrowTealFront)" 
+            strokeWidth="12" 
+            strokeLinecap="round"
+            opacity="0.8"
+            filter="url(#neonGlow)"
+          />
+          <path 
+            d="M 386 212 L 416 238" 
+            stroke="url(#arrowOrangeFront)" 
+            strokeWidth="12" 
+            strokeLinecap="round"
+            opacity="0.8"
+          />
+          <path 
+            d="M 414 236 L 470 170" 
+            stroke="url(#arrowTealFront)" 
+            strokeWidth="12" 
+            strokeLinecap="round"
+            opacity="0.8"
+            filter="url(#neonGlow)"
+          />
+          <path 
+            d="M 445 166 L 474 164 L 470 195 Z" 
+            fill="url(#arrowTealFront)" 
+            opacity="0.8"
+          />
+
+          {/* ==========================================
+             EXTRA GROWTH/FIN-TECH METRIC INDICATORS
+             ========================================== */}
+          <rect x="60" y="320" width="8" height="24" rx="2" fill="#19C2E8" opacity="0.65" filter="url(#neonGlow)" />
+          <rect x="74" y="296" width="8" height="48" rx="2" fill="#EBC176" opacity="0.85" />
+          <rect x="88" y="310" width="8" height="34" rx="2" fill="#FF6A00" opacity="0.7" />
+
+          <circle cx="120" cy="210" r="4.5" fill="#19C2E8" filter="url(#neonGlow)" />
+          <circle cx="280" cy="240" r="3.5" fill="#FF6A00" />
+          <circle cx="430" cy="180" r="4" fill="#EBC176" />
+          
+          <line x1="120" y1="210" x2="160" y2="250" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeDasharray="3 3" />
+          <line x1="280" y1="240" x2="340" y2="180" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeDasharray="3 3" />
+        </svg>
+
+        {/* Floating anti-gravity particles and neon blue sparks breaking off arrow tip */}
+        <div className="spark-particle spark-1" style={{ top: "22%", right: "12%", width: "9px", height: "9px" }}></div>
+        <div className="spark-particle spark-2" style={{ top: "18%", right: "8%", width: "6px", height: "6px" }}></div>
+        <div className="spark-particle spark-3" style={{ top: "25%", right: "6%", width: "7px", height: "7px" }}></div>
+        <div className="spark-particle spark-1" style={{ top: "14%", right: "15%", width: "5px", height: "5px" }}></div>
+        <div className="spark-particle spark-2" style={{ top: "28%", right: "10%", width: "8px", height: "8px" }}></div>
+      </div>
+
       <div className="premium-hero-grid">
         
         {/* ================= LEFT-HAND CONTENT ================= */}
@@ -206,168 +353,6 @@ export default function HeroSection() {
           transition={{ delay: 0.2, duration: 0.8 }}
           className="premium-hero-visuals"
         >
-          {/* Volumetric 3D Zigzag Growth Centerpiece (Inline SVG Backdrop) */}
-          <div className="zigzag-arrow-backdrop">
-            <svg 
-              viewBox="0 0 580 400" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full opacity-95 filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
-            >
-              {/* Volumetric Gradients & Filters */}
-              <defs>
-                {/* Neon Glow Filter */}
-                <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="6" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                
-                {/* 3D Arrow Gradients */}
-                <linearGradient id="arrowOrangeFront" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#ff7b00" />
-                  <stop offset="100%" stopColor="#ff9f43" />
-                </linearGradient>
-                <linearGradient id="arrowOrangeSide" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#d35400" />
-                  <stop offset="100%" stopColor="#e67e22" />
-                </linearGradient>
-                
-                <linearGradient id="arrowTealFront" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#00bfff" />
-                  <stop offset="100%" stopColor="#4facfe" />
-                </linearGradient>
-                <linearGradient id="arrowTealSide" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0086b3" />
-                  <stop offset="100%" stopColor="#005c80" />
-                </linearGradient>
-                
-                <linearGradient id="neonCyanGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#19C2E8" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#00D4FF" stopOpacity="0.1" />
-                </linearGradient>
-              </defs>
-
-              {/* Glowing Ambient Light Trail behind 3D arrow */}
-              <path 
-                d="M 40 370 L 160 250 L 220 300 L 340 180 L 395 230 L 490 100" 
-                stroke="url(#neonCyanGlow)" 
-                strokeWidth="32" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-                className="opacity-30 blur-lg"
-                filter="url(#neonGlow)"
-              />
-
-              {/* ==========================================
-                 VOLUMETRIC 3D ZIGZAG PARTS
-                 ========================================== */}
-
-              {/* --- Segment 1: Orange Bottom-up Slope --- */}
-              {/* Shading/Side Face */}
-              <path d="M 30 365 L 42 377 L 42 387 L 30 375 Z" fill="#b33600" />
-              <path d="M 42 377 L 172 257 L 172 267 L 42 387 Z" fill="url(#arrowOrangeSide)" />
-              {/* Front Face */}
-              <path d="M 30 365 L 160 245 L 172 257 L 42 377 Z" fill="url(#arrowOrangeFront)" />
-
-              {/* --- Segment 2: Teal Turn Slope --- */}
-              {/* Shading/Side Face */}
-              <path d="M 160 245 L 172 231 L 172 221 L 160 235 Z" fill="#004d66" />
-              <path d="M 220 297 L 232 283 L 232 273 L 220 287 Z" fill="url(#arrowTealSide)" />
-              {/* Front Face */}
-              <path d="M 160 245 L 220 297 L 232 283 L 172 231 Z" fill="url(#arrowTealFront)" />
-
-              {/* --- Segment 3: Orange Middle Slope --- */}
-              {/* Shading/Side Face */}
-              <path d="M 232 283 L 352 163 L 352 173 L 232 293 Z" fill="url(#arrowOrangeSide)" />
-              {/* Front Face */}
-              <path d="M 220 297 L 340 177 L 352 189 L 232 309 Z" fill="url(#arrowOrangeFront)" />
-
-              {/* --- Segment 4: Teal Turn Slope --- */}
-              {/* Shading/Side Face */}
-              <path d="M 340 177 L 352 163 L 352 153 L 340 167 Z" fill="#004d66" />
-              <path d="M 395 229 L 407 215 L 407 205 L 395 219 Z" fill="url(#arrowTealSide)" />
-              {/* Front Face */}
-              <path d="M 340 177 L 395 229 L 407 215 L 352 163 Z" fill="url(#arrowTealFront)" />
-
-              {/* --- Segment 5: Orange Top Slope --- */}
-              {/* Shading/Side Face */}
-              <path d="M 407 215 L 507 115 L 507 125 L 407 225 Z" fill="url(#arrowOrangeSide)" />
-              {/* Front Face */}
-              <path d="M 395 229 L 495 129 L 507 141 L 407 241 Z" fill="url(#arrowOrangeFront)" />
-
-              {/* --- Segment 6: Massive Arrowhead --- */}
-              {/* Shading/Side Face */}
-              <path d="M 445 126 L 485 130 L 485 138 L 445 134 Z" fill="#004d66" />
-              <path d="M 485 130 L 500 144 L 500 152 L 485 138 Z" fill="url(#arrowTealSide)" />
-              {/* Front Face */}
-              <path 
-                d="M 445 126 L 514 94 L 500 144 L 485 130 L 445 126 Z" 
-                fill="url(#arrowTealFront)" 
-                stroke="#19C2E8" 
-                strokeWidth="1.5" 
-                filter="url(#neonGlow)"
-              />
-
-              {/* Secondary Trailing smaller blue arrow emphasizing acceleration */}
-              <path 
-                d="M 320 280 L 390 210" 
-                stroke="url(#arrowTealFront)" 
-                strokeWidth="12" 
-                strokeLinecap="round"
-                opacity="0.8"
-                filter="url(#neonGlow)"
-              />
-              <path 
-                d="M 386 212 L 416 238" 
-                stroke="url(#arrowOrangeFront)" 
-                strokeWidth="12" 
-                strokeLinecap="round"
-                opacity="0.8"
-              />
-              <path 
-                d="M 414 236 L 470 170" 
-                stroke="url(#arrowTealFront)" 
-                strokeWidth="12" 
-                strokeLinecap="round"
-                opacity="0.8"
-                filter="url(#neonGlow)"
-              />
-              <path 
-                d="M 445 166 L 474 164 L 470 195 Z" 
-                fill="url(#arrowTealFront)" 
-                opacity="0.8"
-              />
-
-              {/* ==========================================
-                 EXTRA GROWTH/FIN-TECH METRIC INDICATORS
-                 ========================================== */}
-              
-              {/* Mini glowing analytics bars at bottom left of chart */}
-              <rect x="60" y="320" width="8" height="24" rx="2" fill="#19C2E8" opacity="0.65" filter="url(#neonGlow)" />
-              <rect x="74" y="296" width="8" height="48" rx="2" fill="#EBC176" opacity="0.85" />
-              <rect x="88" y="310" width="8" height="34" rx="2" fill="#FF6A00" opacity="0.7" />
-
-              {/* Glowing metric dots orbiting */}
-              <circle cx="120" cy="210" r="4.5" fill="#19C2E8" filter="url(#neonGlow)" />
-              <circle cx="280" cy="240" r="3.5" fill="#FF6A00" />
-              <circle cx="430" cy="180" r="4" fill="#EBC176" />
-              
-              {/* Subtle translucent thin dashboard connection lines */}
-              <line x1="120" y1="210" x2="160" y2="250" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="280" y1="240" x2="340" y2="180" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeDasharray="3 3" />
-            </svg>
-
-            {/* Floating anti-gravity particles and neon blue sparks breaking off arrow tip */}
-            <div className="spark-particle spark-1" style={{ top: "22%", right: "12%", width: "9px", height: "9px" }}></div>
-            <div className="spark-particle spark-2" style={{ top: "18%", right: "8%", width: "6px", height: "6px" }}></div>
-            <div className="spark-particle spark-3" style={{ top: "25%", right: "6%", width: "7px", height: "7px" }}></div>
-            <div className="spark-particle spark-1" style={{ top: "14%", right: "15%", width: "5px", height: "5px" }}></div>
-            <div className="spark-particle spark-2" style={{ top: "28%", right: "10%", width: "8px", height: "8px" }}></div>
-          </div>
-
           {/* System Growth tracker overlay */}
           <div className="system-growth-widget select-none">
             <span className="system-growth-text">System <span>Growth</span></span>
