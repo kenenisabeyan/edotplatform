@@ -1337,6 +1337,7 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
+
 /* Caret pointers for speech bubbles to look exactly like the mockup */
 .speech-bubble-card::after {
   content: '';
@@ -1348,74 +1349,77 @@
   transition: all 0.3s ease;
 }
 
-/* Card 1 Caret: points down-right */
+/* Card 1 Caret (Personalized Pathways): points horizontally right */
 .bubble-pathways::after {
-  right: 24px;
-  bottom: -10px;
-  border-width: 10px 10px 0 0;
-  border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
-}
-[data-theme="dark"] .bubble-pathways::after {
-  border-color: rgba(15, 23, 42, 0.65) transparent transparent transparent;
-}
-.bubble-pathways:hover::after {
-  border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
-}
-[data-theme="dark"] .bubble-pathways:hover::after {
-  border-color: rgba(15, 23, 42, 0.8) transparent transparent transparent;
-}
-
-/* Card 2 Caret: points down-left */
-.bubble-courses::after {
-  left: 24px;
-  bottom: -10px;
-  border-width: 10px 0 0 10px;
-  border-color: rgba(255, 255, 255, 0.75) transparent transparent transparent;
-}
-[data-theme="dark"] .bubble-courses::after {
-  border-color: rgba(15, 23, 42, 0.65) transparent transparent transparent;
-}
-.bubble-courses:hover::after {
-  border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
-}
-[data-theme="dark"] .bubble-courses:hover::after {
-  border-color: rgba(15, 23, 42, 0.8) transparent transparent transparent;
-}
-
-/* Card 3 Caret: points up-right */
-.bubble-interactive::after {
-  right: 24px;
-  top: -10px;
-  border-width: 0 10px 10px 0;
-  border-color: transparent rgba(255, 255, 255, 0.75) transparent transparent;
-}
-[data-theme="dark"] .bubble-interactive::after {
-  border-color: transparent rgba(15, 23, 42, 0.65) transparent transparent;
-}
-.bubble-interactive:hover::after {
-  border-color: transparent rgba(255, 255, 255, 0.9) transparent transparent;
-}
-[data-theme="dark"] .bubble-interactive:hover::after {
-  border-color: transparent rgba(15, 23, 42, 0.8) transparent transparent;
-}
-
-/* Card 4 Caret: points up-left */
-.bubble-community::after {
-  left: 24px;
-  top: -10px;
-  border-width: 0 0 10px 10px;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 8px 0 8px 8px;
   border-color: transparent transparent transparent rgba(255, 255, 255, 0.75);
 }
-[data-theme="dark"] .bubble-community::after {
+[data-theme="dark"] .bubble-pathways::after {
   border-color: transparent transparent transparent rgba(15, 23, 42, 0.65);
 }
-.bubble-community:hover::after {
+.bubble-pathways:hover::after {
   border-color: transparent transparent transparent rgba(255, 255, 255, 0.9);
 }
-[data-theme="dark"] .bubble-community:hover::after {
+[data-theme="dark"] .bubble-pathways:hover::after {
   border-color: transparent transparent transparent rgba(15, 23, 42, 0.8);
 }
 
+/* Card 2 Caret (Curated Courses): points horizontally left */
+.bubble-courses::after {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 8px 8px 8px 0;
+  border-color: transparent rgba(255, 255, 255, 0.75) transparent transparent;
+}
+[data-theme="dark"] .bubble-courses::after {
+  border-color: transparent rgba(15, 23, 42, 0.65) transparent transparent;
+}
+.bubble-courses:hover::after {
+  border-color: transparent rgba(255, 255, 255, 0.9) transparent transparent;
+}
+[data-theme="dark"] .bubble-courses:hover::after {
+  border-color: transparent rgba(15, 23, 42, 0.8) transparent transparent;
+}
+
+/* Card 3 Caret (Interactive Learning): points horizontally right */
+.bubble-interactive::after {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 8px 0 8px 8px;
+  border-color: transparent transparent transparent rgba(255, 255, 255, 0.75);
+}
+[data-theme="dark"] .bubble-interactive::after {
+  border-color: transparent transparent transparent rgba(15, 23, 42, 0.65);
+}
+.bubble-interactive:hover::after {
+  border-color: transparent transparent transparent rgba(255, 255, 255, 0.9);
+}
+[data-theme="dark"] .bubble-interactive:hover::after {
+  border-color: transparent transparent transparent rgba(15, 23, 42, 0.8);
+}
+
+/* Card 4 Caret (Community Support): points horizontally left */
+.bubble-community::after {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 8px 8px 8px 0;
+  border-color: transparent rgba(255, 255, 255, 0.75) transparent transparent;
+}
+[data-theme="dark"] .bubble-community::after {
+  border-color: transparent rgba(15, 23, 42, 0.65) transparent transparent;
+}
+.bubble-community:hover::after {
+  border-color: transparent rgba(255, 255, 255, 0.9) transparent transparent;
+}
+[data-theme="dark"] .bubble-community:hover::after {
+  border-color: transparent rgba(15, 23, 42, 0.8) transparent transparent;
+}
 @media (max-width: 640px) {
   .speech-bubble-card::after {
     display: none !important;
