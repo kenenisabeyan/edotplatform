@@ -136,6 +136,37 @@ export default function HeroSection() {
               <stop offset="50%" stopColor="#008ea4" />
               <stop offset="100%" stopColor="#004558" />
             </linearGradient>
+
+            {/* Alternating body gradients with sharp transitions & gloss highlights */}
+            <linearGradient id="arrowAlternatingFront" x1="0%" y1="100%" x2="100%" y2="0%">
+              {/* Segment 1: Orange */}
+              <stop offset="0%" stopColor="#ff5e00" />
+              <stop offset="12%" stopColor="#ffd3b0" />
+              <stop offset="25%" stopColor="#d34000" />
+              {/* Segment 2: Teal */}
+              <stop offset="25.01%" stopColor="#00a2d0" />
+              <stop offset="35%" stopColor="#e0f7fa" />
+              <stop offset="45%" stopColor="#007a9b" />
+              {/* Segment 3: Orange */}
+              <stop offset="45.01%" stopColor="#ff5e00" />
+              <stop offset="58%" stopColor="#ffd3b0" />
+              <stop offset="70%" stopColor="#d34000" />
+              {/* Segment 4 & 5: Teal */}
+              <stop offset="70.01%" stopColor="#00a2d0" />
+              <stop offset="85%" stopColor="#e0f7fa" />
+              <stop offset="100%" stopColor="#007a9b" />
+            </linearGradient>
+
+            <linearGradient id="arrow3DShadow" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#7f2700" />
+              <stop offset="25%" stopColor="#7f2700" />
+              <stop offset="25.01%" stopColor="#004558" />
+              <stop offset="45%" stopColor="#004558" />
+              <stop offset="45.01%" stopColor="#7f2700" />
+              <stop offset="70%" stopColor="#7f2700" />
+              <stop offset="70.01%" stopColor="#004558" />
+              <stop offset="100%" stopColor="#004558" />
+            </linearGradient>
             
             <linearGradient id="neonCyanGlow" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#19C2E8" stopOpacity="0.8" />
@@ -147,7 +178,7 @@ export default function HeroSection() {
           <path 
             d="M 30 380 L 160 140 L 210 240 L 330 80 L 380 180 L 490 30" 
             stroke="url(#neonCyanGlow)" 
-            strokeWidth="32" 
+            strokeWidth="36" 
             strokeLinecap="round" 
             strokeLinejoin="round"
             className="opacity-30 blur-lg"
@@ -155,37 +186,38 @@ export default function HeroSection() {
           />
 
           {/* ==========================================
-             VOLUMETRIC 3D ZIGZAG PARTS (Steeper/Taller mockup scaling)
+             VOLUMETRIC CONTINUOUS 3D ZIGZAG RIBBON
              ========================================== */}
 
-          {/* --- Segment 1: Orange Bottom-up Slope --- */}
-          <path d="M 30 380 L 42 392 L 42 402 L 30 390 Z" fill="#b33600" />
-          <path d="M 42 392 L 172 152 L 172 162 L 42 402 Z" fill="url(#arrowOrangeSide)" />
-          <path d="M 30 380 L 160 140 L 172 152 L 42 392 Z" fill="url(#arrowOrangeFront)" />
-
-          {/* --- Segment 2: Teal Turn Slope --- */}
-          <path d="M 160 140 L 172 152 L 172 162 L 160 150 Z" fill="#004d66" />
-          <path d="M 210 240 L 222 252 L 222 262 L 210 250 Z" fill="url(#arrowTealSide)" />
-          <path d="M 160 140 L 210 240 L 222 252 L 172 152 Z" fill="url(#arrowTealFront)" />
-
-          {/* --- Segment 3: Orange Middle Slope --- */}
-          <path d="M 222 252 L 342 92 L 342 102 L 222 262 Z" fill="url(#arrowOrangeSide)" />
-          <path d="M 210 240 L 330 80 L 342 92 L 222 252 Z" fill="url(#arrowOrangeFront)" />
-
-          {/* --- Segment 4: Teal Turn Slope --- */}
-          <path d="M 330 80 L 342 92 L 342 102 L 330 90 Z" fill="#004d66" />
-          <path d="M 380 180 L 392 192 L 392 202 L 380 190 Z" fill="url(#arrowTealSide)" />
-          <path d="M 330 80 L 380 180 L 392 192 L 342 92 Z" fill="url(#arrowTealFront)" />
-
-          {/* --- Segment 5: Orange Top Slope --- */}
-          <path d="M 392 192 L 492 62 L 492 72 L 392 202 Z" fill="url(#arrowOrangeSide)" />
-          <path d="M 380 180 L 480 50 L 492 62 L 392 192 Z" fill="url(#arrowOrangeFront)" />
-
-          {/* --- Segment 6: Massive Arrowhead --- */}
-          <path d="M 430 80 L 495 75 L 495 85 L 430 90 Z" fill="#004d66" />
-          <path d="M 495 75 L 515 95 L 515 105 L 495 85 Z" fill="url(#arrowTealSide)" />
+          {/* --- Bottom 3D Side Shadow Extrusion --- */}
           <path 
-            d="M 430 80 L 540 15 L 515 95 L 495 75 L 430 80 Z" 
+            d="M 30 392 L 160 152 L 210 252 L 330 92 L 380 192 L 490 42" 
+            stroke="url(#arrow3DShadow)" 
+            strokeWidth="28" 
+            strokeLinejoin="miter" 
+            strokeMiterlimit="10"
+            strokeLinecap="square"
+            fill="none"
+          />
+
+          {/* --- Front Glossy Alternating Face --- */}
+          <path 
+            d="M 30 380 L 160 140 L 210 240 L 330 80 L 380 180 L 490 30" 
+            stroke="url(#arrowAlternatingFront)" 
+            strokeWidth="28" 
+            strokeLinejoin="miter" 
+            strokeMiterlimit="10"
+            strokeLinecap="square"
+            fill="none"
+          />
+
+          {/* --- Segment 6: Pointed 3D Arrowhead at the Tip --- */}
+          <path 
+            d="M 455 77 L 505 97 L 505 107 L 455 87 Z" 
+            fill="url(#arrowTealSide)" 
+          />
+          <path 
+            d="M 455 65 L 530 15 L 505 85 L 485 65 Z" 
             fill="url(#arrowTealFront)" 
             stroke="#19C2E8" 
             strokeWidth="1.5" 
