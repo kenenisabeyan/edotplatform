@@ -145,7 +145,7 @@ export default function HeroSection() {
 
           {/* Glowing Ambient Light Trail behind 3D arrow */}
           <path 
-            d="M 0 392 L 170 212 L 240 282 L 365 142 L 415 202 L 515 82" 
+            d="M -30 392 L 170 212 L 240 282 L 365 142 L 415 202 L 515 82" 
             stroke="url(#neonCyanGlow)" 
             strokeWidth="24" 
             strokeLinecap="round" 
@@ -160,7 +160,7 @@ export default function HeroSection() {
 
           {/* --- 1. 3D Side/Extrusion Faces (Underneath) --- */}
           {/* Side Face 1 (Orange, Rising) */}
-          <path d="M 0 394 L 170 214 L 170 224 L 0 404 Z" fill="url(#arrowOrangeSide)" />
+          <path d="M -30 400 L 170 214 L 170 224 L -30 410 Z" fill="url(#arrowOrangeSide)" />
           
           {/* Side Face 2 (Teal, Falling) */}
           <path d="M 170 214 L 240 284 L 240 294 L 170 224 Z" fill="url(#arrowTealSide)" />
@@ -182,7 +182,7 @@ export default function HeroSection() {
 
           {/* --- 3. Front Glossy Top Faces --- */}
           {/* Segment 1 Top Face (Orange) */}
-          <path d="M 0 380 L 170 200 L 170 214 L 0 394 Z" fill="url(#arrowOrangeFront)" />
+          <path d="M -30 386 L 170 200 L 170 214 L -30 400 Z" fill="url(#arrowOrangeFront)" />
           
           {/* Segment 2 Top Face (Teal) */}
           <path d="M 170 200 L 240 270 L 240 284 L 170 214 Z" fill="url(#arrowTealFront)" />
@@ -205,34 +205,29 @@ export default function HeroSection() {
             filter="url(#neonGlow)"
           />
 
-          {/* Secondary Trailing smaller blue arrow emphasizing acceleration */}
+          {/* Volumetric 3D Trailing Smaller Arrow (styled exactly like the larger arrow) */}
+          {/* --- 1. 3D Side/Extrusion Faces (Underneath) --- */}
+          <path d="M 385 248 L 455 158 L 455 164 L 385 254 Z" fill="url(#arrowTealSide)" opacity="0.8" />
+          <path d="M 455 158 L 480 184 L 480 190 L 455 164 Z" fill="url(#arrowOrangeSide)" opacity="0.8" />
+          <path d="M 480 184 L 535 118 L 535 124 L 480 190 Z" fill="url(#arrowTealSide)" opacity="0.8" />
+
+          {/* --- 2. 3D Arrowhead Extrusion Faces --- */}
+          <path d="M 523 108 L 550 95 L 550 101 L 523 114 Z" fill="url(#arrowTealSide)" opacity="0.8" />
+          <path d="M 547 128 L 550 95 L 550 101 L 547 134 Z" fill="url(#arrowTealSide)" opacity="0.8" />
+
+          {/* --- 3. Front Glossy Top Faces --- */}
+          <path d="M 385 240 L 455 150 L 455 158 L 385 248 Z" fill="url(#arrowTealFront)" opacity="0.8" filter="url(#neonGlow)" />
+          <path d="M 455 150 L 480 176 L 480 184 L 455 158 Z" fill="url(#arrowOrangeFront)" opacity="0.8" />
+          <path d="M 480 176 L 535 110 L 535 118 L 480 184 Z" fill="url(#arrowTealFront)" opacity="0.8" filter="url(#neonGlow)" />
+
+          {/* --- 4. Arrowhead Top Face --- */}
           <path 
-            d="M 385 240 L 455 150" 
-            stroke="url(#arrowTealFront)" 
-            strokeWidth="8" 
-            strokeLinecap="round"
-            opacity="0.8"
-            filter="url(#neonGlow)"
-          />
-          <path 
-            d="M 451 152 L 481 178" 
-            stroke="url(#arrowOrangeFront)" 
-            strokeWidth="8" 
-            strokeLinecap="round"
-            opacity="0.8"
-          />
-          <path 
-            d="M 479 176 L 535 110" 
-            stroke="url(#arrowTealFront)" 
-            strokeWidth="8" 
-            strokeLinecap="round"
-            opacity="0.8"
-            filter="url(#neonGlow)"
-          />
-          <path 
-            d="M 510 106 L 539 104 L 535 135 Z" 
+            d="M 523 108 L 550 95 L 547 128 Z" 
             fill="url(#arrowTealFront)" 
+            stroke="#19C2E8" 
+            strokeWidth="1.2" 
             opacity="0.8"
+            filter="url(#neonGlow)"
           />
 
           {/* ==========================================
