@@ -92,9 +92,10 @@ export default function HeroSection() {
       {/* Mounted at the root parent level so it spans the entire hero layout behind columns */}
       <div className="zigzag-arrow-backdrop">
         <svg 
-          viewBox="0 0 580 400" 
+          viewBox="0 0 1200 400" 
           width="100%"
           height="100%"
+          preserveAspectRatio="none"
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
           className="opacity-95 filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
@@ -137,37 +138,6 @@ export default function HeroSection() {
               <stop offset="100%" stopColor="#004558" />
             </linearGradient>
 
-            {/* Alternating body gradients with sharp transitions & gloss highlights */}
-            <linearGradient id="arrowAlternatingFront" x1="0%" y1="100%" x2="100%" y2="0%">
-              {/* Segment 1: Orange */}
-              <stop offset="0%" stopColor="#ff5e00" />
-              <stop offset="12%" stopColor="#ffd3b0" />
-              <stop offset="25%" stopColor="#d34000" />
-              {/* Segment 2: Teal */}
-              <stop offset="25.01%" stopColor="#00a2d0" />
-              <stop offset="35%" stopColor="#e0f7fa" />
-              <stop offset="45%" stopColor="#007a9b" />
-              {/* Segment 3: Orange */}
-              <stop offset="45.01%" stopColor="#ff5e00" />
-              <stop offset="58%" stopColor="#ffd3b0" />
-              <stop offset="70%" stopColor="#d34000" />
-              {/* Segment 4 & 5: Teal */}
-              <stop offset="70.01%" stopColor="#00a2d0" />
-              <stop offset="85%" stopColor="#e0f7fa" />
-              <stop offset="100%" stopColor="#007a9b" />
-            </linearGradient>
-
-            <linearGradient id="arrow3DShadow" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#7f2700" />
-              <stop offset="25%" stopColor="#7f2700" />
-              <stop offset="25.01%" stopColor="#004558" />
-              <stop offset="45%" stopColor="#004558" />
-              <stop offset="45.01%" stopColor="#7f2700" />
-              <stop offset="70%" stopColor="#7f2700" />
-              <stop offset="70.01%" stopColor="#004558" />
-              <stop offset="100%" stopColor="#004558" />
-            </linearGradient>
-            
             <linearGradient id="neonCyanGlow" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#19C2E8" stopOpacity="0.8" />
               <stop offset="100%" stopColor="#00D4FF" stopOpacity="0.1" />
@@ -176,7 +146,7 @@ export default function HeroSection() {
 
           {/* Glowing Ambient Light Trail behind 3D arrow */}
           <path 
-            d="M 30 380 L 160 140 L 210 240 L 330 80 L 380 180 L 490 30" 
+            d="M 0 372 L 300 212 L 450 292 L 750 132 L 900 212 L 1100 92" 
             stroke="url(#neonCyanGlow)" 
             strokeWidth="36" 
             strokeLinecap="round" 
@@ -186,38 +156,50 @@ export default function HeroSection() {
           />
 
           {/* ==========================================
-             VOLUMETRIC CONTINUOUS 3D ZIGZAG RIBBON
+             VOLUMETRIC CONTINUOUS 3D ZIGZAG RIBBON (5 segments + 3D Arrowhead)
              ========================================== */}
 
-          {/* --- Bottom 3D Side Shadow Extrusion --- */}
-          <path 
-            d="M 30 392 L 160 152 L 210 252 L 330 92 L 380 192 L 490 42" 
-            stroke="url(#arrow3DShadow)" 
-            strokeWidth="28" 
-            strokeLinejoin="miter" 
-            strokeMiterlimit="10"
-            strokeLinecap="square"
-            fill="none"
-          />
+          {/* --- 1. 3D Side/Extrusion Faces (Underneath) --- */}
+          {/* Side Face 1 (Orange, Rising) */}
+          <path d="M 0 384 L 300 224 L 300 246 L 0 406 Z" fill="url(#arrowOrangeSide)" />
+          
+          {/* Side Face 2 (Orange, Falling) */}
+          <path d="M 300 224 L 450 304 L 450 326 L 300 246 Z" fill="url(#arrowOrangeSide)" />
+          
+          {/* Side Face 3 (Orange, Rising) */}
+          <path d="M 450 304 L 750 144 L 750 166 L 450 326 Z" fill="url(#arrowOrangeSide)" />
+          
+          {/* Side Face 4 (Orange, Falling) */}
+          <path d="M 750 144 L 900 224 L 900 246 L 750 166 Z" fill="url(#arrowOrangeSide)" />
+          
+          {/* Side Face 5 (Orange, Rising) */}
+          <path d="M 900 224 L 1100 104 L 1100 126 L 900 246 Z" fill="url(#arrowOrangeSide)" />
 
-          {/* --- Front Glossy Alternating Face --- */}
-          <path 
-            d="M 30 380 L 160 140 L 210 240 L 330 80 L 380 180 L 490 30" 
-            stroke="url(#arrowAlternatingFront)" 
-            strokeWidth="28" 
-            strokeLinejoin="miter" 
-            strokeMiterlimit="10"
-            strokeLinecap="square"
-            fill="none"
-          />
+          {/* --- 2. 3D Arrowhead Extrusion Faces --- */}
+          {/* Left Arrowhead Side Face */}
+          <path d="M 1060 130 L 1180 20 L 1180 42 L 1060 152 Z" fill="url(#arrowTealSide)" />
+          {/* Right Arrowhead Side Face */}
+          <path d="M 1120 50 L 1180 20 L 1180 42 L 1120 72 Z" fill="url(#arrowTealSide)" />
 
-          {/* --- Segment 6: Pointed 3D Arrowhead at the Tip --- */}
+          {/* --- 3. Front Glossy Top Faces --- */}
+          {/* Segment 1 Top Face (Orange) */}
+          <path d="M 0 360 L 300 200 L 300 224 L 0 384 Z" fill="url(#arrowOrangeFront)" />
+          
+          {/* Segment 2 Top Face (Orange) */}
+          <path d="M 300 200 L 450 280 L 450 304 L 300 224 Z" fill="url(#arrowOrangeFront)" />
+          
+          {/* Segment 3 Top Face (Orange) */}
+          <path d="M 450 280 L 750 120 L 750 144 L 450 304 Z" fill="url(#arrowOrangeFront)" />
+          
+          {/* Segment 4 Top Face (Orange) */}
+          <path d="M 750 120 L 900 200 L 900 224 L 750 144 Z" fill="url(#arrowOrangeFront)" />
+          
+          {/* Segment 5 Top Face (Orange) */}
+          <path d="M 900 200 L 1100 80 L 1100 104 L 900 224 Z" fill="url(#arrowOrangeFront)" />
+
+          {/* --- 4. Arrowhead Top Face --- */}
           <path 
-            d="M 455 77 L 505 97 L 505 107 L 455 87 Z" 
-            fill="url(#arrowTealSide)" 
-          />
-          <path 
-            d="M 455 65 L 530 15 L 505 85 L 485 65 Z" 
+            d="M 1060 130 L 1180 20 L 1120 50 Z" 
             fill="url(#arrowTealFront)" 
             stroke="#19C2E8" 
             strokeWidth="1.5" 
@@ -226,7 +208,7 @@ export default function HeroSection() {
 
           {/* Secondary Trailing smaller blue arrow emphasizing acceleration */}
           <path 
-            d="M 280 220 L 350 150" 
+            d="M 930 240 L 1080 120" 
             stroke="url(#arrowTealFront)" 
             strokeWidth="12" 
             strokeLinecap="round"
@@ -234,14 +216,14 @@ export default function HeroSection() {
             filter="url(#neonGlow)"
           />
           <path 
-            d="M 346 152 L 376 178" 
+            d="M 1060 122 L 1090 148" 
             stroke="url(#arrowOrangeFront)" 
             strokeWidth="12" 
             strokeLinecap="round"
             opacity="0.8"
           />
           <path 
-            d="M 374 176 L 430 110" 
+            d="M 1088 146 L 1130 90" 
             stroke="url(#arrowTealFront)" 
             strokeWidth="12" 
             strokeLinecap="round"
@@ -249,7 +231,7 @@ export default function HeroSection() {
             filter="url(#neonGlow)"
           />
           <path 
-            d="M 405 106 L 434 104 L 430 135 Z" 
+            d="M 1105 82 L 1134 80 L 1130 111 Z" 
             fill="url(#arrowTealFront)" 
             opacity="0.8"
           />
@@ -270,11 +252,11 @@ export default function HeroSection() {
         </svg>
 
         {/* Floating anti-gravity particles and neon blue sparks breaking off arrow tip */}
-        <div className="spark-particle spark-1" style={{ top: "22%", right: "12%", width: "9px", height: "9px" }}></div>
-        <div className="spark-particle spark-2" style={{ top: "18%", right: "8%", width: "6px", height: "6px" }}></div>
-        <div className="spark-particle spark-3" style={{ top: "25%", right: "6%", width: "7px", height: "7px" }}></div>
-        <div className="spark-particle spark-1" style={{ top: "14%", right: "15%", width: "5px", height: "5px" }}></div>
-        <div className="spark-particle spark-2" style={{ top: "28%", right: "10%", width: "8px", height: "8px" }}></div>
+        <div className="spark-particle spark-1" style={{ top: "15%", right: "8%", width: "9px", height: "9px" }}></div>
+        <div className="spark-particle spark-2" style={{ top: "12%", right: "5%", width: "6px", height: "6px" }}></div>
+        <div className="spark-particle spark-3" style={{ top: "18%", right: "3%", width: "7px", height: "7px" }}></div>
+        <div className="spark-particle spark-1" style={{ top: "8%", right: "12%", width: "5px", height: "5px" }}></div>
+        <div className="spark-particle spark-2" style={{ top: "20%", right: "7%", width: "8px", height: "8px" }}></div>
       </div>
 
       <div className="premium-hero-grid">

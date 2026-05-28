@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Menu, X, ChevronDown, LogOut, Settings, Bell, BookOpen, Shield, LogIn, HelpCircle, ArrowRight } from 'lucide-react';
+import { Menu, X, ChevronDown, LogOut, Settings, Bell, BookOpen, Shield, LogIn, HelpCircle, ArrowRight, Search } from 'lucide-react';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 import ThemeDropdown from './ThemeDropdown';
 
@@ -104,7 +104,7 @@ export default function Navbar() {
               }`}>EDOT</span>
               <span className={`text-[8.5px] font-black tracking-widest mt-1.5 uppercase ${
                 isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-500'
-              }`}>Education for All</span>
+              }`}>Education to 18</span>
             </div>
           </Link>
         </div>
@@ -121,6 +121,15 @@ export default function Navbar() {
         
         {/* RIGHT: Actions */}
         <div className="hidden lg:flex items-center justify-end gap-5">
+          <button 
+            onClick={() => navigate('/courses')} 
+            className={`w-9 h-9 rounded-full border flex items-center justify-center transition-colors hover:text-[#19C2E8] ${
+              isDarkMode ? 'border-slate-800 text-slate-350 hover:border-[#19C2E8]' : 'border-slate-200 text-slate-650 hover:border-[#19C2E8]'
+            }`}
+            aria-label="Search Courses"
+          >
+            <Search className="w-4.5 h-4.5" />
+          </button>
           <ThemeDropdown />
           {isAuthenticated ? (
             <div className="flex items-center gap-5">
