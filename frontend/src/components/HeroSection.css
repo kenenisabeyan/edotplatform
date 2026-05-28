@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
 /* Redesigned Futuristic Retro Workstation Styling for EDOT Hero */
 
 .curved-monitor-wrapper {
@@ -1040,13 +1042,56 @@
   position: absolute;
   inset: 0;
   z-index: -2;
-  background: linear-gradient(110deg, #cdeef2 0%, #fff0dd 35%, #e1e7fa 65%, #c8d3f5 100%);
+  background: linear-gradient(100deg, #b8edf1 0%, #fadfc8 45%, #18224b 85%);
   transition: background 0.5s ease;
 }
 
 [data-theme="dark"] .premium-hero-bg {
-  background: linear-gradient(110deg, #072630 0%, #3a1c0d 35%, #0e162b 65%, #080d1a 100%);
+  background: linear-gradient(100deg, #092e3a 0%, #4c2c12 45%, #050a18 85%);
 }
+
+/* Glowing Digital Mesh Grid overlay */
+.digital-grid-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: 
+    linear-gradient(to right, rgba(25, 194, 232, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(25, 194, 232, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 60%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Sparks and particles styling */
+.spark-particle {
+  position: absolute;
+  background: #19C2E8;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: drop-shadow(0 0 4px #19C2E8);
+}
+
+@keyframes weightless-drift-1 {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+  50% { transform: translate(25px, -35px) scale(1.3); opacity: 1; }
+  100% { transform: translate(50px, -70px) scale(0.4); opacity: 0; }
+}
+@keyframes weightless-drift-2 {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  50% { transform: translate(-30px, -45px) scale(0.9); opacity: 0.9; }
+  100% { transform: translate(-50px, -90px) scale(0.3); opacity: 0; }
+}
+@keyframes weightless-drift-3 {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+  50% { transform: translate(35px, -20px) scale(1.1); opacity: 0.95; }
+  100% { transform: translate(70px, -40px) scale(0.4); opacity: 0; }
+}
+
+.spark-1 { animation: weightless-drift-1 4s infinite linear; }
+.spark-2 { animation: weightless-drift-2 5s infinite linear 1.5s; }
+.spark-3 { animation: weightless-drift-3 4.5s infinite linear 2.5s; }
 
 .premium-hero-grid {
   width: 100%;
@@ -1098,12 +1143,12 @@
 
 /* Main premium title */
 .premium-hero-title {
-  font-family: 'Outfit', 'Inter', sans-serif;
+  font-family: 'Sora', 'Poppins', sans-serif;
   font-weight: 900;
   font-size: 3rem;
-  line-height: 1.15;
+  line-height: 1.12;
   letter-spacing: -0.02em;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   color: #0F3057;
 }
 
@@ -1122,6 +1167,119 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+}
+
+/* Premium motivational CTA buttons & subheading */
+.hero-subheading {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #475569;
+  margin-bottom: 2rem;
+  max-w: 620px;
+  text-align: left;
+}
+
+[data-theme="dark"] .hero-subheading {
+  color: #94a3b8;
+}
+
+@media (max-width: 1024px) {
+  .hero-subheading {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.hero-cta-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .hero-cta-buttons {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-cta-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .hero-cta-buttons a {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.btn-primary-gold {
+  background: #EBC176 !important;
+  color: #0F172A !important;
+  padding: 0.85rem 2rem;
+  border-radius: 14px;
+  font-family: 'Sora', 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 20px rgba(235, 193, 118, 0.22);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary-gold:hover {
+  background: #C48828 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(196, 136, 40, 0.35);
+}
+
+.btn-secondary-glass {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #0F3057 !important;
+  padding: 0.85rem 2rem;
+  border-radius: 14px;
+  border: 1.5px solid rgba(203, 213, 225, 0.6) !important;
+  font-family: 'Sora', 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+[data-theme="dark"] .btn-secondary-glass {
+  background: rgba(15, 23, 42, 0.45) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+
+.btn-secondary-glass:hover {
+  background: rgba(255, 255, 255, 0.65) !important;
+  border-color: rgba(203, 213, 225, 0.9) !important;
+  color: #0F3057 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] .btn-secondary-glass:hover {
+  background: rgba(15, 23, 42, 0.65) !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
 }
 
 /* Speech bubbles grid styling */

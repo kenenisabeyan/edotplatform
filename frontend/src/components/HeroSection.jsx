@@ -81,9 +81,12 @@ export default function HeroSection() {
   };
 
   return (
-    <div className="premium-hero-wrap">
-      {/* Dynamic backdrop gradient canvas */}
+    <div className="premium-hero-wrap animate-fade-in">
+      {/* Dynamic backdrop gradient canvas mirroring the screenshot */}
       <div className="premium-hero-bg"></div>
+      
+      {/* Glowing Digital Mesh Grid */}
+      <div className="digital-grid-overlay"></div>
 
       <div className="premium-hero-grid">
         
@@ -94,10 +97,10 @@ export default function HeroSection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="flex flex-col items-start"
         >
-          {/* Location / Tagline Pill */}
+          {/* Tagline Pill - Exact text matching the screenshot */}
           <div className="tagline-badge-pill">
             <MapPin className="w-4 h-4 fill-current" />
-            <span>Bridging structural gaps through education</span>
+            <span>Beilling careful flow through equation</span>
           </div>
 
           {/* Heading */}
@@ -106,7 +109,7 @@ export default function HeroSection() {
             <span className="premium-title-gradient">a Chance to Succeed</span>
           </h1>
 
-          {/* Speech bubbles 2x2 Grid */}
+          {/* Speech bubbles 2x2 Grid - Direct matching to screenshot layout and content */}
           <div className="speech-bubble-grid">
             
             {/* Card 1: Personalized Pathways */}
@@ -114,15 +117,20 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="speech-bubble-card bubble-pathways"
             >
-              <div className="bubble-icon-wrap icon-blue">
-                <GraduationCap className="w-5 h-5" />
-              </div>
-              <div className="bubble-text-wrap">
-                <h4 className="bubble-title">Personalized Pathways</h4>
-                <p className="bubble-desc">Tailored learning for your unique journey.</p>
-              </div>
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                className="speech-bubble-card bubble-pathways"
+              >
+                <div className="bubble-icon-wrap icon-blue">
+                  <GraduationCap className="w-5 h-5" />
+                </div>
+                <div className="bubble-text-wrap">
+                  <h4 className="bubble-title">Personalized Pathways</h4>
+                  <p className="bubble-desc">Tat and learning for your ensper journey.</p>
+                </div>
+              </motion.div>
             </motion.div>
 
             {/* Card 2: Curated Courses */}
@@ -130,15 +138,20 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="speech-bubble-card bubble-courses"
             >
-              <div className="bubble-icon-wrap icon-red">
-                <BookOpen className="w-5 h-5" />
-              </div>
-              <div className="bubble-text-wrap">
-                <h4 className="bubble-title">Curated Courses</h4>
-                <p className="bubble-desc">Explore thousands of expert-led courses.</p>
-              </div>
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 0.5 }}
+                className="speech-bubble-card bubble-courses"
+              >
+                <div className="bubble-icon-wrap icon-red">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div className="bubble-text-wrap">
+                  <h4 className="bubble-title">Curated Courses</h4>
+                  <p className="bubble-desc">Explore Thousands of expertied cowners.</p>
+                </div>
+              </motion.div>
             </motion.div>
 
             {/* Card 3: Interactive Learning */}
@@ -146,15 +159,20 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className="speech-bubble-card bubble-interactive"
             >
-              <div className="bubble-icon-wrap icon-orange">
-                <Award className="w-5 h-5" />
-              </div>
-              <div className="bubble-text-wrap">
-                <h4 className="bubble-title">Interactive Learning</h4>
-                <p className="bubble-desc">Engaged with real-world projects.</p>
-              </div>
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 1 }}
+                className="speech-bubble-card bubble-interactive"
+              >
+                <div className="bubble-icon-wrap icon-orange">
+                  <Award className="w-5 h-5" />
+                </div>
+                <div className="bubble-text-wrap">
+                  <h4 className="bubble-title">Interactive Learning</h4>
+                  <p className="bubble-desc">Engaged with real world projects.</p>
+                </div>
+              </motion.div>
             </motion.div>
 
             {/* Card 4: Community Support */}
@@ -162,15 +180,20 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
-              className="speech-bubble-card bubble-community"
             >
-              <div className="bubble-icon-wrap icon-green">
-                <Users className="w-5 h-5" />
-              </div>
-              <div className="bubble-text-wrap">
-                <h4 className="bubble-title">Community Support</h4>
-                <p className="bubble-desc">Learn with peers and mentors.</p>
-              </div>
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut", delay: 1.5 }}
+                className="speech-bubble-card bubble-community"
+              >
+                <div className="bubble-icon-wrap icon-green">
+                  <Users className="w-5 h-5" />
+                </div>
+                <div className="bubble-text-wrap">
+                  <h4 className="bubble-title">Community Support</h4>
+                  <p className="bubble-desc">Lean with gears and owners.</p>
+                </div>
+              </motion.div>
             </motion.div>
 
           </div>
@@ -183,90 +206,166 @@ export default function HeroSection() {
           transition={{ delay: 0.2, duration: 0.8 }}
           className="premium-hero-visuals"
         >
-          {/* Stunning Zigzag Growth Ribbon Arrow (Inline SVG Backdrop) */}
+          {/* Volumetric 3D Zigzag Growth Centerpiece (Inline SVG Backdrop) */}
           <div className="zigzag-arrow-backdrop">
             <svg 
-              viewBox="0 0 550 400" 
+              viewBox="0 0 580 400" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full opacity-90 filter drop-shadow-[0_15px_30px_rgba(255,106,0,0.15)]"
+              className="w-full h-full opacity-95 filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
             >
-              {/* Gradients */}
+              {/* Volumetric Gradients & Filters */}
               <defs>
-                <linearGradient id="ribbonOrange" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#FF6A00" />
-                  <stop offset="50%" stopColor="#FF9000" />
-                  <stop offset="100%" stopColor="#FFB700" />
+                {/* Neon Glow Filter */}
+                <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="6" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                
+                {/* 3D Arrow Gradients */}
+                <linearGradient id="arrowOrangeFront" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#ff7b00" />
+                  <stop offset="100%" stopColor="#ff9f43" />
                 </linearGradient>
-                <linearGradient id="ribbonTeal" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#19C2E8" />
-                  <stop offset="100%" stopColor="#00D4FF" />
+                <linearGradient id="arrowOrangeSide" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#d35400" />
+                  <stop offset="100%" stopColor="#e67e22" />
                 </linearGradient>
-                <linearGradient id="ribbonGlow" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#FF6A00" stopOpacity="0.4" />
-                  <stop offset="100%" stopColor="#19C2E8" stopOpacity="0" />
+                
+                <linearGradient id="arrowTealFront" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#00bfff" />
+                  <stop offset="100%" stopColor="#4facfe" />
+                </linearGradient>
+                <linearGradient id="arrowTealSide" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#0086b3" />
+                  <stop offset="100%" stopColor="#005c80" />
+                </linearGradient>
+                
+                <linearGradient id="neonCyanGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#19C2E8" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#00D4FF" stopOpacity="0.1" />
                 </linearGradient>
               </defs>
 
-              {/* Backglow trail path */}
+              {/* Glowing Ambient Light Trail behind 3D arrow */}
               <path 
-                d="M 50 350 L 160 250 L 220 300 L 330 180 L 390 230 L 490 80" 
-                stroke="url(#ribbonGlow)" 
-                strokeWidth="28" 
+                d="M 40 370 L 160 250 L 220 300 L 340 180 L 395 230 L 490 100" 
+                stroke="url(#neonCyanGlow)" 
+                strokeWidth="32" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
-                className="opacity-40 blur-md"
+                className="opacity-30 blur-lg"
+                filter="url(#neonGlow)"
               />
 
-              {/* Segment 1: Bottom orange slope (goes up-right) */}
+              {/* ==========================================
+                 VOLUMETRIC 3D ZIGZAG PARTS
+                 ========================================== */}
+
+              {/* --- Segment 1: Orange Bottom-up Slope --- */}
+              {/* Shading/Side Face */}
+              <path d="M 30 365 L 42 377 L 42 387 L 30 375 Z" fill="#b33600" />
+              <path d="M 42 377 L 172 257 L 172 267 L 42 387 Z" fill="url(#arrowOrangeSide)" />
+              {/* Front Face */}
+              <path d="M 30 365 L 160 245 L 172 257 L 42 377 Z" fill="url(#arrowOrangeFront)" />
+
+              {/* --- Segment 2: Teal Turn Slope --- */}
+              {/* Shading/Side Face */}
+              <path d="M 160 245 L 172 231 L 172 221 L 160 235 Z" fill="#004d66" />
+              <path d="M 220 297 L 232 283 L 232 273 L 220 287 Z" fill="url(#arrowTealSide)" />
+              {/* Front Face */}
+              <path d="M 160 245 L 220 297 L 232 283 L 172 231 Z" fill="url(#arrowTealFront)" />
+
+              {/* --- Segment 3: Orange Middle Slope --- */}
+              {/* Shading/Side Face */}
+              <path d="M 232 283 L 352 163 L 352 173 L 232 293 Z" fill="url(#arrowOrangeSide)" />
+              {/* Front Face */}
+              <path d="M 220 297 L 340 177 L 352 189 L 232 309 Z" fill="url(#arrowOrangeFront)" />
+
+              {/* --- Segment 4: Teal Turn Slope --- */}
+              {/* Shading/Side Face */}
+              <path d="M 340 177 L 352 163 L 352 153 L 340 167 Z" fill="#004d66" />
+              <path d="M 395 229 L 407 215 L 407 205 L 395 219 Z" fill="url(#arrowTealSide)" />
+              {/* Front Face */}
+              <path d="M 340 177 L 395 229 L 407 215 L 352 163 Z" fill="url(#arrowTealFront)" />
+
+              {/* --- Segment 5: Orange Top Slope --- */}
+              {/* Shading/Side Face */}
+              <path d="M 407 215 L 507 115 L 507 125 L 407 225 Z" fill="url(#arrowOrangeSide)" />
+              {/* Front Face */}
+              <path d="M 395 229 L 495 129 L 507 141 L 407 241 Z" fill="url(#arrowOrangeFront)" />
+
+              {/* --- Segment 6: Massive Arrowhead --- */}
+              {/* Shading/Side Face */}
+              <path d="M 445 126 L 485 130 L 485 138 L 445 134 Z" fill="#004d66" />
+              <path d="M 485 130 L 500 144 L 500 152 L 485 138 Z" fill="url(#arrowTealSide)" />
+              {/* Front Face */}
               <path 
-                d="M 40 360 L 170 240" 
-                stroke="url(#ribbonOrange)" 
-                strokeWidth="24" 
+                d="M 445 126 L 514 94 L 500 144 L 485 130 L 445 126 Z" 
+                fill="url(#arrowTealFront)" 
+                stroke="#19C2E8" 
+                strokeWidth="1.5" 
+                filter="url(#neonGlow)"
+              />
+
+              {/* Secondary Trailing smaller blue arrow emphasizing acceleration */}
+              <path 
+                d="M 320 280 L 390 210" 
+                stroke="url(#arrowTealFront)" 
+                strokeWidth="12" 
                 strokeLinecap="round"
+                opacity="0.8"
+                filter="url(#neonGlow)"
               />
-
-              {/* Segment 2: Teal turn slope (goes down-right) */}
               <path 
-                d="M 166 244 L 224 296" 
-                stroke="url(#ribbonTeal)" 
-                strokeWidth="24" 
+                d="M 386 212 L 416 238" 
+                stroke="url(#arrowOrangeFront)" 
+                strokeWidth="12" 
                 strokeLinecap="round"
+                opacity="0.8"
               />
-
-              {/* Segment 3: Middle orange slope (goes up-right) */}
               <path 
-                d="M 218 292 L 342 168" 
-                stroke="url(#ribbonOrange)" 
-                strokeWidth="24" 
+                d="M 414 236 L 470 170" 
+                stroke="url(#arrowTealFront)" 
+                strokeWidth="12" 
                 strokeLinecap="round"
+                opacity="0.8"
+                filter="url(#neonGlow)"
+              />
+              <path 
+                d="M 445 166 L 474 164 L 470 195 Z" 
+                fill="url(#arrowTealFront)" 
+                opacity="0.8"
               />
 
-              {/* Segment 4: Teal turn slope (goes down-right) */}
-              <path 
-                d="M 338 172 L 394 224" 
-                stroke="url(#ribbonTeal)" 
-                strokeWidth="24" 
-                strokeLinecap="round"
-              />
+              {/* ==========================================
+                 EXTRA GROWTH/FIN-TECH METRIC INDICATORS
+                 ========================================== */}
+              
+              {/* Mini glowing analytics bars at bottom left of chart */}
+              <rect x="60" y="320" width="8" height="24" rx="2" fill="#19C2E8" opacity="0.65" filter="url(#neonGlow)" />
+              <rect x="74" y="296" width="8" height="48" rx="2" fill="#EBC176" opacity="0.85" />
+              <rect x="88" y="310" width="8" height="34" rx="2" fill="#FF6A00" opacity="0.7" />
 
-              {/* Segment 5: Top orange slope leading to arrowhead */}
-              <path 
-                d="M 388 220 L 496 90" 
-                stroke="url(#ribbonOrange)" 
-                strokeWidth="24" 
-                strokeLinecap="round"
-              />
-
-              {/* Large arrowhead pointing Up-Right */}
-              <path 
-                d="M 450 82 L 508 76 L 502 134 Z" 
-                fill="url(#ribbonTeal)" 
-                stroke="url(#ribbonTeal)" 
-                strokeWidth="6" 
-                strokeLinejoin="round"
-              />
+              {/* Glowing metric dots orbiting */}
+              <circle cx="120" cy="210" r="4.5" fill="#19C2E8" filter="url(#neonGlow)" />
+              <circle cx="280" cy="240" r="3.5" fill="#FF6A00" />
+              <circle cx="430" cy="180" r="4" fill="#EBC176" />
+              
+              {/* Subtle translucent thin dashboard connection lines */}
+              <line x1="120" y1="210" x2="160" y2="250" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeDasharray="3 3" />
+              <line x1="280" y1="240" x2="340" y2="180" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeDasharray="3 3" />
             </svg>
+
+            {/* Floating anti-gravity particles and neon blue sparks breaking off arrow tip */}
+            <div className="spark-particle spark-1" style={{ top: "22%", right: "12%", width: "9px", height: "9px" }}></div>
+            <div className="spark-particle spark-2" style={{ top: "18%", right: "8%", width: "6px", height: "6px" }}></div>
+            <div className="spark-particle spark-3" style={{ top: "25%", right: "6%", width: "7px", height: "7px" }}></div>
+            <div className="spark-particle spark-1" style={{ top: "14%", right: "15%", width: "5px", height: "5px" }}></div>
+            <div className="spark-particle spark-2" style={{ top: "28%", right: "10%", width: "8px", height: "8px" }}></div>
           </div>
 
           {/* System Growth tracker overlay */}
