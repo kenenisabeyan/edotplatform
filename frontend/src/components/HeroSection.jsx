@@ -137,7 +137,7 @@ export default function HeroSection() {
 
           {/* Glowing Ambient Light Trail behind 3D arrow */}
           <path 
-            d="M 40 370 L 160 250 L 220 300 L 340 180 L 395 230 L 490 100" 
+            d="M 30 380 L 160 140 L 210 240 L 330 80 L 380 180 L 490 30" 
             stroke="url(#neonCyanGlow)" 
             strokeWidth="32" 
             strokeLinecap="round" 
@@ -147,37 +147,37 @@ export default function HeroSection() {
           />
 
           {/* ==========================================
-             VOLUMETRIC 3D ZIGZAG PARTS
+             VOLUMETRIC 3D ZIGZAG PARTS (Steeper/Taller mockup scaling)
              ========================================== */}
 
           {/* --- Segment 1: Orange Bottom-up Slope --- */}
-          <path d="M 30 365 L 42 377 L 42 387 L 30 375 Z" fill="#b33600" />
-          <path d="M 42 377 L 172 257 L 172 267 L 42 387 Z" fill="url(#arrowOrangeSide)" />
-          <path d="M 30 365 L 160 245 L 172 257 L 42 377 Z" fill="url(#arrowOrangeFront)" />
+          <path d="M 30 380 L 42 392 L 42 402 L 30 390 Z" fill="#b33600" />
+          <path d="M 42 392 L 172 152 L 172 162 L 42 402 Z" fill="url(#arrowOrangeSide)" />
+          <path d="M 30 380 L 160 140 L 172 152 L 42 392 Z" fill="url(#arrowOrangeFront)" />
 
           {/* --- Segment 2: Teal Turn Slope --- */}
-          <path d="M 160 245 L 172 231 L 172 221 L 160 235 Z" fill="#004d66" />
-          <path d="M 220 297 L 232 283 L 232 273 L 220 287 Z" fill="url(#arrowTealSide)" />
-          <path d="M 160 245 L 220 297 L 232 283 L 172 231 Z" fill="url(#arrowTealFront)" />
+          <path d="M 160 140 L 172 152 L 172 162 L 160 150 Z" fill="#004d66" />
+          <path d="M 210 240 L 222 252 L 222 262 L 210 250 Z" fill="url(#arrowTealSide)" />
+          <path d="M 160 140 L 210 240 L 222 252 L 172 152 Z" fill="url(#arrowTealFront)" />
 
           {/* --- Segment 3: Orange Middle Slope --- */}
-          <path d="M 232 283 L 352 163 L 352 173 L 232 293 Z" fill="url(#arrowOrangeSide)" />
-          <path d="M 220 297 L 340 177 L 352 189 L 232 309 Z" fill="url(#arrowOrangeFront)" />
+          <path d="M 222 252 L 342 92 L 342 102 L 222 262 Z" fill="url(#arrowOrangeSide)" />
+          <path d="M 210 240 L 330 80 L 342 92 L 222 252 Z" fill="url(#arrowOrangeFront)" />
 
           {/* --- Segment 4: Teal Turn Slope --- */}
-          <path d="M 340 177 L 352 163 L 352 153 L 340 167 Z" fill="#004d66" />
-          <path d="M 395 229 L 407 215 L 407 205 L 395 219 Z" fill="url(#arrowTealSide)" />
-          <path d="M 340 177 L 395 229 L 407 215 L 352 163 Z" fill="url(#arrowTealFront)" />
+          <path d="M 330 80 L 342 92 L 342 102 L 330 90 Z" fill="#004d66" />
+          <path d="M 380 180 L 392 192 L 392 202 L 380 190 Z" fill="url(#arrowTealSide)" />
+          <path d="M 330 80 L 380 180 L 392 192 L 342 92 Z" fill="url(#arrowTealFront)" />
 
           {/* --- Segment 5: Orange Top Slope --- */}
-          <path d="M 407 215 L 507 115 L 507 125 L 407 225 Z" fill="url(#arrowOrangeSide)" />
-          <path d="M 395 229 L 495 129 L 507 141 L 407 241 Z" fill="url(#arrowOrangeFront)" />
+          <path d="M 392 192 L 492 62 L 492 72 L 392 202 Z" fill="url(#arrowOrangeSide)" />
+          <path d="M 380 180 L 480 50 L 492 62 L 392 192 Z" fill="url(#arrowOrangeFront)" />
 
           {/* --- Segment 6: Massive Arrowhead --- */}
-          <path d="M 445 126 L 485 130 L 485 138 L 445 134 Z" fill="#004d66" />
-          <path d="M 485 130 L 500 144 L 500 152 L 485 138 Z" fill="url(#arrowTealSide)" />
+          <path d="M 430 80 L 495 75 L 495 85 L 430 90 Z" fill="#004d66" />
+          <path d="M 495 75 L 515 95 L 515 105 L 495 85 Z" fill="url(#arrowTealSide)" />
           <path 
-            d="M 445 126 L 514 94 L 500 144 L 485 130 L 445 126 Z" 
+            d="M 430 80 L 540 15 L 515 95 L 495 75 L 430 80 Z" 
             fill="url(#arrowTealFront)" 
             stroke="#19C2E8" 
             strokeWidth="1.5" 
@@ -186,7 +186,7 @@ export default function HeroSection() {
 
           {/* Secondary Trailing smaller blue arrow emphasizing acceleration */}
           <path 
-            d="M 320 280 L 390 210" 
+            d="M 280 220 L 350 150" 
             stroke="url(#arrowTealFront)" 
             strokeWidth="12" 
             strokeLinecap="round"
@@ -194,14 +194,14 @@ export default function HeroSection() {
             filter="url(#neonGlow)"
           />
           <path 
-            d="M 386 212 L 416 238" 
+            d="M 346 152 L 376 178" 
             stroke="url(#arrowOrangeFront)" 
             strokeWidth="12" 
             strokeLinecap="round"
             opacity="0.8"
           />
           <path 
-            d="M 414 236 L 470 170" 
+            d="M 374 176 L 430 110" 
             stroke="url(#arrowTealFront)" 
             strokeWidth="12" 
             strokeLinecap="round"
@@ -209,7 +209,7 @@ export default function HeroSection() {
             filter="url(#neonGlow)"
           />
           <path 
-            d="M 445 166 L 474 164 L 470 195 Z" 
+            d="M 405 106 L 434 104 L 430 135 Z" 
             fill="url(#arrowTealFront)" 
             opacity="0.8"
           />
