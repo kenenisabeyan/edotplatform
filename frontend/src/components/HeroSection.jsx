@@ -110,23 +110,31 @@ export default function HeroSection() {
               </feMerge>
             </filter>
             
-            {/* 3D Arrow Gradients */}
+            {/* 3D Arrow Gradients (Glossy Metallic/Glass finishes) */}
             <linearGradient id="arrowOrangeFront" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#ff7b00" />
-              <stop offset="100%" stopColor="#ff9f43" />
+              <stop offset="0%" stopColor="#ff5e00" />
+              <stop offset="35%" stopColor="#ff8f44" />
+              <stop offset="50%" stopColor="#ffd3b0" />
+              <stop offset="65%" stopColor="#ff8f44" />
+              <stop offset="100%" stopColor="#d34000" />
             </linearGradient>
             <linearGradient id="arrowOrangeSide" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#d35400" />
-              <stop offset="100%" stopColor="#e67e22" />
+              <stop offset="0%" stopColor="#b23c00" />
+              <stop offset="50%" stopColor="#d34c00" />
+              <stop offset="100%" stopColor="#7f2700" />
             </linearGradient>
             
             <linearGradient id="arrowTealFront" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#00bfff" />
-              <stop offset="100%" stopColor="#4facfe" />
+              <stop offset="0%" stopColor="#00a2d0" />
+              <stop offset="35%" stopColor="#19c2e8" />
+              <stop offset="50%" stopColor="#e0f7fa" />
+              <stop offset="65%" stopColor="#19c2e8" />
+              <stop offset="100%" stopColor="#007a9b" />
             </linearGradient>
             <linearGradient id="arrowTealSide" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#0086b3" />
-              <stop offset="100%" stopColor="#005c80" />
+              <stop offset="0%" stopColor="#006c88" />
+              <stop offset="50%" stopColor="#008ea4" />
+              <stop offset="100%" stopColor="#004558" />
             </linearGradient>
             
             <linearGradient id="neonCyanGlow" x1="0%" y1="0%" x2="100%" y2="100%">
