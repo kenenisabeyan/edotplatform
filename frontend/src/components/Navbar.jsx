@@ -56,28 +56,28 @@ export default function Navbar() {
     `relative text-[15px] font-bold transition-all px-2.5 py-1.5 ${
       isActive 
         ? 'text-[#19C2E8]'
-        : isDarkMode || isTransparentDarkBg ? 'text-slate-300 hover:text-white' : 'text-slate-650 hover:text-[#19C2E8]'
+        : isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-650 hover:text-[#19C2E8]'
     } ${isActive ? 'after:content-[\'\'] after:absolute after:left-2.5 after:-bottom-1.5 after:w-[calc(100%-20px)] after:h-[3px] after:bg-[#19C2E8] after:rounded-full' : ''}`;
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   const headerStyle = isDarkMode ? {
-    borderBottom: isScrolled ? '2.5px solid rgba(25, 194, 232, 0.35)' : '2px solid rgba(25, 194, 232, 0.2)',
+    borderBottom: isScrolled ? '2px solid rgba(25, 194, 232, 0.35)' : 'none',
     boxShadow: isScrolled 
       ? '0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(25, 194, 232, 0.1)' 
-      : '0 4px 20px rgba(0, 0, 0, 0.25)',
-    background: isScrolled ? 'rgba(11, 17, 32, 0.95)' : 'rgba(11, 17, 32, 0.85)',
-    backdropFilter: 'blur(12px)',
+      : 'none',
+    background: isScrolled ? 'rgba(11, 17, 32, 0.95)' : 'transparent',
+    backdropFilter: isScrolled ? 'blur(12px)' : 'none',
     paddingTop: isScrolled ? '12px' : '20px',
     paddingBottom: isScrolled ? '12px' : '20px',
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   } : {
-    borderBottom: isScrolled ? '2.5px solid #19C2E8' : '2.5px solid #19C2E8',
+    borderBottom: isScrolled ? '2px solid rgba(25, 194, 232, 0.2)' : 'none',
     boxShadow: isScrolled 
-      ? '0 8px 24px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(25, 194, 232, 0.08)' 
-      : '0 10px 30px rgba(15, 23, 42, 0.05), 0 2px 8px rgba(25, 194, 232, 0.04)',
-    background: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.9)',
-    backdropFilter: 'blur(12px)',
+      ? '0 8px 24px rgba(15, 23, 42, 0.05), 0 4px 12px rgba(25, 194, 232, 0.02)' 
+      : 'none',
+    background: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'transparent',
+    backdropFilter: isScrolled ? 'blur(12px)' : 'none',
     paddingTop: isScrolled ? '12px' : '20px',
     paddingBottom: isScrolled ? '12px' : '20px',
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
