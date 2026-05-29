@@ -1,1 +1,57 @@
-/* This file is intentionally empty. The AuthLayout component has been migrated to use Tailwind CSS exclusively to match the high-fidelity mockups. */
+/* Premium custom styles for the edotplatform Authentication Layout */
+
+.dot-grid-mesh {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1.5px, transparent 1.5px);
+  background-size: 14px 14px;
+}
+
+.graphic-float {
+  animation: float 4.5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0.5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+/* Custom CSS overrides for browser dropdown select arrows in dark mode */
+select {
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1em 1em;
+}
+
+/* Styling standard checkbox colors to brand primary */
+input[type="checkbox"] {
+  accent-color: #FF5A00;
+}
+
+/* Smooth zoom-in container transition on load */
+.animate-auth-fade {
+  animation: authFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes authFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Fix mobile view stretching constraints */
+@media (max-width: 768px) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+}

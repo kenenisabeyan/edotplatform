@@ -188,6 +188,10 @@ export default function App() {
         } />
       </Route>
 
+      {/* Standalone Authentication Pages */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
       {/* Public / Landing Pages with Navbar & Footer */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
@@ -197,8 +201,6 @@ export default function App() {
         <Route path="/impact" element={<Impact />} />
         <Route path="/sponsorship" element={<Sponsorship />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         
         {/* Old Standalone routes mapping to null or removed to force dashboard usage */}
         <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
