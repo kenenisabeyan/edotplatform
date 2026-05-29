@@ -439,20 +439,6 @@ export default function HeroSection() {
           transition={{ delay: 0.2, duration: 0.8 }}
           className="premium-hero-visuals"
         >
-          {/* System Growth tracker overlay */}
-          <div className="system-growth-widget select-none">
-            <span className="system-growth-text">System <span>Growth</span></span>
-            <div className="system-growth-bar">
-              <div className="system-growth-bar-fill"></div>
-            </div>
-          </div>
-
-          {/* Gold EDOT Arrowhead Badge */}
-          <div className="edot-arrowhead-badge select-none">
-            <GraduationCap className="w-4.5 h-4.5 fill-current" />
-            <span className="edot-arrowhead-text">EDOT</span>
-          </div>
-
           {/* Interactive Course Trailer Video Player */}
           <div 
             className="premium-video-wrapper"
