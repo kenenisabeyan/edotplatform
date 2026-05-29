@@ -78,18 +78,21 @@ export default function CourseDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-[calc(100vh-80px)] flex justify-center items-center bg-gray-50">
-        <div className="w-16 h-16 border-4 border-gray-200 border-t-[#FFC107] rounded-full animate-spin"></div>
+      <div className={`min-h-[calc(100vh-80px)] flex justify-center items-center transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
+        <div className={`w-16 h-16 border-4 rounded-full animate-spin ${isDarkMode ? 'border-white/10 border-t-[#00D4FF] shadow-[0_0_15px_rgba(0,212,255,0.2)]' : 'border-slate-200 border-t-[#00D4FF] shadow-[0_0_15px_rgba(0,212,255,0.1)]'}`}></div>
       </div>
     );
   }
 
   if (error || !course) {
     return (
-      <div className="min-h-[calc(100vh-80px)] flex justify-center items-center p-4 bg-transparent text-center">
-        <div className={`p-10 border rounded-2xl shadow-xl backdrop-blur-xl ${isDarkMode ? 'bg-[#0B1120]/60 border-white/10' : 'bg-white border-slate-200'}`}>
-           <ShieldCheck className="w-16 h-16 mx-auto mb-4 text-[#FFC107]" />
-           <p className={`font-black ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{error || 'Data Not Found'}</p>
+      <div className={`min-h-[calc(100vh-80px)] flex justify-center items-center p-4 text-center transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#FAFAFA]'}`}>
+        <div className={`p-10 border rounded-3xl shadow-xl backdrop-blur-xl max-w-md ${isDarkMode ? 'bg-[#1E293B]/60 border-white/10 text-white' : 'bg-white border-slate-200 text-slate-800'}`}>
+           <ShieldCheck className="w-16 h-16 mx-auto mb-6 text-[#00D4FF] drop-shadow-[0_0_15px_rgba(0,212,255,0.4)]" />
+           <p className="font-black text-lg mb-6 leading-relaxed">{error || 'Data Not Found'}</p>
+           <Link to="/courses" className="inline-flex items-center justify-center gap-2 font-bold transition-all px-8 py-3 rounded-full text-xs text-[#0f172a] bg-gradient-to-r from-[#00D4FF] to-[#00b0d8] hover:shadow-[0_0_20px_rgba(0,212,255,0.3)]">
+             <ArrowLeft className="w-4 h-4" /> Back to Catalog
+           </Link>
         </div>
       </div>
     );
