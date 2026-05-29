@@ -147,7 +147,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
       <div className="w-full max-w-[1200px] min-h-[100vh] md:min-h-[750px] md:h-[780px] bg-white md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row relative z-10 border border-slate-200/50">
         
         {/* LEFT COLUMN: IMMERSIVE BRANDING SHOWCASE */}
-        <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12 bg-[#FF5A00] text-slate-900 select-none overflow-hidden">
+        <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-start p-12 bg-[#FF5A00] text-slate-900 select-none overflow-hidden">
           
           {/* Full-size 3D Illustration Background Asset */}
           <img 
@@ -166,64 +166,21 @@ export default function AuthLayout({ defaultIsRegister = false }) {
             </Link>
           </div>
 
-          {/* Main Slogans & Features inside a gorgeous left floating glass card */}
-          <div className="relative z-10 my-auto max-w-[335px] bg-white/85 dark:bg-slate-950/85 backdrop-blur-md rounded-[2rem] p-5 lg:p-6 shadow-2xl border border-white/40 dark:border-white/10 space-y-4 animate-auth-fade">
-            <h1 className="text-2xl lg:text-[27px] font-black leading-[1.2] tracking-tight text-slate-900 dark:text-white">
+          {/* Main Slogans & Features (restricted to left-aligned clear space directly on the image) */}
+          <div className="relative z-10 max-w-[280px] mt-16 space-y-4 animate-auth-fade">
+            <h1 className="text-xl lg:text-[25px] font-black leading-[1.25] tracking-tight text-slate-900">
               One Platform.<br />
               Unlimited Possibilities.<br />
-              <span className="text-[#0084FF] dark:text-[#38bdf8]">Your Growth Starts Here.</span>
+              <span className="text-[#0084FF]">Your Growth Starts Here.</span>
             </h1>
             
-            <p className="text-[12.5px] font-bold text-slate-750 dark:text-slate-300 leading-relaxed">
-              edotplatform empowers you to learn, connect, collaborate, and grow — all in one smart platform.
+            <p className="text-[12px] font-bold text-slate-800/90 leading-relaxed">
+              Explore unlimited ideas with no barriers. edotplatform is completely free and open for everyone to join — unlock your potential today.
             </p>
-
-            {/* Feature List */}
-            <div className="space-y-3 pt-1">
-              <div className="flex items-center gap-2.5 group">
-                <div className="w-8 h-8 rounded-full bg-[#FF5A00]/10 dark:bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center shadow-sm shrink-0 transform transition-transform group-hover:scale-105">
-                  <GraduationCap className="w-4.5 h-4.5" />
-                </div>
-                <div>
-                  <h3 className="font-extrabold text-[13px] leading-tight text-slate-900 dark:text-white">Smart Learning</h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold leading-none mt-0.5">Access courses and resources anytime</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-2.5 group">
-                <div className="w-8 h-8 rounded-full bg-[#FF5A00]/10 dark:bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center shadow-sm shrink-0 transform transition-transform group-hover:scale-105">
-                  <Users className="w-4.5 h-4.5" />
-                </div>
-                <div>
-                  <h3 className="font-extrabold text-[13px] leading-tight text-slate-900 dark:text-white">Connect & Collaborate</h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold leading-none mt-0.5">Work together and share ideas</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2.5 group">
-                <div className="w-8 h-8 rounded-full bg-[#FF5A00]/10 dark:bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center shadow-sm shrink-0 transform transition-transform group-hover:scale-105">
-                  <TrendingUp className="w-4.5 h-4.5" />
-                </div>
-                <div>
-                  <h3 className="font-extrabold text-[13px] leading-tight text-slate-900 dark:text-white">Track Your Progress</h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold leading-none mt-0.5">Monitor, analyze and improve</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2.5 group">
-                <div className="w-8 h-8 rounded-full bg-[#FF5A00]/10 dark:bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center shadow-sm shrink-0 transform transition-transform group-hover:scale-105">
-                  <Rocket className="w-4.5 h-4.5" />
-                </div>
-                <div>
-                  <h3 className="font-extrabold text-[13px] leading-tight text-slate-900 dark:text-white">Achieve More</h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold leading-none mt-0.5">Tools and insights for your success</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Bottom quote and illustration are natively embedded inside the signin.png asset */}
-          <div className="h-4"></div>
+          <div className="mt-auto h-4"></div>
         </div>
 
         {/* RIGHT COLUMN: HIGH-CONTRAST FORM WRAPPER (Solid Pristine White) */}
