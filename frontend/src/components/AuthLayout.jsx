@@ -23,6 +23,7 @@ import {
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider, microsoftProvider } from '../utils/firebase';
 import './AuthLayout.css';
+import signinImg from '../assets/signin.png';
 
 // Custom Google Icon
 const GoogleIcon = ({ className = "w-5 h-5" }) => (
@@ -146,22 +147,14 @@ export default function AuthLayout({ defaultIsRegister = false }) {
       <div className="w-full max-w-[1200px] min-h-[100vh] md:min-h-[750px] md:h-[780px] bg-white dark:bg-[#111827] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row relative z-10 border border-slate-200/10">
         
         {/* LEFT COLUMN: IMMERSIVE BRANDING SHOWCASE */}
-        <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12 bg-gradient-to-br from-[#FF4500] via-[#FF5A00] to-[#FF8F00] text-white select-none overflow-hidden">
+        <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12 bg-[#FF5A00] text-slate-900 select-none overflow-hidden">
           
-          {/* Dot mesh grid */}
-          <div className="absolute right-6 top-6 w-32 h-20 opacity-20 pointer-events-none dot-grid-mesh"></div>
-          
-          {/* Wavy bottom decoration (vector curves) */}
-          <div className="absolute bottom-0 left-0 w-full z-0 pointer-events-none">
-            <svg className="w-full h-auto translate-y-2 scale-102" viewBox="0 0 600 350" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 250C150 200 300 320 450 280C550 250 580 200 600 180V350H0V250Z" fill="#00D4FF" opacity="0.3" />
-              <path d="M0 290C200 230 350 340 500 300C560 280 580 240 600 220V350H0V290Z" fill="#00A4EF" opacity="0.4" />
-              <path d="M0 320C220 280 380 350 520 320C570 310 590 285 600 270V350H0V320Z" fill="#0272B4" opacity="0.6" />
-            </svg>
-          </div>
-
-          {/* Floating graphic backgrounds */}
-          <div className="absolute top-[25%] left-[70%] w-24 h-24 rounded-full bg-[#00D4FF]/20 blur-xl pointer-events-none"></div>
+          {/* Full-size 3D Illustration Background Asset */}
+          <img 
+            src={signinImg} 
+            alt="Sign In Background" 
+            className="absolute inset-0 w-full h-full object-cover object-center z-0 pointer-events-none" 
+          />
 
           {/* Brand Header */}
           <div className="relative z-10">
@@ -169,19 +162,19 @@ export default function AuthLayout({ defaultIsRegister = false }) {
               <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-lg transform transition-transform group-hover:scale-105">
                 <span className="text-[23px] font-black text-[#FF5A00] leading-none mb-0.5">e.</span>
               </div>
-              <span className="text-2xl font-black tracking-tight text-white font-sans">edotplatform</span>
+              <span className="text-2xl font-black tracking-tight text-slate-900 font-sans">edotplatform</span>
             </Link>
           </div>
 
-          {/* Main Slogans */}
-          <div className="relative z-10 my-auto max-w-md space-y-6 pt-4">
-            <h1 className="text-[40px] font-black leading-[1.12] tracking-tight">
+          {/* Main Slogans & Features (restricted to left-aligned clear space) */}
+          <div className="relative z-10 my-auto max-w-[350px] space-y-6 pt-4">
+            <h1 className="text-[40px] font-black leading-[1.12] tracking-tight text-slate-900">
               One Platform.<br />
               Unlimited Possibilities.<br />
-              <span className="text-[#00D4FF]">Your Growth Starts Here.</span>
+              <span className="text-[#0084FF]">Your Growth Starts Here.</span>
             </h1>
             
-            <p className="text-[14px] font-semibold opacity-90 leading-relaxed max-w-sm">
+            <p className="text-[14.5px] font-bold text-slate-800 leading-relaxed">
               edotplatform empowers you to learn, connect, collaborate, and grow — all in one smart platform.
             </p>
 
@@ -192,8 +185,8 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   <GraduationCap className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[14.5px] leading-tight text-white">Smart Learning</h3>
-                  <p className="text-[12.5px] opacity-80 font-medium leading-none mt-1">Access courses and resources anytime</p>
+                  <h3 className="font-extrabold text-[14.5px] leading-tight text-slate-900">Smart Learning</h3>
+                  <p className="text-[12.5px] text-slate-800/90 font-bold leading-none mt-1">Access courses and resources anytime</p>
                 </div>
               </div>
               
@@ -202,8 +195,8 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   <Users className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[14.5px] leading-tight text-white">Connect & Collaborate</h3>
-                  <p className="text-[12.5px] opacity-80 font-medium leading-none mt-1">Work together and share ideas</p>
+                  <h3 className="font-extrabold text-[14.5px] leading-tight text-slate-900">Connect & Collaborate</h3>
+                  <p className="text-[12.5px] text-slate-800/90 font-bold leading-none mt-1">Work together and share ideas</p>
                 </div>
               </div>
 
@@ -212,8 +205,8 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   <TrendingUp className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[14.5px] leading-tight text-white">Track Your Progress</h3>
-                  <p className="text-[12.5px] opacity-80 font-medium leading-none mt-1">Monitor, analyze and improve</p>
+                  <h3 className="font-extrabold text-[14.5px] leading-tight text-slate-900">Track Your Progress</h3>
+                  <p className="text-[12.5px] text-slate-800/90 font-bold leading-none mt-1">Monitor, analyze and improve</p>
                 </div>
               </div>
 
@@ -222,30 +215,15 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   <Rocket className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[14.5px] leading-tight text-white">Achieve More</h3>
-                  <p className="text-[12.5px] opacity-80 font-medium leading-none mt-1">Tools and insights for your success</p>
+                  <h3 className="font-extrabold text-[14.5px] leading-tight text-slate-900">Achieve More</h3>
+                  <p className="text-[12.5px] text-slate-800/90 font-bold leading-none mt-1">Tools and insights for your success</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Bottom Graphics and Quote */}
-          <div className="relative z-10 flex flex-col items-center pt-4">
-            {/* 3D Float Illustration */}
-            <div className="w-[280px] h-[210px] flex items-center justify-center mb-5 relative graphic-float">
-              <img 
-                src="/images/hero_3d.png" 
-                alt="3D Learner Graphic" 
-                className="max-w-full max-h-full object-contain drop-shadow-2xl" 
-              />
-            </div>
-            {/* Bottom Quote Banner */}
-            <div className="text-center w-full max-w-sm pt-4 border-t border-white/20">
-              <p className="text-[13.5px] font-bold italic opacity-95 text-white leading-relaxed">
-                “ Empowering today's learners to build tomorrow's leaders. ”
-              </p>
-            </div>
-          </div>
+          {/* Bottom quote and illustration are natively embedded inside the signin.png asset */}
+          <div className="h-4"></div>
         </div>
 
         {/* RIGHT COLUMN: HIGH-CONTRAST FORM WRAPPER */}
