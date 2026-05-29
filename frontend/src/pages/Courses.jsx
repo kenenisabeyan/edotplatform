@@ -107,7 +107,7 @@ const CategoryHexagon = ({ cat, idx, translate, onClick }) => {
              
              {/* Category Name */}
              <span className={`font-bold text-xs md:text-sm text-center leading-tight drop-shadow-sm group-hover:opacity-80 transition-opacity relative z-10 px-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                {cat}
+                {DISPLAY_CATEGORY_MAP[cat] || cat}
              </span>
              
              {/* Description */}
@@ -392,7 +392,7 @@ const CourseCard = ({ course, setHoveredCourse, isDarkMode }) => {
           </h3>
           
           {/* Subtext */}
-          <p className={`text-[13px] mb-2 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Course • {course.mainCategory || 'Technology'}</p>
+          <p className={`text-[13px] mb-2 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Course • {DISPLAY_CATEGORY_MAP[course.mainCategory] || course.mainCategory || 'Technology'}</p>
           
           {/* Small Description */}
           <p className={`text-[13px] line-clamp-2 mb-4 leading-relaxed transition-colors ${isDarkMode ? 'text-slate-400 group-hover:text-slate-300' : 'text-slate-600 group-hover:text-slate-800'}`}>
@@ -729,7 +729,7 @@ export default function Courses() {
                          }}
                        >
                          {isSelected && <Check size={16} strokeWidth={3} className="opacity-90" />}
-                         {cat} 
+                         {DISPLAY_CATEGORY_MAP[cat] || cat} 
                        </button>
                      );
                  })}
