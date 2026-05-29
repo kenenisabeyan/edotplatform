@@ -1042,12 +1042,13 @@
   position: absolute;
   inset: 0;
   z-index: -2;
-  background: linear-gradient(110deg, #d3f9fa 0%, #fff0e2 40%, #111a3e 80%);
+  background: linear-gradient(110deg, #8CD6D5 0%, #F5CE9F 45%, #E98642 65%, #25337C 100%);
   transition: background 0.5s ease;
 }
 
-[data-theme="dark"] .premium-hero-bg {
-  background: linear-gradient(110deg, #082d38 0%, #3a1e0b 45%, #040916 80%);
+[data-theme="dark"] .premium-hero-bg,
+[data-theme="extra-dark"] .premium-hero-bg {
+  background: linear-gradient(110deg, #082d38 0%, #3a1e0b 45%, #592408 65%, #040916 100%);
 }
 
 /* Glowing Digital Mesh Grid overlay */
