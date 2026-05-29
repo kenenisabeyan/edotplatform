@@ -605,7 +605,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                         {(selectedUserCourses.length === 0) ? <p className={`text-xs italic ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No created content yet</p> : 
                         <div className="flex flex-wrap gap-2">
                            {selectedUserCourses.map((c) => (
-                             <span key={c.id} className="text-[11px] font-bold text-emerald-300 bg-emerald-500/100/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg">{c.title} — {(c.status || 'unknown')}</span>
+                             <span key={c.id} className="text-[11px] font-bold text-emerald-300 bg-emerald-500/100/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg">{c.title}, {(c.status || 'unknown')}</span>
                            ))}
                         </div>}
                       </div>

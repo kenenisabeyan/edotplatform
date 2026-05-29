@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import api from '../utils/api';
 import { 
   Users, BookOpen, ArrowRight, Search, Filter, Shield, 
@@ -422,13 +422,23 @@ const COURSE_TABS = MAIN_CATEGORIES;
 
 export default function Courses() {
   const isDarkMode = useThemeMode();
+  const location = useLocation();
   const [courses, setCourses] = useState([]);
   const [categoryStats, setCategoryStats] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState(MAIN_CATEGORIES[0]);
+  const [categoryFilter, setCategoryFilter] = useState(() => {
+    return location.state?.category || MAIN_CATEGORIES[0];
+  });
+
+  useEffect(() => {
+    if (location.state?.category) {
+      setCategoryFilter(location.state.category);
+    }
+  }, [location.state]);
+
   const scrollContainerRef = React.useRef(null);
   const [showLeftScroll, setShowLeftScroll] = useState(false);
   const [showRightScroll, setShowRightScroll] = useState(false);
@@ -604,12 +614,12 @@ export default function Courses() {
                <div className="w-16 h-16 bg-[#19C2E8] text-white rounded-2xl flex items-center justify-center mb-8 shadow-lg">
                   <Target className="w-8 h-8" />
                </div>
-            <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Not Just Courses — Structured Learning</h2>
+            <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Not Just Courses, Structured Learning</h2>
             <p className={`text-xl leading-relaxed mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                EDOT organizes education into clear, guided paths so learners always know what to learn next and how to progress.
             </p>
             <p className={`text-xl leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-               Every course is part of a bigger journey — from beginner to advanced — ensuring clarity, consistency, and real skill development.
+               Every course is part of a bigger journey, from beginner to advanced, ensuring clarity, consistency, and real skill development.
             </p>
             </div>
          </div>
@@ -893,7 +903,7 @@ export default function Courses() {
                        Courses are designed not just to deliver knowledge, but to build practical, applicable skills.
                     </p>
                     <p className={`text-lg leading-relaxed font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
-                       Learners move from understanding concepts to applying them in real-world scenarios — preparing them for academic success and career opportunities.
+                       Learners move from understanding concepts to applying them in real-world scenarios, preparing them for academic success and career opportunities.
                     </p>
                  </div>
               </div>

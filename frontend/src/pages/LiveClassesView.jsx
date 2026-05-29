@@ -45,6 +45,12 @@ export default function LiveClassesView() {
   }, [user, isInstructor]);
 
   useEffect(() => {
+    if (showModal && isInstructor && courses.length === 0) {
+      fetchCourses();
+    }
+  }, [showModal, isInstructor, courses.length]);
+
+  useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const joinId = urlParams.get('join');
     if (joinId && classes.length > 0) {
@@ -76,14 +82,33 @@ export default function LiveClassesView() {
 
   const fetchCourses = async () => {
     try {
-      const [coursesRes, groupsRes] = await Promise.all([
-        axios.get('/api/courses/my-courses', { withCredentials: true }).catch(() => ({ data: {} })),
-        axios.get('/api/messages/groups', { withCredentials: true }).catch(() => ({ data: {} }))
-      ]);
-      if (coursesRes.data?.success) setCourses(coursesRes.data.courses);
+      const groupPromise = axios.get('/api/messages/groups', { withCredentials: true }).catch(() => ({ data: {} }));
+      let coursePromise;
+
+      if (user?.role === 'admin') {
+        coursePromise = axios.get('/api/admin/courses', { withCredentials: true }).catch(() => ({ data: {} }));
+      } else if (user?.role === 'instructor') {
+        coursePromise = axios.get('/api/courses/my-courses', { withCredentials: true }).catch(() => ({ data: {} }));
+      } else {
+        coursePromise = axios.get('/api/users/mycourses', { withCredentials: true }).catch(() => ({ data: {} }));
+      }
+
+      const [coursesRes, groupsRes] = await Promise.all([coursePromise, groupPromise]);
+
+      let fetchedCourses = [];
+      if (user?.role === 'admin') {
+        fetchedCourses = coursesRes.data?.data || [];
+      } else if (user?.role === 'instructor') {
+        fetchedCourses = coursesRes.data?.courses || [];
+      } else {
+        const enrolledCourses = coursesRes.data?.enrolledCourses || [];
+        fetchedCourses = enrolledCourses.map((enrollment) => enrollment.course).filter(Boolean);
+      }
+
+      setCourses(Array.isArray(fetchedCourses) ? fetchedCourses : []);
       if (groupsRes.data?.success) setGroups(groupsRes.data.data);
     } catch (error) {
-      console.error('Failed to fetch instructor data:', error);
+      console.error('Failed to fetch course data:', error);
     }
   };
 
@@ -101,7 +126,7 @@ export default function LiveClassesView() {
       }
     } catch (error) {
       console.error(error);
-      toast.error('Failed to schedule class');
+      toast.error(error.response?.data?.message || 'Failed to schedule class');
     }
   };
 
@@ -112,7 +137,7 @@ export default function LiveClassesView() {
       await axios.post(`/api/messages/broadcast`, {
         courseId: selectedGroupId === 'course' ? createdClass.courseId : undefined,
         groupId: selectedGroupId !== 'course' ? selectedGroupId : undefined,
-        content: `A new live session "${createdClass.title}" has been scheduled! Join here: ${window.location.origin}/dashboard/live_classes?join=${createdClass.id}`
+        content: `A new live session "${createdClass.title}" has been scheduled! Join here: ${window.location.origin}/dashboard/live-classes?join=${createdClass.id}`
       }, { withCredentials: true });
       toast.success('Invitations sent successfully!', { id: 'shareToast' });
     } catch (err) {
@@ -483,11 +508,11 @@ export default function LiveClassesView() {
                     
                     <div className={`p-4 rounded-xl border flex items-center justify-between ${isDarkMode ? 'bg-[#151B2B] border-white/10' : 'bg-slate-100 border-slate-200'}`}>
                       <code className="text-xs truncate mr-4 text-[#00D4FF] font-bold select-all">
-                        {`${window.location.origin}/dashboard/live_classes?join=${createdClass.id}`}
+                        {`${window.location.origin}/dashboard/live-classes?join=${createdClass.id}`}
                       </code>
                       <button 
                         onClick={() => {
-                          navigator.clipboard.writeText(`${window.location.origin}/dashboard/live_classes?join=${createdClass.id}`);
+                          navigator.clipboard.writeText(`${window.location.origin}/dashboard/live-classes?join=${createdClass.id}`);
                           toast.success('Link copied to clipboard!');
                         }}
                         className="text-xs font-bold bg-white text-black px-3 py-1.5 rounded-full shadow-sm hover:scale-105 transition-transform"
@@ -535,6 +560,11 @@ export default function LiveClassesView() {
                           <option key={course.id} value={course.id}>{course.title}</option>
                         ))}
                       </select>
+                      {courses.length === 0 && (
+                        <p className={`text-xs mt-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                          No courses found for your current role. Create, manage, or enroll in a course first, then refresh.
+                        </p>
+                      )}
                     </div>
 
 <div>

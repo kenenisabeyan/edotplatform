@@ -19,7 +19,7 @@ export default function LiveRoom({ token, url, roomName, onClose }) {
   const copyInviteLink = () => {
     // Assuming the classId is the roomName suffix
     const classId = roomName.replace('edot-class-', '');
-    const link = `${window.location.origin}/dashboard/live_classes?join=${classId}`;
+    const link = `${window.location.origin}/dashboard/live-classes?join=${classId}`;
     navigator.clipboard.writeText(link);
     toast.success('Invite link copied to clipboard!');
   };

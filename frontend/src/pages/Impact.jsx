@@ -55,7 +55,7 @@ export default function Impact() {
                </span>
             </h1>
             <p className={`text-xl md:text-[20px] font-semibold max-w-3xl mx-auto leading-relaxed text-slate-700 dark:text-slate-300`}>
-               EDOT is built to close the gap between learning and opportunity — making education structured, accessible, and impactful for everyone.
+               EDOT is built to close the gap between learning and opportunity, making education structured, accessible, and impactful for everyone.
             </p>
          </div>
       </section>
@@ -75,7 +75,7 @@ export default function Impact() {
                </div>
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>A System That Leaves Too Many Behind</h2>
                <p className={`text-xl leading-relaxed mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-                  Across the world, millions of learners are unable to reach their full potential — not because they lack ability, but because they lack access, structure, and support.
+                  Across the world, millions of learners are unable to reach their full potential, not because they lack ability, but because they lack access, structure, and support.
                </p>
                
                <div className={`p-8 rounded-[32px] border mt-8 ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-white border-slate-200 shadow-xl'}`}>
@@ -102,7 +102,7 @@ export default function Impact() {
          <div className="max-w-[1200px] mx-auto text-center">
             <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>From Fragmented Learning to <span className="text-[#19C2E8]">Structured Growth</span></h2>
             <p className={`text-xl max-w-3xl mx-auto mb-16 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-               EDOT introduces a new approach — where learning is guided, progress is visible, and opportunity is built into the system. Instead of isolated courses, EDOT creates a connected ecosystem.
+               EDOT introduces a new approach where learning is guided, progress is visible, and opportunity is built into the system. Instead of isolated courses, EDOT creates a connected ecosystem.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -197,7 +197,7 @@ export default function Impact() {
                </div>
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Impact You Can See</h2>
                <p className={`text-xl leading-relaxed mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-                  EDOT focuses on measurable outcomes — not just participation. We build education systems that generate actionable data to ensure students are actually learning.
+                  EDOT focuses on measurable outcomes, not just participation. We build education systems that generate actionable data to ensure students are actually learning.
                </p>
                <div className="grid grid-cols-2 gap-6 mt-8">
                   <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-[#111827] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
@@ -314,10 +314,10 @@ export default function Impact() {
       <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-slate-50 border-slate-200'}`}>
          <div className="max-w-[1000px] mx-auto text-center">
             <h2 className={`text-5xl md:text-6xl font-black mb-8 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-               Impact Starts With Access — <span className="text-[#FF6A00]">And Grows With Opportunity</span>
+               Impact Starts With Access <span className="text-[#FF6A00]">And Grows With Opportunity</span>
             </h2>
             <p className={`text-2xl mb-12 max-w-2xl mx-auto font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-               EDOT is not just about improving how people learn. It is about ensuring that learning leads to opportunity — and that opportunity is accessible to everyone.
+               EDOT is not just about improving how people learn. It is about ensuring that learning leads to opportunity, and that opportunity is accessible to everyone.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-6">

@@ -21,8 +21,11 @@ export default function CTA({
           {description}
         </p>
 
-        <Link to={buttonLink} className={`inline-flex items-center justify-center gap-3 px-10 py-5 rounded-full font-black text-xs transition-all hover:-translate-y-1 relative z-10 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-          {buttonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+        <Link to={buttonLink} className={`inline-flex items-center justify-center gap-3 px-10 py-5 rounded-full font-black text-xs transition-all hover:-translate-y-1 relative z-10 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'} group`}>
+          {buttonText}
+          <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full border ml-2 transition-colors ${isDarkMode ? 'border-white' : 'border-slate-900'}`}>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </span>
         </Link>
       </div>
     </section>

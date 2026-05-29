@@ -61,7 +61,7 @@ export default function About() {
                </span>
             </h1>
             <p className={`text-xl md:text-[20px] font-semibold max-w-3xl mx-auto leading-relaxed text-slate-700 dark:text-slate-300`}>
-               EDOT is more than a learning platform — it is a structured system designed to make education accessible, guided, and impactful for everyone.
+               EDOT is more than a learning platform, it is a structured system designed to make education accessible, guided, and impactful for everyone.
             </p>
          </div>
       </section>
@@ -96,7 +96,7 @@ export default function About() {
                      Learning resources are often scattered, unclear, and difficult to follow. At the same time, many talented students are held back by financial limitations and lack of support.
                   </p>
                   <p className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
-                     Through innovation training and collaboration, this idea evolved into EDOT — a platform designed to solve these challenges by connecting learning, guidance, and opportunity in one system.
+                     Through innovation training and collaboration, this idea evolved into EDOT, a platform designed to solve these challenges by connecting learning, guidance, and opportunity in one system.
                   </p>
                </div>
             </div>
@@ -147,7 +147,7 @@ export default function About() {
                   A System, Not Just a Platform
                </h2>
                <p className={`text-lg leading-relaxed mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-                  EDOT is designed as a complete learning ecosystem — not just a place to watch courses. It brings together learners, instructors, parents, and sponsors into one connected system where education is guided, measurable, and meaningful.
+                  EDOT is designed as a complete learning ecosystem, not just a place to watch courses. It brings together learners, instructors, parents, and sponsors into one connected system where education is guided, measurable, and meaningful.
                </p>
                
                <div className="space-y-4">
@@ -202,7 +202,7 @@ export default function About() {
                   </div>
                   <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Our Vision</h3>
                   <p className={`text-xl leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-700'}`}>
-                     A future where education is not limited by location, cost, or background — but becomes a powerful tool that creates opportunity for everyone.
+                     A future where education is not limited by location, cost, or background, but becomes a powerful tool that creates opportunity for everyone.
                   </p>
                </div>
             </div>
@@ -336,7 +336,7 @@ export default function About() {
                 Education That Creates <span className="text-[#FF6A00]">Opportunity</span>
              </h2>
              <p className={`text-2xl mb-16 max-w-3xl mx-auto font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                EDOT is not just about learning — it is about unlocking potential, reducing inequality, and building a future where everyone has the chance to succeed.
+                EDOT is not just about learning, it is about unlocking potential, reducing inequality, and building a future where everyone has the chance to succeed.
              </p>
  
              <div className="flex justify-center">

@@ -144,9 +144,12 @@ export default function QuizViewer() {
             )}
             <button 
               onClick={() => navigate(`/lesson/${course.id}?courseId=${course.id}`)}
-              className="flex-1 px-6 py-4 bg-gradient-to-r from-[#00D4FF] to-[#00D4FF] text-[#0B1120] font-black rounded-xl hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,215,0,0.3)] inline-flex items-center justify-center gap-2   text-sm"
+              className="flex-1 px-6 py-4 bg-gradient-to-r from-[#00D4FF] to-[#00D4FF] text-[#0B1120] font-black rounded-full hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,215,0,0.3)] inline-flex items-center justify-center gap-2 text-sm group"
             >
-              {passed ? 'Claim Certificate' : 'Go Back'} <ArrowRight className="w-4 h-4" />
+              {passed ? 'Claim Certificate' : 'Go Back'}
+              <span className="flex items-center justify-center w-6 h-6 rounded-full border border-slate-900 ml-1.5 transition-colors">
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </span>
             </button>
           </div>
         </div>
@@ -249,9 +252,12 @@ export default function QuizViewer() {
             <button
               onClick={handleNext}
               disabled={!isAnswered}
-              className={`px-8 py-3.5 font-semibold rounded-full hover: transition-all flex items-center gap-2 border disabled:opacity-30 disabled:cursor-not-allowed bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+              className={`px-8 py-3.5 font-semibold rounded-full hover: transition-all flex items-center gap-2 border disabled:opacity-30 disabled:cursor-not-allowed bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm group ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
             >
-              Next <ArrowRight className="w-4 h-4" />
+              Next
+              <span className={`flex items-center justify-center w-6 h-6 rounded-full border ml-1.5 transition-colors ${isDarkMode ? 'border-white' : 'border-slate-900'}`}>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </span>
             </button>
           ) : (
             <button

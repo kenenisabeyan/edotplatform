@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 
 const CATEGORY_DESCRIPTIONS = {
-  "Social Science": "Understand how society works through subjects like History, Geography, Sociology, and Economics. These courses help learners analyze human behavior, social systems, and global issues with critical thinking.",
-  "Mathematics & Natural Science": "Build strong analytical and scientific skills with Mathematics, Physics, Chemistry, and Biology. Designed to develop problem-solving ability and a deep understanding of the natural world.",
-  "Natural Language": "Enhance communication and expression through English, Literature, Linguistics, and more. These courses improve reading, writing, speaking, and creative thinking for academic and real-life success.",
-  "Programming & Technology": "Master modern tech skills including Programming, Web Development, AI, and Cybersecurity. Learn to build real-world applications, solve problems, and prepare for careers in the digital world.",
+  "Social Sciences": "Understand how society works through subjects like History, Geography, Sociology, and Economics. These courses help learners analyze human behavior, social systems, and global issues with critical thinking.",
+  "Mathematics & Natural Sciences": "Build strong analytical and scientific skills with Mathematics, Physics, Chemistry, and Biology. Designed to develop problem-solving ability and a deep understanding of the natural world.",
+  "Languages": "Enhance communication and expression through English, Literature, Linguistics, and more. These courses improve reading, writing, speaking, and creative thinking for academic and real-life success.",
+  "Technology & Development": "Master modern tech skills including Programming, Web Development, AI, and Cybersecurity. Learn to build real-world applications, solve problems, and prepare for careers in the digital world.",
   "Business & Entrepreneurship": "Learn how to create, manage, and grow successful businesses. Covering Entrepreneurship, Marketing, Finance, and Management, these courses turn ideas into real opportunities.",
   "Personal Development": "Develop essential life skills like Leadership, Time Management, and Public Speaking. These courses focus on self-growth, productivity, and building a successful personal and professional life."
 };
@@ -99,7 +99,7 @@ const PackageCard = ({ pkg, isEnrolled, enrolledCoursesData = [], isDarkMode }) 
                 {/* Category Text */}
                 <text className="font-black text-[12.5px] uppercase" fill="#ffffff" style={{ filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.6))' }}>
                   <textPath href={`#text-path-${pkg.id}`} startOffset="50%" textAnchor="middle" dominantBaseline="middle">
-                    {pkg.title.toUpperCase()}
+                    {pkg.ribbon ? pkg.ribbon.toUpperCase() : pkg.title.toUpperCase()}
                   </textPath>
                 </text>
               </svg>

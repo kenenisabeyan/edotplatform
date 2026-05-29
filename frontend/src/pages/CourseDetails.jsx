@@ -372,9 +372,12 @@ export default function CourseDetails() {
                           <button 
                             onClick={handleEnroll}
                             disabled={enrolling}
-                            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-transparent to-[#00D4FF]/20 border border-[#00D4FF] text-[#00D4FF] font-semibold py-5 rounded-full hover:bg-[#00D4FF] hover:text-[#0B1120] transition-all shadow-[0_0_30px_rgba(0,212,255,0.3)] disabled:opacity-50 hover:scale-[1.03] text-sm"
+                            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-transparent to-[#00D4FF]/20 border border-[#00D4FF] text-[#00D4FF] font-semibold py-5 rounded-full hover:bg-[#00D4FF] hover:text-[#0B1120] transition-all shadow-[0_0_30px_rgba(0,212,255,0.3)] disabled:opacity-50 hover:scale-[1.03] text-sm group"
                           >
-                            {enrolling ? 'Processing...' : 'Enroll Now'} <ArrowRight className="w-5 h-5"/>
+                            {enrolling ? 'Processing...' : 'Enroll Now'}
+                            <span className="flex items-center justify-center w-6 h-6 rounded-full border border-current ml-1.5 transition-colors">
+                              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                            </span>
                           </button>
                         )}
                     </div>

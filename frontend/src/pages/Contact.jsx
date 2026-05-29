@@ -71,7 +71,7 @@ export default function Contact() {
                  </span>
               </h1>
               <p className={`text-xl md:text-[20px] font-semibold max-w-3xl mx-auto leading-relaxed text-slate-700 dark:text-slate-300`}>
-                 Have questions, ideas, or want to collaborate? Reach out — we’re here to support you whether you're a learner, instructor, parent, sponsor, or partner.
+                 Have questions, ideas, or want to collaborate? Reach out, we’re here to support you whether you're a learner, instructor, parent, sponsor, or partner.
               </p>
            </div>
         </section>

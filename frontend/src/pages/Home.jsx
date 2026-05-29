@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useThemeMode from '../hooks/useThemeMode';
 import '../components/HeroSection.css';
 import HeroSection from '../components/HeroSection';
@@ -13,7 +13,20 @@ import {
 } from 'lucide-react';
 const qanoVideo = 'https://res.cloudinary.com/dacck6udl/video/upload/v1778415967/edot/frontend/videos/yv9rdzpffbitbyumbn41.mov';
 
+import PackageCard from '../components/student/PackageCard';
+import { PACKAGES } from '../constants/packages';
+
+const DB_CATEGORY_MAP = {
+  "Social Sciences": "Social Science",
+  "Mathematics & Natural Sciences": "Mathematics & Natural Science",
+  "Languages": "Natural Language",
+  "Technology & Development": "Programming & Technology",
+  "Business & Entrepreneurship": "Business & Entrepreneurship",
+  "Personal Development": "Personal Development"
+};
+
 export default function Home() {
+  const navigate = useNavigate();
   const isDarkMode = useThemeMode();
   const [totalUsers, setTotalUsers] = useState('10k+');
   const [recentUsers, setRecentUsers] = useState([]);
@@ -70,11 +83,12 @@ export default function Home() {
 
   const slotStyle = isDarkMode ? {
     position: 'relative',
-    background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.9), rgba(3, 7, 18, 0.95))',
-    border: '1px solid rgba(255, 255, 255, 0.03)',
-    boxShadow: 'inset 0 12px 24px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(255, 255, 255, 0.04)',
-    borderRadius: '28px',
-    padding: '1.75rem 1.5rem',
+    background: 'linear-gradient(180deg, rgba(8, 17, 34, 0.96) 0%, rgba(4, 8, 18, 0.92) 100%)',
+    border: '1px solid rgba(255, 255, 255, 0.12)',
+    boxShadow: '0 30px 60px rgba(0, 0, 0, 0.24)',
+    borderRadius: '32px',
+    backdropFilter: 'blur(18px)',
+    padding: '1.85rem 1.5rem',
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -84,11 +98,12 @@ export default function Home() {
     color: '#ffffff',
   } : {
     position: 'relative',
-    background: 'linear-gradient(to bottom, #ffffff, #f8fafc)',
-    border: '1.5px solid rgba(203, 213, 225, 0.8)',
-    boxShadow: 'inset 0 6px 12px rgba(15, 23, 42, 0.03), 0 4px 10px rgba(0, 0, 0, 0.02)',
-    borderRadius: '28px',
-    padding: '1.75rem 1.5rem',
+    background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.9) 100%)',
+    border: '1.5px solid rgba(148, 163, 184, 0.28)',
+    boxShadow: '0 26px 55px rgba(15, 23, 42, 0.08)',
+    borderRadius: '32px',
+    backdropFilter: 'blur(14px)',
+    padding: '1.85rem 1.5rem',
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -652,7 +667,7 @@ export default function Home() {
                   Building a Better Future Through <span className={`${isDarkMode ? 'text-[#00D4FF]' : 'text-blue-600'}`}>Education</span>
                </h1>
                <p className={`text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-                  EDOT is more than a learning platform — it is a structured system designed to make education accessible, guided, and impactful for everyone.
+                  EDOT is more than a learning platform, it is a structured system designed to make education accessible, guided, and impactful for everyone.
                </p>
             </motion.div>
          </div>
@@ -811,32 +826,11 @@ export default function Home() {
                   From foundational education to professional skills, EDOT supports every stage of learning.
                </p>
             </motion.div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-               {[
-                 { title: "Mathematics & Natural Sciences", icon: Calculator, color: "text-blue-500", bg: "bg-blue-100 dark:bg-blue-900/30" },
-                 { title: "Social Sciences", icon: Globe, color: "text-green-500", bg: "bg-green-100 dark:bg-green-900/30" },
-                 { title: "Languages", icon: Languages, color: "text-purple-500", bg: "bg-purple-100 dark:bg-purple-900/30" },
-                 { title: "Technology & Development", icon: Laptop, color: "text-[#00D4FF]", bg: "bg-cyan-100 dark:bg-cyan-900/30" },
-                 { title: "Business & Entrepreneurship", icon: Briefcase, color: "text-[#00D4FF]", bg: "bg-orange-100 dark:bg-orange-900/30" },
-                 { title: "Personal Development", icon: Target, color: "text-rose-500", bg: "bg-rose-100 dark:bg-rose-900/30" }
-               ].map((cat, i) => (
-                 <motion.div
-                   key={i}
-                   initial={{ opacity: 0, y: 30 }}
-                   whileInView={{ opacity: 1, y: 0 }}
-                   transition={{ delay: i * 0.1, duration: 0.6 }}
-                   viewport={{ once: true }}
-                   whileHover={{ y: -8 }}
-                   className={`flex items-center gap-6 p-6 rounded-[20px] shadow-sm border hover:-translate-y-2 transition-all duration-300 cursor-pointer ${isDarkMode ? 'bg-[#111827] border-white/5 hover:border-white/20' : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-lg'}`}
-                 >
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${cat.bg}`}>
-                       <cat.icon className={`w-8 h-8 ${cat.color}`} />
-                    </div>
-                    <h3 className={`text-xl font-bold text-left leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{cat.title}</h3>
-                 </motion.div>
-               ))}
-            </div>
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                {PACKAGES.map((pkg, idx) => (
+                  <PackageCard key={idx} pkg={pkg} isEnrolled={false} enrolledCoursesData={[]} isDarkMode={isDarkMode} />
+                ))}
+             </div>
          </div>
       </section>
 
@@ -851,7 +845,7 @@ export default function Home() {
                className="text-center mb-16"
             >
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  One Platform — <span className="text-[#00D4FF]">Every Role Connected</span>
+                  One Platform <span className="text-[#00D4FF]">Every Role Connected</span>
                </h2>
                <p className={`text-lg md:text-xl font-medium max-w-2xl mx-auto ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                   Click a role below to preview how our premium, secure workspaces are uniquely tailored to guide, support, and accelerate their learning journey.
@@ -929,8 +923,11 @@ export default function Home() {
                                  </div>
                               ))}
                            </div>
-                           <Link to="/register?role=student" className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold px-8 py-4 text-[14px] shadow-lg shadow-cyan-500/10 hover:-translate-y-0.5 transition-all duration-300">
-                              Register as a Learner <ArrowRight className="w-4 h-4" />
+                           <Link to="/register?role=student" className="inline-flex items-center gap-3 rounded-full bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold pl-8 pr-6 py-4 text-[14px] shadow-lg shadow-cyan-500/10 hover:-translate-y-0.5 transition-all duration-300 group">
+                              Register as a Learner
+                              <span className="flex items-center justify-center w-6 h-6 rounded-full border border-slate-900 ml-1.5 transition-colors">
+                                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                              </span>
                            </Link>
                         </motion.div>
                      )}
@@ -962,8 +959,11 @@ export default function Home() {
                                  </div>
                               ))}
                            </div>
-                           <Link to="/register?role=instructor" className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold px-8 py-4 text-[14px] shadow-lg shadow-emerald-500/10 hover:-translate-y-0.5 transition-all duration-300">
-                              Join as an Instructor <ArrowRight className="w-4 h-4" />
+                           <Link to="/register?role=instructor" className="inline-flex items-center gap-3 rounded-full bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold pl-8 pr-6 py-4 text-[14px] shadow-lg shadow-emerald-500/10 hover:-translate-y-0.5 transition-all duration-300 group">
+                              Join as an Instructor
+                              <span className="flex items-center justify-center w-6 h-6 rounded-full border border-slate-900 ml-1.5 transition-colors">
+                                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                              </span>
                            </Link>
                         </motion.div>
                      )}
@@ -995,8 +995,11 @@ export default function Home() {
                                  </div>
                               ))}
                            </div>
-                           <Link to="/register?role=parent" className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 hover:bg-indigo-650 text-white font-bold px-8 py-4 text-[14px] shadow-lg shadow-indigo-500/10 hover:-translate-y-0.5 transition-all duration-300">
-                              Connect as a Parent <ArrowRight className="w-4 h-4" />
+                           <Link to="/register?role=parent" className="inline-flex items-center gap-3 rounded-full bg-indigo-500 hover:bg-indigo-650 text-white font-bold pl-8 pr-6 py-4 text-[14px] shadow-lg shadow-indigo-500/10 hover:-translate-y-0.5 transition-all duration-300 group">
+                              Connect as a Parent
+                              <span className="flex items-center justify-center w-6 h-6 rounded-full border border-white ml-1.5 transition-colors">
+                                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                              </span>
                            </Link>
                         </motion.div>
                      )}
@@ -1028,8 +1031,11 @@ export default function Home() {
                                  </div>
                               ))}
                            </div>
-                           <Link to="/register?role=sponsor" className="inline-flex items-center gap-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold px-8 py-4 text-[14px] shadow-lg shadow-rose-500/10 hover:-translate-y-0.5 transition-all duration-300">
-                              Become a Sponsor <ArrowRight className="w-4 h-4" />
+                           <Link to="/register?role=sponsor" className="inline-flex items-center gap-3 rounded-full bg-rose-500 hover:bg-rose-600 text-white font-bold pl-8 pr-6 py-4 text-[14px] shadow-lg shadow-rose-500/10 hover:-translate-y-0.5 transition-all duration-300 group">
+                              Become a Sponsor
+                              <span className="flex items-center justify-center w-6 h-6 rounded-full border border-white ml-1.5 transition-colors">
+                                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                              </span>
                            </Link>
                         </motion.div>
                      )}
@@ -1225,7 +1231,7 @@ export default function Home() {
                      Education Powered by <span className="text-[#00D4FF]">Opportunity</span>
                   </h2>
                   <p className={`text-xl leading-relaxed mb-10 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-                     EDOT connects learners with sponsors who want to make a difference. Support is not just financial — it's a pathway to real change.
+                     EDOT connects learners with sponsors who want to make a difference. Support is not just financial, it's a pathway to real change.
                   </p>
 
                   <div className="flex flex-col gap-6 mb-12">
@@ -1293,7 +1299,7 @@ export default function Home() {
                viewport={{ once: true }}
             >
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  More Than Courses — <span className="text-[#00D4FF]">A Complete Learning System</span>
+                  More Than Courses <span className="text-[#00D4FF]">A Complete Learning System</span>
                </h2>
                <p className={`text-xl max-w-3xl mx-auto leading-relaxed mb-20 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                   EDOT is designed as a full learning ecosystem, not just a content platform.
@@ -1346,7 +1352,7 @@ export default function Home() {
             >
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-[#0F3057]'}`}>Tracking What Truly Matters</h2>
                <p className={`text-xl max-w-2xl mx-auto leading-relaxed mb-20 ${isDarkMode ? 'text-slate-300' : 'text-slate-650'}`}>
-                  EDOT focuses on measurable results — not just participation.
+                  EDOT focuses on measurable results, not just participation.
                </p>
             </motion.div>
 
@@ -1436,7 +1442,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                {[
                  { role: "Learner", icon: GraduationCap, quote: "EDOT gave me access to learning I couldn't find before. Now I understand and apply what I learn." },
-                 { role: "Parent", icon: Users, quote: "I can clearly see my child's progress and growth — not just results, but real understanding." },
+                 { role: "Parent", icon: Users, quote: "I can clearly see my child's progress and growth, not just results, but real understanding." },
                  { role: "Instructor", icon: BookOpen, quote: "This platform allows me to truly guide learners, not just upload content." },
                  { role: "Sponsor", icon: Heart, quote: "I can see exactly who I'm helping and how they are improving." }
                ].map((test, idx) => (
@@ -1509,7 +1515,7 @@ export default function Home() {
                viewport={{ once: true }}
                className={`text-2xl mb-16 max-w-3xl mx-auto font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}
             >
-               Whether you want to learn, teach, guide, or support — EDOT gives you the tools to make a real difference.
+               Whether you want to learn, teach, guide, or support, EDOT gives you the tools to make a real difference.
             </motion.p>
 
             <motion.div
@@ -1594,7 +1600,7 @@ export default function Home() {
                className={`mt-12 pt-8 border-t text-center ${isDarkMode ? 'border-white/5' : 'border-slate-200'}`}
             >
                <p className={`text-sm font-medium ${isDarkMode ? 'text-slate-500' : 'text-slate-600'}`}>
-                  © 2024 EDOT — Education for All. Transforming learning, creating opportunities.
+                  © 2024 EDOT, Education for All. Transforming learning, creating opportunities.
                </p>
             </motion.div>
          </div>

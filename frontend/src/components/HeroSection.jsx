@@ -417,10 +417,12 @@ export default function HeroSection() {
           <div className="hero-cta-button-group">
             <Link 
               to="/register" 
-              className="hero-cta-btn btn-cyan-glowing"
+              className="hero-cta-btn btn-cyan-glowing group"
             >
               <span>Explore Courses</span>
-              <ArrowRight className="w-4.5 h-4.5 group-hover:translate-x-1 transition-transform" />
+              <span className="inline-flex items-center justify-center w-6 h-6 rounded-full border border-current ml-2 transition-colors">
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </span>
             </Link>
             <Link 
               to="/register?role=sponsor" 
@@ -579,9 +581,11 @@ export default function HeroSection() {
                   <span className="terminal-command">edot query --sponsored</span>
                   <span className="terminal-output text-[#007799] dark:text-[#34d399] font-black">1,420+ students</span>
                 </div>
-                <Link to="/register" className="console-join-btn">
+                <Link to="/register" className="console-join-btn group">
                   <span>Join EDOT</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-current ml-1.5 transition-colors">
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  </span>
                 </Link>
               </div>
             </div>

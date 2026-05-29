@@ -137,17 +137,17 @@ export default function AuthLayout({ defaultIsRegister = false }) {
   if (authLoading) return null; // Avoid flashing page while checking session
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-0 md:p-6 lg:p-8 auth-page-bg font-sans relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen w-full flex items-center justify-center px-3 py-6 md:p-6 lg:p-8 auth-page-bg font-sans relative overflow-hidden transition-colors duration-300">
       
       {/* Background ambient lighting */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#FF5A00]/5 blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/5 blur-3xl pointer-events-none"></div>
 
       {/* Main card container */}
-      <div className="w-full max-w-[1200px] min-h-[100vh] md:min-h-[750px] md:h-[780px] bg-white md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row relative z-10 border border-slate-200/50">
+      <div className="w-full max-w-[1400px] min-h-auto md:min-h-[88vh] lg:min-h-[96vh] bg-white rounded-2xl md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row relative z-10 border border-slate-200/50">
         
         {/* LEFT COLUMN: IMMERSIVE BRANDING SHOWCASE */}
-        <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-start p-12 bg-[#FF5A00] text-slate-900 select-none overflow-hidden">
+        <div className="hidden lg:flex lg:w-[58%] xl:w-[60%] relative flex-col justify-start py-14 px-14 bg-gradient-to-br from-[#FF5A00] via-[#FF7A00] to-[#FFB23F] text-slate-900 select-none overflow-hidden">
           
           {/* Full-size 3D Illustration Background Asset */}
           <img 
@@ -175,7 +175,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
             </h1>
             
             <p className="text-[12px] font-bold text-slate-800/90 leading-relaxed">
-              Explore unlimited ideas with no barriers. edotplatform is completely free and open for everyone to join — unlock your potential today.
+              Explore unlimited ideas with no barriers. edotplatform is completely free and open for everyone to join, unlock your potential today.
             </p>
           </div>
 
@@ -184,53 +184,53 @@ export default function AuthLayout({ defaultIsRegister = false }) {
         </div>
 
         {/* RIGHT COLUMN: HIGH-CONTRAST FORM WRAPPER (Solid Pristine White) */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-between p-6 md:p-10 lg:p-12 bg-white text-slate-800">
+        <div className="w-full lg:w-[42%] flex flex-col justify-between p-4 sm:p-6 md:p-10 lg:p-14 xl:p-16 bg-white text-slate-800 min-h-auto md:min-h-[88vh]">
           
           {/* Top spacer or brand title for mobile */}
-          <div className="w-full text-center mt-2 mb-6">
-            <h2 className="text-3xl lg:text-[33px] font-extrabold text-slate-900 tracking-tight leading-snug">
+          <div className="w-full text-center mt-1 mb-4 sm:mt-2 sm:mb-6">
+            <h2 className="text-2xl sm:text-3xl lg:text-[33px] font-extrabold text-slate-900 tracking-tight leading-snug">
               Welcome to <span className="text-[#FF5A00]">edot</span><span className="text-[#00A4EF]">platform</span>
             </h2>
-            <p className="text-[13.5px] font-medium text-slate-500 mt-2">
+            <p className="text-[12px] sm:text-[13.5px] font-medium text-slate-500 mt-1.5 sm:mt-2">
               Login to your account or create a new one to get started
             </p>
           </div>
 
           {/* Form Tabs */}
-          <div className="flex justify-center border-b border-slate-200 mb-6 max-w-xs mx-auto w-full">
+          <div className="flex justify-center border-b border-slate-200 mb-4 sm:mb-6 max-w-xs mx-auto w-full">
             <button 
               type="button"
               onClick={() => handleTabChange(false)}
-              className={`flex-1 flex items-center justify-center gap-2 pb-3.5 text-[14.5px] font-extrabold border-b-2 transition-all cursor-pointer ${
+              className={`flex-1 flex items-center justify-center gap-2 pb-2.5 sm:pb-3.5 text-[12px] sm:text-[14.5px] font-extrabold border-b-2 transition-all cursor-pointer ${
                 !isRegister 
                   ? 'border-[#FF5A00] text-[#FF5A00]' 
                   : 'border-transparent text-slate-400 hover:text-slate-650'
               }`}
             >
-              <User className="w-4 h-4" />
+              <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               Login
             </button>
             <button 
               type="button"
               onClick={() => handleTabChange(true)}
-              className={`flex-1 flex items-center justify-center gap-2 pb-3.5 text-[14.5px] font-extrabold border-b-2 transition-all cursor-pointer ${
+              className={`flex-1 flex items-center justify-center gap-2 pb-2.5 sm:pb-3.5 text-[12px] sm:text-[14.5px] font-extrabold border-b-2 transition-all cursor-pointer ${
                 isRegister 
                   ? 'border-[#FF5A00] text-[#FF5A00]' 
                   : 'border-transparent text-slate-400 hover:text-slate-655'
               }`}
             >
-              <UserPlus className="w-4.5 h-4.5" />
+              <UserPlus className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5" />
               Sign Up
             </button>
           </div>
 
           {/* Forms Box */}
-          <div className="max-w-[400px] w-full mx-auto flex-1 flex flex-col justify-center">
+          <div className="max-w-[540px] w-full mx-auto flex-1 flex flex-col justify-center gap-3 sm:gap-6">
             
             {/* Error alerts container */}
             {((!isRegister && loginError) || (isRegister && regError)) && (
-              <div className="p-3.5 mb-4 bg-rose-50 border border-rose-200/60 text-rose-700 text-xs rounded-xl font-semibold shadow-sm flex items-start gap-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
-                <svg className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="p-2.5 sm:p-3.5 mb-3 sm:mb-4 bg-rose-50 border border-rose-200/60 text-rose-700 text-[11px] sm:text-xs rounded-lg sm:rounded-xl font-semibold shadow-sm flex items-start gap-2 sm:gap-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
+                <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 <div>
@@ -245,56 +245,57 @@ export default function AuthLayout({ defaultIsRegister = false }) {
               <form onSubmit={handleLogin} className="space-y-4">
                 
                 {/* Email field */}
-                <div className="space-y-1.5 text-left">
-                  <label className="block text-xs font-extrabold text-slate-750 uppercase tracking-wide">Email Address</label>
+                <div className="space-y-1 sm:space-y-1.5 text-left">
+                  <label className="block text-[11px] sm:text-xs font-extrabold text-slate-750 uppercase tracking-wide">Email Address</label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                      <Mail className="w-4.5 h-4.5" />
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                      <Mail className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                     </div>
                     <input 
                       type="email" 
                       value={loginEmail}
                       onChange={e => setLoginEmail(e.target.value)}
                       required
-                      placeholder="you@example.com"
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-900 font-semibold transition-all shadow-sm"
+                      placeholder="yourname@texts.com"
+                      className="w-full pl-12 pr-4 py-2.5 sm:py-3 auth-field-input text-sm text-slate-900 font-semibold transition-all"
                     />
                   </div>
                 </div>
 
                 {/* Password field */}
-                <div className="space-y-1.5 text-left">
-                  <label className="block text-xs font-extrabold text-slate-755 uppercase tracking-wide">Password</label>
+                <div className="space-y-1 sm:space-y-1.5 text-left">
+                  <label className="block text-[11px] sm:text-xs font-extrabold text-slate-755 uppercase tracking-wide">Password</label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                      <Lock className="w-4.5 h-4.5" />
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                      <Lock className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                     </div>
                     <input 
                       type={showLoginPassword ? "text" : "password"}
                       value={loginPassword}
                       onChange={e => setLoginPassword(e.target.value)}
                       required
-                      placeholder="Enter your password"
-                      className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-900 font-semibold transition-all shadow-sm"
+                      placeholder="Create a strong password"
+                      className="w-full pl-12 pr-10 py-2.5 sm:py-3 auth-field-input text-sm text-slate-900 font-semibold transition-all"
                     />
                     <button 
                       type="button"
                       onClick={() => setShowLoginPassword(!showLoginPassword)}
-                      className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                      className="absolute inset-y-0 right-0 pr-3 sm:pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                     >
-                      {showLoginPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
+                      {showLoginPassword ? <EyeOff className="w-4 h-4 sm:w-4.5 sm:h-4.5" /> : <Eye className="w-4 h-4 sm:w-4.5 sm:h-4.5" />}
                     </button>
                   </div>
                 </div>
 
                 {/* Checkbox and Forgot Password */}
-                <div className="flex items-center justify-between text-xs pt-1">
-                  <label className="flex items-center gap-2 cursor-pointer font-bold text-slate-650 hover:text-slate-800 select-none">
+                <div className="flex items-center justify-between text-[11px] sm:text-xs pt-0.5 sm:pt-1">
+                  <label className="flex items-center gap-1.5 sm:gap-2 cursor-pointer font-bold text-slate-650 hover:text-slate-800 select-none">
                     <input 
                       type="checkbox" 
-                      className="w-4.5 h-4.5 rounded border-slate-300 text-[#FF5A00] focus:ring-[#FF5A00] cursor-pointer"
+                      className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 rounded border-slate-300 text-[#FF5A00] focus:ring-[#FF5A00] cursor-pointer"
                     />
-                    Remember me
+                    <span className="hidden sm:inline">Remember me</span>
+                    <span className="sm:hidden">Remember</span>
                   </label>
                   <a href="#" className="font-bold text-[#0084FF] hover:text-[#0066FF] transition-colors hover:underline">Forgot Password?</a>
                 </div>
@@ -303,10 +304,12 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                 <button 
                   type="submit" 
                   disabled={loadingLogin} 
-                  className="w-full flex items-center justify-center gap-2.5 bg-[#FF5A00] hover:bg-[#E54B00] text-white py-3.5 px-6 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transform hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 uppercase group cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 sm:gap-2.5 bg-[#FF5A00] hover:bg-[#E54B00] text-white py-2.5 sm:py-3.5 px-4 sm:px-6 rounded-full font-bold text-[12px] sm:text-sm tracking-wide shadow-lg shadow-orange-500/20 transform active:scale-[0.99] transition-all duration-200 uppercase group cursor-pointer auth-action-btn"
                 >
                   {loadingLogin ? 'Logging in...' : 'Login to Your Account'}
-                  <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                  <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-white ml-0.5 sm:ml-1 transition-colors">
+                    <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 transform group-hover:translate-x-0.5 transition-transform" />
+                  </span>
                 </button>
 
               </form>
@@ -318,7 +321,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                 <div className="space-y-1.5 text-left">
                   <label className="block text-xs font-extrabold text-slate-750 uppercase tracking-wide">Full Name</label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                       <User className="w-4.5 h-4.5" />
                     </div>
                     <input 
@@ -326,8 +329,8 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                       value={regName}
                       onChange={e => setRegName(e.target.value)}
                       required
-                      placeholder="Enter your full name"
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-900 font-semibold transition-all shadow-sm"
+                      placeholder="yourname"
+                      className="w-full pl-12 pr-4 py-3 auth-field-input text-sm text-slate-900 font-semibold transition-all"
                     />
                   </div>
                 </div>
@@ -336,7 +339,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                 <div className="space-y-1.5 text-left">
                   <label className="block text-xs font-extrabold text-slate-750 uppercase tracking-wide">Email Address</label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                       <Mail className="w-4.5 h-4.5" />
                     </div>
                     <input 
@@ -344,8 +347,8 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                       value={regEmail}
                       onChange={e => setRegEmail(e.target.value)}
                       required
-                      placeholder="you@example.com"
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-900 font-semibold transition-all shadow-sm"
+                      placeholder="yourname@texts.com"
+                      className="w-full pl-12 pr-4 py-3 auth-field-input text-sm text-slate-900 font-semibold transition-all"
                     />
                   </div>
                 </div>
@@ -354,7 +357,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                 <div className="space-y-1.5 text-left">
                   <label className="block text-xs font-extrabold text-slate-755 uppercase tracking-wide">Password</label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                       <Lock className="w-4.5 h-4.5" />
                     </div>
                     <input 
@@ -362,8 +365,8 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                       value={regPassword}
                       onChange={e => setRegPassword(e.target.value)}
                       required
-                      placeholder="Enter your password"
-                      className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-900 font-semibold transition-all shadow-sm"
+                      placeholder="Create a strong password"
+                      className="w-full pl-12 pr-10 py-3 auth-field-input text-sm text-slate-900 font-semibold transition-all"
                     />
                     <button 
                       type="button"
@@ -385,7 +388,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                     <select 
                       value={regRole} 
                       onChange={e => setRegRole(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-800 font-semibold transition-all shadow-sm cursor-pointer appearance-none"
+                      className="w-full pl-12 pr-4 py-3 auth-field-input text-sm text-slate-800 font-semibold transition-all shadow-sm cursor-pointer appearance-none"
                     >
                       <option value="student">Student</option>
                       <option value="parent">Parent</option>
@@ -405,10 +408,12 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                 <button 
                   type="submit" 
                   disabled={loadingReg} 
-                  className="w-full flex items-center justify-center gap-2.5 bg-[#FF5A00] hover:bg-[#E54B00] text-white py-3.5 px-6 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 transform hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 uppercase group cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2.5 bg-[#FF5A00] hover:bg-[#E54B00] text-white py-3.5 px-6 rounded-full font-bold text-sm tracking-wide shadow-lg shadow-orange-500/20 transform active:scale-[0.99] transition-all duration-200 uppercase group cursor-pointer auth-action-btn"
                 >
                   {loadingReg ? 'Signing up...' : 'Sign Up to edotplatform'}
-                  <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full border border-white ml-1 transition-colors">
+                    <ArrowRight className="w-3 h-3 transform group-hover:translate-x-0.5 transition-transform" />
+                  </span>
                 </button>
 
               </form>

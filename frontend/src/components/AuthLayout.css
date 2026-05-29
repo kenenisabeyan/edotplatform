@@ -49,10 +49,165 @@ input[type="checkbox"] {
   }
 }
 
-/* Fix mobile view stretching constraints */
+/* ============================================
+   MOBILE RESPONSIVE BREAKPOINTS (< 768px)
+   ============================================ */
 @media (max-width: 768px) {
   .min-h-screen {
     min-height: -webkit-fill-available;
+  }
+
+  .auth-page-bg {
+    padding: 0.75rem 0;
+  }
+
+  /* Main card container mobile sizing */
+  .auth-page-bg > div[class*="max-w"] {
+    min-h-auto;
+    max-w-full;
+  }
+
+  /* Right form column mobile padding */
+  .auth-page-bg > div[class*="max-w"] > div[class*="lg:w"] {
+    padding: 1.5rem !important;
+    min-h-auto !important;
+  }
+
+  /* Mobile heading sizing */
+  .auth-page-bg h2 {
+    font-size: 1.75rem !important;
+  }
+
+  .auth-page-bg p[class*="text-"] {
+    font-size: 0.8125rem !important;
+  }
+
+  /* Form inputs mobile sizing */
+  .auth-field-input {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+    font-size: 0.9375rem !important;
+    border-radius: 0.75rem !important;
+  }
+
+  /* Mobile button sizing */
+  .auth-action-btn {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.75rem !important;
+    border-radius: 2rem !important;
+    min-height: 44px;
+  }
+
+  /* Social login buttons mobile */
+  .auth-page-bg button[class*="border-slate"] {
+    height: 48px !important;
+    font-size: 0.75rem !important;
+    gap: 0.5rem !important;
+  }
+
+  /* Footer badges mobile grid */
+  .auth-page-bg > div[class*="grid-cols"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+    padding: 0.75rem 0 !important;
+  }
+
+  .auth-page-bg > div[class*="grid-cols"] > div {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .auth-page-bg > div[class*="grid-cols"] h4 {
+    font-size: 0.65rem !important;
+  }
+
+  .auth-page-bg > div[class*="grid-cols"] p {
+    font-size: 0.6rem !important;
+  }
+
+  /* Label sizing */
+  label[class*="text-xs"] {
+    font-size: 0.65rem !important;
+  }
+
+  /* Tab buttons mobile */
+  .auth-page-bg button[class*="flex-1"] {
+    padding-bottom: 0.75rem !important;
+    font-size: 0.8rem !important;
+    gap: 0.5rem !important;
+  }
+
+  /* Error alert mobile sizing */
+  .auth-page-bg > div[class*="bg-rose"] {
+    padding: 0.75rem !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+/* ============================================
+   TABLET RESPONSIVE BREAKPOINTS (769px - 1024px)
+   ============================================ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .auth-page-bg > div[class*="max-w"] {
+    max-w-full;
+  }
+
+  .auth-page-bg > div[class*="max-w"] > div[class*="lg:w"] {
+    padding: 2rem !important;
+  }
+
+  .auth-field-input {
+    padding: 0.65rem !important;
+  }
+}
+
+/* ============================================
+   SMALL PHONES (< 380px)
+   ============================================ */
+@media (max-width: 380px) {
+  .auth-page-bg {
+    padding: 0.5rem 0;
+  }
+
+  .auth-page-bg > div[class*="max-w"] > div[class*="lg:w"] {
+    padding: 1rem !important;
+  }
+
+  .auth-page-bg h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .auth-field-input {
+    padding: 0.625rem !important;
+    font-size: 0.875rem !important;
+  }
+
+  .auth-action-btn {
+    padding: 0.625rem 0.75rem !important;
+    font-size: 0.6875rem !important;
+    gap: 0.25rem !important;
+  }
+
+  label[class*="text-xs"] {
+    font-size: 0.6rem !important;
+  }
+
+  .auth-page-bg button[class*="flex-1"] {
+    font-size: 0.7rem !important;
+  }
+}
+
+/* ============================================
+   FIX MOBILE VIEW STRETCHING CONSTRAINTS
+   ============================================ */
+@media (max-width: 768px) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+
+  .auth-page-bg {
+    padding: 1.5rem 0;
   }
 }
 
@@ -86,3 +241,35 @@ input[type="checkbox"] {
 [data-theme="dark"] .auth-page-bg {
   background: linear-gradient(110deg, #082d38 0%, #3a1e0b 45%, #040916 80%) !important;
 }
+
+/* Premium auth form styling */
+.auth-field-input {
+  background: rgba(248, 250, 255, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 16px 35px rgba(15, 23, 42, 0.06);
+}
+
+.auth-field-input:focus {
+  outline: none;
+  border-color: rgba(255, 90, 0, 0.3);
+  box-shadow: 0 0 0 4px rgba(255, 90, 0, 0.12);
+}
+
+.auth-field-input::placeholder {
+  color: rgba(100, 116, 139, 0.7);
+  font-weight: 600;
+}
+
+.auth-action-btn {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.auth-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 24px 48px rgba(255, 90, 0, 0.22);
+}
+
+.auth-action-btn:active {
+  transform: translateY(0px);
+}
+

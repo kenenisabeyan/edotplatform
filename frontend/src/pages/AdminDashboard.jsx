@@ -1086,7 +1086,7 @@ export default function AdminDashboard() {
                         <div className="space-y-2">
                           <p className={`text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Content Portfolio: {selectedUserCourses.length} courses</p>
                           {(selectedUserCourses.length === 0) ? <p className={`text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No created content yet</p> : selectedUserCourses.map((c) => (
-                            <div key={c.id} className="text-xs text-emerald-200 border border-slate-700 p-2 rounded-lg">{c.title} — {(c.status || 'unknown')}</div>
+                            <div key={c.id} className="text-xs text-emerald-200 border border-slate-700 p-2 rounded-lg">{c.title}, {(c.status || 'unknown')}</div>
                           ))}
                           <p className={`text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Student Reach: {selectedUser.assignedStudents?.length || 0}</p>
                           <p className={`text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Admin Feedback Log</p>
@@ -1142,7 +1142,7 @@ export default function AdminDashboard() {
                           <h5 className={`text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Family Activity</h5>
                           <div className="max-h-28 overflow-auto space-y-1 mt-1">
                             {(recentFamilyActivity.length > 0) ? recentFamilyActivity.map((act) => (
-                              <p key={act.id} className={`text-xs ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{new Date(act.createdAt).toLocaleString()} — {act.action}</p>
+                              <p key={act.id} className={`text-xs ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{new Date(act.createdAt).toLocaleString()}, {act.action}</p>
                             )) : <p className={`text-xs ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No family insights yet</p>}
                           </div>
                         </div>

@@ -74,7 +74,7 @@ export default function Sponsorship() {
                </div>
                <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Brilliance is Everywhere. <span className="text-red-500">Opportunity is Not.</span></h2>
                <p className={`text-xl leading-relaxed mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
-                  Across communities, thousands of highly capable learners are forced to abandon their education due to financial constraints. They don't lack the will to learn — they just lack the resources.
+                  Across communities, thousands of highly capable learners are forced to abandon their education due to financial constraints. They don't lack the will to learn, they just lack the resources.
                </p>
                <p className={`text-xl leading-relaxed font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-800'}`}>
                   EDOT's Sponsorship program bridges this gap by connecting generous supporters directly with verified students.
@@ -172,8 +172,11 @@ export default function Sponsorship() {
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-6">
-               <Link to="/register" className="bg-gradient-to-r from-[#19C2E8] to-[#00D4FF] text-slate-900 px-10 py-4 rounded-xl font-black text-lg hover:shadow-cyan-500/20 hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-cyan-500/10 flex items-center justify-center gap-3">
-                 Become a Sponsor <ChevronRight className="w-5 h-5" />
+               <Link to="/register" className="bg-gradient-to-r from-[#19C2E8] to-[#00D4FF] text-slate-900 px-10 py-4 rounded-full font-black text-lg hover:shadow-cyan-500/20 hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-cyan-500/10 flex items-center justify-center gap-3 group">
+                 Become a Sponsor
+                 <span className="flex items-center justify-center w-6 h-6 rounded-full border border-slate-900 ml-1.5 transition-colors">
+                   <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                 </span>
                </Link>
             </div>
          </div>
