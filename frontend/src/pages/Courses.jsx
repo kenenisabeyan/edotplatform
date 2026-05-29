@@ -16,6 +16,15 @@ import useThemeMode from '../hooks/useThemeMode';
 
 import COURSE_CATEGORIES, { MAIN_CATEGORIES } from '../constants/courseCategories';
 
+const DISPLAY_CATEGORY_MAP = {
+  "Social Science": "Social Sciences",
+  "Mathematics & Natural Science": "Mathematics & Natural Sciences",
+  "Natural Language": "Languages",
+  "Programming & Technology": "Technology & Development",
+  "Business & Entrepreneurship": "Business & Entrepreneurship",
+  "Personal Development": "Personal Development"
+};
+
 const CATEGORY_DETAILS = {
   "Social Science": {
     icon: Globe,

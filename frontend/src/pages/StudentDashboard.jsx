@@ -27,6 +27,15 @@ import NoticeView from './NoticeView';
 import SettingsView from './SettingsView';
 import CertificatesView from './CertificatesView';
 
+const DB_CATEGORY_MAP = {
+  "Social Sciences": "Social Science",
+  "Mathematics & Natural Sciences": "Mathematics & Natural Science",
+  "Languages": "Natural Language",
+  "Technology & Development": "Programming & Technology",
+  "Business & Entrepreneurship": "Business & Entrepreneurship",
+  "Personal Development": "Personal Development"
+};
+
 const CAT_COLORS = {
   "Social Science": { main: "#00D4FF", dark: "#C2410C" }, 
   "Mathematics & Natural Science": { main: "#3B82F6", dark: "#1D4ED8" }, 
@@ -570,7 +579,8 @@ export default function StudentDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-none w-full">
               {PACKAGES.map((pkg, idx) => {
                 const pkgCategoryName = pkg.title.replace(' Courses', '');
-                const matchedCourses = dbCourses.filter(c => c.mainCategory === pkgCategoryName);
+                const dbCategoryName = DB_CATEGORY_MAP[pkgCategoryName] || pkgCategoryName;
+                const matchedCourses = dbCourses.filter(c => c.mainCategory === dbCategoryName);
                 
                 // Only consider active/completed enrollments as "Unlocked" in the catalog
                 const activeEnrollments = enrolledCourses.filter(e => e.status === 'active' || e.status === 'completed' || e.completed);

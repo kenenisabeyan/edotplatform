@@ -9,6 +9,15 @@ import ThemeDropdown from '../components/ThemeDropdown';
 import useThemeMode from '../hooks/useThemeMode';
 import { PACKAGES } from '../constants/packages';
 
+const DB_CATEGORY_MAP = {
+  "Social Sciences": "Social Science",
+  "Mathematics & Natural Sciences": "Mathematics & Natural Science",
+  "Languages": "Natural Language",
+  "Technology & Development": "Programming & Technology",
+  "Business & Entrepreneurship": "Business & Entrepreneurship",
+  "Personal Development": "Personal Development"
+};
+
 export default function StudentCourses() {
   const navigate = useNavigate();
   const isDarkMode = useThemeMode();
@@ -80,7 +89,8 @@ export default function StudentCourses() {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-10">
           {PACKAGES.filter(pkg => selectedCategory === 'All' || pkg.title === selectedCategory).map((pkg, idx) => {
             const pkgCategoryName = pkg.title.replace(' Courses', '');
-            const pkgCourses = dbCourses.filter(c => c.mainCategory === pkgCategoryName);
+            const dbCategoryName = DB_CATEGORY_MAP[pkgCategoryName] || pkgCategoryName;
+            const pkgCourses = dbCourses.filter(c => c.mainCategory === dbCategoryName);
             
             // Filter to only include active/completed enrollments
             const activeEnrollments = enrolledCourses.filter(e => e.status === 'active' || e.status === 'completed' || e.completed);
