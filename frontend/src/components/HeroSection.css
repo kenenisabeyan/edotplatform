@@ -2048,13 +2048,15 @@
   width: 100%;
   max-width: 480px;
   margin-top: 2rem;
-  padding: 1rem 1.25rem;
+  padding: 1.15rem 1.35rem;
   background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(25, 194, 232, 0.25); /* Premium cyan-tinted glass border */
   border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+  box-shadow: 
+    0 12px 36px rgba(15, 23, 42, 0.04), 
+    0 0 15px rgba(25, 194, 232, 0.05); /* Soft outer glow */
   animation: fade-in-up 0.8s ease-out;
   margin-right: 0;
   margin-left: auto;
@@ -2062,8 +2064,10 @@
 
 [data-theme="dark"] .video-footer-console {
   background: rgba(15, 23, 42, 0.75);
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+  border-color: rgba(25, 194, 232, 0.35); /* Neon cyan border */
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.35), 
+    0 0 20px rgba(25, 194, 232, 0.15); /* Volumetric neon glow */
 }
 
 @media (max-width: 1024px) {
@@ -2113,18 +2117,19 @@
 }
 
 .community-avatar-ring {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  border: 2px solid #ffffff;
   background: #111a3e;
   overflow: hidden;
   margin-left: -12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 2.5px #ffffff, 0 4px 10px rgba(0, 0, 0, 0.12); /* Clean overlap shadow ring */
+  z-index: 1;
 }
 
 .community-avatar-ring:first-child {
@@ -2132,12 +2137,14 @@
 }
 
 .community-avatar-ring:hover {
-  transform: translateY(-4px) scale(1.1);
+  transform: translateY(-4px) scale(1.15);
   z-index: 20 !important;
+  box-shadow: 0 0 0 2.5px #19C2E8, 0 6px 15px rgba(25, 194, 232, 0.25); /* Glowing hover ring */
 }
 
 [data-theme="dark"] .community-avatar-ring {
-  border-color: #111a3e;
+  background: #111a3e;
+  box-shadow: 0 0 0 2.5px #111a3e, 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .community-avatar-img {
@@ -2183,17 +2190,28 @@
   background: rgba(15, 23, 42, 0.08);
   padding: 0.45rem 0.75rem;
   border-radius: 10px;
-  color: #0F172A;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 68%;
+  flex: 1; /* Stretch to fill space dynamically */
+  min-width: 0; /* Prevent flex overflow styling bugs */
   border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.terminal-command {
+  color: #0F172A;
+}
+
+[data-theme="dark"] .terminal-command {
+  color: #ffffff;
+}
+
+.terminal-output {
+  margin-left: 0.25rem;
 }
 
 [data-theme="dark"] .console-terminal-line {
   background: rgba(0, 0, 0, 0.45);
-  color: #34d399; /* Higher contrast emerald neon green in dark mode */
   border-color: rgba(255, 255, 255, 0.08);
 }
 

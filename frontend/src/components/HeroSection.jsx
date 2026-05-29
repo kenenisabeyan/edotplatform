@@ -572,11 +572,12 @@ export default function HeroSection() {
                 </span>
               </div>
 
-              {/* Console Bottom Row: Git terminal + Join EDOT action */}
+              {/* Console Bottom Row: Stats query terminal + Join EDOT action */}
               <div className="console-action-row">
                 <div className="console-terminal-line">
                   <span className="terminal-prompt">$</span>
-                  <span>git commit -m "style(frontend): adjust HeroSection layout and styling"</span>
+                  <span className="terminal-command">edot query --sponsored</span>
+                  <span className="terminal-output text-[#007799] dark:text-[#34d399] font-black">1,420+ students</span>
                 </div>
                 <Link to="/register" className="console-join-btn">
                   <span>Join EDOT</span>
