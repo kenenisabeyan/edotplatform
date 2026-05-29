@@ -551,37 +551,52 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Dynamic database users community stack widget placed under video */}
+          {/* Glassy developer console bar below video */}
           {recentUsers && recentUsers.length > 0 && (
-            <div className="community-stack-widget">
-              <div className="avatar-overlap-group">
-                {recentUsers.map((u, idx) => (
-                  <div 
-                    key={u.id || idx} 
-                    className="community-avatar-ring"
-                    style={{ zIndex: 10 - idx }}
-                  >
-                    {u.avatar ? (
-                      <img 
-                        src={u.avatar} 
-                        alt={u.name} 
-                        className="community-avatar-img"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(u.name)}`;
-                        }}
-                      />
-                    ) : (
-                      <div className="community-avatar-initials">
-                        {u.name ? u.name.charAt(0).toUpperCase() : 'U'}
-                      </div>
-                    )}
-                  </div>
-                ))}
+            <div className="video-footer-console">
+              {/* Console Top Row: Avatars & Community Text */}
+              <div className="console-community-section">
+                <div className="avatar-overlap-group">
+                  {recentUsers.map((u, idx) => (
+                    <div 
+                      key={u.id || idx} 
+                      className="community-avatar-ring"
+                      style={{ zIndex: 10 - idx }}
+                    >
+                      {u.avatar ? (
+                        <img 
+                          src={u.avatar} 
+                          alt={u.name} 
+                          className="community-avatar-img"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(u.name)}`;
+                          }}
+                        />
+                      ) : (
+                        <div className="community-avatar-initials">
+                          {u.name ? u.name.charAt(0).toUpperCase() : 'U'}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <span className="community-stack-text">
+                  Join our <span className="highlight-cyan font-extrabold">{totalCount}+</span> community.
+                </span>
               </div>
-              <span className="community-stack-text">
-                Join our <span className="highlight-cyan font-extrabold">{totalCount}+</span> community.
-              </span>
+
+              {/* Console Bottom Row: Git terminal + Join EDOT action */}
+              <div className="console-action-row">
+                <div className="console-terminal-line">
+                  <span className="terminal-prompt">$</span>
+                  <span>git commit -m "style(frontend): adjust HeroSection layout and styling"</span>
+                </div>
+                <Link to="/register" className="console-join-btn">
+                  <span>Join EDOT</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
           )}
 
