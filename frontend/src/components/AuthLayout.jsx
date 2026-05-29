@@ -137,14 +137,14 @@ export default function AuthLayout({ defaultIsRegister = false }) {
   if (authLoading) return null; // Avoid flashing page while checking session
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-0 md:p-6 lg:p-8 bg-[#0B1120] font-sans relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen w-full flex items-center justify-center p-0 md:p-6 lg:p-8 auth-page-bg font-sans relative overflow-hidden transition-colors duration-300">
       
       {/* Background ambient lighting */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#FF5A00]/10 blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/10 blur-3xl pointer-events-none"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#FF5A00]/5 blur-3xl pointer-events-none"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/5 blur-3xl pointer-events-none"></div>
 
       {/* Main card container */}
-      <div className="w-full max-w-[1200px] min-h-[100vh] md:min-h-[750px] md:h-[780px] bg-white dark:bg-[#111827] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row relative z-10 border border-slate-200/10">
+      <div className="w-full max-w-[1200px] min-h-[100vh] md:min-h-[750px] md:h-[780px] bg-white md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row relative z-10 border border-slate-200/50">
         
         {/* LEFT COLUMN: IMMERSIVE BRANDING SHOWCASE */}
         <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12 bg-[#FF5A00] text-slate-900 select-none overflow-hidden">
@@ -166,57 +166,57 @@ export default function AuthLayout({ defaultIsRegister = false }) {
             </Link>
           </div>
 
-          {/* Main Slogans & Features (restricted to left-aligned clear space) */}
-          <div className="relative z-10 my-auto max-w-[350px] space-y-6 pt-4">
-            <h1 className="text-[40px] font-black leading-[1.12] tracking-tight text-slate-900">
+          {/* Main Slogans & Features inside a gorgeous left floating glass card */}
+          <div className="relative z-10 my-auto max-w-[335px] bg-white/85 dark:bg-slate-950/85 backdrop-blur-md rounded-[2rem] p-5 lg:p-6 shadow-2xl border border-white/40 dark:border-white/10 space-y-4 animate-auth-fade">
+            <h1 className="text-2xl lg:text-[27px] font-black leading-[1.2] tracking-tight text-slate-900 dark:text-white">
               One Platform.<br />
               Unlimited Possibilities.<br />
-              <span className="text-[#0084FF]">Your Growth Starts Here.</span>
+              <span className="text-[#0084FF] dark:text-[#38bdf8]">Your Growth Starts Here.</span>
             </h1>
             
-            <p className="text-[14.5px] font-bold text-slate-800 leading-relaxed">
+            <p className="text-[12.5px] font-bold text-slate-750 dark:text-slate-300 leading-relaxed">
               edotplatform empowers you to learn, connect, collaborate, and grow — all in one smart platform.
             </p>
 
             {/* Feature List */}
-            <div className="space-y-4 pt-4">
-              <div className="flex items-center gap-3.5 group">
-                <div className="w-9 h-9 rounded-full bg-white text-[#FF5A00] flex items-center justify-center shadow-md shrink-0 transform transition-transform group-hover:scale-110">
-                  <GraduationCap className="w-5 h-5" />
+            <div className="space-y-3 pt-1">
+              <div className="flex items-center gap-2.5 group">
+                <div className="w-8 h-8 rounded-full bg-[#FF5A00]/10 dark:bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center shadow-sm shrink-0 transform transition-transform group-hover:scale-105">
+                  <GraduationCap className="w-4.5 h-4.5" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-[14.5px] leading-tight text-slate-900">Smart Learning</h3>
-                  <p className="text-[12.5px] text-slate-800/90 font-bold leading-none mt-1">Access courses and resources anytime</p>
+                  <h3 className="font-extrabold text-[13px] leading-tight text-slate-900 dark:text-white">Smart Learning</h3>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold leading-none mt-0.5">Access courses and resources anytime</p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-3.5 group">
-                <div className="w-9 h-9 rounded-full bg-white text-[#FF5A00] flex items-center justify-center shadow-md shrink-0 transform transition-transform group-hover:scale-110">
-                  <Users className="w-5 h-5" />
+              <div className="flex items-center gap-2.5 group">
+                <div className="w-8 h-8 rounded-full bg-[#FF5A00]/10 dark:bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center shadow-sm shrink-0 transform transition-transform group-hover:scale-105">
+                  <Users className="w-4.5 h-4.5" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-[14.5px] leading-tight text-slate-900">Connect & Collaborate</h3>
-                  <p className="text-[12.5px] text-slate-800/90 font-bold leading-none mt-1">Work together and share ideas</p>
+                  <h3 className="font-extrabold text-[13px] leading-tight text-slate-900 dark:text-white">Connect & Collaborate</h3>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold leading-none mt-0.5">Work together and share ideas</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3.5 group">
-                <div className="w-9 h-9 rounded-full bg-white text-[#FF5A00] flex items-center justify-center shadow-md shrink-0 transform transition-transform group-hover:scale-110">
-                  <TrendingUp className="w-5 h-5" />
+              <div className="flex items-center gap-2.5 group">
+                <div className="w-8 h-8 rounded-full bg-[#FF5A00]/10 dark:bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center shadow-sm shrink-0 transform transition-transform group-hover:scale-105">
+                  <TrendingUp className="w-4.5 h-4.5" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-[14.5px] leading-tight text-slate-900">Track Your Progress</h3>
-                  <p className="text-[12.5px] text-slate-800/90 font-bold leading-none mt-1">Monitor, analyze and improve</p>
+                  <h3 className="font-extrabold text-[13px] leading-tight text-slate-900 dark:text-white">Track Your Progress</h3>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold leading-none mt-0.5">Monitor, analyze and improve</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3.5 group">
-                <div className="w-9 h-9 rounded-full bg-white text-[#FF5A00] flex items-center justify-center shadow-md shrink-0 transform transition-transform group-hover:scale-110">
-                  <Rocket className="w-5 h-5" />
+              <div className="flex items-center gap-2.5 group">
+                <div className="w-8 h-8 rounded-full bg-[#FF5A00]/10 dark:bg-[#FF5A00]/20 text-[#FF5A00] flex items-center justify-center shadow-sm shrink-0 transform transition-transform group-hover:scale-105">
+                  <Rocket className="w-4.5 h-4.5" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-[14.5px] leading-tight text-slate-900">Achieve More</h3>
-                  <p className="text-[12.5px] text-slate-800/90 font-bold leading-none mt-1">Tools and insights for your success</p>
+                  <h3 className="font-extrabold text-[13px] leading-tight text-slate-900 dark:text-white">Achieve More</h3>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold leading-none mt-0.5">Tools and insights for your success</p>
                 </div>
               </div>
             </div>
@@ -226,28 +226,28 @@ export default function AuthLayout({ defaultIsRegister = false }) {
           <div className="h-4"></div>
         </div>
 
-        {/* RIGHT COLUMN: HIGH-CONTRAST FORM WRAPPER */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-between p-6 md:p-10 lg:p-12 bg-white dark:bg-[#111827] text-slate-800 dark:text-slate-100 transition-colors duration-300">
+        {/* RIGHT COLUMN: HIGH-CONTRAST FORM WRAPPER (Solid Pristine White) */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-between p-6 md:p-10 lg:p-12 bg-white text-slate-800">
           
           {/* Top spacer or brand title for mobile */}
           <div className="w-full text-center mt-2 mb-6">
-            <h2 className="text-3xl lg:text-[33px] font-extrabold text-slate-900 dark:text-white tracking-tight leading-snug">
-              Welcome to <span className="text-[#FF5A00]">edot</span><span className="text-[#00D4FF]">platform</span>
+            <h2 className="text-3xl lg:text-[33px] font-extrabold text-slate-900 tracking-tight leading-snug">
+              Welcome to <span className="text-[#FF5A00]">edot</span><span className="text-[#00A4EF]">platform</span>
             </h2>
-            <p className="text-[13.5px] font-medium text-slate-500 dark:text-slate-400 mt-2">
+            <p className="text-[13.5px] font-medium text-slate-500 mt-2">
               Login to your account or create a new one to get started
             </p>
           </div>
 
           {/* Form Tabs */}
-          <div className="flex justify-center border-b border-slate-200 dark:border-white/10 mb-6 max-w-xs mx-auto w-full">
+          <div className="flex justify-center border-b border-slate-200 mb-6 max-w-xs mx-auto w-full">
             <button 
               type="button"
               onClick={() => handleTabChange(false)}
               className={`flex-1 flex items-center justify-center gap-2 pb-3.5 text-[14.5px] font-extrabold border-b-2 transition-all cursor-pointer ${
                 !isRegister 
                   ? 'border-[#FF5A00] text-[#FF5A00]' 
-                  : 'border-transparent text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300'
+                  : 'border-transparent text-slate-400 hover:text-slate-650'
               }`}
             >
               <User className="w-4 h-4" />
@@ -259,7 +259,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
               className={`flex-1 flex items-center justify-center gap-2 pb-3.5 text-[14.5px] font-extrabold border-b-2 transition-all cursor-pointer ${
                 isRegister 
                   ? 'border-[#FF5A00] text-[#FF5A00]' 
-                  : 'border-transparent text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300'
+                  : 'border-transparent text-slate-400 hover:text-slate-655'
               }`}
             >
               <UserPlus className="w-4.5 h-4.5" />
@@ -272,12 +272,12 @@ export default function AuthLayout({ defaultIsRegister = false }) {
             
             {/* Error alerts container */}
             {((!isRegister && loginError) || (isRegister && regError)) && (
-              <div className="p-3.5 mb-4 bg-rose-50/90 dark:bg-rose-950/20 border border-rose-200/50 dark:border-rose-900/30 text-rose-700 dark:text-rose-400 text-xs rounded-xl font-semibold shadow-sm flex items-start gap-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
+              <div className="p-3.5 mb-4 bg-rose-50 border border-rose-200/60 text-rose-700 text-xs rounded-xl font-semibold shadow-sm flex items-start gap-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
                 <svg className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 <div>
-                  <span className="font-extrabold text-rose-800 dark:text-rose-300 block mb-0.5">Authentication Error</span>
+                  <span className="font-extrabold text-rose-850 block mb-0.5">Authentication Error</span>
                   <span className="leading-relaxed opacity-90">{isRegister ? regError : loginError}</span>
                 </div>
               </div>
@@ -289,7 +289,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                 
                 {/* Email field */}
                 <div className="space-y-1.5 text-left">
-                  <label className="block text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Email Address</label>
+                  <label className="block text-xs font-extrabold text-slate-750 uppercase tracking-wide">Email Address</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                       <Mail className="w-4.5 h-4.5" />
@@ -300,14 +300,14 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                       onChange={e => setLoginEmail(e.target.value)}
                       required
                       placeholder="you@example.com"
-                      className="w-full pl-10 pr-4 py-3 bg-[#F8FAFC] dark:bg-[#1E293B] border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/25 focus:border-[#FF5A00] text-sm text-slate-900 dark:text-white font-semibold transition-all shadow-sm"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-900 font-semibold transition-all shadow-sm"
                     />
                   </div>
                 </div>
 
                 {/* Password field */}
                 <div className="space-y-1.5 text-left">
-                  <label className="block text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Password</label>
+                  <label className="block text-xs font-extrabold text-slate-755 uppercase tracking-wide">Password</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                       <Lock className="w-4.5 h-4.5" />
@@ -318,12 +318,12 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                       onChange={e => setLoginPassword(e.target.value)}
                       required
                       placeholder="Enter your password"
-                      className="w-full pl-10 pr-10 py-3 bg-[#F8FAFC] dark:bg-[#1E293B] border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/25 focus:border-[#FF5A00] text-sm text-slate-900 dark:text-white font-semibold transition-all shadow-sm"
+                      className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-900 font-semibold transition-all shadow-sm"
                     />
                     <button 
                       type="button"
                       onClick={() => setShowLoginPassword(!showLoginPassword)}
-                      className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors cursor-pointer"
+                      className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                     >
                       {showLoginPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
                     </button>
@@ -332,14 +332,14 @@ export default function AuthLayout({ defaultIsRegister = false }) {
 
                 {/* Checkbox and Forgot Password */}
                 <div className="flex items-center justify-between text-xs pt-1">
-                  <label className="flex items-center gap-2 cursor-pointer font-bold text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 select-none">
+                  <label className="flex items-center gap-2 cursor-pointer font-bold text-slate-650 hover:text-slate-800 select-none">
                     <input 
                       type="checkbox" 
                       className="w-4.5 h-4.5 rounded border-slate-300 text-[#FF5A00] focus:ring-[#FF5A00] cursor-pointer"
                     />
                     Remember me
                   </label>
-                  <a href="#" className="font-bold text-[#00D4FF] hover:text-[#00B4D8] transition-colors hover:underline">Forgot Password?</a>
+                  <a href="#" className="font-bold text-[#0084FF] hover:text-[#0066FF] transition-colors hover:underline">Forgot Password?</a>
                 </div>
 
                 {/* Submit button */}
@@ -359,7 +359,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                 
                 {/* Full name field */}
                 <div className="space-y-1.5 text-left">
-                  <label className="block text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Full Name</label>
+                  <label className="block text-xs font-extrabold text-slate-750 uppercase tracking-wide">Full Name</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                       <User className="w-4.5 h-4.5" />
@@ -370,14 +370,14 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                       onChange={e => setRegName(e.target.value)}
                       required
                       placeholder="Enter your full name"
-                      className="w-full pl-10 pr-4 py-3 bg-[#F8FAFC] dark:bg-[#1E293B] border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/25 focus:border-[#FF5A00] text-sm text-slate-900 dark:text-white font-semibold transition-all shadow-sm"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-900 font-semibold transition-all shadow-sm"
                     />
                   </div>
                 </div>
 
                 {/* Email field */}
                 <div className="space-y-1.5 text-left">
-                  <label className="block text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Email Address</label>
+                  <label className="block text-xs font-extrabold text-slate-750 uppercase tracking-wide">Email Address</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                       <Mail className="w-4.5 h-4.5" />
@@ -388,14 +388,14 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                       onChange={e => setRegEmail(e.target.value)}
                       required
                       placeholder="you@example.com"
-                      className="w-full pl-10 pr-4 py-3 bg-[#F8FAFC] dark:bg-[#1E293B] border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/25 focus:border-[#FF5A00] text-sm text-slate-900 dark:text-white font-semibold transition-all shadow-sm"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-900 font-semibold transition-all shadow-sm"
                     />
                   </div>
                 </div>
 
                 {/* Password field */}
                 <div className="space-y-1.5 text-left">
-                  <label className="block text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Password</label>
+                  <label className="block text-xs font-extrabold text-slate-755 uppercase tracking-wide">Password</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                       <Lock className="w-4.5 h-4.5" />
@@ -406,12 +406,12 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                       onChange={e => setRegPassword(e.target.value)}
                       required
                       placeholder="Enter your password"
-                      className="w-full pl-10 pr-10 py-3 bg-[#F8FAFC] dark:bg-[#1E293B] border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/25 focus:border-[#FF5A00] text-sm text-slate-900 dark:text-white font-semibold transition-all shadow-sm"
+                      className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-900 font-semibold transition-all shadow-sm"
                     />
                     <button 
                       type="button"
                       onClick={() => setShowRegPassword(!showRegPassword)}
-                      className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors cursor-pointer"
+                      className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-650 cursor-pointer"
                     >
                       {showRegPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
                     </button>
@@ -420,7 +420,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
 
                 {/* Role field dropdown */}
                 <div className="space-y-1.5 text-left">
-                  <label className="block text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wide">Account Type (Role)</label>
+                  <label className="block text-xs font-extrabold text-slate-750 uppercase tracking-wide">Account Type (Role)</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                       <UserCheck className="w-4.5 h-4.5" />
@@ -428,7 +428,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                     <select 
                       value={regRole} 
                       onChange={e => setRegRole(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-[#F8FAFC] dark:bg-[#1E293B] border border-slate-200 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/25 focus:border-[#FF5A00] text-sm text-slate-800 dark:text-slate-200 font-semibold transition-all shadow-sm cursor-pointer appearance-none"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF5A00]/20 focus:border-[#FF5A00] text-sm text-slate-800 font-semibold transition-all shadow-sm cursor-pointer appearance-none"
                     >
                       <option value="student">Student</option>
                       <option value="parent">Parent</option>
@@ -460,10 +460,10 @@ export default function AuthLayout({ defaultIsRegister = false }) {
             {/* Separator OR */}
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200 dark:border-white/10"></div>
+                <div className="w-full border-t border-slate-200"></div>
               </div>
-              <div className="relative flex justify-center text-xs uppercase font-extrabold text-slate-400 dark:text-slate-500">
-                <span className="bg-white dark:bg-[#111827] px-3.5">OR</span>
+              <div className="relative flex justify-center text-xs uppercase font-extrabold text-slate-400">
+                <span className="bg-white px-3.5">OR</span>
               </div>
             </div>
 
@@ -472,15 +472,15 @@ export default function AuthLayout({ defaultIsRegister = false }) {
               <button 
                 type="button" 
                 onClick={() => handleSocialLogin('Google')} 
-                className="h-12 flex items-center justify-center gap-2.5 border border-slate-200 dark:border-white/10 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm bg-white dark:bg-[#1E293B] cursor-pointer active:scale-[0.98]"
+                className="h-12 flex items-center justify-center gap-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm bg-white cursor-pointer active:scale-[0.98]"
               >
                 <GoogleIcon className="w-5 h-5 shrink-0" />
-                <span className="font-extrabold text-slate-700 dark:text-slate-300 text-[13px]">Continue with Google</span>
+                <span className="font-extrabold text-slate-700 text-[13px]">Continue with Google</span>
               </button>
               <button 
                 type="button" 
                 onClick={() => handleSocialLogin('Microsoft')} 
-                className="h-12 flex items-center justify-center gap-2.5 border border-slate-200 dark:border-white/10 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm bg-white dark:bg-[#1E293B] cursor-pointer active:scale-[0.98]"
+                className="h-12 flex items-center justify-center gap-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm bg-white cursor-pointer active:scale-[0.98]"
               >
                 <svg className="w-4.5 h-4.5 shrink-0" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0 0H11V11H0V0Z" fill="#F25022"/>
@@ -488,12 +488,12 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   <path d="M0 12H11V23H0V12Z" fill="#00A4EF"/>
                   <path d="M12 12H23V23H12V12Z" fill="#FFB900"/>
                 </svg>
-                <span className="font-extrabold text-slate-700 dark:text-slate-300 text-[13px]">Continue with Microsoft</span>
+                <span className="font-extrabold text-slate-700 text-[13px]">Continue with Microsoft</span>
               </button>
             </div>
 
             {/* Toggle Footer text */}
-            <div className="text-center mt-6 text-sm font-bold text-slate-500 dark:text-slate-400">
+            <div className="text-center mt-6 text-sm font-bold text-slate-500">
               {!isRegister ? (
                 <span>
                   Don't have an account?{' '}
@@ -522,44 +522,44 @@ export default function AuthLayout({ defaultIsRegister = false }) {
           </div>
 
           {/* Secure Badges Footer */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-100 dark:border-white/5 mt-6 text-left">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-100 mt-6 text-left">
             <div className="flex items-center gap-2 group">
-              <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-500 shrink-0 transform group-hover:scale-105 transition-transform">
+              <div className="p-2 rounded-xl bg-emerald-50 text-emerald-500 shrink-0 transform group-hover:scale-105 transition-transform">
                 <ShieldCheck className="w-4.5 h-4.5" />
               </div>
               <div className="min-w-0">
-                <h4 className="font-extrabold text-[11px] text-slate-800 dark:text-slate-200 leading-tight truncate">Secure & Safe</h4>
-                <p className="text-[9.5px] text-slate-400 mt-0.5 leading-none truncate">Your data is protected</p>
+                <h4 className="font-extrabold text-[11px] text-slate-800 leading-tight truncate">Secure & Safe</h4>
+                <p className="text-[9.5px] text-slate-450 mt-0.5 leading-none truncate">Your data is protected</p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 group">
-              <div className="p-2 rounded-xl bg-amber-500/10 text-amber-500 shrink-0 transform group-hover:scale-105 transition-transform">
+              <div className="p-2 rounded-xl bg-amber-50 text-amber-500 shrink-0 transform group-hover:scale-105 transition-transform">
                 <Zap className="w-4.5 h-4.5" />
               </div>
               <div className="min-w-0">
-                <h4 className="font-extrabold text-[11px] text-slate-800 dark:text-slate-200 leading-tight truncate">Fast & Easy</h4>
-                <p className="text-[9.5px] text-slate-400 mt-0.5 leading-none truncate">Quick access anytime</p>
+                <h4 className="font-extrabold text-[11px] text-slate-800 leading-tight truncate">Fast & Easy</h4>
+                <p className="text-[9.5px] text-slate-450 mt-0.5 leading-none truncate">Quick access anytime</p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 group">
-              <div className="p-2 rounded-xl bg-sky-500/10 text-sky-500 shrink-0 transform group-hover:scale-105 transition-transform">
+              <div className="p-2 rounded-xl bg-sky-50 text-sky-500 shrink-0 transform group-hover:scale-105 transition-transform">
                 <Globe className="w-4.5 h-4.5" />
               </div>
               <div className="min-w-0">
-                <h4 className="font-extrabold text-[11px] text-slate-800 dark:text-slate-200 leading-tight truncate">Access Anywhere</h4>
-                <p className="text-[9.5px] text-slate-400 mt-0.5 leading-none truncate">Learn from anywhere</p>
+                <h4 className="font-extrabold text-[11px] text-slate-800 leading-tight truncate">Access Anywhere</h4>
+                <p className="text-[9.5px] text-slate-450 mt-0.5 leading-none truncate">Learn from anywhere</p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 group">
-              <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-500 shrink-0 transform group-hover:scale-105 transition-transform">
+              <div className="p-2 rounded-xl bg-indigo-50 text-indigo-500 shrink-0 transform group-hover:scale-105 transition-transform">
                 <Headphones className="w-4.5 h-4.5" />
               </div>
               <div className="min-w-0">
-                <h4 className="font-extrabold text-[11px] text-slate-800 dark:text-slate-200 leading-tight truncate">24/7 Support</h4>
-                <p className="text-[9.5px] text-slate-400 mt-0.5 leading-none truncate">We're here to help</p>
+                <h4 className="font-extrabold text-[11px] text-slate-800 leading-tight truncate">24/7 Support</h4>
+                <p className="text-[9.5px] text-slate-450 mt-0.5 leading-none truncate">We're here to help</p>
               </div>
             </div>
           </div>

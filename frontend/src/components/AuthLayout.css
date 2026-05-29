@@ -77,3 +77,12 @@ input[type="checkbox"] {
     max-height: 180px;
   }
 }
+
+/* Body/Outer Background matching the Home Page Hero Section */
+.auth-page-bg {
+  background: linear-gradient(110deg, #d3f9fa 0%, #fff0e2 40%, #e2e8f0 80%) !important;
+}
+
+[data-theme="dark"] .auth-page-bg {
+  background: linear-gradient(110deg, #082d38 0%, #3a1e0b 45%, #040916 80%) !important;
+}
