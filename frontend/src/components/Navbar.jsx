@@ -56,7 +56,7 @@ export default function Navbar() {
     `relative text-[15px] font-bold transition-all px-2.5 py-1.5 ${
       isActive 
         ? 'text-[#19C2E8]'
-        : isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-650 hover:text-[#19C2E8]'
+        : isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-[#19C2E8]'
     } ${isActive ? 'after:content-[\'\'] after:absolute after:left-2.5 after:-bottom-1.5 after:w-[calc(100%-20px)] after:h-[3px] after:bg-[#19C2E8] after:rounded-full' : ''}`;
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
@@ -124,7 +124,7 @@ export default function Navbar() {
           <button 
             onClick={() => navigate('/courses')} 
             className={`w-9 h-9 rounded-full border flex items-center justify-center transition-colors hover:text-[#19C2E8] ${
-              isDarkMode ? 'border-slate-800 text-slate-350 hover:border-[#19C2E8]' : 'border-slate-200 text-slate-650 hover:border-[#19C2E8]'
+              isDarkMode ? 'border-slate-800 text-slate-300 hover:border-[#19C2E8]' : 'border-slate-200 text-slate-700 hover:border-[#19C2E8]'
             }`}
             aria-label="Search Courses"
           >
@@ -155,13 +155,13 @@ export default function Navbar() {
                     <p className="text-[12px] text-slate-500 truncate mt-0.5">{user?.email || 'user@example.com'}</p>
                   </div>
                   <div className="p-2 space-y-1">
-                    <Link to="/dashboard" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-650 hover:text-slate-900'}`}>
+                    <Link to="/dashboard" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}>
                       <Shield className="w-4 h-4" /> Dashboard
                     </Link>
-                    <Link to="/dashboard/courses" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-650 hover:text-slate-900'}`}>
+                    <Link to="/dashboard/courses" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}>
                       <BookOpen className="w-4 h-4" /> My Learning
                     </Link>
-                    <Link to="/dashboard/settings" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-650 hover:text-slate-900'}`}>
+                    <Link to="/dashboard/settings" className={`flex items-center gap-3 px-3 py-2 rounded-full text-[13px] font-medium hover:bg-slate-100 dark:hover:bg-white/5 transition-colors ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}>
                       <Settings className="w-4 h-4" /> Settings
                     </Link>
                   </div>
@@ -178,11 +178,11 @@ export default function Navbar() {
               <Link 
                 to="/login" 
                 className={`flex items-center gap-2 font-bold text-[14px] transition-colors hover:text-[#19C2E8] ${
-                  isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-650'
+                  isDarkMode || isTransparentDarkBg ? 'text-slate-300' : 'text-slate-700'
                 }`}
               >
                 <div className={`w-8 h-8 rounded-full border flex items-center justify-center ${
-                  isDarkMode ? 'border-slate-800 text-slate-350' : 'border-slate-200 text-slate-650'
+                  isDarkMode ? 'border-slate-800 text-slate-300' : 'border-slate-200 text-slate-700'
                 }`}>
                   <LogIn className="w-4 h-4" />
                 </div>
@@ -197,7 +197,7 @@ export default function Navbar() {
               <button 
                 onClick={() => navigate('/contact')}
                 className={`w-8 h-8 rounded-full border flex items-center justify-center transition-colors hover:text-[#19C2E8] ${
-                  isDarkMode ? 'border-slate-800 text-slate-350 hover:border-[#19C2E8]' : 'border-slate-200 text-slate-650 hover:border-[#19C2E8]'
+                  isDarkMode ? 'border-slate-800 text-slate-300 hover:border-[#19C2E8]' : 'border-slate-200 text-slate-700 hover:border-[#19C2E8]'
                 }`}
                 aria-label="FAQ & Help"
               >

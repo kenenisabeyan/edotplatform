@@ -12,8 +12,8 @@
   --border-glass: rgba(255, 255, 255, 0.05);
   --shadow-glow-primary: 0 0 15px rgba(249, 115, 22, 0.3);
   --text-main: #FFFFFF;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
+  --text-secondary: #CBD5E1; /* Brighter slate for better dark mode readability */
+  --text-muted: #94A3B8; /* Elevated contrast for captions */
   --bg-card: #181F2A;
   --bg-elevated: #232B3A;
   --border-radius: 16px; /* Sleek SaaS borders */
@@ -40,8 +40,8 @@
   --bg-elevated: #FFFFFF; 
   --border-glass: rgba(0, 0, 0, 0.05);
   --text-main: #0B1120; /* High readability */
-  --text-secondary: #475569;
-  --text-muted: #94A3B8;
+  --text-secondary: #1E293B; /* Darker slate for high contrast copy */
+  --text-muted: #475569; /* Elevated contrast for captions/subtitles */
   --accent-blue: #2563EB; 
   --accent-orange: #00D4FF; 
   --brand-primary: #2563EB;
