@@ -652,7 +652,7 @@ export default function MessagesView() {
                         <MoreVertical className="w-5 h-5" />
                       </button>
                       {showMoreMenu && (
-                        <div className={`absolute right-0 mt-2 w-56 rounded-2xl shadow-xl border overflow-hidden z-[100] ${isDarkMode ? 'bg-[#1E293B] border-white/10' : 'bg-white border-slate-200'}`}>
+                        <div className={`absolute right-0 mt-2 w-56 rounded-2xl shadow-xl shadow-black/40 border overflow-hidden z-[100] ${isDarkMode ? 'bg-slate-950/95 border-white/10' : 'bg-white border-slate-200'}`}>
                           <button onClick={() => { handleOpenScheduleMeet(); setShowMoreMenu(false); }} className={`w-full text-left px-4 py-3 transition-colors flex items-center gap-3 text-[14px] ${isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50 text-slate-700'}`}><PhoneCall className="w-4 h-4 text-green-500" /> Schedule Meet</button>
                           {activeContact?.type !== 'user' && (
                             <>

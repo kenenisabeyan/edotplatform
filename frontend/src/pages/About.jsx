@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import useThemeMode from '../hooks/useThemeMode';
-import { CheckCircle, Globe, Award, Shield, Zap, TrendingUp, Users, Target, BookOpen, Key, AlertTriangle, MonitorPlay, GitBranch, LayoutDashboard, Heart, GraduationCap, Handshake, Briefcase, ChevronRight, LineChart } from 'lucide-react';
-import CTA from '../components/CTA';
+import { CheckCircle, Globe, Award, Shield, Zap, TrendingUp, Users, Target, BookOpen, AlertTriangle, MonitorPlay, GitBranch, Handshake, ChevronRight } from 'lucide-react';
 
 // Team Images
 const kenoImg = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/rifthsjvrxwmgpxtzgvt';

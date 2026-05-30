@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import { Link } from 'react-router-dom';
-import { Phone, Linkedin, Send, Facebook, Youtube, Instagram, Heart } from 'lucide-react';
+import { Phone, Mail, MapPin, Linkedin, Send, Facebook, Youtube, Instagram, Heart } from 'lucide-react';
 
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
 
@@ -9,11 +9,14 @@ export default function Footer() {
   const isDarkMode = useThemeMode();
 
   return (
-    <footer className={elative z-20 pt-20 pb-12 transition-all duration-500 overflow-hidden ${
-      isDarkMode
-        ? 'bg-[#0b1733] text-slate-100'
-        : 'bg-[#f7fbff] text-slate-800'
-    }} role="contentinfo">
+    <footer
+      className={`relative z-20 pt-20 pb-12 transition-all duration-500 overflow-hidden ${
+        isDarkMode
+          ? 'bg-[#0b1733] text-slate-100'
+          : 'bg-[#f7fbff] text-slate-800'
+      }`}
+      role="contentinfo"
+    >
       <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#0d6efd]/10 to-transparent pointer-events-none" />
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0d6efd]/10 to-transparent pointer-events-none" />
 
@@ -61,15 +64,19 @@ export default function Footer() {
               <div className="mt-6 space-y-4 text-sm text-slate-600">
                 <div className="flex items-center gap-3">
                   <Phone className="w-4 h-4 text-[#0d6efd]" />
-                  <span>+251 (906) 101-111</span>
+                  <span>+251 941 177 566</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="w-4 h-4 text-[#0d6efd]" />
-                  <span>+251 (977) 666-699</span>
+                  <span>+251 962 343 967</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-[#0d6efd]" />
-                  <span>+251 (116) 867-546</span>
+                  <Mail className="w-4 h-4 text-[#0d6efd]" />
+                  <a href="mailto:support@edot.com" className="font-semibold hover:text-[#0d6efd] transition-colors">support@edot.com</a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-4 h-4 text-[#0d6efd]" />
+                  <span>ADAMA near Adama Science and Technology University</span>
                 </div>
               </div>
             </div>
@@ -92,9 +99,8 @@ export default function Footer() {
         <div className="mt-10 border-t border-slate-200 pt-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between text-sm text-slate-600">
             <div className="flex flex-wrap items-center gap-5">
-              <span>+251 (906) 101-111</span>
-              <span>+251 (977) 666-699</span>
-              <span>+251 (116) 867-546</span>
+              <span>+251 941 177 566</span>
+              <span>+251 962 343 967</span>
             </div>
             <div className="text-slate-500">© 2024 EDOT, Education for All. Transforming learning, creating opportunities.</div>
           </div>

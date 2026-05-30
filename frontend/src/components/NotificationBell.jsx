@@ -130,8 +130,8 @@ export default function NotificationBell() {
       </button>
 
       {isOpen && (
-        <div className={`absolute right-0 mt-3 w-80 sm:w-96 bg-[#0B1120]/95 backdrop-blur-xl rounded-2xl shadow-2xl border overflow-hidden z-[100] animate-in zoom-in-95 slide-in-from-top-2 duration-200 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-          <div className={`p-4 border-b flex justify-between items-center bg-black/40 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+        <div className={`absolute right-0 mt-3 w-80 sm:w-96 bg-slate-950/95 rounded-2xl shadow-2xl border overflow-hidden z-[100] animate-in zoom-in-95 slide-in-from-top-2 duration-200 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+          <div className={`p-4 border-b flex justify-between items-center bg-slate-950/90 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
             <h3 className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Notifications</h3>
             {unreadCount > 0 && (
               <button 
@@ -143,7 +143,7 @@ export default function NotificationBell() {
             )}
           </div>
           
-          <div className="max-h-[70vh] overflow-y-auto scrollbar-hide bg-black/20">
+          <div className="max-h-[70vh] overflow-y-auto scrollbar-hide bg-slate-950/90">
             {notifications.length === 0 ? (
               <div className={`p-8 text-center flex flex-col items-center ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
                 <div className={`w-16 h-16 rounded-full border flex items-center justify-center mb-4 ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-slate-50 border-slate-100'}`}>

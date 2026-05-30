@@ -314,7 +314,7 @@ export default function Contact() {
               <h2 className="text-4xl font-bold mb-12">Our Location</h2>
               <div className={`w-full h-[450px] rounded-[2rem] overflow-hidden border shadow-lg ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d252230.02028974562!2d38.61332804021528!3d8.963479542403238!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85cef5ab402d%3A0x8467b6b037a24d49!2sAddis%20Ababa%2C%20Ethiopia!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" 
+                  src="https://www.google.com/maps?q=Adama+Science+and+Technology+University,+Adama,+Ethiopia&output=embed" 
                   width="100%" 
                   height="100%" 
                   style={{ border: 0 }} 

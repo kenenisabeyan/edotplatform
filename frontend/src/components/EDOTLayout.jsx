@@ -471,11 +471,11 @@ export default function EDOTLayout() {
                 </button>
                 
                 {quickActionsOpen && (
-                  <div className={`absolute right-0 mt-3 w-56 glass-card rounded-2xl shadow-xl shadow-indigo-500/10 border overflow-hidden z-[100] animate-in slide-in-from-top-2 duration-200 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div className={`absolute right-0 mt-3 w-56 rounded-2xl shadow-xl shadow-black/40 border overflow-hidden z-[100] animate-in slide-in-from-top-2 duration-200 ${isDarkMode ? 'bg-slate-950/95 border-white/10' : 'bg-white/95 border-slate-200'}`}>
                     <div className="p-2 space-y-1">
                       <p className={`px-3 py-1.5 text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Create New</p>
                       {quickActions.map(action => (
-                        <button key={action.name} onClick={() => { setQuickActionsOpen(false); navigate(action.path); }} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-white/5/5 hover:text-[#00D4FF] transition-colors text-left group ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+                        <button key={action.name} onClick={() => { setQuickActionsOpen(false); navigate(action.path); }} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-white/5 hover:text-[#00D4FF] transition-colors text-left group ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
                            <div className={`p-1.5 rounded-lg text-[#00D4FF] group-hover:scale-110 transition-transform ${isDarkMode ? 'bg-[#0B1120]/10' : 'bg-slate-50'}`}>
                              <action.icon className="w-4 h-4" />
                            </div>
@@ -510,8 +510,8 @@ export default function EDOTLayout() {
               </button>
 
               {profileOpen && (
-                <div className="absolute right-0 mt-4 w-72 glass-card overflow-hidden z-[100] animate-in slide-in-from-top-2 duration-200">
-                  <div className={`p-5 border-b flex flex-col items-center gap-3 bg-transparent/50 text-center ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                <div className={`absolute right-0 mt-4 w-72 overflow-hidden z-[100] animate-in slide-in-from-top-2 duration-200 ${isDarkMode ? 'bg-slate-950/95 border border-white/10 shadow-xl shadow-black/40' : 'bg-white/95 border border-slate-200 shadow-xl shadow-slate-900/10'}`}>
+                  <div className={`p-5 border-b flex flex-col items-center gap-3 text-center ${isDarkMode ? 'bg-slate-950/95 border-white/10' : 'bg-white/95 border-slate-200'}`}>
                     <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-[#008A32] to-[#00D4FF] p-0.5 shadow-sm">
                       <UserAvatar user={user} className="w-full h-full text-xl border-[3px] border-white" />
                     </div>

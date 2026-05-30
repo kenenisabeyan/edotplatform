@@ -149,8 +149,8 @@ export default function Navbar() {
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform ${userDropdownOpen ? 'rotate-180' : ''} ${isDarkMode ? 'text-white' : 'text-slate-700'}`} />
                 </button>
 
-                <div className={`absolute top-[calc(100%+1rem)] right-0 w-64 bg-white dark:bg-[#0B1120] border rounded-xl shadow-lg transition-all duration-200 origin-top-right overflow-hidden ${userDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                  <div className={`p-4 border-b ${isDarkMode ? 'border-white/5 bg-[#0B1120]/40' : 'border-slate-100 bg-slate-50'}`}>
+                <div className={`absolute top-[calc(100%+1rem)] right-0 w-64 bg-white dark:bg-slate-950/95 border rounded-xl shadow-lg transition-all duration-200 origin-top-right overflow-hidden ${userDropdownOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div className={`p-4 border-b ${isDarkMode ? 'border-white/5 bg-slate-950/90' : 'border-slate-100 bg-slate-50'}`}>
                     <p className={`text-[14px] font-semibold truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.name || 'User'}</p>
                     <p className="text-[12px] text-slate-500 truncate mt-0.5">{user?.email || 'user@example.com'}</p>
                   </div>
