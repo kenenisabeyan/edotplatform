@@ -32,6 +32,7 @@ export default function Home() {
   const [recentUsers, setRecentUsers] = useState([]);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [activeRole, setActiveRole] = useState('learner');
+  const [latestPublicUser, setLatestPublicUser] = useState(null);
   const videoRef = useRef(null);
 
   // Interactive control deck state
@@ -47,6 +48,42 @@ export default function Home() {
       return copy;
     });
   };
+
+  const instructorHighlights = [
+    { label: 'Scalable curriculum design', bg: '#3B82F6' },
+    { label: 'Live student analytics', bg: '#6366F1' },
+    { label: 'Secure grading workflows', bg: '#10B981' },
+    { label: 'Video lesson publishing', bg: '#F97316' }
+  ];
+
+  const instructorStats = [
+    { label: '2,480 instructors onboarded', bg: '#3B82F6', icon: Users },
+    { label: 'Teaching goals aligned', bg: '#F97316' }
+  ];
+
+  const parentHighlights = [
+    { label: 'Encrypted family access', bg: '#A855F7' },
+    { label: 'Real-time attendance updates', bg: '#3B82F6' },
+    { label: 'Progress milestone alerts', bg: '#22C55E' },
+    { label: 'Direct instructor messaging', bg: '#6366F1' }
+  ];
+
+  const parentStats = [
+    { label: '5,000+ guardians connected', bg: '#A855F7', icon: Users },
+    { label: 'Secure family learning goals', bg: '#0EA5E9' }
+  ];
+
+  const sponsorHighlights = [
+    { label: 'Verified impact reports', bg: '#FB7185' },
+    { label: 'Funding milestone tracking', bg: '#F97316' },
+    { label: 'Student progress dashboards', bg: '#3B82F6' },
+    { label: 'Secure sponsorship workflows', bg: '#A855F7' }
+  ];
+
+  const sponsorStats = [
+    { label: '650 sponsors actively funding', bg: '#FB7185', icon: Users },
+    { label: 'Goal-driven education support', bg: '#F59E0B' }
+  ];
 
   const frameStyle = isDarkMode ? {
     position: 'relative',
@@ -133,12 +170,7 @@ export default function Home() {
       if (data && data.success) {
         if (data.users && data.users.length > 0) {
            setRecentUsers(data.users);
-        }
-        if (data.totalCount > 10000) {
-           setTotalUsers('10k+');
-        } else if (data.totalCount >= 15) {
-           const roundedFloor = Math.floor(data.totalCount / 5) * 5;
-           setTotalUsers(`${roundedFloor}+`);
+               setLatestPublicUser(data.users[0]);
         } else if (data.totalCount > 0) {
            setTotalUsers(data.totalCount.toString());
         }
@@ -855,10 +887,10 @@ export default function Home() {
             {/* Premium Selector Tabs */}
             <div className="flex flex-wrap justify-center gap-4 mb-16">
                {[
-                 { id: 'learner', title: 'Learners', icon: GraduationCap, color: 'text-cyan-400 border-cyan-400 bg-cyan-400/10' },
-                 { id: 'instructor', title: 'Instructors', icon: BookOpen, color: 'text-emerald-400 border-emerald-400 bg-emerald-400/10' },
-                 { id: 'parent', title: 'Parents', icon: Users, color: 'text-indigo-400 border-indigo-400 bg-indigo-400/10' },
-                 { id: 'sponsor', title: 'Sponsors', icon: Heart, color: 'text-rose-400 border-rose-400 bg-rose-400/10' }
+                 { id: 'learner', title: 'Learners', icon: GraduationCap, color: 'bg-[#3B82F6] text-white border-[#3B82F6]', shadow: 'shadow-[#3B82F6]/15' },
+                 { id: 'instructor', title: 'Instructors', icon: BookOpen, color: 'bg-[#6366F1] text-white border-[#6366F1]', shadow: 'shadow-[#6366F1]/15' },
+                 { id: 'parent', title: 'Parents', icon: Users, color: 'bg-[#A855F7] text-white border-[#A855F7]', shadow: 'shadow-[#A855F7]/15' },
+                 { id: 'sponsor', title: 'Sponsors', icon: Heart, color: 'bg-[#F97316] text-white border-[#F97316]', shadow: 'shadow-[#F97316]/15' }
                ].map((role) => {
                   const isActive = activeRole === role.id;
                   const Icon = role.icon;
@@ -870,8 +902,8 @@ export default function Home() {
                        onClick={() => setActiveRole(role.id)}
                        className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl font-bold text-sm border-2 cursor-pointer transition-all duration-300 ${
                          isActive 
-                           ? `${role.color} shadow-lg shadow-[#00D4FF]/10` 
-                           : (isDarkMode ? 'border-white/5 bg-slate-900/60 text-slate-400 hover:text-white hover:border-white/20' : 'border-slate-200 bg-white text-slate-500 hover:text-slate-900 hover:border-slate-350 hover:shadow-sm')
+                           ? `${role.color} shadow-lg ${role.shadow}` 
+                           : (isDarkMode ? 'border-white/10 bg-slate-900/70 text-slate-200 hover:text-white hover:border-white/20' : 'border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:border-slate-300 hover:shadow-sm')
                        }`}
                      >
                        <Icon className="w-5 h-5" />
@@ -903,30 +935,44 @@ export default function Home() {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.5 }}
                         >
-                           <span className="text-xs font-bold uppercase tracking-widest text-cyan-400 bg-cyan-400/10 px-3.5 py-1.5 rounded-full border border-cyan-400/20 mb-6 inline-block">Premium Student Workspace</span>
-                           <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>A Structured Path from Curiosity to Mastery</h3>
-                           <p className={`text-lg leading-relaxed mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
-                              Students on EDOT enjoy a highly immersive workspace. Instead of viewing isolated videos, learners follow structured curriculum tracks, practice with interactive quizzes, and receive verified credentials that boost their academic and professional goals.
+                           <span className="text-xs font-bold uppercase tracking-widest text-white bg-[#00D4FF] px-3.5 py-1.5 rounded-full border border-[#00D4FF] mb-6 inline-block">Learner Growth Lab</span>
+                           <h3 className={`text-3xl font-black mb-5 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Clear learning paths. Credential outcomes.</h3>
+                           <p className={`text-base leading-relaxed mb-7 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+                              Master every step with focus, progress reports, and verified certificates built for learners who want momentum and measurable results.
                            </p>
-                           <div className="space-y-4 mb-10">
-                              {[
-                                "Linear lesson progressions with rich media players",
-                                "Embedded smart testing modules for immediate feedback",
-                                "Direct socket communication with subject-matter mentors",
-                                "Encrypted student portfolio and completion certificates"
-                              ].map((item, idx) => (
-                                 <div key={idx} className="flex items-center gap-3">
-                                    <div className="w-5 h-5 rounded-full bg-cyan-500/15 text-cyan-400 flex items-center justify-center shrink-0">
-                                       <CheckCircle className="w-3.5 h-3.5" />
-                                    </div>
-                                    <span className={`text-[15px] font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{item}</span>
-                                 </div>
-                              ))}
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                              {PACKAGES.slice(0, 6).map(pkg => {
+                                 const textColor = pkg.color === '#FFD700' ? '#0F172A' : '#ffffff';
+                                 return (
+                                    <span
+                                      key={pkg.id}
+                                      className="text-[11px] font-semibold uppercase tracking-[0.18em] rounded-full shadow-sm px-3 py-2"
+                                      style={{
+                                        background: `linear-gradient(135deg, ${pkg.color}, ${pkg.darkColor})`,
+                                        color: textColor,
+                                        boxShadow: `0 12px 35px -20px ${pkg.color}80`
+                                      }}
+                                    >
+                                       {pkg.ribbon}
+                                    </span>
+                                 );
+                              })}
                            </div>
-                           <Link to="/register?role=student" className="inline-flex items-center gap-3 rounded-full bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold pl-8 pr-6 py-4 text-[14px] shadow-lg shadow-cyan-500/10 hover:-translate-y-0.5 transition-all duration-300 group">
-                              Register as a Learner
-                              <span className="flex items-center justify-center w-6 h-6 rounded-full border border-slate-900 ml-1.5 transition-colors">
-                                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                           <div className="flex flex-wrap items-center gap-3 mb-8">
+                              <span className="inline-flex items-center gap-2 rounded-full bg-[#00D4FF] text-white px-3 py-2 font-semibold shadow-sm shadow-[#00D4FF]/20">
+                                 <Users className="w-4 h-4" />
+                                 {totalUsers.toLocaleString()} learners empowered
+                              </span>
+                              {latestPublicUser && (
+                                 <span className="inline-flex items-center gap-2 rounded-full bg-[#FF904D] text-white px-3 py-2 text-sm shadow-sm shadow-[#FF904D]/20">
+                                    <span className="font-semibold">{latestPublicUser.name}</span> just joined
+                                 </span>
+                              )}
+                           </div>
+                           <Link to="/register?role=student" className="inline-flex items-center gap-4 rounded-full bg-[#3B82F6] hover:bg-[#1D4ED8] text-white font-bold pl-10 pr-8 py-4 text-base shadow-lg shadow-[#3B82F6]/25 hover:-translate-y-0.5 transition-all duration-300 group">
+                              Start learning today
+                              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white border border-white/50 ml-1.5 transition-colors">
+                                 <ArrowRight className="w-4 h-4 text-[#0084C7] group-hover:translate-x-0.5 transition-transform" />
                               </span>
                            </Link>
                         </motion.div>
@@ -939,30 +985,37 @@ export default function Home() {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.5 }}
                         >
-                           <span className="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-400/10 px-3.5 py-1.5 rounded-full border border-emerald-400/20 mb-6 inline-block">Educator Command Center</span>
+                           <span className="text-xs font-bold uppercase tracking-widest text-white bg-[#3B82F6] px-3.5 py-1.5 rounded-full border border-[#3B82F6] mb-6 inline-block">Educator Command Center</span>
                            <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Complete Teaching Autonomy & Insights</h3>
-                           <p className={`text-lg leading-relaxed mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
+                           <p className={`text-lg leading-relaxed mb-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
                               Instructors have absolute authority to design curricula and publish lessons. With built-in analytical metrics, teachers can easily audit attendance, monitor overall class performance, and deliver personalized guidance directly.
                            </p>
-                           <div className="space-y-4 mb-10">
-                              {[
-                                "Seamless drag-and-drop dynamic course builder",
-                                "Student attendance matrices and automated progress charts",
-                                "Admin-instructor course approval and publishing workflows",
-                                "Direct video lecture uploads powered by Cloudinary and Multer"
-                              ].map((item, idx) => (
-                                 <div key={idx} className="flex items-center gap-3">
-                                    <div className="w-5 h-5 rounded-full bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
-                                       <CheckCircle className="w-3.5 h-3.5" />
-                                    </div>
-                                    <span className={`text-[15px] font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{item}</span>
-                                 </div>
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                              {instructorHighlights.map((item, idx) => (
+                                 <span
+                                   key={idx}
+                                   className="text-[11px] font-semibold uppercase tracking-[0.18em] rounded-full text-white shadow-sm px-3 py-2"
+                                   style={{ backgroundColor: item.bg, boxShadow: `0 12px 30px -22px ${item.bg}80` }}
+                                 >
+                                    {item.label}
+                                 </span>
                               ))}
                            </div>
-                           <Link to="/register?role=instructor" className="inline-flex items-center gap-3 rounded-full bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold pl-8 pr-6 py-4 text-[14px] shadow-lg shadow-emerald-500/10 hover:-translate-y-0.5 transition-all duration-300 group">
+                           <div className="flex flex-wrap items-center gap-3 mb-10">
+                              {instructorStats.map((item, idx) => (
+                                 <span
+                                   key={idx}
+                                   className="inline-flex items-center gap-2 rounded-full text-white px-3 py-2 font-semibold shadow-sm"
+                                   style={{ backgroundColor: item.bg, boxShadow: `0 12px 25px -18px ${item.bg}80` }}
+                                 >
+                                    {item.icon && <item.icon className="w-4 h-4" />} {item.label}
+                                 </span>
+                              ))}
+                           </div>
+                           <Link to="/register?role=instructor" className="inline-flex items-center gap-3 rounded-full bg-[#6366F1] hover:bg-[#4338CA] text-white font-bold pl-8 pr-6 py-4 text-[14px] shadow-lg shadow-[#6366F1]/15 hover:-translate-y-0.5 transition-all duration-300 group">
                               Join as an Instructor
-                              <span className="flex items-center justify-center w-6 h-6 rounded-full border border-slate-900 ml-1.5 transition-colors">
-                                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-white border border-white/30 ml-1.5 transition-colors">
+                                 <ArrowRight className="w-3.5 h-3.5 text-[#0f766e] group-hover:translate-x-0.5 transition-transform" />
                               </span>
                            </Link>
                         </motion.div>
@@ -975,30 +1028,37 @@ export default function Home() {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.5 }}
                         >
-                           <span className="text-xs font-bold uppercase tracking-widest text-indigo-400 bg-indigo-400/10 px-3.5 py-1.5 rounded-full border border-indigo-400/20 mb-6 inline-block">Parent Insight Portal</span>
+                           <span className="text-xs font-bold uppercase tracking-widest text-white bg-[#A855F7] px-3.5 py-1.5 rounded-full border border-[#A855F7] mb-6 inline-block">Parent Insight Portal</span>
                            <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Active Progress Tracking & Connection</h3>
-                           <p className={`text-lg leading-relaxed mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
+                           <p className={`text-lg leading-relaxed mb-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
                               EDOT connects parents directly to their child's academic journey. By establishing a secure connection through unique credentials, parents gain absolute visibility into their children's daily progress, study goals, and overall performance.
                            </p>
-                           <div className="space-y-4 mb-10">
-                              {[
-                                "Instant linking using highly secure, encrypted connection keys",
-                                "Real-time updates of child's course completion timelines",
-                                "Direct access to instructors and study achievement notices",
-                                "Comprehensive overview of daily, weekly, and yearly attendance"
-                              ].map((item, idx) => (
-                                 <div key={idx} className="flex items-center gap-3">
-                                    <div className="w-5 h-5 rounded-full bg-[#00D4FF]/20 text-[#00D4FF] flex items-center justify-center shrink-0">
-                                       <CheckCircle className="w-3.5 h-3.5" />
-                                    </div>
-                                    <span className={`text-[15px] font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{item}</span>
-                                 </div>
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                              {parentHighlights.map((item, idx) => (
+                                 <span
+                                   key={idx}
+                                   className="text-[11px] font-semibold uppercase tracking-[0.18em] rounded-full text-white shadow-sm px-3 py-2"
+                                   style={{ backgroundColor: item.bg, boxShadow: `0 12px 30px -22px ${item.bg}80` }}
+                                 >
+                                    {item.label}
+                                 </span>
                               ))}
                            </div>
-                           <Link to="/register?role=parent" className="inline-flex items-center gap-3 rounded-full bg-indigo-500 hover:bg-indigo-650 text-white font-bold pl-8 pr-6 py-4 text-[14px] shadow-lg shadow-indigo-500/10 hover:-translate-y-0.5 transition-all duration-300 group">
+                           <div className="flex flex-wrap items-center gap-3 mb-10">
+                              {parentStats.map((item, idx) => (
+                                 <span
+                                   key={idx}
+                                   className="inline-flex items-center gap-2 rounded-full text-white px-3 py-2 font-semibold shadow-sm"
+                                   style={{ backgroundColor: item.bg, boxShadow: `0 12px 25px -18px ${item.bg}80` }}
+                                 >
+                                    {item.icon && <item.icon className="w-4 h-4" />} {item.label}
+                                 </span>
+                              ))}
+                           </div>
+                           <Link to="/register?role=parent" className="inline-flex items-center gap-3 rounded-full bg-[#A855F7] hover:bg-[#7E22CE] text-white font-bold pl-8 pr-6 py-4 text-[14px] shadow-lg shadow-[#A855F7]/15 hover:-translate-y-0.5 transition-all duration-300 group">
                               Connect as a Parent
-                              <span className="flex items-center justify-center w-6 h-6 rounded-full border border-white ml-1.5 transition-colors">
-                                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-white border border-white/30 ml-1.5 transition-colors">
+                                 <ArrowRight className="w-3.5 h-3.5 text-[#4f46e5] group-hover:translate-x-0.5 transition-transform" />
                               </span>
                            </Link>
                         </motion.div>
@@ -1011,30 +1071,37 @@ export default function Home() {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.5 }}
                         >
-                           <span className="text-xs font-bold uppercase tracking-widest text-rose-400 bg-rose-400/10 px-3.5 py-1.5 rounded-full border border-rose-400/20 mb-6 inline-block">Transparent Sponsorship Board</span>
+                           <span className="text-xs font-bold uppercase tracking-widest text-white bg-[#F97316] px-3.5 py-1.5 rounded-full border border-[#F97316] mb-6 inline-block">Transparent Sponsorship Board</span>
                            <h3 className={`text-3xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Fund Futures, Track Outcomes</h3>
-                           <p className={`text-lg leading-relaxed mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
+                           <p className={`text-lg leading-relaxed mb-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
                               Sponsors can support bright minds directly. The system ensures complete transparency, allowing you to fund education for students in need, authorize connections securely, and track progress metrics in real time.
                            </p>
-                           <div className="space-y-4 mb-10">
-                              {[
-                                "Verifiable student profiles and background connection systems",
-                                "Explicit agreement terms and active/pending status trackers",
-                                "Direct messaging and study milestone achievement feeds",
-                                "Verified outcome reports to measure real social impact"
-                              ].map((item, idx) => (
-                                 <div key={idx} className="flex items-center gap-3">
-                                    <div className="w-5 h-5 rounded-full bg-rose-500/15 text-rose-400 flex items-center justify-center shrink-0">
-                                       <CheckCircle className="w-3.5 h-3.5" />
-                                    </div>
-                                    <span className={`text-[15px] font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{item}</span>
-                                 </div>
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                              {sponsorHighlights.map((item, idx) => (
+                                 <span
+                                   key={idx}
+                                   className="text-[11px] font-semibold uppercase tracking-[0.18em] rounded-full text-white shadow-sm px-3 py-2"
+                                   style={{ backgroundColor: item.bg, boxShadow: `0 12px 30px -22px ${item.bg}80` }}
+                                 >
+                                    {item.label}
+                                 </span>
                               ))}
                            </div>
-                           <Link to="/register?role=sponsor" className="inline-flex items-center gap-3 rounded-full bg-rose-500 hover:bg-rose-600 text-white font-bold pl-8 pr-6 py-4 text-[14px] shadow-lg shadow-rose-500/10 hover:-translate-y-0.5 transition-all duration-300 group">
+                           <div className="flex flex-wrap items-center gap-3 mb-10">
+                              {sponsorStats.map((item, idx) => (
+                                 <span
+                                   key={idx}
+                                   className="inline-flex items-center gap-2 rounded-full text-white px-3 py-2 font-semibold shadow-sm"
+                                   style={{ backgroundColor: item.bg, boxShadow: `0 12px 25px -18px ${item.bg}80` }}
+                                 >
+                                    {item.icon && <item.icon className="w-4 h-4" />} {item.label}
+                                 </span>
+                              ))}
+                           </div>
+                           <Link to="/register?role=sponsor" className="inline-flex items-center gap-3 rounded-full bg-[#F97316] hover:bg-[#C2410C] text-white font-bold pl-8 pr-6 py-4 text-[14px] shadow-lg shadow-[#F97316]/15 hover:-translate-y-0.5 transition-all duration-300 group">
                               Become a Sponsor
-                              <span className="flex items-center justify-center w-6 h-6 rounded-full border border-white ml-1.5 transition-colors">
-                                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-white border border-white/30 ml-1.5 transition-colors">
+                                 <ArrowRight className="w-3.5 h-3.5 text-[#f43f5e] group-hover:translate-x-0.5 transition-transform" />
                               </span>
                            </Link>
                         </motion.div>
@@ -1050,39 +1117,66 @@ export default function Home() {
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                           className={`w-full max-w-[420px] rounded-3xl border p-6 shadow-2xl relative overflow-hidden ${
-                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-white border-slate-200 shadow-slate-300/40'
+                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-gradient-to-br from-white via-slate-50 to-[#F0FCFF] border-slate-200 shadow-slate-300/40'
                           }`}
                         >
-                          <div className="flex justify-between items-center mb-4">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-400">Student Course Progress</span>
-                            <span className="text-[10px] bg-cyan-400/20 text-cyan-400 px-2.5 py-0.5 rounded-full font-bold">In Progress</span>
-                          </div>
-                          <h4 className={`text-lg font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>Python & Data Science Mastery</h4>
-                          <p className={`text-xs mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Instructor: Kenenisa Beyan</p>
-                          
-                          {/* Animating Progress Bar */}
-                          <div className={`w-full rounded-full h-2.5 mb-2 overflow-hidden ${isDarkMode ? 'bg-slate-800' : 'bg-slate-100'}`}>
-                            <motion.div 
-                              initial={{ width: 0 }}
-                              animate={{ width: '80%' }}
-                              transition={{ duration: 0.8, delay: 0.2 }}
-                              className="bg-cyan-500 h-2.5 rounded-full"
-                            />
-                          </div>
-                          <div className="flex justify-between text-[11px] text-slate-400 font-bold mb-6">
-                            <span>80% Completed</span>
-                            <span>12/15 Lessons</span>
-                          </div>
+                          <div className="absolute -left-10 -top-10 h-36 w-36 rounded-full bg-[#00D4FF]/15 blur-3xl" />
+                          <div className="absolute -right-10 bottom-6 h-28 w-28 rounded-full bg-[#FF5A00]/15 blur-3xl" />
 
-                          {/* Next up item */}
-                          <div className={`rounded-xl p-3.5 border flex justify-between items-center ${isDarkMode ? 'bg-slate-900/60 border-white/5' : 'bg-slate-50 border-slate-200'}`}>
-                            <div className="text-left">
-                              <span className="text-[9px] uppercase font-bold text-slate-500">Next Lesson</span>
-                              <p className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>13. Machine Learning Foundations</p>
+                          <div className="relative z-10 space-y-4">
+                            <div className="flex justify-between items-center mb-4">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-white bg-[#00D4FF] px-2.5 py-1 rounded-full border border-[#00D4FF]/80">
+                                Student Course Progress
+                              </span>
+                              <span className="text-[10px] bg-[#FF8E5A] text-white border border-[#FF8E5A]/80 px-2.5 py-1 rounded-full font-bold">In progress</span>
                             </div>
-                            <button className="h-8 w-8 bg-cyan-500 text-slate-900 rounded-full flex items-center justify-center font-bold hover:scale-110 transition-transform cursor-pointer shadow-md pl-0.5">
-                              ▶
-                            </button>
+                            <div>
+                              <h4 className={`text-xl font-black mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Python & Data Science Mastery</h4>
+                              <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>A focused path with live labs and certificates.</p>
+                            </div>
+
+                            <div className="rounded-3xl p-4 bg-[#E5F8FF] border border-[#00D4FF]/40">
+                              <div className="flex items-center justify-between mb-3 text-[11px] text-slate-500 uppercase font-bold tracking-[0.18em]">
+                                <span>Progress</span>
+                                <span>80%</span>
+                              </div>
+                              <div className="w-full rounded-full h-3 overflow-hidden bg-slate-100 dark:bg-slate-800">
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: '80%' }}
+                                  transition={{ duration: 0.9, delay: 0.2 }}
+                                  className="h-3 rounded-full bg-[#00D4FF]"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="flex flex-wrap gap-2">
+                              {['Python', 'AI', 'Statistics', 'A/B Testing'].map(tag => (
+                                <span key={tag} className="text-[11px] font-semibold uppercase tracking-[0.15em] rounded-full bg-[#FF8E5A] text-white px-3 py-2 shadow-sm shadow-[#FF8E5A]/15">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+
+                            <div className={`rounded-2xl p-4 border flex items-center justify-between ${isDarkMode ? 'bg-slate-900/60 border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+                              <div>
+                                <span className="text-[9px] uppercase font-bold tracking-[0.18em] text-slate-500">Next lesson</span>
+                                <p className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Machine Learning Foundations</p>
+                              </div>
+                              <button className="h-10 w-10 bg-[#00D4FF] text-white rounded-full flex items-center justify-center font-bold hover:scale-110 transition-transform shadow-[0_12px_30px_rgba(0,212,255,0.22)]">
+                                ▶
+                              </button>
+                            </div>
+
+                            <div className="flex flex-col gap-3 text-[11px] text-slate-700 dark:text-slate-300">
+                              <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 dark:bg-slate-900/80 px-3 py-2 text-slate-900 dark:text-slate-100">
+                                <UserCheck className="w-4 h-4 text-[#00D4FF]" />
+                                Latest joiner: {latestPublicUser?.name || 'a new learner'}
+                              </span>
+                              <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-900/70 px-3 py-2 text-slate-900 dark:text-slate-200">
+                                Live categories: {PACKAGES.slice(0, 4).map(pkg => pkg.ribbon).join(' · ')}
+                              </span>
+                            </div>
                           </div>
                         </motion.div>
                      )}
@@ -1094,9 +1188,11 @@ export default function Home() {
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                           className={`w-full max-w-[420px] rounded-3xl border p-6 shadow-2xl relative overflow-hidden ${
-                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-white border-slate-200 shadow-slate-300/40'
+                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-gradient-to-br from-white via-slate-50 to-[#ECFDF5] border-slate-200 shadow-slate-300/40'
                           }`}
                         >
+                          <div className="absolute -left-10 -top-10 h-36 w-36 rounded-full bg-[#10B981]/15 blur-3xl" />
+                          <div className="absolute -right-10 bottom-6 h-28 w-28 rounded-full bg-[#34D399]/15 blur-3xl" />
                           <div className="flex justify-between items-center mb-6">
                             <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Educator Command Center</span>
                             <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold">Active Auditing</span>
@@ -1137,9 +1233,11 @@ export default function Home() {
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                           className={`w-full max-w-[420px] rounded-3xl border p-6 shadow-2xl relative overflow-hidden ${
-                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-white border-slate-200 shadow-slate-300/40'
+                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-gradient-to-br from-white via-slate-50 to-[#EEF2FF] border-slate-200 shadow-slate-300/40'
                           }`}
                         >
+                          <div className="absolute -left-10 -top-10 h-36 w-36 rounded-full bg-[#6366F1]/15 blur-3xl" />
+                          <div className="absolute -right-10 bottom-6 h-28 w-28 rounded-full bg-[#A5B4FC]/15 blur-3xl" />
                           <div className="flex justify-between items-center mb-6">
                             <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">Parent Insight Portal</span>
                             <span className="text-[10px] bg-indigo-500/20 text-indigo-400 px-2.5 py-0.5 rounded-full font-bold">Encrypted E2E Link</span>
@@ -1172,9 +1270,11 @@ export default function Home() {
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                           className={`w-full max-w-[420px] rounded-3xl border p-6 shadow-2xl relative overflow-hidden ${
-                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-white border-slate-200 shadow-slate-300/40'
+                            isDarkMode ? 'bg-[#0B1120]/90 border-white/10 shadow-black/80' : 'bg-gradient-to-br from-white via-slate-50 to-[#FFE4EB] border-slate-200 shadow-slate-300/40'
                           }`}
                         >
+                          <div className="absolute -left-10 -top-10 h-36 w-36 rounded-full bg-[#FB7185]/15 blur-3xl" />
+                          <div className="absolute -right-10 bottom-6 h-28 w-28 rounded-full bg-[#FCA5A5]/15 blur-3xl" />
                           <div className="flex justify-between items-center mb-6">
                             <span className="text-[10px] font-bold uppercase tracking-wider text-rose-400">Sponsor Impact Board</span>
                             <span className="text-[10px] bg-rose-500/20 text-rose-400 px-2.5 py-0.5 rounded-full font-bold">Active Support</span>

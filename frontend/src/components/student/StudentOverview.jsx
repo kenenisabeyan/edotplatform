@@ -146,7 +146,12 @@ const StudentOverview = ({
       
       {/* Hero Banner */}
       {/* Hero Banner */}
-      <motion.div variants={itemVariants} className={`p-8 md:px-12 md:py-10 min-h-[240px] rounded-[32px] relative overflow-hidden flex flex-col md:flex-row justify-between items-center gap-8 ${isDarkMode ? 'bg-[#0B1D3A] border border-[#1e293b]' : 'bg-gradient-to-r from-[#F5F7FF] to-[#EAF7FF] border border-[#E5E7EB]'}`}>
+      <motion.div variants={itemVariants} className={`p-8 md:px-12 md:py-10 min-h-[240px] rounded-[32px] relative overflow-hidden flex flex-col md:flex-row justify-between items-center gap-8 transition-all duration-500 ${isDarkMode ? 'bg-[#0B1D3A] border border-[#1e293b]' : 'bg-gradient-to-r from-[#EFF6FF] via-[#F8FAFC] to-[#EAF7FF] border border-[#E5E7EB]'}`}>
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -left-20 -top-16 w-48 h-48 rounded-full bg-[#38BDF8]/20 blur-3xl"></div>
+          <div className="absolute right-8 top-12 w-44 h-44 rounded-full bg-[#F97316]/15 blur-3xl"></div>
+          <div className="absolute left-1/2 bottom-0 w-60 h-60 rounded-full bg-[#22C55E]/10 blur-3xl transform -translate-x-1/2"></div>
+        </div>
         
         {/* Left Content */}
         <div className="relative z-10 flex-1 min-w-[300px]">
@@ -162,12 +167,12 @@ const StudentOverview = ({
             Keep learning, keep growing. You're doing great!
           </p>
           <motion.button 
-            whileHover={{ scale: 1.02, backgroundColor: "#FFF5E6", borderColor: "#00D4FF", boxShadow: "0px 8px 16px rgba(249, 115, 22, 0.15)" }}
+            whileHover={{ scale: 1.03, boxShadow: '0px 20px 50px rgba(0, 212, 255, 0.18)' }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveTab('courses')} 
-            className={`px-6 py-2.5 font-bold text-[14px] rounded-xl transition-all flex items-center gap-2 w-max shadow-sm
-            ${isDarkMode ? 'bg-[#00D4FF]/20 border border-[#00D4FF] text-[#00D4FF]' 
-                         : 'bg-[#FFFFFF] border border-[#00D4FF] text-[#00D4FF]'}`}
+            className={`px-6 py-3 font-bold text-[14px] rounded-2xl transition-all flex items-center gap-2 w-max shadow-lg
+            ${isDarkMode ? 'bg-[#0F172A] border border-[#0F172A] text-white shadow-[0_20px_50px_rgba(0,212,255,0.18)]' 
+                         : 'bg-gradient-to-r from-[#06B6D4] to-[#0EA5E9] text-white shadow-[0_20px_50px_rgba(14,165,233,0.24)]'}`}
           >
             <span className="text-xl leading-none font-medium mb-0.5">+</span> Start a Lesson
           </motion.button>
@@ -238,7 +243,7 @@ const StudentOverview = ({
           { title: 'Completed Lessons', value: totalLessonsCompleted.toString(), subtitle: 'Lessons', trend: '', icon: ({className}) => <CheckCircle className={className} fill="currentColor" stroke="white" strokeWidth={1.5} />, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-500/10' },
           { title: 'Certificates', value: certificateTotal.toString(), subtitle: certificateSubtitle, action: 'View all certificates →', icon: ({className}) => <Award className={className} fill="currentColor" strokeWidth={1} />, color: 'text-[#00D4FF]', bg: 'bg-orange-50 dark:bg-[#00D4FF]/10' },
         ].map((stat, i) => (
-          <motion.div key={i} variants={itemVariants} className={`p-6 rounded-[24px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
+          <motion.div key={i} variants={itemVariants} className={`p-6 rounded-[28px] border shadow-[0_14px_55px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_70px_rgba(15,23,42,0.12)] ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
             <div className="flex items-start gap-4">
                {/* Icon */}
                <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${stat.bg} ${stat.color}`}>
@@ -388,10 +393,12 @@ const StudentOverview = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Academic Progress */}
-        <motion.div variants={itemVariants} className={`p-6 rounded-[1.5rem] border shadow-sm flex flex-col relative ${cardClass}`}>
-          <div className="flex justify-between items-center mb-4">
+        <motion.div variants={itemVariants} className={`p-6 rounded-[1.75rem] border shadow-[0_18px_60px_rgba(15,23,42,0.08)] relative overflow-hidden ${cardClass}`}>
+          <div className="absolute -right-16 top-10 w-52 h-52 rounded-full bg-[#38BDF8]/10 blur-3xl mix-blend-screen"></div>
+          <div className="absolute left-8 bottom-8 w-40 h-40 rounded-full bg-[#22C55E]/10 blur-3xl mix-blend-screen"></div>
+          <div className="flex justify-between items-center mb-4 relative z-10">
             <h3 className={`text-[13px] font-bold ${textClass}`}>Academic Progress</h3>
-            <button onClick={() => setActiveTab('courses')} className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border flex items-center gap-1 ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
+            <button onClick={() => setActiveTab('courses')} className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border flex items-center gap-1 transition-colors ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-slate-300 hover:bg-slate-900' : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'}`}>
               All Courses <ChevronRight className="w-3 h-3 rotate-90" />
             </button>
           </div>
@@ -458,8 +465,9 @@ const StudentOverview = ({
         </motion.div>
 
         {/* Weekly Study Goal */}
-        <motion.div variants={itemVariants} className={`p-6 rounded-[1.5rem] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#121A2F] border-slate-800' : 'bg-white border-slate-200/80'}`}>
-          <div className="flex justify-between items-center mb-6">
+        <motion.div variants={itemVariants} className={`p-6 rounded-[1.75rem] border shadow-[0_18px_50px_rgba(15,23,42,0.08)] transition-all hover:-translate-y-1 flex flex-col relative overflow-hidden ${isDarkMode ? 'bg-[#121A2F] border-slate-800' : 'bg-white border-slate-200/80'}`}>
+          <div className="absolute right-10 bottom-10 w-36 h-36 rounded-full bg-[#10B981]/10 blur-3xl mix-blend-screen"></div>
+          <div className="flex justify-between items-center mb-6 relative z-10">
             <h3 className={`text-[13px] font-bold ${textClass}`}>Weekly Study Goal</h3>
             <button onClick={() => setActiveTab('study-goal')} className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border flex items-center gap-1 ${isDarkMode ? 'bg-[#1A2235] border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'}`}>
               View All <ChevronRight className="w-3 h-3" />
@@ -524,8 +532,10 @@ const StudentOverview = ({
         </motion.div>
 
         {/* Certificates Claim */}
-        <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[24px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col relative overflow-hidden ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
-          <div className="flex justify-between items-center mb-6">
+        <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[24px] border shadow-[0_18px_60px_rgba(15,23,42,0.08)] flex flex-col relative overflow-hidden ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
+          <div className="absolute right-6 top-8 w-44 h-44 rounded-full bg-[#00D4FF]/10 blur-3xl mix-blend-screen"></div>
+          <div className="absolute left-6 bottom-10 w-36 h-36 rounded-full bg-[#F97316]/10 blur-3xl mix-blend-screen"></div>
+          <div className="flex justify-between items-center mb-6 relative z-10">
             <h3 className={`text-[13px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>
               {readyCertificates.length === 0 && dashboardStats?.certificates?.length > 0 ? 'Recent Certificates' : 'Certificates Claim'}
             </h3>
@@ -659,7 +669,7 @@ const StudentOverview = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Courses */}
-        <motion.div variants={itemVariants} className={`p-6 rounded-[1.5rem] border shadow-sm flex flex-col ${cardClass}`}>
+        <motion.div variants={itemVariants} className={`p-6 rounded-[1.75rem] border shadow-[0_18px_50px_rgba(15,23,42,0.08)] transition-all hover:-translate-y-1 ${cardClass}`}>
           <div className="flex justify-between items-center mb-6">
             <h3 className={`text-[13px] font-bold ${textClass}`}>Recent Courses</h3>
             <button onClick={() => setActiveTab('courses')} className="text-[11px] font-bold text-blue-500 hover:underline">
@@ -706,8 +716,9 @@ const StudentOverview = ({
         </motion.div>
 
         {/* Achievements */}
-        <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[32px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
-          <div className="flex justify-between items-center mb-6">
+        <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[32px] border shadow-[0_18px_50px_rgba(15,23,42,0.08)] transition-all hover:-translate-y-1 flex flex-col relative overflow-hidden ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
+          <div className="absolute right-6 top-8 w-44 h-44 rounded-full bg-[#0EA5E9]/10 blur-3xl mix-blend-screen"></div>
+          <div className="flex justify-between items-center mb-6 relative z-10">
             <h3 className={`text-[15px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>Achievements</h3>
             <button onClick={() => setAchievementsModalOpen(true)} className="text-[12px] font-bold text-blue-500 hover:underline">
               View all
@@ -754,8 +765,9 @@ const StudentOverview = ({
         </motion.div>
 
         {/* Messages Preview */}
-        <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[32px] border shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
-          <div className="flex justify-between items-center mb-6">
+        <motion.div variants={itemVariants} className={`p-6 md:p-8 rounded-[32px] border shadow-[0_18px_50px_rgba(15,23,42,0.08)] transition-all hover:-translate-y-1 flex flex-col relative overflow-hidden ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
+          <div className="absolute left-6 top-8 w-36 h-36 rounded-full bg-[#16A34A]/10 blur-3xl mix-blend-screen"></div>
+          <div className="flex justify-between items-center mb-6 relative z-10">
             <h3 className={`text-[15px] font-bold ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>Recent Messages</h3>
             <button onClick={() => setActiveTab('message')} className={`text-[12px] font-bold flex items-center gap-1 px-3 py-1 rounded-full border transition-all ${isDarkMode ? 'text-blue-400 border-[#00D4FF]/30 hover:bg-[#00D4FF]/10' : 'text-blue-500 border-orange-200 hover:bg-orange-50'}`}>
               Open Chat <ChevronRight className="w-3 h-3" />
