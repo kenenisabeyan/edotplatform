@@ -12,7 +12,6 @@ router.get('/public/recent', async (req, res) => {
                 role: 'student',
                 AND: [
                     { avatar: { not: 'default-avatar.png' } },
-                    { avatar: { not: null } },
                     { avatar: { not: '' } }
                 ]
             },
@@ -25,7 +24,6 @@ router.get('/public/recent', async (req, res) => {
                 role: 'instructor',
                 AND: [
                     { avatar: { not: 'default-avatar.png' } },
-                    { avatar: { not: null } },
                     { avatar: { not: '' } }
                 ]
             },
@@ -37,10 +35,9 @@ router.get('/public/recent', async (req, res) => {
             where: {
                 role: 'parent',
                 AND: [
-                    { email: { notContains: 'sponsor' } },
-                    { name: { notContains: 'sponsor' } },
+                    { email: { not: { contains: 'sponsor', mode: 'insensitive' } } },
+                    { name: { not: { contains: 'sponsor', mode: 'insensitive' } } },
                     { avatar: { not: 'default-avatar.png' } },
-                    { avatar: { not: null } },
                     { avatar: { not: '' } }
                 ]
             },
@@ -56,7 +53,6 @@ router.get('/public/recent', async (req, res) => {
                 ],
                 AND: [
                     { avatar: { not: 'default-avatar.png' } },
-                    { avatar: { not: null } },
                     { avatar: { not: '' } }
                 ]
             },

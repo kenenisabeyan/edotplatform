@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Bot, User, Loader2 } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, User, Loader2, Trash2 } from 'lucide-react';
 import useThemeMode from '../hooks/useThemeMode';
 import api from '../utils/api';
+import Markdown from 'markdown-to-jsx';
 
 export default function ChatbotWidget() {
     const [isOpen, setIsOpen] = useState(false);
@@ -23,12 +24,9 @@ export default function ChatbotWidget() {
         scrollToBottom();
     }, [messages, isOpen]);
 
-    const handleSend = async (e) => {
-        e.preventDefault();
-        if (!input.trim()) return;
+    const sendMessage = async (userMessage) => {
+        if (!userMessage.trim() || isLoading) return;
 
-        const userMessage = input.trim();
-        setInput('');
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
         setIsLoading(true);
 
@@ -52,8 +50,35 @@ export default function ChatbotWidget() {
         }
     };
 
+    const handleSend = (e) => {
+        e.preventDefault();
+        if (!input.trim()) return;
+        const userMsg = input.trim();
+        setInput('');
+        sendMessage(userMsg);
+    };
+
+    const handleSuggestionClick = (suggestion) => {
+        sendMessage(suggestion);
+    };
+
+    const handleClearChat = () => {
+        setMessages([
+            { role: 'assistant', content: 'Hi there! I am the EDOT Assistant. How can I help you today?' }
+        ]);
+    };
+
+    // Beautiful grid gradient style config mirroring the EDOT platform's main landing page gradients
+    const popupStyle = isDarkMode ? {
+        background: 'linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(110deg, #082d38 0%, #3a1e0b 45%, #592408 65%, #040916 100%)',
+        backgroundSize: '20px 20px, 20px 20px, 100% 100%',
+    } : {
+        background: 'linear-gradient(to right, rgba(0, 0, 0, 0.025) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.025) 1px, transparent 1px), linear-gradient(110deg, #8CD6D5 0%, #F5CE9F 45%, #E98642 65%, #25337C 100%)',
+        backgroundSize: '20px 20px, 20px 20px, 100% 100%',
+    };
+
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -61,26 +86,38 @@ export default function ChatbotWidget() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 12, scale: 0.95 }}
                         transition={{ duration: 0.18 }}
-                        className={`mb-4 w-80 sm:w-96 rounded-2xl shadow-2xl overflow-hidden border flex flex-col h-[520px] max-h-[80vh] ${isDarkMode ? 'bg-gradient-to-b from-[#071224] to-[#071827] border-white/10 text-white' : 'bg-white/95 border-slate-200 text-slate-900'}`}
+                        style={popupStyle}
+                        className={`mb-2 w-80 sm:w-96 rounded-2xl shadow-2xl overflow-hidden border flex flex-col h-[520px] max-h-[80vh] ${isDarkMode ? 'border-white/10 text-white' : 'border-teal-500/20 text-slate-800'}`}
                     >
                         {/* Header */}
-                        <div className={`p-4 flex items-center justify-between border-b ${isDarkMode ? 'border-white/10 bg-white/3' : 'border-slate-100 bg-slate-50/60'}`}>
+                        <div className={`p-4 flex items-center justify-between border-b backdrop-blur-md ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-black/5 bg-white/15'}`}>
                             <div className="flex items-center gap-3">
-                                <div className="w-9 h-9 rounded-full flex items-center justify-center text-white shadow-lg" style={{background: 'linear-gradient(135deg,#00D4FF,#19C2E8)'}}>
-                                    <span className="font-black">E</span>
+                                <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center bg-white border border-slate-200 shadow-md">
+                                    <img src="https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw" alt="EDOT Logo" className="w-7 h-7 object-contain" />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-sm">EDOT Assistant</h3>
-                                    <p className={`text-xs ${isDarkMode ? 'text-cyan-300' : 'text-cyan-600'}`}>Online</p>
+                                    <p className="text-[10px] font-medium flex items-center gap-1.5 text-slate-400">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span> Online
+                                    </p>
                                 </div>
                             </div>
 
-                            <button 
-                                onClick={() => setIsOpen(false)}
-                                className={`p-2 rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10 text-slate-400 hover:text-white' : 'hover:bg-slate-200 text-slate-500 hover:text-slate-900'}`}
-                            >
-                                <X size={18} />
-                            </button>
+                            <div className="flex items-center gap-1">
+                                <button 
+                                    onClick={handleClearChat}
+                                    title="Clear conversation"
+                                    className={`p-2 rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10 text-slate-400 hover:text-white' : 'hover:bg-black/5 text-slate-600 hover:text-slate-900'}`}
+                                >
+                                    <Trash2 size={16} />
+                                </button>
+                                <button 
+                                    onClick={() => setIsOpen(false)}
+                                    className={`p-2 rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10 text-slate-400 hover:text-white' : 'hover:bg-black/5 text-slate-600 hover:text-slate-900'}`}
+                                >
+                                    <X size={18} />
+                                </button>
+                            </div>
                         </div>
 
                         {/* Chat Body */}
@@ -92,22 +129,113 @@ export default function ChatbotWidget() {
                                     key={idx} 
                                     className={`flex gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
                                 >
-                                    <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-1 ${msg.role === 'user' ? 'bg-[#06b6d4] text-white' : 'bg-gradient-to-tr from-sky-700 to-cyan-600 text-white'}`}>
-                                        {msg.role === 'user' ? <User size={12} /> : <Bot size={12} />}
+                                    <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-1 ${msg.role === 'user' ? 'bg-[#06b6d4] text-white' : 'bg-white border border-slate-200 overflow-hidden shadow-sm'}`}>
+                                        {msg.role === 'user' ? (
+                                            <User size={12} />
+                                        ) : (
+                                            <img src="https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw" alt="EDOT Logo" className="w-full h-full object-contain" />
+                                        )}
                                     </div>
 
-                                    <div className={`p-3 rounded-2xl max-w-[80%] text-sm ${msg.role === 'user' ? 'bg-[#06b6d4] text-white rounded-tr-sm border-transparent' : isDarkMode ? 'bg-gradient-to-tr from-sky-700 to-cyan-600 text-white rounded-tl-sm border-transparent' : 'bg-slate-100 border border-slate-200 text-slate-700 rounded-tl-sm'}`}>
-                                        {msg.content}
+                                    <div className={`p-3 rounded-2xl max-w-[80%] text-sm ${msg.role === 'user' ? 'bg-[#06b6d4] text-white rounded-tr-sm border-transparent' : isDarkMode ? 'bg-gradient-to-tr from-sky-700 to-cyan-600 text-white rounded-tl-sm border-transparent' : 'bg-white/75 backdrop-blur-sm border border-white text-slate-800 rounded-tl-sm shadow-sm'}`}>
+                                        {msg.role === 'user' ? (
+                                            msg.content
+                                        ) : (
+                                            <Markdown
+                                                options={{
+                                                    forceBlock: true,
+                                                    overrides: {
+                                                        a: {
+                                                            component: 'a',
+                                                            props: {
+                                                                className: `underline transition-colors break-all font-bold ${isDarkMode ? 'text-cyan-300 hover:text-cyan-100' : 'text-teal-700 hover:text-teal-900'}`,
+                                                                target: '_blank',
+                                                                rel: 'noopener noreferrer'
+                                                            }
+                                                        },
+                                                        ul: {
+                                                            component: 'ul',
+                                                            props: {
+                                                                className: 'list-disc pl-5 my-1.5 space-y-1'
+                                                            }
+                                                        },
+                                                        ol: {
+                                                            component: 'ol',
+                                                            props: {
+                                                                className: 'list-decimal pl-5 my-1.5 space-y-1'
+                                                            }
+                                                        },
+                                                        li: {
+                                                            component: 'li',
+                                                            props: {
+                                                                className: 'my-0.5'
+                                                            }
+                                                        },
+                                                        p: {
+                                                            component: 'p',
+                                                            props: {
+                                                                className: 'mb-1.5 last:mb-0 leading-relaxed'
+                                                            }
+                                                        },
+                                                        code: {
+                                                            component: 'code',
+                                                            props: {
+                                                                className: `px-1.5 py-0.5 rounded font-mono text-[11px] ${isDarkMode ? 'bg-black/30 text-cyan-300' : 'bg-teal-50 border border-teal-200/50 text-teal-800'}`
+                                                            }
+                                                        },
+                                                        pre: {
+                                                            component: 'pre',
+                                                            props: {
+                                                                className: `p-3 rounded-lg overflow-x-auto my-2 font-mono text-[11px] ${isDarkMode ? 'bg-black/40 border border-white/5' : 'bg-white/80 border border-teal-200/60 shadow-inner'}`
+                                                            }
+                                                        }
+                                                    }
+                                                }}
+                                            >
+                                                {msg.content}
+                                            </Markdown>
+                                        )}
                                     </div>
                                 </motion.div>
                             ))}
 
+                            {/* Suggested Inquiries (Show when conversation is just the greeting) */}
+                            {messages.length === 1 && !isLoading && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.15 }}
+                                    className="pt-2 pl-8 pr-2 space-y-3"
+                                >
+                                    <h4 className={`text-[10px] font-bold tracking-wider uppercase ${isDarkMode ? 'text-cyan-400/90' : 'text-teal-800/90'}`}>
+                                        Suggested Inquiries
+                                    </h4>
+                                    <div className="flex flex-col gap-2">
+                                        {[
+                                            "What is EDOT Platform?",
+                                            "What course packages are available?",
+                                            "How can I sponsor a student?",
+                                            "How do I start learning?"
+                                        ].map((suggestion, sIdx) => (
+                                            <button
+                                                key={sIdx}
+                                                type="button"
+                                                onClick={() => handleSuggestionClick(suggestion)}
+                                                className={`w-full text-left px-4 py-2.5 rounded-xl border text-xs font-semibold transition-all ${isDarkMode ? 'bg-[#0a1424] border-white/5 text-slate-200 hover:bg-[#0f1d33] hover:border-cyan-500/30 hover:text-cyan-300' : 'bg-white/60 border border-white/90 text-slate-800 hover:bg-white/90 hover:border-teal-500/30 hover:text-teal-800 shadow-sm'}`}
+                                            >
+                                                {suggestion}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </motion.div>
+                            )}
+
                             {isLoading && (
                                 <div className="flex gap-2 flex-row">
-                                    <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-sky-700 to-cyan-600 flex items-center justify-center shrink-0 mt-1 text-white">
-                                        <Loader2 size={12} />
+                                    <div className="w-6 h-6 rounded-full bg-white border border-slate-200 overflow-hidden flex items-center justify-center shrink-0 mt-1 shadow-sm">
+                                        <img src="https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw" alt="EDOT Logo" className="w-full h-full object-contain" />
                                     </div>
-                                    <div className={`p-3 rounded-2xl text-sm rounded-tl-sm flex items-center gap-2 ${isDarkMode ? 'bg-white/6 border border-white/8 text-slate-200' : 'bg-slate-100 border border-slate-200 text-slate-700'}`}>
+                                    <div className={`p-3 rounded-2xl text-sm rounded-tl-sm flex items-center gap-2 ${isDarkMode ? 'bg-white/6 border border-white/8 text-slate-200' : 'bg-white/75 backdrop-blur-sm border border-white text-slate-700 shadow-sm'}`}>
                                         <Loader2 size={14} className="animate-spin text-sky-500" />
                                         <span className={isDarkMode ? 'text-slate-200' : 'text-slate-500'}>Thinking...</span>
                                     </div>
@@ -118,54 +246,69 @@ export default function ChatbotWidget() {
                         </div>
 
                         {/* Input Area */}
-                        <form onSubmit={handleSend} className={`p-3 border-t ${isDarkMode ? 'border-white/10 bg-[#071124]' : 'border-slate-100 bg-white'}`}>
+                        <form onSubmit={handleSend} className={`p-3 border-t backdrop-blur-md ${isDarkMode ? 'border-white/10 bg-black/20' : 'border-white/10 bg-white/15'}`}>
                             <div className="relative flex items-center">
                                 <input
                                     type="text"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
-                                    placeholder="Type your message..."
-                                    className={`w-full py-3 pl-4 pr-12 rounded-xl text-sm focus:outline-none transition-all ${isDarkMode ? 'bg-white/5 border-white/10 focus:border-cyan-400 focus:bg-white/8 text-white placeholder-slate-400' : 'bg-slate-50 border-slate-200 focus:border-cyan-500 focus:bg-white text-slate-900 placeholder-slate-400 border'}`}
+                                    placeholder="Message EDOT Assistant..."
+                                    className={`w-full py-3 pl-6 pr-12 rounded-full text-sm focus:outline-none transition-all ${isDarkMode ? 'bg-white/5 border border-white/30 focus:border-cyan-400 focus:bg-white/8 text-white placeholder-white/60' : 'bg-white/15 border border-white/50 focus:border-white focus:bg-white/25 text-white placeholder-white/75'}`}
                                 />
 
                                 <button
                                     type="submit"
                                     disabled={!input.trim() || isLoading}
-                                    className={`absolute right-2 p-2 rounded-lg transition-colors ${!input.trim() || isLoading ? 'opacity-50 cursor-not-allowed' : 'text-sky-500 hover:bg-sky-500/10'}`}
+                                    className={`absolute right-2 w-8 h-8 rounded-full flex items-center justify-center transition-all ${!input.trim() || isLoading ? 'bg-slate-700/30 text-slate-400 opacity-50 cursor-not-allowed' : 'bg-gradient-to-tr from-sky-500 to-cyan-400 text-white shadow-md hover:scale-105 active:scale-95'}`}
                                 >
-                                    <Send size={18} />
+                                    <Send size={14} />
                                 </button>
                             </div>
                         </form>
+
+                        {/* Footer Info Bar */}
+                        <div className={`px-4 pb-3 flex items-center justify-between text-[10px] font-medium tracking-wide backdrop-blur-md ${isDarkMode ? 'text-slate-500 bg-black/15' : 'text-slate-200/90 bg-white/10'}`}>
+                            <span className="flex items-center gap-1">
+                                <span className={`px-1 py-0.5 rounded border text-[9px] ${isDarkMode ? 'bg-white/5 border-white/10 text-slate-400' : 'bg-white/10 border border-white/25 text-slate-200'}`}>⏎</span> Enter to send
+                            </span>
+                            <span>Powered by EDOT AI</span>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
 
-            {/* Telegram Link Button */}
-            <a
-                href={telegramUrl}
-                target="_blank"
-                rel="noreferrer"
-                title="Open EDOT on Telegram"
-                className="mb-3 w-12 h-12 rounded-full shadow-2xl flex items-center justify-center transition-all"
-                style={{background: 'linear-gradient(135deg,#00D4FF,#19C2E8)', color: '#021127'}}
-            >
-                {/* Telegram paper plane SVG */}
-                <svg width="18" height="18" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 120c0 55.2 44.8 100 100 100s100-44.8 100-100S175.2 20 120 20 20 64.8 20 120z" fill="#00bcd4" />
-                    <path d="M52 118l132-56c7-3 13 4 9 11l-49 74c-3 6-8 7-14 4l-36-22-18 17c-3 3-6 6-11 2l-24-19c-7-5-2-13 6-15l44-14 77-43" fill="#fff" opacity="0.95" />
-                </svg>
-            </a>
+            {/* Buttons Row */}
+            <div className="flex flex-row items-center gap-3">
+                {/* Telegram Link Button */}
+                <a
+                    href={telegramUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    title="Open EDOT on Telegram"
+                    className="w-12 h-12 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-105"
+                    style={{background: 'linear-gradient(135deg,#00D4FF,#19C2E8)', color: '#ffffff'}}
+                >
+                    {/* Telegram paper plane SVG */}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l.002.001-.314 4.692c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.785l3.019-14.228c.309-1.239-.473-1.574-1.278-1.258z" fill="#ffffff" />
+                    </svg>
+                </a>
 
-            {/* Toggle Button */}
-            <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsOpen(!isOpen)}
-                className={`w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all ${isOpen ? 'bg-rose-500 text-white rotate-90 hover:bg-rose-600' : 'bg-gradient-to-tr from-sky-500 to-blue-600 text-white hover:shadow-sky-500/25'}`}
-            >
-                {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
-            </motion.button>
+                {/* Toggle Button */}
+                <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all bg-gradient-to-tr from-[#1E88E5] via-[#42A5F5] to-[#26C6DA] hover:shadow-sky-500/25"
+                >
+                    <svg width="28" height="28" viewBox="0 0 32 32" fill="currentColor" className="text-black">
+                        {/* Left larger bubble (tail pointing down-left) */}
+                        <path d="M 13,6.5 C 17.14,6.5 20.5,9.4 20.5,13 C 20.5,16.6 17.14,19.5 13,19.5 C 11.8,19.5 10.6,19.2 9.6,18.7 L 5.5,21.5 L 7,17.2 C 5.5,16.1 4.5,14.6 4.5,13 C 4.5,9.4 7.86,6.5 13,6.5 Z" />
+                        {/* Right smaller bubble (tail pointing down-right) */}
+                        <path d="M 19.5,12.5 C 22.8,12.5 25.5,14.7 25.5,17.5 C 25.5,18.7 24.8,19.8 23.7,20.6 L 24.8,23.8 L 21.6,21.9 C 20.9,22.3 20.2,22.5 19.5,22.5 C 16.2,22.5 13.5,20.3 13.5,17.5 C 13.5,14.7 16.2,12.5 19.5,12.5 Z" />
+                    </svg>
+                </motion.button>
+            </div>
         </div>
     );
 }

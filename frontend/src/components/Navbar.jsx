@@ -87,7 +87,7 @@ export default function Navbar() {
 
   return (
     <header 
-      className={`${isAuthPage ? 'relative' : 'fixed top-0 left-0'} w-full z-50`}
+      className={`fixed top-0 left-0 w-full z-50`}
       style={headerStyle}
     >
       <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
@@ -191,8 +191,8 @@ export default function Navbar() {
                 Log in
               </Link>
               <Link 
-                to="/register" 
-                className="bg-[#19C2E8] hover:bg-[#00c5eb] text-white px-6 py-2.5 rounded-full font-bold text-[14px] transition-colors shadow-sm ml-2 flex items-center gap-1.5"
+                to="/signup" 
+                className="bg-[#FF5A00] hover:bg-[#E54B00] text-white px-6 py-2.5 rounded-full font-bold text-[14px] transition-colors shadow-sm ml-2 flex items-center gap-1.5"
               >
                 Sign up
               </Link>
@@ -250,7 +250,7 @@ export default function Navbar() {
               ) : (
                 <div className="flex flex-col gap-3">
                   <Link to="/login" className="px-4 py-3 rounded-full text-center font-semibold mobile-menu-btn-login">Log In</Link>
-                  <Link to="/register" className="px-4 py-3 rounded-full text-center font-semibold mobile-menu-btn-signup">Sign Up</Link>
+                  <Link to="/signup" className="px-4 py-3 rounded-full text-center font-semibold mobile-menu-btn-signup">Sign Up</Link>
                 </div>
               )}
             </div>

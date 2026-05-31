@@ -190,6 +190,7 @@ export default function App() {
 
       {/* Standalone Authentication Pages */}
       <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
       {/* Public / Landing Pages with Navbar & Footer */}

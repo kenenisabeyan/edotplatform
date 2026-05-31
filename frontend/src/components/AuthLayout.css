@@ -235,11 +235,29 @@ input[type="checkbox"] {
 
 /* Body/Outer Background matching the Home Page Hero Section */
 .auth-page-bg {
-  background: linear-gradient(110deg, #d3f9fa 0%, #fff0e2 40%, #e2e8f0 80%) !important;
+  background: linear-gradient(110deg, #ffefe3 0%, #ffffff 42%, #e9f7ff 100%) !important;
 }
 
 [data-theme="dark"] .auth-page-bg {
-  background: linear-gradient(110deg, #082d38 0%, #3a1e0b 45%, #040916 80%) !important;
+  background: linear-gradient(110deg, #08111f 0%, #151b2b 45%, #08131f 100%) !important;
+}
+
+.auth-left-panel {
+  background: linear-gradient(152deg, #ff6d00 0%, #ff8b2a 45%, #ffd3a0 100%);
+}
+
+.auth-left-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.22), transparent 16%),
+                    radial-gradient(circle at 80% 15%, rgba(0, 212, 255, 0.18), transparent 12%),
+                    radial-gradient(circle at 75% 80%, rgba(255, 255, 255, 0.12), transparent 18%);
+  pointer-events: none;
+}
+
+.auth-left-panel img {
+  transform: translateY(4px);
 }
 
 /* Premium auth form styling */

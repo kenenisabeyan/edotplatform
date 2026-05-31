@@ -18,10 +18,16 @@ import {
   Users, 
   TrendingUp, 
   Rocket,
+  Facebook,
+  Instagram,
+  Youtube,
+  Linkedin,
   ChevronRight
 } from 'lucide-react';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider, microsoftProvider } from '../utils/firebase';
+import Navbar from './Navbar';
+import Footer from './Footer';
 import './AuthLayout.css';
 const signinImg = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/fx8hbyw7sdx7r6ag2i97';
 
@@ -137,64 +143,34 @@ export default function AuthLayout({ defaultIsRegister = false }) {
   if (authLoading) return null; // Avoid flashing page while checking session
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center px-3 py-6 md:p-6 lg:p-8 auth-page-bg font-sans relative overflow-hidden transition-colors duration-300">
-      
-      {/* Background ambient lighting */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#FF5A00]/5 blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/5 blur-3xl pointer-events-none"></div>
-
-      {/* Main card container */}
-      <div className="w-full max-w-[1400px] min-h-auto md:min-h-[88vh] lg:min-h-[96vh] bg-white rounded-2xl md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row relative z-10 border border-slate-200/50">
+    <>
+      <Navbar />
+      <div className="min-h-screen w-full flex items-center justify-center px-3 py-6 md:p-6 lg:p-8 auth-page-bg font-sans relative overflow-hidden transition-colors duration-300 pt-20 lg:pt-24">
         
-        {/* LEFT COLUMN: IMMERSIVE BRANDING SHOWCASE */}
-        <div className="hidden lg:flex lg:w-[58%] xl:w-[60%] relative flex-col justify-start py-14 px-14 bg-gradient-to-br from-[#FF5A00] via-[#FF7A00] to-[#FFB23F] text-slate-900 select-none overflow-hidden">
-          
-          {/* Full-size 3D Illustration Background Asset */}
-          <img 
-            src={signinImg} 
-            alt="Sign In Background" 
-            className="absolute inset-0 w-full h-full object-cover object-center z-0 pointer-events-none" 
-          />
+        {/* Background ambient lighting */}
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#FF5A00]/5 blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/5 blur-3xl pointer-events-none"></div>
 
-          {/* Brand Header */}
-          <div className="relative z-10">
-            <Link to="/" className="inline-flex items-center gap-2.5 group">
-              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-lg transform transition-transform group-hover:scale-105">
-                <span className="text-[23px] font-black text-[#FF5A00] leading-none mb-0.5">e.</span>
-              </div>
-              <span className="text-2xl font-black tracking-tight text-slate-900 font-sans">edotplatform</span>
-            </Link>
+        {/* Main card container */}
+        <div className="w-full max-w-[1400px] min-h-auto md:min-h-[88vh] lg:min-h-[96vh] bg-white rounded-2xl md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row relative z-10 border border-slate-200/50">
+          
+          {/* LEFT COLUMN: IMMERSIVE BRANDING SHOWCASE */}
+          <div className="hidden lg:flex lg:w-1/2 xl:w-1/2 relative flex-col justify-between py-10 px-10 bg-[#FF5A00] select-none overflow-hidden auth-left-panel">
+            {/* Left image panel removed as requested */}
           </div>
 
-          {/* Main Slogans & Features (restricted to left-aligned clear space directly on the image) */}
-          <div className="relative z-10 max-w-[280px] mt-16 space-y-4 animate-auth-fade">
-            <h1 className="text-xl lg:text-[25px] font-black leading-[1.25] tracking-tight text-slate-900">
-              One Platform.<br />
-              Unlimited Possibilities.<br />
-              <span className="text-[#0084FF]">Your Growth Starts Here.</span>
-            </h1>
+          {/* RIGHT COLUMN: HIGH-CONTRAST FORM WRAPPER (Solid Pristine White) */}
+          <div className="w-full lg:w-1/2 flex flex-col justify-between p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 bg-white text-slate-800 min-h-auto md:min-h-[78vh] lg:min-h-[86vh]">
             
-            <p className="text-[12px] font-bold text-slate-800/90 leading-relaxed">
-              Explore unlimited ideas with no barriers. edotplatform is completely free and open for everyone to join, unlock your potential today.
-            </p>
-          </div>
-
-          {/* Bottom quote and illustration are natively embedded inside the signin.png asset */}
-          <div className="mt-auto h-4"></div>
-        </div>
-
-        {/* RIGHT COLUMN: HIGH-CONTRAST FORM WRAPPER (Solid Pristine White) */}
-        <div className="w-full lg:w-[42%] flex flex-col justify-between p-4 sm:p-6 md:p-10 lg:p-14 xl:p-16 bg-white text-slate-800 min-h-auto md:min-h-[88vh]">
-          
-          {/* Top spacer or brand title for mobile */}
-          <div className="w-full text-center mt-1 mb-4 sm:mt-2 sm:mb-6">
-            <h2 className="text-2xl sm:text-3xl lg:text-[33px] font-extrabold text-slate-900 tracking-tight leading-snug">
-              Welcome to <span className="text-[#FF5A00]">edot</span><span className="text-[#00A4EF]">platform</span>
-            </h2>
-            <p className="text-[12px] sm:text-[13.5px] font-medium text-slate-500 mt-1.5 sm:mt-2">
-              Login to your account or create a new one to get started
-            </p>
-          </div>
+            {/* Top spacer or brand title for mobile */}
+            <div className="w-full text-center mt-1 mb-4 sm:mt-2 sm:mb-6">
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+                Welcome to <span className="text-[#FF5A00]">edot</span><span className="text-[#0084FF]">platform</span>
+              </h2>
+              <p className="text-sm sm:text-base font-medium text-slate-500 mt-2 max-w-[34rem] mx-auto sm:mx-0">
+                Login to your account or create a new one to get started.
+              </p>
+            </div>
 
           {/* Form Tabs */}
           <div className="flex justify-center border-b border-slate-200 mb-4 sm:mb-6 max-w-xs mx-auto w-full">
@@ -304,7 +280,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                 <button 
                   type="submit" 
                   disabled={loadingLogin} 
-                  className="w-full flex items-center justify-center gap-2 sm:gap-2.5 bg-[#FF5A00] hover:bg-[#E54B00] text-white py-2.5 sm:py-3.5 px-4 sm:px-6 rounded-full font-bold text-[12px] sm:text-sm tracking-wide shadow-lg shadow-orange-500/20 transform active:scale-[0.99] transition-all duration-200 uppercase group cursor-pointer auth-action-btn"
+                  className="w-full flex items-center justify-center gap-2 sm:gap-2.5 bg-[#19C2E8] hover:bg-[#00c5eb] text-white py-2.5 sm:py-3.5 px-4 sm:px-6 rounded-full font-bold text-[12px] sm:text-sm tracking-wide shadow-lg shadow-cyan-500/20 transform active:scale-[0.99] transition-all duration-200 uppercase group cursor-pointer auth-action-btn"
                 >
                   {loadingLogin ? 'Logging in...' : 'Login to Your Account'}
                   <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-white ml-0.5 sm:ml-1 transition-colors">
@@ -531,5 +507,8 @@ export default function AuthLayout({ defaultIsRegister = false }) {
       </div>
 
     </div>
+
+    <Footer />
+    </>
   );
 }
