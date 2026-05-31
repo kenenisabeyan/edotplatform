@@ -7,8 +7,9 @@ const router = express.Router();
 
 router.get('/public/recent', async (req, res) => {
     try {
-        const users = await prisma.user.findMany({
+        const student = await prisma.user.findFirst({
             where: {
+                role: 'student',
                 AND: [
                     { avatar: { not: 'default-avatar.png' } },
                     { avatar: { not: null } },
@@ -16,10 +17,54 @@ router.get('/public/recent', async (req, res) => {
                 ]
             },
             orderBy: { createdAt: 'desc' },
-            take: 4,
             select: { id: true, name: true, avatar: true }
         });
-        
+
+        const instructor = await prisma.user.findFirst({
+            where: {
+                role: 'instructor',
+                AND: [
+                    { avatar: { not: 'default-avatar.png' } },
+                    { avatar: { not: null } },
+                    { avatar: { not: '' } }
+                ]
+            },
+            orderBy: { createdAt: 'desc' },
+            select: { id: true, name: true, avatar: true }
+        });
+
+        const parent = await prisma.user.findFirst({
+            where: {
+                role: 'parent',
+                AND: [
+                    { email: { notContains: 'sponsor' } },
+                    { name: { notContains: 'sponsor' } },
+                    { avatar: { not: 'default-avatar.png' } },
+                    { avatar: { not: null } },
+                    { avatar: { not: '' } }
+                ]
+            },
+            orderBy: { createdAt: 'desc' },
+            select: { id: true, name: true, avatar: true }
+        });
+
+        const sponsor = await prisma.user.findFirst({
+            where: {
+                OR: [
+                    { email: { contains: 'sponsor' } },
+                    { name: { contains: 'sponsor' } }
+                ],
+                AND: [
+                    { avatar: { not: 'default-avatar.png' } },
+                    { avatar: { not: null } },
+                    { avatar: { not: '' } }
+                ]
+            },
+            orderBy: { createdAt: 'desc' },
+            select: { id: true, name: true, avatar: true }
+        });
+
+        const users = [student, instructor, parent, sponsor].filter(Boolean);
         const totalCount = await prisma.user.count();
 
         res.json({
