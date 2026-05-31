@@ -156,10 +156,10 @@ export default function AuthLayout({ defaultIsRegister = false }) {
         </h1>
 
         {/* Main card container */}
-        <div className="w-full max-w-[1300px] bg-white rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_32px_64px_-16px_rgba(15,23,42,0.15)] overflow-hidden flex flex-col p-5 sm:p-8 md:p-10 lg:p-12 relative border border-slate-200/50 animate-auth-fade">
+        <div className="w-full max-w-[1300px] auth-card-container rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_32px_64px_-16px_rgba(15,23,42,0.15)] overflow-hidden flex flex-col p-5 sm:p-8 md:p-10 lg:p-12 relative border border-slate-200/50 animate-auth-fade">
           
           {/* LOGO HEADER */}
-          <div className="w-full flex justify-center mb-8 md:mb-12">
+          <div className="w-full flex justify-center mb-8 md:mb-12 z-10">
             <div className="flex flex-col items-center">
               <span className="text-3xl md:text-[2.5rem] font-black tracking-tight leading-none uppercase">
                 <span className="text-[#FF5A00]">edot</span>
@@ -169,30 +169,36 @@ export default function AuthLayout({ defaultIsRegister = false }) {
           </div>
 
           {/* MAIN THREE-COLUMN GRID */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center z-10">
             
             {/* LEFT COLUMN: PILLARS 1 & 2 */}
             <div className="lg:col-span-3 flex flex-col gap-10 md:gap-14 text-center lg:text-left">
               
               {/* Courses Pillar */}
-              <div className="flex flex-col items-center justify-center gap-3 group">
-                <div className="w-32 h-32 md:w-[9.5rem] md:h-[9.5rem] overflow-hidden flex items-center justify-center shrink-0 relative group-hover:scale-105 transition-transform duration-300">
-                  <img src="/images/courses_3d.png" alt="Courses" className="w-full h-full object-contain graphic-float" />
+              <div className="flex flex-col items-center justify-center gap-3 group relative">
+                <div className="w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full overflow-hidden flex items-center justify-center shrink-0 bg-white border border-white/60 shadow-[0_8px_24px_-6px_rgba(15,23,42,0.12)] relative hover:scale-105 transition-transform duration-300 z-10">
+                  <img src="/images/courses_3d.png" alt="Courses" className="w-4/5 h-4/5 object-contain graphic-float" />
                 </div>
-                <div className="flex flex-col text-center">
-                  <h3 className="font-extrabold text-[#0F3057] text-[16px] md:text-[20px] tracking-widest uppercase leading-none">Courses</h3>
-                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 mt-2 leading-relaxed">Find expert-led skills training.</p>
+                {/* Curved dark label banner under circle */}
+                <div className="bg-[#0B132B] text-white font-black text-[11px] sm:text-xs md:text-sm tracking-widest uppercase px-6 py-1.5 rounded-full shadow-md border border-white/20 -mt-5 z-20">
+                  COURSES
+                </div>
+                <div className="flex flex-col text-center mt-1">
+                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 max-w-[160px] mx-auto leading-tight">Find expert-led skills training.</p>
                 </div>
               </div>
 
               {/* Impact Pillar */}
-              <div className="flex flex-col items-center justify-center gap-3 group">
-                <div className="w-32 h-32 md:w-[9.5rem] md:h-[9.5rem] overflow-hidden flex items-center justify-center shrink-0 relative group-hover:scale-105 transition-transform duration-300">
-                  <img src="/images/impact_3d.png" alt="Impact" className="w-full h-full object-contain graphic-float" style={{ animationDelay: '0.8s' }} />
+              <div className="flex flex-col items-center justify-center gap-3 group relative">
+                <div className="w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full overflow-hidden flex items-center justify-center shrink-0 bg-white border border-white/60 shadow-[0_8px_24px_-6px_rgba(15,23,42,0.12)] relative hover:scale-105 transition-transform duration-300 z-10">
+                  <img src="/images/impact_3d.png" alt="Impact" className="w-4/5 h-4/5 object-contain graphic-float" style={{ animationDelay: '0.8s' }} />
                 </div>
-                <div className="flex flex-col text-center">
-                  <h3 className="font-extrabold text-[#0F3057] text-[16px] md:text-[20px] tracking-widest uppercase leading-none">Impact</h3>
-                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 mt-2 leading-relaxed">Track and expand your footprint.</p>
+                {/* Curved dark label banner under circle */}
+                <div className="bg-[#0B132B] text-white font-black text-[11px] sm:text-xs md:text-sm tracking-widest uppercase px-6 py-1.5 rounded-full shadow-md border border-white/20 -mt-5 z-20">
+                  IMPACT
+                </div>
+                <div className="flex flex-col text-center mt-1">
+                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 max-w-[160px] mx-auto leading-tight">Track and expand your footprint.</p>
                 </div>
               </div>
 
@@ -203,29 +209,29 @@ export default function AuthLayout({ defaultIsRegister = false }) {
               
               <div className="w-full glass-auth-card rounded-[2.5rem] shadow-2xl flex flex-col relative border border-white/60 overflow-hidden">
                 
-                {/* Folder style Tab Selector */}
-                <div className="flex w-full border-b border-slate-200/20 bg-slate-500/5">
+                {/* Binder Folder style Tab Selector */}
+                <div className="flex w-full bg-slate-500/5 px-4 pt-2 border-b border-slate-200/20">
                   <button 
                     type="button"
                     onClick={() => handleTabChange(false)}
-                    className={`flex-1 py-4 text-xs md:text-[13.5px] font-black uppercase tracking-wider transition-all duration-350 cursor-pointer ${
+                    className={`px-6 py-2.5 text-xs md:text-sm font-black uppercase tracking-wider transition-all duration-350 cursor-pointer ${
                       !isRegister 
-                        ? 'bg-white/65 text-slate-900 border-r border-slate-200/20 font-black' 
-                        : 'text-slate-500 hover:text-slate-800 hover:bg-white/20'
+                        ? 'bg-white/70 text-slate-900 border-t border-x border-slate-200/20 font-black rounded-t-xl z-10' 
+                        : 'text-slate-550 hover:text-slate-800 hover:bg-white/20 rounded-t-xl'
                     }`}
                   >
-                    Sign In
+                    SIGN IN
                   </button>
                   <button 
                     type="button"
                     onClick={() => handleTabChange(true)}
-                    className={`flex-1 py-4 text-xs md:text-[13.5px] font-black uppercase tracking-wider transition-all duration-350 cursor-pointer ${
+                    className={`px-6 py-2.5 text-xs md:text-sm font-black uppercase tracking-wider transition-all duration-350 cursor-pointer ${
                       isRegister 
-                        ? 'bg-white/65 text-slate-900 border-l border-slate-200/20 font-black' 
-                        : 'text-slate-500 hover:text-slate-800 hover:bg-white/20'
+                        ? 'bg-white/70 text-slate-900 border-t border-x border-slate-200/20 font-black rounded-t-xl z-10' 
+                        : 'text-slate-550 hover:text-slate-800 hover:bg-white/20 rounded-t-xl'
                     }`}
                   >
-                    Sign Up
+                    SIGN UP
                   </button>
                 </div>
 
@@ -233,7 +239,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                 <div className="p-6 sm:p-8 flex flex-col">
                   
                   {/* Subtitle */}
-                  <p className="text-xs md:text-sm font-semibold text-slate-600 text-center mb-6 leading-relaxed">
+                  <p className="text-xs md:text-sm font-semibold text-slate-650 text-center mb-6 leading-relaxed">
                     {!isRegister 
                       ? "Enter your credentials to continue your journey:" 
                       : "Create a new account to continue your journey:"
@@ -438,24 +444,30 @@ export default function AuthLayout({ defaultIsRegister = false }) {
             <div className="lg:col-span-3 flex flex-col gap-10 md:gap-14 text-center lg:text-left">
               
               {/* Community Pillar */}
-              <div className="flex flex-col items-center justify-center gap-3 group">
-                <div className="w-32 h-32 md:w-[9.5rem] md:h-[9.5rem] overflow-hidden flex items-center justify-center shrink-0 relative group-hover:scale-105 transition-transform duration-300">
-                  <img src="/images/community_3d.png" alt="Community" className="w-full h-full object-contain graphic-float" style={{ animationDelay: '0.4s' }} />
+              <div className="flex flex-col items-center justify-center gap-3 group relative">
+                <div className="w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full overflow-hidden flex items-center justify-center shrink-0 bg-white border border-white/60 shadow-[0_8px_24px_-6px_rgba(15,23,42,0.12)] relative hover:scale-105 transition-transform duration-300 z-10">
+                  <img src="/images/community_3d.png" alt="Community" className="w-4/5 h-4/5 object-contain graphic-float" style={{ animationDelay: '0.4s' }} />
                 </div>
-                <div className="flex flex-col text-center">
-                  <h3 className="font-extrabold text-[#0F3057] text-[16px] md:text-[20px] tracking-widest uppercase leading-none">Community</h3>
-                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 mt-2 leading-relaxed">Collaborate with a global network.</p>
+                {/* Curved dark label banner under circle */}
+                <div className="bg-[#0B132B] text-white font-black text-[11px] sm:text-xs md:text-sm tracking-widest uppercase px-6 py-1.5 rounded-full shadow-md border border-white/20 -mt-5 z-20">
+                  COMMUNITY
+                </div>
+                <div className="flex flex-col text-center mt-1">
+                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 max-w-[160px] mx-auto leading-tight">Collaborate with a global network.</p>
                 </div>
               </div>
 
               {/* Access Anywhere Pillar */}
-              <div className="flex flex-col items-center justify-center gap-3 group">
-                <div className="w-32 h-32 md:w-[9.5rem] md:h-[9.5rem] overflow-hidden flex items-center justify-center shrink-0 relative group-hover:scale-105 transition-transform duration-300">
-                  <img src="/images/access_3d.png" alt="Access Anywhere" className="w-full h-full object-contain graphic-float" style={{ animationDelay: '1.2s' }} />
+              <div className="flex flex-col items-center justify-center gap-3 group relative">
+                <div className="w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full overflow-hidden flex items-center justify-center shrink-0 bg-white border border-white/60 shadow-[0_8px_24px_-6px_rgba(15,23,42,0.12)] relative hover:scale-105 transition-transform duration-300 z-10">
+                  <img src="/images/access_3d.png" alt="Access Anywhere" className="w-4/5 h-4/5 object-contain graphic-float" style={{ animationDelay: '1.2s' }} />
                 </div>
-                <div className="flex flex-col text-center">
-                  <h3 className="font-extrabold text-[#0F3057] text-[16px] md:text-[20px] tracking-widest uppercase leading-none">Access Anywhere</h3>
-                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 mt-2 leading-relaxed">Learn on the go.</p>
+                {/* Curved dark label banner under circle */}
+                <div className="bg-[#0B132B] text-white font-black text-[11px] sm:text-xs md:text-sm tracking-widest uppercase px-6 py-1.5 rounded-full shadow-md border border-white/20 -mt-5 z-20">
+                  ACCESS ANYWHERE
+                </div>
+                <div className="flex flex-col text-center mt-1">
+                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 max-w-[160px] mx-auto leading-tight">Learn on the go.</p>
                 </div>
               </div>
 
@@ -464,7 +476,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
           </div>
 
           {/* SECURE BADGES CAPSULE BAR FOOTER */}
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pt-8 border-t border-slate-200 mt-12 w-full max-w-[950px] mx-auto bg-slate-100/40 rounded-full px-6 py-4 border border-slate-200/55 shadow-sm">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pt-8 border-t border-slate-200 mt-12 w-full max-w-[950px] mx-auto bg-slate-100/40 rounded-full px-6 py-4 border border-slate-200/55 shadow-sm z-10">
             
             <div className="flex items-center gap-2.5">
               <div className="p-2 rounded-xl bg-emerald-50 text-emerald-650 shrink-0 shadow-sm">
@@ -496,7 +508,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
               </div>
               <div className="text-left leading-none">
                 <h4 className="font-extrabold text-[11px] text-slate-800 tracking-tight">Access Anywhere</h4>
-                <p className="text-[9.5px] text-slate-450 mt-1 font-medium font-medium font-medium">Learn here anywhere</p>
+                <p className="text-[9.5px] text-slate-450 mt-1 font-medium">Learn here anywhere</p>
               </div>
             </div>
 
