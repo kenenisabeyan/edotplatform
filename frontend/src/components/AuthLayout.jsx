@@ -100,17 +100,30 @@ export default function AuthLayout({ defaultIsRegister = false }) {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       
+      // Cryptographically fetch the Firebase JWT ID Token
+      const idToken = await user.getIdToken();
+      
       await socialLogin({ 
         provider: providerName, 
+        idToken,
         email: user.email || user.providerData?.[0]?.email || `${user.uid}@github.com`,
         name: user.displayName || user.email?.split('@')[0] || `${providerName} User`
       });
     } catch (err) {
       console.error(`${providerName} login error:`, err);
       let errorMsg = err.response?.data?.message || err.message || `${providerName} login failed`;
-      if (providerName === 'GitHub' && (err.code === 'auth/operation-not-allowed' || err.message?.includes('operation-not-allowed'))) {
-        errorMsg = 'GitHub Sign-In is not configured in the Firebase Console yet. Please use Google or Email to authenticate.';
+      
+      // Smart Firebase Client Error Boundaries
+      if (err.code === 'auth/popup-closed-by-user') {
+        errorMsg = 'Sign-in popup was closed before completion. Please try again.';
+      } else if (err.code === 'auth/popup-blocked-by-browser') {
+        errorMsg = 'The authentication popup was blocked by your browser. Please enable popups and try again.';
+      } else if (err.code === 'auth/operation-not-allowed' || err.message?.includes('operation-not-allowed')) {
+        errorMsg = `${providerName} Sign-In is not enabled in your Firebase Console. Go to Build > Authentication > Sign-in method to enable it.`;
+      } else if (err.code === 'auth/api-key-not-valid' || err.message?.includes('api-key-not-valid')) {
+        errorMsg = 'Your Firebase Web API Key is invalid or Identity Toolkit API is disabled. Please verify your Google Cloud Console settings.';
       }
+      
       setLoginError(errorMsg);
     } finally {
       setLoadingLogin(false);

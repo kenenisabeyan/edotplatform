@@ -170,17 +170,61 @@ router.post('/login', [
   }
 });
 
+// Secure Firebase cryptographic JWT ID Token verifier (Google Identity API)
+const verifyFirebaseToken = async (idToken) => {
+  try {
+    const firebaseApiKey = process.env.FIREBASE_API_KEY || "AIzaSyAT5qol-jbgUCF57lpV9Ty5xFG1NgTgHRs";
+    const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseApiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken })
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Firebase token verification HTTP error:', errorData);
+      return null;
+    }
+    
+    const data = await response.json();
+    if (data.users && data.users.length > 0) {
+      return data.users[0]; // Returns { localId, email, displayName, emailVerified, ... }
+    }
+    return null;
+  } catch (err) {
+    console.error('Firebase token verification exception:', err);
+    return null;
+  }
+};
+
 router.post('/social', async (req, res) => {
-  const { provider, email, name } = req.body;
-  const normalizedEmail = String(email || '').trim().toLowerCase();
-  if (!normalizedEmail || !provider) {
-    return res.status(400).json({ message: 'Provider and email are required' });
+  const { provider, email, name, idToken } = req.body;
+  
+  if (!provider) {
+    return res.status(400).json({ message: 'Authentication provider is required' });
+  }
+
+  let verifiedEmail = String(email || '').trim().toLowerCase();
+  let verifiedName = name;
+
+  // Strong Security Enforcement: Verify the Firebase ID Token cryptographically
+  if (idToken) {
+    const verifiedUser = await verifyFirebaseToken(idToken);
+    if (!verifiedUser || !verifiedUser.email) {
+      return res.status(401).json({ message: 'Invalid or expired Firebase authentication token. Access denied.' });
+    }
+    // Trust ONLY the verified parameters cryptographically returned by Google
+    verifiedEmail = verifiedUser.email.trim().toLowerCase();
+    verifiedName = verifiedUser.displayName || verifiedName || `${provider} User`;
+  } else {
+    // Fail-safe protection: Reject empty tokens in production environments
+    return res.status(401).json({ message: 'Authentication token is required for security verification.' });
   }
 
   try {
     let user = await prisma.user.findFirst({ 
       where: { 
-        email: { equals: normalizedEmail, mode: 'insensitive' } 
+        email: { equals: verifiedEmail, mode: 'insensitive' } 
       } 
     });
 
@@ -188,8 +232,8 @@ router.post('/social', async (req, res) => {
       const randomPassword = await hashPassword(Math.random().toString(36).slice(-10) + 'Xy9!');
       user = await prisma.user.create({
         data: {
-          name: name || `${provider} User`,
-          email: normalizedEmail,
+          name: verifiedName || `${provider} User`,
+          email: verifiedEmail,
           password: randomPassword,
           role: 'student',
           status: 'active'
