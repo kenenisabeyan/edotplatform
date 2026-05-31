@@ -542,51 +542,43 @@ export default function HeroSection() {
           {/* Glassy developer console bar below video */}
           {recentUsers && recentUsers.length > 0 && (
             <div className="video-footer-console">
-              {/* Console Top Row: Avatars & Community Text */}
-              <div className="console-community-section">
+              {/* Massive pill button exactly matching mockup */}
+              <Link to="/register" className="console-giant-join-btn">
+                <span>Join EDOT</span>
+              </Link>
+
+              {/* Centered Avatars & Community Text */}
+              <div className="console-community-section centered">
                 <div className="avatar-overlap-group">
-                  {recentUsers.map((u, idx) => (
-                    <div 
-                      key={u.id || idx} 
-                      className="community-avatar-ring"
-                      style={{ zIndex: 10 - idx }}
-                    >
-                      {u.avatar ? (
+                  {recentUsers.map((u, idx) => {
+                    const fallbackAvatars = [
+                      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120&h=120',
+                      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=120&h=120',
+                      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120&h=120',
+                      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=120&h=120'
+                    ];
+                    const avatarUrl = (u.avatar && u.avatar !== 'default-avatar.png')
+                      ? u.avatar
+                      : fallbackAvatars[idx % fallbackAvatars.length];
+
+                    return (
+                      <div 
+                        key={u.id || idx} 
+                        className="community-avatar-ring"
+                        style={{ zIndex: 10 - idx }}
+                      >
                         <img 
-                          src={u.avatar} 
+                          src={avatarUrl} 
                           alt={u.name} 
                           className="community-avatar-img"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(u.name)}`;
-                          }}
                         />
-                      ) : (
-                        <div className="community-avatar-initials">
-                          {u.name ? u.name.charAt(0).toUpperCase() : 'U'}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                      </div>
+                    );
+                  })}
                 </div>
                 <span className="community-stack-text">
-                  Join our <span className="highlight-cyan font-extrabold">{totalCount}+</span> community.
+                  Join our <span className="font-extrabold">{totalCount}+</span> community.
                 </span>
-              </div>
-
-              {/* Console Bottom Row: Stats query terminal + Join EDOT action */}
-              <div className="console-action-row">
-                <div className="console-terminal-line">
-                  <span className="terminal-prompt">$</span>
-                  <span className="terminal-command">edot query --sponsored</span>
-                  <span className="terminal-output text-[#007799] dark:text-[#34d399] font-black">1,420+ students</span>
-                </div>
-                <Link to="/register" className="console-join-btn group">
-                  <span>Join EDOT</span>
-                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-current ml-1.5 transition-colors">
-                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                  </span>
-                </Link>
               </div>
             </div>
           )}
