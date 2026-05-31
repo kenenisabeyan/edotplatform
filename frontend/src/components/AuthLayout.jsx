@@ -14,7 +14,15 @@ import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider, githubProvider } from '../utils/firebase';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import CustomDropdown from './CustomDropdown';
 import './AuthLayout.css';
+
+const roleOptions = [
+  { value: 'student', label: 'Student', icon: '🎓' },
+  { value: 'parent', label: 'Parent', icon: '👨‍👩‍👧' },
+  { value: 'instructor', label: 'Instructor', icon: '👨‍🏫' },
+  { value: 'sponsor', label: 'Sponsor', icon: '💼' }
+];
 
 // Custom Google Icon SVG
 const GoogleIcon = ({ className = "w-5 h-5" }) => (
@@ -239,30 +247,32 @@ export default function AuthLayout({ defaultIsRegister = false }) {
               
               <div className="w-full glass-auth-card rounded-[2.5rem] shadow-2xl flex flex-col relative border border-white/60 overflow-hidden">
                 
-                {/* Binder Folder style Tab Selector */}
-                <div className="flex w-full bg-slate-500/5 px-4 pt-2 border-b border-slate-200/20">
-                  <button 
-                    type="button"
-                    onClick={() => handleTabChange(false)}
-                    className={`px-6 py-2.5 text-xs md:text-sm font-black uppercase tracking-wider transition-all duration-350 cursor-pointer ${
-                      !isRegister 
-                        ? 'bg-white/70 text-slate-900 border-t border-x border-slate-200/20 font-black rounded-t-xl z-10' 
-                        : 'text-slate-550 hover:text-slate-800 hover:bg-white/20 rounded-t-xl'
-                    }`}
-                  >
-                    SIGN IN
-                  </button>
-                  <button 
-                    type="button"
-                    onClick={() => handleTabChange(true)}
-                    className={`px-6 py-2.5 text-xs md:text-sm font-black uppercase tracking-wider transition-all duration-350 cursor-pointer ${
-                      isRegister 
-                        ? 'bg-white/70 text-slate-900 border-t border-x border-slate-200/20 font-black rounded-t-xl z-10' 
-                        : 'text-slate-550 hover:text-slate-800 hover:bg-white/20 rounded-t-xl'
-                    }`}
-                  >
-                    SIGN UP
-                  </button>
+                {/* Header Switcher matching the exact mockup design */}
+                <div className="auth-header-bar flex justify-center items-center py-5 px-6 border-b border-slate-200/20">
+                  <div className="auth-capsule-switcher flex items-center p-1 rounded-full w-full max-w-[320px]">
+                    <button 
+                      type="button"
+                      onClick={() => handleTabChange(false)}
+                      className={`flex-1 py-2.5 text-xs md:text-sm font-black uppercase tracking-wider transition-all duration-300 cursor-pointer rounded-full text-center ${
+                        !isRegister 
+                          ? 'auth-tab-active' 
+                          : 'auth-tab-inactive'
+                      }`}
+                    >
+                      SIGN IN
+                    </button>
+                    <button 
+                      type="button"
+                      onClick={() => handleTabChange(true)}
+                      className={`flex-1 py-2.5 text-xs md:text-sm font-black uppercase tracking-wider transition-all duration-300 cursor-pointer rounded-full text-center ${
+                        isRegister 
+                          ? 'auth-tab-active' 
+                          : 'auth-tab-inactive'
+                      }`}
+                    >
+                      SIGN UP
+                    </button>
+                  </div>
                 </div>
 
                 {/* Card Content Area */}
@@ -298,7 +308,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                         
                         {/* Email field */}
                         <div className="space-y-1.5 text-left">
-                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Email Address</label>
+                          <label className="block text-xs font-bold text-[#0F3057] tracking-wide">Email Address</label>
                           <input 
                             type="email" 
                             value={loginEmail}
@@ -311,7 +321,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
 
                         {/* Password field */}
                         <div className="space-y-1.5 text-left">
-                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Password</label>
+                          <label className="block text-xs font-bold text-[#0F3057] tracking-wide">Password</label>
                           <div className="relative">
                             <input 
                               type={showLoginPassword ? "text" : "password"}
@@ -335,7 +345,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                         <button 
                           type="submit" 
                           disabled={loadingLogin} 
-                          className="w-full flex items-center justify-center gap-2 bg-[#d97706]/75 hover:bg-[#d97706]/90 text-white py-3.5 px-6 rounded-2xl font-black text-xs md:text-sm tracking-wide shadow-lg shadow-amber-800/15 transform active:scale-[0.99] transition-all duration-200 uppercase cursor-pointer auth-glass-btn"
+                          className="w-full flex items-center justify-center gap-2 py-3.5 px-6 font-black text-xs md:text-sm tracking-wide transform active:scale-[0.99] transition-all duration-200 cursor-pointer auth-glass-btn"
                         >
                           {loadingLogin ? 'Logging in...' : 'Log In with Password'}
                           <ArrowRight className="w-4.5 h-4.5" />
@@ -348,7 +358,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                         
                         {/* Name field */}
                         <div className="space-y-1.5 text-left">
-                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Full Name</label>
+                          <label className="block text-xs font-bold text-[#0F3057] tracking-wide">Full Name</label>
                           <input 
                             type="text" 
                             value={regName}
@@ -361,7 +371,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
 
                         {/* Email field */}
                         <div className="space-y-1.5 text-left">
-                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Email Address</label>
+                          <label className="block text-xs font-bold text-[#0F3057] tracking-wide">Email Address</label>
                           <input 
                             type="email" 
                             value={regEmail}
@@ -374,7 +384,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
 
                         {/* Password field */}
                         <div className="space-y-1.5 text-left">
-                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Password</label>
+                          <label className="block text-xs font-bold text-[#0F3057] tracking-wide">Password</label>
                           <div className="relative">
                             <input 
                               type={showRegPassword ? "text" : "password"}
@@ -396,31 +406,21 @@ export default function AuthLayout({ defaultIsRegister = false }) {
 
                         {/* Role field dropdown */}
                         <div className="space-y-1.5 text-left">
-                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Account Type (Role)</label>
-                          <div className="relative">
-                            <select 
-                              value={regRole} 
-                              onChange={e => setRegRole(e.target.value)}
-                              className="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-200/80 text-sm text-slate-800 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm cursor-pointer appearance-none"
-                            >
-                              <option value="student">Student</option>
-                              <option value="parent">Parent</option>
-                              <option value="instructor">Instructor</option>
-                              <option value="sponsor">Sponsor</option>
-                            </select>
-                            <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                              </svg>
-                            </div>
-                          </div>
+                          <label className="block text-xs font-bold text-[#0F3057] tracking-wide">Account Type (Role)</label>
+                          <CustomDropdown 
+                            value={regRole} 
+                            onChange={val => setRegRole(val)} 
+                            options={roleOptions} 
+                            className="auth-role-dropdown"
+                            placeholder="Select Account Type"
+                          />
                         </div>
 
                         {/* Action Button */}
                         <button 
                           type="submit" 
                           disabled={loadingReg} 
-                          className="w-full flex items-center justify-center gap-2 bg-[#FF5A00]/75 hover:bg-[#FF5A00]/90 text-white py-3.5 px-6 rounded-2xl font-black text-xs md:text-sm tracking-wide shadow-lg shadow-orange-500/15 transform active:scale-[0.99] transition-all duration-200 uppercase group cursor-pointer auth-glass-btn"
+                          className="w-full flex items-center justify-center gap-2 py-3.5 px-6 font-black text-xs md:text-sm tracking-wide transform active:scale-[0.99] transition-all duration-200 cursor-pointer auth-glass-btn"
                         >
                           {loadingReg ? 'Signing up...' : 'Sign Up with Email'}
                           <ArrowRight className="w-4.5 h-4.5" />
@@ -430,13 +430,11 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                     )}
 
                     {/* Separator OR */}
-                    <div className="relative my-6">
+                    <div className="relative my-6 flex items-center justify-center">
                       <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-slate-350/30"></div>
+                        <div className="w-full auth-separator-line"></div>
                       </div>
-                      <div className="relative flex justify-center text-xs uppercase font-extrabold text-slate-500">
-                        <span className="bg-transparent px-3">- OR -</span>
-                      </div>
+                      <span className="relative z-10 auth-separator-text">- OR -</span>
                     </div>
 
                     {/* Social Logins */}
@@ -444,7 +442,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                       <button 
                         type="button" 
                         onClick={() => handleSocialLogin('Google')} 
-                        className="h-12 flex items-center justify-center gap-3 border border-slate-200/80 rounded-2xl hover:bg-slate-50 transition-all shadow-sm bg-white cursor-pointer active:scale-[0.98] w-full"
+                        className="h-12 w-full flex items-center justify-center gap-3 transition-all cursor-pointer active:scale-[0.98] auth-social-btn"
                       >
                         <GoogleIcon className="w-5 h-5 shrink-0" />
                         <span className="font-extrabold text-slate-700 text-xs md:text-[13px]">Continue with Google</span>
@@ -452,7 +450,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                       <button 
                         type="button" 
                         onClick={() => handleSocialLogin('GitHub')} 
-                        className="h-12 flex items-center justify-center gap-3 border border-slate-200/80 rounded-2xl hover:bg-slate-50 transition-all shadow-sm bg-white cursor-pointer active:scale-[0.98] w-full"
+                        className="h-12 w-full flex items-center justify-center gap-3 transition-all cursor-pointer active:scale-[0.98] auth-social-btn"
                       >
                         {/* GitHub Icon */}
                         <svg className="w-5 h-5 shrink-0 text-slate-900" viewBox="0 0 24 24" fill="currentColor">
@@ -538,7 +536,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
               </div>
               <div className="text-left leading-none">
                 <h4 className="font-extrabold text-[11px] text-slate-800 tracking-tight">Access Anywhere</h4>
-                <p className="text-[9.5px] text-slate-450 mt-1 font-medium font-medium font-medium">Learn here anywhere</p>
+                <p className="text-[9.5px] text-slate-450 mt-1 font-medium">Learn here anywhere</p>
               </div>
             </div>
 

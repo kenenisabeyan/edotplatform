@@ -42,11 +42,11 @@
 
 /* Glassmorphism credentials panel definition */
 .glass-auth-card {
-  background: rgba(240, 249, 255, 0.32) !important;
+  background: rgba(255, 255, 255, 0.94) !important;
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.08) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08) !important;
 }
 
 [data-theme="dark"] .glass-auth-card {
@@ -55,100 +55,199 @@
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25) !important;
 }
 
-/* Folder style Tabs styling */
-.glass-auth-card button[class*="py-2.5"] {
-  border-bottom: 2px solid transparent;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Capsule Switched Header top-bar matching the exact edotplatform mockup styling */
+.auth-header-bar {
+  background: #F1F5F9 !important;
+  border-radius: 2.5rem 2.5rem 0 0 !important;
+  width: 100% !important;
+  border-bottom: 1.5px solid rgba(148, 163, 184, 0.12) !important;
 }
 
-/* Folder look for active/inactive tabs */
-.glass-auth-card button[class*="bg-white/70"] {
-  background: rgba(255, 255, 255, 0.72) !important;
+[data-theme="dark"] .auth-header-bar {
+  background: rgba(15, 23, 42, 0.4) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.auth-capsule-switcher {
+  background: #E2E8F0 !important;
+  border-radius: 9999px !important;
+  padding: 4px !important;
+  box-shadow: inset 0 2px 5px rgba(15, 23, 42, 0.05) !important;
+}
+
+[data-theme="dark"] .auth-capsule-switcher {
+  background: rgba(30, 41, 59, 0.6) !important;
+}
+
+/* Active and inactive pill buttons in the header */
+.auth-tab-active {
+  background: #ffffff !important;
   color: #0f172a !important;
-  font-weight: 900 !important;
-  border-radius: 1.25rem 1.25rem 0 0 !important;
-  border-top: 1.5px solid rgba(255, 255, 255, 0.6) !important;
-  border-left: 1.5px solid rgba(255, 255, 255, 0.6) !important;
-  border-right: 1.5px solid rgba(255, 255, 255, 0.6) !important;
-  border-bottom: none !important;
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
 }
 
-.glass-auth-card button[class*="text-slate-550"] {
-  background: transparent !important;
-  color: #64748b !important;
-  opacity: 0.7;
-  border-radius: 1.25rem 1.25rem 0 0 !important;
-  border: none !important;
-  border-bottom: 1.5px solid transparent !important;
-}
-
-.glass-auth-card button[class*="text-slate-550"]:hover {
+[data-theme="dark"] .auth-tab-active {
   background: rgba(255, 255, 255, 0.15) !important;
-  color: #0f172a !important;
-  opacity: 1;
+  color: #ffffff !important;
 }
 
-[data-theme="dark"] .glass-auth-card button[class*="bg-white/70"] {
-  background: rgba(30, 41, 59, 0.8) !important;
-  color: #f8fafc !important;
-  border-top-color: rgba(255, 255, 255, 0.1) !important;
-  border-left-color: rgba(255, 255, 255, 0.1) !important;
-  border-right-color: rgba(255, 255, 255, 0.1) !important;
+.auth-tab-inactive {
+  background: transparent !important;
+  color: #94a3b8 !important;
+  font-weight: 700 !important;
 }
 
-/* Form inputs (pristine solid white, sleek rounded) */
+.auth-tab-inactive:hover {
+  color: #475569 !important;
+}
+
+[data-theme="dark"] .auth-tab-inactive:hover {
+  color: #cbd5e1 !important;
+}
+
+/* Form inputs (sleek lavender/blue tint, modern rounded-xl) */
+.glass-auth-card label {
+  color: #0F3057 !important;
+  font-weight: 700 !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.02em !important;
+  margin-bottom: 0.4rem !important;
+  text-transform: none !important;
+}
+
+[data-theme="dark"] .glass-auth-card label {
+  color: #cbd5e1 !important;
+}
+
 .glass-auth-card input,
 .glass-auth-card select {
-  background: #ffffff !important;
+  background: #EBF1FA !important;
   border: 1px solid rgba(148, 163, 184, 0.22) !important;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.02) !important;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   color: #0f172a !important;
-  border-radius: 1rem !important;
+  border-radius: 0.85rem !important; /* 12px-14px border radius */
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+}
+
+.glass-auth-card input::placeholder {
+  color: #829AB1 !important;
+  opacity: 0.85;
 }
 
 .glass-auth-card input:focus,
 .glass-auth-card select:focus {
   background: #ffffff !important;
-  border-color: rgba(255, 90, 0, 0.45) !important;
-  box-shadow: 0 0 0 4px rgba(255, 90, 0, 0.12) !important;
+  border-color: rgba(226, 135, 84, 0.8) !important;
+  box-shadow: 0 0 0 3px rgba(226, 135, 84, 0.15) !important;
   outline: none;
 }
 
 [data-theme="dark"] .glass-auth-card input,
 [data-theme="dark"] .glass-auth-card select {
   background: rgba(15, 23, 42, 0.6) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   color: #f8fafc !important;
 }
 
 [data-theme="dark"] .glass-auth-card input:focus,
 [data-theme="dark"] .glass-auth-card select:focus {
-  background: rgba(15, 23, 42, 0.9) !important;
-  border-color: rgba(255, 90, 0, 0.5) !important;
+  background: rgba(15, 23, 42, 0.95) !important;
+  border-color: rgba(226, 135, 84, 0.8) !important;
 }
 
-/* Main button glass orange/brown gradient */
+/* Primary Submit Button - Coral Orange Pill */
 .auth-glass-btn {
-  background: linear-gradient(135deg, rgba(239, 120, 47, 0.72) 0%, rgba(217, 95, 23, 0.72) 100%) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
-  color: #ffffff !important;
+  background: #E28754 !important;
+  border: none !important;
+  color: #2D1A12 !important; /* Premium charcoal/brown dark text */
   font-weight: 800 !important;
-  box-shadow: 0 8px 24px rgba(239, 120, 47, 0.22) !important;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 9999px !important; /* Full pill shape */
+  padding: 0.95rem 1.5rem !important;
+  box-shadow: 0 10px 25px rgba(226, 135, 84, 0.28) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  letter-spacing: 0.03em !important;
 }
 
 .auth-glass-btn:hover {
-  transform: translateY(-2.5px);
-  background: linear-gradient(135deg, rgba(239, 120, 47, 0.85) 0%, rgba(217, 95, 23, 0.85) 100%) !important;
-  box-shadow: 0 12px 32px rgba(239, 120, 47, 0.35) !important;
+  background: #D9743D !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(226, 135, 84, 0.42) !important;
 }
 
 .auth-glass-btn:active {
-  transform: translateY(0px);
+  transform: translateY(0);
+}
+
+[data-theme="dark"] .auth-glass-btn {
+  background: #E28754 !important;
+  color: #ffffff !important;
+}
+
+/* Eye Toggle button inside absolute input positions */
+.glass-auth-card button[class*="absolute"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* OR Separator line and text */
+.auth-separator-line {
+  border-top: 1.5px solid #000000 !important;
+  opacity: 0.15;
+}
+
+.auth-separator-text {
+  background: #ffffff !important; /* Matches card body background */
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.05em !important;
+  padding: 0 0.75rem !important;
+}
+
+[data-theme="dark"] .auth-separator-line {
+  border-top-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+[data-theme="dark"] .auth-separator-text {
+  background: #1e293b !important; /* Matches dark credentials card */
+  color: #94a3b8 !important;
+}
+
+/* Google & GitHub Social Pill Buttons */
+.auth-social-btn {
+  background: #ffffff !important;
+  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  border-radius: 9999px !important; /* Full pill shape */
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02) !important;
+}
+
+.auth-social-btn:hover {
+  background: #F8FAFC !important;
+  border-color: rgba(148, 163, 184, 0.45) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05) !important;
+}
+
+.auth-social-btn:active {
+  transform: translateY(0);
+}
+
+[data-theme="dark"] .auth-social-btn {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .auth-social-btn:hover {
+  background: rgba(30, 41, 59, 1) !important;
 }
 
 /* Floating cartoon illustrations */
@@ -354,4 +453,74 @@ select option {
 .pillar-ribbon-badge:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(11, 19, 43, 0.28) !important;
+}
+
+/* Glowing vector pathways matching the mockup digital path aesthetics */
+.auth-card-container svg path {
+  filter: drop-shadow(0 0 5px rgba(255, 90, 0, 0.4)) !important;
+}
+
+.auth-card-container svg path[stroke*="blueCyanGrad"] {
+  filter: drop-shadow(0 0 5px rgba(0, 132, 255, 0.4)) !important;
+}
+
+/* Custom Role Dropdown styling to match our input aesthetics exactly */
+.glass-auth-card .auth-role-dropdown button {
+  background: #EBF1FA !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  border-radius: 0.85rem !important; /* Overrides pill shapes */
+  padding: 0.85rem 1rem !important;
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.02) !important;
+  transition: all 0.25s ease !important;
+}
+
+.glass-auth-card .auth-role-dropdown button:focus {
+  background: #ffffff !important;
+  border-color: rgba(226, 135, 84, 0.8) !important;
+  box-shadow: 0 0 0 3px rgba(226, 135, 84, 0.15) !important;
+}
+
+[data-theme="dark"] .glass-auth-card .auth-role-dropdown button {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .glass-auth-card .auth-role-dropdown button:focus {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border-color: rgba(226, 135, 84, 0.8) !important;
+}
+
+/* Style the portal options dropdown to match our premium aesthetic */
+body > div[style*="fixed"] {
+  border-radius: 1.25rem !important; /* Round popup elegantly */
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15) !important;
+  border: 1px solid rgba(148, 163, 184, 0.15) !important;
+}
+
+body > div[style*="fixed"] button {
+  transition: all 0.2s ease !important;
+}
+
+body > div[style*="fixed"] button:hover {
+  background: #EBF1FA !important;
+  color: #0F3057 !important;
+}
+
+[data-theme="dark"] body > div[style*="fixed"] button:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+}
+
+body > div[style*="fixed"] button[class*="bg-[#00D4FF]/10"] {
+  background: rgba(226, 135, 84, 0.1) !important;
+  color: #E28754 !important;
+  font-weight: 700 !important;
+}
+
+body > div[style*="fixed"] button[class*="bg-[#00D4FF]/10"] svg {
+  color: #E28754 !important;
 }
