@@ -572,9 +572,16 @@ export const toggleBlockUser = async (req, res) => {
 
 export const generateCallToken = async (req, res) => {
   try {
-    const { targetUserId } = req.body;
+    const { targetUserId, groupId } = req.body;
     const currentUserId = req.user.id;
-    const roomName = "call-" + [currentUserId, targetUserId].sort().join('-');
+    
+    let roomName;
+    if (groupId) {
+      roomName = "call-group-" + groupId;
+    } else {
+      roomName = "call-" + [currentUserId, targetUserId].sort().join('-');
+    }
+    
     const participantName = req.user.name || "User-" + currentUserId.substring(0, 5);
 
     const at = new AccessToken(

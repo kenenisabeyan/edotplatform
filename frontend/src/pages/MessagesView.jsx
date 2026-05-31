@@ -229,11 +229,42 @@ export default function MessagesView() {
     }
   };
 
-  const handleStartCall = (type) => {
+  const handleStartCall = async (type) => {
+     if (!activeContact) return;
+     
+     const callMessageContent = `📞 Incoming ${type === 'video' ? 'Video' : 'Audio'} Call...`;
      setCallType(type);
-     setShowCallModal(true);
-     setIsCalling(true);
-     setTimeout(() => setIsCalling(false), 8000); 
+     
+     try {
+       const payload = {
+         content: callMessageContent
+       };
+
+       if (activeContact?.type === 'group' || activeContact?.type === 'channel') {
+         payload.groupId = activeContact.id;
+       } else {
+         payload.receiverId = activeContact.id;
+       }
+
+       const { data } = await api.post('/messages', payload);
+       if (data.success) {
+         setMessages(prev => [...prev, data.data]);
+         
+         const roomId = activeContact?.type === 'group' || activeContact?.type === 'channel'
+           ? `group_${activeContact.id}`
+           : [user.id, activeContact.id].sort().join('_');
+           
+         socket.emit('send_message', { ...data.data, roomId });
+         scrollToBottom();
+         
+         // Instantly connect the caller to the room
+         const isGroup = activeContact?.type === 'group' || activeContact?.type === 'channel';
+         await handleJoinCall(activeContact.id, isGroup);
+       }
+     } catch (err) {
+       console.error('Failed to initiate call:', err);
+       alert('Failed to initiate call');
+     }
   };
 
   const handleOpenScheduleMeet = () => {
@@ -245,9 +276,10 @@ export default function MessagesView() {
     setShowAgendaModal(true);
   };
 
-  const handleJoinCall = async (targetUserId) => {
+  const handleJoinCall = async (targetId, isGroup = false) => {
      try {
-       const { data } = await api.post('/messages/call-token', { targetUserId });
+       const payload = isGroup ? { groupId: targetId } : { targetUserId: targetId };
+       const { data } = await api.post('/messages/call-token', payload);
        if (data.success) {
          setLivekitSession({ token: data.token, url: data.livekitUrl, roomName: data.roomName });
        }
@@ -759,7 +791,16 @@ export default function MessagesView() {
                                 <div className="flex items-end gap-3 flex-wrap">
                                   <span className="whitespace-pre-wrap">{msg.content}</span>
                                   {msg.content.includes('📞 Incoming') && (
-                                    <button onClick={() => handleJoinCall(isMine ? msg.receiverId : msg.senderId)} className={`ml-2 px-3 py-1 text-xs rounded-full bg-green-500 text-white font-bold hover:bg-green-600 transition-colors`}>
+                                    <button 
+                                      onClick={() => {
+                                        if (msg.groupId) {
+                                          handleJoinCall(msg.groupId, true);
+                                        } else {
+                                          handleJoinCall(isMine ? msg.receiverId : msg.senderId, false);
+                                        }
+                                      }} 
+                                      className={`ml-2 px-3 py-1 text-xs rounded-full bg-green-500 text-white font-bold hover:bg-green-600 transition-colors`}
+                                    >
                                       Join Call
                                     </button>
                                   )}
