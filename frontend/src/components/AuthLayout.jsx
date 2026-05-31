@@ -158,6 +158,36 @@ export default function AuthLayout({ defaultIsRegister = false }) {
         {/* Main card container */}
         <div className="w-full max-w-[1300px] auth-card-container rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_32px_64px_-16px_rgba(15,23,42,0.15)] overflow-hidden flex flex-col p-5 sm:p-8 md:p-10 lg:p-12 relative border border-slate-200/50 animate-auth-fade">
           
+          {/* Curved Illustration Pathway Vector Overlays */}
+          <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0 opacity-40">
+            <svg className="w-full h-full" viewBox="0 0 1300 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* Left curved pathway (Courses to Impact) */}
+              <path d="M 180 180 C 70 280, 70 420, 180 520" stroke="url(#yellowOrangeGrad)" strokeWidth="6" strokeLinecap="round" strokeDasharray="1 15" />
+              <path d="M 180 180 C 70 280, 70 420, 180 520" stroke="url(#yellowOrangeGrad)" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+              
+              {/* Right curved pathway (Community to Access Anywhere) */}
+              <path d="M 1120 180 C 1230 280, 1230 420, 1120 520" stroke="url(#blueCyanGrad)" strokeWidth="6" strokeLinecap="round" strokeDasharray="1 15" />
+              <path d="M 1120 180 C 1230 280, 1230 420, 1120 520" stroke="url(#blueCyanGrad)" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+              
+              {/* Floating particle markers along the paths */}
+              <circle cx="100" cy="300" r="6" fill="#FF5A00" opacity="0.8" className="animate-pulse" />
+              <circle cx="1200" cy="400" r="6" fill="#0084FF" opacity="0.8" className="animate-pulse" />
+              
+              <defs>
+                <linearGradient id="yellowOrangeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#FFC107" />
+                  <stop offset="50%" stopColor="#FF5A00" />
+                  <stop offset="100%" stopColor="#FF3D00" />
+                </linearGradient>
+                <linearGradient id="blueCyanGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#00D4FF" />
+                  <stop offset="50%" stopColor="#0084FF" />
+                  <stop offset="100%" stopColor="#19C2E8" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
           {/* LOGO HEADER */}
           <div className="w-full flex justify-center mb-8 md:mb-12 z-10">
             <div className="flex flex-col items-center">
@@ -180,7 +210,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   <img src="/images/courses_3d.png" alt="Courses" className="w-4/5 h-4/5 object-contain graphic-float" />
                 </div>
                 {/* Curved dark label banner under circle */}
-                <div className="bg-[#0B132B] text-white font-black text-[11px] sm:text-xs md:text-sm tracking-widest uppercase px-6 py-1.5 rounded-full shadow-md border border-white/20 -mt-5 z-20">
+                <div className="pillar-ribbon-badge -mt-5">
                   COURSES
                 </div>
                 <div className="flex flex-col text-center mt-1">
@@ -194,7 +224,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   <img src="/images/impact_3d.png" alt="Impact" className="w-4/5 h-4/5 object-contain graphic-float" style={{ animationDelay: '0.8s' }} />
                 </div>
                 {/* Curved dark label banner under circle */}
-                <div className="bg-[#0B132B] text-white font-black text-[11px] sm:text-xs md:text-sm tracking-widest uppercase px-6 py-1.5 rounded-full shadow-md border border-white/20 -mt-5 z-20">
+                <div className="pillar-ribbon-badge -mt-5">
                   IMPACT
                 </div>
                 <div className="flex flex-col text-center mt-1">
@@ -294,7 +324,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                             <button 
                               type="button"
                               onClick={() => setShowLoginPassword(!showLoginPassword)}
-                              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-650 cursor-pointer"
+                              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-655 cursor-pointer"
                             >
                               {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </button>
@@ -357,7 +387,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                             <button 
                               type="button"
                               onClick={() => setShowRegPassword(!showRegPassword)}
-                              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-650 cursor-pointer"
+                              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-655 cursor-pointer"
                             >
                               {showRegPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </button>
@@ -449,7 +479,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   <img src="/images/community_3d.png" alt="Community" className="w-4/5 h-4/5 object-contain graphic-float" style={{ animationDelay: '0.4s' }} />
                 </div>
                 {/* Curved dark label banner under circle */}
-                <div className="bg-[#0B132B] text-white font-black text-[11px] sm:text-xs md:text-sm tracking-widest uppercase px-6 py-1.5 rounded-full shadow-md border border-white/20 -mt-5 z-20">
+                <div className="pillar-ribbon-badge -mt-5">
                   COMMUNITY
                 </div>
                 <div className="flex flex-col text-center mt-1">
@@ -463,7 +493,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   <img src="/images/access_3d.png" alt="Access Anywhere" className="w-4/5 h-4/5 object-contain graphic-float" style={{ animationDelay: '1.2s' }} />
                 </div>
                 {/* Curved dark label banner under circle */}
-                <div className="bg-[#0B132B] text-white font-black text-[11px] sm:text-xs md:text-sm tracking-widest uppercase px-6 py-1.5 rounded-full shadow-md border border-white/20 -mt-5 z-20">
+                <div className="pillar-ribbon-badge -mt-5">
                   ACCESS ANYWHERE
                 </div>
                 <div className="flex flex-col text-center mt-1">
@@ -508,7 +538,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
               </div>
               <div className="text-left leading-none">
                 <h4 className="font-extrabold text-[11px] text-slate-800 tracking-tight">Access Anywhere</h4>
-                <p className="text-[9.5px] text-slate-450 mt-1 font-medium">Learn here anywhere</p>
+                <p className="text-[9.5px] text-slate-450 mt-1 font-medium font-medium font-medium">Learn here anywhere</p>
               </div>
             </div>
 

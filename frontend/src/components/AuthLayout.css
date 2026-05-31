@@ -10,13 +10,16 @@
 
 /* Outer Card Container with glowing colorful pathway mimics inside */
 .auth-card-container {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(248, 250, 252, 0.5) 100%) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 255, 255, 0.72) !important;
   position: relative;
   overflow: hidden;
 }
 
 [data-theme="dark"] .auth-card-container {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 41, 59, 0.96) 100%) !important;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.6) 100%) !important;
   border-color: rgba(255, 255, 255, 0.05) !important;
 }
 
@@ -39,17 +42,17 @@
 
 /* Glassmorphism credentials panel definition */
 .glass-auth-card {
-  background: rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1.5px solid rgba(255, 255, 255, 0.45);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+  background: rgba(240, 249, 255, 0.32) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.08) !important;
 }
 
 [data-theme="dark"] .glass-auth-card {
-  background: rgba(15, 23, 42, 0.35);
-  border: 1.5px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  background: rgba(15, 23, 42, 0.35) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25) !important;
 }
 
 /* Folder style Tabs styling */
@@ -63,13 +66,21 @@
   background: rgba(255, 255, 255, 0.72) !important;
   color: #0f172a !important;
   font-weight: 900 !important;
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.9);
+  border-radius: 1.25rem 1.25rem 0 0 !important;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  border-left: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  border-bottom: none !important;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
 }
 
 .glass-auth-card button[class*="text-slate-550"] {
   background: transparent !important;
   color: #64748b !important;
   opacity: 0.7;
+  border-radius: 1.25rem 1.25rem 0 0 !important;
+  border: none !important;
+  border-bottom: 1.5px solid transparent !important;
 }
 
 .glass-auth-card button[class*="text-slate-550"]:hover {
@@ -81,23 +92,27 @@
 [data-theme="dark"] .glass-auth-card button[class*="bg-white/70"] {
   background: rgba(30, 41, 59, 0.8) !important;
   color: #f8fafc !important;
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
+  border-left-color: rgba(255, 255, 255, 0.1) !important;
+  border-right-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Form inputs (solid, flat, no icons) */
+/* Form inputs (pristine solid white, sleek rounded) */
 .glass-auth-card input,
 .glass-auth-card select {
-  background: #f1f5f9 !important;
-  border: 1px solid rgba(148, 163, 184, 0.18) !important;
-  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.02) !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   color: #0f172a !important;
+  border-radius: 1rem !important;
 }
 
 .glass-auth-card input:focus,
 .glass-auth-card select:focus {
   background: #ffffff !important;
-  border-color: rgba(255, 90, 0, 0.4) !important;
-  box-shadow: 0 0 0 4px rgba(255, 90, 0, 0.1) !important;
+  border-color: rgba(255, 90, 0, 0.45) !important;
+  box-shadow: 0 0 0 4px rgba(255, 90, 0, 0.12) !important;
   outline: none;
 }
 
@@ -114,20 +129,22 @@
   border-color: rgba(255, 90, 0, 0.5) !important;
 }
 
-/* Main button glass orange/brown */
+/* Main button glass orange/brown gradient */
 .auth-glass-btn {
   background: linear-gradient(135deg, rgba(239, 120, 47, 0.72) 0%, rgba(217, 95, 23, 0.72) 100%) !important;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  box-shadow: 0 8px 20px rgba(239, 120, 47, 0.15);
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  box-shadow: 0 8px 24px rgba(239, 120, 47, 0.22) !important;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .auth-glass-btn:hover {
   transform: translateY(-2.5px);
   background: linear-gradient(135deg, rgba(239, 120, 47, 0.85) 0%, rgba(217, 95, 23, 0.85) 100%) !important;
-  box-shadow: 0 12px 28px rgba(239, 120, 47, 0.28);
+  box-shadow: 0 12px 32px rgba(239, 120, 47, 0.35) !important;
 }
 
 .auth-glass-btn:active {
@@ -315,4 +332,26 @@ select option {
   .flex-wrap p {
     font-size: 7.5px !important;
   }
+}
+
+/* Curved dark label banner under circle */
+.pillar-ribbon-badge {
+  background: #0B132B !important;
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  padding: 0.35rem 1.6rem !important;
+  border-radius: 9999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 6px 15px rgba(11, 19, 43, 0.18) !important;
+  transition: all 0.3s ease !important;
+  font-size: 12.5px !important;
+  text-align: center !important;
+  z-index: 20;
+}
+
+.pillar-ribbon-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(11, 19, 43, 0.28) !important;
 }
