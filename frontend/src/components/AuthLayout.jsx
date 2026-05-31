@@ -4,11 +4,6 @@ import { useAuth } from '../context/AuthContext';
 import { 
   Eye, 
   EyeOff, 
-  Mail, 
-  Lock, 
-  User, 
-  UserPlus, 
-  UserCheck,
   ArrowRight, 
   ShieldCheck, 
   Zap, 
@@ -141,7 +136,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
         <div className="absolute top-[-10%] left-[-10%] w-[55%] h-[55%] rounded-full bg-[#FF5A00]/5 blur-3xl pointer-events-none -z-10"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[55%] h-[55%] rounded-full bg-[#00D4FF]/5 blur-3xl pointer-events-none -z-10"></div>
         
-        {/* Beautiful Floating Clouds in Background */}
+        {/* Floating Clouds in Background */}
         <div className="absolute inset-0 pointer-events-none select-none overflow-hidden -z-10 opacity-30">
           <div className="absolute top-[10%] left-[5%] animate-float-slow">
             <svg width="120" height="80" viewBox="0 0 120 80" fill="#ffffff" className="drop-shadow-sm opacity-60">
@@ -161,7 +156,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
         </h1>
 
         {/* Main card container */}
-        <div className="w-full max-w-[1300px] bg-[#f0f9ff]/50 backdrop-blur-xl rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_32px_64px_-16px_rgba(15,23,42,0.15)] overflow-hidden flex flex-col p-5 sm:p-8 md:p-10 lg:p-12 relative border border-white/80 animate-auth-fade">
+        <div className="w-full max-w-[1300px] bg-white rounded-[2.5rem] md:rounded-[3.5rem] shadow-[0_32px_64px_-16px_rgba(15,23,42,0.15)] overflow-hidden flex flex-col p-5 sm:p-8 md:p-10 lg:p-12 relative border border-slate-200/50 animate-auth-fade">
           
           {/* LOGO HEADER */}
           <div className="w-full flex justify-center mb-8 md:mb-12">
@@ -177,27 +172,27 @@ export default function AuthLayout({ defaultIsRegister = false }) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
             
             {/* LEFT COLUMN: PILLARS 1 & 2 */}
-            <div className="lg:col-span-3 flex flex-row lg:flex-col justify-around lg:justify-start lg:items-end gap-6 md:gap-14 text-center lg:text-right">
+            <div className="lg:col-span-3 flex flex-col gap-10 md:gap-14 text-center lg:text-left">
               
               {/* Courses Pillar */}
-              <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-end gap-3 md:gap-4 group w-1/2 lg:w-full">
-                <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-[8.5rem] md:h-[8.5rem] rounded-full overflow-hidden flex items-center justify-center shrink-0 shadow-md border-2 border-orange-500/10 bg-white relative group-hover:scale-105 transition-transform duration-300">
-                  <img src="/images/courses_3d.png" alt="Courses" className="w-4/5 h-4/5 object-contain graphic-float" />
+              <div className="flex flex-col items-center justify-center gap-3 group">
+                <div className="w-32 h-32 md:w-[9.5rem] md:h-[9.5rem] overflow-hidden flex items-center justify-center shrink-0 relative group-hover:scale-105 transition-transform duration-300">
+                  <img src="/images/courses_3d.png" alt="Courses" className="w-full h-full object-contain graphic-float" />
                 </div>
-                <div className="flex flex-col max-w-[180px] lg:items-start text-left lg:text-left mt-2 lg:mt-0">
-                  <h3 className="font-black text-[#0F3057] text-[13px] sm:text-[14px] md:text-[16px] tracking-tight uppercase leading-none">Courses</h3>
-                  <p className="text-[10.5px] md:text-[11.5px] font-bold text-slate-500 mt-1 md:mt-2 leading-tight">Find expert-led skills training.</p>
+                <div className="flex flex-col text-center">
+                  <h3 className="font-extrabold text-[#0F3057] text-[16px] md:text-[20px] tracking-widest uppercase leading-none">Courses</h3>
+                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 mt-2 leading-relaxed">Find expert-led skills training.</p>
                 </div>
               </div>
 
               {/* Impact Pillar */}
-              <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-end gap-3 md:gap-4 group w-1/2 lg:w-full">
-                <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-[8.5rem] md:h-[8.5rem] rounded-full overflow-hidden flex items-center justify-center shrink-0 shadow-md border-2 border-emerald-500/10 bg-white relative group-hover:scale-105 transition-transform duration-300">
-                  <img src="/images/impact_3d.png" alt="Impact" className="w-4/5 h-4/5 object-contain graphic-float" style={{ animationDelay: '0.8s' }} />
+              <div className="flex flex-col items-center justify-center gap-3 group">
+                <div className="w-32 h-32 md:w-[9.5rem] md:h-[9.5rem] overflow-hidden flex items-center justify-center shrink-0 relative group-hover:scale-105 transition-transform duration-300">
+                  <img src="/images/impact_3d.png" alt="Impact" className="w-full h-full object-contain graphic-float" style={{ animationDelay: '0.8s' }} />
                 </div>
-                <div className="flex flex-col max-w-[180px] lg:items-start text-left lg:text-left mt-2 lg:mt-0">
-                  <h3 className="font-black text-[#0F3057] text-[13px] sm:text-[14px] md:text-[16px] tracking-tight uppercase leading-none">Impact</h3>
-                  <p className="text-[10.5px] md:text-[11.5px] font-bold text-slate-500 mt-1 md:mt-2 leading-tight">Track and expand your footprint.</p>
+                <div className="flex flex-col text-center">
+                  <h3 className="font-extrabold text-[#0F3057] text-[16px] md:text-[20px] tracking-widest uppercase leading-none">Impact</h3>
+                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 mt-2 leading-relaxed">Track and expand your footprint.</p>
                 </div>
               </div>
 
@@ -206,17 +201,17 @@ export default function AuthLayout({ defaultIsRegister = false }) {
             {/* CENTER COLUMN: GLASSMORPHIC AUTH PANEL */}
             <div className="lg:col-span-6 flex justify-center z-10 w-full max-w-[480px] mx-auto">
               
-              <div className="w-full glass-auth-card rounded-[2.5rem] shadow-2xl p-5 sm:p-7 md:p-8 flex flex-col relative border border-white/60">
+              <div className="w-full glass-auth-card rounded-[2.5rem] shadow-2xl flex flex-col relative border border-white/60 overflow-hidden">
                 
-                {/* Dynamic Tab Selector */}
-                <div className="flex w-full bg-slate-400/10 rounded-full p-1.5 mb-6 relative">
+                {/* Folder style Tab Selector */}
+                <div className="flex w-full border-b border-slate-200/20 bg-slate-500/5">
                   <button 
                     type="button"
                     onClick={() => handleTabChange(false)}
-                    className={`flex-1 py-3.5 text-xs md:text-[13.5px] font-black rounded-full transition-all duration-300 uppercase cursor-pointer z-10 ${
+                    className={`flex-1 py-4 text-xs md:text-[13.5px] font-black uppercase tracking-wider transition-all duration-350 cursor-pointer ${
                       !isRegister 
-                        ? 'bg-white text-slate-900 shadow-md font-extrabold' 
-                        : 'text-slate-550 hover:text-slate-800'
+                        ? 'bg-white/65 text-slate-900 border-r border-slate-200/20 font-black' 
+                        : 'text-slate-500 hover:text-slate-800 hover:bg-white/20'
                     }`}
                   >
                     Sign In
@@ -224,232 +219,213 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   <button 
                     type="button"
                     onClick={() => handleTabChange(true)}
-                    className={`flex-1 py-3.5 text-xs md:text-[13.5px] font-black rounded-full transition-all duration-300 uppercase cursor-pointer z-10 ${
+                    className={`flex-1 py-4 text-xs md:text-[13.5px] font-black uppercase tracking-wider transition-all duration-350 cursor-pointer ${
                       isRegister 
-                        ? 'bg-white text-slate-900 shadow-md font-extrabold' 
-                        : 'text-slate-550 hover:text-slate-800'
+                        ? 'bg-white/65 text-slate-900 border-l border-slate-200/20 font-black' 
+                        : 'text-slate-500 hover:text-slate-800 hover:bg-white/20'
                     }`}
                   >
                     Sign Up
                   </button>
                 </div>
 
-                {/* Subtitle */}
-                <p className="text-xs md:text-sm font-semibold text-slate-600 text-center mb-6 leading-relaxed">
-                  {!isRegister 
-                    ? "Enter your credentials to continue your journey:" 
-                    : "Create a new account to continue your journey:"
-                  }
-                </p>
-
-                {/* Forms Box */}
-                <div className="flex-1">
+                {/* Card Content Area */}
+                <div className="p-6 sm:p-8 flex flex-col">
                   
-                  {/* Authentication Alerts */}
-                  {((!isRegister && loginError) || (isRegister && regError)) && (
-                    <div className="p-3 mb-5 bg-rose-50/90 border border-rose-200 text-rose-700 text-xs rounded-xl font-bold flex items-start gap-2 shadow-sm animate-in fade-in duration-300">
-                      <svg className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                      </svg>
-                      <div className="text-left">
-                        <span className="block font-black text-rose-900">Authentication Error</span>
-                        <span className="opacity-90 font-medium leading-relaxed">{isRegister ? regError : loginError}</span>
-                      </div>
-                    </div>
-                  )}
+                  {/* Subtitle */}
+                  <p className="text-xs md:text-sm font-semibold text-slate-600 text-center mb-6 leading-relaxed">
+                    {!isRegister 
+                      ? "Enter your credentials to continue your journey:" 
+                      : "Create a new account to continue your journey:"
+                    }
+                  </p>
 
-                  {!isRegister ? (
-                    /* LOGIN FORM */
-                    <form onSubmit={handleLogin} className="space-y-4">
-                      
-                      {/* Email field */}
-                      <div className="space-y-1.5 text-left">
-                        <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Email Address</label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                            <Mail className="w-4.5 h-4.5" />
-                          </div>
+                  {/* Forms Box */}
+                  <div className="flex-1">
+                    
+                    {/* Authentication Alerts */}
+                    {((!isRegister && loginError) || (isRegister && regError)) && (
+                      <div className="p-3 mb-5 bg-rose-50/90 border border-rose-200 text-rose-700 text-xs rounded-xl font-bold flex items-start gap-2 shadow-sm animate-in fade-in duration-300">
+                        <svg className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <div className="text-left">
+                          <span className="block font-black text-rose-900">Authentication Error</span>
+                          <span className="opacity-90 font-medium leading-relaxed">{isRegister ? regError : loginError}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {!isRegister ? (
+                      /* LOGIN FORM */
+                      <form onSubmit={handleLogin} className="space-y-4">
+                        
+                        {/* Email field */}
+                        <div className="space-y-1.5 text-left">
+                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Email Address</label>
                           <input 
                             type="email" 
                             value={loginEmail}
                             onChange={e => setLoginEmail(e.target.value)}
                             required
                             placeholder="Email Address"
-                            className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white/70 border border-slate-200/80 text-sm text-slate-900 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm placeholder-slate-400"
+                            className="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-200/80 text-sm text-slate-900 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm placeholder-slate-400"
                           />
                         </div>
-                      </div>
 
-                      {/* Password field */}
-                      <div className="space-y-1.5 text-left">
-                        <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Password</label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                            <Lock className="w-4.5 h-4.5" />
+                        {/* Password field */}
+                        <div className="space-y-1.5 text-left">
+                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Password</label>
+                          <div className="relative">
+                            <input 
+                              type={showLoginPassword ? "text" : "password"}
+                              value={loginPassword}
+                              onChange={e => setLoginPassword(e.target.value)}
+                              required
+                              placeholder="Password"
+                              className="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-200/80 text-sm text-slate-900 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm placeholder-slate-400"
+                            />
+                            <button 
+                              type="button"
+                              onClick={() => setShowLoginPassword(!showLoginPassword)}
+                              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-650 cursor-pointer"
+                            >
+                              {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
                           </div>
-                          <input 
-                            type={showLoginPassword ? "text" : "password"}
-                            value={loginPassword}
-                            onChange={e => setLoginPassword(e.target.value)}
-                            required
-                            placeholder="Password"
-                            className="w-full pl-11 pr-10 py-3.5 rounded-2xl bg-white/70 border border-slate-200/80 text-sm text-slate-900 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm placeholder-slate-400"
-                          />
-                          <button 
-                            type="button"
-                            onClick={() => setShowLoginPassword(!showLoginPassword)}
-                            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-650 cursor-pointer"
-                          >
-                            {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                          </button>
                         </div>
-                      </div>
 
-                      {/* Action Button */}
-                      <button 
-                        type="submit" 
-                        disabled={loadingLogin} 
-                        className="w-full flex items-center justify-center gap-2 bg-[#d97706]/75 hover:bg-[#d97706]/90 text-white py-3.5 px-6 rounded-2xl font-black text-xs md:text-sm tracking-wide shadow-lg shadow-amber-800/15 transform active:scale-[0.99] transition-all duration-200 uppercase cursor-pointer auth-glass-btn"
-                      >
-                        {loadingLogin ? 'Logging in...' : 'Log In with Password'}
-                        <ArrowRight className="w-4.5 h-4.5" />
-                      </button>
+                        {/* Action Button */}
+                        <button 
+                          type="submit" 
+                          disabled={loadingLogin} 
+                          className="w-full flex items-center justify-center gap-2 bg-[#d97706]/75 hover:bg-[#d97706]/90 text-white py-3.5 px-6 rounded-2xl font-black text-xs md:text-sm tracking-wide shadow-lg shadow-amber-800/15 transform active:scale-[0.99] transition-all duration-200 uppercase cursor-pointer auth-glass-btn"
+                        >
+                          {loadingLogin ? 'Logging in...' : 'Log In with Password'}
+                          <ArrowRight className="w-4.5 h-4.5" />
+                        </button>
 
-                    </form>
-                  ) : (
-                    /* REGISTRATION FORM */
-                    <form onSubmit={handleRegister} className="space-y-4">
-                      
-                      {/* Name field */}
-                      <div className="space-y-1.5 text-left">
-                        <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Full Name</label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                            <User className="w-4.5 h-4.5" />
-                          </div>
+                      </form>
+                    ) : (
+                      /* REGISTRATION FORM */
+                      <form onSubmit={handleRegister} className="space-y-4">
+                        
+                        {/* Name field */}
+                        <div className="space-y-1.5 text-left">
+                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Full Name</label>
                           <input 
                             type="text" 
                             value={regName}
                             onChange={e => setRegName(e.target.value)}
                             required
                             placeholder="Full Name"
-                            className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white/70 border border-slate-200/80 text-sm text-slate-900 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm placeholder-slate-400"
+                            className="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-200/80 text-sm text-slate-900 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm placeholder-slate-400"
                           />
                         </div>
-                      </div>
 
-                      {/* Email field */}
-                      <div className="space-y-1.5 text-left">
-                        <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Email Address</label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                            <Mail className="w-4.5 h-4.5" />
-                          </div>
+                        {/* Email field */}
+                        <div className="space-y-1.5 text-left">
+                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Email Address</label>
                           <input 
                             type="email" 
                             value={regEmail}
                             onChange={e => setRegEmail(e.target.value)}
                             required
                             placeholder="Email Address"
-                            className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white/70 border border-slate-200/80 text-sm text-slate-900 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm placeholder-slate-400"
+                            className="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-200/80 text-sm text-slate-900 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm placeholder-slate-400"
                           />
                         </div>
-                      </div>
 
-                      {/* Password field */}
-                      <div className="space-y-1.5 text-left">
-                        <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Password</label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                            <Lock className="w-4.5 h-4.5" />
-                          </div>
-                          <input 
-                            type={showRegPassword ? "text" : "password"}
-                            value={regPassword}
-                            onChange={e => setRegPassword(e.target.value)}
-                            required
-                            placeholder="Password"
-                            className="w-full pl-11 pr-10 py-3.5 rounded-2xl bg-white/70 border border-slate-200/80 text-sm text-slate-900 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm placeholder-slate-400"
-                          />
-                          <button 
-                            type="button"
-                            onClick={() => setShowRegPassword(!showRegPassword)}
-                            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-650 cursor-pointer"
-                          >
-                            {showRegPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Role field dropdown */}
-                      <div className="space-y-1.5 text-left">
-                        <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Account Type (Role)</label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                            <UserCheck className="w-4.5 h-4.5" />
-                          </div>
-                          <select 
-                            value={regRole} 
-                            onChange={e => setRegRole(e.target.value)}
-                            className="w-full pl-11 pr-10 py-3.5 rounded-2xl bg-white/70 border border-slate-200/80 text-sm text-slate-800 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm cursor-pointer appearance-none"
-                          >
-                            <option value="student">Student</option>
-                            <option value="parent">Parent</option>
-                            <option value="instructor">Instructor</option>
-                            <option value="sponsor">Sponsor</option>
-                          </select>
-                          <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                            </svg>
+                        {/* Password field */}
+                        <div className="space-y-1.5 text-left">
+                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Password</label>
+                          <div className="relative">
+                            <input 
+                              type={showRegPassword ? "text" : "password"}
+                              value={regPassword}
+                              onChange={e => setRegPassword(e.target.value)}
+                              required
+                              placeholder="Password"
+                              className="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-200/80 text-sm text-slate-900 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm placeholder-slate-400"
+                            />
+                            <button 
+                              type="button"
+                              onClick={() => setShowRegPassword(!showRegPassword)}
+                              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-650 cursor-pointer"
+                            >
+                              {showRegPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Action Button */}
+                        {/* Role field dropdown */}
+                        <div className="space-y-1.5 text-left">
+                          <label className="block text-[10px] md:text-xs font-black text-[#0F3057] uppercase tracking-wide">Account Type (Role)</label>
+                          <div className="relative">
+                            <select 
+                              value={regRole} 
+                              onChange={e => setRegRole(e.target.value)}
+                              className="w-full px-4 py-3.5 rounded-2xl bg-white border border-slate-200/80 text-sm text-slate-800 font-semibold transition-all focus:outline-none focus:border-[#FF5A00]/50 focus:ring-4 focus:ring-[#FF5A00]/10 shadow-sm cursor-pointer appearance-none"
+                            >
+                              <option value="student">Student</option>
+                              <option value="parent">Parent</option>
+                              <option value="instructor">Instructor</option>
+                              <option value="sponsor">Sponsor</option>
+                            </select>
+                            <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Action Button */}
+                        <button 
+                          type="submit" 
+                          disabled={loadingReg} 
+                          className="w-full flex items-center justify-center gap-2 bg-[#FF5A00]/75 hover:bg-[#FF5A00]/90 text-white py-3.5 px-6 rounded-2xl font-black text-xs md:text-sm tracking-wide shadow-lg shadow-orange-500/15 transform active:scale-[0.99] transition-all duration-200 uppercase group cursor-pointer auth-glass-btn"
+                        >
+                          {loadingReg ? 'Signing up...' : 'Sign Up with Email'}
+                          <ArrowRight className="w-4.5 h-4.5" />
+                        </button>
+
+                      </form>
+                    )}
+
+                    {/* Separator OR */}
+                    <div className="relative my-6">
+                      <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-slate-350/30"></div>
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase font-extrabold text-slate-500">
+                        <span className="bg-transparent px-3">- OR -</span>
+                      </div>
+                    </div>
+
+                    {/* Social Logins */}
+                    <div className="flex flex-col gap-3">
                       <button 
-                        type="submit" 
-                        disabled={loadingReg} 
-                        className="w-full flex items-center justify-center gap-2 bg-[#FF5A00]/75 hover:bg-[#FF5A00]/90 text-white py-3.5 px-6 rounded-2xl font-black text-xs md:text-sm tracking-wide shadow-lg shadow-orange-500/15 transform active:scale-[0.99] transition-all duration-200 uppercase cursor-pointer auth-glass-btn"
+                        type="button" 
+                        onClick={() => handleSocialLogin('Google')} 
+                        className="h-12 flex items-center justify-center gap-3 border border-slate-200/80 rounded-2xl hover:bg-slate-50 transition-all shadow-sm bg-white cursor-pointer active:scale-[0.98] w-full"
                       >
-                        {loadingReg ? 'Signing up...' : 'Sign Up with Email'}
-                        <ArrowRight className="w-4.5 h-4.5" />
+                        <GoogleIcon className="w-5 h-5 shrink-0" />
+                        <span className="font-extrabold text-slate-700 text-xs md:text-[13px]">Continue with Google</span>
                       </button>
-
-                    </form>
-                  )}
-
-                  {/* Separator OR */}
-                  <div className="relative my-6">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-slate-350/30"></div>
+                      <button 
+                        type="button" 
+                        onClick={() => handleSocialLogin('GitHub')} 
+                        className="h-12 flex items-center justify-center gap-3 border border-slate-200/80 rounded-2xl hover:bg-slate-50 transition-all shadow-sm bg-white cursor-pointer active:scale-[0.98] w-full"
+                      >
+                        {/* GitHub Icon */}
+                        <svg className="w-5 h-5 shrink-0 text-slate-900" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                        </svg>
+                        <span className="font-extrabold text-slate-700 text-xs md:text-[13px]">Continue with GitHub</span>
+                      </button>
                     </div>
-                    <div className="relative flex justify-center text-xs uppercase font-extrabold text-slate-500">
-                      <span className="bg-transparent px-3">- OR -</span>
-                    </div>
-                  </div>
 
-                  {/* Social Logins */}
-                  <div className="flex flex-col gap-3">
-                    <button 
-                      type="button" 
-                      onClick={() => handleSocialLogin('Google')} 
-                      className="h-12 flex items-center justify-center gap-3 border border-slate-200/80 rounded-2xl hover:bg-slate-50 transition-all shadow-sm bg-white cursor-pointer active:scale-[0.98] w-full"
-                    >
-                      <GoogleIcon className="w-5 h-5 shrink-0" />
-                      <span className="font-extrabold text-slate-700 text-xs md:text-[13px]">Continue with Google</span>
-                    </button>
-                    <button 
-                      type="button" 
-                      onClick={() => handleSocialLogin('GitHub')} 
-                      className="h-12 flex items-center justify-center gap-3 border border-slate-200/80 rounded-2xl hover:bg-slate-50 transition-all shadow-sm bg-white cursor-pointer active:scale-[0.98] w-full"
-                    >
-                      {/* GitHub Icon */}
-                      <svg className="w-5 h-5 shrink-0 text-slate-900" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                      </svg>
-                      <span className="font-extrabold text-slate-700 text-xs md:text-[13px]">Continue with GitHub</span>
-                    </button>
                   </div>
 
                 </div>
@@ -459,27 +435,27 @@ export default function AuthLayout({ defaultIsRegister = false }) {
             </div>
 
             {/* RIGHT COLUMN: PILLARS 3 & 4 */}
-            <div className="lg:col-span-3 flex flex-row lg:flex-col justify-around lg:justify-start lg:items-start gap-6 md:gap-14 text-center lg:text-left">
+            <div className="lg:col-span-3 flex flex-col gap-10 md:gap-14 text-center lg:text-left">
               
               {/* Community Pillar */}
-              <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-3 md:gap-4 group w-1/2 lg:w-full">
-                <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-[8.5rem] md:h-[8.5rem] rounded-full overflow-hidden flex items-center justify-center shrink-0 shadow-md border-2 border-indigo-500/10 bg-white relative group-hover:scale-105 transition-transform duration-300">
-                  <img src="/images/community_3d.png" alt="Community" className="w-4/5 h-4/5 object-contain graphic-float" style={{ animationDelay: '0.4s' }} />
+              <div className="flex flex-col items-center justify-center gap-3 group">
+                <div className="w-32 h-32 md:w-[9.5rem] md:h-[9.5rem] overflow-hidden flex items-center justify-center shrink-0 relative group-hover:scale-105 transition-transform duration-300">
+                  <img src="/images/community_3d.png" alt="Community" className="w-full h-full object-contain graphic-float" style={{ animationDelay: '0.4s' }} />
                 </div>
-                <div className="flex flex-col max-w-[180px] lg:items-start text-left mt-2 lg:mt-0">
-                  <h3 className="font-black text-[#0F3057] text-[13px] sm:text-[14px] md:text-[16px] tracking-tight uppercase leading-none">Community</h3>
-                  <p className="text-[10.5px] md:text-[11.5px] font-bold text-slate-500 mt-1 md:mt-2 leading-tight">Collaborate with a global network.</p>
+                <div className="flex flex-col text-center">
+                  <h3 className="font-extrabold text-[#0F3057] text-[16px] md:text-[20px] tracking-widest uppercase leading-none">Community</h3>
+                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 mt-2 leading-relaxed">Collaborate with a global network.</p>
                 </div>
               </div>
 
               {/* Access Anywhere Pillar */}
-              <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-3 md:gap-4 group w-1/2 lg:w-full">
-                <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-[8.5rem] md:h-[8.5rem] rounded-full overflow-hidden flex items-center justify-center shrink-0 shadow-md border-2 border-sky-500/10 bg-white relative group-hover:scale-105 transition-transform duration-300">
-                  <img src="/images/access_3d.png" alt="Access Anywhere" className="w-4/5 h-4/5 object-contain graphic-float" style={{ animationDelay: '1.2s' }} />
+              <div className="flex flex-col items-center justify-center gap-3 group">
+                <div className="w-32 h-32 md:w-[9.5rem] md:h-[9.5rem] overflow-hidden flex items-center justify-center shrink-0 relative group-hover:scale-105 transition-transform duration-300">
+                  <img src="/images/access_3d.png" alt="Access Anywhere" className="w-full h-full object-contain graphic-float" style={{ animationDelay: '1.2s' }} />
                 </div>
-                <div className="flex flex-col max-w-[180px] lg:items-start text-left mt-2 lg:mt-0">
-                  <h3 className="font-black text-[#0F3057] text-[13px] sm:text-[14px] md:text-[16px] tracking-tight uppercase leading-none">Access Anywhere</h3>
-                  <p className="text-[10.5px] md:text-[11.5px] font-bold text-slate-500 mt-1 md:mt-2 leading-tight">Learn on the go.</p>
+                <div className="flex flex-col text-center">
+                  <h3 className="font-extrabold text-[#0F3057] text-[16px] md:text-[20px] tracking-widest uppercase leading-none">Access Anywhere</h3>
+                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 mt-2 leading-relaxed">Learn on the go.</p>
                 </div>
               </div>
 
@@ -520,14 +496,14 @@ export default function AuthLayout({ defaultIsRegister = false }) {
               </div>
               <div className="text-left leading-none">
                 <h4 className="font-extrabold text-[11px] text-slate-800 tracking-tight">Access Anywhere</h4>
-                <p className="text-[9.5px] text-slate-450 mt-1 font-medium">Learn here anywhere</p>
+                <p className="text-[9.5px] text-slate-450 mt-1 font-medium font-medium font-medium">Learn here anywhere</p>
               </div>
             </div>
 
             <div className="hidden md:block h-6 w-[1.5px] bg-slate-300/60"></div>
 
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-indigo-50 text-indigo-650 shrink-0 shadow-sm">
+              <div className="p-2 rounded-xl bg-indigo-50 text-indigo-550 shrink-0 shadow-sm">
                 <Headphones className="w-5 h-5" />
               </div>
               <div className="text-left leading-none">
