@@ -8,7 +8,7 @@ import CustomDropdown from '../components/CustomDropdown';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldAlert, Users, BookOpen, Clock, Settings, LogOut, CheckCircle2, XCircle, UserCog, AlertTriangle, ShieldCheck, Check, Activity, MessageSquare, UserPlus, Eye, ShieldOff, ArrowRightCircle, UserPlus as UserPlusIcon, Search, Bell, Layers, Library } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, RadialBarChart, RadialBar, PolarAngleAxis } from 'recharts';
-const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
+const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw';
 import ActivityFeed from '../components/ActivityFeed';
 import AgendaWidget from '../components/AgendaWidget';
 import ProfileView from './ProfileView';

@@ -10,7 +10,7 @@ import {
 
 import CTA from '../components/CTA';
 const kenenisaPhoto = 'https://res.cloudinary.com/dacck6udl/image/upload/v1778977692/edot/frontend/assets/goefjy6w0pdnou4px1ro.png';
-const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
+const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw';
 const kenosHero = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/puh8cqwax9ahjfdyyhwm';
 import useThemeMode from '../hooks/useThemeMode';
 

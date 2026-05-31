@@ -6,7 +6,7 @@ import api from '../utils/api';
 import useThemeMode from '../hooks/useThemeMode';
 import QRCode from 'qrcode';
 
-const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
+const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw';
 
 export default function CertificatesView() {
   const isDarkMode = useThemeMode();

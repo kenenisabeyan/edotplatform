@@ -36,7 +36,7 @@ import { useAuth } from '../context/AuthContext';
 import NotificationBell from './NotificationBell';
 import UserAvatar from './UserAvatar';
 import CommandK from './CommandK';
-const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
+const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw';
 import ThemeDropdown from './ThemeDropdown';
 
 function NavItem({ item, metrics, role, sidebarCollapsed, onLinkClick, isDarkMode }) {

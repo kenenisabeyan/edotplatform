@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
+const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw';
 import ProfileView from './ProfileView';
 import ActivityFeed from '../components/ActivityFeed';
 import EcosystemNexus from '../components/EcosystemNexus';

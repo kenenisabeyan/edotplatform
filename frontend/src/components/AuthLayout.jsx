@@ -23,7 +23,7 @@ import {
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider, microsoftProvider } from '../utils/firebase';
 import './AuthLayout.css';
-import signinImg from '../assets/signin.png';
+const signinImg = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/fx8hbyw7sdx7r6ag2i97';
 
 // Custom Google Icon
 const GoogleIcon = ({ className = "w-5 h-5" }) => (

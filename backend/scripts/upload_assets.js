@@ -16,7 +16,7 @@ cloudinary.config({
 });
 
 async function run() {
-  const assetsDir = path.join(__dirname, '../frontend/src/assets');
+  const assetsDir = path.join(__dirname, '../../frontend/src/assets');
   const filesToUpload = [
     { name: 'kenenisa.png', type: 'image' },
     { name: 'fayda.jpg', type: 'image' },

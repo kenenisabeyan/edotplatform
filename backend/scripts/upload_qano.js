@@ -16,7 +16,7 @@ cloudinary.config({
 });
 
 async function run() {
-  const filePath = path.join(__dirname, '../frontend/src/assets/Qano_smaller.mp4');
+  const filePath = path.join(__dirname, '../../frontend/src/assets/Qano_smaller.mp4');
   console.log('Uploading Qano.mp4 to Cloudinary...');
   
   try {

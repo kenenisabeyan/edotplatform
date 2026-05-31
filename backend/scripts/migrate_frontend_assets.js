@@ -15,8 +15,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const ASSETS_DIR = path.join(__dirname, '../frontend/src/assets');
-const SRC_DIR = path.join(__dirname, '../frontend/src');
+const ASSETS_DIR = path.join(__dirname, '../../frontend/src/assets');
+const SRC_DIR = path.join(__dirname, '../../frontend/src');
 
 async function uploadToCloudinary(filePath, fileName) {
   const isVideo = fileName.endsWith('.mp4') || fileName.endsWith('.webm');

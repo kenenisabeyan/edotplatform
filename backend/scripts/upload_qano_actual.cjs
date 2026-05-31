@@ -9,7 +9,7 @@ cloudinary.config({
 });
 
 async function run() {
-  const filePath = path.join(__dirname, '../frontend/src/assets/Qano 1.mov');
+  const filePath = path.join(__dirname, '../../frontend/src/assets/Qano 1.mov');
   console.log('Uploading "Qano 1.mov" to Cloudinary...');
   
   try {

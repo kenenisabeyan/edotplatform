@@ -1154,6 +1154,124 @@
   }
 }
 
+@media (max-width: 768px) {
+  .premium-hero-wrap {
+    padding: 4.5rem 1.25rem 2.5rem;
+  }
+
+  .premium-hero-grid {
+    gap: 2rem;
+  }
+
+  .premium-hero-visuals {
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+
+  .premium-video-wrapper {
+    max-width: 100%;
+    aspect-ratio: 16 / 10;
+    min-height: 260px;
+  }
+
+  .premium-video-card {
+    border-radius: 22px;
+  }
+
+  .tagline-badge-pill {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .premium-hero-title {
+    font-size: 2.4rem;
+  }
+
+  .premium-hero-subtitle {
+    font-size: 1rem;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .premium-hero-wrap {
+    padding: 3rem 0.9rem 2rem;
+    min-height: auto;
+  }
+
+  .premium-hero-title {
+    font-size: 1.95rem;
+    line-height: 1.18;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .premium-hero-subtitle {
+    font-size: 0.98rem;
+    line-height: 1.65;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .speech-bubble-grid {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .premium-video-wrapper {
+    aspect-ratio: 16 / 9;
+    min-height: 220px;
+    width: 100%;
+  }
+
+  .premium-hero-visuals {
+    width: 100%;
+    align-items: center;
+  }
+
+  .video-controls-bar {
+    padding: 0.75rem 1rem 0.5rem 1rem;
+  }
+
+  .video-controls-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .video-controls-left,
+  .video-controls-right {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .video-ctrl-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .video-time-text {
+    font-size: 0.72rem;
+  }
+
+  .hero-cta-button-group {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .hero-cta-button-group a {
+    width: 100%;
+  }
+}
+
 /* Tagline badge pill */
 .tagline-badge-pill {
   display: inline-flex;
@@ -1878,6 +1996,59 @@
   z-index: 15;
   opacity: 0.95;
   transition: opacity 0.3s ease;
+}
+
+/* Additional mobile polish to match portfolio-style hero (stacked CTAs, larger touch targets) */
+@media (max-width: 420px) {
+  .premium-hero-title {
+    font-size: 2.05rem;
+    text-align: center;
+    line-height: 1.12;
+  }
+
+  .premium-hero-subtitle,
+  .premium-hero-subtitle {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 0.6rem;
+  }
+
+  .hero-cta-button-group {
+    flex-direction: column;
+    gap: 0.9rem;
+    align-items: stretch;
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+
+  .hero-cta-btn {
+    padding: 0.95rem 1rem;
+    font-size: 1rem;
+    border-radius: 14px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Make the cyan CTA visually prominent like the mockup */
+  .btn-cyan-glowing {
+    background: linear-gradient(90deg, #00D4FF 0%, #19C2E8 100%) !important;
+    color: #021127 !important;
+    box-shadow: 0 12px 30px rgba(0, 212, 255, 0.18);
+  }
+
+  /* Secondary large cyan download button style (if used) */
+  .btn-download-cyan {
+    background: #00cfe8 !important;
+    color: #021127 !important;
+    box-shadow: 0 12px 30px rgba(0, 205, 232, 0.18);
+  }
+
+  .premium-video-wrapper {
+    max-width: 100%;
+    aspect-ratio: 16/9;
+    min-height: 200px;
+  }
 }
 
 .video-controls-row {

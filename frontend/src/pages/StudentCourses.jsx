@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import { Globe, ShoppingCart, Calculator, BookOpen, Rocket, Target, UserCheck, Moon, Sun, Filter } from 'lucide-react';
-const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
+const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw';
 import PackageCard from '../components/student/PackageCard';
 import ThemeDropdown from '../components/ThemeDropdown';
 import useThemeMode from '../hooks/useThemeMode';

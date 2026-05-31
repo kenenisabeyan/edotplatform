@@ -9,7 +9,7 @@ import {
   AlertCircle, XSquare, PlayCircle, Send, Search, Bell, Activity, Video
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
-const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/e69zbyhv3obsuf4uknyy';
+const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw';
 import ActivityFeed from '../components/ActivityFeed';
 import CustomDropdown from '../components/CustomDropdown';
 import { motion, AnimatePresence } from 'framer-motion';
