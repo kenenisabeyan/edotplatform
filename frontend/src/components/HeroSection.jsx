@@ -557,15 +557,18 @@ export default function HeroSection() {
                       'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120&h=120',
                       'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=120&h=120'
                     ];
-                    const avatarUrl = (u.avatar && u.avatar !== 'default-avatar.png')
-                      ? u.avatar
-                      : fallbackAvatars[idx % fallbackAvatars.length];
+                    
+                    let avatarUrl = fallbackAvatars[idx % fallbackAvatars.length];
+                    if (u.avatar && u.avatar !== 'default-avatar.png') {
+                      avatarUrl = u.avatar.startsWith('http') ? u.avatar : `http://localhost:5000${u.avatar}`;
+                    }
 
                     return (
                       <div 
                         key={u.id || idx} 
                         className="community-avatar-ring"
                         style={{ zIndex: 10 - idx }}
+                        title={u.name} // Exact user name tooltip from backend database
                       >
                         <img 
                           src={avatarUrl} 

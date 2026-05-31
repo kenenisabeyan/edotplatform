@@ -2254,7 +2254,7 @@
   transform: translateY(-1px) scale(0.98);
 }
 
-/* Glassy developer console bar below video */
+/* Glassy developer console bar below video - customized with dual brand color glows */
 .video-footer-console {
   display: flex;
   flex-direction: column;
@@ -2264,19 +2264,27 @@
   max-width: 480px;
   margin-top: 2rem;
   padding: 1.5rem 2rem;
-  background: #000000 !important; /* Fully black background matching mockup */
+  background: rgba(255, 255, 255, 0.08) !important; /* Translucent glass */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: 28px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
-  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(25, 194, 232, 0.25); /* Brand Cyan border */
+  box-shadow: 
+    0 12px 36px rgba(15, 23, 42, 0.04), 
+    0 0 30px rgba(25, 194, 232, 0.1), /* Brand Cyan glow */
+    0 0 30px rgba(255, 106, 0, 0.06); /* Brand Orange glow */
   animation: fade-in-up 0.8s ease-out;
   margin-right: 0;
   margin-left: auto;
 }
 
 [data-theme="dark"] .video-footer-console {
-  background: #000000 !important;
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+  background: rgba(15, 23, 42, 0.75) !important; /* Dark glass */
+  border-color: rgba(25, 194, 232, 0.35); /* Brand Cyan border */
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.35), 
+    0 0 35px rgba(25, 194, 232, 0.18), /* Brand Cyan glow */
+    0 0 35px rgba(255, 106, 0, 0.1); /* Brand Orange glow */
 }
 
 @media (max-width: 1024px) {
@@ -2312,7 +2320,7 @@
   justify-content: center;
   transition: all 0.3s ease;
   box-sizing: border-box;
-  box-shadow: 0 0 0 2.5px #000000, 0 4px 10px rgba(0, 0, 0, 0.3); /* Match dark background */
+  box-shadow: 0 0 0 2.5px #ffffff, 0 4px 10px rgba(0, 0, 0, 0.12); /* Clean overlap shadow ring */
   z-index: 1;
 }
 
@@ -2328,7 +2336,7 @@
 
 [data-theme="dark"] .community-avatar-ring {
   background: #111a3e;
-  box-shadow: 0 0 0 2.5px #000000, 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 2.5px #181f2a, 0 4px 12px rgba(0, 0, 0, 0.35); /* Match dark theme card background */
 }
 
 .community-avatar-img {
@@ -2339,15 +2347,17 @@
 
 .console-community-section.centered .community-stack-text {
   font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.95); /* High contrast white */
+  color: #0F172A; /* Slate dark in light mode */
   letter-spacing: -0.01em;
 }
 
 [data-theme="dark"] .console-community-section.centered .community-stack-text {
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 255, 255, 0.95); /* High contrast white */
 }
+
+
 
 /* Massive pill button exactly matching mockup */
 .console-giant-join-btn {
