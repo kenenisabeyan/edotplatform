@@ -70,7 +70,7 @@ export default function Navbar() {
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   };
  
-  const isAuthPage = ['/login', '/register', '/forgot', '/reset'].some(p => location.pathname.startsWith(p));
+  const isAuthPage = ['/login', '/register', '/signup', '/forgot', '/reset'].some(p => location.pathname.startsWith(p));
 
   const navLinkClass = ({ isActive }) => `text-[15px] font-semibold transition-colors ${isActive ? 'text-[#00D4FF]' : (isDarkMode ? 'text-slate-200 hover:text-white/90' : 'text-slate-700 hover:text-slate-900')}`;
 

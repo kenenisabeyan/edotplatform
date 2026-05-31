@@ -26,6 +26,7 @@
 /* Folder style Tabs styling */
 .glass-auth-card button[class*="py-4"] {
   border-bottom: 2px solid transparent;
+  border-radius: 1.25rem 1.25rem 0 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
