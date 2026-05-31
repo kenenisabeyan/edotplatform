@@ -32,17 +32,17 @@ export default function HeroSection() {
         const data = await getRecentPublicUsers();
         if (active) {
           const dbUsers = (data && data.success) ? (data.users || []) : [];
-          const placeholders = [
-            { id: 'p1', name: 'Kenenisa Beyan', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120&h=120' },
-            { id: 'p2', name: 'Chala Desta', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=120&h=120' },
-            { id: 'p3', name: 'Marta Alemu', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=120&h=120' },
-            { id: 'p4', name: 'Lensa Tolosa', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=120&h=120' }
-          ];
-          const merged = [...dbUsers];
-          for (let i = merged.length; i < 4; i++) {
-            merged.push(placeholders[i - dbUsers.length]);
+          if (dbUsers.length > 0) {
+            setRecentUsers(dbUsers);
+          } else {
+            const placeholders = [
+              { id: 'p1', name: 'Kenenisa Beyan', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120&h=120' },
+              { id: 'p2', name: 'Chala Desta', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=120&h=120' },
+              { id: 'p3', name: 'Marta Alemu', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=120&h=120' },
+              { id: 'p4', name: 'Lensa Tolosa', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=120&h=120' }
+            ];
+            setRecentUsers(placeholders);
           }
-          setRecentUsers(merged);
           setTotalCount((data && data.totalCount) ? data.totalCount : 1000);
         }
       } catch (err) {

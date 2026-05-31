@@ -8,6 +8,13 @@ const router = express.Router();
 router.get('/public/recent', async (req, res) => {
     try {
         const users = await prisma.user.findMany({
+            where: {
+                AND: [
+                    { avatar: { not: 'default-avatar.png' } },
+                    { avatar: { not: null } },
+                    { avatar: { not: '' } }
+                ]
+            },
             orderBy: { createdAt: 'desc' },
             take: 4,
             select: { id: true, name: true, avatar: true }
