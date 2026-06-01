@@ -172,7 +172,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
         </div>
 
         {/* Outer welcome heading */}
-        <h1 className="text-3xl md:text-5xl lg:text-[2.75rem] font-black text-slate-900 tracking-tight leading-tight text-center mb-8 md:mb-12 z-10 px-4 max-w-4xl">
+        <h1 className="text-3xl md:text-5xl lg:text-[2.75rem] font-black auth-welcome-title tracking-tight leading-tight text-center mb-8 md:mb-12 z-10 px-4 max-w-4xl">
           Welcome to a New Era of Education.
         </h1>
 
@@ -235,7 +235,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   COURSES
                 </div>
                 <div className="flex flex-col text-center mt-1">
-                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 max-w-[160px] mx-auto leading-tight">Find expert-led skills training.</p>
+                  <p className="text-[11px] md:text-[12.5px] font-bold pillar-desc max-w-[160px] mx-auto leading-tight">Find expert-led skills training.</p>
                 </div>
               </div>
 
@@ -249,7 +249,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   IMPACT
                 </div>
                 <div className="flex flex-col text-center mt-1">
-                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 max-w-[160px] mx-auto leading-tight">Track and expand your footprint.</p>
+                  <p className="text-[11px] md:text-[12.5px] font-bold pillar-desc max-w-[160px] mx-auto leading-tight">Track and expand your footprint.</p>
                 </div>
               </div>
 
@@ -292,7 +292,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                 <div className="p-6 sm:p-8 flex flex-col">
                   
                   {/* Subtitle */}
-                  <p className="text-xs md:text-sm font-semibold text-slate-650 text-center mb-6 leading-relaxed">
+                  <p className="text-xs md:text-sm font-semibold auth-subtitle text-center mb-6 leading-relaxed">
                     {!isRegister 
                       ? "Enter your credentials to continue your journey:" 
                       : "Create a new account to continue your journey:"
@@ -347,7 +347,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                             <button 
                               type="button"
                               onClick={() => setShowLoginPassword(!showLoginPassword)}
-                              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-655 cursor-pointer"
+                              className="absolute inset-y-0 right-0 pr-3.5 flex items-center auth-eye-btn cursor-pointer"
                             >
                               {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </button>
@@ -410,7 +410,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                             <button 
                               type="button"
                               onClick={() => setShowRegPassword(!showRegPassword)}
-                              className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-655 cursor-pointer"
+                              className="absolute inset-y-0 right-0 pr-3.5 flex items-center auth-eye-btn cursor-pointer"
                             >
                               {showRegPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </button>
@@ -443,11 +443,10 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                     )}
 
                     {/* Separator OR */}
-                    <div className="relative my-6 flex items-center justify-center">
-                      <div className="absolute inset-0 flex items-center">
-                        <div className="w-full auth-separator-line"></div>
-                      </div>
-                      <span className="relative z-10 auth-separator-text">- OR -</span>
+                    <div className="flex items-center gap-4 my-6">
+                      <div className="flex-1 auth-separator-line"></div>
+                      <span className="auth-separator-text">- OR -</span>
+                      <div className="flex-1 auth-separator-line"></div>
                     </div>
 
                     {/* Social Logins */}
@@ -494,7 +493,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   COMMUNITY
                 </div>
                 <div className="flex flex-col text-center mt-1">
-                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 max-w-[160px] mx-auto leading-tight">Collaborate with a global network.</p>
+                  <p className="text-[11px] md:text-[12.5px] font-bold pillar-desc max-w-[160px] mx-auto leading-tight">Collaborate with a global network.</p>
                 </div>
               </div>
 
@@ -508,7 +507,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
                   ACCESS ANYWHERE
                 </div>
                 <div className="flex flex-col text-center mt-1">
-                  <p className="text-[11px] md:text-[12.5px] font-bold text-slate-500 max-w-[160px] mx-auto leading-tight">Learn on the go.</p>
+                  <p className="text-[11px] md:text-[12.5px] font-bold pillar-desc max-w-[160px] mx-auto leading-tight">Learn on the go.</p>
                 </div>
               </div>
 
@@ -517,51 +516,51 @@ export default function AuthLayout({ defaultIsRegister = false }) {
           </div>
 
           {/* SECURE BADGES CAPSULE BAR FOOTER */}
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pt-8 border-t border-slate-200 mt-12 w-full max-w-[950px] mx-auto bg-slate-100/40 rounded-full px-6 py-4 border border-slate-200/55 shadow-sm z-10">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pt-8 border-t border-slate-200 mt-12 w-full max-w-[950px] mx-auto auth-capsule-footer rounded-full px-6 py-4 shadow-sm z-10">
             
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-emerald-50 text-emerald-650 shrink-0 shadow-sm">
+              <div className="capsule-icon-wrap icon-secure shrink-0 shadow-sm">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div className="text-left leading-none">
-                <h4 className="font-extrabold text-[11px] text-slate-800 tracking-tight">Secure & Safe</h4>
-                <p className="text-[9.5px] text-slate-450 mt-1 font-medium">Your data is protected</p>
+                <h4 className="font-extrabold text-[11px] capsule-title tracking-tight">Secure & Safe</h4>
+                <p className="text-[9.5px] capsule-desc mt-1 font-medium">Your data is protected</p>
               </div>
             </div>
 
             <div className="hidden md:block h-6 w-[1.5px] bg-slate-300/60"></div>
 
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-amber-50 text-amber-650 shrink-0 shadow-sm">
+              <div className="capsule-icon-wrap icon-fast shrink-0 shadow-sm">
                 <Zap className="w-5 h-5" />
               </div>
               <div className="text-left leading-none">
-                <h4 className="font-extrabold text-[11px] text-slate-800 tracking-tight">Fast & Easy</h4>
-                <p className="text-[9.5px] text-slate-450 mt-1 font-medium">Quick access anytime</p>
+                <h4 className="font-extrabold text-[11px] capsule-title tracking-tight">Fast & Easy</h4>
+                <p className="text-[9.5px] capsule-desc mt-1 font-medium">Quick access anytime</p>
               </div>
             </div>
 
             <div className="hidden md:block h-6 w-[1.5px] bg-slate-300/60"></div>
 
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-sky-50 text-sky-650 shrink-0 shadow-sm">
+              <div className="capsule-icon-wrap icon-access shrink-0 shadow-sm">
                 <Globe className="w-5 h-5" />
               </div>
               <div className="text-left leading-none">
-                <h4 className="font-extrabold text-[11px] text-slate-800 tracking-tight">Access Anywhere</h4>
-                <p className="text-[9.5px] text-slate-450 mt-1 font-medium">Learn here anywhere</p>
+                <h4 className="font-extrabold text-[11px] capsule-title tracking-tight">Access Anywhere</h4>
+                <p className="text-[9.5px] capsule-desc mt-1 font-medium">Learn here anywhere</p>
               </div>
             </div>
 
             <div className="hidden md:block h-6 w-[1.5px] bg-slate-300/60"></div>
 
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-indigo-50 text-indigo-550 shrink-0 shadow-sm">
+              <div className="capsule-icon-wrap icon-support shrink-0 shadow-sm">
                 <Headphones className="w-5 h-5" />
               </div>
               <div className="text-left leading-none">
-                <h4 className="font-extrabold text-[11px] text-slate-800 tracking-tight">24/7 Support</h4>
-                <p className="text-[9.5px] text-slate-450 mt-1 font-medium">We're here to help</p>
+                <h4 className="font-extrabold text-[11px] capsule-title tracking-tight">24/7 Support</h4>
+                <p className="text-[9.5px] capsule-desc mt-1 font-medium">We're here to help</p>
               </div>
             </div>
 

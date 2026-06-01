@@ -195,27 +195,123 @@
 
 /* OR Separator line and text */
 .auth-separator-line {
-  border-top: 1.5px solid #000000 !important;
-  opacity: 0.15;
+  height: 1.5px !important;
+  background-color: rgba(148, 163, 184, 0.22) !important;
+  width: 100% !important;
 }
 
 .auth-separator-text {
-  background: #ffffff !important; /* Matches card body background */
-  color: #0f172a !important;
+  color: #64748b !important; /* text-slate-500 */
   font-weight: 700 !important;
   font-size: 0.75rem !important;
   letter-spacing: 0.05em !important;
-  padding: 0 0.75rem !important;
+  white-space: nowrap;
 }
 
 [data-theme="extra-dark"] .auth-separator-line {
-  border-top-color: rgba(255, 255, 255, 0.15) !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 [data-theme="extra-dark"] .auth-separator-text {
-  background: #1e293b !important; /* Matches dark credentials card */
-  color: #94a3b8 !important;
+  color: #cbd5e1 !important; /* text-slate-300 */
 }
+
+/* ==========================================================================
+   THEME-DYNAMIC TEXT & GLASSMORPHIC CAPSULE BAR STYLES
+   ========================================================================== */
+
+/* Welcome Title styling */
+.auth-welcome-title {
+  color: #0F3057 !important;
+}
+
+[data-theme="extra-dark"] .auth-welcome-title {
+  color: #ffffff !important;
+  text-shadow: 0 0 15px rgba(25, 194, 232, 0.15);
+}
+
+/* Subtitle styling */
+.auth-subtitle {
+  color: #475569 !important; /* slate-600 */
+}
+
+[data-theme="extra-dark"] .auth-subtitle {
+  color: #cbd5e1 !important; /* slate-300 */
+}
+
+/* Eye visibility toggle buttons */
+.auth-eye-btn {
+  color: #94a3b8 !important;
+  transition: color 0.2s ease !important;
+}
+
+.auth-eye-btn:hover {
+  color: #475569 !important;
+}
+
+[data-theme="extra-dark"] .auth-eye-btn:hover {
+  color: #cbd5e1 !important;
+}
+
+/* Pillar description subtexts */
+.pillar-desc {
+  color: #64748b !important; /* slate-500 */
+  transition: color 0.3s ease;
+}
+
+[data-theme="extra-dark"] .pillar-desc {
+  color: #cbd5e1 !important; /* slate-300 */
+}
+
+/* Translucent secure capsule bar footer */
+.auth-capsule-footer {
+  background: rgba(241, 245, 249, 0.4) !important; /* bg-slate-100/40 */
+  border: 1px solid rgba(226, 232, 240, 0.55) !important; /* border-slate-200/55 */
+  border-top: 1px solid rgba(226, 232, 240, 1) !important; /* border-t-slate-200 */
+}
+
+[data-theme="extra-dark"] .auth-capsule-footer {
+  background: rgba(15, 23, 42, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.capsule-title {
+  color: #1e293b !important; /* text-slate-800 */
+}
+
+[data-theme="extra-dark"] .capsule-title {
+  color: #e2e8f0 !important; /* text-slate-200 */
+}
+
+.capsule-desc {
+  color: #64748b !important; /* text-slate-500 */
+}
+
+[data-theme="extra-dark"] .capsule-desc {
+  color: #94a3b8 !important; /* text-slate-400 */
+}
+
+.capsule-icon-wrap {
+  padding: 0.5rem !important;
+  border-radius: 0.75rem !important; /* rounded-xl */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-secure { background-color: #ecfdf5 !important; color: #059669 !important; }
+[data-theme="extra-dark"] .icon-secure { background-color: rgba(16, 185, 129, 0.1) !important; color: #10b981 !important; }
+
+.icon-fast { background-color: #fffbeb !important; color: #d97706 !important; }
+[data-theme="extra-dark"] .icon-fast { background-color: rgba(245, 158, 11, 0.1) !important; color: #f59e0b !important; }
+
+.icon-access { background-color: #f0f9ff !important; color: #0284c7 !important; }
+[data-theme="extra-dark"] .icon-access { background-color: rgba(0, 212, 255, 0.1) !important; color: #00D4FF !important; }
+
+.icon-support { background-color: #e0e7ff !important; color: #4f46e5 !important; }
+[data-theme="extra-dark"] .icon-support { background-color: rgba(99, 102, 241, 0.1) !important; color: #6366f1 !important; }
 
 /* Google & GitHub Social Pill Buttons */
 .auth-social-btn {
