@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+@layer utilities {
+  .font-display {
+    font-family: var(--font-sans);
+  }
+}
+
 :root {
   --bg-base: #0B1120;
   --bg-sidebar: #0B1120;
@@ -626,6 +632,138 @@ button, .btn, .cta {
   
   .form-group label {
     @apply block text-[13px] font-medium text-slate-700 dark:text-slate-300 mb-1.5;
+  }
+
+  .course-builder-shell {
+    background: #ffffff !important;
+  }
+
+  [data-theme="extra-dark"] .course-builder-shell {
+    background: linear-gradient(135deg, #020617 0%, #0B1120 50%, #020617 100%) !important;
+  }
+
+  /* High contrast placeholders inside course builder in light mode */
+  [data-theme="light"] .course-builder-shell input::placeholder,
+  [data-theme="light"] .course-builder-shell textarea::placeholder {
+    color: #475569 !important; /* slate-600 */
+    opacity: 0.9 !important;
+  }
+
+  /* High contrast placeholders inside course builder in dark mode */
+  [data-theme="extra-dark"] .course-builder-shell input::placeholder,
+  [data-theme="extra-dark"] .course-builder-shell textarea::placeholder {
+    color: #94A3B8 !important; /* slate-400 */
+    opacity: 0.9 !important;
+  }
+
+  .course-builder-card {
+    @apply rounded-[2rem] border shadow-2xl transition-all duration-500;
+  }
+
+  .course-builder-card.light {
+    @apply bg-white border-slate-200/80 shadow-md;
+  }
+
+  .course-builder-card.dark {
+    @apply bg-slate-950/95 border-white/10;
+  }
+
+  .course-builder-heading {
+    @apply text-3xl font-bold font-black tracking-tight;
+  }
+
+  .course-builder-subtitle {
+    @apply text-sm text-slate-600 dark:text-slate-300;
+  }
+
+  .course-builder-input {
+    @apply w-full px-5 py-3 rounded-[32px] border shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#00D4FF] focus:border-transparent;
+  }
+
+  .course-builder-input.light {
+    @apply bg-white text-slate-900 border-slate-200;
+  }
+
+  .course-builder-input.dark {
+    @apply bg-[#0B1120] text-white border-white/10;
+  }
+
+  .course-builder-stepper {
+    @apply relative mb-10;
+  }
+
+  .course-builder-stepper-line {
+    @apply absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] rounded-full;
+  }
+
+  .course-builder-stepper-line.light {
+    @apply bg-slate-200;
+  }
+
+  .course-builder-stepper-line.dark {
+    @apply bg-white/10;
+  }
+
+  .course-builder-step {
+    @apply flex items-center gap-3 px-4 py-3 rounded-full border shadow-sm transition-all duration-300;
+  }
+
+  .course-builder-step.light {
+    @apply bg-white border-slate-200/80;
+  }
+
+  .course-builder-step.dark {
+    @apply bg-slate-950/95 border-white/10;
+  }
+
+  .course-builder-step-active {
+    @apply border-[#2563EB] shadow-md ring-2 ring-[#00D4FF]/30;
+  }
+
+  .course-builder-step-completed {
+    background: #2563EB !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+  }
+
+  .course-builder-step-label {
+    @apply text-sm font-semibold;
+  }
+
+  .course-builder-step-label.light {
+    @apply text-slate-600;
+  }
+
+  .course-builder-step-label.dark {
+    @apply text-slate-300;
+  }
+
+  .course-builder-footer {
+    @apply border-t p-5 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-4 shrink-0 transition-colors duration-300;
+  }
+
+  .course-builder-footer.light {
+    @apply bg-slate-50/80 border-slate-100;
+  }
+
+  .course-builder-footer.dark {
+    @apply bg-slate-950/95 border-white/10;
+  }
+
+  .course-builder-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3 font-semibold rounded-full text-white transition-all duration-200 shadow-lg bg-gradient-to-r from-[#00D4FF] to-[#2563EB] hover:from-[#38bdf8] hover:to-[#0ea5e9];
+  }
+
+  .course-builder-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold rounded-full transition-all duration-200 border text-sm;
+  }
+
+  .course-builder-btn-secondary.light {
+    @apply bg-white text-slate-700 border-slate-200 hover:bg-slate-100;
+  }
+
+  .course-builder-btn-secondary.dark {
+    @apply bg-[#0B1120] text-slate-300 border-white/10 hover:bg-white/5;
   }
 
   .form-control, .form-group input:not([type="checkbox"]):not([type="radio"]), .form-group select, .form-group textarea {

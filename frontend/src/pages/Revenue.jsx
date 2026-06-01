@@ -129,7 +129,7 @@ export default function Revenue() {
         <div className="p-0 overflow-x-auto custom-scrollbar">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className={`bg-[#0B1120] text-sm font-semibold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+              <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#0B1120] text-slate-200' : 'bg-slate-100 text-slate-700'}`}>
                 <th className={`p-5 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Date</th>
                 <th className={`p-5 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Course Allocation</th>
                 <th className={`p-5 border-b ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Amount Computed</th>
