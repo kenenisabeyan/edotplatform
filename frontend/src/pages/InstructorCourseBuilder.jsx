@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import { createPortal } from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,7 +8,6 @@ import {
   BookOpen, LayoutList, DollarSign, PlusCircle, Banknote,
   PlayCircle, Trash2, Tag, Image as ImageIcon, Send, FileText
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import QuizBuilder from '../components/QuizBuilder';
 import ReactPlayer from 'react-player';
 import CustomDropdown from '../components/CustomDropdown';
@@ -381,10 +380,9 @@ export default function InstructorCourseBuilder() {
               </div>
               </div>
             </div>
-          </div>
 
-          {/* Form Area */}
-          <div key={currentStep} className={`course-builder-card ${isDarkMode ? 'dark' : 'light'} mb-8 relative animate-in fade-in zoom-in-95 duration-500 flex flex-col min-h-[520px]`}>
+            {/* Form Area */}
+            <div key={currentStep} className={`course-builder-card ${isDarkMode ? 'dark' : 'light'} mb-8 relative animate-in fade-in zoom-in-95 duration-500 flex flex-col min-h-[520px]`}>
             <div className="p-6 md:p-8 relative z-10 overflow-y-auto flex-1 scrollbar-thin">
               
               {/* STEP 1: Basic Information */}
@@ -951,6 +949,7 @@ export default function InstructorCourseBuilder() {
                 )}
               </div>
             </div>
+          </div>
           </div>
 
           <aside className="hidden lg:flex flex-col gap-6">

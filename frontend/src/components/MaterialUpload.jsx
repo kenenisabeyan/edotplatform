@@ -32,7 +32,6 @@ const MaterialUpload = ({ lessonId, onUploadSuccess }) => {
   });
 
   const getFileType = (mimeType) => {
-  const isDarkMode = useThemeMode();
     if (mimeType.startsWith('video/')) return 'video';
     if (mimeType === 'application/pdf') return 'pdf';
     if (mimeType.includes('powerpoint') || mimeType.includes('presentation')) return 'ppt';
@@ -41,7 +40,6 @@ const MaterialUpload = ({ lessonId, onUploadSuccess }) => {
   };
 
   const removeFile = (id) => {
-  const isDarkMode = useThemeMode();
     setFiles((prev) => prev.filter((f) => f.id !== id));
   };
 

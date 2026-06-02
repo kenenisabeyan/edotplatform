@@ -7,7 +7,7 @@ import {
 } from 'recharts';
 import { 
   Award, TrendingUp, CheckCircle2, 
-  Flame, Target, ChevronRight, PlayCircle, BookOpen, Clock, BarChart2, Star,
+  Flame, Target, ChevronRight, PlayCircle, BookOpen, Clock, BarChart2, Star, Zap,
   CheckCircle, ArrowUpRight, GraduationCap, ShieldCheck, MoreHorizontal, Atom, Code, Calculator, MessageSquare, Users
 } from 'lucide-react';
 import api from '../../utils/api';

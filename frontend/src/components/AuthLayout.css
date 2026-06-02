@@ -1,11 +1,11 @@
 /* Premium custom styles matching the exact edotplatform mockup aesthetics */
 
 .auth-page-bg {
-  background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 50%, #ffeae0 100%) !important;
+  background: linear-gradient(110deg, #8CD6D5 0%, #F5CE9F 45%, #E98642 65%, #25337C 100%) !important;
 }
 
 [data-theme="extra-dark"] .auth-page-bg {
-  background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e1b4b 100%) !important;
+  background: linear-gradient(110deg, #082d38 0%, #3a1e0b 45%, #592408 65%, #040916 100%) !important;
 }
 
 /* Outer Card Container with glowing colorful pathway mimics inside */

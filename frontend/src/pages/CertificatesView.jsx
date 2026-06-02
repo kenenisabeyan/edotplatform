@@ -8,6 +8,290 @@ import QRCode from 'qrcode';
 
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw';
 
+const getCircularLogo = (image) => {
+  const canvas = document.createElement('canvas');
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const ctx = canvas.getContext('2d');
+  ctx.beginPath();
+  ctx.arc(image.width / 2, image.height / 2, Math.min(image.width, image.height) / 2, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.clip();
+  ctx.drawImage(image, 0, 0, image.width, image.height);
+  return canvas.toDataURL('image/png');
+};
+
+const handleDownloadCertificate = async (enrolled, userName) => {
+  const courseName = enrolled.course?.title || 'Course';
+  const duration = enrolled.course?.duration ? `${enrolled.course.duration} Hours` : 'Self-Paced';
+  const level = enrolled.course?.level || 'Intermediate';
+  const ceus = enrolled.course?.duration ? `${(enrolled.course.duration / 10).toFixed(1)} CEUs` : '3.0 CEUs';
+  const dateCompleted = enrolled.updatedAt ? new Date(enrolled.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A';
+  const instructorName = enrolled.course?.instructor?.name || 'EDOT Instructor';
+
+  const img = new Image();
+  img.crossOrigin = "Anonymous";
+  img.src = edotLogo;
+  await new Promise(resolve => {
+    img.onload = resolve;
+    img.onerror = resolve; // Continue even if logo fails
+  });
+
+  const doc = new jsPDF('landscape', 'mm', 'a4');
+  const certId = `EDOT-CERT-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
+  
+  // Background
+  doc.setFillColor(255, 255, 255);
+  doc.rect(0, 0, 297, 210, 'F');
+  
+  // Outer Orange Border
+  doc.setDrawColor(249, 115, 22); // #00D4FF
+  doc.setLineWidth(1);
+  doc.rect(5, 5, 287, 200);
+  // Inner Orange Border
+  doc.setLineWidth(0.3);
+  doc.rect(7, 7, 283, 196);
+
+  // Top Left Corner Polygon (Orange shadow and Dark Navy)
+  doc.setFillColor(249, 115, 22);
+  doc.triangle(0, 0, 95, 0, 0, 105, 'F');
+  doc.setFillColor(11, 17, 32); // #0B1120
+  doc.triangle(0, 0, 90, 0, 0, 100, 'F');
+  
+  // Bottom Right Corner
+  doc.setFillColor(249, 115, 22);
+  doc.triangle(297, 210, 207, 210, 297, 145, 'F');
+  doc.setFillColor(11, 17, 32);
+  doc.triangle(297, 210, 212, 210, 297, 150, 'F');
+
+  // Ribbon Top Right
+  doc.setFillColor(11, 17, 32);
+  doc.rect(255, 0, 16, 45, 'F');
+  doc.setDrawColor(249, 115, 22);
+  doc.setLineWidth(0.5);
+  doc.rect(256, 0, 14, 44);
+  // Ribbon bottom cut (triangle)
+  doc.setFillColor(255, 255, 255);
+  doc.triangle(255, 45, 263, 38, 271, 45, 'F');
+
+  // Seal on Ribbon
+  doc.setFillColor(249, 115, 22);
+  doc.circle(263, 40, 14, 'F');
+  doc.setFillColor(11, 17, 32);
+  doc.circle(263, 40, 11, 'F');
+  doc.setDrawColor(249, 115, 22);
+  doc.setLineWidth(0.5);
+  doc.circle(263, 40, 9);
+  
+  doc.setTextColor(249, 115, 22);
+  doc.setFontSize(5);
+  doc.setFont('helvetica', 'bold');
+  doc.text('VERIFIED', 263, 37, {align: 'center'});
+  doc.text('CERTIFICATE', 263, 43, {align: 'center'});
+
+  // Logo & Top Left Text
+  try {
+    if (img.width > 0) {
+      doc.addImage(getCircularLogo(img), 'PNG', 15, 15, 20, 20);
+      // Orange border around circular logo
+      doc.setDrawColor(249, 115, 22);
+      doc.setLineWidth(0.5);
+      doc.circle(25, 25, 10, 'S');
+    }
+  } catch (e) {}
+  doc.setTextColor(249, 115, 22);
+  doc.setFontSize(10);
+  doc.text('EDOT', 25, 42, {align: 'center'});
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(6);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Learn. Teach. Support.', 25, 47, {align: 'center'});
+  doc.text('Sponsor a Future.', 25, 50, {align: 'center'});
+
+  // Certificate ID
+  doc.setTextColor(100, 100, 100);
+  doc.setFontSize(7);
+  doc.text('Certificate ID:', 240, 20, {align: 'right'});
+  doc.setTextColor(11, 17, 32);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
+  doc.text(certId, 240, 25, {align: 'right'});
+
+  // MAIN TITLE
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(11, 17, 32);
+  doc.setFontSize(42);
+  doc.text('CERTIFICATE', 148.5, 45, {align: 'center'});
+  
+  // Subtitle
+  doc.setFontSize(12);
+  doc.setTextColor(249, 115, 22);
+  doc.text('OF COMPLETION', 148.5, 55, {align: 'center'});
+  
+  // Lines around OF COMPLETION
+  doc.setDrawColor(249, 115, 22);
+  doc.setLineWidth(0.5);
+  doc.line(95, 53.5, 120, 53.5);
+  doc.line(177, 53.5, 202, 53.5);
+  doc.setFillColor(249, 115, 22);
+  doc.circle(95, 53.5, 1, 'F');
+  doc.circle(202, 53.5, 1, 'F');
+
+  // Proudly presented
+  doc.setFontSize(10);
+  doc.setTextColor(50, 50, 50);
+  doc.text('THIS IS PROUDLY PRESENTED TO', 148.5, 75, {align: 'center'});
+
+  // Student Name
+  doc.setFont('times', 'italic');
+  doc.setTextColor(11, 17, 32);
+  doc.setFontSize(45);
+  doc.text(userName || 'Test User', 148.5, 98, {align: 'center'});
+
+  // Line below name
+  doc.setDrawColor(249, 115, 22);
+  doc.setLineWidth(0.5);
+  doc.line(90, 108, 207, 108);
+  doc.setFillColor(249, 115, 22);
+  // Draw a small diamond in the middle of the line
+  doc.triangle(148.5, 106, 150.5, 108, 148.5, 110, 'F');
+  doc.triangle(148.5, 106, 146.5, 108, 148.5, 110, 'F');
+
+  // Course completion text
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(50, 50, 50);
+  doc.setFontSize(11);
+  doc.text('For successfully completing the course', 148.5, 122, {align: 'center'});
+
+  // Course Name
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(11, 17, 32);
+  doc.setFontSize(26);
+  doc.text(courseName.toUpperCase(), 148.5, 138, {align: 'center'});
+
+  // Paragraph
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(100, 100, 100);
+  doc.setFontSize(9);
+  doc.text('This course covered essential topics and practical applications of the subject matter.\nThe holder has demonstrated dedication, knowledge, and a commitment to learning.', 148.5, 150, {align: 'center', lineHeightFactor: 1.5});
+
+  // Four Columns
+  // DATE | DURATION | LEVEL | CREDIT EARNED
+  const colY = 165;
+  // Dividers
+  doc.setDrawColor(200, 200, 200);
+  doc.setLineWidth(0.5);
+  doc.line(105, 158, 105, 173);
+  doc.line(148.5, 158, 148.5, 173);
+  doc.line(192, 158, 192, 173);
+
+  // DATE
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7);
+  doc.setTextColor(50, 50, 50);
+  doc.text('DATE OF COMPLETION', 75, colY, {align: 'center'});
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(11, 17, 32);
+  doc.text(dateCompleted, 75, colY + 5, {align: 'center'});
+
+  // DURATION
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7);
+  doc.setTextColor(50, 50, 50);
+  doc.text('DURATION', 126.5, colY, {align: 'center'});
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(11, 17, 32);
+  doc.text(duration, 126.5, colY + 5, {align: 'center'});
+
+  // LEVEL
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7);
+  doc.setTextColor(50, 50, 50);
+  doc.text('LEVEL', 170.5, colY, {align: 'center'});
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(11, 17, 32);
+  doc.text(level, 170.5, colY + 5, {align: 'center'});
+
+  // CREDIT EARNED
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7);
+  doc.setTextColor(50, 50, 50);
+  doc.text('CREDIT EARNED', 222, colY, {align: 'center'});
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(11, 17, 32);
+  doc.text(ceus, 222, colY + 5, {align: 'center'});
+
+  // Signatures
+  const sigY = 192;
+  
+  // Left
+  doc.setFont('times', 'italic');
+  doc.setFontSize(22);
+  doc.setTextColor(11, 17, 32);
+  doc.text(instructorName, 100, sigY - 2, {align: 'center'});
+  
+  doc.setDrawColor(249, 115, 22);
+  doc.line(75, sigY, 125, sigY);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(11, 17, 32);
+  doc.text(instructorName, 100, sigY + 5, {align: 'center'});
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7);
+  doc.setTextColor(100, 100, 100);
+  doc.text('Course Instructor', 100, sigY + 9, {align: 'center'});
+
+  // Right
+  doc.setFont('times', 'italic');
+  doc.setFontSize(22);
+  doc.setTextColor(11, 17, 32);
+  doc.text('EDOT Administration', 197, sigY - 2, {align: 'center'});
+  
+  doc.setDrawColor(249, 115, 22);
+  doc.line(172, sigY, 222, sigY);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(11, 17, 32);
+  doc.text('EDOT Administration', 197, sigY + 5, {align: 'center'});
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7);
+  doc.setTextColor(100, 100, 100);
+  doc.text('Academic Director', 197, sigY + 9, {align: 'center'});
+
+  // Center Gold Badge
+  doc.setFillColor(249, 115, 22);
+  doc.circle(148.5, sigY, 10, 'F');
+  doc.setFillColor(255, 255, 255);
+  doc.circle(148.5, sigY, 8, 'F');
+  doc.setFillColor(249, 115, 22);
+  doc.circle(148.5, sigY, 6, 'F');
+  
+  // QR Code visual (Real)
+  try {
+    const verifyUrl = `${window.location.origin}/verify-certificate/${certId}`;
+    const qrDataUrl = await QRCode.toDataURL(verifyUrl, {
+      margin: 0,
+      width: 300,
+      color: { dark: '#0B1120', light: '#FFFFFF' }
+    });
+    doc.addImage(qrDataUrl, 'PNG', 260, 180, 16, 16);
+  } catch (e) {
+    console.error('Failed to generate QR code', e);
+  }
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(6);
+  doc.setTextColor(255, 255, 255);
+  doc.text('Verify Certificate', 268, 202, {align: 'center'});
+  doc.text('edot.org/verify', 268, 205, {align: 'center'});
+
+  doc.save(`${courseName.replace(/\s+/g, '_')}_Certificate.pdf`);
+};
+
 export default function CertificatesView() {
   const isDarkMode = useThemeMode();
   const { user } = useAuth();
@@ -114,290 +398,6 @@ export default function CertificatesView() {
     }
   };
 
-  const handleDownloadCertificate = async (enrolled) => {
-    const courseName = enrolled.course?.title || 'Course';
-    const duration = enrolled.course?.duration ? `${enrolled.course.duration} Hours` : 'Self-Paced';
-    const level = enrolled.course?.level || 'Intermediate';
-    const ceus = enrolled.course?.duration ? `${(enrolled.course.duration / 10).toFixed(1)} CEUs` : '3.0 CEUs';
-    const dateCompleted = new Date(enrolled.updatedAt || Date.now()).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-    const instructorName = enrolled.course?.instructor?.name || 'EDOT Instructor';
-
-    const img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.src = edotLogo;
-    await new Promise(resolve => {
-      img.onload = resolve;
-      img.onerror = resolve; // Continue even if logo fails
-    });
-
-    const getCircularLogo = (image) => {
-      const canvas = document.createElement('canvas');
-      canvas.width = image.width;
-      canvas.height = image.height;
-      const ctx = canvas.getContext('2d');
-      ctx.beginPath();
-      ctx.arc(image.width / 2, image.height / 2, Math.min(image.width, image.height) / 2, 0, Math.PI * 2);
-      ctx.closePath();
-      ctx.clip();
-      ctx.drawImage(image, 0, 0, image.width, image.height);
-      return canvas.toDataURL('image/png');
-    };
-
-    const doc = new jsPDF('landscape', 'mm', 'a4');
-    const certId = `EDOT-CERT-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
-    
-    // Background
-    doc.setFillColor(255, 255, 255);
-    doc.rect(0, 0, 297, 210, 'F');
-    
-    // Outer Orange Border
-    doc.setDrawColor(249, 115, 22); // #00D4FF
-    doc.setLineWidth(1);
-    doc.rect(5, 5, 287, 200);
-    // Inner Orange Border
-    doc.setLineWidth(0.3);
-    doc.rect(7, 7, 283, 196);
-
-    // Top Left Corner Polygon (Orange shadow and Dark Navy)
-    doc.setFillColor(249, 115, 22);
-    doc.triangle(0, 0, 95, 0, 0, 105, 'F');
-    doc.setFillColor(11, 17, 32); // #0B1120
-    doc.triangle(0, 0, 90, 0, 0, 100, 'F');
-    
-    // Bottom Right Corner
-    doc.setFillColor(249, 115, 22);
-    doc.triangle(297, 210, 207, 210, 297, 145, 'F');
-    doc.setFillColor(11, 17, 32);
-    doc.triangle(297, 210, 212, 210, 297, 150, 'F');
-
-    // Ribbon Top Right
-    doc.setFillColor(11, 17, 32);
-    doc.rect(255, 0, 16, 45, 'F');
-    doc.setDrawColor(249, 115, 22);
-    doc.setLineWidth(0.5);
-    doc.rect(256, 0, 14, 44);
-    // Ribbon bottom cut (triangle)
-    doc.setFillColor(255, 255, 255);
-    doc.triangle(255, 45, 263, 38, 271, 45, 'F');
-
-    // Seal on Ribbon
-    doc.setFillColor(249, 115, 22);
-    doc.circle(263, 40, 14, 'F');
-    doc.setFillColor(11, 17, 32);
-    doc.circle(263, 40, 11, 'F');
-    doc.setDrawColor(249, 115, 22);
-    doc.setLineWidth(0.5);
-    doc.circle(263, 40, 9);
-    
-    doc.setTextColor(249, 115, 22);
-    doc.setFontSize(5);
-    doc.setFont('helvetica', 'bold');
-    doc.text('VERIFIED', 263, 37, {align: 'center'});
-    doc.text('CERTIFICATE', 263, 43, {align: 'center'});
-
-    // Logo & Top Left Text
-    try {
-      if (img.width > 0) {
-        doc.addImage(getCircularLogo(img), 'PNG', 15, 15, 20, 20);
-        // Orange border around circular logo
-        doc.setDrawColor(249, 115, 22);
-        doc.setLineWidth(0.5);
-        doc.circle(25, 25, 10, 'S');
-      }
-    } catch (e) {}
-    doc.setTextColor(249, 115, 22);
-    doc.setFontSize(10);
-    doc.text('EDOT', 25, 42, {align: 'center'});
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(6);
-    doc.setFont('helvetica', 'normal');
-    doc.text('Learn. Teach. Support.', 25, 47, {align: 'center'});
-    doc.text('Sponsor a Future.', 25, 50, {align: 'center'});
-
-    // Certificate ID
-    doc.setTextColor(100, 100, 100);
-    doc.setFontSize(7);
-    doc.text('Certificate ID:', 240, 20, {align: 'right'});
-    doc.setTextColor(11, 17, 32);
-    doc.setFontSize(8);
-    doc.setFont('helvetica', 'bold');
-    doc.text(certId, 240, 25, {align: 'right'});
-
-    // MAIN TITLE
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(11, 17, 32);
-    doc.setFontSize(42);
-    doc.text('CERTIFICATE', 148.5, 45, {align: 'center'});
-    
-    // Subtitle
-    doc.setFontSize(12);
-    doc.setTextColor(249, 115, 22);
-    doc.text('OF COMPLETION', 148.5, 55, {align: 'center'});
-    
-    // Lines around OF COMPLETION
-    doc.setDrawColor(249, 115, 22);
-    doc.setLineWidth(0.5);
-    doc.line(95, 53.5, 120, 53.5);
-    doc.line(177, 53.5, 202, 53.5);
-    doc.setFillColor(249, 115, 22);
-    doc.circle(95, 53.5, 1, 'F');
-    doc.circle(202, 53.5, 1, 'F');
-
-    // Proudly presented
-    doc.setFontSize(10);
-    doc.setTextColor(50, 50, 50);
-    doc.text('THIS IS PROUDLY PRESENTED TO', 148.5, 75, {align: 'center'});
-
-    // Student Name
-    doc.setFont('times', 'italic');
-    doc.setTextColor(11, 17, 32);
-    doc.setFontSize(45);
-    doc.text(user?.name || 'Test User', 148.5, 98, {align: 'center'});
-
-    // Line below name
-    doc.setDrawColor(249, 115, 22);
-    doc.setLineWidth(0.5);
-    doc.line(90, 108, 207, 108);
-    doc.setFillColor(249, 115, 22);
-    // Draw a small diamond in the middle of the line
-    doc.triangle(148.5, 106, 150.5, 108, 148.5, 110, 'F');
-    doc.triangle(148.5, 106, 146.5, 108, 148.5, 110, 'F');
-
-    // Course completion text
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(50, 50, 50);
-    doc.setFontSize(11);
-    doc.text('For successfully completing the course', 148.5, 122, {align: 'center'});
-
-    // Course Name
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(11, 17, 32);
-    doc.setFontSize(26);
-    doc.text(courseName.toUpperCase(), 148.5, 138, {align: 'center'});
-
-    // Paragraph
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(100, 100, 100);
-    doc.setFontSize(9);
-    doc.text('This course covered essential topics and practical applications of the subject matter.\nThe holder has demonstrated dedication, knowledge, and a commitment to learning.', 148.5, 150, {align: 'center', lineHeightFactor: 1.5});
-
-    // Four Columns
-    // DATE | DURATION | LEVEL | CREDIT EARNED
-    const colY = 165;
-    // Dividers
-    doc.setDrawColor(200, 200, 200);
-    doc.setLineWidth(0.5);
-    doc.line(105, 158, 105, 173);
-    doc.line(148.5, 158, 148.5, 173);
-    doc.line(192, 158, 192, 173);
-
-    // DATE
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7);
-    doc.setTextColor(50, 50, 50);
-    doc.text('DATE OF COMPLETION', 75, colY, {align: 'center'});
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.setTextColor(11, 17, 32);
-    doc.text(dateCompleted, 75, colY + 5, {align: 'center'});
-
-    // DURATION
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7);
-    doc.setTextColor(50, 50, 50);
-    doc.text('DURATION', 126.5, colY, {align: 'center'});
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.setTextColor(11, 17, 32);
-    doc.text(duration, 126.5, colY + 5, {align: 'center'});
-
-    // LEVEL
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7);
-    doc.setTextColor(50, 50, 50);
-    doc.text('LEVEL', 170.5, colY, {align: 'center'});
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.setTextColor(11, 17, 32);
-    doc.text(level, 170.5, colY + 5, {align: 'center'});
-
-    // CREDIT EARNED
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7);
-    doc.setTextColor(50, 50, 50);
-    doc.text('CREDIT EARNED', 222, colY, {align: 'center'});
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    doc.setTextColor(11, 17, 32);
-    doc.text(ceus, 222, colY + 5, {align: 'center'});
-
-    // Signatures
-    const sigY = 192;
-    
-    // Left
-    doc.setFont('times', 'italic');
-    doc.setFontSize(22);
-    doc.setTextColor(11, 17, 32);
-    doc.text(instructorName, 100, sigY - 2, {align: 'center'});
-    
-    doc.setDrawColor(249, 115, 22);
-    doc.line(75, sigY, 125, sigY);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.setTextColor(11, 17, 32);
-    doc.text(instructorName, 100, sigY + 5, {align: 'center'});
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7);
-    doc.setTextColor(100, 100, 100);
-    doc.text('Course Instructor', 100, sigY + 9, {align: 'center'});
-
-    // Right
-    doc.setFont('times', 'italic');
-    doc.setFontSize(22);
-    doc.setTextColor(11, 17, 32);
-    doc.text('EDOT Administration', 197, sigY - 2, {align: 'center'});
-    
-    doc.setDrawColor(249, 115, 22);
-    doc.line(172, sigY, 222, sigY);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.setTextColor(11, 17, 32);
-    doc.text('EDOT Administration', 197, sigY + 5, {align: 'center'});
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7);
-    doc.setTextColor(100, 100, 100);
-    doc.text('Academic Director', 197, sigY + 9, {align: 'center'});
-
-    // Center Gold Badge
-    doc.setFillColor(249, 115, 22);
-    doc.circle(148.5, sigY, 10, 'F');
-    doc.setFillColor(255, 255, 255);
-    doc.circle(148.5, sigY, 8, 'F');
-    doc.setFillColor(249, 115, 22);
-    doc.circle(148.5, sigY, 6, 'F');
-    
-    // QR Code visual (Real)
-    try {
-      const verifyUrl = `${window.location.origin}/verify-certificate/${certId}`;
-      const qrDataUrl = await QRCode.toDataURL(verifyUrl, {
-        margin: 0,
-        width: 300,
-        color: { dark: '#0B1120', light: '#FFFFFF' }
-      });
-      doc.addImage(qrDataUrl, 'PNG', 260, 180, 16, 16);
-    } catch (e) {
-      console.error('Failed to generate QR code', e);
-    }
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6);
-    doc.setTextColor(255, 255, 255);
-    doc.text('Verify Certificate', 268, 202, {align: 'center'});
-    doc.text('edot.org/verify', 268, 205, {align: 'center'});
-
-    doc.save(`${courseName.replace(/\s+/g, '_')}_Certificate.pdf`);
-  };
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -484,7 +484,7 @@ export default function CertificatesView() {
                         </div>
                         <div>
                           <h3 className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{enrollment.course?.title || 'Completed Course'}</h3>
-                          <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Completed on {new Date(enrollment.updatedAt || Date.now()).toLocaleDateString()}</p>
+                          <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Completed on {enrollment.updatedAt ? new Date(enrollment.updatedAt).toLocaleDateString() : 'N/A'}</p>
                         </div>
                       </div>
                       <div className="mb-4 text-sm text-slate-500">
@@ -577,14 +577,14 @@ export default function CertificatesView() {
                       </div>
                       <div>
                         <h3 className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{cert.course?.title || 'Certificate'}</h3>
-                        <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Issued {new Date(cert.issueDate || Date.now()).toLocaleDateString()}</p>
+                        <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Issued {cert.issueDate ? new Date(cert.issueDate).toLocaleDateString() : 'N/A'}</p>
                       </div>
                     </div>
                     <p className={`text-sm leading-relaxed mb-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                       Official certificate recorded in your learner profile.
                     </p>
                     <button
-                      onClick={() => handleDownloadCertificate({ course: cert.course, updatedAt: cert.issueDate })}
+                      onClick={() => handleDownloadCertificate({ course: cert.course, updatedAt: cert.issueDate }, user?.name)}
                       className={`w-full inline-flex justify-center items-center gap-2 rounded-full px-5 py-3 font-bold transition ${isDarkMode ? 'bg-[#0B1120] border border-slate-700 text-white hover:bg-[#111827]' : 'bg-[#00D4FF] hover:bg-[#0099CC] text-white'}`}
                     >
                       <Download className="w-4 h-4" /> Download PDF

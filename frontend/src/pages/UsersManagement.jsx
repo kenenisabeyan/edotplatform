@@ -330,7 +330,7 @@ export default function UsersManagement() {
 
                     {/* Joined Date */}
                     <td className="px-6 py-5 whitespace-nowrap font-bold">
-                      {new Date(u.createdAt || Date.now()).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                      {u.createdAt ? new Date(u.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A'}
                     </td>
 
                     {/* Certificates Info */}
