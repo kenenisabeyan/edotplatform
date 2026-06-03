@@ -869,7 +869,7 @@ export default function EDOTDashboard() {
              </div>
            </Card>
          ) : (
-           <div className="lg:col-span-3 h-full">
+           <div className="lg:col-span-4 h-full">
              {widgetConfig.type === 'agenda' && (
                <AgendaWidget 
                  events={agendaEvents} 
@@ -900,7 +900,7 @@ export default function EDOTDashboard() {
                    </div>
                    <button 
                      onClick={() => navigate('/dashboard/certificates')}
-                     className="w-full py-3 bg-[#00D4FF] hover:bg-[#00D4FF] text-[#0B1120] font-bold rounded-full transition-colors text-sm shadow-[0_0_15px_rgba(255,215,0,0.3)]"
+                     className="w-full py-3 bg-[#00D4FF] hover:bg-[#00D4FF] text-[#0B1120] font-bold rounded-xl transition-colors text-sm shadow-[0_0_15px_rgba(255,215,0,0.3)]"
                    >
                      {widgetConfig.action}
                    </button>
@@ -920,7 +920,7 @@ export default function EDOTDashboard() {
                    </div>
                    <button 
                      onClick={() => navigate('/dashboard/messages')}
-                     className="w-full py-3 border-2 border-[#00D4FF] text-[#00D4FF] hover:bg-[#00D4FF] hover:text-[#0B1120] font-bold rounded-full transition-all text-sm shadow-[inset_0_0_15px_rgba(255,215,0,0.1)]"
+                     className="w-full py-3 border-2 border-[#00D4FF] text-[#00D4FF] hover:bg-[#00D4FF] hover:text-[#0B1120] font-bold rounded-xl transition-all text-sm shadow-[inset_0_0_15px_rgba(255,215,0,0.1)]"
                    >
                      {widgetConfig.action}
                    </button>

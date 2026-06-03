@@ -413,7 +413,7 @@ export default function CertificatesView() {
         <p className="text-sm mb-6">{error}</p>
         <button
           onClick={fetchData}
-          className="inline-flex items-center justify-center rounded-full bg-[#00D4FF] px-6 py-3 text-sm font-bold text-white hover:bg-[#EA580C]"
+          className="inline-flex items-center justify-center rounded-full-full bg-[#00D4FF] px-6 py-3 text-sm font-bold text-white hover:bg-[#EA580C]"
         >
           Retry
         </button>

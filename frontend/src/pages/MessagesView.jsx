@@ -847,7 +847,7 @@ export default function MessagesView() {
                   )}
 
                   <div className={`flex items-end gap-2 p-2.5 w-full max-w-4xl shadow-md transition-all duration-300 ${isDarkMode ? 'bg-[#1E293B] border border-white/20 rounded-full' : 'bg-[#F8FAFC] border border-slate-300 rounded-full'}`}>
-                      <button type="button" className={`p-2 rounded-full transition-colors shrink-0 outline-none self-end mb-0.5 ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}><Smile className="w-6 h-6" /></button>
+                      <button type="button" className={`p-2 rounded-full-full transition-colors shrink-0 outline-none self-end mb-0.5 ${isDarkMode ? 'text-slate-300 hover:text-white' : 'text-slate-700 hover:text-slate-900'}`}><Smile className="w-6 h-6" /></button>
                       <textarea 
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}

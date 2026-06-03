@@ -564,7 +564,7 @@ const StudentOverview = ({
                  ))}
                  <button 
                    onClick={toggleCertificateDropdown}
-                   className={`w-full py-2.5 mt-2 rounded-full font-bold text-[12px] transition-all bg-[#10B981] hover:bg-[#059669] text-white shadow-sm flex items-center justify-center gap-2`}
+                   className={`w-full py-2.5 mt-2 rounded-full-[10px] font-bold text-[12px] transition-all bg-[#10B981] hover:bg-[#059669] text-white shadow-sm flex items-center justify-center gap-2`}
                  >
                    View All Certificates <span className="text-[14px]">→</span>
                  </button>
