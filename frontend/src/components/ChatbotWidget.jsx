@@ -1,22 +1,107 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Bot, User, Loader2, Trash2, QrCode } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, User, Loader2, Trash2, QrCode, Maximize2, Minimize2 } from 'lucide-react';
 import useThemeMode from '../hooks/useThemeMode';
 import api from '../utils/api';
 import Markdown from 'markdown-to-jsx';
 import ChatbotQRScannerModal from './ChatbotQRScannerModal';
+import { useAuth } from '../context/AuthContext';
 
 export default function ChatbotWidget() {
+    const { user } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState([
-        { role: 'assistant', content: 'Hi there! I am the EDOT Assistant. How can I help you today?' }
-    ]);
+    const [isFullScreen, setIsFullScreen] = useState(false);
+    const [messages, setMessages] = useState([]);
+
+    const closeChat = () => {
+        setIsOpen(false);
+        setIsFullScreen(false);
+    };
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [scannerOpen, setScannerOpen] = useState(false);
     const messagesEndRef = useRef(null);
     const isDarkMode = useThemeMode();
     const telegramUrl = 'https://t.me/edotplatform';
+
+    // Compute dynamic greeting based on user role and name placeholder
+    const dynamicGreeting = React.useMemo(() => {
+        if (!user) {
+            return "Hello there! Welcome to **EDOT Platform (FutureLearning)**. I am the *EDOT Assistant*. Are you looking to upgrade your tech/business skills, track a child's progress, or sponsor a student?";
+        }
+        const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+        const namePlaceholder = user.name || 'User';
+        const roleName = capitalize(user.role || 'user');
+        
+        switch (user.role) {
+            case 'student':
+                return `Welcome back, **${namePlaceholder}**! I see you are logged in as a *Student*. How is your learning journey going today? Need help with courses or tracking your progress?`;
+            case 'parent':
+                return `Hello, **${namePlaceholder}**! As a registered *Guardian*, I am here to help you monitor your children's academic path. How can I assist you today?`;
+            case 'instructor':
+                return `Welcome back, Professor **${namePlaceholder}**! Thank you for teaching on EDOT. How can I assist with your classes or teaching portal today?`;
+            case 'admin':
+                return `Authorized Access: Welcome back, Admin **${namePlaceholder}**. Platform security and registry tools are ready. What administrative task shall we perform today?`;
+            default:
+                return `Welcome back, **${namePlaceholder}** (*${roleName}*)! How can I assist you today?`;
+        }
+    }, [user]);
+
+    // Compute dynamic suggestions list based on user role
+    const dynamicSuggestions = React.useMemo(() => {
+        if (!user) {
+            return [
+                "What is EDOT Platform?",
+                "What course packages are available?",
+                "How can I sponsor a student?",
+                "How do I start learning?"
+            ];
+        }
+        switch (user.role) {
+            case 'student':
+                return [
+                    "Check my dashboard progress",
+                    "View my certificates",
+                    "How do I join a live class?",
+                    "Reset my study goal"
+                ];
+            case 'parent':
+                return [
+                    "Track child's grade progress",
+                    "View attendance records",
+                    "Message course instructors",
+                    "Link another child account"
+                ];
+            case 'instructor':
+                return [
+                    "Manage my active classes",
+                    "Check course review metrics",
+                    "Publish a notice",
+                    "View student rosters"
+                ];
+            case 'admin':
+                return [
+                    "Pending course approvals",
+                    "Platform revenue statistics",
+                    "Create a new user account",
+                    "Database health report"
+                ];
+            default:
+                return [
+                    "What is EDOT Platform?",
+                    "Browse course catalog",
+                    "Reset my password",
+                    "Sponsor a student"
+                ];
+        }
+    }, [user]);
+
+    // Update greeting when user authenticates or changes
+    useEffect(() => {
+        setMessages([
+            { role: 'assistant', content: dynamicGreeting }
+        ]);
+    }, [dynamicGreeting]);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -79,7 +164,7 @@ export default function ChatbotWidget() {
 
     const handleClearChat = () => {
         setMessages([
-            { role: 'assistant', content: 'Hi there! I am the EDOT Assistant. How can I help you today?' }
+            { role: 'assistant', content: dynamicGreeting }
         ]);
     };
 
@@ -102,7 +187,11 @@ export default function ChatbotWidget() {
                         exit={{ opacity: 0, y: 12, scale: 0.95 }}
                         transition={{ duration: 0.18 }}
                         style={popupStyle}
-                        className={`mb-2 w-80 sm:w-96 rounded-2xl shadow-2xl overflow-hidden border flex flex-col h-[520px] max-h-[80vh] ${isDarkMode ? 'border-white/10 text-white' : 'border-teal-500/20 text-slate-800'}`}
+                        className={`transition-all duration-300 shadow-2xl overflow-hidden border flex flex-col ${
+                            isFullScreen 
+                                ? 'fixed inset-0 md:inset-6 z-50 w-auto h-auto max-h-none rounded-none md:rounded-3xl mb-0' 
+                                : 'mb-2 w-80 sm:w-96 h-[520px] max-h-[80vh] rounded-2xl'
+                        } ${isDarkMode ? 'border-white/10 text-white' : 'border-teal-500/20 text-slate-800'}`}
                     >
                         {/* Header */}
                         <div className={`p-4 flex items-center justify-between border-b backdrop-blur-md ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-black/5 bg-white/15'}`}>
@@ -127,7 +216,14 @@ export default function ChatbotWidget() {
                                     <Trash2 size={16} />
                                 </button>
                                 <button 
-                                    onClick={() => setIsOpen(false)}
+                                    onClick={() => setIsFullScreen(!isFullScreen)}
+                                    title={isFullScreen ? "Exit Full Screen" : "Full Screen"}
+                                    className={`p-2 rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10 text-slate-400 hover:text-white' : 'hover:bg-black/5 text-slate-600 hover:text-slate-900'}`}
+                                >
+                                    {isFullScreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+                                </button>
+                                <button 
+                                    onClick={closeChat}
                                     className={`p-2 rounded-full transition-colors ${isDarkMode ? 'hover:bg-white/10 text-slate-400 hover:text-white' : 'hover:bg-black/5 text-slate-600 hover:text-slate-900'}`}
                                 >
                                     <X size={18} />
@@ -136,8 +232,9 @@ export default function ChatbotWidget() {
                         </div>
 
                         {/* Chat Body */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin">
-                            {messages.map((msg, idx) => (
+                        <div className="flex-1 overflow-y-auto p-4 scrollbar-thin">
+                            <div className={`space-y-4 ${isFullScreen ? 'max-w-3xl mx-auto w-full' : ''}`}>
+                                {messages.map((msg, idx) => (
                                 <motion.div 
                                     initial={{ opacity: 0, y: 6 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -195,7 +292,13 @@ export default function ChatbotWidget() {
                                                         strong: {
                                                             component: 'strong',
                                                             props: {
-                                                                className: `font-extrabold ${isDarkMode ? 'text-cyan-300' : 'text-indigo-900'}`
+                                                                className: `font-extrabold ${isDarkMode ? 'text-[#00D4FF]' : 'text-teal-700'}`
+                                                            }
+                                                        },
+                                                        em: {
+                                                            component: 'em',
+                                                            props: {
+                                                                className: `font-bold italic ${isDarkMode ? 'text-orange-400' : 'text-orange-600'}`
                                                             }
                                                         },
                                                         a: {
@@ -264,12 +367,7 @@ export default function ChatbotWidget() {
                                         Suggested Inquiries
                                     </h4>
                                     <div className="flex flex-col gap-2">
-                                        {[
-                                            "What is EDOT Platform?",
-                                            "What course packages are available?",
-                                            "How can I sponsor a student?",
-                                            "How do I start learning?"
-                                        ].map((suggestion, sIdx) => (
+                                        {dynamicSuggestions.map((suggestion, sIdx) => (
                                             <button
                                                 key={sIdx}
                                                 type="button"
@@ -296,28 +394,30 @@ export default function ChatbotWidget() {
                             )}
 
                             <div ref={messagesEndRef} />
+                            </div>
                         </div>
 
                         <form onSubmit={handleSend} className={`p-3 border-t backdrop-blur-md ${isDarkMode ? 'border-white/10 bg-black/20' : 'border-white/10 bg-white/15'}`}>
-                            <div className="relative flex items-center">
+                            <div className={`flex items-center gap-2 ${isFullScreen ? 'max-w-3xl mx-auto w-full' : 'w-full'}`}>
                                 <button
                                     type="button"
                                     onClick={() => setScannerOpen(true)}
                                     title="Scan QR Code"
-                                    className={`absolute left-3 p-1.5 rounded-full transition-all z-10 ${
+                                    className={`p-2.5 rounded-full transition-all shrink-0 border ${
                                         isDarkMode 
-                                            ? 'text-slate-400 hover:text-cyan-300 hover:bg-white/5' 
-                                            : 'text-slate-600 hover:text-teal-700 hover:bg-black/5'
+                                            ? 'text-slate-400 hover:text-cyan-300 hover:bg-white/5 bg-white/5 border-white/10' 
+                                            : 'text-slate-600 hover:text-teal-700 hover:bg-black/5 bg-black/5 border-black/10'
                                     }`}
                                 >
-                                    <QrCode size={16} />
+                                    <QrCode size={18} />
                                 </button>
+                                <div className="relative flex-1 flex items-center">
                                 <input
                                     type="text"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
-                                    placeholder="Message or scan QR..."
-                                    className={`w-full py-3 pl-11 pr-12 rounded-full text-sm focus:outline-none transition-all ${
+                                    placeholder="Message EDOT Assistant..."
+                                    className={`w-full py-3 pl-4 pr-12 !rounded-full text-sm focus:outline-none transition-all ${
                                         isDarkMode 
                                             ? 'bg-gradient-to-r from-white/5 to-white/10 border border-white/20 focus:border-cyan-400 text-white placeholder-white/60' 
                                             : 'bg-gradient-to-r from-black/5 to-black/10 border border-black/15 focus:border-teal-600 text-slate-800 placeholder-slate-500 shadow-inner'
@@ -331,6 +431,7 @@ export default function ChatbotWidget() {
                                 >
                                     <Send size={14} />
                                 </button>
+                            </div>
                             </div>
                         </form>
 
@@ -353,7 +454,8 @@ export default function ChatbotWidget() {
             </AnimatePresence>
 
             {/* Buttons Row */}
-            <div className="flex flex-row items-center gap-3">
+            {!isFullScreen && (
+                <div className="flex flex-row items-center gap-3">
                 {/* Telegram Link Button */}
                 <a
                     href={telegramUrl}
@@ -384,6 +486,7 @@ export default function ChatbotWidget() {
                     </svg>
                 </motion.button>
             </div>
+            )}
         </div>
     );
 }

@@ -244,24 +244,24 @@ const StudentOverview = ({
           { title: 'Certificates', value: certificateTotal.toString(), subtitle: certificateSubtitle, action: 'View all certificates →', icon: ({className}) => <Award className={className} fill="currentColor" strokeWidth={1} />, color: 'text-[#00D4FF]', bg: 'bg-orange-50 dark:bg-[#00D4FF]/10' },
         ].map((stat, i) => (
           <motion.div key={i} variants={itemVariants} className={`p-6 rounded-[28px] border shadow-[0_14px_55px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_70px_rgba(15,23,42,0.12)] ${isDarkMode ? 'bg-[#0B1D3A] border-[#1e293b]' : 'bg-white border-slate-200/80'}`}>
-            <div className="flex items-start gap-4">
+            <div className="flex flex-col items-center text-center gap-3">
                {/* Icon */}
                <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${stat.bg} ${stat.color}`}>
                  <stat.icon className="w-6 h-6" />
                </div>
                
                {/* Content */}
-               <div className="flex flex-col">
+               <div className="flex flex-col items-center">
                  <p className={`text-[12px] font-bold mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{stat.title}</p>
                  <h3 className={`text-[28px] font-bold leading-none ${isDarkMode ? 'text-white' : 'text-[#111827]'}`}>{stat.value}</h3>
                  <p className={`text-[11px] font-medium mt-1.5 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>{stat.subtitle}</p>
                  
-                 <div className="mt-5">
+                 <div className="mt-3">
                    {stat.trend && (
                      <p className="text-[11px] font-bold text-emerald-500">{stat.trend}</p>
                    )}
                    {stat.action && (
-                     <button onClick={toggleCertificateDropdown} className="text-[11px] font-bold text-[#00D4FF] hover:underline text-left">
+                     <button onClick={toggleCertificateDropdown} className="text-[11px] font-bold text-[#00D4FF] hover:underline">
                        {stat.action}
                      </button>
                    )}

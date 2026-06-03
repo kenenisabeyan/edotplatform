@@ -88,6 +88,7 @@ router.post('/message', async (req, res) => {
                     include: { instructor: true }
                 });
                 if (course) {
+                    let actionReply = '';
                     if (user) {
                         try {
                             await prisma.activity.create({
@@ -103,14 +104,95 @@ router.post('/message', async (req, res) => {
                             console.error('Failed to log chatbot session scan activity:', logErr);
                         }
                     }
+
+                    // Functional mark attendance check-in for logged in students
+                    if (user && user.role === 'student') {
+                        try {
+                            let sectionName = qrData.section;
+                            if (!sectionName) {
+                                const sectionDoc = await prisma.section.findFirst({
+                                    where: {
+                                        courseId: course.id,
+                                        students: { some: { id: user.id } }
+                                    }
+                                });
+                                sectionName = sectionDoc ? sectionDoc.name : "Main Section";
+                            }
+
+                            const queryDate = new Date();
+                            const startOfDay = new Date(Date.UTC(queryDate.getUTCFullYear(), queryDate.getUTCMonth(), queryDate.getUTCDate()));
+
+                            let attendance = await prisma.attendance.findUnique({
+                                where: {
+                                    courseId_section_date: {
+                                        courseId: course.id,
+                                        section: sectionName,
+                                        date: startOfDay
+                                    }
+                                }
+                            });
+
+                            let records = [];
+                            if (attendance && attendance.records) {
+                                records = Array.isArray(attendance.records) ? attendance.records : [attendance.records];
+                            }
+
+                            const existingIndex = records.findIndex(r => r.user === user.id);
+
+                            if (existingIndex !== -1) {
+                                actionReply = `\n\n🎯 **Check-in Status:** You are already checked in for today! Your attendance is registered as **Present** for this class.`;
+                            } else {
+                                records.push({
+                                    user: user.id,
+                                    role: user.role,
+                                    status: 'present'
+                                });
+
+                                await prisma.attendance.upsert({
+                                    where: {
+                                        courseId_section_date: {
+                                            courseId: course.id,
+                                            section: sectionName,
+                                            date: startOfDay
+                                        }
+                                    },
+                                    update: {
+                                        records: records
+                                    },
+                                    create: {
+                                        courseId: course.id,
+                                        section: sectionName,
+                                        date: startOfDay,
+                                        records: records
+                                    }
+                                });
+                                actionReply = `\n\n✅ **Check-in Status:** Success! I have officially registered your attendance as **Present** for today's session.`;
+                            }
+                        } catch (attErr) {
+                            console.error('Error marking self attendance via chatbot scan:', attErr);
+                            actionReply = `\n\n⚠️ **Check-in Status:** I encountered an error while updating the registry database. Please try again.`;
+                        }
+                    } else {
+                        actionReply = `\n\n💡 **Tip:** To automatically check in and mark attendance, please log in as a **Student** before scanning.`;
+                    }
+
                     return res.json({
                         success: true,
-                        reply: `### 📅 Scanned Class Session Check-in\n\nI have successfully verified the class session details:\n\n*   **Course:** **${course.title}**\n*   **Instructor:** ${course.instructor?.name || 'Unassigned'}\n*   **Section:** \`${qrData.section || 'Main Section'}\`\n*   **Level:** ${course.level}\n\n**Check-in Instructions:** Students scan this QR code on a projector screen using the **"Scan Class QR"** button in their Attendance menu to instantly register their attendance for the day.`
+                        reply: `### 📅 Class Attendance Verified
+
+I have verified the class session credentials:
+
+*   Course: **${course.title}**
+*   Instructor: **${course.instructor?.name || 'Unassigned'}**
+*   Section: **${qrData.section || 'Main Section'}**
+*   Level: **${course.level}**${actionReply}`
                     });
                 } else {
                     return res.json({
                         success: true,
-                        reply: `### 📅 Scanned Class Session Check-in\n\nI detected a check-in QR code, but Course ID **"${qrData.courseId}"** is not logged in the database.`
+                        reply: `### 📅 Scanned Class Session Check-in
+
+I scanned the attendance QR code, but Course ID **"${qrData.courseId}"** is not found in our database.`
                     });
                 }
             }
@@ -148,7 +230,7 @@ router.post('/message', async (req, res) => {
                     let sponsorshipInfo = '';
                     if (sponsorship) {
                         const sponsorDisplayName = sponsorship.isAnonymous ? 'Anonymous Supporter (Privacy Protected 🔒)' : (sponsorship.sponsorName || 'EDOT Supporter');
-                        sponsorshipInfo = `\n\n*   **Sponsorship Campaign:** \`${sponsorship.category.toUpperCase()}\`\n*   **Sponsorship Supporter:** ${sponsorDisplayName}\n*   **Funding Status:** Fully Funded ✅`;
+                        sponsorshipInfo = `\n*   Sponsorship Campaign: **${sponsorship.category.toUpperCase()}**\n*   Sponsor: **${sponsorDisplayName}**\n*   Funding Status: **Fully Funded** ✅`;
                     }
 
                     if (user) {
@@ -167,14 +249,30 @@ router.post('/message', async (req, res) => {
                         }
                     }
 
+                    const formattedDate = new Date(certificate.issueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
                     return res.json({
                         success: true,
-                        reply: `### 🎓 Verified Academic Certificate\n\nI have officially verified the credentials for this certificate in the registry:\n\n*   **Recipient Student:** **${certificate.user?.name || 'Unknown'}**\n*   **Course Completed:** ${certificate.course?.title || 'Unknown Course'}\n*   **Completion Date:** ${new Date(certificate.issueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}\n*   **Credential Status:** ✅ **OFFICIALLY VERIFIED & SECURE**\n*   **Verification Tracking Hash:** \`${certificate.verificationHash}\`${sponsorshipInfo}\n\n**Purpose:** This QR Code is embedded on student PDF certificates to allow third-party verification (such as employers, universities, or sponsors) of their academic achievement.`
+                        reply: `### 🎓 Verified Academic Certificate
+
+I have officially verified these credentials in the registry:
+
+*   Student: **${certificate.user?.name || 'Unknown'}**
+*   Course: **${certificate.course?.title || 'Unknown Course'}**
+*   Completion Date: **${formattedDate}**
+*   Registry Status: ✅ **OFFICIALLY VERIFIED & SECURE**
+*   Tracking Hash: **${certificate.verificationHash}**${sponsorshipInfo}
+
+🔗 *Public verification page:* [Verify Certificate Link](/verify-certificate/${certificate.verificationHash})`
                     });
                 } else {
                     return res.json({
                         success: true,
-                        reply: `### 🎓 Certificate Verification Request\n\nI scanned for the verification code **"${cleanHash}"**, but could not find a matching record in our certificate logs.\n\nIf this certificate was just claimed, please reload the page or download it again. Otherwise, contact the EDOT support team for assistance.`
+                        reply: `### 🎓 Certificate Verification Request
+
+I scanned for the verification code **"${cleanHash}"**, but could not find a matching record in our certificate logs.
+
+If this certificate was just claimed, please reload the page or download it again. Otherwise, contact the EDOT support team.`
                     });
                 }
             }
@@ -218,8 +316,13 @@ Behavioral Guidelines & Emotional Intelligence:
 - **Keep Progress & Retention Focus**: If they are an active student, politely check in on their learning journey. Encourage them to check their dashboard progress percentage, complete remaining lessons, take outstanding quizzes, and work towards earning their verified completion certificate. Challenge them to stay motivated and keep moving forward daily (e.g., "Keep up the excellent momentum! Let's conquer the next module together.").
 - **Upsell & Cross-sell**: Suggest next-level or complementary courses (e.g. if they finished JavaScript, suggest Python or Machine Learning) politely to help them expand their skillset.
 - Win their attention by highlighting success milestones, badges, and the career value of our digital certificates.
-- Keep responses polite, polished, and structured in Markdown.
-- Communicate fluently in English, Amharic (አማርኛ), and Afaan Oromo. Respond in the language used by the user.`
+- Communicate fluently in English, Amharic (አማርኛ), and Afaan Oromo. Respond in the language used by the user.
+
+CRITICAL FORMATTING & STYLING RULES:
+- **NO BOOK-LIKE OR TEXTBOOK DENSE TEXT**: Do not write long, dry, textbook-like paragraphs. Break down information into short, punchy paragraphs (maximum 1-2 sentences per paragraph).
+- **NEVER USE HORIZONTAL DIVIDERS**: Do not use markdown divider lines or horizontal rule syntax (like '---', '***', or '___') under any circumstances.
+- **USE EMPOWERING EMOJIS**: Start key sections, lists, and suggestions with relevant, colorful emojis (e.g., 🚀, 🎓, 💡, 🎯, ✅, 🔒, 📅, 🔍) to make the text lively and visually interactive.
+- **VISUAL STYLING HIGHLIGHTS**: Colorize your response using bold (**keyword**) to trigger the primary brand color (Teal/Cyan) in the UI, and italic (*keyword*) to trigger the secondary brand color (Orange/Amber) in the UI. Make sure to style important terms, action keywords, and names so the response looks vibrant, modern, and beautiful.`
             : `You are a helpful, welcoming, and sales-focused AI assistant for the EDOT (FutureLearning) educational platform. 
 You are chatting with a guest visitor / prospective customer who is not logged in. 
 Your goal is to win their attention, understand their needs, and turn them into registered users, paying students, or active sponsors. Be extremely respectful, polite, and persuasive.
@@ -244,8 +347,13 @@ Sales & Interaction Strategy (with high EQ):
 - Actively match their interests to EDOT's courses/services. Challenge them to take the next step in their career or philanthropy.
 - Pitch the extremely affordable pricing, certified outcomes, and the convenience of learn-anywhere, self-paced access.
 - Always include a polite call-to-action encouraging them to register/sign up for free (using the "Sign Up" or "Register" button) to unlock courses or start sponsoring.
-- Format responses beautifully using Markdown.
-- Communicate fluently in English, Amharic (አማርኛ), and Afaan Oromo. Respond in the language used by the user.`;
+- Communicate fluently in English, Amharic (አማርኛ), and Afaan Oromo. Respond in the language used by the user.
+
+CRITICAL FORMATTING & STYLING RULES:
+- **NO BOOK-LIKE OR TEXTBOOK DENSE TEXT**: Do not write long, dry, textbook-like paragraphs. Break down information into short, punchy paragraphs (maximum 1-2 sentences per paragraph).
+- **NEVER USE HORIZONTAL DIVIDERS**: Do not use markdown divider lines or horizontal rule syntax (like '---', '***', or '___') under any circumstances.
+- **USE EMPOWERING EMOJIS**: Start key sections, lists, and suggestions with relevant, colorful emojis (e.g., 🚀, 🎓, 💡, 🎯, ✅, 🔒, 📅, 🔍) to make the text lively and visually interactive.
+- **VISUAL STYLING HIGHLIGHTS**: Colorize your response using bold (**keyword**) to trigger the primary brand color (Teal/Cyan) in the UI, and italic (*keyword*) to trigger the secondary brand color (Orange/Amber) in the UI. Make sure to style important terms, action keywords, and names so the response looks vibrant, modern, and beautiful.`;
 
         // Initialize model with a system instruction defining persona
         const model = genAI.getGenerativeModel({ 
