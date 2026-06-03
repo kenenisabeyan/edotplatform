@@ -949,24 +949,26 @@ const StudentOverview = ({
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[...sectionsData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3).map((sec, idx) => (
-              <div 
-                key={`global-sec-${idx}`} 
-                className={`group relative overflow-hidden rounded-[1.5rem] p-6 border backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between min-h-[220px] ${
-                  idx === 0
-                  ? (isDarkMode ? 'bg-gradient-to-br from-[#0B1D3A] to-[#00D4FF]/10 border-[#00D4FF]/50 hover:border-[#F97316]/50 shadow-[0_0_30px_rgba(0,212,255,0.15)] ring-1 ring-[#00D4FF]/50' : 'bg-gradient-to-br from-white to-[#00D4FF]/5 border-[#00D4FF]/50 hover:border-[#F97316]/50 shadow-lg ring-1 ring-[#00D4FF]/50') 
-                  : (isDarkMode ? 'bg-[#0B1D3A]/80 border-[#F97316]/30 hover:border-[#00D4FF]/50 hover:bg-[#0B1D3A] shadow-md hover:shadow-[0_20px_40px_rgba(0,212,255,0.08)]' : 'bg-white border-[#F97316]/30 hover:border-[#00D4FF]/50 hover:shadow-xl shadow-sm')
-                }`}
-              >
-                {/* Border Indicator Strips */}
-                <div className={`absolute top-0 left-0 w-1.5 h-full transition-all duration-300 ${idx === 0 ? 'bg-[#00D4FF] group-hover:bg-[#F97316]' : 'bg-[#F97316] group-hover:bg-[#00D4FF]'}`}></div>
-                <div className={`absolute top-0 left-0 right-0 h-1.5 transition-all duration-300 ${idx === 0 ? 'bg-[#00D4FF] group-hover:bg-[#F97316]' : 'bg-[#F97316] group-hover:bg-[#00D4FF]'}`}></div>
+            {[...sectionsData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3).map((sec, idx) => {
+              const hasMembers = sec.students && sec.students.length > 0;
+              return (
+                <div 
+                  key={`global-sec-${idx}`} 
+                  className={`group relative overflow-hidden rounded-[1.5rem] p-6 border backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between min-h-[220px] ${
+                    hasMembers
+                    ? (isDarkMode ? 'bg-gradient-to-br from-[#0B1D3A] to-[#00D4FF]/10 border-[#00D4FF]/50 hover:border-[#F97316]/50 shadow-[0_0_30px_rgba(0,212,255,0.15)] ring-1 ring-[#00D4FF]/50' : 'bg-gradient-to-br from-white to-[#00D4FF]/5 border-[#00D4FF]/50 hover:border-[#F97316]/50 shadow-lg ring-1 ring-[#00D4FF]/50') 
+                    : (isDarkMode ? 'bg-[#0B1D3A]/80 border-[#F97316]/30 hover:border-[#00D4FF]/50 hover:bg-[#0B1D3A] shadow-md hover:shadow-[0_20px_40px_rgba(0,212,255,0.08)]' : 'bg-white border-[#F97316]/30 hover:border-[#00D4FF]/50 hover:shadow-xl shadow-sm')
+                  }`}
+                >
+                  {/* Border Indicator Strips */}
+                  <div className={`absolute top-0 left-0 w-1.5 h-full transition-all duration-300 ${hasMembers ? 'bg-[#00D4FF] group-hover:bg-[#F97316]' : 'bg-[#F97316] group-hover:bg-[#00D4FF]'}`}></div>
+                  <div className={`absolute top-0 left-0 right-0 h-1.5 transition-all duration-300 ${hasMembers ? 'bg-[#00D4FF] group-hover:bg-[#F97316]' : 'bg-[#F97316] group-hover:bg-[#00D4FF]'}`}></div>
 
-                <div className="flex items-start justify-between mb-3 pl-2 relative z-10">
-                  <p className={`text-base font-black flex items-center gap-2 transition-colors duration-300 ${idx === 0 ? 'text-[#00D4FF] group-hover:text-[#F97316]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`}>
-                    <Users className={`w-5 h-5 transition-colors duration-300 shrink-0 ${idx === 0 ? 'text-[#00D4FF] group-hover:text-[#F97316]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`} /> {sec.name || 'Unnamed Section'}
-                  </p>
-                </div>
+                  <div className="flex items-start justify-between mb-3 pl-2 relative z-10">
+                    <p className={`text-base font-black flex items-center gap-2 transition-colors duration-300 ${hasMembers ? 'text-[#00D4FF] group-hover:text-[#F97316]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`}>
+                      <Users className={`w-5 h-5 transition-colors duration-300 shrink-0 ${hasMembers ? 'text-[#00D4FF] group-hover:text-[#F97316]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`} /> {sec.name || 'Unnamed Section'}
+                    </p>
+                  </div>
                 
                 <div className="space-y-1.5 mb-4 text-xs pl-2 relative z-10">
                   <p className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Course: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.course?.title || 'Unknown'}</span></p>
@@ -990,7 +992,8 @@ const StudentOverview = ({
                   )}
                 </div>
               </div>
-            ))}
+            );
+            })}
           </div>
           
           <div className="mt-5 flex justify-end">
