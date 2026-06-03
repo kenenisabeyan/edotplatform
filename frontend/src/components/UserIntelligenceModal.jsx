@@ -298,11 +298,11 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
 
   const getActivityBorderColor = (type) => {
     const t = String(type || '').toLowerCase();
-    if (t.includes('join') || t.includes('register') || t.includes('enroll')) return 'border-l-4 border-l-emerald-500';
-    if (t.includes('create') || t.includes('publish') || t.includes('add')) return 'border-l-4 border-l-blue-500';
-    if (t.includes('login') || t.includes('auth') || t.includes('session')) return 'border-l-4 border-l-amber-500';
-    if (t.includes('delete') || t.includes('remove') || t.includes('block') || t.includes('unlink')) return 'border-l-4 border-l-rose-500';
-    return 'border-l-4 border-l-[#8B5CF6]';
+    if (t.includes('join') || t.includes('register') || t.includes('enroll')) return 'border-l-4 border-l-emerald-500 border-t-4 border-t-emerald-500';
+    if (t.includes('create') || t.includes('publish') || t.includes('add')) return 'border-l-4 border-l-blue-500 border-t-4 border-t-blue-500';
+    if (t.includes('login') || t.includes('auth') || t.includes('session')) return 'border-l-4 border-l-amber-500 border-t-4 border-t-amber-500';
+    if (t.includes('delete') || t.includes('remove') || t.includes('block') || t.includes('unlink')) return 'border-l-4 border-l-rose-500 border-t-4 border-t-rose-500';
+    return 'border-l-4 border-l-[#8B5CF6] border-t-4 border-t-[#8B5CF6]';
   };
 
   const cardStyle = `p-6 rounded-[2.5rem] border backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:scale-[1.01] ${isDarkMode ? 'border-white/5 bg-[#0B1120]/60 shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-white/10' : 'border-slate-200/80 bg-white shadow-[0_8px_32px_rgba(31,38,135,0.04)] hover:border-slate-300'}`;

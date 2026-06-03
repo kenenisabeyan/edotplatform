@@ -1271,7 +1271,7 @@ export default function EDOTDashboard() {
               {recentActivities.length ? recentActivities.map((activity, index) => {
                 const isJoined = activity.type === 'user_joined';
                 const isPublished = activity.type === 'course_published';
-                const borderAccent = isJoined ? 'border-l-4 border-l-[#10B981]' : isPublished ? 'border-l-4 border-l-[#3B82F6]' : 'border-l-4 border-l-[#8B5CF6]';
+                const borderAccent = isJoined ? 'border-l-4 border-l-[#10B981] border-t-4 border-t-[#10B981]' : isPublished ? 'border-l-4 border-l-[#3B82F6] border-t-4 border-t-[#3B82F6]' : 'border-l-4 border-l-[#8B5CF6] border-t-4 border-t-[#8B5CF6]';
                 const iconBg = isJoined ? 'bg-[#10B981]/10 text-[#10B981]' : isPublished ? 'bg-[#3B82F6]/10 text-[#3B82F6]' : 'bg-[#8B5CF6]/10 text-[#8B5CF6]';
                 
                 return (
