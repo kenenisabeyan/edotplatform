@@ -105,7 +105,7 @@ const EnrolledCourseCard = ({ enrolled, isDarkMode, navigate, handleSelfAttendan
 
         {/* Status Badge in lowercase pill border shape */}
         <div className="absolute top-4 right-4 z-20">
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white border border-white/60 bg-white/10 backdrop-blur-md">
+          <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
             {(enrolled.status || (enrolled.progress === 100 ? 'completed' : 'active')).toLowerCase()}
           </span>
         </div>

@@ -19,7 +19,12 @@ import {
   Unlock,
   BookOpen,
   ArrowRight,
-  Video
+  Video,
+  Globe,
+  Calculator,
+  Rocket,
+  Target,
+  UserCheck
 } from 'lucide-react';
 import useThemeMode from '../hooks/useThemeMode';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -34,6 +39,16 @@ const CAT_COLORS = {
 };
 
 const DEFAULT_COLOR = { main: "#3b82f6", dark: "#2563eb", banner: "from-slate-600 to-slate-800" };
+
+const CAT_ICONS = {
+  "Social Science": Globe,
+  "Mathematics & Natural Science": Calculator,
+  "Natural Language": BookOpen,
+  "Programming & Technology": Rocket,
+  "Business & Entrepreneurship": Target,
+  "Personal Development": UserCheck,
+  "General Overview": BookOpen
+};
 
 const normalizeCategory = (cat) => {
   const c = cat?.toLowerCase() || '';
@@ -126,6 +141,7 @@ export default function CourseDetails() {
   const normalized = normalizeCategory(course.mainCategory || course.category);
   const catInfo = CAT_COLORS[normalized] || DEFAULT_COLOR;
   const contrastTextColor = catInfo.main === "#FFD700" ? "#0F172A" : "#FFFFFF";
+  const IconComponent = CAT_ICONS[normalized] || BookOpen;
 
   return (
     <div className={`min-h-[calc(100vh-80px)] w-full font-sans pb-20 relative overflow-hidden transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-[#FAFAFA] text-slate-800'}`}>
@@ -177,18 +193,32 @@ export default function CourseDetails() {
              {/* Right Hero (Floating Mockup Container) */}
              <div className="hidden lg:block lg:w-5/12">
                  <div className="relative group w-full transition-transform duration-500 hover:-translate-y-2">
-                    <div className={`relative border rounded-2xl p-4 shadow-2xl ${isDarkMode ? 'border-white/10 bg-[#151a26]/80 backdrop-blur-md' : 'border-slate-200 bg-white/80 backdrop-blur-md'}`}>
-                       <div className="w-full aspect-[4/3] relative overflow-hidden rounded-xl bg-[#030303]">
-                         <img 
-                           src={(course.thumbnail && course.thumbnail !== 'default-course.jpg') ? (course.thumbnail.startsWith('http') ? course.thumbnail : `http://localhost:5000${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}`) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80'} 
-                           alt="Course Preview" 
-                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                           onError={(e) => { 
-                               e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80';
-                           }}
-                         />
-                       </div>
-                    </div>
+                     <div className={`relative border rounded-2xl p-4 shadow-2xl ${isDarkMode ? 'border-white/10 bg-[#151a26]/80 backdrop-blur-md' : 'border-slate-200 bg-white/80 backdrop-blur-md'}`}>
+                        <div 
+                          className="w-full aspect-[4/3] relative overflow-hidden rounded-xl flex items-center justify-center"
+                          style={(course.thumbnail && course.thumbnail !== 'default-course.jpg') ? { backgroundColor: '#030303' } : { background: `linear-gradient(135deg, ${catInfo.main}, ${catInfo.dark || catInfo.main})` }}
+                        >
+                          {course.thumbnail && course.thumbnail !== 'default-course.jpg' ? (
+                            <img 
+                              src={course.thumbnail.startsWith('http') ? course.thumbnail : `http://localhost:5000${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}`} 
+                              alt="Course Preview" 
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                            />
+                          ) : (
+                            /* Centered Category Icon inside a bordered rounded square container */
+                            <div className="w-16 h-16 rounded-[20px] bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
+                              <IconComponent className="w-8 h-8 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" />
+                            </div>
+                          )}
+
+                          {/* Status Badge in lowercase pill border shape */}
+                          <div className="absolute top-4 right-4 z-20">
+                            <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
+                              {(course.status || 'published').toLowerCase()}
+                            </span>
+                          </div>
+                        </div>
+                     </div>
                  </div>
              </div>
           </div>
