@@ -137,7 +137,15 @@ export default function ChatbotWidget() {
                                         )}
                                     </div>
 
-                                    <div className={`p-3 rounded-2xl max-w-[80%] text-sm ${msg.role === 'user' ? 'bg-[#06b6d4] text-white rounded-tr-sm border-transparent' : isDarkMode ? 'bg-gradient-to-tr from-sky-700 to-cyan-600 text-white rounded-tl-sm border-transparent' : 'bg-white/75 backdrop-blur-sm border border-white text-slate-800 rounded-tl-sm shadow-sm'}`}>
+                                    <div className={`p-3 rounded-2xl max-w-[80%] text-sm shadow-md ${
+                                        msg.role === 'user' 
+                                            ? isDarkMode
+                                                ? 'bg-gradient-to-tr from-cyan-500 to-blue-600 text-white rounded-tr-sm border-transparent'
+                                                : 'bg-gradient-to-tr from-teal-600 to-indigo-700 text-white rounded-tr-sm border-transparent'
+                                            : isDarkMode
+                                                ? 'bg-gradient-to-tr from-slate-900/95 to-cyan-950/80 text-cyan-50 rounded-tl-sm border border-cyan-500/10'
+                                                : 'bg-gradient-to-tr from-teal-50/95 to-amber-50/90 text-slate-800 rounded-tl-sm border border-teal-500/15'
+                                    }`}>
                                         {msg.role === 'user' ? (
                                             msg.content
                                         ) : (
