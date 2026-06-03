@@ -612,7 +612,7 @@ export default function StudentDashboard() {
                 </h1>
                 <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Continue learning and track your progress.</p>
               </div>
-              <button onClick={() => setActiveTab('catalog')} className={`px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl shadow-md transition-all`}>
+              <button onClick={() => setActiveTab('catalog')} className={`px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full shadow-md transition-all`}>
                  Browse Catalog
               </button>
             </div>
@@ -624,7 +624,7 @@ export default function StudentDashboard() {
                  </div>
                  <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>No enrolled courses</h3>
                  <p className={`text-sm mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>You haven't enrolled in any courses yet. Check out the catalog!</p>
-                 <button onClick={() => setActiveTab('catalog')} className={`px-6 py-3 bg-[#00D4FF] hover:bg-[#EA580C] font-bold text-sm rounded-xl shadow-md transition-colors text-white`}>
+                 <button onClick={() => setActiveTab('catalog')} className={`px-6 py-3 bg-[#00D4FF] hover:bg-[#EA580C] font-bold text-sm rounded-full shadow-md transition-colors text-white`}>
                    Explore Catalog
                  </button>
                </div>
@@ -645,10 +645,10 @@ export default function StudentDashboard() {
                            <div className="h-full bg-[#00D4FF] rounded-full" style={{width: `${enrolled.progress || 0}%`}}></div>
                          </div>
                          <div className="flex gap-2 mt-2">
-                           <button onClick={() => navigate(`/course/${enrolled.course?.id || enrolled.courseId}`)} className={`flex-1 py-2.5 font-bold text-xs rounded-lg transition-colors ${isDarkMode ? 'bg-white/10 hover:bg-[#00D4FF] text-white' : 'bg-slate-100 hover:bg-[#00D4FF] text-slate-800 hover:text-white'}`}>
+                           <button onClick={() => navigate(`/course/${enrolled.course?.id || enrolled.courseId}`)} className={`flex-1 py-2.5 font-bold text-xs rounded-full transition-colors ${isDarkMode ? 'bg-white/10 hover:bg-[#00D4FF] text-white' : 'bg-slate-100 hover:bg-[#00D4FF] text-slate-800 hover:text-white'}`}>
                              Continue Learning
                            </button>
-                           <button onClick={() => handleSelfAttendance(enrolled.course?.id || enrolled.courseId)} className={`flex-1 py-2.5 font-bold text-xs rounded-lg border transition-colors ${isDarkMode ? 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500 hover:text-white' : 'bg-green-50 text-green-600 border-green-200 hover:bg-green-500 hover:text-white'}`}>
+                           <button onClick={() => handleSelfAttendance(enrolled.course?.id || enrolled.courseId)} className={`flex-1 py-2.5 font-bold text-xs rounded-full border transition-colors ${isDarkMode ? 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500 hover:text-white' : 'bg-green-50 text-green-600 border-green-200 hover:bg-green-500 hover:text-white'}`}>
                              Check In
                            </button>
                          </div>
@@ -693,7 +693,7 @@ export default function StudentDashboard() {
                  </p>
                  <button 
                   onClick={() => setActiveTab('courses')}
-                  className={`px-6 py-3 bg-blue-500 hover:bg-blue-600 font-bold text-sm rounded-xl shadow-md transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                  className={`px-6 py-3 bg-blue-500 hover:bg-blue-600 font-bold text-sm rounded-full shadow-md transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                  >
                    Continue Learning
                  </button>
@@ -721,7 +721,7 @@ export default function StudentDashboard() {
                             
                             <button 
                               onClick={() => handleClaimCertificate(enrolled.course?.id || enrolled.courseId)}
-                              className={`w-full inline-flex justify-center items-center gap-2 px-6 py-3 font-bold text-sm rounded-xl transition-colors shadow-sm bg-[#00D4FF] hover:bg-[#EA580C] text-white`}
+                              className={`w-full inline-flex justify-center items-center gap-2 px-6 py-3 font-bold text-sm rounded-full transition-colors shadow-sm bg-[#00D4FF] hover:bg-[#EA580C] text-white`}
                             >
                               Claim Now
                             </button>
@@ -752,13 +752,13 @@ export default function StudentDashboard() {
                             <div className="flex gap-3 w-full mt-auto">
                               <button 
                                 onClick={() => handleDownloadCertificate(cert, user?.name, 'view')}
-                                className={`flex-1 inline-flex justify-center items-center gap-2 py-3 font-bold text-[13px] rounded-xl border transition-colors shadow-sm ${isDarkMode ? 'bg-slate-700/50 hover:bg-slate-600 text-white border-slate-600' : 'bg-slate-50 hover:bg-slate-200 text-slate-700 border-slate-200'}`}
+                                className={`flex-1 inline-flex justify-center items-center gap-2 py-3 font-bold text-[13px] rounded-full border transition-colors shadow-sm ${isDarkMode ? 'bg-slate-700/50 hover:bg-slate-600 text-white border-slate-600' : 'bg-slate-50 hover:bg-slate-200 text-slate-700 border-slate-200'}`}
                               >
                                 View
                               </button>
                               <button 
                                 onClick={() => handleDownloadCertificate(cert, user?.name, 'download')}
-                                className={`flex-1 inline-flex justify-center items-center gap-2 py-3 font-bold text-[13px] rounded-xl border transition-colors shadow-sm bg-blue-500 hover:bg-blue-600 text-white border-blue-500`}
+                                className={`flex-1 inline-flex justify-center items-center gap-2 py-3 font-bold text-[13px] rounded-full border transition-colors shadow-sm bg-blue-500 hover:bg-blue-600 text-white border-blue-500`}
                               >
                                 <Download className="w-4 h-4" /> Export PDF
                               </button>

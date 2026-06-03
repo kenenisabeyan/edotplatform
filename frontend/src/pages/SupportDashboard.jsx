@@ -119,7 +119,7 @@ export default function SupportDashboard() {
           </button>
           <button 
              onClick={() => setShowSponsorModal(true)}
-             className={`inline-flex items-center gap-2 px-6 py-3 font-black rounded-xl hover:-translate-y-0.5 transition-transform bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+             className={`inline-flex items-center gap-2 px-6 py-3 font-black rounded-full hover:-translate-y-0.5 transition-transform bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
           >
             <HandCoins className="w-4 h-4" />
             Become a Sponsor

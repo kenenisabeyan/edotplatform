@@ -116,13 +116,13 @@ export default function SponsorDashboard() {
                 <div className="flex items-center gap-3">
                   <button 
                     onClick={() => queryClient.invalidateQueries(['sponsor', 'dashboard'])}
-                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 transition shadow-sm"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 transition shadow-sm"
                   >
                     <RefreshCw className="w-4 h-4" />
                   </button>
                   <button 
                     onClick={() => setIsModalOpen(true)}
-                    className="flex h-10 items-center justify-center gap-2 rounded-xl bg-cyan-400 px-5 text-sm font-bold text-white hover:bg-cyan-500 transition shadow-sm"
+                    className="flex h-10 items-center justify-center gap-2 rounded-full bg-cyan-400 px-5 text-sm font-bold text-white hover:bg-cyan-500 transition shadow-sm"
                   >
                     <Heart className="w-4 h-4" />
                     Become a Sponsor
@@ -345,7 +345,7 @@ export default function SponsorDashboard() {
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="flex-1 rounded-xl bg-slate-100 py-3 font-semibold text-slate-600 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                    className="flex-1 rounded-full bg-slate-100 py-3 font-semibold text-slate-600 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                   >
                     Cancel
                   </button>

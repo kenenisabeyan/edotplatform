@@ -217,7 +217,7 @@ export default function InstructorDashboard() {
               </h2>
               <button 
                 onClick={() => navigate('/instructor/builder')} 
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white font-black   text-[11px] rounded-xl hover:-translate-y-0.5 transition-transform shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white font-black   text-[11px] rounded-full hover:-translate-y-0.5 transition-transform shadow-[0_0_20px_rgba(37,99,235,0.4)]"
               >
                 <PlusCircle className="w-4 h-4" /> Create Course
               </button>
@@ -232,7 +232,7 @@ export default function InstructorDashboard() {
                  <p className={`max-w-sm mb-6 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Share your knowledge with the world by creating your first complete course.</p>
                  <button 
                   onClick={() => navigate('/instructor/builder')} 
-                  className="px-8 py-3.5 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white font-black   text-xs rounded-xl hover:-translate-y-0.5 transition-transform shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+                  className="px-8 py-3.5 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white font-black   text-xs rounded-full hover:-translate-y-0.5 transition-transform shadow-[0_0_20px_rgba(37,99,235,0.4)]"
                  >
                    Start Creating
                  </button>
@@ -399,7 +399,7 @@ export default function InstructorDashboard() {
                    <button 
                     type="button" 
                     onClick={() => setActiveTab('courses')} 
-                    className={`px-8 py-3.5 bg-transparent font-black text-[11px] rounded-xl border hover:bg-white/5/5 hover:text-white transition-all order-2 sm:order-1 ${isDarkMode ? 'text-slate-200 border-white/10' : 'text-slate-600 border-slate-200'}`}
+                    className={`px-8 py-3.5 bg-transparent font-black text-[11px] rounded-full border hover:bg-white/5/5 hover:text-white transition-all order-2 sm:order-1 ${isDarkMode ? 'text-slate-200 border-white/10' : 'text-slate-600 border-slate-200'}`}
                    >
                      Abort Setup
                    </button>
