@@ -134,7 +134,7 @@ export default function FinanceFees() {
               <input 
                 type="text" 
                 placeholder="Search ledger..." 
-                className={`w-full !pl-14 !pr-4 !py-2.5 bg-[#0B1120] border !rounded-full-full text-sm font-medium outline-none focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/50 placeholder:text-slate-400 transition-all shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                className={`w-full !pl-14 !pr-4 !py-2.5 bg-[#0B1120] border !rounded-full text-sm font-medium outline-none focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/50 placeholder:text-slate-400 transition-all shadow-inner ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
               />
             </div>
           </div>
