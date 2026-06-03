@@ -27,9 +27,8 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
 
   const fetchUserActivities = useCallback(async (id, role, children) => {
     try {
-      const { data } = await api.get('/activity/all');
-      const allActivities = Array.isArray(data.data) ? data.data : [];
-      const userActivity = allActivities.filter((a) => String(a.user?.id || a.user) === String(id)).slice(0, 40);
+      const { data } = await api.get(`/activity/all?userId=${id}&limit=100`);
+      const userActivity = Array.isArray(data.data) ? data.data : [];
       setSelectedUserActivities(userActivity);
 
       if (role === 'parent' && children.length > 0) {
@@ -297,6 +296,15 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
 
   if (!isOpen) return null;
 
+  const getActivityBorderColor = (type) => {
+    const t = String(type || '').toLowerCase();
+    if (t.includes('join') || t.includes('register') || t.includes('enroll')) return 'border-l-4 border-l-emerald-500';
+    if (t.includes('create') || t.includes('publish') || t.includes('add')) return 'border-l-4 border-l-blue-500';
+    if (t.includes('login') || t.includes('auth') || t.includes('session')) return 'border-l-4 border-l-amber-500';
+    if (t.includes('delete') || t.includes('remove') || t.includes('block') || t.includes('unlink')) return 'border-l-4 border-l-rose-500';
+    return 'border-l-4 border-l-[#8B5CF6]';
+  };
+
   const cardStyle = `p-6 rounded-[2.5rem] border backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:scale-[1.01] ${isDarkMode ? 'border-white/5 bg-[#0B1120]/60 shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-white/10' : 'border-slate-200/80 bg-white shadow-[0_8px_32px_rgba(31,38,135,0.04)] hover:border-slate-300'}`;
 
   const modalContent = (
@@ -306,29 +314,31 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                <div className={`w-10 h-10 border-4 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
              </div>
           ) : selectedUser ? (
-             <div className="flex flex-col w-full max-h-[82vh] min-h-0 p-6 md:p-8 relative">
+             <div className="flex flex-col w-full max-h-[82vh] min-h-0 pt-3 px-6 pb-6 md:pt-4 md:px-8 md:pb-8 relative">
             {/* Brand Background Decorative Elements */}
-            <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
+            <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
             <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
             <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#2563EB]/10 blur-[80px] pointer-events-none z-0"></div>
 
             {/* Sticky Header */}
-            <div className="flex justify-between items-start gap-4 mb-6 relative z-10 shrink-0">
-              <div className="flex items-center gap-5">
+            <div className="flex justify-between items-center gap-4 mb-3 relative z-10 shrink-0">
+              <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center shrink-0 relative">
-                  <UserAvatar user={selectedUser} className="w-16 h-16 md:w-20 md:h-20 text-3xl shadow-lg border-[3px] border-white dark:border-[#0B1120] relative z-10" />
+                  <UserAvatar user={selectedUser} className="w-10 h-10 md:w-12 md:h-12 text-xl shadow-lg border-2 border-white dark:border-[#0B1120] relative z-10" />
                   <div className="absolute inset-0 rounded-full border-2 border-[#00D4FF] scale-110"></div>
                 </div>
                 <div>
-                  <h3 className={`text-2xl md:text-3xl font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedUser.name}</h3>
-                  <p className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{selectedUser.role || 'Unknown Role'}</p>
-                  <span className={`inline-flex items-center px-3 py-1 mt-2 text-[10px] font-bold rounded-full ${getStatusBadgeClasses(selectedUser.status)}`}>
-                    {selectedUser.status || 'unknown'}
-                  </span>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className={`text-lg md:text-xl font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedUser.name}</h3>
+                    <span className={`inline-flex items-center px-2.5 py-1 text-[9px] font-extrabold uppercase rounded-full ${getStatusBadgeClasses(selectedUser.status)}`}>
+                      {selectedUser.status || 'unknown'}
+                    </span>
+                  </div>
+                  <p className={`text-[11px] font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'} mt-0.5 capitalize`}>{selectedUser.role || 'Unknown Role'}</p>
                   {selectedUser.learnerGroups && selectedUser.learnerGroups.length > 0 && (
-                     <div className="flex flex-wrap gap-2 mt-2">
+                     <div className="flex flex-wrap gap-1 mt-1">
                         {selectedUser.learnerGroups.map(lg => (
-                           <span key={lg.id} className="text-[10px] bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 px-2 py-0.5 rounded-full font-bold">
+                           <span key={lg.id} className="text-[8px] bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 px-1.5 py-0.5 rounded-full font-bold">
                               {lg.name}
                            </span>
                         ))}
@@ -336,7 +346,13 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                   )}
                 </div>
               </div>
-              <button onClick={onClose} className="px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-gradient-to-r from-[#00D4FF] to-[#2563EB] hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] text-white">Close Detail</button>
+              <button 
+                onClick={onClose} 
+                className="px-4 py-1.5 text-[10px] font-black uppercase tracking-wider transition-all duration-300 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_rgba(0,212,255,0.5)] cursor-pointer"
+                style={{ borderRadius: '9999px' }}
+              >
+                Close Detail
+              </button>
             </div>
 
             {/* Scrollable Body */}
@@ -352,9 +368,9 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     <div className="pb-2">
                       <p className={`text-[10px] font-black uppercase tracking-wider mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Assigned Instructor</p>
                       {selectedUser.assignedInstructor ? (
-                        <span className="text-sm font-black text-[#00D4FF]">
-                          {selectedUser.assignedInstructor.name}
-                        </span>
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold text-white border shadow-[0_4px_12px_rgba(99,102,241,0.2)] hover:scale-[1.02] transition-transform duration-200" style={{ borderRadius: '12px', background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', borderColor: 'rgba(99, 102, 241, 0.2)' }}>
+                          <span>{selectedUser.assignedInstructor.name}</span>
+                        </div>
                       ) : (
                         <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Unassigned</p>
                       )}
@@ -370,7 +386,13 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           searchable={true}
                           className="flex-1"
                         />
-                        <button onClick={() => updateStudentInstructor(instructorToAssign)} className="px-4 py-2 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:shadow-lg rounded-xl text-xs font-black transition-all shrink-0">Set</button>
+                        <button 
+                          onClick={() => updateStudentInstructor(instructorToAssign)} 
+                          className="px-4 py-2 text-white text-xs font-black transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] shrink-0 cursor-pointer" 
+                          style={{ borderRadius: '9999px', background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', boxShadow: '0 4px 15px rgba(99, 102, 241, 0.3)' }}
+                        >
+                          Set
+                        </button>
                       </div>
                     </div>
                     <div className={`pt-3 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
@@ -378,9 +400,9 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                       <div className="flex flex-wrap gap-2 mb-3">
                         {(selectedUser.parents || []).length > 0 ?
                           selectedUser.parents.map((parent) => (
-                            <div key={parent.id} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold text-white bg-gradient-to-r from-[#00D4FF] to-[#2563EB] rounded-lg shadow-sm border border-[#00D4FF]/20">
+                            <div key={parent.id} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold text-white border shadow-[0_4px_12px_rgba(20,184,166,0.2)] hover:scale-[1.02] transition-transform duration-200" style={{ borderRadius: '12px', background: 'linear-gradient(135deg, #14b8a6 0%, #10b981 100%)', borderColor: 'rgba(20, 184, 166, 0.2)' }}>
                               <span>{parent.name}</span>
-                              <button onClick={() => untieParentFromStudent(parent.id)} className="ml-1 text-white/60 hover:text-white text-[10px] font-black transition-colors">X</button>
+                              <span role="button" onClick={() => untieParentFromStudent(parent.id)} className="ml-1.5 bg-white/10 hover:bg-white/20 w-4 h-4 inline-flex items-center justify-center rounded-full text-white/80 hover:text-white text-[9px] font-black cursor-pointer transition-colors">×</span>
                             </div>
                           )) : <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No parents connected</p>
                         }
@@ -394,7 +416,13 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           searchable={true}
                           className="flex-1"
                         />
-                        <button onClick={() => bindParentToStudent(parentToBind)} className="px-4 py-2 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:shadow-lg rounded-xl text-xs font-black transition-all shrink-0">Add</button>
+                        <button 
+                          onClick={() => bindParentToStudent(parentToBind)} 
+                          className="px-4 py-2 text-white text-xs font-black transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_rgba(20,184,166,0.5)] shrink-0 cursor-pointer" 
+                          style={{ borderRadius: '9999px', background: 'linear-gradient(135deg, #14b8a6 0%, #10b981 100%)', boxShadow: '0 4px 15px rgba(20, 184, 166, 0.3)' }}
+                        >
+                          Add
+                        </button>
                       </div>
                     </div>
                     {/* Admin Only - Sponsorship Map */}
@@ -403,9 +431,9 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                       <div className="flex flex-wrap gap-2 mb-3">
                         {(selectedUser.sponsorships || []).length > 0 ?
                           selectedUser.sponsorships.map((sponsorship) => (
-                            <div key={sponsorship.id} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold text-white bg-gradient-to-r from-[#2563EB] to-[#00D4FF] rounded-lg shadow-sm border border-blue-500/20">
+                            <div key={sponsorship.id} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold text-white border shadow-[0_4px_12px_rgba(245,158,11,0.2)] hover:scale-[1.02] transition-transform duration-200" style={{ borderRadius: '12px', background: 'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)', borderColor: 'rgba(245, 158, 11, 0.2)' }}>
                               <span>{sponsorship.sponsor?.name || 'Anonymous Sponsor'}</span>
-                              <button onClick={() => untieSponsorFromStudent()} className="ml-1 text-white/60 hover:text-white text-[10px] font-black transition-colors">X</button>
+                              <span role="button" onClick={() => untieSponsorFromStudent()} className="ml-1.5 bg-white/10 hover:bg-white/20 w-4 h-4 inline-flex items-center justify-center rounded-full text-white/80 hover:text-white text-[9px] font-black cursor-pointer transition-colors">×</span>
                             </div>
                           )) : <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No active sponsor</p>
                         }
@@ -419,7 +447,13 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           searchable={true}
                           className="flex-1"
                         />
-                        <button onClick={() => bindSponsorToStudent(sponsorToBind)} className="px-4 py-2 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:shadow-lg rounded-xl text-xs font-black transition-all shrink-0">Add</button>
+                        <button 
+                          onClick={() => bindSponsorToStudent(sponsorToBind)} 
+                          className="px-4 py-2 text-white text-xs font-black transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-[0_0_20px_rgba(245,158,11,0.5)] shrink-0 cursor-pointer" 
+                          style={{ borderRadius: '9999px', background: 'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)', boxShadow: '0 4px 15px rgba(245, 158, 11, 0.3)' }}
+                        >
+                          Add
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -437,7 +471,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                       selectedUser.children.map((c) => (
                         <div key={c.id} className="flex items-center gap-2">
                            <div className="w-2.5 h-2.5 rounded-full bg-[#00D4FF] animate-pulse"></div>
-                           <p className="text-sm font-black text-slate-200">{c.name}</p>
+                           <p className={`text-sm font-black ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{c.name}</p>
                         </div>
                       )) : <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No current children linked</p>
                     }
@@ -452,20 +486,23 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
               <div className={cardStyle}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-[#2563EB]/5 rounded-bl-full pointer-events-none"></div>
                 <h4 className={`text-xs font-black uppercase tracking-wider mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Activity Matrix (Recent)</h4>
-                <div className="max-h-60 overflow-auto space-y-2.5 custom-scrollbar pr-2">
-                  {(selectedUserActivities.length > 0) ? selectedUserActivities.map((activity) => (
-                    <div key={activity.id} className={`rounded-2xl border p-3.5 text-xs shadow-inner ${
-                      isDarkMode 
-                        ? 'border-white/5 bg-[#0B1120]' 
-                        : 'border-slate-200/80 bg-slate-50'
-                    }`}>
-                      <div className="flex justify-between items-start">
-                         <p className={`font-bold leading-relaxed ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{activity.action}</p>
-                         {activity.metadata?.ip && <span className={`text-[8px] font-mono tracking-tighter border px-1.5 py-0.5 rounded ${isDarkMode ? 'text-slate-300 bg-[#0B1120] border-white/10' : 'text-slate-500 bg-white border-slate-200'}`}>{activity.metadata.ip}</span>}
+                <div className="h-[320px] overflow-y-auto space-y-2.5 custom-scrollbar pr-2">
+                  {(selectedUserActivities.length > 0) ? selectedUserActivities.map((activity) => {
+                    const borderClass = getActivityBorderColor(activity.type || activity.action);
+                    return (
+                      <div key={activity.id} className={`rounded-2xl border p-3.5 text-xs shadow-inner transition-all duration-300 hover:scale-[1.01] ${borderClass} ${
+                        isDarkMode 
+                          ? 'border-white/5 bg-[#0B1120] hover:bg-[#0B1120]/80 hover:border-white/10 hover:shadow-[0_4px_16px_rgba(0,0,0,0.4)]' 
+                          : 'border-slate-200/80 bg-slate-50 hover:bg-slate-100/80 hover:border-slate-300 hover:shadow-[0_4px_16px_rgba(0,0,0,0.05)]'
+                      }`}>
+                        <div className="flex justify-between items-start">
+                           <p className={`font-bold leading-relaxed ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{activity.action}</p>
+                           {activity.metadata?.ip && <span className={`text-[8px] font-mono tracking-tighter border px-1.5 py-0.5 rounded ${isDarkMode ? 'text-slate-300 bg-[#0B1120] border-white/10' : 'text-slate-500 bg-white border-slate-200'}`}>{activity.metadata.ip}</span>}
+                        </div>
+                        <p className="text-[#00D4FF] mt-1.5 text-[9px] font-black uppercase">{activity.type || 'action'} • {new Date(activity.createdAt).toLocaleString()} {activity.metadata?.userAgent && (activity.metadata.userAgent.includes('Mobi') ? '📱' : '💻')}</p>
                       </div>
-                      <p className="text-[#00D4FF] mt-1.5 text-[9px] font-black uppercase">{activity.type || 'action'} • {new Date(activity.createdAt).toLocaleString()} {activity.metadata?.userAgent && (activity.metadata.userAgent.includes('Mobi') ? '📱' : '💻')}</p>
-                    </div>
-                  )) : <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No recent activity recorded.</p>}
+                    );
+                  }) : <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No recent activity recorded.</p>}
                 </div>
               </div>
 
@@ -477,7 +514,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                   <div>
                     <p className={`text-[10px] font-black uppercase tracking-wider mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Total courses / Active Classes</p>
                     <p className={`text-2xl font-black mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{(selectedUser.role === 'student' ? (selectedUser.enrolledCourses || []).filter(en => en.status === 'active') : selectedUser.role === 'instructor' ? (selectedUserCourses || []).filter(c => c.status === 'approved') : selectedUserCourses || []).length}</p>
-                    <div className="flex flex-col gap-2 max-h-24 overflow-auto custom-scrollbar pr-2">
+                    <div className="flex flex-col gap-2 max-h-[220px] overflow-auto custom-scrollbar pr-2">
                        {selectedUser.role === 'student' ? (
                           (selectedUser.enrolledCourses || []).filter(en => en.status === 'active').map((en, idx) => {
                              const courseId = en.course?.id || en.course;
@@ -485,7 +522,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                              const courseTitle = courseObj?.title || 'Unknown Course';
                              const instructorName = courseObj?.instructor?.name || 'Unknown Inst.';
                              return (
-                               <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border ${isDarkMode ? 'bg-[#0F172A]/80 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
+                               <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border transition-all duration-300 hover:scale-[1.01] ${isDarkMode ? 'bg-[#0F172A]/80 border-white/5 hover:border-white/10 hover:bg-[#1E293B]' : 'bg-slate-100 border-slate-200 hover:border-slate-300 hover:bg-slate-200/50'}`}>
                                   <span className={`text-xs font-black truncate mr-2 ${isDarkMode ? 'text-white' : 'text-slate-700'}`}>{courseTitle}</span>
                                   <span className="text-[9px] text-[#00D4FF] font-black uppercase shrink-0">{instructorName}</span>
                                </div>
@@ -493,7 +530,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           })
                        ) : (
                           (selectedUser.role === 'instructor' ? (selectedUserCourses || []).filter(c => c.status === 'approved') : selectedUserCourses || []).map((c, idx) => (
-                             <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border ${isDarkMode ? 'bg-[#0F172A]/80 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
+                             <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border transition-all duration-300 hover:scale-[1.01] ${isDarkMode ? 'bg-[#0F172A]/80 border-white/5 hover:border-white/10 hover:bg-[#1E293B]' : 'bg-slate-100 border-slate-200 hover:border-slate-300 hover:bg-slate-200/50'}`}>
                                 <span className={`text-xs font-black truncate mr-2 ${isDarkMode ? 'text-white' : 'text-slate-700'}`}>{c.title}</span>
                                 <span className="text-[9px] font-black shrink-0 text-emerald-400 uppercase">Active</span>
                              </div>
@@ -505,28 +542,28 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                   <div>
                     <p className={`text-[10px] font-black uppercase tracking-wider mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Pending approvals</p>
                     <p className="text-2xl font-black text-rose-400 mb-3">{selectedUser.role === 'instructor' ? (selectedUserCourses || []).filter(c => c.status === 'pending').length : (selectedUser.enrolledCourses || []).filter((en) => en.status === 'pending').length}</p>
-                    <div className="flex flex-col gap-2 max-h-24 overflow-auto custom-scrollbar pr-2">
+                    <div className="flex flex-col gap-2 max-h-[220px] overflow-auto custom-scrollbar pr-2">
                        {selectedUser.role === 'student' ? (
-                            (selectedUser.enrolledCourses || []).filter(en => en.status === 'pending').map((en, idx) => {
-                              const courseId = en.course?.id || en.course;
-                              const courseObj = allCourses.find((c) => String(c.id) === String(courseId)) || en.course;
-                              const courseTitle = courseObj?.title || 'Unknown Course';
-                              const instructorName = courseObj?.instructor?.name || 'Unknown Inst.';
-                              return (
-                                <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border ${isDarkMode ? 'bg-rose-950/20 border-rose-500/30' : 'bg-rose-50 border-rose-200'}`}>
-                                   <span className="text-xs text-rose-400 font-bold truncate mr-2">{courseTitle}</span>
-                                   <span className="text-[9px] text-rose-500 font-black uppercase shrink-0">{instructorName}</span>
-                                </div>
-                              );
-                            })
-                        ) : selectedUser.role === 'instructor' ? (
-                           (selectedUserCourses || []).filter(c => c.status === 'pending').map((c, idx) => (
-                              <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border ${isDarkMode ? 'bg-[#00D4FF]/10 border-[#00D4FF]/30' : 'bg-[#e0f7ff] border-[#00D4FF]/20'}`}>
-                                 <span className="text-xs text-amber-500 font-bold truncate mr-2">{c.title}</span>
-                                 <span className="text-[9px] font-black shrink-0 text-amber-500 uppercase">Needs Review</span>
-                              </div>
-                           ))
-                        ) : null}
+                             (selectedUser.enrolledCourses || []).filter(en => en.status === 'pending').map((en, idx) => {
+                               const courseId = en.course?.id || en.course;
+                               const courseObj = allCourses.find((c) => String(c.id) === String(courseId)) || en.course;
+                               const courseTitle = courseObj?.title || 'Unknown Course';
+                               const instructorName = courseObj?.instructor?.name || 'Unknown Inst.';
+                               return (
+                                 <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border transition-all duration-300 hover:scale-[1.01] ${isDarkMode ? 'bg-rose-950/20 border-rose-500/30 hover:bg-rose-950/40' : 'bg-rose-50 border-rose-200 hover:bg-rose-100/50'}`}>
+                                    <span className="text-xs text-rose-400 font-bold truncate mr-2">{courseTitle}</span>
+                                    <span className="text-[9px] text-rose-500 font-black uppercase shrink-0">{instructorName}</span>
+                                 </div>
+                               );
+                             })
+                         ) : selectedUser.role === 'instructor' ? (
+                            (selectedUserCourses || []).filter(c => c.status === 'pending').map((c, idx) => (
+                               <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border transition-all duration-300 hover:scale-[1.01] ${isDarkMode ? 'bg-[#00D4FF]/10 border-[#00D4FF]/30 hover:bg-[#00D4FF]/20' : 'bg-[#e0f7ff] border-[#00D4FF]/20 hover:bg-[#cbefff]'}`}>
+                                  <span className="text-xs text-amber-500 font-bold truncate mr-2">{c.title}</span>
+                                  <span className="text-[9px] font-black shrink-0 text-amber-500 uppercase">Needs Review</span>
+                               </div>
+                            ))
+                         ) : null}
                     </div>
                   </div>
                   )}
@@ -547,10 +584,10 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                 <div className="mt-8 flex items-center justify-center">
                   <RadialBarChart width={180} height={180} cx="50%" cy="50%" innerRadius="70%" outerRadius="100%" barSize={10} data={[{ name: 'Progress', value: selectedUserCompletion || 1, fill: '#00D4FF' }]}>
                     <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
-                    <RadialBar background={{ fill: '#ffffff10' }} clockWise dataKey="value" cornerRadius={10} />
+                    <RadialBar background={{ fill: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)' }} clockWise dataKey="value" cornerRadius={10} />
                   </RadialBarChart>
                   <div className="absolute flex flex-col items-center justify-center">
-                    <span className={`text-3xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedUserCompletion}%</span>
+                    <span className={`text-3xl font-black tracking-tight ${isDarkMode ? 'text-white drop-shadow-[0_0_8px_rgba(0,212,255,0.6)]' : 'text-slate-900'}`}>{selectedUserCompletion}%</span>
                   </div>
                 </div>
                 <p className={`text-center mt-3 text-xs font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Global Average Progress</p>
@@ -567,7 +604,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                         const courseId = en.course?.id || en.course;
                         const courseObj = allCourses.find((c) => String(c.id) === String(courseId)) || en.course || {};
                         const cat = courseObj.category || 'General';
-                        if (!acc[cat]) acc[acc.General ? 'General' : cat] = []; // Fallback key safety
+                        if (!acc[cat]) acc[acc.General ? 'General' : cat] = [];
                         const targetKey = acc[cat] ? cat : 'General';
                         acc[targetKey].push({ en, courseTitle: courseObj.title || 'Unknown Course Data', courseId });
                         return acc;
@@ -578,15 +615,21 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                             {items.map(({ en, courseTitle, courseId }, idx) => (
                               <div key={`${courseId}_${idx}`} className={`rounded-2xl border p-4 flex flex-col gap-2.5 relative group overflow-hidden transition-all duration-300 ${
                                 isDarkMode 
-                                  ? 'border-white/5 bg-[#0F172A]/80 hover:bg-[#0F172A] hover:border-[#00D4FF]/20' 
-                                  : 'border-slate-200/80 bg-slate-50 hover:bg-slate-100 hover:border-[#00D4FF]/20'
+                                  ? 'border-white/5 bg-[#0F172A]/80 hover:bg-[#0F172A] hover:border-[#00D4FF]/20 hover:shadow-[0_8px_24px_rgba(0,212,255,0.1)]' 
+                                  : 'border-slate-200/80 bg-slate-50 hover:bg-slate-100 hover:border-[#00D4FF]/20 hover:shadow-[0_8px_24px_rgba(31,38,135,0.04)]'
                               }`}>
                                 <div className="flex items-start justify-between gap-3">
                                   <p className={`text-sm font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{courseTitle}</p>
-                                  <button onClick={() => removeEnrollment(courseId)} className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-rose-400 font-black px-2.5 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20">Drop</button>
+                                  <button 
+                                    onClick={() => removeEnrollment(courseId)} 
+                                    className="opacity-0 group-hover:opacity-100 transition-all duration-300 text-[10px] text-rose-400 font-black px-2.5 py-1 bg-rose-500/10 hover:bg-rose-500/20 hover:scale-105 active:scale-95 cursor-pointer"
+                                    style={{ borderRadius: '6px' }}
+                                  >
+                                    Drop
+                                  </button>
                                 </div>
-                                <div className={`h-2 w-full rounded-full overflow-hidden mt-1.5 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-200'}`}>
-                                  <div style={{ width: `${en.progress || 0}%`, backgroundColor: '#00D4FF' }} className="h-full rounded-full transition-all duration-700 shadow-[0_0_10px_rgba(0,212,255,0.4)]" />
+                                <div className={`h-2.5 w-full rounded-full overflow-hidden mt-1.5 ${isDarkMode ? 'bg-[#0B1120] shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]' : 'bg-slate-200 shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]'}`}>
+                                  <div style={{ width: `${en.progress || 0}%`, background: 'linear-gradient(90deg, #00D4FF 0%, #2563EB 100%)' }} className="h-full rounded-full transition-all duration-700 shadow-[0_0_10px_rgba(0,212,255,0.4)]" />
                                 </div>
                                 <div className="flex justify-between items-center mt-1">
                                   <p className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Progress: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{en.progress || 0}%</span></p>
@@ -631,14 +674,38 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           searchable={true}
                           className="flex-1"
                         />
-                        <button onClick={() => manualEnrollment(courseToEnroll, 'active')} className="px-4 py-2 font-black uppercase bg-blue-600/20 text-[#2563EB] dark:text-blue-300 border border-blue-600/30 hover:bg-blue-600/40 rounded-xl text-[10px] transition-colors shrink-0">Force Enroll</button>
+                        <button 
+                          onClick={() => manualEnrollment(courseToEnroll, 'active')} 
+                          className="px-4 py-2 font-black uppercase bg-blue-600/20 text-[#2563EB] dark:text-blue-300 border border-blue-600/30 hover:bg-blue-600/40 text-[10px] transition-all duration-300 hover:scale-105 active:scale-95 shrink-0 cursor-pointer"
+                          style={{ borderRadius: '9999px' }}
+                        >
+                          Force Enroll
+                        </button>
                       </div>
                       <div className={`flex flex-wrap gap-2 pt-2 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                        <button onClick={resetUserProgress} className="px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-white">Reset Progress</button>
+                        <button 
+                          onClick={resetUserProgress} 
+                          className="px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-white hover:scale-105 active:scale-95 hover:shadow-[0_0_15px_rgba(0,212,255,0.4)] cursor-pointer"
+                          style={{ borderRadius: '9999px' }}
+                        >
+                          Reset Progress
+                        </button>
                         {selectedUser.status === 'blocked' ? (
-                          <button onClick={async () => await updateUserStatus('approved')} className="px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20">Unblock Service</button>
+                          <button 
+                            onClick={async () => await updateUserStatus('approved')} 
+                            className="px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 hover:scale-105 active:scale-95 cursor-pointer"
+                            style={{ borderRadius: '9999px' }}
+                          >
+                            Unblock Service
+                          </button>
                         ) : (
-                          <button onClick={blockService} className="px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-rose-500/10 text-rose-500 border border-rose-500/20 hover:bg-rose-500/20">Block Service</button>
+                          <button 
+                            onClick={blockService} 
+                            className="px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 bg-rose-500/10 text-rose-500 border border-rose-500/20 hover:bg-rose-500/20 hover:scale-105 active:scale-95 cursor-pointer"
+                            style={{ borderRadius: '9999px' }}
+                          >
+                            Block Service
+                          </button>
                         )}
                       </div>
                     </div>
@@ -652,13 +719,13 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                         {(selectedUserCourses.length === 0) ? <p className={`text-xs italic ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No created content yet</p> : 
                         <div className="flex flex-wrap gap-2">
                            {selectedUserCourses.map((c) => (
-                             <span key={c.id} className={`text-[11px] font-bold px-3 py-1.5 rounded-lg border ${
+                             <span key={c.id} className={`text-[11px] font-bold px-3 py-1.5 rounded-lg border transition-all duration-300 hover:scale-[1.02] ${
                                c.status === 'approved'
                                  ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
                                  : c.status === 'pending'
                                  ? 'text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/20'
                                  : 'text-slate-600 dark:text-slate-400 bg-slate-500/10 border-slate-500/20'
-                             }`}>
+                             }`} style={{ borderRadius: '8px' }}>
                                {c.title} <span className="text-[9px] font-black uppercase ml-1">({c.status || 'unknown'})</span>
                              </span>
                            ))}
@@ -666,11 +733,15 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                       </div>
 
                       <div className={`pt-4 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                        <button onClick={toggleInstructorAccess} className={`w-full py-3 rounded-full text-xs font-black uppercase tracking-wider border transition-colors ${
-                          selectedUser.status === 'approved' 
-                            ? 'bg-rose-500/10 text-rose-500 border-rose-500/20 hover:bg-rose-500/20' 
-                            : 'bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20'
-                        }`}>
+                        <button 
+                          onClick={toggleInstructorAccess} 
+                          className={`w-full py-3 text-xs font-black uppercase tracking-wider border transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer ${
+                            selectedUser.status === 'approved' 
+                              ? 'bg-rose-500/10 text-rose-500 border-rose-500/20 hover:bg-rose-500/20' 
+                              : 'bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20'
+                          }`}
+                          style={{ borderRadius: '9999px' }}
+                        >
                           {selectedUser.status === 'approved' ? 'Disable System Upload Access' : 'Reactivate Instructor Access'}
                         </button>
                       </div>
@@ -683,9 +754,15 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     <div className="space-y-3 max-h-32 overflow-auto custom-scrollbar">
                       {(selectedUser.children || []).length > 0 ?
                         selectedUser.children.map((c) => (
-                          <div key={c.id} className={`flex items-center justify-between px-4 py-2 border rounded-xl ${isDarkMode ? 'border-white/5 bg-[#0F172A]/80' : 'border-slate-200 bg-slate-50'}`}>
+                          <div key={c.id} className={`flex items-center justify-between px-4 py-2 border rounded-xl transition-all duration-300 hover:scale-[1.01] ${isDarkMode ? 'border-white/5 bg-[#0F172A]/80 hover:border-white/10' : 'border-slate-200 bg-slate-50 hover:border-slate-350'}`}>
                              <span className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.name}</span>
-                             <button onClick={() => removeChildFromParent(c.id)} className="text-[10px] px-3 py-1.5 rounded-xl font-black uppercase bg-rose-500/10 text-rose-500 border border-rose-500/20 hover:bg-rose-500/20 transition-all">Untie</button>
+                             <button 
+                               onClick={() => removeChildFromParent(c.id)} 
+                               className="text-[10px] px-3 py-1.5 font-black uppercase bg-rose-500/10 text-rose-500 border border-rose-500/20 hover:bg-rose-500/20 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+                               style={{ borderRadius: '9999px' }}
+                             >
+                               Untie
+                             </button>
                           </div>
                         )) : <p className={`text-xs italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No learners monitored</p>
                       }
@@ -701,7 +778,8 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                             placeholder="Search student..." 
                             value={childSearch} 
                             onChange={(e) => setChildSearch(e.target.value)} 
-                            className={`w-full !pl-11 !pr-4 !py-2 !rounded-full border text-xs outline-none focus:border-[#00D4FF]/50 ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white' : 'border-slate-200 bg-slate-50 text-slate-900'}`}
+                            className={`w-full !pl-11 !pr-4 !py-2 border text-xs outline-none focus:border-[#00D4FF]/50 transition-all duration-200 ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white focus:bg-[#0F172A]' : 'border-slate-200 bg-slate-50 text-slate-900 focus:bg-white'}`}
+                            style={{ borderRadius: '9999px' }}
                           />
                         </div>
                         <CustomDropdown
@@ -711,7 +789,13 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           options={filterCandidates().map(child => ({ label: `${child.name} (${child.email})`, value: child.id }))}
                           className="flex-1"
                         />
-                        <button onClick={() => { if(selectedChildId) addChildToParent(selectedChildId); }} className="px-4 py-2 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:shadow-lg rounded-xl text-xs font-black transition-all shrink-0">Bind</button>
+                        <button 
+                          onClick={() => { if(selectedChildId) addChildToParent(selectedChildId); }} 
+                          className="px-4 py-2 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:shadow-lg text-xs font-black transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-[0_4px_15px_rgba(0,212,255,0.4)] shrink-0 cursor-pointer"
+                          style={{ borderRadius: '9999px' }}
+                        >
+                          Bind
+                        </button>
                       </div>
                     </div>
                   </>
@@ -734,7 +818,8 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     type="text"
                     value={selectedUser.name || ''}
                     onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })}
-                    className={`w-full px-4 py-2.5 text-sm rounded-xl border outline-none transition-colors focus:border-[#00D4FF] ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white' : 'border-slate-200 bg-slate-50 text-slate-900'}`}
+                    className={`w-full px-4 py-2.5 text-sm border outline-none transition-all duration-200 focus:ring-2 focus:ring-[#00D4FF]/25 focus:border-[#00D4FF] ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white focus:bg-[#0F172A]' : 'border-slate-200 bg-slate-50 text-slate-900 focus:bg-white'}`}
+                    style={{ borderRadius: '12px' }}
                   />
                 </div>
                 <div>
@@ -743,7 +828,8 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     type="email"
                     value={selectedUser.email || ''}
                     onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
-                    className={`w-full px-4 py-2.5 text-sm rounded-xl border outline-none transition-colors focus:border-[#00D4FF] ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white' : 'border-slate-200 bg-slate-50 text-slate-900'}`}
+                    className={`w-full px-4 py-2.5 text-sm border outline-none transition-all duration-200 focus:ring-2 focus:ring-[#00D4FF]/25 focus:border-[#00D4FF] ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white focus:bg-[#0F172A]' : 'border-slate-200 bg-slate-50 text-slate-900 focus:bg-white'}`}
+                    style={{ borderRadius: '12px' }}
                   />
                 </div>
                 <div>
@@ -767,7 +853,8 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     value={selectedUserPassword}
                     onChange={(e) => setSelectedUserPassword(e.target.value)}
                     placeholder="New password (min 6)"
-                    className={`w-full px-4 py-2.5 text-sm rounded-xl border outline-none transition-colors focus:border-[#00D4FF] ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white' : 'border-slate-200 bg-slate-50 text-slate-900'}`}
+                    className={`w-full px-4 py-2.5 text-sm border outline-none transition-all duration-200 focus:ring-2 focus:ring-[#00D4FF]/25 focus:border-[#00D4FF] ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white focus:bg-[#0F172A]' : 'border-slate-200 bg-slate-50 text-slate-900 focus:bg-white'}`}
+                    style={{ borderRadius: '12px' }}
                   />
                 </div>
                 <div>
@@ -786,8 +873,20 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                 </div>
               </div>
               <div className={`mt-5 pt-5 border-t flex justify-between items-center gap-3 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                <button onClick={saveUserUpdates} className="px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-gradient-to-r from-[#00D4FF] to-[#2563EB] hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] text-white">Commit Changes</button>
-                <button onClick={deleteAdminUser} className="px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-rose-500/10 text-rose-500 border border-rose-500/20 hover:bg-rose-500/20">Purge Data</button>
+                <button 
+                  onClick={saveUserUpdates} 
+                  className="px-6 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] text-white hover:scale-105 active:scale-95 hover:shadow-[0_0_25px_rgba(0,212,255,0.5)] cursor-pointer"
+                  style={{ borderRadius: '9999px' }}
+                >
+                  Commit Changes
+                </button>
+                <button 
+                  onClick={deleteAdminUser} 
+                  className="px-6 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 bg-rose-500/10 text-rose-500 border border-rose-500/20 hover:bg-rose-500/20 hover:scale-105 active:scale-95 cursor-pointer"
+                  style={{ borderRadius: '9999px' }}
+                >
+                  Purge Data
+                </button>
               </div>
             </div>
 
@@ -796,7 +895,12 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
           ) : (
             <div className={`p-8 text-center bg-black/80 rounded-2xl border mt-20 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`} onClick={(e) => e.stopPropagation()}>
                <p className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Failed to load user details.</p>
-               <button onClick={onClose} className="mt-4 px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-gradient-to-r from-[#00D4FF] to-[#2563EB] hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] text-white">Close</button>
+               <button 
+                 onClick={onClose} 
+                 className="mt-4 px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-gradient-to-r from-[#00D4FF] to-[#2563EB] hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] text-white"
+               >
+                 Close
+               </button>
             </div>
           )}
       </PremiumModal>

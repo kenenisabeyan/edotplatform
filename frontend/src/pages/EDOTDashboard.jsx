@@ -130,30 +130,22 @@ export default function EDOTDashboard() {
 
   const loading = loadingStats && userRole !== 'sponsor';
 
-  const SmartCard = ({ title, value, icon: Icon }) => {
-    let accentColor = '#00D4FF'; // Default Cyan
-    let glowClass = 'hover:shadow-[0_10px_30px_rgba(0,212,255,0.15)] hover:border-[#00D4FF]/40';
-    
-    if (userRole === 'instructor' || userRole === 'student') {
-      accentColor = '#F97316'; // Orange
-      glowClass = 'hover:shadow-[0_10px_30px_rgba(249,115,22,0.15)] hover:border-[#F97316]/40';
-    }
-
+  const SmartCard = ({ title, value, icon: Icon, accent = '#00D4FF', borderHover = 'hover:border-[#00D4FF]/40', shadowHover = 'hover:shadow-[0_10px_30px_rgba(0,212,255,0.15)]', iconBg = '' }) => {
     return (
       <motion.div whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} className="h-full">
-        <Card hover={false} className={`h-full rounded-3xl p-6 md:p-8 border backdrop-blur-2xl flex flex-col items-center text-center gap-4 group relative overflow-hidden transition-all duration-500 ${glowClass} ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-white/80 border-slate-200 shadow-sm'}`}>
+        <Card hover={false} className={`h-full rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl flex flex-col items-center text-center gap-4 group relative overflow-hidden transition-all duration-500 ${shadowHover} ${borderHover} ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-white/80 border-slate-200 shadow-sm'}`}>
           {/* Abstract Hover Background */}
-          <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-2xl pointer-events-none -translate-y-1/2 translate-x-1/2" style={{ backgroundColor: accentColor }}></div>
+          <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-2xl pointer-events-none -translate-y-1/2 translate-x-1/2" style={{ backgroundColor: accent }}></div>
           
           {/* Icon (centered top) */}
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-500 ${isDarkMode ? 'bg-white/5 border border-white/10' : 'bg-slate-50 border border-slate-100'} group-hover:bg-transparent group-hover:border-transparent relative z-10`} style={{ color: isDarkMode ? '#fff' : '#1e293b' }}>
-             <div className="absolute inset-0 opacity-0 group-hover:opacity-10 rounded-full transition-opacity duration-500" style={{ backgroundColor: accentColor }}></div>
-             {Icon && <Icon className="w-6 h-6 relative z-10 transition-colors duration-500" style={{ color: 'inherit' }} />}
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-500 ${iconBg || (isDarkMode ? 'bg-white/5 border border-white/10' : 'bg-slate-50 border border-slate-100')} group-hover:bg-transparent group-hover:border-transparent relative z-10`} style={{ color: isDarkMode ? '#fff' : '#1e293b' }}>
+             <div className="absolute inset-0 opacity-0 group-hover:opacity-10 rounded-full transition-opacity duration-500" style={{ backgroundColor: accent }}></div>
+             {Icon && <Icon className="w-5 h-5 relative z-10 transition-colors duration-500" style={{ color: 'inherit' }} />}
           </div>
 
           {/* Content (centered) */}
           <div className="flex flex-col items-center relative z-10 w-full">
-            <h3 className={`text-sm font-bold tracking-wide uppercase mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{title}</h3>
+            <h3 className={`text-xs font-black tracking-widest uppercase mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{title}</h3>
             <h2 className={`text-3xl md:text-4xl font-black max-w-full truncate tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{value}</h2>
           </div>
         </Card>
@@ -164,14 +156,21 @@ export default function EDOTDashboard() {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className={`backdrop-blur-xl p-4 rounded-xl border relative shadow-2xl ${isDarkMode ? 'bg-[#0B1120]/95 border-white/10' : 'bg-white/95 border-slate-200'}`}>
-          <p className={`font-bold mb-3 text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{label}</p>
+        <div className={`backdrop-blur-2xl p-4 rounded-2xl border shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden transition-all duration-300 ${isDarkMode ? 'bg-[#0F172A]/90 border-white/10' : 'bg-white/90 border-slate-200/80'}`}>
+          {/* Subtle top glow line */}
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#00D4FF] via-[#8B5CF6] to-[#EC4899]"></div>
+          
+          <p className={`font-black tracking-tight mb-2.5 text-xs uppercase ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00B2D6]'}`}>{label}</p>
           <div className="space-y-2">
             {payload.map((entry, index) => (
-              <div key={index} className="flex items-center gap-3 text-sm">
-                <span className={`w-3 h-3 rounded-full border ${isDarkMode ? 'border-white/20' : 'border-slate-300'}`} style={{ backgroundColor: entry.color }}></span>
-                <span className={`font-medium ${isDarkMode ? 'text-white' : 'text-slate-700'}`}>{entry.name}:</span>
-                <span className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{entry.value}</span>
+              <div key={index} className="flex items-center justify-between gap-6 text-xs font-bold">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color }}></span>
+                  <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>{entry.name}</span>
+                </div>
+                <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>
+                  {entry.name === 'Revenue' ? formatCurrency(entry.value) : entry.value}
+                </span>
               </div>
             ))}
           </div>
@@ -223,11 +222,51 @@ export default function EDOTDashboard() {
       subtitle: 'Here’s what’s happening with your platform today.'
     };
     statsConfig = [
-      { title: 'Total Courses', value: stats?.dashboardStats?.totalCourses ?? stats?.totalCourses ?? 0, icon: BookOpen },
-      { title: 'Active Students', value: stats?.dashboardStats?.totalStudents ?? stats?.totalStudents ?? 0, icon: Users },
-      { title: 'Instructors', value: stats?.dashboardStats?.totalInstructors ?? stats?.totalInstructors ?? 0, icon: Briefcase },
-      { title: 'Pending Approvals', value: stats?.dashboardStats?.pendingApprovals ?? stats?.pendingCourses ?? 0, icon: Award },
-      { title: 'Total Revenue', value: formatCurrency(currentMonthRevenue), icon: CircleDollarSign }
+      { 
+        title: 'Total Courses', 
+        value: stats?.dashboardStats?.totalCourses ?? stats?.totalCourses ?? 0, 
+        icon: BookOpen,
+        accent: '#00D4FF',
+        borderHover: 'hover:border-[#00D4FF]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(0,212,255,0.2)]',
+        iconBg: 'bg-[#00D4FF]/10 text-[#00D4FF]'
+      },
+      { 
+        title: 'Active Students', 
+        value: stats?.dashboardStats?.totalStudents ?? stats?.totalStudents ?? 0, 
+        icon: Users,
+        accent: '#8B5CF6',
+        borderHover: 'hover:border-[#8B5CF6]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(139,92,246,0.2)]',
+        iconBg: 'bg-[#8B5CF6]/10 text-[#8B5CF6]'
+      },
+      { 
+        title: 'Instructors', 
+        value: stats?.dashboardStats?.totalInstructors ?? stats?.totalInstructors ?? 0, 
+        icon: Briefcase,
+        accent: '#10B981',
+        borderHover: 'hover:border-[#10B981]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(16,185,129,0.2)]',
+        iconBg: 'bg-[#10B981]/10 text-[#10B981]'
+      },
+      { 
+        title: 'Pending Approvals', 
+        value: stats?.dashboardStats?.pendingApprovals ?? stats?.pendingCourses ?? 0, 
+        icon: Award,
+        accent: '#F59E0B',
+        borderHover: 'hover:border-[#F59E0B]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(245,158,11,0.2)]',
+        iconBg: 'bg-[#F59E0B]/10 text-[#F59E0B]'
+      },
+      { 
+        title: 'Total Revenue', 
+        value: formatCurrency(currentMonthRevenue), 
+        icon: CircleDollarSign,
+        accent: '#EC4899',
+        borderHover: 'hover:border-[#EC4899]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(236,72,153,0.2)]',
+        iconBg: 'bg-[#EC4899]/10 text-[#EC4899]'
+      }
     ];
     areaConfig = {
       title: 'Platform Performance',
@@ -257,10 +296,42 @@ export default function EDOTDashboard() {
       subtitle: ''
     };
     statsConfig = [
-      { title: 'Total Courses Created', value: stats?.totalCourses || 0, icon: BookOpen },
-      { title: 'Active Classes', value: stats?.activeCourses || 0, icon: Briefcase },
-      { title: 'Students Enrolled', value: stats?.totalStudents || 0, icon: Users },
-      { title: 'Total Lessons', value: stats?.totalLessons || 0, icon: TrendingUp },
+      { 
+        title: 'Total Courses Created', 
+        value: stats?.totalCourses || 0, 
+        icon: BookOpen,
+        accent: '#00D4FF',
+        borderHover: 'hover:border-[#00D4FF]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(0,212,255,0.2)]',
+        iconBg: 'bg-[#00D4FF]/10 text-[#00D4FF]'
+      },
+      { 
+        title: 'Active Classes', 
+        value: stats?.activeCourses || 0, 
+        icon: Briefcase,
+        accent: '#10B981',
+        borderHover: 'hover:border-[#10B981]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(16,185,129,0.2)]',
+        iconBg: 'bg-[#10B981]/10 text-[#10B981]'
+      },
+      { 
+        title: 'Students Enrolled', 
+        value: stats?.totalStudents || 0, 
+        icon: Users,
+        accent: '#8B5CF6',
+        borderHover: 'hover:border-[#8B5CF6]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(139,92,246,0.2)]',
+        iconBg: 'bg-[#8B5CF6]/10 text-[#8B5CF6]'
+      },
+      { 
+        title: 'Total Lessons', 
+        value: stats?.totalLessons || 0, 
+        icon: TrendingUp,
+        accent: '#F59E0B',
+        borderHover: 'hover:border-[#F59E0B]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(245,158,11,0.2)]',
+        iconBg: 'bg-[#F59E0B]/10 text-[#F59E0B]'
+      }
     ];
     gaugeConfig = {
       title: 'Active Course Ratio',
@@ -294,10 +365,42 @@ export default function EDOTDashboard() {
       subtitle: ''
     };
     statsConfig = [
-      { title: 'Enrolled Courses', value: stats?.enrolledCourses?.length || 0, icon: BookOpen },
-      { title: 'Average Progress', value: `${stats?.percentile || 0}%`, icon: TrendingUp },
-      { title: 'Days Studied', value: stats?.daysStudied || 0, icon: CheckCircle },
-      { title: 'Certificates', value: stats?.certificates?.length || 0, icon: Award },
+      { 
+        title: 'Enrolled Courses', 
+        value: stats?.enrolledCourses?.length || 0, 
+        icon: BookOpen,
+        accent: '#00D4FF',
+        borderHover: 'hover:border-[#00D4FF]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(0,212,255,0.2)]',
+        iconBg: 'bg-[#00D4FF]/10 text-[#00D4FF]'
+      },
+      { 
+        title: 'Average Progress', 
+        value: `${stats?.percentile || 0}%`, 
+        icon: TrendingUp,
+        accent: '#10B981',
+        borderHover: 'hover:border-[#10B981]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(16,185,129,0.2)]',
+        iconBg: 'bg-[#10B981]/10 text-[#10B981]'
+      },
+      { 
+        title: 'Days Studied', 
+        value: stats?.daysStudied || 0, 
+        icon: CheckCircle,
+        accent: '#F59E0B',
+        borderHover: 'hover:border-[#F59E0B]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(245,158,11,0.2)]',
+        iconBg: 'bg-[#F59E0B]/10 text-[#F59E0B]'
+      },
+      { 
+        title: 'Certificates', 
+        value: stats?.certificates?.length || 0, 
+        icon: Award,
+        accent: '#8B5CF6',
+        borderHover: 'hover:border-[#8B5CF6]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(139,92,246,0.2)]',
+        iconBg: 'bg-[#8B5CF6]/10 text-[#8B5CF6]'
+      }
     ];
     gaugeConfig = {
       title: 'Academic Progress Ring',
@@ -322,10 +425,42 @@ export default function EDOTDashboard() {
       subtitle: ''
     };
     statsConfig = [
-      { title: 'Total Contributions', value: `$${stats?.stats?.totalContributions || 0}`, icon: CircleDollarSign },
-      { title: 'Supported Students', value: stats?.stats?.supportedStudents || 0, icon: Users },
-      { title: 'Courses Completed', value: stats?.humanImpact?.coursesCompleted || 0, icon: CheckCircle },
-      { title: 'Active Cycles', value: stats?.stats?.activeSupportCycles || 0, icon: BookOpen },
+      { 
+        title: 'Total Contributions', 
+        value: `$${stats?.stats?.totalContributions || 0}`, 
+        icon: CircleDollarSign,
+        accent: '#EC4899',
+        borderHover: 'hover:border-[#EC4899]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(236,72,153,0.2)]',
+        iconBg: 'bg-[#EC4899]/10 text-[#EC4899]'
+      },
+      { 
+        title: 'Supported Students', 
+        value: stats?.stats?.supportedStudents || 0, 
+        icon: Users,
+        accent: '#8B5CF6',
+        borderHover: 'hover:border-[#8B5CF6]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(139,92,246,0.2)]',
+        iconBg: 'bg-[#8B5CF6]/10 text-[#8B5CF6]'
+      },
+      { 
+        title: 'Courses Completed', 
+        value: stats?.humanImpact?.coursesCompleted || 0, 
+        icon: CheckCircle,
+        accent: '#10B981',
+        borderHover: 'hover:border-[#10B981]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(16,185,129,0.2)]',
+        iconBg: 'bg-[#10B981]/10 text-[#10B981]'
+      },
+      { 
+        title: 'Active Cycles', 
+        value: stats?.stats?.activeSupportCycles || 0, 
+        icon: BookOpen,
+        accent: '#00D4FF',
+        borderHover: 'hover:border-[#00D4FF]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(0,212,255,0.2)]',
+        iconBg: 'bg-[#00D4FF]/10 text-[#00D4FF]'
+      }
     ];
     gaugeConfig = {
       title: 'Human Impact Index',
@@ -350,10 +485,42 @@ export default function EDOTDashboard() {
       subtitle: ''
     };
     statsConfig = [
-      { title: 'Students Monitored', value: stats?.totalLearners || 0, icon: Users },
-      { title: 'Total Enrolled Courses', value: stats?.totalEnrolledCourses || 0, icon: BookOpen },
-      { title: 'Completed Lessons', value: stats?.completedLessons || 0, icon: TrendingUp },
-      { title: 'Average Progress', value: `${stats?.averageProgress || 0}%`, icon: CheckCircle },
+      { 
+        title: 'Students Monitored', 
+        value: stats?.totalLearners || 0, 
+        icon: Users,
+        accent: '#00D4FF',
+        borderHover: 'hover:border-[#00D4FF]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(0,212,255,0.2)]',
+        iconBg: 'bg-[#00D4FF]/10 text-[#00D4FF]'
+      },
+      { 
+        title: 'Total Enrolled Courses', 
+        value: stats?.totalEnrolledCourses || 0, 
+        icon: BookOpen,
+        accent: '#8B5CF6',
+        borderHover: 'hover:border-[#8B5CF6]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(139,92,246,0.2)]',
+        iconBg: 'bg-[#8B5CF6]/10 text-[#8B5CF6]'
+      },
+      { 
+        title: 'Completed Lessons', 
+        value: stats?.completedLessons || 0, 
+        icon: TrendingUp,
+        accent: '#10B981',
+        borderHover: 'hover:border-[#10B981]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(16,185,129,0.2)]',
+        iconBg: 'bg-[#10B981]/10 text-[#10B981]'
+      },
+      { 
+        title: 'Average Progress', 
+        value: `${stats?.averageProgress || 0}%`, 
+        icon: CheckCircle,
+        accent: '#F59E0B',
+        borderHover: 'hover:border-[#F59E0B]/40',
+        shadowHover: 'hover:shadow-[0_10px_30px_rgba(245,158,11,0.2)]',
+        iconBg: 'bg-[#F59E0B]/10 text-[#F59E0B]'
+      }
     ];
     gaugeConfig = {
       title: 'Family Growth Circle',
@@ -586,11 +753,11 @@ export default function EDOTDashboard() {
       }}
     >
       {/* 1. Ultra-Modern Welcome Banner */}
-      <div className={`rounded-[2rem] p-8 md:p-10 border relative overflow-hidden backdrop-blur-2xl shadow-xl transition-all duration-500 ${isDarkMode ? 'bg-[#0B1120]/60 border-white/10' : 'bg-white/60 border-white/50'}`}>
+      <div className={`rounded-[2rem] p-8 md:p-10 border relative overflow-hidden backdrop-blur-2xl transition-all duration-500 ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]' : 'bg-white/60 border-slate-200 shadow-sm'}`}>
         {/* Dynamic Abstract Background Elements */}
-        <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#00D4FF]/20 to-transparent rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/3`}></div>
-        <div className={`absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-[#F97316]/10 to-transparent rounded-full blur-3xl pointer-events-none translate-y-1/2 -translate-x-1/4`}></div>
-        <div className={`absolute inset-0 opacity-20 pointer-events-none ${headerConfig.gradient}`}></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#00D4FF]/20 to-transparent rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-[#F97316]/10 to-transparent rounded-full blur-3xl pointer-events-none translate-y-1/2 -translate-x-1/4"></div>
+        <div className={`absolute inset-0 opacity-10 pointer-events-none ${headerConfig.gradient}`}></div>
         
         <div className="relative z-10 flex flex-col lg:flex-row gap-8 justify-between items-start lg:items-center">
           <div className="flex-1">
@@ -598,14 +765,15 @@ export default function EDOTDashboard() {
               {headerConfig.title}
             </h1>
             {headerConfig.subtitle && (
-              <p className={`text-base font-medium max-w-2xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>{headerConfig.subtitle}</p>
+              <p className={`text-sm md:text-base font-semibold max-w-2xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>{headerConfig.subtitle}</p>
             )}
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
               {userRole === 'admin' && (
                 <button 
                   onClick={() => setIsAgendaModalOpen(true)}
-                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-bold hover:-translate-y-1 shadow-[0_10px_20px_-10px_rgba(0,212,255,0.5)] transition-all flex items-center gap-2"
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-black text-xs uppercase tracking-wider hover:-translate-y-0.5 shadow-[0_10px_25px_-5px_rgba(0,212,255,0.4)] transition-all flex items-center gap-2 cursor-pointer"
+                  style={{ borderRadius: '9999px' }}
                 >
                   <Bell className="w-4 h-4" /> Broadcast Notice
                 </button>
@@ -613,7 +781,8 @@ export default function EDOTDashboard() {
               {userRole === 'instructor' && (
                 <button 
                   onClick={() => navigate('/dashboard/builder')}
-                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#F97316] to-[#EA580C] text-white font-bold hover:-translate-y-1 shadow-[0_10px_20px_-10px_rgba(249,115,22,0.5)] transition-all flex items-center gap-2"
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#F97316] to-[#EA580C] text-white font-black text-xs uppercase tracking-wider hover:-translate-y-0.5 shadow-[0_10px_25px_-5px_rgba(249,115,22,0.4)] transition-all flex items-center gap-2 cursor-pointer"
+                  style={{ borderRadius: '9999px' }}
                 >
                   <BookOpen className="w-4 h-4" /> Create New Course
                 </button>
@@ -621,15 +790,17 @@ export default function EDOTDashboard() {
               {userRole === 'student' && (
                 <button 
                   onClick={() => navigate('/dashboard/courses')}
-                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-bold hover:-translate-y-1 shadow-[0_10px_20px_-10px_rgba(0,212,255,0.5)] transition-all flex items-center gap-2"
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-black text-xs uppercase tracking-wider hover:-translate-y-0.5 shadow-[0_10px_25px_-5px_rgba(0,212,255,0.4)] transition-all flex items-center gap-2 cursor-pointer"
+                  style={{ borderRadius: '9999px' }}
                 >
-                  <PlayCircle className="w-4 h-4" /> Start a Lesson
+                  <BookOpen className="w-4 h-4" /> Start a Lesson
                 </button>
               )}
               {userRole === 'parent' && (
                 <button 
                   onClick={() => navigate('/dashboard/messages')}
-                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-bold hover:-translate-y-1 shadow-[0_10px_20px_-10px_rgba(0,212,255,0.5)] transition-all flex items-center gap-2"
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-black text-xs uppercase tracking-wider hover:-translate-y-0.5 shadow-[0_10px_25px_-5px_rgba(0,212,255,0.4)] transition-all flex items-center gap-2 cursor-pointer"
+                  style={{ borderRadius: '9999px' }}
                 >
                   <Mail className="w-4 h-4" /> Message Instructor
                 </button>
@@ -638,18 +809,28 @@ export default function EDOTDashboard() {
           </div>
 
           <div className="w-full lg:w-auto flex flex-col sm:flex-row gap-4 shrink-0">
-            <div className={`rounded-3xl p-5 border backdrop-blur-md flex-1 min-w-[160px] transition-all hover:scale-105 ${isDarkMode ? 'bg-white/5 border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)]' : 'bg-white/50 border-white shadow-[0_8px_32px_rgba(31,38,135,0.05)]'}`}>
-              <p className={`text-[10px] font-black tracking-widest uppercase mb-2 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00D4FF]'}`}>Platform Status</p>
+            <div className={`rounded-3xl p-5 border backdrop-blur-xl flex-1 min-w-[160px] transition-all duration-300 hover:scale-[1.03] group ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#00D4FF]/30 hover:shadow-[0_10px_30px_rgba(0,212,255,0.1)]' : 'bg-white/70 border-slate-200/80 shadow-[0_8px_32px_rgba(31,38,135,0.04)] hover:border-slate-300'}`}>
+              <p className={`text-[10px] font-black tracking-widest uppercase mb-2 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00B2D6]'}`}>Platform Status</p>
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <p className={`text-2xl font-black leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Healthy</p>
+                <div className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                </div>
+                <p className={`text-2xl font-black leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Healthy</p>
               </div>
-              <p className={`text-xs font-medium mt-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>All systems nominal</p>
+              <p className={`text-[11px] font-medium mt-2.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>All systems nominal</p>
             </div>
-            <div className={`rounded-3xl p-5 border backdrop-blur-md flex-1 min-w-[160px] transition-all hover:scale-105 ${isDarkMode ? 'bg-white/5 border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)]' : 'bg-white/50 border-white shadow-[0_8px_32px_rgba(31,38,135,0.05)]'}`}>
-              <p className={`text-[10px] font-black tracking-widest uppercase mb-2 ${isDarkMode ? 'text-[#F97316]' : 'text-[#F97316]'}`}>Active Now</p>
-              <p className={`text-3xl font-black leading-none ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.activeStudents ?? stats?.dailyActiveUsers ?? 0}</p>
-              <p className={`text-xs font-medium mt-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Users live right now</p>
+            
+            <div className={`rounded-3xl p-5 border backdrop-blur-xl flex-1 min-w-[160px] transition-all duration-300 hover:scale-[1.03] group ${isDarkMode ? 'bg-[#0B1120]/50 border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#F97316]/30 hover:shadow-[0_10px_30px_rgba(249,115,22,0.1)]' : 'bg-white/70 border-slate-200/80 shadow-[0_8px_32px_rgba(31,38,135,0.04)] hover:border-slate-300'}`}>
+              <p className={`text-[10px] font-black tracking-widest uppercase mb-2 ${isDarkMode ? 'text-[#F97316]' : 'text-[#EA580C]'}`}>Active Now</p>
+              <div className="flex items-center gap-2 mb-1">
+                <div className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-orange-500"></span>
+                </div>
+                <p className={`text-2xl font-black leading-none tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.activeStudents ?? stats?.dailyActiveUsers ?? 0}</p>
+              </div>
+              <p className={`text-[11px] font-medium mt-2.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Users live right now</p>
             </div>
           </div>
         </div>
@@ -662,7 +843,16 @@ export default function EDOTDashboard() {
         statsConfig.length === 3 ? 'xl:grid-cols-3' : 'xl:grid-cols-4'
       } gap-6`}>
         {statsConfig.map((stat, i) => (
-          <SmartCard key={i} title={stat.title} value={stat.value} icon={stat.icon} />
+          <SmartCard 
+            key={i} 
+            title={stat.title} 
+            value={stat.value} 
+            icon={stat.icon} 
+            accent={stat.accent}
+            borderHover={stat.borderHover}
+            shadowHover={stat.shadowHover}
+            iconBg={stat.iconBg}
+          />
         ))}
       </div>
 
@@ -670,142 +860,174 @@ export default function EDOTDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left Widget: Essential Activities Gauges */}
-        <Card hover={false} className={`lg:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col relative h-[400px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-          <h3 className={`font-semibold text-sm mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Essential Activities</h3>
+        <Card hover={false} className={`lg:col-span-3 rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col relative h-[400px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+          <h3 className={`font-black text-xs tracking-widest uppercase mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Essential Activities</h3>
           
-          <div className="grid grid-cols-2 gap-4 flex-1">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-6 flex-1 items-center">
             {/* Student Engagement */}
-            <div className="flex flex-col items-center">
-              <div className="relative w-16 h-16 mb-2">
+            <div className="flex flex-col items-center group">
+              <div className="relative w-16 h-16 mb-2.5 transition-transform duration-300 group-hover:scale-105">
                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <defs>
+                    <linearGradient id="gaugeGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#10B981" />
+                      <stop offset="100%" stopColor="#34D399" />
+                    </linearGradient>
+                  </defs>
                   <path
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     fill="none"
-                    stroke={isDarkMode ? '#0B1120' : '#E2E8F0'}
-                    strokeWidth="2"
+                    stroke={isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}
+                    strokeWidth="3"
                   />
                   <path
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     fill="none"
-                    stroke="#10B981"
-                    strokeWidth="2"
+                    stroke="url(#gaugeGrad1)"
+                    strokeWidth="3"
                     strokeDasharray={`${gauge1}, 100`}
+                    strokeLinecap="round"
+                    style={{ filter: 'drop-shadow(0px 3px 6px rgba(16, 185, 129, 0.35))' }}
                   />
                 </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className={`text-sm font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                     {gauge1}%
                   </span>
                 </div>
               </div>
-              <p className={`text-xs text-center font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Student Engagement</p>
+              <p className={`text-[10px] text-center font-bold tracking-tight uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Student Engagement</p>
             </div>
 
             {/* Course Completion */}
-            <div className="flex flex-col items-center">
-              <div className="relative w-16 h-16 mb-2">
+            <div className="flex flex-col items-center group">
+              <div className="relative w-16 h-16 mb-2.5 transition-transform duration-300 group-hover:scale-105">
                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <defs>
+                    <linearGradient id="gaugeGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#3B82F6" />
+                      <stop offset="100%" stopColor="#60A5FA" />
+                    </linearGradient>
+                  </defs>
                   <path
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     fill="none"
-                    stroke={isDarkMode ? '#0B1120' : '#E2E8F0'}
-                    strokeWidth="2"
+                    stroke={isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}
+                    strokeWidth="3"
                   />
                   <path
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     fill="none"
-                    stroke="#3B82F6"
-                    strokeWidth="2"
+                    stroke="url(#gaugeGrad2)"
+                    strokeWidth="3"
                     strokeDasharray={`${gauge2}, 100`}
+                    strokeLinecap="round"
+                    style={{ filter: 'drop-shadow(0px 3px 6px rgba(59, 130, 246, 0.35))' }}
                   />
                 </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className={`text-sm font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                     {gauge2}%
                   </span>
                 </div>
               </div>
-              <p className={`text-xs text-center font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Course Completion</p>
+              <p className={`text-[10px] text-center font-bold tracking-tight uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Course Completion</p>
             </div>
 
             {/* Learning Activity */}
-            <div className="flex flex-col items-center">
-              <div className="relative w-16 h-16 mb-2">
+            <div className="flex flex-col items-center group">
+              <div className="relative w-16 h-16 mb-2.5 transition-transform duration-300 group-hover:scale-105">
                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <defs>
+                    <linearGradient id="gaugeGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#F59E0B" />
+                      <stop offset="100%" stopColor="#FBBF24" />
+                    </linearGradient>
+                  </defs>
                   <path
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     fill="none"
-                    stroke={isDarkMode ? '#0B1120' : '#E2E8F0'}
-                    strokeWidth="2"
+                    stroke={isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}
+                    strokeWidth="3"
                   />
                   <path
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     fill="none"
-                    stroke="#F59E0B"
-                    strokeWidth="2"
+                    stroke="url(#gaugeGrad3)"
+                    strokeWidth="3"
                     strokeDasharray={`${gauge3}, 100`}
+                    strokeLinecap="round"
+                    style={{ filter: 'drop-shadow(0px 3px 6px rgba(245, 158, 11, 0.35))' }}
                   />
                 </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className={`text-sm font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                     {gauge3}%
                   </span>
                 </div>
               </div>
-              <p className={`text-xs text-center font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Learning Activity</p>
+              <p className={`text-[10px] text-center font-bold tracking-tight uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Learning Activity</p>
             </div>
 
             {/* Community Activity */}
-            <div className="flex flex-col items-center">
-              <div className="relative w-16 h-16 mb-2">
+            <div className="flex flex-col items-center group">
+              <div className="relative w-16 h-16 mb-2.5 transition-transform duration-300 group-hover:scale-105">
                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <defs>
+                    <linearGradient id="gaugeGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#8B5CF6" />
+                      <stop offset="100%" stopColor="#A78BFA" />
+                    </linearGradient>
+                  </defs>
                   <path
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     fill="none"
-                    stroke={isDarkMode ? '#0B1120' : '#E2E8F0'}
-                    strokeWidth="2"
+                    stroke={isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}
+                    strokeWidth="3"
                   />
                   <path
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                     fill="none"
-                    stroke="#8B5CF6"
-                    strokeWidth="2"
+                    stroke="url(#gaugeGrad4)"
+                    strokeWidth="3"
                     strokeDasharray={`${gauge4}, 100`}
+                    strokeLinecap="round"
+                    style={{ filter: 'drop-shadow(0px 3px 6px rgba(139, 92, 246, 0.35))' }}
                   />
                 </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className={`text-sm font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                     {gauge4}%
                   </span>
                 </div>
               </div>
-              <p className={`text-xs text-center font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Community Activity</p>
+              <p className={`text-[10px] text-center font-bold tracking-tight uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Community Activity</p>
             </div>
           </div>
         </Card>
 
         {/* Right Widget: Line/Area Chart */}
-        <Card hover={false} className={`lg:col-span-5 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col h-[400px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+        <Card hover={false} className={`lg:col-span-5 rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col h-[400px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
           <div className="flex justify-between items-center mb-6 shrink-0 relative">
-            <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{areaConfig.title}</h3>
+            <h3 className={`font-black text-xs tracking-widest uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{areaConfig.title}</h3>
             <div 
               onClick={(e) => { e.stopPropagation(); setShowRechartsMenu(!showRechartsMenu); }}
-              className={`flex items-center gap-1 text-[10px] px-2 py-1 rounded cursor-pointer font-bold ${isDarkMode ? 'text-[#00D4FF] bg-[#00D4FF]/10 hover:bg-[#00D4FF]/20' : 'text-[#00D4FF] bg-[#00D4FF]/10 hover:bg-[#00D4FF]/20'}`}
+              className={`flex items-center gap-1 text-[10px] px-2.5 py-1 rounded cursor-pointer font-black uppercase tracking-wider ${isDarkMode ? 'text-[#00D4FF] bg-[#00D4FF]/10 hover:bg-[#00D4FF]/20' : 'text-[#00B2D6] bg-[#00B2D6]/10 hover:bg-[#00B2D6]/20'}`}
             >
               Recharts <MoreHorizontal className="w-3 h-3" />
             </div>
             {showRechartsMenu && (
-              <div className={`absolute top-8 right-0 w-36 rounded-lg shadow-xl overflow-hidden z-20 border ${isDarkMode ? 'bg-slate-950/95 border-white/10' : 'bg-white border-slate-200'}`}>
-                <button onClick={exportToCSV} className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-100 dark:hover:bg-white/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Export to CSV</button>
-                <button onClick={() => setShowRechartsMenu(false)} className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-100 dark:hover:bg-white/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Refresh Data</button>
+              <div className={`absolute top-8 right-0 w-36 rounded-xl shadow-2xl overflow-hidden z-20 border backdrop-blur-xl ${isDarkMode ? 'bg-slate-950/95 border-white/10' : 'bg-white border-slate-200'}`}>
+                <button onClick={exportToCSV} className={`w-full text-left px-4 py-2.5 text-xs font-bold hover:bg-slate-100 dark:hover:bg-white/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'} cursor-pointer`}>Export to CSV</button>
+                <button onClick={() => setShowRechartsMenu(false)} className={`w-full text-left px-4 py-2.5 text-xs font-bold hover:bg-slate-100 dark:hover:bg-white/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'} cursor-pointer`}>Refresh Data</button>
               </div>
             )}
           </div>
           
-          <div className={`flex items-center justify-center gap-6 text-[11px] font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-slate-700'}`}>
+          <div className={`flex items-center justify-center gap-6 text-[10px] font-black uppercase tracking-wider mb-4 ${isDarkMode ? 'text-white' : 'text-slate-700'}`}>
              {areaConfig.lines.map((line, i) => (
                <span key={i} className="flex items-center gap-2">
-                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: line.color }}></div> 
+                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: line.color, boxShadow: `0 0 8px ${line.color}80` }}></div> 
                  {line.name}
                </span>
              ))}
@@ -822,9 +1044,9 @@ export default function EDOTDashboard() {
                       </linearGradient>
                     ))}
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.05} />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 11}} dy={10} />
-                  <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 11}} domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? "#ffffff" : "#000000"} strokeOpacity={0.05} />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 10, fontWeight: 700}} dy={10} />
+                  <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 10, fontWeight: 700}} domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} />
                   <RechartsTooltip content={<CustomTooltip />} />
                   {areaConfig.lines.map((line, i) => (
                     <Area key={i} type="monotone" dataKey={line.key} stroke={line.color} strokeWidth={2.5} fillOpacity={1} fill={`url(#color${i})`} activeDot={{ r: 5, fill: line.color, stroke: '#fff', strokeWidth: 2 }} />
@@ -836,364 +1058,416 @@ export default function EDOTDashboard() {
 
          {/* Right Side Block: Top Courses for Admin, alternative widgets for others */}
          {userRole === 'admin' ? (
-           <Card hover={false} className={`lg:col-span-4 rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col h-[400px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-             <div className="flex items-start justify-between gap-4 mb-6 shrink-0">
-               <div>
-                 <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Top Courses</h3>
-                 <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>This month’s best performers</p>
-               </div>
-               <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{topCourseRankings.length} items</span>
-             </div>
-             <div className="space-y-4 overflow-y-auto flex-1 pr-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-white/10">
-               {topCourseRankings.length ? topCourseRankings.map((course, index) => (
-                 <div key={course.id || index} className={`rounded-3xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
-                   <div className="flex items-center justify-between gap-3">
-                     <div>
-                       <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.title || course.name || 'Untitled course'}</p>
-                       <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{course.enrollments ?? 0} students</p>
-                     </div>
-                    <div className="text-right">
-                      <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.completionRate ?? 0}%</p>
-                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>completion</p>
+            <Card hover={false} className={`lg:col-span-4 rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col h-[400px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+              <div className="flex items-start justify-between gap-4 mb-6 shrink-0">
+                <div>
+                  <h3 className={`font-black text-xs tracking-widest uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Top Courses</h3>
+                  <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>This month’s best performers</p>
+                </div>
+                <span className={`text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full border ${isDarkMode ? 'text-[#00D4FF] border-[#00D4FF]/30 bg-[#00D4FF]/10' : 'text-cyan-700 border-cyan-200 bg-cyan-50'}`}>{topCourseRankings.length} items</span>
+              </div>
+              <div className="space-y-3.5 overflow-y-auto flex-1 pr-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-white/10">
+                {topCourseRankings.length ? topCourseRankings.map((course, index) => {
+                  const colors = [
+                    { border: 'hover:border-[#00D4FF]/30', rankBg: 'bg-[#00D4FF]/10 text-[#00D4FF]', bar: 'from-[#00D4FF] to-[#00A3CC]' },
+                    { border: 'hover:border-[#8B5CF6]/30', rankBg: 'bg-[#8B5CF6]/10 text-[#8B5CF6]', bar: 'from-[#8B5CF6] to-[#7C3AED]' },
+                    { border: 'hover:border-[#F97316]/30', rankBg: 'bg-[#F97316]/10 text-[#F97316]', bar: 'from-[#F97316] to-[#EA580C]' },
+                  ];
+                  const cStyle = colors[index % colors.length];
+                  
+                  return (
+                    <div key={course.id || index} className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 ${cStyle.border} ${isDarkMode ? 'border-white/5 bg-white/5/30' : 'border-slate-100 bg-slate-50/50'}`}>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shrink-0 ${cStyle.rankBg}`}>
+                            {index + 1}
+                          </span>
+                          <div>
+                            <p className={`font-black text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.title || course.name || 'Untitled course'}</p>
+                            <p className={`text-xs font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{course.enrollments ?? 0} students</p>
+                          </div>
+                        </div>
+                       <div className="text-right">
+                         <p className={`text-xs font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.completionRate ?? 0}%</p>
+                         <p className={`text-[10px] font-black uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>completion</p>
+                       </div>
+                      </div>
+                      <div className="mt-3.5 h-1.5 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                        <div className={`h-full rounded-full bg-gradient-to-r ${cStyle.bar}`} style={{ width: `${course.completionRate ?? 0}%` }} />
+                      </div>
                     </div>
-                   </div>
-                   <div className="mt-4 h-2 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
-                     <div className="h-full rounded-full bg-[#00D4FF]" style={{ width: `${course.completionRate ?? 0}%` }} />
-                   </div>
-                 </div>
-               )) : (
-                 <div className={`rounded-2xl p-6 text-center ${isDarkMode ? 'bg-white/5 text-slate-300' : 'bg-slate-50 text-slate-600'}`}>
-                   No top course data available yet.
-                 </div>
-               )}
-             </div>
-           </Card>
+                  );
+                }) : (
+                  <div className={`rounded-3xl p-6 text-center text-sm font-medium ${isDarkMode ? 'bg-white/5 text-slate-400 border border-white/5' : 'bg-slate-50 text-slate-500 border border-slate-100'}`}>
+                    No top course data available yet.
+                  </div>
+                )}
+              </div>
+            </Card>
          ) : (
-           <div className="lg:col-span-4 h-full">
-             {widgetConfig.type === 'agenda' && (
-               <AgendaWidget 
-                 events={agendaEvents} 
-                 userRole={userRole} 
-                 isAdmin={userRole === 'admin'} 
-                 onDelete={deleteAgenda} 
-                 onCreateClick={() => setIsAgendaModalOpen(true)} 
-               />
-             )}
+            <div className="lg:col-span-4 h-full">
+              {widgetConfig.type === 'agenda' && (
+                <AgendaWidget 
+                  events={agendaEvents} 
+                  userRole={userRole} 
+                  isAdmin={userRole === 'admin'} 
+                  onDelete={deleteAgenda} 
+                  onCreateClick={() => setIsAgendaModalOpen(true)} 
+                />
+              )}
 
-             {widgetConfig.type === 'claim' && (
-               <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-                 <div className="flex justify-between items-start mb-6">
-                   <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>{widgetConfig.title}</h3>
-                   <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />
-                 </div>
-                 <div className="flex-1 flex flex-col items-center justify-center text-center">
-                   <div className="w-32 h-32 mb-6 opacity-80">
-                     <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                       <rect x="20" y="25" width="40" height="50" rx="4" fill="#E2E8F0" />
-                       <rect x="30" y="15" width="45" height="55" rx="4" fill="#CBD5E1" />
-                       <rect x="40" y="20" width="50" height="60" rx="4" fill="#F8FAFC" />
-                       <circle cx="65" cy="50" r="12" fill="#00D4FF" />
-                       <circle cx="65" cy="50" r="9" fill="#FDE047" />
-                       <circle cx="65" cy="50" r="6" fill="#FEF08A" />
-                       <path d="M57 60 L61 75 L65 70 L69 75 L73 60" fill="#00D4FF" />
-                     </svg>
-                   </div>
-                   <button 
-                     onClick={() => navigate('/dashboard/certificates')}
-                     className="w-full py-3 bg-[#00D4FF] hover:bg-[#00D4FF] text-[#0B1120] font-bold rounded-xl transition-colors text-sm shadow-[0_0_15px_rgba(255,215,0,0.3)]"
-                   >
-                     {widgetConfig.action}
-                   </button>
-                 </div>
-               </Card>
-             )}
+              {widgetConfig.type === 'claim' && (
+                <Card hover={false} className={`rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col min-h-[350px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+                  <div className="flex justify-between items-start mb-6">
+                    <h3 className={`font-black text-xs tracking-widest uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{widgetConfig.title}</h3>
+                    <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />
+                  </div>
+                  <div className="flex-1 flex flex-col items-center justify-center text-center">
+                    <div className="w-32 h-32 mb-6 opacity-90 transition-transform hover:scale-105 duration-300">
+                      <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="20" y="25" width="40" height="50" rx="4" fill={isDarkMode ? "#1E293B" : "#E2E8F0"} />
+                        <rect x="30" y="15" width="45" height="55" rx="4" fill={isDarkMode ? "#334155" : "#CBD5E1"} />
+                        <rect x="40" y="20" width="50" height="60" rx="4" fill={isDarkMode ? "#0F172A" : "#F8FAFC"} />
+                        <circle cx="65" cy="50" r="12" fill="#00D4FF" />
+                        <circle cx="65" cy="50" r="9" fill="#FDE047" />
+                        <circle cx="65" cy="50" r="6" fill="#FEF08A" />
+                        <path d="M57 60 L61 75 L65 70 L69 75 L73 60" fill="#00D4FF" />
+                      </svg>
+                    </div>
+                    <button 
+                      onClick={() => navigate('/dashboard/certificates')}
+                      className="w-full py-3 bg-[#00D4FF] hover:bg-[#00A3CC] text-[#0B1120] font-bold rounded-xl transition-all text-sm shadow-[0_4px_12px_rgba(0,212,255,0.2)] hover:scale-[1.02] cursor-pointer"
+                      style={{ borderRadius: '12px' }}
+                    >
+                      {widgetConfig.action}
+                    </button>
+                  </div>
+                </Card>
+              )}
 
-             {widgetConfig.type === 'communication' && (
-               <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg flex flex-col min-h-[350px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-                 <div className="flex justify-between items-start mb-6">
-                   <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{widgetConfig.title}</h3>
-                   <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />
-                 </div>
-                 <div className="flex-1 flex flex-col items-center justify-center text-center">
-                   <div className="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-[#00D4FF]/20 to-[#00D4FF]/20 flex items-center justify-center border border-[#00D4FF]/30">
-                     <Mail className="w-10 h-10 text-[#00D4FF]" />
-                   </div>
-                   <button 
-                     onClick={() => navigate('/dashboard/messages')}
-                     className="w-full py-3 border-2 border-[#00D4FF] text-[#00D4FF] hover:bg-[#00D4FF] hover:text-[#0B1120] font-bold rounded-xl transition-all text-sm shadow-[inset_0_0_15px_rgba(255,215,0,0.1)]"
-                   >
-                     {widgetConfig.action}
-                   </button>
-                 </div>
-               </Card>
-             )}
+              {widgetConfig.type === 'communication' && (
+                <Card hover={false} className={`rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col min-h-[350px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+                  <div className="flex justify-between items-start mb-6">
+                    <h3 className={`font-black text-xs tracking-widest uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{widgetConfig.title}</h3>
+                    <MoreHorizontal className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-400'}`} />
+                  </div>
+                  <div className="flex-1 flex flex-col items-center justify-center text-center">
+                    <div className="w-24 h-24 mb-6 rounded-full bg-gradient-to-br from-[#00D4FF]/10 to-[#00D4FF]/20 flex items-center justify-center border border-[#00D4FF]/30 transition-transform hover:scale-105 duration-300">
+                      <Mail className="w-10 h-10 text-[#00D4FF]" />
+                    </div>
+                    <button 
+                      onClick={() => navigate('/dashboard/messages')}
+                      className="w-full py-3 border-2 border-[#00D4FF] text-[#00D4FF] hover:bg-[#00D4FF] hover:text-[#0B1120] font-bold rounded-xl transition-all text-sm shadow-[0_4px_12px_rgba(0,212,255,0.1)] hover:scale-[1.02] cursor-pointer"
+                      style={{ borderRadius: '12px' }}
+                    >
+                      {widgetConfig.action}
+                    </button>
+                  </div>
+                </Card>
+              )}
             </div>
           )}
  
        </div>
 
-       {/* 4. Category & Completion Analytics Row */}
-       {userRole === 'admin' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          {/* Category Distribution PieChart */}
-          <Card hover={false} className={`lg:col-span-6 rounded-3xl p-6 border backdrop-blur-xl shadow-lg flex flex-col h-[400px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-            <h3 className={`font-semibold text-sm mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Course Category Distribution</h3>
-            <div className="flex-grow flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex-1 w-full h-[250px] relative">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: 'Tech & Programming', value: 35, color: '#00D4FF' },
-                        { name: 'Math & Science', value: 25, color: '#F97316' },
-                        { name: 'Social Science', value: 15, color: '#10B981' },
-                        { name: 'Natural Language', value: 10, color: '#8B5CF6' },
-                        { name: 'Business Hub', value: 10, color: '#EC4899' },
-                        { name: 'Personal Growth', value: 5, color: '#F59E0B' },
-                      ]}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={60}
-                      outerRadius={80}
-                      paddingAngle={4}
-                      dataKey="value"
-                    >
-                      {[
-                        { name: 'Tech & Programming', value: 35, color: '#00D4FF' },
-                        { name: 'Math & Science', value: 25, color: '#F97316' },
-                        { name: 'Social Science', value: 15, color: '#10B981' },
-                        { name: 'Natural Language', value: 10, color: '#8B5CF6' },
-                        { name: 'Business Hub', value: 10, color: '#EC4899' },
-                        { name: 'Personal Growth', value: 5, color: '#F59E0B' },
-                      ].map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <RechartsTooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="flex flex-col gap-2 shrink-0 pr-4 text-left">
-                {[
-                  { name: 'Tech & Programming', value: '35%', color: '#00D4FF' },
-                  { name: 'Math & Science', value: '25%', color: '#F97316' },
-                  { name: 'Social Science', value: '15%', color: '#10B981' },
-                  { name: 'Natural Language', value: '10%', color: '#8B5CF6' },
-                  { name: 'Business Hub', value: '10%', color: '#EC4899' },
-                  { name: 'Personal Growth', value: '5%', color: '#F59E0B' },
-                ].map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-2.5 text-xs font-bold">
-                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></span>
-                    <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>{item.name}:</span>
-                    <span className={isDarkMode ? 'text-white' : 'text-slate-950'}>{item.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Card>
-
-          {/* Cumulative Exporter */}
-          <Card hover={false} className={`lg:col-span-6 rounded-3xl p-6 border backdrop-blur-xl shadow-lg flex flex-col h-[400px] ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-            <h3 className={`font-semibold text-sm mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Cumulative Report Exporter</h3>
-            <div className="flex-grow flex flex-col justify-between p-4">
-              <div className="space-y-4 text-left">
-                <div className={`p-4 rounded-2xl border ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
-                  <p className={`text-xs font-black uppercase tracking-wider mb-2 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00b2d6]'}`}>System Metrics Health</p>
-                  <p className={`text-xs font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                    Active connection pools, cache lifetimes, and database replicas are fully operational. Last synchronization happened less than a minute ago.
-                  </p>
-                </div>
-                <p className={`text-xs font-medium leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                  Download the full structural platform audit report capturing active student demographics, course categories distribution, instructor assignment scores, and real-time financial logs.
-                </p>
-              </div>
-              <button
-                onClick={exportFullPlatformReport}
-                className="w-full py-4 bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-lg hover:shadow-[#00D4FF]/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
-              >
-                📥 Download Executive Platform Report (.txt)
-              </button>
-            </div>
-          </Card>
-        </div>
-       )}
+        {/* 4. Category & Completion Analytics Row */}
+        {userRole === 'admin' && (
+         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+           {/* Category Distribution PieChart */}
+           <Card hover={false} className={`lg:col-span-6 rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col h-[400px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+             <h3 className={`font-black text-xs tracking-widest uppercase mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Course Category Distribution</h3>
+             <div className="flex-grow flex flex-col md:flex-row items-center justify-between gap-6">
+               <div className="flex-1 w-full h-[250px] relative">
+                 <ResponsiveContainer width="100%" height="100%">
+                   <PieChart>
+                     <Pie
+                       data={[
+                         { name: 'Tech & Programming', value: 35, color: '#00D4FF' },
+                         { name: 'Math & Science', value: 25, color: '#F97316' },
+                         { name: 'Social Science', value: 15, color: '#10B981' },
+                         { name: 'Natural Language', value: 10, color: '#8B5CF6' },
+                         { name: 'Business Hub', value: 10, color: '#EC4899' },
+                         { name: 'Personal Growth', value: 5, color: '#F59E0B' },
+                       ]}
+                       cx="50%"
+                       cy="50%"
+                       innerRadius={60}
+                       outerRadius={80}
+                       paddingAngle={4}
+                       dataKey="value"
+                     >
+                       {[
+                         { name: 'Tech & Programming', value: 35, color: '#00D4FF' },
+                         { name: 'Math & Science', value: 25, color: '#F97316' },
+                         { name: 'Social Science', value: 15, color: '#10B981' },
+                         { name: 'Natural Language', value: 10, color: '#8B5CF6' },
+                         { name: 'Business Hub', value: 10, color: '#EC4899' },
+                         { name: 'Personal Growth', value: 5, color: '#F59E0B' },
+                       ].map((entry, index) => (
+                         <Cell key={`cell-${index}`} fill={entry.color} />
+                       ))}
+                     </Pie>
+                     <RechartsTooltip content={<CustomTooltip />} />
+                   </PieChart>
+                 </ResponsiveContainer>
+               </div>
+               <div className="flex flex-col gap-2 shrink-0 pr-4 text-left">
+                 {[
+                   { name: 'Tech & Programming', value: '35%', color: '#00D4FF' },
+                   { name: 'Math & Science', value: '25%', color: '#F97316' },
+                   { name: 'Social Science', value: '15%', color: '#10B981' },
+                   { name: 'Natural Language', value: '10%', color: '#8B5CF6' },
+                   { name: 'Business Hub', value: '10%', color: '#EC4899' },
+                   { name: 'Personal Growth', value: '5%', color: '#F59E0B' },
+                 ].map((item, idx) => (
+                   <div key={idx} className={`flex items-center gap-2.5 px-3 py-1.5 rounded-full border transition-all duration-300 hover:translate-x-1 ${isDarkMode ? 'border-white/5 bg-white/5 shadow-sm hover:border-white/10 hover:bg-white/5' : 'border-slate-100 bg-slate-50/50 hover:border-slate-200'}`}>
+                     <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: item.color, boxShadow: `0 0 10px ${item.color}80` }}></span>
+                     <span className={`text-[11px] font-bold truncate max-w-[120px] ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{item.name}</span>
+                     <span className={`text-[11px] font-black ml-auto ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00B2D6]'}`}>{item.value}</span>
+                   </div>
+                 ))}
+               </div>
+             </div>
+           </Card>
+ 
+           {/* Cumulative Exporter */}
+           <Card hover={false} className={`lg:col-span-6 rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col h-[400px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+             <h3 className={`font-black text-xs tracking-widest uppercase mb-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Cumulative Report Exporter</h3>
+             <div className="flex-grow flex flex-col justify-between p-4">
+               <div className="space-y-4 text-left">
+                 <div className={`p-4 rounded-2xl border transition-all duration-300 ${isDarkMode ? 'bg-white/5 border-white/10 hover:border-[#00D4FF]/30' : 'bg-slate-50/50 border-slate-200 hover:border-[#00B2D6]/30'}`}>
+                   <p className={`text-[11px] font-black uppercase tracking-wider mb-2 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00B2D6]'}`}>System Metrics Health</p>
+                   <p className={`text-xs font-medium leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                     Active connection pools, cache lifetimes, and database replicas are fully operational. Last synchronization happened less than a minute ago.
+                   </p>
+                 </div>
+                 <p className={`text-xs font-medium leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                   Download the full structural platform audit report capturing active student demographics, course categories distribution, instructor assignment scores, and real-time financial logs.
+                 </p>
+               </div>
+               <button
+                 onClick={exportFullPlatformReport}
+                 className="w-full py-4 bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] text-white font-black text-xs uppercase tracking-widest shadow-[0_10px_30px_rgba(0,212,255,0.3)] hover:shadow-[0_15px_35px_rgba(0,212,255,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2"
+                 style={{ borderRadius: '1rem' }}
+               >
+                 📥 Download Executive Platform Report (.txt)
+               </button>
+             </div>
+           </Card>
+         </div>
+        )}
 
       {userRole === 'admin' && (
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-          <Card hover={false} className={`xl:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-start justify-between gap-4 mb-6">
+          <Card hover={false} className={`xl:col-span-3 rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col h-[500px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+            <div className="flex items-start justify-between gap-4 mb-6 shrink-0">
               <div>
-                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Recent Activities</h3>
-                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Live platform feed</p>
+                <h3 className={`font-black text-xs tracking-widest uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Recent Activities</h3>
+                <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Live platform feed</p>
               </div>
-              <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{recentActivities.length} activities</span>
+              <span className={`text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full border ${isDarkMode ? 'text-[#00D4FF] border-[#00D4FF]/30 bg-[#00D4FF]/10' : 'text-cyan-700 border-cyan-200 bg-cyan-50'}`}>{recentActivities.length} activities</span>
             </div>
-            <div className="space-y-3">
-              {recentActivities.length ? recentActivities.map((activity, index) => (
-                <div key={activity.id || index} className={`rounded-xl p-3 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
-                  <div className="flex items-start gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${activity.type === 'user_joined' ? 'bg-green-100 text-green-700' : activity.type === 'course_published' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}>
-                      {activity.type === 'user_joined' ? '👤' : activity.type === 'course_published' ? '📚' : '⚡'}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activity.title}</p>
-                      <p className={`text-xs truncate ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{activity.itemTitle || activity.studentName}</p>
-                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{new Date(activity.date).toLocaleDateString()}</p>
+            <div className="space-y-3 overflow-y-auto flex-1 pr-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-white/10">
+              {recentActivities.length ? recentActivities.map((activity, index) => {
+                const isJoined = activity.type === 'user_joined';
+                const isPublished = activity.type === 'course_published';
+                const borderAccent = isJoined ? 'border-l-4 border-l-[#10B981]' : isPublished ? 'border-l-4 border-l-[#3B82F6]' : 'border-l-4 border-l-[#8B5CF6]';
+                const iconBg = isJoined ? 'bg-[#10B981]/10 text-[#10B981]' : isPublished ? 'bg-[#3B82F6]/10 text-[#3B82F6]' : 'bg-[#8B5CF6]/10 text-[#8B5CF6]';
+                
+                return (
+                  <div key={activity.id || index} className={`rounded-r-2xl rounded-l-md p-3 border border-y-slate-100 border-r-slate-100 dark:border-y-white/5 dark:border-r-white/5 bg-slate-50/50 dark:bg-white/5/30 transition-all duration-300 hover:bg-slate-100/50 dark:hover:bg-white/5 ${borderAccent}`}>
+                    <div className="flex items-start gap-3">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${iconBg}`}>
+                        {isJoined ? '👤' : isPublished ? '📚' : '⚡'}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-xs font-black truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activity.title}</p>
+                        <p className={`text-[11px] font-medium truncate ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{activity.itemTitle || activity.studentName}</p>
+                        <p className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-500' : 'text-slate-400'} mt-1`}>{new Date(activity.date).toLocaleDateString()}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )) : (
-                <div className={`rounded-xl p-6 text-center ${isDarkMode ? 'bg-white/5 text-slate-300' : 'bg-slate-50 text-slate-600'}`}>
+                );
+              }) : (
+                <div className={`rounded-3xl p-6 text-center text-sm font-medium ${isDarkMode ? 'bg-white/5 text-slate-400' : 'bg-slate-50 text-slate-500'}`}>
                   No recent activities.
                 </div>
               )}
             </div>
           </Card>
 
-          <Card hover={false} className={`xl:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-start justify-between gap-4 mb-6">
+          <Card hover={false} className={`xl:col-span-3 rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col h-[500px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+            <div className="flex items-start justify-between gap-4 mb-6 shrink-0">
               <div>
-                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Instructor Performance</h3>
-                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Top teaching metrics</p>
+                <h3 className={`font-black text-xs tracking-widest uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Instructor Performance</h3>
+                <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Top teaching metrics</p>
               </div>
-              <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{instructorPerformance.length} instructors</span>
+              <span className={`text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full border ${isDarkMode ? 'text-[#00D4FF] border-[#00D4FF]/30 bg-[#00D4FF]/10' : 'text-cyan-700 border-cyan-200 bg-cyan-50'}`}>{instructorPerformance.length} instructors</span>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-4 overflow-y-auto flex-1 pr-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-white/10">
               {instructorPerformance.length ? instructorPerformance.map((inst) => {
                 const coursesCount = Array.isArray(inst.coursesTaught) ? inst.coursesTaught.length : (inst.coursesTaught ?? 0);
                 const studentCount = inst.studentCount ?? (Array.isArray(inst.coursesTaught) ? inst.coursesTaught.reduce((sum, c) => sum + (c.totalStudents || 0), 0) : 0);
                 
                 return (
-                <div key={inst.id} className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+                <div key={inst.id} className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-200/80 dark:hover:border-white/10 ${isDarkMode ? 'border-white/5 bg-white/5/30' : 'border-slate-100 bg-slate-50/50'}`}>
                   <div className="flex items-center justify-between gap-3">
                     <div>
-                      <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{inst.name}</p>
-                      <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{coursesCount} courses · {studentCount} students</p>
+                      <p className={`font-black text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{inst.name}</p>
+                      <p className={`text-xs font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{coursesCount} courses · {studentCount} students</p>
                     </div>
-                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{inst.performanceScore ?? 0}%</span>
+                    <span className={`text-sm font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00B2D6]'}`}>{inst.performanceScore ?? 0}%</span>
                   </div>
-                  <div className="mt-3 space-y-2 text-xs text-slate-500">
+                  <div className="mt-3.5 pt-3.5 border-t dark:border-white/5 border-slate-100 space-y-2 text-xs font-bold">
                     <div className="flex items-center justify-between">
-                      <span>Completion</span><span>{inst.completionRate ?? 0}%</span>
+                      <span className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>Completion</span>
+                      <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{inst.completionRate ?? 0}%</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span>Attendance</span><span>{inst.attendanceRate ?? 0}%</span>
+                      <span className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>Attendance</span>
+                      <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{inst.attendanceRate ?? 0}%</span>
                     </div>
                   </div>
                 </div>
                 );
               }) : (
-                <div className={`rounded-2xl p-6 text-center ${isDarkMode ? 'bg-white/5 text-slate-300' : 'bg-slate-50 text-slate-600'}`}>
+                <div className={`rounded-3xl p-6 text-center text-sm font-medium ${isDarkMode ? 'bg-white/5 text-slate-400' : 'bg-slate-50 text-slate-500'}`}>
                   No instructor data yet.
                 </div>
               )}
             </div>
           </Card>
 
-          <Card hover={false} className={`xl:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-start justify-between gap-4 mb-6">
+          <Card hover={false} className={`xl:col-span-3 rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col h-[500px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+            <div className="flex items-start justify-between gap-4 mb-6 shrink-0">
               <div>
-                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Student Engagement</h3>
-                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Learning activity trends</p>
+                <h3 className={`font-black text-xs tracking-widest uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Student Engagement</h3>
+                <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Learning activity trends</p>
               </div>
-              <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>This Week</span>
+              <span className={`text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full border ${isDarkMode ? 'text-[#00D4FF] border-[#00D4FF]/30 bg-[#00D4FF]/10' : 'text-cyan-700 border-cyan-200 bg-cyan-50'}`}>This Week</span>
             </div>
-            <div className="grid grid-cols-1 gap-4">
-              <div className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
-                <p className="text-xs text-slate-500">Active Students</p>
-                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.activeStudents ?? 0}</p>
-                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{stats?.engagement?.studentEngagement?.activeStudentsChange ?? '+0%'}</p>
+            <div className="grid grid-cols-1 gap-3.5 overflow-y-auto flex-1 pr-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-white/10">
+              <div className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 ${isDarkMode ? 'border-white/5 bg-white/5/30' : 'border-slate-100 bg-slate-50/50'}`}>
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Active Students</p>
+                <p className={`mt-2 text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.activeStudents ?? 0}</p>
+                <p className={`text-xs font-bold mt-1 text-emerald-500`}>{stats?.engagement?.studentEngagement?.activeStudentsChange ?? '+0%'}</p>
               </div>
-              <div className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
-                <p className="text-xs text-slate-500">Lessons Completed</p>
-                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.lessonsCompleted ?? 0}</p>
-                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Cumulative study progress</p>
+              <div className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 ${isDarkMode ? 'border-white/5 bg-white/5/30' : 'border-slate-100 bg-slate-50/50'}`}>
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Lessons Completed</p>
+                <p className={`mt-2 text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.lessonsCompleted ?? 0}</p>
+                <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Cumulative study progress</p>
               </div>
-              <div className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
-                <p className="text-xs text-slate-500">Study Hours</p>
-                <p className={`mt-2 text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.studyHours ?? 0}</p>
-                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Hours this month</p>
+              <div className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 ${isDarkMode ? 'border-white/5 bg-white/5/30' : 'border-slate-100 bg-slate-50/50'}`}>
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Study Hours</p>
+                <p className={`mt-2 text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.studyHours ?? 0}</p>
+                <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Hours this month</p>
               </div>
             </div>
           </Card>
 
-          <Card hover={false} className={`xl:col-span-3 rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
-            <div className="flex items-start justify-between gap-4 mb-6">
+          <Card hover={false} className={`xl:col-span-3 rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col h-[500px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+            <div className="flex items-start justify-between gap-4 mb-6 shrink-0">
               <div>
-                <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Quick Actions</h3>
-                <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Fast access for admins</p>
+                <h3 className={`font-black text-xs tracking-widest uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Quick Actions</h3>
+                <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Fast access for admins</p>
               </div>
-              <Bell className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
+              <Bell className={`w-4.5 h-4.5 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00B2D6]'}`} />
             </div>
-            <div className="grid gap-3">
-              <button onClick={() => navigate('/dashboard/builder')} className="w-full rounded-2xl border border-[#0EA5E9] bg-[#0EA5E9]/10 text-[#0EA5E9] py-3 font-semibold">Create Course</button>
-              <button onClick={() => navigate('/dashboard/approvals')} className="w-full rounded-2xl border border-[#34D399] bg-[#34D399]/10 text-[#065F46] py-3 font-semibold">Approve Course</button>
-              <button onClick={() => navigate('/dashboard/users')} className="w-full rounded-2xl border border-[#00D4FF] bg-[#00D4FF]/10 text-[#92400E] py-3 font-semibold">Add Instructor</button>
-              <button onClick={() => navigate('/dashboard/notice')} className="w-full rounded-2xl border border-[#8B5CF6] bg-[#8B5CF6]/10 text-[#5B21B6] py-3 font-semibold">Broadcast Message</button>
-            </div>
-            <div className="mt-6 relative">
-              <div className="flex justify-between items-center mb-3">
-                <h4 className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>System Notifications</h4>
-                <div 
-                  onClick={(e) => { e.stopPropagation(); setShowNotificationsMenu(!showNotificationsMenu); }}
-                  className={`p-1 rounded cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5`}
+            
+            <div className="space-y-4 overflow-y-auto flex-1 pr-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-white/10">
+              <div className="grid grid-cols-2 gap-2.5">
+                <button 
+                  onClick={() => navigate('/dashboard/builder')} 
+                  className="w-full text-white bg-gradient-to-r from-[#00D4FF] to-[#00A3CC] font-bold text-[10px] uppercase tracking-wider py-3 px-1 transition-all duration-300 hover:scale-[1.03] active:scale-95 shadow-md hover:shadow-[#00D4FF]/25 cursor-pointer"
+                  style={{ borderRadius: '9999px' }}
                 >
-                  <MoreHorizontal className="w-4 h-4 text-slate-400" />
-                </div>
-                {showNotificationsMenu && (
-                  <div className={`absolute top-8 right-0 w-40 rounded-lg shadow-xl overflow-hidden z-20 border ${isDarkMode ? 'bg-slate-950/95 border-white/10' : 'bg-white border-slate-200'}`}>
-                    <button onClick={() => { setClearedNotifications(false); setShowNotificationsMenu(false); }} className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-100 dark:hover:bg-white/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Mark all as read</button>
-                    <button onClick={() => { setClearedNotifications(true); setShowNotificationsMenu(false); }} className={`w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10`}>Clear notifications</button>
-                  </div>
-                )}
+                  Create Course
+                </button>
+                <button 
+                  onClick={() => navigate('/dashboard/approvals')} 
+                  className="w-full text-white bg-gradient-to-r from-[#10B981] to-[#059669] font-bold text-[10px] uppercase tracking-wider py-3 px-1 transition-all duration-300 hover:scale-[1.03] active:scale-95 shadow-md hover:shadow-[#10B981]/25 cursor-pointer"
+                  style={{ borderRadius: '9999px' }}
+                >
+                  Approve Course
+                </button>
+                <button 
+                  onClick={() => navigate('/dashboard/users')} 
+                  className="w-full text-white bg-gradient-to-r from-[#F97316] to-[#EA580C] font-bold text-[10px] uppercase tracking-wider py-3 px-1 transition-all duration-300 hover:scale-[1.03] active:scale-95 shadow-md hover:shadow-[#F97316]/25 cursor-pointer"
+                  style={{ borderRadius: '9999px' }}
+                >
+                  Add Instructor
+                </button>
+                <button 
+                  onClick={() => navigate('/dashboard/notice')} 
+                  className="w-full text-white bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] font-bold text-[10px] uppercase tracking-wider py-3 px-1 transition-all duration-300 hover:scale-[1.03] active:scale-95 shadow-md hover:shadow-[#8B5CF6]/25 cursor-pointer"
+                  style={{ borderRadius: '9999px' }}
+                >
+                  Broadcast Msg
+                </button>
               </div>
-              <div className="space-y-3">
-                {notifications.length > 0 ? notifications.slice(0, 3).map((note, idx) => (
-                  <div key={`quick-note-${idx}`} className={`rounded-2xl p-3 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
-                    <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{note.title || note.message || 'Notification'}</p>
-                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{note.time || note.date || note.createdAt || 'Recent update'}</p>
+              
+              <div className="mt-6 relative pt-4 border-t dark:border-white/5 border-slate-100">
+                <div className="flex justify-between items-center mb-3">
+                  <h4 className={`text-[10px] font-black uppercase tracking-wider ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>System Notifications</h4>
+                  <div 
+                    onClick={(e) => { e.stopPropagation(); setShowNotificationsMenu(!showNotificationsMenu); }}
+                    className={`p-1 rounded cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5`}
+                  >
+                    <MoreHorizontal className="w-4 h-4 text-slate-400" />
                   </div>
-                )) : (
-                  <div className={`rounded-2xl p-4 text-center text-xs ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
-                    You're all caught up!
-                  </div>
-                )}
+                  {showNotificationsMenu && (
+                    <div className={`absolute top-10 right-0 w-40 rounded-xl shadow-2xl overflow-hidden z-20 border backdrop-blur-xl ${isDarkMode ? 'bg-slate-950/95 border-white/10' : 'bg-white border-slate-200'}`}>
+                      <button onClick={() => { setClearedNotifications(false); setShowNotificationsMenu(false); }} className={`w-full text-left px-4 py-2 text-xs hover:bg-slate-100 dark:hover:bg-white/5 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'} cursor-pointer`}>Mark all as read</button>
+                      <button onClick={() => { setClearedNotifications(true); setShowNotificationsMenu(false); }} className={`w-full text-left px-4 py-2 text-xs text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 cursor-pointer`}>Clear notifications</button>
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-2.5">
+                  {notifications.length > 0 ? notifications.slice(0, 2).map((note, idx) => (
+                    <div key={`quick-note-${idx}`} className={`rounded-2xl p-3 border transition-all duration-300 hover:border-slate-200 dark:hover:border-white/10 ${isDarkMode ? 'border-white/5 bg-white/5' : 'border-slate-100 bg-slate-50/50'}`}>
+                      <p className={`text-xs font-black truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{note.title || note.message || 'Notification'}</p>
+                      <p className={`text-[10px] font-medium mt-0.5 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>{note.time || note.date || note.createdAt || 'Recent update'}</p>
+                    </div>
+                  )) : (
+                    <div className={`rounded-2xl p-4 text-center text-xs font-medium ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                      You're all caught up!
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-
-
           </Card>
         </div>
       )}
 
       {/* Shared Global Block: Active Sections */}
       {['admin', 'instructor', 'student'].includes(userRole) && sectionsData.length > 0 && (
-        <Card hover={false} className={`rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-white/80 border-slate-200'}`}>
+        <Card hover={false} className={`rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
           <div className="flex items-center justify-between mb-6">
             <div>
               <h3 className={`font-black text-xl tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{userRole === 'admin' ? 'Active Sections' : 'Your Sections'}</h3>
               <p className={`text-sm font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Groups and cohorts you are a part of</p>
             </div>
-            <div className={`text-xs px-3 py-1 rounded-full font-bold shadow-sm ${isDarkMode ? 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30' : 'bg-cyan-50 text-cyan-700 border border-cyan-200'}`}>
+            <div className={`text-xs px-3 py-1 rounded-full font-bold shadow-sm ${isDarkMode ? 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]/30' : 'bg-[#00B2D6]/10 text-[#00B2D6] border border-[#00B2D6]/20'}`}>
               {sectionsData.length} sections
             </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {[...sectionsData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3).map((sec, idx) => (
-              <div key={`global-sec-${idx}`} className={`rounded-3xl p-5 border transition-all duration-300 hover:-translate-y-1 ${isDarkMode ? 'border-white/10 bg-white/5 shadow-sm hover:shadow-[0_15px_30px_rgba(0,212,255,0.1)] hover:border-[#00D4FF]/30' : 'border-slate-200 bg-slate-50 shadow-sm hover:shadow-lg hover:border-cyan-200'}`}>
+              <div key={`global-sec-${idx}`} className={`rounded-3xl p-5 border backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 ${isDarkMode ? 'border-white/5 bg-white/5 shadow-md hover:shadow-[0_20px_40px_rgba(0,212,255,0.08)] hover:border-[#00D4FF]/30' : 'border-slate-200/60 bg-slate-50/50 shadow-md hover:shadow-xl hover:border-cyan-300'}`}>
                 <div className="flex items-start justify-between mb-3">
-                  <p className={`text-lg font-black flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                    <Users className="w-5 h-5 text-[#00D4FF]" /> {sec.name || 'Unnamed Section'}
+                  <p className={`text-base font-black flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    <Users className="w-5 h-5 text-[#00D4FF] shrink-0" /> {sec.name || 'Unnamed Section'}
                   </p>
                 </div>
-                <div className="space-y-1.5 mb-4">
-                  <p className={`text-[12px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Course: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.course?.title || 'Unknown'}</span></p>
-                  <p className={`text-[12px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>Instructor: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.instructor?.name || 'Unassigned'}</span></p>
+                <div className="space-y-1.5 mb-4 text-xs">
+                  <p className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Course: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.course?.title || 'Unknown'}</span></p>
+                  <p className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Instructor: <span className={isDarkMode ? 'text-slate-400 font-medium' : 'text-slate-500 font-medium'}>{sec.instructor?.name || 'Unassigned'}</span></p>
                 </div>
                 
-                <div className="pt-3 border-t flex flex-wrap gap-1.5 items-center dark:border-white/10 border-slate-200">
-                  <span className={`text-[10px] font-bold mr-1 uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Members:</span>
+                <div className="pt-3.5 border-t flex flex-wrap gap-1.5 items-center dark:border-white/5 border-slate-100">
+                  <span className={`text-[10px] font-black mr-1 uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Members:</span>
                   {sec.students?.slice(0, 3).map(st => (
                     <span key={st.id} className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20' : 'bg-cyan-50 text-cyan-700 border-cyan-200'}`}>
                       {st.name?.split(' ')[0]}
@@ -1215,7 +1489,7 @@ export default function EDOTDashboard() {
           <div className="mt-5 flex justify-end">
             <button 
               onClick={() => navigate('/dashboard/sections')} 
-              className="text-sm font-bold text-[#00D4FF] hover:text-[#00A3CC] transition-colors flex items-center gap-1"
+              className="text-sm font-bold text-[#00D4FF] hover:text-[#00A3CC] transition-colors flex items-center gap-1 cursor-pointer"
             >
               {userRole === 'admin' ? 'Manage All Sections' : 'View All Sections'} &rarr;
             </button>
@@ -1224,28 +1498,28 @@ export default function EDOTDashboard() {
       )}
 
       {userRole === 'admin' && events.length > 0 && (
-        <Card hover={false} className={`rounded-2xl p-6 border backdrop-blur-xl shadow-lg ${isDarkMode ? 'bg-[#0B1120]/5 border-white/5' : 'bg-white border-slate-200'}`}>
+        <Card hover={false} className={`rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
           <div className="flex items-start justify-between gap-4 mb-6">
             <div>
-              <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Upcoming Events</h3>
-              <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Scheduled platform activities</p>
+              <h3 className={`font-black text-xs tracking-widest uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Upcoming Events</h3>
+              <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>Scheduled platform activities</p>
             </div>
-            <span className={`text-xs font-semibold uppercase ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{events.length} events</span>
+            <span className={`text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full border ${isDarkMode ? 'text-[#00D4FF] border-[#00D4FF]/30 bg-[#00D4FF]/10' : 'text-cyan-700 border-cyan-200 bg-cyan-50'}`}>{events.length} events</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {events.map((event, index) => (
-              <div key={event.id || index} className={`rounded-2xl p-4 border ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-slate-200 bg-slate-50'}`}>
+              <div key={event.id || index} className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-1 ${isDarkMode ? 'border-white/5 bg-white/5 shadow-sm hover:border-[#00D4FF]/30' : 'border-slate-200/60 bg-slate-50/50 shadow-sm hover:border-[#00B2D6]/30'}`}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDarkMode ? 'bg-[#0B1120]/10 border-white/20' : 'bg-slate-100 border-slate-200'} border`}>
-                    <Calendar className={`w-5 h-5 ${isDarkMode ? 'text-white' : 'text-slate-800'}`} />
+                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 ${isDarkMode ? 'bg-[#00D4FF]/10 border-[#00D4FF]/20 text-[#00D4FF]' : 'bg-cyan-50 border-cyan-100 text-cyan-600'} border`}>
+                    <Calendar className="w-5 h-5" />
                   </div>
-                  <div>
-                    <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{event.title || 'Event'}</p>
-                    <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{new Date(event.date).toLocaleDateString()}</p>
+                  <div className="min-w-0">
+                    <p className={`text-xs font-black truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{event.title || 'Event'}</p>
+                    <p className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>{new Date(event.date).toLocaleDateString()}</p>
                   </div>
                 </div>
                 {event.description && (
-                  <p className={`text-xs ${isDarkMode ? 'text-slate-300' : 'text-slate-600'} line-clamp-2`}>{event.description}</p>
+                  <p className={`text-xs font-medium leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-500'} line-clamp-2`}>{event.description}</p>
                 )}
               </div>
             ))}

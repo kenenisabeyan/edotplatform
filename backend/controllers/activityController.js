@@ -37,8 +37,14 @@ export const getMyActivities = async (req, res) => {
 
 export const getAllActivities = async (req, res) => {
   try {
+    const { userId } = req.query;
     const limit = Math.min(Math.max(Number(req.query.limit) || 50, 1), 200);
+    const where = {};
+    if (userId) {
+      where.userId = userId;
+    }
     const activities = await prisma.activity.findMany({
+      where,
       include: {
         user: { select: { name: true, role: true, email: true } }
       },
