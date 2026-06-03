@@ -228,8 +228,11 @@ router.get('/users/:id', async (req, res) => {
             include: {
                 children: { select: { id: true, name: true, email: true, status: true } },
                 assignedStudents: { select: { id: true, name: true, email: true, status: true } },
+                assignedInstructor: { select: { id: true, name: true, email: true } },
                 sponsorships: { include: { sponsor: { select: { id: true, name: true, email: true } } } },
-                learnerGroups: true
+                learnerGroups: true,
+                enrollments: { include: { course: true } },
+                userCourseProgress: true
             }
         });
 
@@ -241,7 +244,27 @@ router.get('/users/:id', async (req, res) => {
             select: { id: true, name: true, email: true, status: true }
         });
 
-        res.status(200).json({ success: true, data: { ...user, parents } });
+        // Merge enrollments and userCourseProgress to construct enrolledCourses with progress percentages
+        const enrollments = user.enrollments || [];
+        const progressList = user.userCourseProgress || [];
+        const enrolledCourses = enrollments.map(en => {
+            const matchingProgress = progressList.find(p => p.courseId === en.courseId);
+            return {
+                id: en.id,
+                courseId: en.courseId,
+                status: en.status,
+                reason: en.reason,
+                requestedAt: en.requestedAt,
+                approvedAt: en.approvedAt,
+                approvedBy: en.approvedBy,
+                rejectionReason: en.rejectionReason,
+                course: en.course,
+                progress: matchingProgress ? matchingProgress.progress : 0,
+                completed: matchingProgress ? matchingProgress.completed : false
+            };
+        });
+
+        res.status(200).json({ success: true, data: { ...user, enrolledCourses, parents } });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server error', error: error.message });
     }

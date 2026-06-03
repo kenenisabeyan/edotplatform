@@ -167,6 +167,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
     if (!selectedUser || !instructorId) return;
     try {
       await api.put(`/admin/student/${selectedUser.id}/assign`, { instructorId });
+      setInstructorToAssign('');
       await fetchUserData(selectedUser.id);
       if (onRefreshUsers) onRefreshUsers();
     } catch (err) {
@@ -178,6 +179,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
     if (!selectedUser || !parentId) return;
     try {
       await api.put(`/admin/users/${parentId}/link-child`, { childId: selectedUser.id });
+      setParentToBind('');
       await fetchUserData(selectedUser.id);
       if (onRefreshUsers) onRefreshUsers();
     } catch (err) {
@@ -200,6 +202,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
     if (!selectedUser || !sponsorId) return;
     try {
       await api.put(`/admin/student/${selectedUser.id}/assign-sponsor`, { sponsorId });
+      setSponsorToBind('');
       await fetchUserData(selectedUser.id);
       if (onRefreshUsers) onRefreshUsers();
     } catch (err) {
@@ -222,6 +225,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
     if (!selectedUser || selectedUser.role !== 'student' || !courseId) return;
     try {
       await api.post('/admin/enrollments/manual', { studentId: selectedUser.id, courseId, status });
+      setCourseToEnroll('');
       await fetchUserData(selectedUser.id);
       if(onRefreshUsers) onRefreshUsers();
     } catch (err) {
@@ -262,11 +266,29 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
   };
 
   const getStatusBadgeClasses = (status) => {
-    if (status === 'approved') return 'bg-emerald-500/100/20 text-emerald-300 border border-emerald-300';
-    if (status === 'pending') return 'bg-[#00D4FF]/100/20 text-amber-300 border border-amber-300';
-    if (status === 'rejected') return 'bg-rose-500/100/20 text-rose-300 border border-rose-300';
-    if (status === 'blocked') return 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]';
-    return 'bg-[#0B1120]/40 backdrop-blur-xl0/20 text-slate-200 border border-slate-400';
+    if (status === 'approved') {
+      return isDarkMode 
+        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' 
+        : 'bg-emerald-50 text-emerald-700 border border-emerald-200';
+    }
+    if (status === 'pending') {
+      return isDarkMode 
+        ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' 
+        : 'bg-amber-50 text-amber-700 border border-amber-200';
+    }
+    if (status === 'rejected') {
+      return isDarkMode 
+        ? 'bg-rose-500/10 text-rose-400 border border-rose-500/30' 
+        : 'bg-rose-50 text-rose-700 border border-rose-200';
+    }
+    if (status === 'blocked') {
+      return isDarkMode 
+        ? 'bg-red-500/10 text-red-400 border border-red-500/30' 
+        : 'bg-red-50 text-red-700 border border-red-200';
+    }
+    return isDarkMode 
+      ? 'bg-slate-800/60 text-slate-300 border border-slate-700' 
+      : 'bg-slate-100 text-slate-600 border border-slate-200';
   };
 
   const selectedUserCompletion = React.useMemo(() => {
@@ -275,6 +297,8 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
 
   if (!isOpen) return null;
 
+  const cardStyle = `p-6 rounded-[2.5rem] border backdrop-blur-md relative overflow-hidden transition-all duration-300 hover:scale-[1.01] ${isDarkMode ? 'border-white/5 bg-[#0B1120]/60 shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-white/10' : 'border-slate-200/80 bg-white shadow-[0_8px_32px_rgba(31,38,135,0.04)] hover:border-slate-300'}`;
+
   const modalContent = (
       <PremiumModal isOpen={isOpen} onClose={onClose} maxWidth="max-w-[1400px]">
           {loading ? (
@@ -282,14 +306,14 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                <div className={`w-10 h-10 border-4 border-t-[#00D4FF] rounded-full animate-spin ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}></div>
              </div>
           ) : selectedUser ? (
-             <div className="flex flex-col w-full h-full p-6 md:p-8">
+             <div className="flex flex-col w-full max-h-[82vh] min-h-0 p-6 md:p-8 relative">
             {/* Brand Background Decorative Elements */}
             <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
             <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
-            <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#00D4FF]/20 blur-[80px] pointer-events-none z-0"></div>
+            <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#2563EB]/10 blur-[80px] pointer-events-none z-0"></div>
 
-            <div className="relative z-10 p-5 md:p-8 overflow-y-auto custom-scrollbar flex-1 w-full">
-            <div className="flex justify-between items-start gap-4 mb-6">
+            {/* Sticky Header */}
+            <div className="flex justify-between items-start gap-4 mb-6 relative z-10 shrink-0">
               <div className="flex items-center gap-5">
                 <div className="flex items-center justify-center shrink-0 relative">
                   <UserAvatar user={selectedUser} className="w-16 h-16 md:w-20 md:h-20 text-3xl shadow-lg border-[3px] border-white dark:border-[#0B1120] relative z-10" />
@@ -297,8 +321,8 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                 </div>
                 <div>
                   <h3 className={`text-2xl md:text-3xl font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedUser.name}</h3>
-                  <p className={`text-sm font-semibold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{selectedUser.role || 'Unknown Role'}</p>
-                  <span className={`inline-flex items-center px-3 py-1 mt-2 text-[10px] font-bold   rounded-full ${getStatusBadgeClasses(selectedUser.status)}`}>
+                  <p className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{selectedUser.role || 'Unknown Role'}</p>
+                  <span className={`inline-flex items-center px-3 py-1 mt-2 text-[10px] font-bold rounded-full ${getStatusBadgeClasses(selectedUser.status)}`}>
                     {selectedUser.status || 'unknown'}
                   </span>
                   {selectedUser.learnerGroups && selectedUser.learnerGroups.length > 0 && (
@@ -312,27 +336,31 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                   )}
                 </div>
               </div>
-              <button onClick={onClose} className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close Detial</button>
+              <button onClick={onClose} className="px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-gradient-to-r from-[#00D4FF] to-[#2563EB] hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] text-white">Close Detail</button>
             </div>
+
+            {/* Scrollable Body */}
+            <div className="relative z-10 overflow-y-auto custom-scrollbar flex-1 w-full min-h-0 pr-1.5 pb-6">
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5 shrink-0">
               {/* Relationship Map */}
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
-                <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Relationship Map</h4>
+              <div className={cardStyle}>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[#00D4FF]/5 rounded-bl-full pointer-events-none"></div>
+                <h4 className={`text-xs font-black uppercase tracking-wider mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Relationship Map</h4>
                 {selectedUser.role === 'student' && (
                   <div className="space-y-4">
                     <div className="pb-2">
-                      <p className={`text-[10px] font-bold mb-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Assigned Instructor</p>
+                      <p className={`text-[10px] font-black uppercase tracking-wider mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Assigned Instructor</p>
                       {selectedUser.assignedInstructor ? (
-                        <span className="text-sm font-semibold text-emerald-300">
+                        <span className="text-sm font-black text-[#00D4FF]">
                           {selectedUser.assignedInstructor.name}
                         </span>
                       ) : (
-                        <p className={`text-sm italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Unassigned</p>
+                        <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Unassigned</p>
                       )}
                     </div>
-                    <div className={`pt-2 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                      <p className={`text-[10px] font-bold mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Change Instructor</p>
+                    <div className={`pt-3 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                      <p className={`text-[10px] font-black uppercase tracking-wider mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Change Instructor</p>
                       <div className="flex gap-2">
                         <CustomDropdown
                           value={instructorToAssign}
@@ -342,19 +370,19 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           searchable={true}
                           className="flex-1"
                         />
-                        <button onClick={() => updateStudentInstructor(instructorToAssign)} className={`px-4 py-1.5 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] rounded-xl text-xs font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Set</button>
+                        <button onClick={() => updateStudentInstructor(instructorToAssign)} className="px-4 py-2 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:shadow-lg rounded-xl text-xs font-black transition-all shrink-0">Set</button>
                       </div>
                     </div>
                     <div className={`pt-3 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                      <p className={`text-[10px] font-bold mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Linked Parents</p>
+                      <p className={`text-[10px] font-black uppercase tracking-wider mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Linked Parents</p>
                       <div className="flex flex-wrap gap-2 mb-3">
                         {(selectedUser.parents || []).length > 0 ?
                           selectedUser.parents.map((parent) => (
-                            <div key={parent.id} className="flex items-center gap-1 px-3 py-1.5 text-[11px] font-bold text-[#0B1120] bg-[#00D4FF] rounded-lg shadow-sm">
+                            <div key={parent.id} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold text-white bg-gradient-to-r from-[#00D4FF] to-[#2563EB] rounded-lg shadow-sm border border-[#00D4FF]/20">
                               <span>{parent.name}</span>
-                              <button onClick={() => untieParentFromStudent(parent.id)} className="ml-1 text-[#0B1120]/60 hover:text-red-700 text-[10px]  font-black transition-colors">X</button>
+                              <button onClick={() => untieParentFromStudent(parent.id)} className="ml-1 text-white/60 hover:text-white text-[10px] font-black transition-colors">X</button>
                             </div>
-                          )) : <p className={`text-sm italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No parents connected</p>
+                          )) : <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No parents connected</p>
                         }
                       </div>
                       <div className="flex gap-2">
@@ -366,20 +394,20 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           searchable={true}
                           className="flex-1"
                         />
-                        <button onClick={() => bindParentToStudent(parentToBind)} className={`px-4 py-1.5 bg-[#00D4FF] hover:bg-[#ea580c] shadow-md border border-[#00D4FF] rounded-xl text-xs font-bold transition-colors text-white`}>Add</button>
+                        <button onClick={() => bindParentToStudent(parentToBind)} className="px-4 py-2 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:shadow-lg rounded-xl text-xs font-black transition-all shrink-0">Add</button>
                       </div>
                     </div>
                     {/* Admin Only - Sponsorship Map */}
                     <div className={`pt-3 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                      <p className={`text-[10px] font-bold mb-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Linked Sponsor (Admin Only)</p>
+                      <p className={`text-[10px] font-black uppercase tracking-wider mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Linked Sponsor (Admin Only)</p>
                       <div className="flex flex-wrap gap-2 mb-3">
                         {(selectedUser.sponsorships || []).length > 0 ?
                           selectedUser.sponsorships.map((sponsorship) => (
-                            <div key={sponsorship.id} className="flex items-center gap-1 px-3 py-1.5 text-[11px] font-bold text-[#0B1120] bg-[#00D4FF] rounded-lg shadow-sm">
+                            <div key={sponsorship.id} className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold text-white bg-gradient-to-r from-[#2563EB] to-[#00D4FF] rounded-lg shadow-sm border border-blue-500/20">
                               <span>{sponsorship.sponsor?.name || 'Anonymous Sponsor'}</span>
-                              <button onClick={() => untieSponsorFromStudent()} className="ml-1 text-[#0B1120]/60 hover:text-red-700 text-[10px]  font-black transition-colors">X</button>
+                              <button onClick={() => untieSponsorFromStudent()} className="ml-1 text-white/60 hover:text-white text-[10px] font-black transition-colors">X</button>
                             </div>
-                          )) : <p className={`text-sm italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No active sponsor</p>
+                          )) : <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No active sponsor</p>
                         }
                       </div>
                       <div className="flex gap-2">
@@ -391,59 +419,65 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           searchable={true}
                           className="flex-1"
                         />
-                        <button onClick={() => bindSponsorToStudent(sponsorToBind)} className={`px-4 py-1.5 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] rounded-xl text-xs font-bold transition-colors text-[#0B1120]`}>Add</button>
+                        <button onClick={() => bindSponsorToStudent(sponsorToBind)} className="px-4 py-2 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:shadow-lg rounded-xl text-xs font-black transition-all shrink-0">Add</button>
                       </div>
                     </div>
                   </div>
                 )}
                 {selectedUser.role === 'instructor' && (
                   <div className="space-y-2">
-                    <p className={`text-[10px] font-bold mb-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Active Students Mentored</p>
-                    <p className="text-2xl font-black text-emerald-300">{selectedUser.assignedStudents?.length || 0}</p>
+                    <p className={`text-[10px] font-black uppercase tracking-wider mb-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Active Students Mentored</p>
+                    <p className="text-3xl font-black text-[#00D4FF]">{selectedUser.assignedStudents?.length || 0}</p>
                   </div>
                 )}
                 {selectedUser.role === 'parent' && (
                   <div className="space-y-3">
-                    <p className={`text-[10px] font-bold mb-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Watching Learners</p>
+                    <p className={`text-[10px] font-black uppercase tracking-wider mb-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Watching Learners</p>
                     {(selectedUser.children || []).length > 0 ?
                       selectedUser.children.map((c) => (
                         <div key={c.id} className="flex items-center gap-2">
-                           <div className="w-2 h-2 rounded-full bg-emerald-400"></div>
-                           <p className="text-sm font-bold text-emerald-200">{c.name}</p>
+                           <div className="w-2.5 h-2.5 rounded-full bg-[#00D4FF] animate-pulse"></div>
+                           <p className="text-sm font-black text-slate-200">{c.name}</p>
                         </div>
-                      )) : <p className={`text-sm italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No current children linked</p>
+                      )) : <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No current children linked</p>
                     }
                   </div>
                 )}
                 {selectedUser.role === 'admin' && (
-                  <p className={`text-sm italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>System Owner</p>
+                  <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>System Owner</p>
                 )}
               </div>
 
               {/* Activity Matrix */}
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
-                <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Activity Matrix (Recent)</h4>
-                <div className="max-h-48 overflow-auto space-y-2 custom-scrollbar pr-2">
+              <div className={cardStyle}>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[#2563EB]/5 rounded-bl-full pointer-events-none"></div>
+                <h4 className={`text-xs font-black uppercase tracking-wider mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Activity Matrix (Recent)</h4>
+                <div className="max-h-60 overflow-auto space-y-2.5 custom-scrollbar pr-2">
                   {(selectedUserActivities.length > 0) ? selectedUserActivities.map((activity) => (
-                    <div key={activity.id} className="rounded-xl border border-slate-800 bg-black/40 p-3 text-xs shadow-inner">
+                    <div key={activity.id} className={`rounded-2xl border p-3.5 text-xs shadow-inner ${
+                      isDarkMode 
+                        ? 'border-white/5 bg-[#0B1120]' 
+                        : 'border-slate-200/80 bg-slate-50'
+                    }`}>
                       <div className="flex justify-between items-start">
-                         <p className={`font-medium leading-relaxed ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{activity.action}</p>
-                         {activity.metadata?.ip && <span className={`text-[9px] font-mono tracking-tighter border px-1.5 py-0.5 rounded ${isDarkMode ? 'text-slate-300 bg-[#0B1120]/5 border-white/10' : 'text-slate-500 bg-slate-50 border-slate-200'}`}>{activity.metadata.ip}</span>}
+                         <p className={`font-bold leading-relaxed ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{activity.action}</p>
+                         {activity.metadata?.ip && <span className={`text-[8px] font-mono tracking-tighter border px-1.5 py-0.5 rounded ${isDarkMode ? 'text-slate-300 bg-[#0B1120] border-white/10' : 'text-slate-500 bg-white border-slate-200'}`}>{activity.metadata.ip}</span>}
                       </div>
-                      <p className="text-[#00D4FF]/70 mt-1.5 text-[10px] font-bold  ">{activity.type || 'action'} • {new Date(activity.createdAt).toLocaleString()} {activity.metadata?.userAgent && (activity.metadata.userAgent.includes('Mobi') ? '📱' : '💻')}</p>
+                      <p className="text-[#00D4FF] mt-1.5 text-[9px] font-black uppercase">{activity.type || 'action'} • {new Date(activity.createdAt).toLocaleString()} {activity.metadata?.userAgent && (activity.metadata.userAgent.includes('Mobi') ? '📱' : '💻')}</p>
                     </div>
-                  )) : <p className={`text-sm italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No recent activity recorded.</p>}
+                  )) : <p className={`text-sm italic font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No recent activity recorded.</p>}
                 </div>
               </div>
 
               {/* Extended Insights */}
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
-                <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Extended Insights</h4>
+              <div className={cardStyle}>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[#00D4FF]/5 rounded-bl-full pointer-events-none"></div>
+                <h4 className={`text-xs font-black uppercase tracking-wider mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Extended Insights</h4>
                 <div className="flex flex-col gap-4">
                   <div>
-                    <p className={`text-[10px] font-bold mb-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Total courses / Active Classes</p>
-                    <p className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{(selectedUser.role === 'student' ? (selectedUser.enrolledCourses || []).filter(en => en.status === 'active') : selectedUser.role === 'instructor' ? (selectedUserCourses || []).filter(c => c.status === 'approved') : selectedUserCourses || []).length}</p>
-                    <div className="flex flex-col gap-1 max-h-24 overflow-auto custom-scrollbar pr-2">
+                    <p className={`text-[10px] font-black uppercase tracking-wider mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Total courses / Active Classes</p>
+                    <p className={`text-2xl font-black mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{(selectedUser.role === 'student' ? (selectedUser.enrolledCourses || []).filter(en => en.status === 'active') : selectedUser.role === 'instructor' ? (selectedUserCourses || []).filter(c => c.status === 'approved') : selectedUserCourses || []).length}</p>
+                    <div className="flex flex-col gap-2 max-h-24 overflow-auto custom-scrollbar pr-2">
                        {selectedUser.role === 'student' ? (
                           (selectedUser.enrolledCourses || []).filter(en => en.status === 'active').map((en, idx) => {
                              const courseId = en.course?.id || en.course;
@@ -451,17 +485,17 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                              const courseTitle = courseObj?.title || 'Unknown Course';
                              const instructorName = courseObj?.instructor?.name || 'Unknown Inst.';
                              return (
-                               <div key={idx} className={`flex justify-between items-center bg-black/40 px-2 py-1.5 rounded-lg border ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                                  <span className={`text-xs font-medium truncate mr-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{courseTitle}</span>
-                                  <span className="text-[9px] text-emerald-400 font-bold shrink-0">{instructorName}</span>
+                               <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border ${isDarkMode ? 'bg-[#0F172A]/80 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
+                                  <span className={`text-xs font-black truncate mr-2 ${isDarkMode ? 'text-white' : 'text-slate-700'}`}>{courseTitle}</span>
+                                  <span className="text-[9px] text-[#00D4FF] font-black uppercase shrink-0">{instructorName}</span>
                                </div>
                              );
                           })
                        ) : (
                           (selectedUser.role === 'instructor' ? (selectedUserCourses || []).filter(c => c.status === 'approved') : selectedUserCourses || []).map((c, idx) => (
-                             <div key={idx} className="flex justify-between items-center bg-black/40 px-2 py-1.5 rounded-lg border border-emerald-500/10">
-                                <span className={`text-xs font-medium truncate mr-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</span>
-                                <span className="text-[9px] font-bold shrink-0 text-emerald-400">Active</span>
+                             <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border ${isDarkMode ? 'bg-[#0F172A]/80 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
+                                <span className={`text-xs font-black truncate mr-2 ${isDarkMode ? 'text-white' : 'text-slate-700'}`}>{c.title}</span>
+                                <span className="text-[9px] font-black shrink-0 text-emerald-400 uppercase">Active</span>
                              </div>
                           ))
                        )}
@@ -469,48 +503,49 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                   </div>
                   {(selectedUser.role === 'student' || selectedUser.role === 'parent' || selectedUser.role === 'instructor') && (
                   <div>
-                    <p className={`text-[10px] font-bold mb-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Pending approvals</p>
-                    <p className="text-xl font-bold text-rose-300 mb-2">{selectedUser.role === 'instructor' ? (selectedUserCourses || []).filter(c => c.status === 'pending').length : (selectedUser.enrolledCourses || []).filter((en) => en.status === 'pending').length}</p>
-                    <div className="flex flex-col gap-1 max-h-24 overflow-auto custom-scrollbar pr-2">
+                    <p className={`text-[10px] font-black uppercase tracking-wider mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Pending approvals</p>
+                    <p className="text-2xl font-black text-rose-400 mb-3">{selectedUser.role === 'instructor' ? (selectedUserCourses || []).filter(c => c.status === 'pending').length : (selectedUser.enrolledCourses || []).filter((en) => en.status === 'pending').length}</p>
+                    <div className="flex flex-col gap-2 max-h-24 overflow-auto custom-scrollbar pr-2">
                        {selectedUser.role === 'student' ? (
-                           (selectedUser.enrolledCourses || []).filter(en => en.status === 'pending').map((en, idx) => {
-                             const courseId = en.course?.id || en.course;
-                             const courseObj = allCourses.find((c) => String(c.id) === String(courseId)) || en.course;
-                             const courseTitle = courseObj?.title || 'Unknown Course';
-                             const instructorName = courseObj?.instructor?.name || 'Unknown Inst.';
-                             return (
-                               <div key={idx} className="flex justify-between items-center bg-rose-500/100/10 px-2 py-1.5 rounded-lg border border-rose-500/20">
-                                  <span className="text-xs text-rose-200 font-medium truncate mr-2">{courseTitle}</span>
-                                  <span className="text-[9px] text-rose-400 font-bold shrink-0">{instructorName}</span>
-                               </div>
-                             );
-                           })
-                       ) : selectedUser.role === 'instructor' ? (
-                          (selectedUserCourses || []).filter(c => c.status === 'pending').map((c, idx) => (
-                             <div key={idx} className="flex justify-between items-center bg-[#00D4FF]/100/10 px-2 py-1.5 rounded-lg border border-[#00D4FF]/20">
-                                <span className="text-xs text-amber-200 font-medium truncate mr-2">{c.title}</span>
-                                <span className="text-[9px] font-bold shrink-0 text-amber-400">Needs Review</span>
-                             </div>
-                          ))
-                       ) : null}
+                            (selectedUser.enrolledCourses || []).filter(en => en.status === 'pending').map((en, idx) => {
+                              const courseId = en.course?.id || en.course;
+                              const courseObj = allCourses.find((c) => String(c.id) === String(courseId)) || en.course;
+                              const courseTitle = courseObj?.title || 'Unknown Course';
+                              const instructorName = courseObj?.instructor?.name || 'Unknown Inst.';
+                              return (
+                                <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border ${isDarkMode ? 'bg-rose-950/20 border-rose-500/30' : 'bg-rose-50 border-rose-200'}`}>
+                                   <span className="text-xs text-rose-400 font-bold truncate mr-2">{courseTitle}</span>
+                                   <span className="text-[9px] text-rose-500 font-black uppercase shrink-0">{instructorName}</span>
+                                </div>
+                              );
+                            })
+                        ) : selectedUser.role === 'instructor' ? (
+                           (selectedUserCourses || []).filter(c => c.status === 'pending').map((c, idx) => (
+                              <div key={idx} className={`flex justify-between items-center px-3 py-2 rounded-xl border ${isDarkMode ? 'bg-[#00D4FF]/10 border-[#00D4FF]/30' : 'bg-[#e0f7ff] border-[#00D4FF]/20'}`}>
+                                 <span className="text-xs text-amber-500 font-bold truncate mr-2">{c.title}</span>
+                                 <span className="text-[9px] font-black shrink-0 text-amber-500 uppercase">Needs Review</span>
+                              </div>
+                           ))
+                        ) : null}
                     </div>
                   </div>
                   )}
 
                   <div>
-                    <p className={`text-[10px] font-bold mb-1 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Last online</p>
-                    <p className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>{selectedUserActivities[0] ? new Date(selectedUserActivities[0].createdAt).toLocaleString() : 'Never logged in'}</p>
+                    <p className={`text-[10px] font-black uppercase tracking-wider mb-1.5 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Last online</p>
+                    <p className={`text-xs font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>{selectedUserActivities[0] ? new Date(selectedUserActivities[0].createdAt).toLocaleString() : 'Never logged in'}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5 shrink-0">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5 shrink-0">
               {/* Performance / Completion */}
-              <div className={`p-5 rounded-2xl border flex flex-col items-center justify-center relative overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
-                <h4 className={`absolute top-5 left-5 text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Performance Snapshot</h4>
+              <div className={cardStyle}>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[#00D4FF]/5 rounded-bl-full pointer-events-none"></div>
+                <h4 className={`text-xs font-black uppercase tracking-wider mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Performance Snapshot</h4>
                 <div className="mt-8 flex items-center justify-center">
-                  <RadialBarChart width={180} height={180} cx="50%" cy="50%" innerRadius="70%" outerRadius="100%" barSize={10} data={[{ name: 'Progress', value: selectedUserCompletion || 1, fill: '#008A32' }]}>
+                  <RadialBarChart width={180} height={180} cx="50%" cy="50%" innerRadius="70%" outerRadius="100%" barSize={10} data={[{ name: 'Progress', value: selectedUserCompletion || 1, fill: '#00D4FF' }]}>
                     <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
                     <RadialBar background={{ fill: '#ffffff10' }} clockWise dataKey="value" cornerRadius={10} />
                   </RadialBarChart>
@@ -518,38 +553,50 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     <span className={`text-3xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{selectedUserCompletion}%</span>
                   </div>
                 </div>
-                <p className={`text-center mt-3 text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Global Average Progress</p>
+                <p className={`text-center mt-3 text-xs font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Global Average Progress</p>
               </div>
 
               {/* Role-Specific Manipulators */}
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
+              <div className={`${cardStyle} lg:col-span-2`}>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[#2563EB]/5 rounded-bl-full pointer-events-none"></div>
                 {(selectedUser.role === 'student') ? (
                   <>
-                    <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Student Dossier & Enrollment Analytics</h4>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-h-[300px] overflow-auto custom-scrollbar pr-2">
+                    <h4 className={`text-xs font-black uppercase tracking-wider mb-4 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Student Dossier & Enrollment Analytics</h4>
+                    <div className="flex flex-col gap-4 max-h-[300px] overflow-auto custom-scrollbar pr-2">
                       {Object.entries((selectedUser.enrolledCourses || []).reduce((acc, en) => {
                         const courseId = en.course?.id || en.course;
                         const courseObj = allCourses.find((c) => String(c.id) === String(courseId)) || en.course || {};
                         const cat = courseObj.category || 'General';
-                        if (!acc[cat]) acc[cat] = [];
-                        acc[cat].push({ en, courseTitle: courseObj.title || 'Unknown Course Data', courseId });
+                        if (!acc[cat]) acc[acc.General ? 'General' : cat] = []; // Fallback key safety
+                        const targetKey = acc[cat] ? cat : 'General';
+                        acc[targetKey].push({ en, courseTitle: courseObj.title || 'Unknown Course Data', courseId });
                         return acc;
                       }, {})).map(([category, items]) => (
                         <div key={category} className="mb-4">
-                          <h5 className={`text-[10px] uppercase tracking-wider font-black mb-2 ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00D4FF]'}`}>{category} ({items.length})</h5>
-                          <div className="flex flex-col gap-3">
+                          <h5 className={`text-[10px] uppercase tracking-wider font-black mb-2 ${isDarkMode ? 'text-[#00D4FF]' : 'text-sky-500'}`}>{category} ({items.length})</h5>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             {items.map(({ en, courseTitle, courseId }, idx) => (
-                              <div key={`${courseId}_${idx}`} className="rounded-xl border border-slate-800 bg-black/40 p-3 flex flex-col gap-2 relative group overflow-hidden">
+                              <div key={`${courseId}_${idx}`} className={`rounded-2xl border p-4 flex flex-col gap-2.5 relative group overflow-hidden transition-all duration-300 ${
+                                isDarkMode 
+                                  ? 'border-white/5 bg-[#0F172A]/80 hover:bg-[#0F172A] hover:border-[#00D4FF]/20' 
+                                  : 'border-slate-200/80 bg-slate-50 hover:bg-slate-100 hover:border-[#00D4FF]/20'
+                              }`}>
                                 <div className="flex items-start justify-between gap-3">
-                                  <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{courseTitle}</p>
-                                  <button onClick={() => removeEnrollment(courseId)} className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-rose-300 font-bold px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20">Drop</button>
+                                  <p className={`text-sm font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{courseTitle}</p>
+                                  <button onClick={() => removeEnrollment(courseId)} className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-rose-400 font-black px-2.5 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20">Drop</button>
                                 </div>
-                                <div className="h-1.5 w-full bg-[#0B1120] rounded-full overflow-hidden mt-1">
-                                  <div style={{ width: `${en.progress || 0}%`, backgroundColor: '#008A32' }} className="h-full rounded-full transition-all duration-700 shadow-[0_0_10px_rgba(0,138,50,0.8)]" />
+                                <div className={`h-2 w-full rounded-full overflow-hidden mt-1.5 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-200'}`}>
+                                  <div style={{ width: `${en.progress || 0}%`, backgroundColor: '#00D4FF' }} className="h-full rounded-full transition-all duration-700 shadow-[0_0_10px_rgba(0,212,255,0.4)]" />
                                 </div>
                                 <div className="flex justify-between items-center mt-1">
                                   <p className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Progress: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{en.progress || 0}%</span></p>
-                                  <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-md border ${en.status === 'active' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-[#00D4FF]/10 text-amber-400 border-[#00D4FF]/20'}`}>{en.status}</span>
+                                  <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded border ${
+                                    en.status === 'active' 
+                                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' 
+                                      : en.status === 'pending'
+                                      ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20'
+                                      : 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20'
+                                  }`}>{en.status}</span>
                                 </div>
                               </div>
                             ))}
@@ -574,7 +621,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                                 <div className="flex flex-col text-left flex-1 min-w-0">
                                   <span className={`font-bold truncate text-xs ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</span>
                                   <span className={`text-[9px] capitalize flex items-center gap-1.5 mt-0.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-                                    <span className="px-1.5 py-0.5 bg-[#00D4FF]/10 text-[#00D4FF] rounded text-[8px] font-black   border border-[#00D4FF]/20">{c.category || 'Course'}</span>
+                                    <span className="px-1.5 py-0.5 bg-[#00D4FF]/10 text-[#00D4FF] rounded text-[8px] font-black border border-[#00D4FF]/20">{c.category || 'Course'}</span>
                                     <span className="truncate font-medium">{c.level ? `${c.level}` : 'All Levels'} {c.duration ? `• ${c.duration}h` : ''}</span>
                                   </span>
                                 </div>
@@ -584,14 +631,14 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           searchable={true}
                           className="flex-1"
                         />
-                        <button onClick={() => manualEnrollment(courseToEnroll, 'active')} className="px-4 py-2 font-bold   bg-blue-600/20 text-blue-300 border border-blue-600/30 hover:bg-blue-600/40 rounded-xl text-[10px] transition-colors shrink-0">Force Enroll</button>
+                        <button onClick={() => manualEnrollment(courseToEnroll, 'active')} className="px-4 py-2 font-black uppercase bg-blue-600/20 text-[#2563EB] dark:text-blue-300 border border-blue-600/30 hover:bg-blue-600/40 rounded-xl text-[10px] transition-colors shrink-0">Force Enroll</button>
                       </div>
                       <div className={`flex flex-wrap gap-2 pt-2 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                        <button onClick={resetUserProgress} className={`px-4 py-2 font-semibold border rounded-full transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Reset Progress</button>
+                        <button onClick={resetUserProgress} className="px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-white">Reset Progress</button>
                         {selectedUser.status === 'blocked' ? (
-                          <button onClick={async () => await updateUserStatus('approved')} className={`px-4 py-2 font-semibold border rounded-full transition-colors bg-[#22C55E] hover:bg-[#16A34A] shadow-md border-[#22C55E] text-white text-sm`}>Unblock Service</button>
+                          <button onClick={async () => await updateUserStatus('approved')} className="px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20">Unblock Service</button>
                         ) : (
-                          <button onClick={blockService} className={`px-4 py-2 font-semibold border rounded-full transition-colors bg-[#00D4FF] hover:bg-[#ea580c] shadow-md border-[#00D4FF] text-white text-sm`}>Block Service</button>
+                          <button onClick={blockService} className="px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-rose-500/10 text-rose-500 border border-rose-500/20 hover:bg-rose-500/20">Block Service</button>
                         )}
                       </div>
                     </div>
@@ -605,13 +652,25 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                         {(selectedUserCourses.length === 0) ? <p className={`text-xs italic ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No created content yet</p> : 
                         <div className="flex flex-wrap gap-2">
                            {selectedUserCourses.map((c) => (
-                             <span key={c.id} className="text-[11px] font-bold text-emerald-300 bg-emerald-500/100/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg">{c.title}, {(c.status || 'unknown')}</span>
+                             <span key={c.id} className={`text-[11px] font-bold px-3 py-1.5 rounded-lg border ${
+                               c.status === 'approved'
+                                 ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
+                                 : c.status === 'pending'
+                                 ? 'text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/20'
+                                 : 'text-slate-600 dark:text-slate-400 bg-slate-500/10 border-slate-500/20'
+                             }`}>
+                               {c.title} <span className="text-[9px] font-black uppercase ml-1">({c.status || 'unknown'})</span>
+                             </span>
                            ))}
                         </div>}
                       </div>
 
                       <div className={`pt-4 border-t ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                        <button onClick={toggleInstructorAccess} className={`w-full py-3 rounded-full text-xs font-bold   border transition-colors ${selectedUser.status === 'approved' ? 'bg-[#00D4FF]/100/10 text-amber-400 border-[#00D4FF]/20 hover:bg-[#00D4FF]/100/20' : 'bg-emerald-500/100/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/100/20'}`}>
+                        <button onClick={toggleInstructorAccess} className={`w-full py-3 rounded-full text-xs font-black uppercase tracking-wider border transition-colors ${
+                          selectedUser.status === 'approved' 
+                            ? 'bg-rose-500/10 text-rose-500 border-rose-500/20 hover:bg-rose-500/20' 
+                            : 'bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20'
+                        }`}>
                           {selectedUser.status === 'approved' ? 'Disable System Upload Access' : 'Reactivate Instructor Access'}
                         </button>
                       </div>
@@ -624,9 +683,9 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     <div className="space-y-3 max-h-32 overflow-auto custom-scrollbar">
                       {(selectedUser.children || []).length > 0 ?
                         selectedUser.children.map((c) => (
-                          <div key={c.id} className={`flex items-center justify-between px-4 py-2 bg-black/40 border rounded-xl ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                          <div key={c.id} className={`flex items-center justify-between px-4 py-2 border rounded-xl ${isDarkMode ? 'border-white/5 bg-[#0F172A]/80' : 'border-slate-200 bg-slate-50'}`}>
                              <span className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.name}</span>
-                             <button onClick={() => removeChildFromParent(c.id)} className="text-[10px] px-3 py-1.5 rounded-md font-bold   bg-rose-600/20 text-rose-300 hover:bg-rose-600/40 transition-colors">Untie</button>
+                             <button onClick={() => removeChildFromParent(c.id)} className="text-[10px] px-3 py-1.5 rounded-xl font-black uppercase bg-rose-500/10 text-rose-500 border border-rose-500/20 hover:bg-rose-500/20 transition-all">Untie</button>
                           </div>
                         )) : <p className={`text-xs italic ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>No learners monitored</p>
                       }
@@ -642,7 +701,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                             placeholder="Search student..." 
                             value={childSearch} 
                             onChange={(e) => setChildSearch(e.target.value)} 
-                            className={`w-full !pl-11 !pr-4 !py-2 !rounded-full bg-black/60 border text-xs outline-none focus:border-[#00D4FF]/50 ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                            className={`w-full !pl-11 !pr-4 !py-2 !rounded-full border text-xs outline-none focus:border-[#00D4FF]/50 ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white' : 'border-slate-200 bg-slate-50 text-slate-900'}`}
                           />
                         </div>
                         <CustomDropdown
@@ -652,7 +711,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                           options={filterCandidates().map(child => ({ label: `${child.name} (${child.email})`, value: child.id }))}
                           className="flex-1"
                         />
-                        <button onClick={() => { if(selectedChildId) addChildToParent(selectedChildId); }} className={`px-4 py-2 bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] rounded-xl text-xs font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Bind</button>
+                        <button onClick={() => { if(selectedChildId) addChildToParent(selectedChildId); }} className="px-4 py-2 bg-gradient-to-r from-[#00D4FF] to-[#2563EB] text-white hover:shadow-lg rounded-xl text-xs font-black transition-all shrink-0">Bind</button>
                       </div>
                     </div>
                   </>
@@ -665,16 +724,17 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
             </div>
 
             {/* Overrides block */}
-            <div className={`p-5 rounded-2xl border shrink-0 ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
-              <h4 className={`text-xs font-bold mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Quick Admin Overrides</h4>
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+            <div className={cardStyle}>
+              <div className="absolute top-0 right-0 w-24 h-24 bg-[#00D4FF]/5 rounded-bl-full pointer-events-none"></div>
+              <h4 className={`text-xs font-black uppercase tracking-wider mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Quick Admin Overrides</h4>
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div>
                   <label className={`text-[10px] font-bold mb-1 block ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Name Override</label>
                   <input
                     type="text"
                     value={selectedUser.name || ''}
                     onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })}
-                    className={`w-full px-4 py-2.5 text-sm rounded-xl border bg-black/60 focus:border-[#00D4FF] outline-none transition-colors ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                    className={`w-full px-4 py-2.5 text-sm rounded-xl border outline-none transition-colors focus:border-[#00D4FF] ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white' : 'border-slate-200 bg-slate-50 text-slate-900'}`}
                   />
                 </div>
                 <div>
@@ -683,7 +743,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     type="email"
                     value={selectedUser.email || ''}
                     onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
-                    className={`w-full px-4 py-2.5 text-sm rounded-xl border bg-black/60 focus:border-[#00D4FF] outline-none transition-colors ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                    className={`w-full px-4 py-2.5 text-sm rounded-xl border outline-none transition-colors focus:border-[#00D4FF] ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white' : 'border-slate-200 bg-slate-50 text-slate-900'}`}
                   />
                 </div>
                 <div>
@@ -707,7 +767,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                     value={selectedUserPassword}
                     onChange={(e) => setSelectedUserPassword(e.target.value)}
                     placeholder="New password (min 6)"
-                    className={`w-full px-4 py-2.5 text-sm rounded-xl border bg-black/60 focus:border-[#00D4FF] outline-none transition-colors ${isDarkMode ? 'border-white/10 text-white' : 'border-slate-200 text-slate-900'}`}
+                    className={`w-full px-4 py-2.5 text-sm rounded-xl border outline-none transition-colors focus:border-[#00D4FF] ${isDarkMode ? 'border-white/10 bg-[#0B1120] text-white' : 'border-slate-200 bg-slate-50 text-slate-900'}`}
                   />
                 </div>
                 <div>
@@ -726,8 +786,8 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
                 </div>
               </div>
               <div className={`mt-5 pt-5 border-t flex justify-between items-center gap-3 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                <button onClick={saveUserUpdates} className={`px-6 py-2.5 rounded-full font-semibold transition-colors bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Commit Changes</button>
-                <button onClick={deleteAdminUser} className={`px-6 py-2.5 rounded-full font-semibold transition-colors bg-[#00D4FF] hover:bg-[#ea580c] shadow-md border border-[#00D4FF] text-white text-sm`}>Purge Data</button>
+                <button onClick={saveUserUpdates} className="px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-gradient-to-r from-[#00D4FF] to-[#2563EB] hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] text-white">Commit Changes</button>
+                <button onClick={deleteAdminUser} className="px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-rose-500/10 text-rose-500 border border-rose-500/20 hover:bg-rose-500/20">Purge Data</button>
               </div>
             </div>
 
@@ -736,7 +796,7 @@ export default function UserIntelligenceModal({ userId, isOpen, onClose, onRefre
           ) : (
             <div className={`p-8 text-center bg-black/80 rounded-2xl border mt-20 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`} onClick={(e) => e.stopPropagation()}>
                <p className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Failed to load user details.</p>
-               <button onClick={onClose} className={`mt-4 px-4 py-2 rounded-full text-sm bg-[#00D4FF] hover:bg-[#00A3CC] shadow-md border border-[#00D4FF] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Close</button>
+               <button onClick={onClose} className="mt-4 px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all bg-gradient-to-r from-[#00D4FF] to-[#2563EB] hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] text-white">Close</button>
             </div>
           )}
       </PremiumModal>
