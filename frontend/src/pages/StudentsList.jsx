@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import api from '../utils/api';
-import { Check, X, ShieldAlert, BadgeCheck, UserPlus, GraduationCap, History } from 'lucide-react';
+import { Check, X, ShieldAlert, BadgeCheck, UserPlus, GraduationCap, History, LayoutGrid, List, Mail } from 'lucide-react';
 import UserAvatar from '../components/UserAvatar';
 import CustomDropdown from '../components/CustomDropdown';
 import { useAuth } from '../context/AuthContext';
 import { useQuery } from '@tanstack/react-query';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function StudentsList() {
   const isDarkMode = useThemeMode();
@@ -15,6 +16,7 @@ export default function StudentsList() {
 
   const [tab, setTab] = useState('approved'); // Default to approved
   const [selectedStudentHistory, setSelectedStudentHistory] = useState(null);
+  const [viewMode, setViewMode] = useState('grid');
   
   // Advanced Filter States
   const [searchQuery, setSearchQuery] = useState('');
@@ -245,96 +247,248 @@ export default function StudentsList() {
               Reset
             </button>
           )}
+
+          {/* View Mode Toggle */}
+          <div className={`flex gap-1 p-1 rounded-2xl border transition-colors ${isDarkMode ? 'bg-black/40 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+            <button
+              type="button"
+              onClick={() => setViewMode('grid')}
+              className={`p-1.5 rounded-xl transition-all ${viewMode === 'grid' ? 'bg-[#00D4FF]/20 text-[#00D4FF]' : 'text-slate-400 hover:text-slate-200'}`}
+              title="Grid Card View"
+            >
+              <LayoutGrid className="w-[15px] h-[15px]" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('table')}
+              className={`p-1.5 rounded-xl transition-all ${viewMode === 'table' ? 'bg-[#00D4FF]/20 text-[#00D4FF]' : 'text-slate-400 hover:text-slate-200'}`}
+              title="Table List View"
+            >
+              <List className="w-[15px] h-[15px]" />
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className={`rounded-2xl border backdrop-blur-xl shadow-lg overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
-                <th className="p-4">Student</th>
-                <th className="p-4">Email</th>
-                <th className="p-4">Status</th>
-                <th className="p-4 text-center">Certificates</th>
-                <th className="p-4 text-center">Attendance</th>
-                {isAdmin && <th className="p-4">Instructor Assignment</th>}
-                {isAdmin && tab === 'pending' && <th className="p-4">Actions</th>}
-              </tr>
-            </thead>
-            <tbody className={`text-sm font-normal ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              {loading ? (
-                <tr>
-                   <td colSpan="7" className="p-12 text-center">
-                     <div className="w-8 h-8 border-4 border-[#00D4FF]/30 border-t-[#00D4FF] rounded-full animate-spin mx-auto"></div>
-                   </td>
-                </tr>
-              ) : filteredStudents.length === 0 ? (
-                <tr>
-                   <td colSpan="7" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No {tab} students found.</td>
-                </tr>
-              ) : filteredStudents.map(stu => (
-                <tr key={stu.id} className={`border-b hover:bg-white/5/5 transition ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                  <td className={`p-4 flex items-center gap-3 font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                    <UserAvatar user={stu} className="w-10 h-10 text-sm" />
-                    {stu.name}
-                  </td>
-                  <td className={`p-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{stu.email}</td>
-                  <td className="p-4">
-                     {stu.status === 'pending' ? (
-                        <span className="px-3 py-1 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><ShieldAlert className="w-3 h-3"/> Pending</span>
-                     ) : (
-                        <span className="px-3 py-1 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><BadgeCheck className="w-3 h-3"/> Approved</span>
-                     )}
-                  </td>
-                  <td className="p-4 text-center">
-                      <div className="flex justify-center items-center">
-                        <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-full text-xs font-bold shadow-sm ${stu.certificates && stu.certificates.length > 0 ? 'bg-orange-100 text-orange-600 dark:bg-[#00D4FF]/20 dark:text-orange-400 border border-orange-200 dark:border-[#00D4FF]/30' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 border border-slate-200 dark:border-slate-700'}`}>
-                          {stu.certificates ? stu.certificates.length : 0}
-                        </span>
-                      </div>
-                  </td>
-                  <td className="p-4 text-center">
-                    <button 
-                      onClick={() => setSelectedStudentHistory({ student: stu, reports: getStudentReports(stu.id) })}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20 hover:bg-[#00D4FF]/20' : 'bg-blue-50 text-[#2563EB] border-blue-200 hover:bg-blue-100'}`}
-                    >
-                      View History
-                    </button>
-                  </td>
-                  {isAdmin && (
-                    <td className="p-4">
-                      {tab === 'approved' ? (
-                        <div className="flex items-center gap-2">
-                          <CustomDropdown
-                             value={stu.assignedInstructor?.id || ''}
-                             onChange={(val) => handleAssign(stu.id, val)}
-                             options={instructorOptions}
-                             placeholder="Assign Instructor..."
-                             searchable={true}
-                          />
+      {viewMode === 'grid' ? (
+        /* Modern Card Grid View */
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 relative z-10">
+          {loading ? (
+            <div className="col-span-full py-16 text-center">
+              <div className="w-12 h-12 border-4 border-t-[#00D4FF] rounded-full animate-spin mx-auto shadow-[0_0_15px_rgba(0,212,255,0.5)]"></div>
+            </div>
+          ) : filteredStudents.length === 0 ? (
+            <div className={`col-span-full py-16 text-center font-bold italic ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+              No {tab} students found.
+            </div>
+          ) : (
+            <AnimatePresence>
+              {filteredStudents.map(stu => (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  key={stu.id}
+                  className={`rounded-3xl border p-6 flex flex-col justify-between transition-all duration-500 relative group shadow-lg ${
+                    isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'
+                  } border-[#00D4FF]/20 hover:border-[#00D4FF] hover:shadow-[0_10px_30px_rgba(0,212,255,0.12)]`}
+                >
+                  {/* Role Gradient Accent in Top Right */}
+                  <div className="absolute top-0 right-0 w-32 h-32 opacity-[0.03] group-hover:opacity-[0.06] rounded-bl-full pointer-events-none transition-all duration-500 bg-gradient-to-br from-cyan-500 to-blue-500"></div>
+                  
+                  <div className="flex-1 flex flex-col justify-between">
+                    <div>
+                      {/* Card Header */}
+                      <div className="relative z-10 flex items-start justify-between gap-3 mb-4">
+                        <div className="flex items-center gap-4">
+                          <div className="relative">
+                            <UserAvatar user={stu} className="w-12 h-12 text-sm shadow-md border border-[#00D4FF]/40" />
+                          </div>
+                          <div className="flex flex-col min-w-0">
+                            <h4 className={`font-black text-base truncate leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stu.name || 'Unknown'}</h4>
+                            <span className={`text-xs truncate font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{stu.email}</span>
+                          </div>
                         </div>
-                      ) : (
-                        <span className={`italic text-xs ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Approve first to assign</span>
+                        
+                        {/* Status Badge */}
+                        {stu.status === 'pending' ? (
+                          <span className="px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider shadow-sm bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                            Pending
+                          </span>
+                        ) : (
+                          <span className="px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider shadow-sm bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20">
+                            Approved
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Card Body */}
+                      <div className="relative z-10 space-y-4">
+                        <div className={`border p-3.5 rounded-2xl flex flex-col gap-2.5 ${isDarkMode ? 'bg-[#0F172A]/50 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                          {/* Certificates */}
+                          <div className="flex items-center justify-between text-xs">
+                            <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Certificates</span>
+                            <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-0.5 rounded-full text-[10px] font-black tracking-wider border ${stu.certificates && stu.certificates.length > 0 ? 'bg-[#F97316]/10 text-[#F97316] border-[#F97316]/30' : isDarkMode ? 'bg-[#0B1120]/40 text-slate-500 border-slate-700' : 'bg-slate-100 text-slate-400 border-slate-200'}`}>
+                              {stu.certificates ? stu.certificates.length : 0}
+                            </span>
+                          </div>
+                          {/* Batch */}
+                          <div className="flex items-center justify-between text-xs">
+                            <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Batch</span>
+                            <span className={`font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{stu.batch || 'N/A'}</span>
+                          </div>
+                          {/* Section */}
+                          <div className="flex items-center justify-between text-xs">
+                            <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Section</span>
+                            <span className={`font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{stu.section || 'N/A'}</span>
+                          </div>
+                        </div>
+
+                        {/* Instructor Assignment Dropdown */}
+                        {isAdmin && (
+                          <div className={`p-3.5 rounded-2xl border flex flex-col gap-2 ${isDarkMode ? 'bg-[#0F172A]/30 border-white/5' : 'bg-slate-50/50 border-slate-100'}`}>
+                            <div className="text-[10px] font-black uppercase tracking-wider text-slate-400">Instructor Assignment</div>
+                            {tab === 'approved' ? (
+                              <CustomDropdown
+                                value={stu.assignedInstructor?.id || ''}
+                                onChange={(val) => handleAssign(stu.id, val)}
+                                options={instructorOptions}
+                                placeholder="Assign Instructor..."
+                                searchable={true}
+                                className="w-full text-xs font-semibold"
+                              />
+                            ) : (
+                              <span className={`italic text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Approve first to assign</span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Card Actions Footer */}
+                    <div className="relative z-10 mt-6 pt-4 border-t border-slate-200 dark:border-white/5 flex gap-2">
+                      <button
+                        onClick={() => setSelectedStudentHistory({ student: stu, reports: getStudentReports(stu.id) })}
+                        className={`flex-1 py-2.5 rounded-xl border text-[10px] font-black uppercase tracking-wider transition-all hover:scale-[1.02] shadow-sm flex items-center justify-center gap-1 bg-gradient-to-r from-[#00D4FF]/10 to-[#2563EB]/10 text-[#00D4FF] border-[#00D4FF]/30 hover:border-[#00D4FF]/50`}
+                      >
+                        View History
+                      </button>
+                      {isAdmin && tab === 'pending' && (
+                        <div className="flex gap-2 w-1/2">
+                          <button
+                            onClick={() => handleApprove(stu.id)}
+                            className="flex-1 py-2 bg-[#00D4FF]/10 text-[#00D4FF] hover:bg-[#00D4FF]/20 border border-[#00D4FF]/20 rounded-xl transition flex items-center justify-center"
+                            title="Approve"
+                          >
+                            <Check className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleReject(stu.id)}
+                            className="flex-1 py-2 bg-[#E30A17]/10 text-[#E30A17] hover:bg-[#E30A17]/20 border border-[#E30A17]/20 rounded-xl transition flex items-center justify-center"
+                            title="Reject"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
                       )}
-                    </td>
-                  )}
-                  {isAdmin && tab === 'pending' && (
-                    <td className="p-4 flex gap-2">
-                      <button onClick={() => handleApprove(stu.id)} className="p-2 bg-[#00D4FF]/10 text-[#00D4FF] hover:bg-[#00D4FF]/20 border border-[#00D4FF]/20 rounded-lg transition" title="Approve">
-                        <Check className="w-4 h-4" />
-                      </button>
-                      <button onClick={() => handleReject(stu.id)} className="p-2 bg-[#E30A17]/10 text-[#E30A17] hover:bg-[#E30A17]/20 border border-[#E30A17]/20 rounded-lg transition" title="Reject">
-                        <X className="w-4 h-4" />
-                      </button>
-                    </td>
-                  )}
-                </tr>
+                    </div>
+                  </div>
+                </motion.div>
               ))}
-            </tbody>
-          </table>
+            </AnimatePresence>
+          )}
         </div>
-      </div>
+      ) : (
+        /* Modern Tabular Table View */
+        <div className={`rounded-2xl border backdrop-blur-xl shadow-lg overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
+                  <th className="p-4">Student</th>
+                  <th className="p-4">Email</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4 text-center">Certificates</th>
+                  <th className="p-4 text-center">Attendance</th>
+                  {isAdmin && <th className="p-4">Instructor Assignment</th>}
+                  {isAdmin && tab === 'pending' && <th className="p-4">Actions</th>}
+                </tr>
+              </thead>
+              <tbody className={`text-sm font-normal ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                {loading ? (
+                  <tr>
+                     <td colSpan="7" className="p-12 text-center">
+                       <div className="w-8 h-8 border-4 border-[#00D4FF]/30 border-t-[#00D4FF] rounded-full animate-spin mx-auto"></div>
+                     </td>
+                  </tr>
+                ) : filteredStudents.length === 0 ? (
+                  <tr>
+                     <td colSpan="7" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No {tab} students found.</td>
+                  </tr>
+                ) : filteredStudents.map(stu => (
+                  <tr key={stu.id} className={`border-b hover:bg-white/5/5 transition ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                    <td className={`p-4 flex items-center gap-3 font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                      <UserAvatar user={stu} className="w-10 h-10 text-sm" />
+                      {stu.name}
+                    </td>
+                    <td className={`p-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{stu.email}</td>
+                    <td className="p-4">
+                       {stu.status === 'pending' ? (
+                          <span className="px-3 py-1 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><ShieldAlert className="w-3 h-3"/> Pending</span>
+                       ) : (
+                          <span className="px-3 py-1 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><BadgeCheck className="w-3 h-3"/> Approved</span>
+                       )}
+                    </td>
+                    <td className="p-4 text-center">
+                        <div className="flex justify-center items-center">
+                          <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-1 rounded-full text-xs font-bold shadow-sm ${stu.certificates && stu.certificates.length > 0 ? 'bg-orange-100 text-orange-600 dark:bg-[#00D4FF]/20 dark:text-orange-400 border border-orange-200 dark:border-[#00D4FF]/30' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500 border border-slate-200 dark:border-slate-700'}`}>
+                            {stu.certificates ? stu.certificates.length : 0}
+                          </span>
+                        </div>
+                    </td>
+                    <td className="p-4 text-center">
+                      <button 
+                        onClick={() => setSelectedStudentHistory({ student: stu, reports: getStudentReports(stu.id) })}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20 hover:bg-[#00D4FF]/20' : 'bg-blue-50 text-[#2563EB] border-blue-200 hover:bg-blue-100'}`}
+                      >
+                        View History
+                      </button>
+                    </td>
+                    {isAdmin && (
+                      <td className="p-4">
+                        {tab === 'approved' ? (
+                          <div className="flex items-center gap-2">
+                            <CustomDropdown
+                               value={stu.assignedInstructor?.id || ''}
+                               onChange={(val) => handleAssign(stu.id, val)}
+                               options={instructorOptions}
+                               placeholder="Assign Instructor..."
+                               searchable={true}
+                            />
+                          </div>
+                        ) : (
+                          <span className={`italic text-xs ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Approve first to assign</span>
+                        )}
+                      </td>
+                    )}
+                    {isAdmin && tab === 'pending' && (
+                      <td className="p-4 flex gap-2">
+                        <button onClick={() => handleApprove(stu.id)} className="p-2 bg-[#00D4FF]/10 text-[#00D4FF] hover:bg-[#00D4FF]/20 border border-[#00D4FF]/20 rounded-lg transition" title="Approve">
+                          <Check className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => handleReject(stu.id)} className="p-2 bg-[#E30A17]/10 text-[#E30A17] hover:bg-[#E30A17]/20 border border-[#E30A17]/20 rounded-lg transition" title="Reject">
+                          <X className="w-4 h-4" />
+                        </button>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {selectedStudentHistory && (
          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import api from '../utils/api';
-import { Check, X, ShieldAlert, BadgeCheck, Users, Search } from 'lucide-react';
+import { Check, X, ShieldAlert, BadgeCheck, Users, Search, LayoutGrid, List, Mail } from 'lucide-react';
 import UserAvatar from '../components/UserAvatar';
 
 import { useQuery } from '@tanstack/react-query';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function TeachersList() {
   const isDarkMode = useThemeMode();
@@ -17,6 +18,9 @@ export default function TeachersList() {
   const [selectedStudentCourseId, setSelectedStudentCourseId] = useState('');
   const [selectedStudent, setSelectedStudent] = useState('');
   const [selectedSectionCourseId, setSelectedSectionCourseId] = useState('');
+
+  const [viewMode, setViewMode] = useState('grid');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { data: instructors = [], isLoading: loading, refetch: fetchInstructors } = useQuery({
     queryKey: ['adminInstructors'],
@@ -109,15 +113,26 @@ export default function TeachersList() {
   const approvedCount = React.useMemo(() => instructors.filter(i => i.status === 'approved' || !i.status).length, [instructors]);
 
   const filteredInstructors = React.useMemo(() => {
-    return instructors.filter(i => i.status === tab || (tab === 'approved' && !i.status));
-  }, [instructors, tab]);
+    return instructors.filter(i => {
+      const matchesTab = i.status === tab || (tab === 'approved' && !i.status);
+      if (!matchesTab) return false;
+
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        const matchesName = i.name?.toLowerCase().includes(query);
+        const matchesEmail = i.email?.toLowerCase().includes(query);
+        if (!matchesName && !matchesEmail) return false;
+      }
+      return true;
+    });
+  }, [instructors, tab, searchQuery]);
 
   return (
     <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen p-6 md:p-10 max-w-none w-full">
       <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
         <div>
           <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-            <Users className="w-8 h-8 text-[#00D4FF]" />
+            <Users className="w-8 h-8 text-[#2563EB]" />
             Instructor Management
           </h1>
           <p className={`text-sm mt-2 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>Approve registrations and manage faculty across all active courses.</p>
@@ -127,83 +142,248 @@ export default function TeachersList() {
       <div className={`flex gap-4 border-b pb-2 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
         <button 
           onClick={() => setTab('pending')}
-          className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'pending' ? 'text-[#00D4FF] border-b-2 border-[#00D4FF]' : (isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900')}`}
+          className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'pending' ? 'text-[#2563EB] border-b-2 border-[#2563EB]' : (isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900')}`}
         >
           Pending Approval ({pendingCount})
         </button>
         <button 
           onClick={() => setTab('approved')}
-          className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'approved' ? 'text-[#00D4FF] border-b-2 border-[#00D4FF]' : (isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900')}`}
+          className={`px-4 py-2 font-bold text-sm rounded-t-lg transition ${tab === 'approved' ? 'text-[#2563EB] border-b-2 border-[#2563EB]' : (isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-900')}`}
         >
           Approved Instructors ({approvedCount})
         </button>
       </div>
 
-      <div className={`rounded-2xl border backdrop-blur-xl shadow-lg overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
-                <th className="p-4">Instructor</th>
-                <th className="p-4">Email</th>
-                <th className="p-4">Assigned Students</th>
-                <th className="p-4">Status</th>
-                <th className="p-4">Actions</th>
-              </tr>
-            </thead>
-            <tbody className={`text-sm font-normal ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              {loading ? (
-                <tr>
-                   <td colSpan="5" className="p-12 text-center">
-                     <div className="w-8 h-8 border-4 border-[#00D4FF]/30 border-t-[#00D4FF] rounded-full animate-spin mx-auto"></div>
-                   </td>
-                </tr>
-              ) : filteredInstructors.length === 0 ? (
-                <tr>
-                   <td colSpan="5" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No {tab} instructors found.</td>
-                </tr>
-              ) : filteredInstructors.map(inst => (
-                <React.Fragment key={inst.id}>
-                <tr className={`border-b hover:bg-white/5/5 transition ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                  <td className={`p-4 flex items-center gap-3 font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                    <UserAvatar user={inst} className="w-10 h-10 text-sm" />
-                    {inst.name}
-                  </td>
-                  <td className={`p-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{inst.email}</td>
-                  <td className="p-4">
-                     <span className={`flex items-center gap-2 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}><Users className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} /> {inst.assignedStudents?.length || 0}</span>
-                  </td>
-                  <td className="p-4">
-                     {inst.status === 'pending' ? (
-                        <span className="px-3 py-1 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><ShieldAlert className="w-3 h-3"/> Pending</span>
-                     ) : (
-                        <span className="px-3 py-1 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><BadgeCheck className="w-3 h-3"/> Approved</span>
-                     )}
-                  </td>
-                  <td className="p-4 flex gap-2">
-                    {tab === 'pending' && (
-                      <>
-                        <button onClick={() => handleApprove(inst.id)} className="p-2 bg-[#00D4FF]/10 text-[#00D4FF] hover:bg-[#00D4FF]/20 border border-[#00D4FF]/20 rounded-full transition" title="Approve">
-                          <Check className="w-4 h-4" />
-                        </button>
-                        <button onClick={() => handleReject(inst.id)} className="p-2 bg-[#E30A17]/10 text-[#E30A17] hover:bg-[#E30A17]/20 border border-[#E30A17]/20 rounded-full transition" title="Reject">
-                          <X className="w-4 h-4" />
-                        </button>
-                      </>
-                    )}
-                    {tab === 'approved' && (
-                      <button onClick={() => setSelectedInstructorId(inst.id)} className="px-3 py-1.5 bg-[#00D4FF]/10 text-[#00D4FF] hover:bg-[#00D4FF]/20 border border-[#00D4FF]/20 rounded-full transition text-xs font-bold whitespace-nowrap">
-                        View & Assign
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              </React.Fragment>
-              ))}
-            </tbody>
-          </table>
+      {/* Advanced Filter Panel */}
+      <div className={`p-5 rounded-3xl border backdrop-blur-xl flex flex-col md:flex-row gap-4 items-center ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+        <div className="relative flex-1 w-full">
+          <input
+            type="text"
+            placeholder="Search instructor name or email..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={`w-full pl-5 pr-5 py-2.5 border rounded-full text-xs font-semibold focus:ring-2 focus:ring-[#2563EB]/20 focus:outline-none transition-all ${
+              isDarkMode 
+                ? 'bg-[#0B1120] border-white/10 text-white placeholder-slate-400 focus:border-[#2563EB]' 
+                : 'bg-white border-slate-200 text-slate-800 placeholder-slate-500 focus:border-[#2563EB]'
+            }`}
+          />
+        </div>
+        <div className="flex flex-wrap gap-3 items-center w-full md:w-auto">
+          {/* Reset Filters */}
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="px-4 py-2.5 bg-red-500/10 text-red-500 hover:bg-red-500/20 text-xs font-bold rounded-full transition-all border border-red-500/20 cursor-pointer"
+            >
+              Reset
+            </button>
+          )}
+
+          {/* View Mode Toggle */}
+          <div className={`flex gap-1 p-1 rounded-2xl border transition-colors ${isDarkMode ? 'bg-black/40 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+            <button
+              type="button"
+              onClick={() => setViewMode('grid')}
+              className={`p-1.5 rounded-xl transition-all ${viewMode === 'grid' ? 'bg-[#2563EB]/20 text-[#2563EB]' : 'text-slate-400 hover:text-slate-200'}`}
+              title="Grid Card View"
+            >
+              <LayoutGrid className="w-[15px] h-[15px]" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('table')}
+              className={`p-1.5 rounded-xl transition-all ${viewMode === 'table' ? 'bg-[#2563EB]/20 text-[#2563EB]' : 'text-slate-400 hover:text-slate-200'}`}
+              title="Table List View"
+            >
+              <List className="w-[15px] h-[15px]" />
+            </button>
+          </div>
         </div>
       </div>
+
+      {viewMode === 'grid' ? (
+        /* Modern Card Grid View */
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 relative z-10">
+          {loading ? (
+            <div className="col-span-full py-16 text-center">
+              <div className="w-12 h-12 border-4 border-[#2563EB]/30 border-t-[#2563EB] rounded-full animate-spin mx-auto shadow-[0_0_15px_rgba(37,99,235,0.5)]"></div>
+            </div>
+          ) : filteredInstructors.length === 0 ? (
+            <div className={`col-span-full py-16 text-center font-bold italic ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+              No {tab} instructors found.
+            </div>
+          ) : (
+            <AnimatePresence>
+              {filteredInstructors.map(inst => (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  key={inst.id}
+                  className={`rounded-3xl border p-6 flex flex-col justify-between transition-all duration-500 relative group shadow-lg ${
+                    isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'
+                  } border-[#2563EB]/20 hover:border-[#2563EB] hover:shadow-[0_10px_30px_rgba(37,99,235,0.12)]`}
+                >
+                  {/* Role Gradient Accent in Top Right */}
+                  <div className="absolute top-0 right-0 w-32 h-32 opacity-[0.03] group-hover:opacity-[0.06] rounded-bl-full pointer-events-none transition-all duration-500 bg-gradient-to-br from-blue-500 to-indigo-500"></div>
+                  
+                  <div className="flex-1 flex flex-col justify-between">
+                    <div>
+                      {/* Card Header */}
+                      <div className="relative z-10 flex items-start justify-between gap-3 mb-4">
+                        <div className="flex items-center gap-4">
+                          <div className="relative">
+                            <UserAvatar user={inst} className="w-12 h-12 text-sm shadow-md border border-[#2563EB]/40" />
+                          </div>
+                          <div className="flex flex-col min-w-0">
+                            <h4 className={`font-black text-base truncate leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{inst.name || 'Unknown'}</h4>
+                            <span className={`text-xs truncate font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{inst.email}</span>
+                          </div>
+                        </div>
+                        
+                        {/* Status Badge */}
+                        {inst.status === 'pending' ? (
+                          <span className="px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider shadow-sm bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                            Pending
+                          </span>
+                        ) : (
+                          <span className="px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider shadow-sm bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/20">
+                            Approved
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Card Body */}
+                      <div className="relative z-10 space-y-4">
+                        <div className={`border p-3.5 rounded-2xl flex flex-col gap-2.5 ${isDarkMode ? 'bg-[#0F172A]/50 border-white/5' : 'bg-slate-50 border-slate-100'}`}>
+                          {/* Assigned Students */}
+                          <div className="flex items-center justify-between text-xs">
+                            <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Mentored Students</span>
+                            <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-0.5 rounded-full text-[10px] font-black tracking-wider border ${inst.assignedStudents && inst.assignedStudents.length > 0 ? 'bg-[#2563EB]/10 text-[#2563EB] border-[#2563EB]/30' : isDarkMode ? 'bg-[#0B1120]/40 text-slate-500 border-slate-700' : 'bg-slate-100 text-slate-400 border-slate-200'}`}>
+                              {inst.assignedStudents ? inst.assignedStudents.length : 0}
+                            </span>
+                          </div>
+                          {/* Managed Courses */}
+                          <div className="flex items-center justify-between text-xs">
+                            <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Managed Courses</span>
+                            <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-0.5 rounded-full text-[10px] font-black tracking-wider border ${inst.coursesTaught && inst.coursesTaught.length > 0 ? 'bg-[#8B5CF6]/10 text-[#8B5CF6] border-[#8B5CF6]/30' : isDarkMode ? 'bg-[#0B1120]/40 text-slate-500 border-slate-700' : 'bg-slate-100 text-slate-400 border-slate-200'}`}>
+                              {inst.coursesTaught ? inst.coursesTaught.length : 0}
+                            </span>
+                          </div>
+                          {/* Managed Sections */}
+                          <div className="flex items-center justify-between text-xs">
+                            <span className={`font-black text-[10px] ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Managed Sections</span>
+                            <span className={`inline-flex items-center justify-center min-w-[2rem] px-2 py-0.5 rounded-full text-[10px] font-black tracking-wider border ${inst.sectionsTaught && inst.sectionsTaught.length > 0 ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/30' : isDarkMode ? 'bg-[#0B1120]/40 text-slate-500 border-slate-700' : 'bg-slate-100 text-slate-400 border-slate-200'}`}>
+                              {inst.sectionsTaught ? inst.sectionsTaught.length : 0}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card Actions Footer */}
+                    <div className="relative z-10 mt-6 pt-4 border-t border-slate-200 dark:border-white/5 flex gap-2">
+                      {tab === 'pending' ? (
+                        <div className="flex gap-2 w-full">
+                          <button
+                            onClick={() => handleApprove(inst.id)}
+                            className="flex-1 py-2.5 bg-[#2563EB]/10 text-[#2563EB] hover:bg-[#2563EB]/20 border border-[#2563EB]/20 rounded-xl transition flex items-center justify-center gap-1 text-[10px] font-black uppercase tracking-wider"
+                            title="Approve"
+                          >
+                            <Check className="w-4 h-4" /> Approve
+                          </button>
+                          <button
+                            onClick={() => handleReject(inst.id)}
+                            className="flex-1 py-2.5 bg-[#E30A17]/10 text-[#E30A17] hover:bg-[#E30A17]/20 border border-[#E30A17]/20 rounded-xl transition flex items-center justify-center gap-1 text-[10px] font-black uppercase tracking-wider"
+                            title="Reject"
+                          >
+                            <X className="w-4 h-4" /> Reject
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => setSelectedInstructorId(inst.id)}
+                          className="w-full py-2.5 rounded-xl border text-[10px] font-black uppercase tracking-wider transition-all hover:scale-[1.02] shadow-sm flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#2563EB]/10 to-[#8B5CF6]/10 text-[#2563EB] border-[#2563EB]/30 hover:border-[#2563EB]/50"
+                        >
+                          View & Assign
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          )}
+        </div>
+      ) : (
+        /* Modern Tabular Table View */
+        <div className={`rounded-2xl border backdrop-blur-xl shadow-lg overflow-hidden ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className={`text-sm font-semibold ${isDarkMode ? 'bg-[#0B1120]/5 text-slate-200' : 'bg-slate-50 text-slate-600'}`}>
+                  <th className="p-4">Instructor</th>
+                  <th className="p-4">Email</th>
+                  <th className="p-4">Assigned Students</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4">Actions</th>
+                </tr>
+              </thead>
+              <tbody className={`text-sm font-normal ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                {loading ? (
+                  <tr>
+                     <td colSpan="5" className="p-12 text-center">
+                       <div className="w-8 h-8 border-4 border-[#2563EB]/30 border-t-[#2563EB] rounded-full animate-spin mx-auto"></div>
+                     </td>
+                  </tr>
+                ) : filteredInstructors.length === 0 ? (
+                  <tr>
+                     <td colSpan="5" className={`p-8 text-center font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>No {tab} instructors found.</td>
+                  </tr>
+                ) : filteredInstructors.map(inst => (
+                  <tr key={inst.id} className={`border-b hover:bg-white/5/5 transition ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                    <td className={`p-4 flex items-center gap-3 font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                      <UserAvatar user={inst} className="w-10 h-10 text-sm" />
+                      {inst.name}
+                    </td>
+                    <td className={`p-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{inst.email}</td>
+                    <td className="p-4">
+                       <span className={`flex items-center gap-2 font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}><Users className={`w-4 h-4 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} /> {inst.assignedStudents?.length || 0}</span>
+                    </td>
+                    <td className="p-4">
+                       {inst.status === 'pending' ? (
+                          <span className="px-3 py-1 bg-orange-500/10 text-orange-400 border border-orange-500/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><ShieldAlert className="w-3 h-3"/> Pending</span>
+                       ) : (
+                          <span className="px-3 py-1 bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/20 font-bold rounded-full text-xs flex items-center gap-1 w-max"><BadgeCheck className="w-3 h-3"/> Approved</span>
+                       )}
+                    </td>
+                    <td className="p-4 flex gap-2">
+                      {tab === 'pending' && (
+                        <>
+                          <button onClick={() => handleApprove(inst.id)} className="p-2 bg-[#2563EB]/10 text-[#2563EB] hover:bg-[#2563EB]/20 border border-[#2563EB]/20 rounded-full transition" title="Approve">
+                            <Check className="w-4 h-4" />
+                          </button>
+                          <button onClick={() => handleReject(inst.id)} className="p-2 bg-[#E30A17]/10 text-[#E30A17] hover:bg-[#E30A17]/20 border border-[#E30A17]/20 rounded-full transition" title="Reject">
+                            <X className="w-4 h-4" />
+                          </button>
+                        </>
+                      )}
+                      {tab === 'approved' && (
+                        <button onClick={() => setSelectedInstructorId(inst.id)} className="px-3 py-1.5 bg-[#2563EB]/10 text-[#2563EB] hover:bg-[#2563EB]/20 border border-[#2563EB]/20 rounded-full transition text-xs font-bold whitespace-nowrap">
+                          View & Assign
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       {selectedInstructorId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
           <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setSelectedInstructorId(null)}></div>
@@ -215,7 +395,7 @@ export default function TeachersList() {
                 <>
                   <div className={`p-8 border-b flex justify-between items-center ${isDarkMode ? 'border-white/10' : 'border-slate-100'}`}>
                      <div className="flex items-center gap-5">
-                       <UserAvatar user={inst} className="w-16 h-16 text-2xl shadow-sm" />
+                       <UserAvatar user={inst} className="w-16 h-16 text-2xl shadow-sm border border-[#2563EB]/40" />
                        <div>
                          <h2 className={`text-2xl font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{inst.name}</h2>
                          <p className={`text-sm font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{inst.email}</p>
@@ -254,11 +434,11 @@ export default function TeachersList() {
                         <div className={`p-6 rounded-3xl border shadow-sm flex flex-col justify-between ${isDarkMode ? 'border-white/5 bg-[#111827]' : 'border-slate-200 bg-white'}`}>
                            <div>
                               <h4 className={`text-sm font-bold uppercase tracking-wider mb-5 flex items-center gap-3 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
-                                 <BadgeCheck className="w-5 h-5 text-[#00D4FF]" /> Managed Courses ({inst.coursesTaught?.length || 0})
+                                 <BadgeCheck className="w-5 h-5 text-[#2563EB]" /> Managed Courses ({inst.coursesTaught?.length || 0})
                               </h4>
                               <div className="flex flex-wrap gap-2 mb-6">
                                  {inst.coursesTaught?.length > 0 ? inst.coursesTaught.map(c => (
-                                    <span key={c.id} className="px-3 py-1.5 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 rounded-xl text-xs font-bold">
+                                    <span key={c.id} className="px-3 py-1.5 bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/20 rounded-xl text-xs font-bold">
                                        {c.title}
                                     </span>
                                  )) : <p className={`text-sm italic ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No courses yet.</p>}
@@ -267,17 +447,17 @@ export default function TeachersList() {
                            <div className={`pt-5 border-t flex flex-col gap-3 ${isDarkMode ? 'border-white/10' : 'border-slate-100'}`}>
                               <span className={`text-xs font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Assign New Course</span>
                               <div className="flex flex-col gap-3">
-                                 <select value={selectedCourseCat} onChange={e => { setSelectedCourseCat(e.target.value); setSelectedCourse(''); }} className={`w-full text-sm px-4 py-3 border rounded-2xl outline-none focus:ring-2 focus:ring-[#00D4FF]/50 transition-all ${isDarkMode ? 'bg-black/40 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}>
+                                 <select value={selectedCourseCat} onChange={e => { setSelectedCourseCat(e.target.value); setSelectedCourse(''); }} className={`w-full text-sm px-4 py-3 border rounded-2xl outline-none focus:ring-2 focus:ring-[#2563EB]/50 transition-all ${isDarkMode ? 'bg-black/40 border-white/10 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'}`}>
                                     <option value="">1. Select Category...</option>
                                     {learnerGroups.map(g => <option key={g.id} value={g.name}>{g.name}</option>)}
                                     <option value="Uncategorized">Uncategorized</option>
                                  </select>
                                  <div className="flex gap-2 items-center">
-                                    <select value={selectedCourse} onChange={e => setSelectedCourse(e.target.value)} disabled={!selectedCourseCat} className={`flex-1 min-w-0 text-sm px-4 py-3 border rounded-2xl outline-none focus:ring-2 focus:ring-[#00D4FF]/50 transition-all ${isDarkMode ? 'bg-black/40 border-white/10 text-white disabled:opacity-50' : 'bg-slate-50 border-slate-200 text-slate-900 disabled:bg-slate-100 disabled:text-slate-400'}`}>
+                                    <select value={selectedCourse} onChange={e => setSelectedCourse(e.target.value)} disabled={!selectedCourseCat} className={`flex-1 min-w-0 text-sm px-4 py-3 border rounded-2xl outline-none focus:ring-2 focus:ring-[#2563EB]/50 transition-all ${isDarkMode ? 'bg-black/40 border-white/10 text-white disabled:opacity-50' : 'bg-slate-50 border-slate-200 text-slate-900 disabled:bg-slate-100 disabled:text-slate-400'}`}>
                                        <option value="">2. Select Course...</option>
                                        {courses.filter(c => selectedCourseCat === 'Uncategorized' ? (!c.mainCategory || c.mainCategory === 'Uncategorized') : c.mainCategory === selectedCourseCat).map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
                                     </select>
-                                    <button onClick={() => handleAssignCourse(inst.id)} disabled={!selectedCourse} className="px-5 py-3 bg-[#00D4FF] hover:bg-[#ea580c] disabled:opacity-50 disabled:hover:translate-y-0 text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 rounded-full text-sm font-bold transition-all">
+                                    <button onClick={() => handleAssignCourse(inst.id)} disabled={!selectedCourse} className="px-5 py-3 bg-[#2563EB] hover:bg-[#1d4ed8] disabled:opacity-50 disabled:hover:translate-y-0 text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 rounded-full text-sm font-bold transition-all">
                                        Assign
                                     </button>
                                  </div>
@@ -289,12 +469,12 @@ export default function TeachersList() {
                         <div className={`p-6 rounded-3xl border shadow-sm flex flex-col justify-between ${isDarkMode ? 'border-white/5 bg-[#111827]' : 'border-slate-200 bg-white'}`}>
                            <div>
                               <h4 className={`text-sm font-bold uppercase tracking-wider mb-5 flex items-center gap-3 ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
-                                 <Users className="w-5 h-5 text-[#00D4FF]" /> Mentored Students ({inst.assignedStudents?.length || 0})
+                                 <Users className="w-5 h-5 text-[#2563EB]" /> Mentored Students ({inst.assignedStudents?.length || 0})
                               </h4>
                               <div className="max-h-40 overflow-y-auto custom-scrollbar flex flex-col gap-3 mb-6 pr-2">
                                  {inst.assignedStudents?.length > 0 ? inst.assignedStudents.map(s => (
-                                    <div key={s.id} className={`flex items-center gap-3 p-3 rounded-2xl border transition-colors hover:border-[#00D4FF]/30 ${isDarkMode ? 'border-white/5 bg-black/40' : 'border-slate-100 bg-slate-50/80'}`}>
-                                       <UserAvatar user={s} className="w-10 h-10 text-xs" />
+                                    <div key={s.id} className={`flex items-center gap-3 p-3 rounded-2xl border transition-colors hover:border-[#2563EB]/30 ${isDarkMode ? 'border-white/5 bg-black/40' : 'border-slate-100 bg-slate-50/80'}`}>
+                                       <UserAvatar user={s} className="w-10 h-10 text-xs border border-[#00D4FF]/40" />
                                        <div className="flex flex-col min-w-0">
                                           <span className={`text-sm font-bold truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{s.name}</span>
                                           <div className="flex items-center gap-2">
@@ -314,7 +494,7 @@ export default function TeachersList() {
                               <span className={`text-xs font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Assign New Student</span>
                               <div className="flex flex-col gap-3">
                                  <div className="flex gap-2 items-center">
-                                    <select value={selectedStudent} onChange={e => setSelectedStudent(e.target.value)} disabled={availableStudents.length === 0} className={`flex-1 min-w-0 text-sm px-4 py-3 border rounded-2xl outline-none focus:ring-2 focus:ring-[#00D4FF]/50 transition-all ${isDarkMode ? 'bg-black/40 border-white/10 text-white disabled:opacity-50' : 'bg-slate-50 border-slate-200 text-slate-900 disabled:bg-slate-100 disabled:text-slate-400'}`}>
+                                    <select value={selectedStudent} onChange={e => setSelectedStudent(e.target.value)} disabled={availableStudents.length === 0} className={`flex-1 min-w-0 text-sm px-4 py-3 border rounded-2xl outline-none focus:ring-2 focus:ring-[#2563EB]/50 transition-all ${isDarkMode ? 'bg-black/40 border-white/10 text-white disabled:opacity-50' : 'bg-slate-50 border-slate-200 text-slate-900 disabled:bg-slate-100 disabled:text-slate-400'}`}>
                                        <option value="">Select Student...</option>
                                        {Object.entries(groupedStudents).map(([cTitle, stus]) => (
                                           <optgroup key={cTitle} label={cTitle}>
@@ -322,7 +502,7 @@ export default function TeachersList() {
                                           </optgroup>
                                        ))}
                                     </select>
-                                    <button onClick={() => handleAssignStudent(inst.id)} disabled={!selectedStudent} className="px-5 py-3 bg-[#00D4FF] hover:bg-[#00b8e6] disabled:opacity-50 disabled:hover:translate-y-0 text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 rounded-full text-sm font-bold transition-all">
+                                    <button onClick={() => handleAssignStudent(inst.id)} disabled={!selectedStudent} className="px-5 py-3 bg-[#2563EB] hover:bg-[#1d4ed8] disabled:opacity-50 disabled:hover:translate-y-0 text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 rounded-full text-sm font-bold transition-all">
                                        Assign
                                     </button>
                                  </div>
