@@ -108,10 +108,10 @@ app.use('/api/connections', connectionRoutes);
 app.use('/api/materials', materialRoutes);
 app.use('/api/quizzes', quizRoutes);
 app.use('/api/live-classes', liveClassRoutes);
-app.use('/api', newDashboardRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/chatbot', chatbotRoutes);
+app.use('/api', newDashboardRoutes);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
