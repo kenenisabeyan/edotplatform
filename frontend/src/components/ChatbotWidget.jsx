@@ -153,6 +153,36 @@ export default function ChatbotWidget() {
                                                 options={{
                                                     forceBlock: true,
                                                     overrides: {
+                                                        h1: {
+                                                            component: 'h1',
+                                                            props: {
+                                                                className: `font-extrabold text-base my-2 bg-gradient-to-r ${isDarkMode ? 'from-cyan-300 to-teal-300' : 'from-teal-800 to-indigo-800'} bg-clip-text text-transparent`
+                                                            }
+                                                        },
+                                                        h2: {
+                                                            component: 'h2',
+                                                            props: {
+                                                                className: `font-bold text-sm my-2 bg-gradient-to-r ${isDarkMode ? 'from-cyan-300 to-teal-300' : 'from-teal-800 to-indigo-800'} bg-clip-text text-transparent`
+                                                            }
+                                                        },
+                                                        h3: {
+                                                            component: 'h3',
+                                                            props: {
+                                                                className: `font-bold text-xs my-1.5 bg-gradient-to-r ${isDarkMode ? 'from-cyan-300 to-teal-300' : 'from-teal-800 to-indigo-800'} bg-clip-text text-transparent`
+                                                            }
+                                                        },
+                                                        h4: {
+                                                            component: 'h4',
+                                                            props: {
+                                                                className: `font-bold text-[11px] my-1 bg-gradient-to-r ${isDarkMode ? 'from-cyan-300 to-teal-300' : 'from-teal-800 to-indigo-800'} bg-clip-text text-transparent`
+                                                            }
+                                                        },
+                                                        strong: {
+                                                            component: 'strong',
+                                                            props: {
+                                                                className: `font-extrabold ${isDarkMode ? 'text-cyan-300' : 'text-indigo-900'}`
+                                                            }
+                                                        },
                                                         a: {
                                                             component: 'a',
                                                             props: {
@@ -253,7 +283,6 @@ export default function ChatbotWidget() {
                             <div ref={messagesEndRef} />
                         </div>
 
-                        {/* Input Area */}
                         <form onSubmit={handleSend} className={`p-3 border-t backdrop-blur-md ${isDarkMode ? 'border-white/10 bg-black/20' : 'border-white/10 bg-white/15'}`}>
                             <div className="relative flex items-center">
                                 <input
@@ -261,7 +290,11 @@ export default function ChatbotWidget() {
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
                                     placeholder="Message EDOT Assistant..."
-                                    className={`w-full py-3 pl-6 pr-12 rounded-full text-sm focus:outline-none transition-all ${isDarkMode ? 'bg-white/5 border border-white/30 focus:border-cyan-400 focus:bg-white/8 text-white placeholder-white/60' : 'bg-white/15 border border-white/50 focus:border-white focus:bg-white/25 text-white placeholder-white/75'}`}
+                                    className={`w-full py-3 pl-6 pr-12 rounded-full text-sm focus:outline-none transition-all ${
+                                        isDarkMode 
+                                            ? 'bg-gradient-to-r from-white/5 to-white/10 border border-white/20 focus:border-cyan-400 text-white placeholder-white/60' 
+                                            : 'bg-gradient-to-r from-black/5 to-black/10 border border-black/15 focus:border-teal-600 text-slate-800 placeholder-slate-500 shadow-inner'
+                                    }`}
                                 />
 
                                 <button
