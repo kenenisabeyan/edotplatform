@@ -77,6 +77,42 @@ router.get('/public/recent', async (req, res) => {
     }
 });
 
+router.get('/public/verify-certificate/:hash', async (req, res) => {
+    try {
+        const { hash } = req.params;
+        const certificate = await prisma.certificate.findFirst({
+            where: {
+                OR: [
+                    { id: hash },
+                    { verificationHash: hash }
+                ]
+            },
+            include: {
+                user: { select: { name: true, email: true, avatar: true } },
+                course: { select: { title: true, level: true, duration: true, rating: true } }
+            }
+        });
+
+        if (!certificate) {
+            return res.status(404).json({
+                success: false,
+                message: 'Certificate not found in the registry.'
+            });
+        }
+
+        res.json({
+            success: true,
+            certificate
+        });
+    } catch (error) {
+        console.error('Public certificate verification error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error verifying certificate.'
+        });
+    }
+});
+
 router.get('/profile', protect, async (req, res) => {
     try {
         const user = await prisma.user.findUnique({

@@ -48,6 +48,7 @@ import Performance from './pages/Performance';
 import TeachingActivity from './pages/TeachingActivity';
 import AnalyticsReport from './pages/AnalyticsReport';
 import SettingsView from './pages/SettingsView';
+import VerifyCertificate from './pages/VerifyCertificate';
 import UsersManagement from './pages/UsersManagement';
 import SectionManagement from './pages/SectionManagement';
 import SupportDashboard from './pages/SupportDashboard';
@@ -201,6 +202,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/impact" element={<Impact />} />
         <Route path="/sponsorship" element={<Sponsorship />} />
+        <Route path="/verify-certificate/:hash" element={<VerifyCertificate />} />
         <Route path="/contact" element={<Contact />} />
         
         {/* Old Standalone routes mapping to null or removed to force dashboard usage */}

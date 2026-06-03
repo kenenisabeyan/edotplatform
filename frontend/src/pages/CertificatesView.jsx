@@ -26,7 +26,7 @@ const handleDownloadCertificate = async (enrolled, userName) => {
   const duration = enrolled.course?.duration ? `${enrolled.course.duration} Hours` : 'Self-Paced';
   const level = enrolled.course?.level || 'Intermediate';
   const ceus = enrolled.course?.duration ? `${(enrolled.course.duration / 10).toFixed(1)} CEUs` : '3.0 CEUs';
-  const dateCompleted = enrolled.updatedAt ? new Date(enrolled.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A';
+  const dateCompleted = enrolled.issueDate || enrolled.updatedAt ? new Date(enrolled.issueDate || enrolled.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A';
   const instructorName = enrolled.course?.instructor?.name || 'EDOT Instructor';
 
   const img = new Image();
@@ -38,7 +38,7 @@ const handleDownloadCertificate = async (enrolled, userName) => {
   });
 
   const doc = new jsPDF('landscape', 'mm', 'a4');
-  const certId = `EDOT-CERT-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
+  const certId = enrolled.verificationHash || enrolled.id || `EDOT-CERT-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
   
   // Background
   doc.setFillColor(255, 255, 255);
@@ -584,7 +584,7 @@ export default function CertificatesView() {
                       Official certificate recorded in your learner profile.
                     </p>
                     <button
-                      onClick={() => handleDownloadCertificate({ course: cert.course, updatedAt: cert.issueDate }, user?.name)}
+                      onClick={() => handleDownloadCertificate(cert, user?.name)}
                       className={`w-full inline-flex justify-center items-center gap-2 rounded-full px-5 py-3 font-bold transition ${isDarkMode ? 'bg-[#0B1120] border border-slate-700 text-white hover:bg-[#111827]' : 'bg-[#00D4FF] hover:bg-[#0099CC] text-white'}`}
                     >
                       <Download className="w-4 h-4" /> Download PDF

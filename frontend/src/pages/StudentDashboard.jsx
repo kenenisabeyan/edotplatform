@@ -9,6 +9,7 @@ import {
   PlayCircle, Download, ShieldCheck, Globe, ShoppingCart, Users, Coins, Package, Banknote, Wallet, FileText, Moon, Sun, Clock, PanelLeftClose
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
+import QRCode from 'qrcode';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw';
 import ProfileView from './ProfileView';
@@ -62,7 +63,7 @@ const handleDownloadCertificate = async (enrolled, userName, action = 'download'
   const duration = enrolled.course?.duration ? `${enrolled.course.duration} Hours` : 'Self-Paced';
   const level = enrolled.course?.level || 'Intermediate';
   const ceus = enrolled.course?.duration ? `${(enrolled.course.duration / 10).toFixed(1)} CEUs` : '3.0 CEUs';
-  const dateCompleted = enrolled.updatedAt ? new Date(enrolled.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A';
+  const dateCompleted = enrolled.issueDate || enrolled.updatedAt ? new Date(enrolled.issueDate || enrolled.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A';
   const instructorName = enrolled.course?.instructor?.name || 'EDOT Instructor';
 
   const img = new Image();
@@ -87,7 +88,7 @@ const handleDownloadCertificate = async (enrolled, userName, action = 'download'
   };
 
   const doc = new jsPDF('landscape', 'mm', 'a4');
-  const certId = `EDOT-CERT-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
+  const certId = enrolled.verificationHash || enrolled.id || `EDOT-CERT-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
   
   // Background
   doc.setFillColor(255, 255, 255);
@@ -319,18 +320,18 @@ const handleDownloadCertificate = async (enrolled, userName, action = 'download'
   doc.setFillColor(249, 115, 22);
   doc.circle(148.5, sigY, 6, 'F');
   
-  // QR Code visual
-  doc.setFillColor(0, 0, 0);
-  doc.rect(260, 180, 16, 16, 'F');
-  doc.setFillColor(255, 255, 255);
-  doc.rect(261, 181, 14, 14, 'F');
-  doc.setFillColor(0, 0, 0);
-  doc.rect(262, 182, 3, 3, 'F');
-  doc.rect(270, 182, 3, 3, 'F');
-  doc.rect(262, 190, 3, 3, 'F');
-  doc.rect(266, 186, 2, 2, 'F');
-  doc.rect(268, 189, 4, 2, 'F');
-  doc.rect(263, 187, 2, 2, 'F');
+  // QR Code visual (Real)
+  try {
+    const verifyUrl = `${window.location.origin}/verify-certificate/${certId}`;
+    const qrDataUrl = await QRCode.toDataURL(verifyUrl, {
+      margin: 0,
+      width: 300,
+      color: { dark: '#0B1120', light: '#FFFFFF' }
+    });
+    doc.addImage(qrDataUrl, 'PNG', 260, 180, 16, 16);
+  } catch (e) {
+    console.error('Failed to generate QR code', e);
+  }
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6);
@@ -750,13 +751,13 @@ export default function StudentDashboard() {
                             </p>
                             <div className="flex gap-3 w-full mt-auto">
                               <button 
-                                onClick={() => handleDownloadCertificate({ course: cert.course }, user?.name, 'view')}
+                                onClick={() => handleDownloadCertificate(cert, user?.name, 'view')}
                                 className={`flex-1 inline-flex justify-center items-center gap-2 py-3 font-bold text-[13px] rounded-xl border transition-colors shadow-sm ${isDarkMode ? 'bg-slate-700/50 hover:bg-slate-600 text-white border-slate-600' : 'bg-slate-50 hover:bg-slate-200 text-slate-700 border-slate-200'}`}
                               >
                                 View
                               </button>
                               <button 
-                                onClick={() => handleDownloadCertificate({ course: cert.course }, user?.name, 'download')}
+                                onClick={() => handleDownloadCertificate(cert, user?.name, 'download')}
                                 className={`flex-1 inline-flex justify-center items-center gap-2 py-3 font-bold text-[13px] rounded-xl border transition-colors shadow-sm bg-blue-500 hover:bg-blue-600 text-white border-blue-500`}
                               >
                                 <Download className="w-4 h-4" /> Export PDF

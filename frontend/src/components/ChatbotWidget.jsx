@@ -26,6 +26,19 @@ export default function ChatbotWidget() {
         scrollToBottom();
     }, [messages, isOpen]);
 
+    useEffect(() => {
+        const handleTriggerChat = (e) => {
+            setIsOpen(true);
+            if (e.detail?.message) {
+                sendMessage(e.detail.message);
+            }
+        };
+        window.addEventListener('trigger-chatbot', handleTriggerChat);
+        return () => {
+            window.removeEventListener('trigger-chatbot', handleTriggerChat);
+        };
+    }, [messages]);
+
     const sendMessage = async (userMessage) => {
         if (!userMessage.trim() || isLoading) return;
 
