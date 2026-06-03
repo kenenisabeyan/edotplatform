@@ -10,6 +10,7 @@ export default function VerifyCertificate() {
   const isDarkMode = useThemeMode();
   const [loading, setLoading] = useState(true);
   const [certificate, setCertificate] = useState(null);
+  const [sponsorship, setSponsorship] = useState(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -20,6 +21,7 @@ export default function VerifyCertificate() {
         const { data } = await api.get(`/users/public/verify-certificate/${hash}`);
         if (data.success && data.certificate) {
           setCertificate(data.certificate);
+          setSponsorship(data.sponsorship);
         } else {
           setError('Certificate details not found.');
         }
@@ -200,6 +202,31 @@ export default function VerifyCertificate() {
               </div>
             </div>
           </div>
+
+          {/* Associated Sponsorship Campaign details (if any) */}
+          {sponsorship && (
+            <div className={`mt-6 p-5 rounded-2xl border flex items-start gap-4 text-left ${
+              isDarkMode 
+                ? 'bg-[#0F1D33]/40 border-[#00D4FF]/20 text-white' 
+                : 'bg-blue-50/40 border-blue-100 text-slate-800'
+            }`}>
+              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 text-[#00D4FF] flex items-center justify-center shrink-0 border border-[#00D4FF]/20 mt-1">
+                <Star className="w-5 h-5 animate-pulse" />
+              </div>
+              <div>
+                <span className={`text-[9px] font-black uppercase tracking-widest ${isDarkMode ? 'text-cyan-400' : 'text-teal-700'}`}>
+                  SPONSORSHIP CAMPAIGN DETAILS
+                </span>
+                <h4 className="text-sm font-bold mt-1">
+                  Funded via the <span className="text-indigo-400 font-extrabold">"{sponsorship.category.replace('_', ' ').toUpperCase()}"</span> Campaign
+                </h4>
+                <p className={`text-xs mt-1.5 leading-relaxed ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                  This academic course was fully funded and supported by <strong className="font-extrabold">{sponsorship.sponsorName}</strong>. 
+                  EDOT's transparent sponsorship registry links global supporters to talented students to enable verified credentials.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Interaction Panel */}

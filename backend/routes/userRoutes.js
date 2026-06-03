@@ -100,9 +100,30 @@ router.get('/public/verify-certificate/:hash', async (req, res) => {
             });
         }
 
+        // Retrieve associated sponsorship campaign details securely
+        let sponsorship = null;
+        try {
+            sponsorship = await prisma.sponsorship.findFirst({
+                where: {
+                    targetStudentId: certificate.userId,
+                    courseId: certificate.courseId
+                }
+            });
+        } catch (e) {
+            console.error('Failed to fetch certificate sponsorship details:', e);
+        }
+
         res.json({
             success: true,
-            certificate
+            certificate,
+            sponsorship: sponsorship ? {
+                id: sponsorship.id,
+                category: sponsorship.category,
+                sponsorName: sponsorship.isAnonymous ? 'Anonymous Supporter (Privacy Protected 🔒)' : (sponsorship.sponsorName || 'EDOT Supporter'),
+                isAnonymous: sponsorship.isAnonymous,
+                amount: sponsorship.amount,
+                status: sponsorship.status
+            } : null
         });
     } catch (error) {
         console.error('Public certificate verification error:', error);

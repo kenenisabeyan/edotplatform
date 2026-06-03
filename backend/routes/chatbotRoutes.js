@@ -16,6 +16,28 @@ router.post('/message', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Message is required' });
         }
 
+        // Optionally resolve user authentication at the beginning for audit logging and instructions
+        let user = null;
+        let token;
+        
+        if (req.cookies && req.cookies.token) {
+            token = req.cookies.token;
+        } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+            token = req.headers.authorization.split(' ')[1];
+        }
+
+        if (token) {
+            try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                user = await prisma.user.findUnique({ where: { id: decoded.id } });
+                if (user) {
+                    delete user.password;
+                }
+            } catch (err) {
+                // Ignore JWT decoding/verification errors for guests/visitors
+            }
+        }
+
         // Intercept and handle scanned QR Codes/Verification links directly from DB
         try {
             let qrData = null;
@@ -33,6 +55,21 @@ router.post('/message', async (req, res) => {
                     where: { id: qrData.userId || qrData.id }
                 });
                 if (student) {
+                    if (user) {
+                        try {
+                            await prisma.activity.create({
+                                data: {
+                                    userId: user.id,
+                                    action: 'Scanned and verified Digital ID Card',
+                                    type: 'security',
+                                    details: `Verified Digital ID Card. Student Name: ${student.name}, ID: ${student.id}`,
+                                    visibility: 'private'
+                                }
+                            });
+                        } catch (logErr) {
+                            console.error('Failed to log chatbot ID scan activity:', logErr);
+                        }
+                    }
                     return res.json({
                         success: true,
                         reply: `### 🔍 Verified Digital ID Card\n\nI have successfully scanned and verified the student's Digital ID Card from the EDOT database:\n\n*   **Name:** **${student.name}**\n*   **Email:** ${student.email}\n*   **Role:** \`${student.role.toUpperCase()}\`\n*   **Status:** \`${student.status.toUpperCase()}\`\n*   **Department:** ${student.department || 'Not Assigned'}\n*   **Specialization:** ${student.specialization || 'Not Assigned'}\n\n**System Verification:** ✅ **AUTHENTIC ID CARD**\n\n**Purpose:** This QR Code is dynamically generated on the student's portfolio page to permit campus building access, fast identity verification, and rapid daily class attendance roll calls.`
@@ -51,6 +88,21 @@ router.post('/message', async (req, res) => {
                     include: { instructor: true }
                 });
                 if (course) {
+                    if (user) {
+                        try {
+                            await prisma.activity.create({
+                                data: {
+                                    userId: user.id,
+                                    action: 'Scanned class session check-in QR code',
+                                    type: 'attendance',
+                                    details: `Scanned class session QR code for course "${course.title}".`,
+                                    visibility: 'private'
+                                }
+                            });
+                        } catch (logErr) {
+                            console.error('Failed to log chatbot session scan activity:', logErr);
+                        }
+                    }
                     return res.json({
                         success: true,
                         reply: `### 📅 Scanned Class Session Check-in\n\nI have successfully verified the class session details:\n\n*   **Course:** **${course.title}**\n*   **Instructor:** ${course.instructor?.name || 'Unassigned'}\n*   **Section:** \`${qrData.section || 'Main Section'}\`\n*   **Level:** ${course.level}\n\n**Check-in Instructions:** Students scan this QR code on a projector screen using the **"Scan Class QR"** button in their Attendance menu to instantly register their attendance for the day.`
@@ -80,9 +132,44 @@ router.post('/message', async (req, res) => {
                 });
 
                 if (certificate) {
+                    // Query associated sponsorship campaign securely
+                    let sponsorship = null;
+                    try {
+                        sponsorship = await prisma.sponsorship.findFirst({
+                            where: {
+                                targetStudentId: certificate.userId,
+                                courseId: certificate.courseId
+                            }
+                        });
+                    } catch (e) {
+                        console.error('Failed to query certificate sponsorship inside chatbot:', e);
+                    }
+
+                    let sponsorshipInfo = '';
+                    if (sponsorship) {
+                        const sponsorDisplayName = sponsorship.isAnonymous ? 'Anonymous Supporter (Privacy Protected 🔒)' : (sponsorship.sponsorName || 'EDOT Supporter');
+                        sponsorshipInfo = `\n\n*   **Sponsorship Campaign:** \`${sponsorship.category.toUpperCase()}\`\n*   **Sponsorship Supporter:** ${sponsorDisplayName}\n*   **Funding Status:** Fully Funded ✅`;
+                    }
+
+                    if (user) {
+                        try {
+                            await prisma.activity.create({
+                                data: {
+                                    userId: user.id,
+                                    action: 'Scanned and verified Certificate QR code',
+                                    type: 'security',
+                                    details: `Verified Certificate Hash: ${certificate.verificationHash} for student ${certificate.user?.name}`,
+                                    visibility: 'private'
+                                }
+                            });
+                        } catch (logErr) {
+                            console.error('Failed to log chatbot QR scan activity:', logErr);
+                        }
+                    }
+
                     return res.json({
                         success: true,
-                        reply: `### 🎓 Verified Academic Certificate\n\nI have officially verified the credentials for this certificate in the registry:\n\n*   **Recipient Student:** **${certificate.user?.name || 'Unknown'}**\n*   **Course Completed:** ${certificate.course?.title || 'Unknown Course'}\n*   **Completion Date:** ${new Date(certificate.issueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}\n*   **Credential Status:** ✅ **OFFICIALLY VERIFIED & SECURE**\n*   **Verification Tracking Hash:** \`${certificate.verificationHash}\`\n\n**Purpose:** This QR Code is embedded on student PDF certificates to allow third-party verification (such as employers, universities, or sponsors) of their academic achievement.`
+                        reply: `### 🎓 Verified Academic Certificate\n\nI have officially verified the credentials for this certificate in the registry:\n\n*   **Recipient Student:** **${certificate.user?.name || 'Unknown'}**\n*   **Course Completed:** ${certificate.course?.title || 'Unknown Course'}\n*   **Completion Date:** ${new Date(certificate.issueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}\n*   **Credential Status:** ✅ **OFFICIALLY VERIFIED & SECURE**\n*   **Verification Tracking Hash:** \`${certificate.verificationHash}\`${sponsorshipInfo}\n\n**Purpose:** This QR Code is embedded on student PDF certificates to allow third-party verification (such as employers, universities, or sponsors) of their academic achievement.`
                     });
                 } else {
                     return res.json({
@@ -101,28 +188,6 @@ router.post('/message', async (req, res) => {
                  success: false, 
                  message: "I'm sorry, my chat system is currently undergoing maintenance. Please try again later."
              });
-        }
-
-        // Optionally resolve user authentication to customize chatbot instructions
-        let user = null;
-        let token;
-        
-        if (req.cookies && req.cookies.token) {
-            token = req.cookies.token;
-        } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-            token = req.headers.authorization.split(' ')[1];
-        }
-
-        if (token) {
-            try {
-                const decoded = jwt.verify(token, process.env.JWT_SECRET);
-                user = await prisma.user.findUnique({ where: { id: decoded.id } });
-                if (user) {
-                    delete user.password;
-                }
-            } catch (err) {
-                // Ignore JWT decoding/verification errors for guests/visitors
-            }
         }
 
         // Custom system instruction for personalization or guest welcoming
