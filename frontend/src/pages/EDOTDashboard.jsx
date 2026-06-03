@@ -655,8 +655,12 @@ export default function EDOTDashboard() {
         </div>
       </div>
 
-      {/* 2. Stats Grid (4 Cards) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+      {/* 2. Stats Grid */}
+      <div className={`grid grid-cols-1 md:grid-cols-2 ${
+        statsConfig.length === 5 ? 'xl:grid-cols-5' : 
+        statsConfig.length === 4 ? 'xl:grid-cols-4' : 
+        statsConfig.length === 3 ? 'xl:grid-cols-3' : 'xl:grid-cols-4'
+      } gap-6`}>
         {statsConfig.map((stat, i) => (
           <SmartCard key={i} title={stat.title} value={stat.value} icon={stat.icon} />
         ))}

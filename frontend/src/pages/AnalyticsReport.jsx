@@ -86,42 +86,36 @@ export default function AnalyticsReport() {
         </div>
       ) : (
         <div className="space-y-6">
-           {/* Report Summary Cards */}
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-             <div className="bg-gradient-to-br from-[#00D4FF] to-[#2563EB] rounded-[2.5rem] p-8 text-white shadow-[0_0_40px_rgba(0,212,255,0.2)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-500 cursor-pointer">
-               <div className="absolute right-[-20%] top-[-20%] w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-500 pointer-events-none"></div>
-               <div className="relative z-10">
-                 <div className="flex justify-between items-center mb-6">
-                   <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-md shadow-inner border border-white/20"><CircleDollarSign className="w-6 h-6" /></div>
-                   <span className="flex items-center gap-1 text-[11px] font-black uppercase tracking-wider bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/10 shadow-sm"><TrendingUp className="w-3 h-3" /> +24%</span>
-                 </div>
-                 <h2 className="text-5xl font-black font-display mb-2 drop-shadow-md">${(reportData.totalRevenue || 0).toLocaleString()}</h2>
-                 <p className="text-white/80 font-bold text-sm tracking-wide">{user?.role === 'admin' ? 'Total Quarterly Revenue' : 'Total Course Earnings'}</p>
-               </div>
-             </div>
-             
-             <div className={`p-8 rounded-[2.5rem] border shadow-2xl flex flex-col justify-between group hover:-translate-y-1 transition-all duration-500 cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-gradient-to-br from-[#0B1120]/80 to-[#0f172a]/80 border-white/10 hover:border-[#00D4FF]/30' : 'bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:border-[#00D4FF]/30'}`}>
-               <div className="absolute right-0 bottom-0 w-48 h-48 bg-[#00D4FF]/10 rounded-full blur-[80px] opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen"></div>
-               <div className="flex justify-between items-center mb-6 relative z-10">
-                 <div className="p-3 bg-gradient-to-br from-[#00D4FF]/20 to-[#2563EB]/20 border border-[#00D4FF]/30 text-[#00D4FF] rounded-2xl shadow-inner"><Users className="w-6 h-6" /></div>
-               </div>
-               <div className="relative z-10 mt-auto">
-                 <h2 className={`text-5xl font-black font-display mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{reportData.totalActiveLearners || 0}</h2>
-                 <p className="text-[#00D4FF] font-bold text-sm tracking-wide">Active Learners</p>
-               </div>
-             </div>
+            {/* Report Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-gradient-to-br from-[#00D4FF] to-[#2563EB] rounded-[2.5rem] p-8 text-white shadow-[0_0_40px_rgba(0,212,255,0.2)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-500 cursor-pointer flex flex-col items-center text-center gap-3">
+                <div className="absolute right-[-20%] top-[-20%] w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-500 pointer-events-none"></div>
+                <div className="relative z-10 flex flex-col items-center">
+                  <div className="p-3 bg-white/20 rounded-full backdrop-blur-md shadow-inner border border-white/20 mb-3"><CircleDollarSign className="w-6 h-6" /></div>
+                  <p className="text-white/80 font-bold text-sm tracking-wide mb-1.5">{user?.role === 'admin' ? 'Total Quarterly Revenue' : 'Total Course Earnings'}</p>
+                  <h2 className="text-5xl font-black font-display mb-3 drop-shadow-md">${(reportData.totalRevenue || 0).toLocaleString()}</h2>
+                  <span className="flex items-center gap-1 text-[11px] font-black uppercase tracking-wider bg-white/20 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/10 shadow-sm w-fit"><TrendingUp className="w-3 h-3" /> +24%</span>
+                </div>
+              </div>
+              
+              <div className={`p-8 rounded-[2.5rem] border shadow-2xl flex flex-col items-center text-center gap-3 group hover:-translate-y-1 transition-all duration-500 cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-gradient-to-br from-[#0B1120]/80 to-[#0f172a]/80 border-white/10 hover:border-[#00D4FF]/30' : 'bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:border-[#00D4FF]/30'}`}>
+                <div className="absolute right-0 bottom-0 w-48 h-48 bg-[#00D4FF]/10 rounded-full blur-[80px] opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen"></div>
+                <div className="p-3 bg-gradient-to-br from-[#00D4FF]/20 to-[#2563EB]/20 border border-[#00D4FF]/30 text-[#00D4FF] rounded-full shadow-inner relative z-10"><Users className="w-6 h-6" /></div>
+                <div className="relative z-10 w-full flex flex-col items-center">
+                  <p className="text-[#00D4FF] font-bold text-sm tracking-wide mb-1.5">Active Learners</p>
+                  <h2 className={`text-5xl font-black font-display ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{reportData.totalActiveLearners || 0}</h2>
+                </div>
+              </div>
 
-             <div className={`p-8 rounded-[2.5rem] border shadow-2xl flex flex-col justify-between group hover:-translate-y-1 transition-all duration-500 cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-gradient-to-br from-[#0B1120]/80 to-[#0f172a]/80 border-white/10 hover:border-[#2563EB]/30' : 'bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:border-[#2563EB]/30'}`}>
-               <div className="absolute right-0 bottom-0 w-48 h-48 bg-[#2563EB]/10 rounded-full blur-[80px] opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen"></div>
-               <div className="flex justify-between items-center mb-6 relative z-10">
-                 <div className="p-3 bg-gradient-to-br from-[#2563EB]/20 to-[#00D4FF]/20 border border-[#2563EB]/30 text-[#2563EB] rounded-2xl shadow-inner"><BookOpen className="w-6 h-6" /></div>
-               </div>
-               <div className="relative z-10 mt-auto">
-                 <h2 className={`text-5xl font-black font-display mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{reportData.totalCourseCompletions || 0}</h2>
-                 <p className="text-[#2563EB] font-bold text-sm tracking-wide">Course Completions</p>
-               </div>
-             </div>
-           </div>
+              <div className={`p-8 rounded-[2.5rem] border shadow-2xl flex flex-col items-center text-center gap-3 group hover:-translate-y-1 transition-all duration-500 cursor-pointer relative overflow-hidden ${isDarkMode ? 'bg-gradient-to-br from-[#0B1120]/80 to-[#0f172a]/80 border-white/10 hover:border-[#2563EB]/30' : 'bg-gradient-to-br from-white to-slate-50 border-slate-200 hover:border-[#2563EB]/30'}`}>
+                <div className="absolute right-0 bottom-0 w-48 h-48 bg-[#2563EB]/10 rounded-full blur-[80px] opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen"></div>
+                <div className="p-3 bg-gradient-to-br from-[#2563EB]/20 to-[#00D4FF]/20 border border-[#2563EB]/30 text-[#2563EB] rounded-full shadow-inner relative z-10"><BookOpen className="w-6 h-6" /></div>
+                <div className="relative z-10 w-full flex flex-col items-center">
+                  <p className="text-[#2563EB] font-bold text-sm tracking-wide mb-1.5">Course Completions</p>
+                  <h2 className={`text-5xl font-black font-display ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{reportData.totalCourseCompletions || 0}</h2>
+                </div>
+              </div>
+            </div>
 
            {/* Detailed Charts */}
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
