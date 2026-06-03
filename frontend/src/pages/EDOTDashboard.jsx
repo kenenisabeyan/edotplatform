@@ -141,19 +141,20 @@ export default function EDOTDashboard() {
 
     return (
       <motion.div whileHover={{ y: -5 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }} className="h-full">
-        <Card hover={false} className={`h-full rounded-3xl p-6 md:p-8 border backdrop-blur-2xl flex flex-col justify-between group relative overflow-hidden transition-all duration-500 ${glowClass} ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-white/80 border-slate-200 shadow-sm'}`}>
+        <Card hover={false} className={`h-full rounded-3xl p-6 md:p-8 border backdrop-blur-2xl flex flex-col items-center text-center gap-4 group relative overflow-hidden transition-all duration-500 ${glowClass} ${isDarkMode ? 'bg-[#0B1120]/40 border-white/10' : 'bg-white/80 border-slate-200 shadow-sm'}`}>
           {/* Abstract Hover Background */}
           <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-2xl pointer-events-none -translate-y-1/2 translate-x-1/2" style={{ backgroundColor: accentColor }}></div>
           
-          <div className="flex items-center gap-4 mb-8 relative z-10">
-            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors duration-500 ${isDarkMode ? 'bg-white/5 border border-white/10' : 'bg-slate-50 border border-slate-100'} group-hover:bg-transparent group-hover:border-transparent`} style={{ color: isDarkMode ? '#fff' : '#1e293b' }}>
-               <div className="absolute inset-0 opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-500" style={{ backgroundColor: accentColor }}></div>
-               {Icon && <Icon className="w-5 h-5 relative z-10 transition-colors duration-500" style={{ color: 'inherit' }} />}
-            </div>
-            <h3 className={`text-sm font-bold tracking-wide uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{title}</h3>
+          {/* Icon (centered top) */}
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-500 ${isDarkMode ? 'bg-white/5 border border-white/10' : 'bg-slate-50 border border-slate-100'} group-hover:bg-transparent group-hover:border-transparent relative z-10`} style={{ color: isDarkMode ? '#fff' : '#1e293b' }}>
+             <div className="absolute inset-0 opacity-0 group-hover:opacity-10 rounded-full transition-opacity duration-500" style={{ backgroundColor: accentColor }}></div>
+             {Icon && <Icon className="w-6 h-6 relative z-10 transition-colors duration-500" style={{ color: 'inherit' }} />}
           </div>
-          <div className="relative z-10">
-            <h2 className={`text-3xl md:text-4xl font-black max-w-[90%] truncate tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{value}</h2>
+
+          {/* Content (centered) */}
+          <div className="flex flex-col items-center relative z-10 w-full">
+            <h3 className={`text-sm font-bold tracking-wide uppercase mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{title}</h3>
+            <h2 className={`text-3xl md:text-4xl font-black max-w-full truncate tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{value}</h2>
           </div>
         </Card>
       </motion.div>

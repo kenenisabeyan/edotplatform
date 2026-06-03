@@ -368,56 +368,60 @@ export default function AdminDashboard() {
               </div>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-              <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {/* Total Users Card */}
+              <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center gap-3 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-500 mb-1">Total Users</p>
-                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.dashboardStats?.totalUsers ?? 0}</h3>
-                  </div>
-                  <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
-                    <Users className="w-4 h-4" />
-                  </div>
+                {/* Icon (centered top) */}
+                <div className={`w-12 h-12 rounded-full border flex items-center justify-center bg-transparent relative z-10 ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
+                  <Users className="w-6 h-6" />
+                </div>
+                {/* Content (centered) */}
+                <div className="flex flex-col items-center relative z-10 w-full">
+                  <p className="text-sm font-medium text-gray-500 mb-1.5">Total Users</p>
+                  <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.dashboardStats?.totalUsers ?? 0}</h3>
                 </div>
               </div>
 
-              <div className={`p-6 rounded-[24px] border border-rose-200/50 glass-panel shadow-lg relative overflow-hidden group hover:border-rose-300 hover:-translate-y-1 transition-all duration-300`}>
+              {/* Pending Users Card */}
+              <div className={`p-6 rounded-[24px] border border-rose-200/50 glass-panel shadow-lg relative overflow-hidden group hover:border-rose-300 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center gap-3`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-500 mb-1">Pending Users</p>
-                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.dashboardStats?.pendingUsers || 0}</h3>
-                  </div>
-                  <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
-                    <UserPlus className="w-4 h-4" />
-                  </div>
+                {/* Icon (centered top) */}
+                <div className={`w-12 h-12 rounded-full border flex items-center justify-center bg-transparent relative z-10 ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
+                  <UserPlus className="w-6 h-6" />
+                </div>
+                {/* Content (centered) */}
+                <div className="flex flex-col items-center relative z-10 w-full">
+                  <p className="text-sm font-medium text-gray-500 mb-1.5">Pending Users</p>
+                  <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.dashboardStats?.pendingUsers || 0}</h3>
                 </div>
               </div>
 
-              <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+              {/* Instructors Card */}
+              <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center gap-3 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-500 mb-1">Instructors</p>
-                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.dashboardStats?.totalInstructors ?? 0}</h3>
-                  </div>
-                  <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
-                    <UserCog className="w-4 h-4" />
-                  </div>
+                {/* Icon (centered top) */}
+                <div className={`w-12 h-12 rounded-full border flex items-center justify-center bg-transparent relative z-10 ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
+                  <UserCog className="w-6 h-6" />
+                </div>
+                {/* Content (centered) */}
+                <div className="flex flex-col items-center relative z-10 w-full">
+                  <p className="text-sm font-medium text-gray-500 mb-1.5">Instructors</p>
+                  <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.dashboardStats?.totalInstructors ?? 0}</h3>
                 </div>
               </div>
 
-              <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+              {/* Pending Approvals Card */}
+              <div className={`p-6 rounded-[24px] border glass-panel shadow-lg relative overflow-hidden group hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center gap-3 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                 <div className="absolute top-0 right-0 w-24 h-24 bg-[#00D4FF]/10 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <p className="text-sm font-medium text-gray-500 mb-1">Pending Approvals</p>
-                    <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.dashboardStats?.pendingApprovals ?? 0}</h3>
-                  </div>
-                  <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
-                    <Clock className="w-4 h-4" />
-                  </div>
+                {/* Icon (centered top) */}
+                <div className={`w-12 h-12 rounded-full border flex items-center justify-center bg-transparent relative z-10 ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
+                  <Clock className="w-6 h-6" />
+                </div>
+                {/* Content (centered) */}
+                <div className="flex flex-col items-center relative z-10 w-full">
+                  <p className="text-sm font-medium text-gray-500 mb-1.5">Pending Approvals</p>
+                  <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.dashboardStats?.pendingApprovals ?? 0}</h3>
                 </div>
               </div>
             </div>

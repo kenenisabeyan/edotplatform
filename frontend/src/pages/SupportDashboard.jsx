@@ -142,16 +142,18 @@ export default function SupportDashboard() {
       {/* Metrics Row (SECTION 1 - SUPPORT POOL) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {staticStatsConfigs.map((stat, idx) => (
-          <div key={idx} className={`p-6 rounded-3xl bg-gradient-to-br flex flex-col shadow-xl transition-transform relative overflow-hidden group ${isDarkMode ? `${stat.gradient} border-0 shadow-black/20 hover:-translate-y-1` : 'from-white to-slate-50 border border-slate-200 shadow-slate-200/50 hover:-translate-y-1'}`}>
+          <div key={idx} className={`p-6 rounded-3xl bg-gradient-to-br flex flex-col items-center text-center gap-3 shadow-xl transition-transform relative overflow-hidden group ${isDarkMode ? `${stat.gradient} border-0 shadow-black/20 hover:-translate-y-1` : 'from-white to-slate-50 border border-slate-200 shadow-slate-200/50 hover:-translate-y-1'}`}>
             {/* Soft decorative blur */}
             <div className={`absolute -right-4 -top-4 w-24 h-24 rounded-full blur-2xl opacity-20 bg-current ${stat.color} pointer-events-none group-hover:opacity-40 transition-opacity`} />
             
-            <div className="flex items-center gap-3 mb-4">
-              <stat.icon className={`w-5 h-5 ${stat.color} opacity-80`} />
-              <p className={`text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{stat.label}</p>
+            {/* Icon */}
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center bg-slate-500/10 shrink-0 relative z-10`}>
+              <stat.icon className={`w-6 h-6 ${stat.color}`} />
             </div>
-            
-            <div>
+
+            {/* Content */}
+            <div className="flex flex-col items-center relative z-10 w-full">
+              <p className={`text-xs font-bold mb-1.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{stat.label}</p>
               <h3 className={`text-4xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats ? stat.format(stats[stat.key]) : '0'}</h3>
             </div>
           </div>
@@ -366,20 +368,20 @@ export default function SupportDashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div className={`p-5 border rounded-2xl flex flex-col items-center text-center hover:-translate-y-1 transition-transform ${isDarkMode ? 'bg-[#0B1120] border-0 shadow-lg' : 'bg-white border-slate-200 shadow-md'}`}>
                 <Users className="w-6 h-6 text-indigo-500 mb-2 opacity-80" />
-                <h4 className={`text-3xl font-black mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.supportedStudents || 0}</h4>
-                <p className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Students Supported</p>
+                <p className={`text-[10px] font-bold mb-1.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Students Supported</p>
+                <h4 className={`text-3xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.supportedStudents || 0}</h4>
               </div>
 
               <div className={`p-5 border rounded-2xl flex flex-col items-center text-center hover:-translate-y-1 transition-transform ${isDarkMode ? 'bg-[#0B1120] border-0 shadow-lg' : 'bg-white border-slate-200 shadow-md'}`}>
                 <GraduationCap className="w-6 h-6 text-cyan-500 mb-2 opacity-80" />
-                <h4 className={`text-3xl font-black mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{supportedStudents?.filter(s => s.status === 'completed').length || 0}</h4>
-                <p className={`text-[10px] font-bold leading-tight ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Courses Completed</p>
+                <p className={`text-[10px] font-bold leading-tight mb-1.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Courses Completed</p>
+                <h4 className={`text-3xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{supportedStudents?.filter(s => s.status === 'completed').length || 0}</h4>
               </div>
 
               <div className={`p-5 border rounded-2xl flex flex-col items-center text-center hover:-translate-y-1 transition-transform ${isDarkMode ? 'bg-[#0B1120] border-0 shadow-lg' : 'bg-white border-slate-200 shadow-md'}`}>
                 <RefreshCw className="w-6 h-6 text-emerald-500 mb-2 opacity-80" />
-                <h4 className={`text-3xl font-black mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.activeCycles || 0}</h4>
-                <p className={`text-[10px] font-bold leading-tight ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Lives In Progress</p>
+                <p className={`text-[10px] font-bold leading-tight mb-1.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>Lives In Progress</p>
+                <h4 className={`text-3xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.activeCycles || 0}</h4>
               </div>
             </div>
           </div>

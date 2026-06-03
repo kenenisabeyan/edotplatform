@@ -18,26 +18,25 @@ export default function SummaryCard({ title, value, percentage, isPositive, icon
   return (
     <div 
       onClick={onClick}
-      className={`/90 backdrop-blur-xl rounded-3xl p-6 border shadow-2xl transition-all duration-300 flex flex-col justify-between group relative overflow-hidden ${onClick ? 'cursor-pointer hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:-translate-y-1' : ''} ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}
+      className={`/90 backdrop-blur-xl rounded-3xl p-6 border shadow-2xl transition-all duration-300 flex flex-col items-center text-center gap-4 group relative overflow-hidden ${onClick ? 'cursor-pointer hover:border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:-translate-y-1' : ''} ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}
     >
       <div className={`absolute -right-6 -top-6 w-24 h-24 bg-gradient-to-br ${gradient} rounded-full opacity-10 group-hover:opacity-30 blur-2xl transition-opacity`}></div>
       
-      <div className="flex justify-between items-start mb-4 relative z-10">
-        <div className="flex items-center gap-3">
-          <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${textBg} transition-transform group-hover:scale-110 duration-300 border ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-            {Icon && <Icon className="w-6 h-6" />}
-          </div>
-          <h3 className={`font-semibold text-sm ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{title}</h3>
-        </div>
+      {/* Icon (centered top) */}
+      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${textBg} transition-transform group-hover:scale-110 duration-300 border ${isDarkMode ? 'border-white/5' : 'border-slate-100'} relative z-10`}>
+        {Icon && <Icon className="w-6 h-6" />}
+      </div>
+
+      {/* Content (centered) */}
+      <div className="flex flex-col items-center relative z-10 w-full">
+        <h3 className={`font-semibold text-sm mb-1.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{title}</h3>
+        <h2 className={`text-4xl font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{value}</h2>
         {percentage && (
-           <div className={`flex items-center gap-1 text-[10px] font-black px-2.5 py-1 rounded-md   shadow-sm ${isPositive ? 'bg-[#00D4FF]/20 text-[#00D4FF]' : 'bg-[#E30A17]/20 text-[#E30A17]'}`}>
+           <div className={`flex items-center gap-1 text-[10px] font-black px-2.5 py-1 rounded-md shadow-sm mt-3 w-fit ${isPositive ? 'bg-[#00D4FF]/20 text-[#00D4FF]' : 'bg-[#E30A17]/20 text-[#E30A17]'}`}>
              {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
              {percentage}%
            </div>
         )}
-      </div>
-      <div className="flex justify-between items-end relative z-10 mt-2">
-        <h2 className={`text-4xl font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{value}</h2>
       </div>
     </div>
   );

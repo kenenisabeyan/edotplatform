@@ -225,24 +225,36 @@ export default function ParentLearners() {
                         </div>
                         
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <div className="bg-gradient-to-br from-[#0B1120] to-[#0B1120] border border-[#00D4FF]/20 rounded-3xl p-8 relative overflow-hidden group hover:border-[#00D4FF]/50 transition-colors shadow-xl">
-                                <div className="absolute -right-6 -top-6 text-[#00D4FF]/10 group-hover:text-[#00D4FF]/20 transition-colors duration-500">
+                            <div className="bg-gradient-to-br from-[#0B1120] to-[#0B1120] border border-[#00D4FF]/20 rounded-3xl p-8 relative overflow-hidden group hover:border-[#00D4FF]/50 transition-colors shadow-xl flex flex-col items-center text-center gap-3">
+                                <div className="absolute -right-6 -top-6 text-[#00D4FF]/5 group-hover:text-[#00D4FF]/10 transition-colors duration-500 pointer-events-none">
                                    <BookOpen className="w-36 h-36 transform -rotate-12 group-hover:scale-110 transition-transform" />
                                 </div>
-                                <p className="text-sm font-medium text-gray-500 mb-2 relative z-10">Total Enrolled</p>
-                                <div className="flex items-baseline gap-2 relative z-10">
-                                   <span className={`text-2xl md:text-3xl font-bold drop-shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{totalEnrollments}</span>
-                                   <span className="text-xs text-gray-400">courses</span>
+                                {/* Top Centered Icon */}
+                                <div className="w-12 h-12 rounded-full border border-[#00D4FF]/20 flex items-center justify-center bg-transparent text-[#00D4FF] relative z-10">
+                                  <BookOpen className="w-6 h-6" />
+                                </div>
+                                <div className="flex flex-col items-center relative z-10 w-full">
+                                  <p className="text-sm font-medium text-gray-500 mb-1.5">Total Enrolled</p>
+                                  <div className="flex items-baseline gap-2 justify-center">
+                                     <span className={`text-2xl md:text-3xl font-bold drop-shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{totalEnrollments}</span>
+                                     <span className="text-xs text-gray-400">courses</span>
+                                  </div>
                                 </div>
                             </div>
-                            <div className="bg-gradient-to-br from-[#0B1120] to-[#0B1120] border border-[#00D4FF]/20 rounded-3xl p-8 relative overflow-hidden group hover:border-[#00D4FF]/50 transition-colors shadow-xl">
-                                <div className="absolute -right-6 -top-6 text-[#00D4FF]/10 group-hover:text-[#00D4FF]/20 transition-colors duration-500">
+                            <div className="bg-gradient-to-br from-[#0B1120] to-[#0B1120] border border-[#00D4FF]/20 rounded-3xl p-8 relative overflow-hidden group hover:border-[#00D4FF]/50 transition-colors shadow-xl flex flex-col items-center text-center gap-3">
+                                <div className="absolute -right-6 -top-6 text-[#00D4FF]/5 group-hover:text-[#00D4FF]/10 transition-colors duration-500 pointer-events-none">
                                    <Award className="w-36 h-36 transform -rotate-12 group-hover:scale-110 transition-transform" />
                                 </div>
-                                <p className="text-sm font-medium text-gray-500 mb-2 relative z-10">Certifications</p>
-                                <div className="flex items-baseline gap-2 relative z-10">
-                                   <span className={`text-2xl md:text-3xl font-bold drop-shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{completedCourses}</span>
-                                   <span className="text-xs text-gray-400">completed</span>
+                                {/* Top Centered Icon */}
+                                <div className="w-12 h-12 rounded-full border border-[#00D4FF]/20 flex items-center justify-center bg-transparent text-[#00D4FF] relative z-10">
+                                  <Award className="w-6 h-6" />
+                                </div>
+                                <div className="flex flex-col items-center relative z-10 w-full">
+                                  <p className="text-sm font-medium text-gray-500 mb-1.5">Certifications</p>
+                                  <div className="flex items-baseline gap-2 justify-center">
+                                     <span className={`text-2xl md:text-3xl font-bold drop-shadow-md ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{completedCourses}</span>
+                                     <span className="text-xs text-gray-400">completed</span>
+                                  </div>
                                 </div>
                             </div>
                         </div>

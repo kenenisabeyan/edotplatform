@@ -131,37 +131,45 @@ export default function SponsorDashboard() {
               </div>
 
               {/* Analytics Row */}
-              <div className="grid grid-cols-4 gap-4">
-                <div className="rounded-[20px] border border-slate-100 bg-white p-5 shadow-sm">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Wallet className="w-4 h-4 text-emerald-500" />
-                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Total Contributions</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="rounded-[20px] border border-slate-100 bg-white p-5 shadow-sm flex flex-col items-center text-center gap-3">
+                  <div className="w-10 h-10 rounded-full border border-slate-100 bg-slate-50 flex items-center justify-center shrink-0">
+                    <Wallet className="w-5 h-5 text-emerald-500" />
                   </div>
-                  <h2 className="text-3xl font-black text-slate-800">${stats.totalContributions}</h2>
+                  <div className="flex flex-col items-center">
+                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-1">Total Contributions</p>
+                    <h2 className="text-3xl font-black text-slate-800">${stats.totalContributions}</h2>
+                  </div>
                 </div>
                 
-                <div className="rounded-[20px] border border-slate-100 bg-gradient-to-br from-white to-indigo-50/30 p-5 shadow-sm">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Heart className="w-4 h-4 text-indigo-400" />
-                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Active Sponsors</p>
+                <div className="rounded-[20px] border border-slate-100 bg-gradient-to-br from-white to-indigo-50/30 p-5 shadow-sm flex flex-col items-center text-center gap-3">
+                  <div className="w-10 h-10 rounded-full border border-slate-100 bg-slate-50 flex items-center justify-center shrink-0">
+                    <Heart className="w-5 h-5 text-indigo-400" />
                   </div>
-                  <h2 className="text-3xl font-black text-slate-800">{stats.activeSponsors}</h2>
+                  <div className="flex flex-col items-center">
+                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-1">Active Sponsors</p>
+                    <h2 className="text-3xl font-black text-slate-800">{stats.activeSponsors}</h2>
+                  </div>
                 </div>
 
-                <div className="rounded-[20px] border border-slate-100 bg-gradient-to-br from-white to-sky-50/30 p-5 shadow-sm">
-                  <div className="flex items-center gap-2 mb-4">
-                    <GraduationCap className="w-4 h-4 text-sky-400" />
-                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Supported Students</p>
+                <div className="rounded-[20px] border border-slate-100 bg-gradient-to-br from-white to-sky-50/30 p-5 shadow-sm flex flex-col items-center text-center gap-3">
+                  <div className="w-10 h-10 rounded-full border border-slate-100 bg-slate-50 flex items-center justify-center shrink-0">
+                    <GraduationCap className="w-5 h-5 text-sky-400" />
                   </div>
-                  <h2 className="text-3xl font-black text-slate-800">{stats.supportedStudents}</h2>
+                  <div className="flex flex-col items-center">
+                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-1">Supported Students</p>
+                    <h2 className="text-3xl font-black text-slate-800">{stats.supportedStudents}</h2>
+                  </div>
                 </div>
 
-                <div className="rounded-[20px] border border-slate-100 bg-gradient-to-br from-white to-amber-50/30 p-5 shadow-sm">
-                  <div className="flex items-center gap-2 mb-4">
-                    <RefreshCw className="w-4 h-4 text-amber-400" />
-                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Active Support Cycles</p>
+                <div className="rounded-[20px] border border-slate-100 bg-gradient-to-br from-white to-amber-50/30 p-5 shadow-sm flex flex-col items-center text-center gap-3">
+                  <div className="w-10 h-10 rounded-full border border-slate-100 bg-slate-50 flex items-center justify-center shrink-0">
+                    <RefreshCw className="w-5 h-5 text-amber-400" />
                   </div>
-                  <h2 className="text-3xl font-black text-slate-800">{stats.activeSupportCycles}</h2>
+                  <div className="flex flex-col items-center">
+                    <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-1">Active Support Cycles</p>
+                    <h2 className="text-3xl font-black text-slate-800">{stats.activeSupportCycles}</h2>
+                  </div>
                 </div>
               </div>
 
@@ -281,22 +289,22 @@ export default function SponsorDashboard() {
                   </div>
                   
                   <div className="grid grid-cols-3 gap-3">
-                    <div className="rounded-2xl border border-slate-100 bg-slate-50/50 p-4 text-center">
-                      <Users className="w-5 h-5 text-indigo-400 mx-auto mb-2" />
+                    <div className="rounded-2xl border border-slate-100 bg-slate-50/50 p-4 text-center flex flex-col items-center justify-center gap-1.5">
+                      <Users className="w-5 h-5 text-indigo-400" />
+                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wide">Students Supported</p>
                       <h4 className="text-2xl font-black text-slate-800">{humanImpact.studentsSupported}</h4>
-                      <p className="text-[9px] font-bold text-slate-400 uppercase mt-1">Students Supported</p>
                     </div>
                     
-                    <div className="rounded-2xl border border-slate-100 bg-slate-50/50 p-4 text-center">
-                      <GraduationCap className="w-5 h-5 text-sky-400 mx-auto mb-2" />
+                    <div className="rounded-2xl border border-slate-100 bg-slate-50/50 p-4 text-center flex flex-col items-center justify-center gap-1.5">
+                      <GraduationCap className="w-5 h-5 text-sky-400" />
+                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wide">Courses Completed</p>
                       <h4 className="text-2xl font-black text-slate-800">{humanImpact.coursesCompleted}</h4>
-                      <p className="text-[9px] font-bold text-slate-400 uppercase mt-1">Courses Completed</p>
                     </div>
                     
-                    <div className="rounded-2xl border border-slate-100 bg-slate-50/50 p-4 text-center">
-                      <RefreshCw className="w-5 h-5 text-emerald-400 mx-auto mb-2" />
+                    <div className="rounded-2xl border border-slate-100 bg-slate-50/50 p-4 text-center flex flex-col items-center justify-center gap-1.5">
+                      <RefreshCw className="w-5 h-5 text-emerald-400" />
+                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wide">Lives In Progress</p>
                       <h4 className="text-2xl font-black text-slate-800">{humanImpact.livesInProgress}</h4>
-                      <p className="text-[9px] font-bold text-slate-400 uppercase mt-1">Lives In Progress</p>
                     </div>
                   </div>
                 </div>

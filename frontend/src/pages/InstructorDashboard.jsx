@@ -119,34 +119,43 @@ export default function InstructorDashboard() {
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-              <div className={`border rounded-[24px] glass-panel p-6 shadow-lg hover:-translate-y-1 hover:border-white/10 transition-all duration-300 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
-                    <Users className="w-4 h-4" />
-                  </div>
-                  <span className="text-sm font-medium text-gray-500">Total Students</span>
+              {/* Total Students Card */}
+              <div className={`border rounded-[24px] glass-panel p-6 shadow-lg hover:-translate-y-1 hover:border-white/10 transition-all duration-300 flex flex-col items-center text-center gap-3 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                {/* Icon (centered top) */}
+                <div className={`w-12 h-12 rounded-full border flex items-center justify-center bg-transparent relative z-10 ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
+                  <Users className="w-6 h-6" />
                 </div>
-                <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{totalStudents}</h3>
+                {/* Content (centered) */}
+                <div className="flex flex-col items-center relative z-10 w-full">
+                  <span className="text-sm font-medium text-gray-500 mb-1.5">Total Students</span>
+                  <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{totalStudents}</h3>
+                </div>
               </div>
 
-              <div className={`border rounded-[24px] glass-panel p-6 shadow-lg hover:-translate-y-1 hover:border-white/10 transition-all duration-300 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
-                    <Radio className="w-4 h-4" />
-                  </div>
-                  <span className="text-sm font-medium text-gray-500">Active Courses</span>
+              {/* Active Courses Card */}
+              <div className={`border rounded-[24px] glass-panel p-6 shadow-lg hover:-translate-y-1 hover:border-white/10 transition-all duration-300 flex flex-col items-center text-center gap-3 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                {/* Icon (centered top) */}
+                <div className={`w-12 h-12 rounded-full border flex items-center justify-center bg-transparent relative z-10 ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
+                  <Radio className="w-6 h-6" />
                 </div>
-                <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activeCourses}</h3>
+                {/* Content (centered) */}
+                <div className="flex flex-col items-center relative z-10 w-full">
+                  <span className="text-sm font-medium text-gray-500 mb-1.5">Active Courses</span>
+                  <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activeCourses}</h3>
+                </div>
               </div>
 
-              <div className={`border rounded-[24px] glass-panel p-6 shadow-lg hover:-translate-y-1 hover:border-white/10 transition-all duration-300 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={`w-8 h-8 rounded shrink-0 border flex items-center justify-center bg-transparent ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
-                    <Layers className="w-4 h-4" />
-                  </div>
-                  <span className="text-sm font-medium text-gray-500">Total Creations</span>
+              {/* Total Creations Card */}
+              <div className={`border rounded-[24px] glass-panel p-6 shadow-lg hover:-translate-y-1 hover:border-white/10 transition-all duration-300 flex flex-col items-center text-center gap-3 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                {/* Icon (centered top) */}
+                <div className={`w-12 h-12 rounded-full border flex items-center justify-center bg-transparent relative z-10 ${isDarkMode ? 'border-white/10 text-slate-400' : 'border-slate-200 text-slate-500'}`}>
+                  <Layers className="w-6 h-6" />
                 </div>
-                <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{courses.length}</h3>
+                {/* Content (centered) */}
+                <div className="flex flex-col items-center relative z-10 w-full">
+                  <span className="text-sm font-medium text-gray-500 mb-1.5">Total Creations</span>
+                  <h3 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{courses.length}</h3>
+                </div>
               </div>
             </div>
 
