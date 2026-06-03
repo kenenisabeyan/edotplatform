@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Bot, User, Loader2, Trash2 } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, User, Loader2, Trash2, QrCode } from 'lucide-react';
 import useThemeMode from '../hooks/useThemeMode';
 import api from '../utils/api';
 import Markdown from 'markdown-to-jsx';
+import ChatbotQRScannerModal from './ChatbotQRScannerModal';
 
 export default function ChatbotWidget() {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +13,7 @@ export default function ChatbotWidget() {
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [scannerOpen, setScannerOpen] = useState(false);
     const messagesEndRef = useRef(null);
     const isDarkMode = useThemeMode();
     const telegramUrl = 'https://t.me/edotplatform';
@@ -285,12 +287,24 @@ export default function ChatbotWidget() {
 
                         <form onSubmit={handleSend} className={`p-3 border-t backdrop-blur-md ${isDarkMode ? 'border-white/10 bg-black/20' : 'border-white/10 bg-white/15'}`}>
                             <div className="relative flex items-center">
+                                <button
+                                    type="button"
+                                    onClick={() => setScannerOpen(true)}
+                                    title="Scan QR Code"
+                                    className={`absolute left-3 p-1.5 rounded-full transition-all z-10 ${
+                                        isDarkMode 
+                                            ? 'text-slate-400 hover:text-cyan-300 hover:bg-white/5' 
+                                            : 'text-slate-600 hover:text-teal-700 hover:bg-black/5'
+                                    }`}
+                                >
+                                    <QrCode size={16} />
+                                </button>
                                 <input
                                     type="text"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
-                                    placeholder="Message EDOT Assistant..."
-                                    className={`w-full py-3 pl-6 pr-12 rounded-full text-sm focus:outline-none transition-all ${
+                                    placeholder="Message or scan QR..."
+                                    className={`w-full py-3 pl-11 pr-12 rounded-full text-sm focus:outline-none transition-all ${
                                         isDarkMode 
                                             ? 'bg-gradient-to-r from-white/5 to-white/10 border border-white/20 focus:border-cyan-400 text-white placeholder-white/60' 
                                             : 'bg-gradient-to-r from-black/5 to-black/10 border border-black/15 focus:border-teal-600 text-slate-800 placeholder-slate-500 shadow-inner'
@@ -314,6 +328,13 @@ export default function ChatbotWidget() {
                             </span>
                             <span>Powered by EDOT AI</span>
                         </div>
+
+                        {/* QR Scanner Modal */}
+                        <ChatbotQRScannerModal 
+                            isOpen={scannerOpen}
+                            onClose={() => setScannerOpen(false)}
+                            onScanSuccess={(decodedText) => sendMessage(decodedText)}
+                        />
                     </motion.div>
                 )}
             </AnimatePresence>

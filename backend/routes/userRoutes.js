@@ -89,7 +89,7 @@ router.get('/profile', protect, async (req, res) => {
                         }
                     }
                 },
-                parents: { select: { id: true, name: true, email: true, avatar: true, phone: true } },
+                parent: { select: { id: true, name: true, email: true, avatar: true, phone: true } },
                 children: { select: { id: true, name: true, email: true, avatar: true, phone: true } },
                 sponsorships: { 
                     include: { 
@@ -108,6 +108,9 @@ router.get('/profile', protect, async (req, res) => {
         
         if (user) {
             delete user.password;
+            // Map singular 'parent' to 'parents' array for frontend compatibility
+            user.parents = user.parent ? [user.parent] : [];
+            delete user.parent;
         }
 
         res.json({

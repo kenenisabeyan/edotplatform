@@ -16,6 +16,85 @@ router.post('/message', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Message is required' });
         }
 
+        // Intercept and handle scanned QR Codes/Verification links directly from DB
+        try {
+            let qrData = null;
+            if (message.trim().startsWith('{') && message.trim().endsWith('}')) {
+                try {
+                    qrData = JSON.parse(message);
+                } catch (e) {
+                    // Not valid JSON, ignore
+                }
+            }
+
+            // Case 1: Digital ID Card QR Code
+            if (qrData && qrData.type === 'digital_id') {
+                const student = await prisma.user.findUnique({
+                    where: { id: qrData.userId || qrData.id }
+                });
+                if (student) {
+                    return res.json({
+                        success: true,
+                        reply: `### 🔍 Verified Digital ID Card\n\nI have successfully scanned and verified the student's Digital ID Card from the EDOT database:\n\n*   **Name:** **${student.name}**\n*   **Email:** ${student.email}\n*   **Role:** \`${student.role.toUpperCase()}\`\n*   **Status:** \`${student.status.toUpperCase()}\`\n*   **Department:** ${student.department || 'Not Assigned'}\n*   **Specialization:** ${student.specialization || 'Not Assigned'}\n\n**System Verification:** ✅ **AUTHENTIC ID CARD**\n\n**Purpose:** This QR Code is dynamically generated on the student's portfolio page to permit campus building access, fast identity verification, and rapid daily class attendance roll calls.`
+                    });
+                } else {
+                    return res.json({
+                        success: true,
+                        reply: `### ⚠️ Digital ID Verification Warning\n\nI scanned the Digital ID Card, but the user ID **"${qrData.userId || qrData.id}"** could not be found in our records.\n\n**Verification Status:** ❌ **INVALID OR SUSPENDED ACCOUNT**`
+                    });
+                }
+            }
+            // Case 2: Class Attendance Session QR Code
+            else if (qrData && qrData.type === 'session_attendance') {
+                const course = await prisma.course.findUnique({
+                    where: { id: qrData.courseId },
+                    include: { instructor: true }
+                });
+                if (course) {
+                    return res.json({
+                        success: true,
+                        reply: `### 📅 Scanned Class Session Check-in\n\nI have successfully verified the class session details:\n\n*   **Course:** **${course.title}**\n*   **Instructor:** ${course.instructor?.name || 'Unassigned'}\n*   **Section:** \`${qrData.section || 'Main Section'}\`\n*   **Level:** ${course.level}\n\n**Check-in Instructions:** Students scan this QR code on a projector screen using the **"Scan Class QR"** button in their Attendance menu to instantly register their attendance for the day.`
+                    });
+                } else {
+                    return res.json({
+                        success: true,
+                        reply: `### 📅 Scanned Class Session Check-in\n\nI detected a check-in QR code, but Course ID **"${qrData.courseId}"** is not logged in the database.`
+                    });
+                }
+            }
+            // Case 3: Certificate Verification URL / Hash / Code
+            else if (message.includes('verify-certificate') || message.includes('EDOT-CERT-') || (message.includes('EDOT-') && message.split('-').length >= 3)) {
+                let cleanHash = message.trim();
+                if (message.includes('/verify-certificate/')) {
+                    cleanHash = message.split('/verify-certificate/')[1].split(' ')[0].trim();
+                }
+
+                const certificate = await prisma.certificate.findFirst({
+                    where: {
+                        OR: [
+                            { id: cleanHash },
+                            { verificationHash: cleanHash }
+                        ]
+                    },
+                    include: { user: true, course: true }
+                });
+
+                if (certificate) {
+                    return res.json({
+                        success: true,
+                        reply: `### 🎓 Verified Academic Certificate\n\nI have officially verified the credentials for this certificate in the registry:\n\n*   **Recipient Student:** **${certificate.user?.name || 'Unknown'}**\n*   **Course Completed:** ${certificate.course?.title || 'Unknown Course'}\n*   **Completion Date:** ${new Date(certificate.issueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}\n*   **Credential Status:** ✅ **OFFICIALLY VERIFIED & SECURE**\n*   **Verification Tracking Hash:** \`${certificate.verificationHash}\`\n\n**Purpose:** This QR Code is embedded on student PDF certificates to allow third-party verification (such as employers, universities, or sponsors) of their academic achievement.`
+                    });
+                } else {
+                    return res.json({
+                        success: true,
+                        reply: `### 🎓 Certificate Verification Request\n\nI scanned for the verification code **"${cleanHash}"**, but could not find a matching record in our certificate logs.\n\nIf this certificate was just claimed, please reload the page or download it again. Otherwise, contact the EDOT support team for assistance.`
+                    });
+                }
+            }
+        } catch (err) {
+            console.error('Error handling QR scan inside chatbot:', err);
+        }
+
         if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'dummy_key') {
              console.error('Gemini API Key is missing. Please configure GEMINI_API_KEY in the backend environment variables.');
              return res.status(500).json({ 
