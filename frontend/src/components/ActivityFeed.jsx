@@ -12,7 +12,7 @@ export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const filterType = feedType || (isAdmin ? 'all' : 'personal');// 'all', 'personal', 'insights'
+  const filterType = feedType || (isAdmin ? 'all' : 'personal');
 
   const fetchActivities = useCallback(async () => {
     try {
