@@ -6,7 +6,8 @@ import api from '../utils/api';
 import { 
   BookOpen, CheckCircle2, Award, Search, LayoutDashboard, 
   Settings, LogOut, Target, Plus, Bell, Monitor, TrendingUp, MoreHorizontal,
-  PlayCircle, Download, ShieldCheck, Globe, ShoppingCart, Users, Coins, Package, Banknote, Wallet, FileText, Moon, Sun, Clock, PanelLeftClose
+  PlayCircle, Download, ShieldCheck, Globe, ShoppingCart, Users, Coins, Package, Banknote, Wallet, FileText, Moon, Sun, Clock, PanelLeftClose,
+  Calculator, Rocket, UserCheck
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import QRCode from 'qrcode';
@@ -36,17 +37,122 @@ const DB_CATEGORY_MAP = {
   "Business & Entrepreneurship": "Business & Entrepreneurship",
   "Personal Development": "Personal Development"
 };
-
 const CAT_COLORS = {
-  "Social Science": { main: "#00D4FF", dark: "#C2410C" }, 
+  "Social Science": { main: "#F97316", dark: "#C2410C" }, 
   "Mathematics & Natural Science": { main: "#3B82F6", dark: "#1D4ED8" }, 
   "Natural Language": { main: "#A855F7", dark: "#7E22CE" }, 
   "Programming & Technology": { main: "#6366F1", dark: "#4338CA" }, 
-  "Business & Entrepreneurship": { main: "#00D4FF", dark: "#CA8A04" }, 
+  "Business & Entrepreneurship": { main: "#FFD700", dark: "#CA8A04" }, 
   "Personal Development": { main: "#22C55E", dark: "#15803D" }
 };
 
 const DEFAULT_COLOR = { main: "#3b82f6", dark: "#2563eb" };
+
+const CAT_ICONS = {
+  "Social Science": Globe,
+  "Mathematics & Natural Science": Calculator,
+  "Natural Language": BookOpen,
+  "Programming & Technology": Rocket,
+  "Business & Entrepreneurship": Target,
+  "Personal Development": UserCheck,
+  "General Overview": BookOpen
+};
+
+const normalizeCategory = (cat) => {
+  const c = cat?.toLowerCase() || '';
+  if (c.includes('social')) return 'Social Science';
+  if (c.includes('math') || c.includes('science')) return 'Mathematics & Natural Science';
+  if (c.includes('language')) return 'Natural Language';
+  if (c.includes('programming') || c.includes('tech')) return 'Programming & Technology';
+  if (c.includes('business') || c.includes('entrepreneur')) return 'Business & Entrepreneurship';
+  if (c.includes('personal') || c.includes('growth') || c.includes('development')) return 'Personal Development';
+  return 'General Overview';
+};
+
+const EnrolledCourseCard = ({ enrolled, isDarkMode, navigate, handleSelfAttendance }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const normalized = normalizeCategory(enrolled.course?.mainCategory || enrolled.course?.category);
+  const catInfo = CAT_COLORS[normalized] || DEFAULT_COLOR;
+  const contrastTextColor = catInfo.main === "#FFD700" ? "#0F172A" : "#FFFFFF";
+  const IconComponent = CAT_ICONS[normalized] || BookOpen;
+
+  return (
+    <div 
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`rounded-[24px] glass-panel border shadow-lg flex flex-col h-full transition-all relative group hover:-translate-y-1 overflow-hidden ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}
+      style={{ 
+        borderColor: isHovered ? catInfo.main : undefined,
+        boxShadow: isHovered ? `0 8px 30px ${catInfo.main}25` : undefined
+      }}
+    >
+      <div 
+        className="w-full h-40 relative flex items-center justify-center shrink-0 overflow-hidden" 
+        style={{ background: `linear-gradient(135deg, ${catInfo.main}, ${catInfo.dark || catInfo.main})` }}
+      >
+        {enrolled.course?.thumbnail && enrolled.course.thumbnail !== 'default-course.jpg' ? (
+          <img 
+            src={enrolled.course.thumbnail} 
+            alt={enrolled.course.title} 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+          />
+        ) : (
+          /* Centered Category Icon inside a bordered rounded square container */
+          <div className="w-14 h-14 rounded-[18px] bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
+            <IconComponent className="w-7 h-7 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" />
+          </div>
+        )}
+
+        {/* Status Badge in lowercase pill border shape */}
+        <div className="absolute top-4 right-4 z-20">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white border border-white/60 bg-white/10 backdrop-blur-md">
+            {(enrolled.status || (enrolled.progress === 100 ? 'completed' : 'active')).toLowerCase()}
+          </span>
+        </div>
+      </div>
+
+      <div className="p-6 flex flex-col flex-1">
+        <h3 
+          className={`text-lg font-bold mb-2 line-clamp-2 transition-colors duration-300 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}
+          style={{ color: isHovered ? catInfo.main : undefined }}
+        >
+          {enrolled.course?.title || 'Unknown Course'}
+        </h3>
+
+        <div className="mt-auto pt-4 space-y-3">
+          <div className="flex justify-between text-xs font-bold">
+            <span className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>Progress</span>
+            <span style={{ color: catInfo.main }}>{enrolled.progress || 0}%</span>
+          </div>
+          <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+            <div className="h-full rounded-full transition-all duration-300" style={{ width: `${enrolled.progress || 0}%`, backgroundColor: catInfo.main }}></div>
+          </div>
+
+          <div className="flex gap-2 mt-4 pt-1">
+            <button 
+              onClick={() => navigate(`/course/${enrolled.course?.id || enrolled.courseId}`)} 
+              className="flex-1 py-2.5 font-bold text-xs rounded-xl transition-all duration-300 hover:-translate-y-0.5 shadow-md"
+              style={{
+                backgroundColor: catInfo.main,
+                color: contrastTextColor,
+                boxShadow: isHovered ? `0 6px 15px -3px ${catInfo.main}50` : undefined
+              }}
+            >
+              Continue Learning
+            </button>
+            <button 
+              onClick={() => handleSelfAttendance(enrolled.course?.id || enrolled.courseId)} 
+              className={`flex-1 py-2.5 font-bold text-xs rounded-xl border transition-colors ${isDarkMode ? 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500 hover:text-white' : 'bg-green-50 text-green-600 border-green-200 hover:bg-green-500 hover:text-white'}`}
+            >
+              Check In
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 
 const CAT_DESCRIPTIONS = {
@@ -631,29 +737,13 @@ export default function StudentDashboard() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {enrolledCourses.map((enrolled) => (
-                    <div key={enrolled.id} className={`rounded-[24px] glass-panel border shadow-lg p-6 flex flex-col h-full transition-all relative group hover:-translate-y-1 ${isDarkMode ? 'border-slate-700 hover:border-[#00D4FF]/50' : 'border-slate-200 hover:border-orange-300'}`}>
-                       <div className="w-full h-40 bg-slate-100 dark:bg-slate-800 rounded-xl mb-4 overflow-hidden relative">
-                         <img src={enrolled.course?.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' : (enrolled.course?.thumbnail || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80')} alt={enrolled.course?.title} className="w-full h-full object-cover" />
-                       </div>
-                       <h3 className={`text-lg font-bold mb-2 line-clamp-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{enrolled.course?.title || 'Unknown Course'}</h3>
-                       <div className="mt-auto pt-4 space-y-3">
-                         <div className="flex justify-between text-xs font-bold">
-                           <span className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>Progress</span>
-                           <span className="text-[#00D4FF]">{enrolled.progress || 0}%</span>
-                         </div>
-                         <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                           <div className="h-full bg-[#00D4FF] rounded-full" style={{width: `${enrolled.progress || 0}%`}}></div>
-                         </div>
-                         <div className="flex gap-2 mt-2">
-                           <button onClick={() => navigate(`/course/${enrolled.course?.id || enrolled.courseId}`)} className={`flex-1 py-2.5 font-bold text-xs rounded-lg transition-colors ${isDarkMode ? 'bg-white/10 hover:bg-[#00D4FF] text-white' : 'bg-slate-100 hover:bg-[#00D4FF] text-slate-800 hover:text-white'}`}>
-                             Continue Learning
-                           </button>
-                           <button onClick={() => handleSelfAttendance(enrolled.course?.id || enrolled.courseId)} className={`flex-1 py-2.5 font-bold text-xs rounded-lg border transition-colors ${isDarkMode ? 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500 hover:text-white' : 'bg-green-50 text-green-600 border-green-200 hover:bg-green-500 hover:text-white'}`}>
-                             Check In
-                           </button>
-                         </div>
-                       </div>
-                    </div>
+                    <EnrolledCourseCard 
+                      key={enrolled.id} 
+                      enrolled={enrolled} 
+                      isDarkMode={isDarkMode} 
+                      navigate={navigate} 
+                      handleSelfAttendance={handleSelfAttendance} 
+                    />
                   ))}
                 </div>
             )}

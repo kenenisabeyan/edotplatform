@@ -120,7 +120,7 @@ router.put('/courses/:id', async (req, res) => {
         if (req.body.category !== undefined) validUpdateFields.mainCategory = req.body.category;
         if (req.body.level !== undefined) validUpdateFields.level = req.body.level;
         if (req.body.duration !== undefined) validUpdateFields.duration = Number(req.body.duration);
-        if (req.body.thumbnail !== undefined) validUpdateFields.thumbnail = req.body.thumbnail;
+        if (req.body.thumbnail !== undefined) validUpdateFields.thumbnail = req.body.thumbnail || 'default-course.jpg';
         if (req.body.videoUrl !== undefined) validUpdateFields.videoUrl = req.body.videoUrl;
         if (req.body.price !== undefined) validUpdateFields.price = Number(req.body.price);
         if (req.body.requirements !== undefined) validUpdateFields.requirements = req.body.requirements;

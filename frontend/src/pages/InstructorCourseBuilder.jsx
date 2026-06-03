@@ -140,6 +140,7 @@ export default function InstructorCourseBuilder() {
     try {
       const cleanedData = {
         ...formData,
+        thumbnail: formData.thumbnail || 'default-course.jpg',
         requirements: formData.requirements.filter(item => item.trim() !== ''),
         whatYouWillLearn: formData.whatYouWillLearn.filter(item => item.trim() !== ''),
         tags: formData.tags.filter(item => item.trim() !== '')
@@ -499,14 +500,14 @@ export default function InstructorCourseBuilder() {
                         />
                       </label>
                     </label>
-                    <input 
+                     <input 
                       type="url" 
-                      value={formData.thumbnail} 
+                      value={formData.thumbnail === 'default-course.jpg' ? '' : formData.thumbnail} 
                       onChange={e => setFormData({...formData, thumbnail: e.target.value})} 
                       className={`w-full !px-5 !py-3 !rounded-full border focus:ring-1 focus:ring-[#00D4FF] focus:border-[#00D4FF] outline-none transition-all font-medium ${isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'}`} 
                       placeholder="https://example.com/beautiful-course-cover.jpg" 
                     />
-                    {formData.thumbnail && (
+                    {formData.thumbnail && formData.thumbnail !== 'default-course.jpg' && (
                       <div className={`mt-4 rounded-xl overflow-hidden shadow-sm border max-w-sm h-48 bg-black/50 relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                         <img src={formData.thumbnail} alt="Thumbnail Preview" className="w-full h-full object-cover" onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' }} />
                       </div>

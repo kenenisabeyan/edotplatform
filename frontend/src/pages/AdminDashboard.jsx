@@ -6,7 +6,7 @@ import api from '../utils/api';
 import AgendaCreationModal from '../components/AgendaCreationModal';
 import CustomDropdown from '../components/CustomDropdown';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, Users, BookOpen, Clock, Settings, LogOut, CheckCircle2, XCircle, UserCog, AlertTriangle, ShieldCheck, Check, Activity, MessageSquare, UserPlus, Eye, ShieldOff, ArrowRightCircle, UserPlus as UserPlusIcon, Search, Bell, Layers, Library } from 'lucide-react';
+import { ShieldAlert, Users, BookOpen, Clock, Settings, LogOut, CheckCircle2, XCircle, UserCog, AlertTriangle, ShieldCheck, Check, Activity, MessageSquare, UserPlus, Eye, ShieldOff, ArrowRightCircle, UserPlus as UserPlusIcon, Search, Bell, Layers, Library, Globe, Calculator, Rocket, Target, UserCheck } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, RadialBarChart, RadialBar, PolarAngleAxis } from 'recharts';
 const edotLogo = 'https://res.cloudinary.com/dacck6udl/image/upload/f_auto,q_auto/v1/edot/frontend/images/jpw8g8m6spazsktyizdw';
 import ActivityFeed from '../components/ActivityFeed';
@@ -19,6 +19,38 @@ import { CircleDollarSign, ArrowDownRight } from 'lucide-react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDashboardStats } from '../hooks/useDashboardStats';
 import PremiumModal from '../components/PremiumModal';
+
+const CAT_COLORS = {
+  "Social Science": { main: "#F97316", dark: "#C2410C" }, 
+  "Mathematics & Natural Science": { main: "#3B82F6", dark: "#1D4ED8" }, 
+  "Natural Language": { main: "#A855F7", dark: "#7E22CE" }, 
+  "Programming & Technology": { main: "#6366F1", dark: "#4338CA" }, 
+  "Business & Entrepreneurship": { main: "#FFD700", dark: "#CA8A04" }, 
+  "Personal Development": { main: "#22C55E", dark: "#15803D" }
+};
+
+const DEFAULT_COLOR = { main: "#3b82f6", dark: "#2563eb" };
+
+const CAT_ICONS = {
+  "Social Science": Globe,
+  "Mathematics & Natural Science": Calculator,
+  "Natural Language": BookOpen,
+  "Programming & Technology": Rocket,
+  "Business & Entrepreneurship": Target,
+  "Personal Development": UserCheck,
+  "General Overview": BookOpen
+};
+
+const normalizeCategory = (cat) => {
+  const c = cat?.toLowerCase() || '';
+  if (c.includes('social')) return 'Social Science';
+  if (c.includes('math') || c.includes('science')) return 'Mathematics & Natural Science';
+  if (c.includes('language')) return 'Natural Language';
+  if (c.includes('programming') || c.includes('tech')) return 'Programming & Technology';
+  if (c.includes('business') || c.includes('entrepreneur')) return 'Business & Entrepreneurship';
+  if (c.includes('personal') || c.includes('growth') || c.includes('development')) return 'Personal Development';
+  return 'General Overview';
+};
 
 export default function AdminDashboard() {
   const isDarkMode = useThemeMode();
@@ -734,23 +766,42 @@ export default function AdminDashboard() {
                </div>
             ) : (
                 <div className="grid grid-cols-1 gap-6">
-                  {pendingCourses.map(c => (
-                    <div key={c.id} className={`rounded-[24px] border glass-panel shadow-lg overflow-hidden flex flex-col md:flex-row group hover:-translate-y-1 transition-all duration-300 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
-                      
-                      <div className={`w-full md:w-64 h-48 md:h-auto shrink-0 relative backdrop-blur-xl ${isDarkMode ? 'bg-[#0B1120]/5' : 'bg-slate-50'}`}>
-                        <img 
-                          src={c.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' : c.thumbnail} 
-                          alt={c.title} 
-                          className="w-full h-full object-cover" 
-                        />
-                        <div className={`absolute top-3 left-3 backdrop-blur-sm px-2.5 py-1 rounded-md text-xs font-bold shadow-sm ${isDarkMode ? 'bg-[#0B1120]/90 text-slate-200' : 'bg-white/90 text-slate-600'}`}>
-                          {c.category}
+                   {pendingCourses.map(c => {
+                    const normalized = normalizeCategory(c.mainCategory || c.category);
+                    const catInfo = CAT_COLORS[normalized] || DEFAULT_COLOR;
+                    const IconComponent = CAT_ICONS[normalized] || BookOpen;
+                    return (
+                      <div key={c.id} className={`rounded-[24px] border glass-panel shadow-lg overflow-hidden flex flex-col md:flex-row group hover:-translate-y-1 transition-all duration-300 relative ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}
+                           style={{ borderTopColor: catInfo.main, borderTopWidth: '4px' }}>
+                        
+                        <div 
+                          className="w-full md:w-64 h-48 md:h-auto shrink-0 relative flex items-center justify-center overflow-hidden"
+                          style={{ background: `linear-gradient(135deg, ${catInfo.main}, ${catInfo.dark || catInfo.main})` }}
+                        >
+                          {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
+                            <img 
+                              src={c.thumbnail} 
+                              alt={c.title} 
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                            />
+                          ) : (
+                            /* Centered Category Icon inside a bordered rounded square container */
+                            <div className="w-14 h-14 rounded-[18px] bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
+                              <IconComponent className="w-7 h-7 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" />
+                            </div>
+                          )}
+
+                          {/* Status Badge in lowercase pill border shape */}
+                          <div className="absolute top-4 right-4 z-20">
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white border border-white/60 bg-white/10 backdrop-blur-md">
+                              {(c.status || 'pending').toLowerCase()}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                      
-                      <div className="p-6 md:p-8 flex flex-col flex-1">
-                        <div className="flex justify-between items-start mb-2 gap-4">
-                          <h3 className={`text-xl font-bold leading-snug ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</h3>
+                        
+                        <div className="p-6 md:p-8 flex flex-col flex-1">
+                          <div className="flex justify-between items-start mb-2 gap-4">
+                            <h3 className={`text-xl font-bold leading-snug ${isDarkMode ? 'text-white' : 'text-slate-900'}`} style={{ color: catInfo.main }}>{c.title}</h3>
                           <span className="shrink-0 flex items-center gap-1.5 bg-[#00D4FF]/10 text-amber-700 px-3 py-1 rounded-full text-xs font-bold   border border-amber-200">
                              <Clock className="w-3 h-3" /> Pending Review
                           </span>
@@ -779,10 +830,11 @@ export default function AdminDashboard() {
                            >
                              <XCircle className="w-5 h-5" /> Reject
                            </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                         </div>
+                       </div>
+                     </div>
+                    );
+                  })}
                 </div>
             )}
 

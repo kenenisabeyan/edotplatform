@@ -3,10 +3,43 @@ import useThemeMode from '../hooks/useThemeMode';
 import api from '../utils/api';
 import { 
   ClipboardCheck, Clock, CheckCircle2, 
-  XSquare, Users, AlertCircle, FileText, BadgeInfo, Undo2
+  XSquare, Users, AlertCircle, FileText, BadgeInfo, Undo2,
+  Globe, Calculator, BookOpen, Rocket, Target, UserCheck
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
+
+const CAT_COLORS = {
+  "Social Science": { main: "#F97316", dark: "#C2410C" }, 
+  "Mathematics & Natural Science": { main: "#3B82F6", dark: "#1D4ED8" }, 
+  "Natural Language": { main: "#A855F7", dark: "#7E22CE" }, 
+  "Programming & Technology": { main: "#6366F1", dark: "#4338CA" }, 
+  "Business & Entrepreneurship": { main: "#FFD700", dark: "#CA8A04" }, 
+  "Personal Development": { main: "#22C55E", dark: "#15803D" }
+};
+
+const DEFAULT_COLOR = { main: "#3b82f6", dark: "#2563eb" };
+
+const CAT_ICONS = {
+  "Social Science": Globe,
+  "Mathematics & Natural Science": Calculator,
+  "Natural Language": BookOpen,
+  "Programming & Technology": Rocket,
+  "Business & Entrepreneurship": Target,
+  "Personal Development": UserCheck,
+  "General Overview": BookOpen
+};
+
+const normalizeCategory = (cat) => {
+  const c = cat?.toLowerCase() || '';
+  if (c.includes('social')) return 'Social Science';
+  if (c.includes('math') || c.includes('science')) return 'Mathematics & Natural Science';
+  if (c.includes('language')) return 'Natural Language';
+  if (c.includes('programming') || c.includes('tech')) return 'Programming & Technology';
+  if (c.includes('business') || c.includes('entrepreneur')) return 'Business & Entrepreneurship';
+  if (c.includes('personal') || c.includes('growth') || c.includes('development')) return 'Personal Development';
+  return 'General Overview';
+};
 
 export default function AdminCourseApprovals() {
   const isDarkMode = useThemeMode();
@@ -261,57 +294,80 @@ export default function AdminCourseApprovals() {
                     <p className={`text-sm italic font-medium p-4 text-center ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>No courses match your filter criteria.</p>
                   ) : (
                     <AnimatePresence>
-                    {filteredCourses.map(c => (
-                      <motion.div 
-                        layout
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        key={c.id} 
-                        className={`rounded-[2rem] border shadow-lg hover:shadow-2xl overflow-hidden flex flex-col md:flex-row group transition-all duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/60 hover:bg-[#0B1120]' : 'border-slate-200 bg-white hover:border-[#00D4FF]/30'}`}
-                      >
-                        <div className="w-full md:w-72 h-56 md:h-auto shrink-0 relative bg-black/40 overflow-hidden">
-                          <img 
-                            src={c.thumbnail === 'default-course.jpg' ? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80' : c.thumbnail} 
-                            alt={c.title} 
-                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" 
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-80"></div>
-                          <div className={`absolute top-4 left-4 backdrop-blur-xl px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider text-[#00D4FF] shadow-[0_0_15px_rgba(0,212,255,0.2)] border ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
-                            {c.mainCategory || 'General'}
-                          </div>
-                        </div>
-                        <div className={`flex flex-col flex-1 relative z-10 -mt-6 md:mt-0 md:bg-transparent rounded-t-3xl md:rounded-none ${isDarkMode ? 'bg-[#0B1120]/90' : 'bg-white/95'}`}>
-                          <div className="p-6 flex-1">
-                            <h3 className={`text-xl font-black leading-snug break-words mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</h3>
-                            <div className={`flex flex-wrap gap-4 mb-4 text-[10px] font-black ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
-                               <span className={`flex items-center gap-1 border px-2 py-1 rounded ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>Instructor: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{c.instructor?.name || 'Unknown'}</span></span>
-                               <span className={`flex items-center gap-1 border bg-[#00D4FF]/10 text-[#00D4FF] px-2 py-1 rounded ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Status: Pending</span>
+                    {filteredCourses.map(c => {
+                      const normalized = normalizeCategory(c.mainCategory || c.category);
+                      const catInfo = CAT_COLORS[normalized] || DEFAULT_COLOR;
+                      const IconComponent = CAT_ICONS[normalized] || BookOpen;
+                      return (
+                        <motion.div 
+                          layout
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.9 }}
+                          key={c.id} 
+                          className={`rounded-[2rem] border shadow-lg hover:shadow-2xl overflow-hidden flex flex-col md:flex-row group transition-all duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/60 hover:bg-[#0B1120]' : 'border-slate-200 bg-white hover:border-[#00D4FF]/30'}`}
+                        >
+                          <div 
+                            className="w-full md:w-72 h-56 md:h-auto shrink-0 relative flex items-center justify-center overflow-hidden"
+                            style={{ background: `linear-gradient(135deg, ${catInfo.main}, ${catInfo.dark || catInfo.main})` }}
+                          >
+                            {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
+                              <img 
+                                src={c.thumbnail} 
+                                alt={c.title} 
+                                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" 
+                              />
+                            ) : (
+                              /* Centered Category Icon inside a bordered rounded square container */
+                              <div className="w-14 h-14 rounded-[18px] bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
+                                <IconComponent className="w-7 h-7 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" />
+                              </div>
+                            )}
+
+                            {/* Status Badge in lowercase pill border shape */}
+                            <div className="absolute top-4 right-4 z-20">
+                              <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white border border-white/60 bg-white/10 backdrop-blur-md">
+                                {(c.status || 'pending').toLowerCase()}
+                              </span>
                             </div>
-                            <p className={`line-clamp-2 md:line-clamp-3 mb-0 text-sm font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{c.description}</p>
-                          </div>
-                          <div className={`p-5 border-t flex flex-col sm:flex-row justify-between items-center gap-5 ${isDarkMode ? 'border-white/5 bg-[#0B1120]/50' : 'border-slate-100 bg-slate-100'}`}>
-                            <span className={`text-[10px] font-black ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Submitted: <span className={isDarkMode ? 'text-slate-300' : 'text-slate-500'}>{new Date(c.createdAt || c.updatedAt).toLocaleDateString()}</span></span>
-                            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-                              <button 
-                                disabled={processing === c.id}
-                                onClick={() => handleStatusUpdate(c.id, 'rejected')} 
-                                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-transparent text-[#E30A17] font-black text-xs   rounded-xl border border-[#E30A17]/30 hover:bg-[#E30A17]/10 transition-colors shadow-sm disabled:opacity-50"
-                              >
-                                <XSquare className="w-4 h-4" /> Reject
-                              </button>
-                              <button 
-                                disabled={processing === c.id}
-                                onClick={() => handleStatusUpdate(c.id, 'approved')} 
-                                className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00D4FF] to-[#0099CC] font-black text-xs rounded-xl hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all shadow-md disabled:opacity-50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
-                              >
-                                <CheckCircle2 className="w-4 h-4" /> Approve & Publish
-                              </button>
+
+                            {/* Category Badge in top left */}
+                            <div className={`absolute top-4 left-4 backdrop-blur-xl px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider text-[#00D4FF] shadow-[0_0_15px_rgba(0,212,255,0.2)] border ${isDarkMode ? 'bg-[#0B1120]/80 border-white/10' : 'bg-white/90 border-slate-200'}`}>
+                              {c.mainCategory || 'General'}
                             </div>
                           </div>
-                        </div>
-                      </motion.div>
-                    ))}
+                          <div className={`flex flex-col flex-1 relative z-10 -mt-6 md:mt-0 md:bg-transparent rounded-t-3xl md:rounded-none ${isDarkMode ? 'bg-[#0B1120]/90' : 'bg-white/95'}`}>
+                            <div className="p-6 flex-1">
+                              <h3 className={`text-xl font-black leading-snug break-words mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</h3>
+                              <div className={`flex flex-wrap gap-4 mb-4 text-[10px] font-black ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>
+                                 <span className={`flex items-center gap-1 border px-2 py-1 rounded ${isDarkMode ? 'border-white/5 bg-[#0B1120]/5' : 'border-slate-100 bg-slate-50'}`}>Instructor: <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{c.instructor?.name || 'Unknown'}</span></span>
+                                 <span className={`flex items-center gap-1 border bg-[#00D4FF]/10 text-[#00D4FF] px-2 py-1 rounded ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>Status: Pending</span>
+                              </div>
+                              <p className={`line-clamp-2 md:line-clamp-3 mb-0 text-sm font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-600'}`}>{c.description}</p>
+                            </div>
+                            <div className={`p-5 border-t flex flex-col sm:flex-row justify-between items-center gap-5 ${isDarkMode ? 'border-white/5 bg-[#0B1120]/50' : 'border-slate-100 bg-slate-100'}`}>
+                              <span className={`text-[10px] font-black ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>Submitted: <span className={isDarkMode ? 'text-slate-300' : 'text-slate-500'}>{new Date(c.createdAt || c.updatedAt).toLocaleDateString()}</span></span>
+                              <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                                <button 
+                                  disabled={processing === c.id}
+                                  onClick={() => handleStatusUpdate(c.id, 'rejected')} 
+                                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-transparent text-[#E30A17] font-black text-xs   rounded-xl border border-[#E30A17]/30 hover:bg-[#E30A17]/10 transition-colors shadow-sm disabled:opacity-50"
+                                >
+                                  <XSquare className="w-4 h-4" /> Reject
+                                </button>
+                                <button 
+                                  disabled={processing === c.id}
+                                  onClick={() => handleStatusUpdate(c.id, 'approved')} 
+                                  className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-[#00D4FF] to-[#0099CC] font-black text-xs rounded-xl hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] transition-all shadow-md disabled:opacity-50 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
+                                >
+                                  <CheckCircle2 className="w-4 h-4" /> Approve & Publish
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
                     </AnimatePresence>
                   )}
                 </div>

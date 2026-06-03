@@ -24,6 +24,28 @@ import {
 import useThemeMode from '../hooks/useThemeMode';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
+const CAT_COLORS = {
+  "Social Science": { main: "#F97316", dark: "#C2410C", banner: "from-orange-500 to-red-600" }, 
+  "Mathematics & Natural Science": { main: "#3B82F6", dark: "#1D4ED8", banner: "from-blue-600 to-indigo-700" }, 
+  "Natural Language": { main: "#A855F7", dark: "#7E22CE", banner: "from-purple-600 to-pink-700" }, 
+  "Programming & Technology": { main: "#6366F1", dark: "#4338CA", banner: "from-indigo-600 to-violet-700" }, 
+  "Business & Entrepreneurship": { main: "#FFD700", dark: "#CA8A04", banner: "from-amber-400 to-amber-600" }, 
+  "Personal Development": { main: "#22C55E", dark: "#15803D", banner: "from-emerald-500 to-teal-600" }
+};
+
+const DEFAULT_COLOR = { main: "#3b82f6", dark: "#2563eb", banner: "from-slate-600 to-slate-800" };
+
+const normalizeCategory = (cat) => {
+  const c = cat?.toLowerCase() || '';
+  if (c.includes('social')) return 'Social Science';
+  if (c.includes('math') || c.includes('science')) return 'Mathematics & Natural Science';
+  if (c.includes('language')) return 'Natural Language';
+  if (c.includes('programming') || c.includes('tech')) return 'Programming & Technology';
+  if (c.includes('business') || c.includes('entrepreneur')) return 'Business & Entrepreneurship';
+  if (c.includes('personal') || c.includes('growth') || c.includes('development')) return 'Personal Development';
+  return 'General Overview';
+};
+
 export default function CourseDetails() {
   const { id } = useParams();
   const { user } = useAuth();
@@ -101,6 +123,10 @@ export default function CourseDetails() {
   const isEnrolled = enrollmentStatus === 'active';
   const totalDuration = course.lessons?.length ? course.lessons.length * 15 : 0;
 
+  const normalized = normalizeCategory(course.mainCategory || course.category);
+  const catInfo = CAT_COLORS[normalized] || DEFAULT_COLOR;
+  const contrastTextColor = catInfo.main === "#FFD700" ? "#0F172A" : "#FFFFFF";
+
   return (
     <div className={`min-h-[calc(100vh-80px)] w-full font-sans pb-20 relative overflow-hidden transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-[#FAFAFA] text-slate-800'}`}>
       
@@ -115,32 +141,38 @@ export default function CourseDetails() {
           <div className="flex flex-col lg:flex-row gap-16 lg:items-center">
               {/* Left Hero */}
              <div className="lg:w-7/12">
-                <div className="mb-4 flex flex-wrap items-center gap-2 text-[#00D4FF] font-black text-[10px] sm:text-xs drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]">
-                   <span>{course.mainCategory || 'SaaS Application'}</span>
-                   {course.subCategory && (
-                     <>
-                        <ChevronRight className="w-4 h-4 text-[#00D4FF]/40" />
-                        <span>{course.subCategory}</span>
-                     </>
-                   )}
-                </div>
-                <h1 className={`text-5xl md:text-7xl font-black mb-6 leading-tight text-transparent bg-clip-text drop-shadow-[0_0_25px_rgba(249,115,22,0.3)] ${isDarkMode ? 'bg-gradient-to-r from-white via-amber-100 to-[#00D4FF]' : 'bg-gradient-to-r from-slate-900 via-amber-600 to-[#00D4FF]'}`}>
-                  {course.title}
-                </h1>
-                <p className={`text-lg md:text-xl font-medium leading-relaxed max-w-2xl mb-10 border-l-2 border-[#00D4FF]/50 pl-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                   {course.description}
-                </p>
-                <div className={`flex flex-wrap items-center gap-8 text-xs font-black ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                   <div className="flex items-center gap-3">
-                     <Users className="w-5 h-5 text-[#00D4FF] drop-shadow-[0_0_10px_rgba(230,126,34,0.4)]" />
-                     Instructor: <span className={`ml-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.instructor?.name || 'Kenenisa'}</span>
-                   </div>
-                   <div className="flex items-center gap-3">
-                     <MonitorPlay className="w-5 h-5 text-[#00D4FF] drop-shadow-[0_0_10px_rgba(249,115,22,0.4)]" />
-                     Delivery: <span className={`ml-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Hybrid / Online</span>
-                   </div>
-                </div>
-             </div>
+                 <div className="mb-4 flex flex-wrap items-center gap-2 font-black text-[10px] sm:text-xs" style={{ color: catInfo.main }}>
+                    <span>{course.mainCategory || 'SaaS Application'}</span>
+                    {course.subCategory && (
+                      <>
+                         <ChevronRight className="w-4 h-4" style={{ color: `${catInfo.main}60` }} />
+                         <span>{course.subCategory}</span>
+                      </>
+                    )}
+                 </div>
+                 <h1 
+                   className="text-5xl md:text-7xl font-black mb-6 leading-tight text-transparent bg-clip-text drop-shadow-[0_0_20px_rgba(0,0,0,0.15)]"
+                   style={{
+                     backgroundImage: isDarkMode 
+                       ? `linear-gradient(to right, #FFFFFF, #F1F5F9, ${catInfo.main})` 
+                       : `linear-gradient(to right, #0F172A, #334155, ${catInfo.main})`
+                   }}
+                 >
+                   {course.title}
+                 </h1>
+                 <p className={`text-lg md:text-xl font-medium leading-relaxed max-w-2xl mb-10 border-l-2 pl-6 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`} style={{ borderColor: `${catInfo.main}80` }}>
+                    {course.description}
+                 </p>
+                 <div className={`flex flex-wrap items-center gap-8 text-xs font-black ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    <div className="flex items-center gap-3">
+                      <Users className="w-5 h-5" style={{ color: catInfo.main }} />
+                      Instructor: <span className={`ml-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.instructor?.name || 'Kenenisa'}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <MonitorPlay className="w-5 h-5" style={{ color: catInfo.main }} />
+                      Delivery: <span className={`ml-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Hybrid / Online</span>
+                    </div>
+                 </div></div>
 
              {/* Right Hero (Floating Mockup Container) */}
              <div className="hidden lg:block lg:w-5/12">
@@ -180,9 +212,15 @@ export default function CourseDetails() {
                       onClick={() => setActiveTab(tab)}
                       className={`flex-1 min-w-fit py-4 px-8 font-black text-sm transition-all duration-300 rounded-2xl whitespace-nowrap border tracking-wide uppercase ${
                         activeTab === tab 
-                        ? 'border-[#00D4FF]/50 bg-gradient-to-r from-[#00D4FF]/10 to-[#00D4FF]/10 text-[#00D4FF] shadow-[0_0_25px_rgba(249,115,22,0.15)] scale-[1.02]' 
-                        : (isDarkMode ? 'border-white/5 bg-[#0B1120]/60 text-slate-400 hover:border-white/20 hover:text-white hover:bg-[#0B1120]/80' : 'border-slate-200 bg-white/80 text-slate-500 hover:border-[#00D4FF]/30 hover:text-slate-800 hover:bg-white')
+                        ? 'scale-[1.02]' 
+                        : (isDarkMode ? 'border-white/5 bg-[#0B1120]/60 text-slate-400 hover:border-white/20 hover:text-white hover:bg-[#0B1120]/80' : 'border-slate-200 bg-white/80 text-slate-500 hover:border-slate-300 hover:text-slate-800 hover:bg-white')
                       }`}
+                      style={activeTab === tab ? {
+                        borderColor: `${catInfo.main}50`,
+                        backgroundColor: `${catInfo.main}15`,
+                        color: catInfo.main,
+                        boxShadow: `0 0 25px ${catInfo.main}20`
+                      } : {}}
                     >
                       {tabLabel}
                     </button>
@@ -193,10 +231,10 @@ export default function CourseDetails() {
               {/* Tab: Overview */}
               {activeTab === 'overview' && (
                 <div className="space-y-12 animate-in fade-in duration-500 slide-in-from-bottom-4">
-                  <div className={`relative p-[1px] rounded-3xl bg-gradient-to-b ${isDarkMode ? 'from-[#00D4FF]/20' : 'from-slate-200'} to-transparent shadow-[0_0_40px_rgba(0,212,255,0.05)]`}>
+                  <div className={`relative p-[1px] rounded-3xl bg-gradient-to-b ${isDarkMode ? 'from-slate-800' : 'from-slate-200'} to-transparent shadow-lg`}>
                      <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl h-full border ${isDarkMode ? 'bg-[#0B1120]/90 border-white/5' : 'bg-white/95 border-slate-100'}`}>
                         <h2 className={`text-3xl font-black mb-8 flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                           <FileText className="w-8 h-8 text-[#00D4FF] drop-shadow-[0_0_15px_rgba(0,212,255,0.4)]"/> 
+                           <FileText className="w-8 h-8" style={{ color: catInfo.main }} /> 
                            Program Details
                         </h2>
                         <div className={`prose max-w-none text-base md:text-lg leading-loose whitespace-pre-wrap font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -205,10 +243,10 @@ export default function CourseDetails() {
                      </div>
                   </div>
 
-                  <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#00D4FF]/40 to-transparent shadow-[0_0_50px_rgba(249,115,22,0.1)]">
-                     <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl h-full border relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 text-white border-white/5' : 'bg-white/95 text-slate-900 border-slate-100'}`}>
+                  <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-transparent to-transparent shadow-lg">
+                     <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl h-full border relative overflow-hidden ${isDarkMode ? 'bg-[#0B1120]/90 text-white border-white/5' : 'bg-white/95 text-slate-900 border-slate-100'}`} style={{ borderTopColor: `${catInfo.main}40` }}>
                         <h3 className="text-3xl font-black flex items-center gap-4 mb-10 relative z-10">
-                          <CheckCircle className="w-8 h-8 text-[#00D4FF] drop-shadow-[0_0_15px_rgba(249,115,22,0.4)]" /> 
+                          <CheckCircle className="w-8 h-8" style={{ color: catInfo.main }} /> 
                           What You'll Learn
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
@@ -219,7 +257,7 @@ export default function CourseDetails() {
                              'Receive a formalized digital certification upon passing.',
                            ].map((point, i) => (
                               <div key={i} className={`flex gap-4 group ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                                 <ChevronRight className="w-5 h-5 text-[#00D4FF] shrink-0 group-hover:translate-x-1 transition-transform" />
+                                 <ChevronRight className="w-5 h-5 shrink-0 group-hover:translate-x-1 transition-transform" style={{ color: catInfo.main }} />
                                  <span className="font-bold text-sm leading-relaxed">{point}</span>
                               </div>
                            ))}
@@ -231,14 +269,14 @@ export default function CourseDetails() {
 
               {/* Tab: Curriculum */}
               {activeTab === 'curriculum' && (
-                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#00D4FF]/40 to-transparent animate-in fade-in duration-500 slide-in-from-bottom-4 shadow-[0_0_50px_rgba(0,212,255,0.05)]">
-                  <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl shadow-xl border ${isDarkMode ? 'bg-[#0B1120]/90 border-white/5' : 'bg-white/95 border-slate-200'}`}>
+                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-transparent to-transparent animate-in fade-in duration-500 slide-in-from-bottom-4 shadow-lg">
+                  <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl shadow-xl border ${isDarkMode ? 'bg-[#0B1120]/90 border-white/5' : 'bg-white/95 border-slate-200'}`} style={{ borderTopColor: `${catInfo.main}40` }}>
                      <div className="flex items-center justify-between mb-12">
                         <h2 className={`text-3xl font-black flex items-center gap-4 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                           <BookOpen className="w-8 h-8 text-[#00D4FF] drop-shadow-[0_0_15px_rgba(0,212,255,0.4)]"/> 
+                           <BookOpen className="w-8 h-8" style={{ color: catInfo.main }} /> 
                            Syllabus
                         </h2>
-                        <div className="text-[10px] font-black bg-indigo-500/10 px-4 py-2 rounded-full text-indigo-500 dark:text-indigo-300 border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.1)]">
+                        <div className="text-[10px] font-black px-4 py-2 rounded-full border shadow-sm" style={{ color: catInfo.main, backgroundColor: `${catInfo.main}15`, borderColor: `${catInfo.main}30` }}>
                           {course.lessons?.length || 0} Modules
                         </div>
                      </div>
@@ -251,19 +289,19 @@ export default function CourseDetails() {
                              const phaseLessons = course.lessons.filter(l => (l.phase || 'General Content') === phase);
                              return (
                                 <div key={pIdx} className="space-y-6">
-                                 <h3 className={`text-2xl font-black text-[#00D4FF] border-b pb-4 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>{phase}</h3>
+                                 <h3 className="text-2xl font-black border-b pb-4 mb-8" style={{ color: catInfo.main, borderColor: isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}>{phase}</h3>
                                  {phaseLessons.map((lesson) => (
-                                   <div key={lesson.id} className={`w-full border rounded-3xl p-6 transition-all flex flex-col md:flex-row gap-8 items-start md:items-center group ${isDarkMode ? 'bg-[#0B1120]/60 border-white/5 hover:border-[#00D4FF]/30 hover:bg-[#0B1120] hover:shadow-[0_0_20px_rgba(0,212,255,0.1)]' : 'bg-slate-50 border-slate-200 hover:border-[#00D4FF]/30 hover:bg-white shadow-sm hover:shadow-[0_0_20px_rgba(0,212,255,0.1)]'}`}>
-                                      <div className={`shrink-0 w-24 h-24 rounded-2xl border flex flex-col items-center justify-center p-2 shadow-inner transition-colors group-hover:border-[#00D4FF]/50 ${isDarkMode ? 'bg-[#05070A] border-white/10' : 'bg-white border-slate-200'}`}>
+                                   <div key={lesson.id} className={`w-full border rounded-3xl p-6 transition-all flex flex-col md:flex-row gap-8 items-start md:items-center group ${isDarkMode ? 'bg-[#0B1120]/60 border-white/5 hover:bg-[#0B1120]' : 'bg-slate-50 border-slate-200 hover:bg-white shadow-sm'}`} style={{ borderLeftColor: catInfo.main, borderLeftWidth: '4px' }}>
+                                      <div className={`shrink-0 w-24 h-24 rounded-2xl border flex flex-col items-center justify-center p-2 shadow-inner transition-colors ${isDarkMode ? 'bg-[#05070A] border-white/10' : 'bg-white border-slate-200'}`}>
                                          <span className="text-xs font-black text-slate-500 mb-1 uppercase tracking-wider">Module</span>
-                                         <span className="text-3xl font-black text-[#00D4FF] leading-none">{course.lessons.findIndex(l => l.id === lesson.id) + 1}</span>
+                                         <span className="text-3xl font-black leading-none" style={{ color: catInfo.main }}>{course.lessons.findIndex(l => l.id === lesson.id) + 1}</span>
                                       </div>
                                       
                                       <div className="flex-1 min-w-0">
                                          <h4 className={`font-bold text-xl leading-tight mb-3 transition-colors tracking-tight ${isDarkMode ? 'text-white group-hover:text-indigo-300' : 'text-slate-800 group-hover:text-indigo-600'}`}>{lesson.title}</h4>
                                          <div className={`flex flex-wrap items-center gap-3 text-xs font-black ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                                           <span className="flex items-center gap-1.5"><PlayCircle className="w-3 h-3 text-[#00D4FF]" /> {lesson.duration}m Video</span>
-                                           {lesson.readingMaterials && <span className="flex items-center gap-1.5"><FileText className="w-3 h-3 text-[#00D4FF]" /> Docs</span>}
+                                           <span className="flex items-center gap-1.5"><PlayCircle className="w-3 h-3" style={{ color: catInfo.main }} /> {lesson.duration}m Video</span>
+                                           {lesson.readingMaterials && <span className="flex items-center gap-1.5"><FileText className="w-3 h-3" style={{ color: catInfo.main }} /> Docs</span>}
                                            {lesson.quiz?.length > 0 && <span className="flex items-center gap-1.5"><BadgeAlert className="w-3 h-3 text-rose-500" /> Audit</span>}
                                          </div>
                                       </div>
@@ -287,14 +325,14 @@ export default function CourseDetails() {
 
               {/* Tab: Instructor */}
               {activeTab === 'instructor' && (
-                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-[#00D4FF]/40 to-transparent animate-in fade-in duration-500 slide-in-from-bottom-4 shadow-[0_0_50px_rgba(249,115,22,0.05)]">
-                  <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl flex flex-col md:flex-row items-center gap-12 text-center md:text-left border shadow-xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/5' : 'bg-white/95 border-slate-200'}`}>
-                     <div className={`w-40 h-40 rounded-full overflow-hidden shrink-0 border-4 border-[#00D4FF] shadow-[0_0_30px_rgba(0,212,255,0.4)] ${isDarkMode ? 'bg-[#05070A]' : 'bg-slate-100'}`}>
+                <div className="relative p-[1px] rounded-3xl bg-gradient-to-b from-transparent to-transparent animate-in fade-in duration-500 slide-in-from-bottom-4 shadow-lg">
+                  <div className={`backdrop-blur-2xl p-10 md:p-14 rounded-3xl flex flex-col md:flex-row items-center gap-12 text-center md:text-left border shadow-xl ${isDarkMode ? 'bg-[#0B1120]/90 border-white/5' : 'bg-white/95 border-slate-200'}`} style={{ borderTopColor: `${catInfo.main}40` }}>
+                     <div className={`w-40 h-40 rounded-full overflow-hidden shrink-0 border-4 shadow-lg ${isDarkMode ? 'bg-[#05070A]' : 'bg-slate-100'}`} style={{ borderColor: catInfo.main }}>
                        <img src="https://ui-avatars.com/api/?name=Instructor&background=0B1120&color=FFFFFF" alt="Instructor" className="w-full h-full object-cover" />
                      </div>
                      <div>
                        <h2 className={`text-4xl font-black mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{course.instructor?.name || 'Kenenisa'}</h2>
-                       <p className="text-[#00D4FF] font-black text-xs mb-6 bg-[#00D4FF]/10 inline-block px-4 py-1.5 rounded-full border border-[#00D4FF]/30 shadow-[0_0_10px_rgba(230,126,34,0.1)]">Lead Authority</p>
+                       <p className="font-black text-xs mb-6 inline-block px-4 py-1.5 rounded-full border" style={{ color: catInfo.main, backgroundColor: `${catInfo.main}15`, borderColor: `${catInfo.main}30` }}>Lead Authority</p>
                        <p className={`font-medium leading-loose max-w-lg mx-auto md:mx-0 text-sm md:text-base ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                           Instructor is a certified professional with extensive verifiable experience in building out large-scale technical systems and leading dynamic teams across the globe.
                        </p>
@@ -310,22 +348,22 @@ export default function CourseDetails() {
                   <div className={`p-8 lg:p-12 relative overflow-hidden rounded-[32px] border ${isDarkMode ? 'bg-[#0B1221]/95 border-white/10' : 'bg-white/95 border-slate-200 shadow-xl'}`}>
                      <div className={`text-center mb-8 border-b pb-8 relative z-10 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
                        <h3 className={`font-black text-[11px] mb-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Program Value</h3>
-                       <div className="text-5xl font-black text-[#00D4FF] drop-shadow-[0_0_15px_rgba(249,115,22,0.3)]">
+                       <div className="text-5xl font-black drop-shadow-[0_0_15px_rgba(0,0,0,0.15)]" style={{ color: catInfo.main }}>
                          ETB {course.price || '4.94'}
                        </div>
                     </div>
 
                     <div className="space-y-6 mb-10 relative z-10">
                        <div className={`flex justify-between items-center text-xs font-black border-b pb-4 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><Clock className="w-4 h-4 text-[#00D4FF]"/> Duration</span>
+                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><Clock className="w-4 h-4" style={{ color: catInfo.main }}/> Duration</span>
                           <span className={isDarkMode ? 'text-white' : 'text-slate-800'}>{totalDuration} Mins Runtime</span>
                        </div>
                        <div className={`flex justify-between items-center text-xs font-black border-b pb-4 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><BookOpen className="w-4 h-4 text-[#00D4FF]"/> Syllabus Length</span>
+                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><BookOpen className="w-4 h-4" style={{ color: catInfo.main }}/> Syllabus Length</span>
                           <span className={isDarkMode ? 'text-white' : 'text-slate-800'}>{course.lessons?.length || 0} Modules</span>
                        </div>
                        <div className={`flex justify-between items-center text-xs font-black border-b pb-4 ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}>
-                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><MapPin className="w-4 h-4 text-[#00D4FF]"/> Location</span>
+                          <span className={`flex items-center gap-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}><MapPin className="w-4 h-4" style={{ color: catInfo.main }}/> Location</span>
                           <span className={isDarkMode ? 'text-white' : 'text-slate-800'}>Global Digital</span>
                        </div>
                     </div>
@@ -336,19 +374,36 @@ export default function CourseDetails() {
                           <div className="space-y-4">
                             <Link 
                               to={`/lesson/${course.lessons[0]?.id}?courseId=${course.id}`}
-                              className="w-full relative z-10 flex border-[1px] border-orange-300 items-center justify-center bg-gradient-to-r from-orange-500/10 to-[#00D4FF] text-[#05070A] font-black   py-5 rounded-full hover:scale-[1.03] transition-all shadow-[0_0_30px_rgba(249,115,22,0.4)] text-sm"
+                              className="w-full relative z-10 flex items-center justify-center font-black py-5 rounded-full hover:scale-[1.03] transition-all text-sm shadow-md"
+                              style={{
+                                backgroundColor: catInfo.main,
+                                color: contrastTextColor,
+                                boxShadow: `0 8px 25px -4px ${catInfo.main}50`
+                              }}
                             >
                               Start Learning
                             </Link>
                             <Link 
                               to={`/dashboard/live-classes`}
-                              className="w-full relative z-10 flex border-[1px] border-[#00D4FF]/50 items-center justify-center bg-gradient-to-r from-[#00D4FF]/10 to-[#00D4FF]/20 text-[#00D4FF] font-black   py-5 rounded-full hover:scale-[1.03] transition-all shadow-[0_0_20px_rgba(0,212,255,0.2)] text-sm"
+                              className="w-full relative z-10 flex items-center justify-center font-black py-5 rounded-full hover:scale-[1.03] transition-all text-sm border"
+                              style={{
+                                borderColor: `${catInfo.main}50`,
+                                backgroundColor: `${catInfo.main}15`,
+                                color: catInfo.main
+                              }}
                             >
                               <Video className="w-4 h-4 mr-2" /> Live Sessions
                             </Link>
                           </div>
                         ) : enrollmentStatus === 'pending' ? (
-                          <div className="w-full relative z-10 flex items-center justify-center gap-3 bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/30 font-black   py-5 rounded-2xl opacity-90 cursor-wait shadow-[inset_0_0_20px_rgba(249,115,22,0.2)] text-sm">
+                          <div className="w-full relative z-10 flex items-center justify-center gap-3 border font-black py-5 rounded-2xl opacity-90 cursor-wait text-sm"
+                            style={{
+                              backgroundColor: `${catInfo.main}10`,
+                              color: catInfo.main,
+                              borderColor: `${catInfo.main}30`,
+                              boxShadow: `inset 0 0 20px ${catInfo.main}10`
+                            }}
+                          >
                             <Clock className="w-5 h-5" /> Pending Approval
                           </div>
                         ) : enrollmentStatus === 'rejected' ? (
@@ -372,7 +427,13 @@ export default function CourseDetails() {
                           <button 
                             onClick={handleEnroll}
                             disabled={enrolling}
-                            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-transparent to-[#00D4FF]/20 border border-[#00D4FF] text-[#00D4FF] font-semibold py-5 rounded-full hover:bg-[#00D4FF] hover:text-[#0B1120] transition-all shadow-[0_0_30px_rgba(0,212,255,0.3)] disabled:opacity-50 hover:scale-[1.03] text-sm group"
+                            className="w-full flex items-center justify-center gap-3 border font-semibold py-5 rounded-full transition-all disabled:opacity-50 hover:scale-[1.03] text-sm group shadow-md"
+                            style={{
+                              backgroundColor: `${catInfo.main}15`,
+                              borderColor: catInfo.main,
+                              color: catInfo.main,
+                              boxShadow: `0 8px 25px -4px ${catInfo.main}20`
+                            }}
                           >
                             {enrolling ? 'Processing...' : 'Enroll Now'}
                             <span className="flex items-center justify-center w-6 h-6 rounded-full border border-current ml-1.5 transition-colors">

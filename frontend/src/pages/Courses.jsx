@@ -28,7 +28,7 @@ const DISPLAY_CATEGORY_MAP = {
 const CATEGORY_DETAILS = {
   "Social Science": {
     icon: Globe,
-    color: "#00D4FF", // Orange
+    color: "#F97316", // Orange
     darkColor: "#C2410C",
     ribbon: "SOCIAL SCIENCE",
     description: "This curriculum path is designed to enable learners to travel inside human society, increasing awareness to grow understanding of history, behavior, and structural consciousness.",
@@ -60,7 +60,7 @@ const CATEGORY_DETAILS = {
   },
   "Business & Entrepreneurship": {
     icon: Target,
-    color: "#00D4FF", // Yellow
+    color: "#FFD700", // Gold/Yellow
     darkColor: "#CA8A04",
     ribbon: "BUSINESS",
     description: "This premium curriculum enables future leaders to navigate markets independently. It helps construct financial stability, leadership, and powerful entrepreneurial ecosystems.",
@@ -76,9 +76,31 @@ const CATEGORY_DETAILS = {
   }
 };
 
+const normalizeCategory = (cat) => {
+  const c = cat?.toLowerCase() || '';
+  if (c.includes('social')) return 'Social Science';
+  if (c.includes('math') || c.includes('science')) return 'Mathematics & Natural Science';
+  if (c.includes('language')) return 'Natural Language';
+  if (c.includes('programming') || c.includes('tech')) return 'Programming & Technology';
+  if (c.includes('business') || c.includes('entrepreneur')) return 'Business & Entrepreneurship';
+  if (c.includes('personal') || c.includes('growth') || c.includes('development')) return 'Personal Development';
+  return 'Programming & Technology';
+};
+
+const CAT_ICONS = {
+  "Social Science": Globe,
+  "Mathematics & Natural Science": Calculator,
+  "Natural Language": BookOpen,
+  "Programming & Technology": Rocket,
+  "Business & Entrepreneurship": Target,
+  "Personal Development": UserCheck,
+  "General Overview": BookOpen
+};
+
 const CategoryHexagon = ({ cat, idx, translate, onClick }) => {
   const isDarkMode = useThemeMode();
-  const details = CATEGORY_DETAILS[cat] || CATEGORY_DETAILS["Programming & Technology"];
+  const normalized = normalizeCategory(cat);
+  const details = CATEGORY_DETAILS[normalized] || CATEGORY_DETAILS["Programming & Technology"];
   const Icon = details.icon;
   
   return (
@@ -231,7 +253,8 @@ const CourseFallbackThumbnail = ({ color, darkColor, ribbon, fallbackId }) => {
 const CoursePopover = ({ course, rect, onMouseEnter, onMouseLeave, isDarkMode }) => {
   if (!rect) return null;
   
-  const categoryInfo = CATEGORY_DETAILS[course.mainCategory] || CATEGORY_DETAILS["Programming & Technology"];
+  const normalized = normalizeCategory(course.mainCategory || course.category);
+  const categoryInfo = CATEGORY_DETAILS[normalized] || CATEGORY_DETAILS["Programming & Technology"];
   const catColor = categoryInfo.color;
 
   const isRightSide = rect.right + 350 > window.innerWidth;
@@ -314,9 +337,11 @@ const CoursePopover = ({ course, rect, onMouseEnter, onMouseLeave, isDarkMode })
 };
 
 const CourseCard = ({ course, setHoveredCourse, isDarkMode }) => {
-  const categoryInfo = CATEGORY_DETAILS[course.mainCategory] || CATEGORY_DETAILS["Programming & Technology"];
+  const normalized = normalizeCategory(course.mainCategory || course.category);
+  const categoryInfo = CATEGORY_DETAILS[normalized] || CATEGORY_DETAILS["Programming & Technology"];
   const catColor = categoryInfo.color;
   const CatIcon = categoryInfo.icon;
+  const IconComponent = CAT_ICONS[normalized] || BookOpen;
 
   const instructorName = course.instructor?.name || "EDOT Instructor";
   const rating = course.rating || 4.6;
@@ -359,18 +384,30 @@ const CourseCard = ({ course, setHoveredCourse, isDarkMode }) => {
         
         {/* Thumbnail */}
         {/* Thumbnail */}
-        <div className="w-full h-[220px] relative overflow-hidden bg-[#030303]">
-          <img 
-            src={(course.thumbnail && !imgError && course.thumbnail !== 'default-course.jpg') ? (course.thumbnail.startsWith('http') ? course.thumbnail : `http://localhost:5000${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}`) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80'} 
-            alt={course.title} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-            onError={(e) => { 
-               if (!imgError) {
-                 setImgError(true);
-                 e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80';
-               }
-            }}
-          />
+        <div 
+          className="w-full h-[220px] relative overflow-hidden flex items-center justify-center"
+          style={(!course.thumbnail || course.thumbnail === 'default-course.jpg' || imgError) ? { background: `linear-gradient(135deg, ${catColor}, ${categoryInfo.darkColor || catColor})` } : { backgroundColor: '#030303' }}
+        >
+          {(course.thumbnail && !imgError && course.thumbnail !== 'default-course.jpg') ? (
+            <img 
+              src={course.thumbnail.startsWith('http') ? course.thumbnail : `http://localhost:5000${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}`} 
+              alt={course.title} 
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            /* Centered Category Icon inside a bordered rounded square container */
+            <div className="w-14 h-14 rounded-[18px] bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
+              <IconComponent className="w-7 h-7 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" />
+            </div>
+          )}
+
+          {/* Status Badge in lowercase pill border shape */}
+          <div className="absolute top-4 right-4 z-20">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white border border-white/60 bg-white/10 backdrop-blur-md">
+              {(course.status || 'published').toLowerCase()}
+            </span>
+          </div>
         </div>
 
         {/* Content - Coursera Style */}
@@ -721,7 +758,7 @@ export default function Courses() {
               {/* Modern Pill-based Tabs */}
               <div className={`flex overflow-x-auto hide-scrollbar items-center gap-3 md:gap-4 pb-4 mb-4 border-b snap-x ${isDarkMode ? 'border-white/5' : 'border-slate-200'}`}>
                  {COURSE_TABS.map((cat, i) => {
-                     const catColor = CATEGORY_DETAILS[cat]?.color || '#6366f1';
+                     const catColor = CATEGORY_DETAILS[normalizeCategory(cat)]?.color || '#6366f1';
                      const isSelected = categoryFilter === cat;
                      return (
                        <button 
