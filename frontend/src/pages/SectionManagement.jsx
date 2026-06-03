@@ -373,13 +373,13 @@ export default function SectionManagement() {
                              onClick={() => setSelectedSection(sec)}
                              className={`p-6 rounded-[1.5rem] border transition-all duration-300 cursor-pointer group relative overflow-hidden flex flex-col justify-between min-h-[220px] ${
                                selectedSection?.id === sec.id 
-                               ? (isDarkMode ? 'bg-gradient-to-br from-[#0B1120] to-[#00D4FF]/10 border-[#00D4FF]/50 shadow-[0_0_30px_rgba(0,212,255,0.15)] ring-1 ring-[#00D4FF]/50' : 'bg-gradient-to-br from-white to-[#00D4FF]/5 border-[#00D4FF]/50 shadow-lg ring-1 ring-[#00D4FF]/50') 
+                               ? (isDarkMode ? 'bg-gradient-to-br from-[#0B1120] to-[#00D4FF]/10 border-[#00D4FF]/50 hover:border-[#F97316]/50 shadow-[0_0_30px_rgba(0,212,255,0.15)] ring-1 ring-[#00D4FF]/50' : 'bg-gradient-to-br from-white to-[#00D4FF]/5 border-[#00D4FF]/50 hover:border-[#F97316]/50 shadow-lg ring-1 ring-[#00D4FF]/50') 
                                : (isDarkMode ? 'bg-[#0B1120]/80 border-[#F97316]/30 hover:border-[#00D4FF]/50 hover:bg-[#0B1120]' : 'bg-white border-[#F97316]/30 hover:border-[#00D4FF]/50 hover:shadow-xl shadow-sm')
                              }`}
                            >
                               {/* Selection Indicator Strips */}
-                              <div className={`absolute top-0 left-0 w-1.5 h-full transition-all duration-300 ${selectedSection?.id === sec.id ? 'bg-[#00D4FF]' : 'bg-[#F97316] group-hover:bg-[#00D4FF]'}`}></div>
-                              <div className={`absolute top-0 left-0 right-0 h-1.5 transition-all duration-300 ${selectedSection?.id === sec.id ? 'bg-[#00D4FF]' : 'bg-[#F97316] group-hover:bg-[#00D4FF]'}`}></div>
+                              <div className={`absolute top-0 left-0 w-1.5 h-full transition-all duration-300 ${selectedSection?.id === sec.id ? 'bg-[#00D4FF] group-hover:bg-[#F97316]' : 'bg-[#F97316] group-hover:bg-[#00D4FF]'}`}></div>
+                              <div className={`absolute top-0 left-0 right-0 h-1.5 transition-all duration-300 ${selectedSection?.id === sec.id ? 'bg-[#00D4FF] group-hover:bg-[#F97316]' : 'bg-[#F97316] group-hover:bg-[#00D4FF]'}`}></div>
 
                               <div className="flex justify-between items-start relative z-10 pl-2">
                                  <div className="flex-1 pr-4">
@@ -388,7 +388,7 @@ export default function SectionManagement() {
                                        {sec.course.title}
                                      </div>
                                    )}
-                                   <h5 className={`font-black text-lg leading-snug mb-1 transition-colors ${selectedSection?.id === sec.id ? 'text-[#00D4FF]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`}>
+                                   <h5 className={`font-black text-lg leading-snug mb-1 transition-colors duration-300 ${selectedSection?.id === sec.id ? 'text-[#00D4FF] group-hover:text-[#F97316]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`}>
                                      {sec.name}
                                    </h5>
                                    <div className="flex items-center gap-2 mt-2">
@@ -423,10 +423,10 @@ export default function SectionManagement() {
 
                                  <div className="flex items-center justify-between mt-1">
                                     <div className={`flex items-center gap-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                                       <Users className={`w-4 h-4 ${selectedSection?.id === sec.id ? 'text-[#00D4FF]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`} />
+                                       <Users className={`w-4 h-4 transition-colors duration-300 ${selectedSection?.id === sec.id ? 'text-[#00D4FF] group-hover:text-[#F97316]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`} />
                                        <span className="text-xs font-bold">{sec.students?.length || 0} Enrolled</span>
                                     </div>
-                                    <div className={`text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all ${selectedSection?.id === sec.id ? 'text-[#00D4FF]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`}>
+                                    <div className={`text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all duration-300 ${selectedSection?.id === sec.id ? 'text-[#00D4FF] group-hover:text-[#F97316]' : 'text-[#F97316] group-hover:text-[#00D4FF]'}`}>
                                        {user?.role === 'student' ? 'View' : 'Manage'} <ChevronRight className="w-3 h-3" />
                                     </div>
                                  </div>
