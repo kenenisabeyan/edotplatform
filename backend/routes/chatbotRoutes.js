@@ -1,13 +1,12 @@
 import express from 'express';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // Initialize Gemini API
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || 'dummy_key');
 
-router.post('/message', protect, async (req, res) => {
+router.post('/message', async (req, res) => {
     try {
         const { message, history } = req.body;
 

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function ActivityFeed({ isAdmin = false, feedType, limit = 5 }) {
   const isDarkMode = useThemeMode();
-  const { user } = useAuth();
+  const { user } = useAuth();//
   const navigate = useNavigate();
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
