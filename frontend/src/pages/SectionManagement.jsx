@@ -377,8 +377,9 @@ export default function SectionManagement() {
                                : (isDarkMode ? 'bg-[#0B1120]/80 border-[#F97316]/30 hover:border-[#00D4FF]/50 hover:bg-[#0B1120]' : 'bg-white border-[#F97316]/30 hover:border-[#00D4FF]/50 hover:shadow-xl shadow-sm')
                              }`}
                            >
-                              {/* Selection Indicator Strip */}
+                              {/* Selection Indicator Strips */}
                               <div className={`absolute top-0 left-0 w-1.5 h-full transition-all duration-300 ${selectedSection?.id === sec.id ? 'bg-[#00D4FF]' : 'bg-[#F97316] group-hover:bg-[#00D4FF]'}`}></div>
+                              <div className={`absolute top-0 left-0 right-0 h-1.5 transition-all duration-300 ${selectedSection?.id === sec.id ? 'bg-[#00D4FF]' : 'bg-[#F97316] group-hover:bg-[#00D4FF]'}`}></div>
 
                               <div className="flex justify-between items-start relative z-10 pl-2">
                                  <div className="flex-1 pr-4">
