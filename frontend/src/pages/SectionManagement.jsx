@@ -337,27 +337,27 @@ export default function SectionManagement() {
                
                return (
                  <div key={group.id} className="mb-4">
-                   <div 
-                     onClick={() => toggleGroup(group.id)}
-                     className={`flex items-center justify-between p-4 md:p-5 rounded-[1.25rem] cursor-pointer transition-all ${isDarkMode ? 'bg-[#0B1120]/60 border border-white/5 hover:border-white/10' : 'bg-[#F4F7FB] border border-slate-100 hover:shadow-md shadow-sm'}`}
-                   >
-                     <div className="flex items-center gap-4">
-                       <div className={`w-10 h-10 shrink-0 flex items-center justify-center font-black rounded-xl text-lg shadow-sm ${isDarkMode ? 'bg-[#151e32] text-[#00D4FF]' : 'bg-white text-[#00D4FF]'}`}>
-                         {idx + 1}
-                       </div>
-                       <h4 className={`text-xl font-black ${isDarkMode ? 'text-white' : 'text-[#0B1120]'}`}>
-                         {group.name} Category
-                       </h4>
-                     </div>
-                     <div className="flex items-center gap-4">
-                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20' : 'bg-orange-100 text-[#00D4FF] border-orange-200'}`}>
-                         {groupSections.length} Sections
-                       </span>
-                       <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-sm ${isDarkMode ? 'bg-[#151e32] text-slate-400' : 'bg-white text-slate-500'}`}>
-                         <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
-                       </div>
-                     </div>
-                   </div>
+                    <div 
+                      onClick={() => toggleGroup(group.id)}
+                      className={`flex items-center justify-between p-4 md:p-5 rounded-[1.25rem] cursor-pointer transition-all duration-300 border ${isDarkMode ? 'bg-[#0B1120]/65 border-white/5 hover:border-[#00D4FF]/30 hover:bg-[#0B1120] hover:shadow-[0_8px_30px_rgba(0,212,255,0.05)]' : 'bg-white border-slate-200 hover:border-slate-350 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)]'}`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`w-10 h-10 shrink-0 flex items-center justify-center font-black rounded-xl text-lg shadow-sm border ${isDarkMode ? 'bg-[#151e32] text-[#00D4FF] border-[#00D4FF]/20' : 'bg-slate-50 text-[#00B2D6] border-slate-200/80'}`}>
+                          {idx + 1}
+                        </div>
+                        <h4 className={`text-xl font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>
+                          {group.name} Category
+                        </h4>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <span className={`text-[9px] font-black px-3 py-1 rounded-full border uppercase tracking-wider ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/20' : 'bg-[#00B2D6]/10 text-[#00B2D6] border-[#00B2D6]/20'}`}>
+                          {groupSections.length} Sections
+                        </span>
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-sm border transition-all duration-300 ${isDarkMode ? 'bg-[#151e32] text-[#00D4FF] border-white/5' : 'bg-slate-50 text-slate-500 border-slate-200'}`}>
+                          <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+                        </div>
+                      </div>
+                    </div>
 
                    {isExpanded && (
                      <div className={`mt-2 p-5 md:p-6 rounded-3xl border animate-fade-in-up ${isDarkMode ? 'bg-[#0B1120]/30 border-white/5' : 'bg-white border-slate-100 shadow-sm'}`}>

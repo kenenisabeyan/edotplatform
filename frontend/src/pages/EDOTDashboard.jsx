@@ -1275,15 +1275,19 @@ export default function EDOTDashboard() {
                 const iconBg = isJoined ? 'bg-[#10B981]/10 text-[#10B981]' : isPublished ? 'bg-[#3B82F6]/10 text-[#3B82F6]' : 'bg-[#8B5CF6]/10 text-[#8B5CF6]';
                 
                 return (
-                  <div key={activity.id || index} className={`rounded-r-2xl rounded-l-md p-3 border border-y-slate-100 border-r-slate-100 dark:border-y-white/5 dark:border-r-white/5 bg-slate-50/50 dark:bg-white/5/30 transition-all duration-300 hover:bg-slate-100/50 dark:hover:bg-white/5 ${borderAccent}`}>
+                  <div key={activity.id || index} className={`rounded-r-2xl rounded-l-md p-3 border transition-all duration-300 ${
+                    isDarkMode 
+                      ? 'border-y-white/5 border-r-white/5 bg-[#0B1120]/40 hover:bg-[#0B1120]/65 hover:border-white/10 hover:shadow-[0_4px_16px_rgba(0,0,0,0.4)]' 
+                      : 'border-slate-200/60 bg-[#F8FAFC] hover:bg-slate-100 hover:border-slate-350 shadow-sm hover:shadow-[0_4px_16px_rgba(0,0,0,0.03)]'
+                  } ${borderAccent}`}>
                     <div className="flex items-start gap-3">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${iconBg}`}>
                         {isJoined ? '👤' : isPublished ? '📚' : '⚡'}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className={`text-xs font-black truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{activity.title}</p>
-                        <p className={`text-[11px] font-medium truncate ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{activity.itemTitle || activity.studentName}</p>
-                        <p className={`text-[10px] font-bold ${isDarkMode ? 'text-slate-500' : 'text-slate-400'} mt-1`}>{new Date(activity.date).toLocaleDateString()}</p>
+                        <p className={`text-xs font-black truncate ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>{activity.title || 'Platform Log'}</p>
+                        <p className={`text-[11px] font-semibold truncate ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>{activity.itemTitle || activity.studentName}</p>
+                        <p className={`text-[10px] font-extrabold ${isDarkMode ? 'text-slate-500' : 'text-slate-500'} mt-1`}>{new Date(activity.date).toLocaleDateString()}</p>
                       </div>
                     </div>
                   </div>
@@ -1295,7 +1299,7 @@ export default function EDOTDashboard() {
               )}
             </div>
           </Card>
-
+ 
           <Card hover={false} className={`xl:col-span-3 rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col h-[500px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
             <div className="flex items-start justify-between gap-4 mb-6 shrink-0">
               <div>
@@ -1310,22 +1314,22 @@ export default function EDOTDashboard() {
                 const studentCount = inst.studentCount ?? (Array.isArray(inst.coursesTaught) ? inst.coursesTaught.reduce((sum, c) => sum + (c.totalStudents || 0), 0) : 0);
                 
                 return (
-                <div key={inst.id} className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-200/80 dark:hover:border-white/10 ${isDarkMode ? 'border-white/5 bg-white/5/30' : 'border-slate-100 bg-slate-50/50'}`}>
+                <div key={inst.id} className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.03)] ${isDarkMode ? 'border-white/5 bg-[#0B1120]/40 hover:border-white/10 hover:bg-[#0B1120]/60' : 'border-slate-200/60 bg-[#F8FAFC] hover:border-slate-350 hover:bg-slate-100/30 shadow-sm'}`}>
                   <div className="flex items-center justify-between gap-3">
                     <div>
                       <p className={`font-black text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{inst.name}</p>
-                      <p className={`text-xs font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{coursesCount} courses · {studentCount} students</p>
+                      <p className={`text-xs font-semibold ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>{coursesCount} courses · {studentCount} students</p>
                     </div>
-                    <span className={`text-sm font-black ${isDarkMode ? 'text-[#00D4FF]' : 'text-[#00B2D6]'}`}>{inst.performanceScore ?? 0}%</span>
+                    <span className={`text-xs font-extrabold px-2.5 py-1 rounded-full border ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/25' : 'bg-[#00B2D6]/10 text-[#00B2D6] border-[#00B2D6]/20'}`}>{inst.performanceScore ?? 0}%</span>
                   </div>
-                  <div className="mt-3.5 pt-3.5 border-t dark:border-white/5 border-slate-100 space-y-2 text-xs font-bold">
+                  <div className="mt-3.5 pt-3.5 border-t space-y-2 text-xs font-bold" style={{ borderColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' }}>
                     <div className="flex items-center justify-between">
-                      <span className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>Completion</span>
-                      <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{inst.completionRate ?? 0}%</span>
+                      <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Completion</span>
+                      <span className={isDarkMode ? 'text-white font-black' : 'text-slate-950 font-black'}>{inst.completionRate ?? 0}%</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>Attendance</span>
-                      <span className={isDarkMode ? 'text-white' : 'text-slate-900'}>{inst.attendanceRate ?? 0}%</span>
+                      <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Attendance</span>
+                      <span className={isDarkMode ? 'text-white font-black' : 'text-slate-950 font-black'}>{inst.attendanceRate ?? 0}%</span>
                     </div>
                   </div>
                 </div>
@@ -1337,7 +1341,7 @@ export default function EDOTDashboard() {
               )}
             </div>
           </Card>
-
+ 
           <Card hover={false} className={`xl:col-span-3 rounded-[2rem] p-6 md:p-8 border backdrop-blur-2xl shadow-xl flex flex-col h-[500px] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,212,255,0.05)] ${isDarkMode ? 'bg-[#0B1120]/45 border-white/10' : 'bg-white/80 border-slate-200'}`}>
             <div className="flex items-start justify-between gap-4 mb-6 shrink-0">
               <div>
@@ -1347,20 +1351,20 @@ export default function EDOTDashboard() {
               <span className={`text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-full border ${isDarkMode ? 'text-[#00D4FF] border-[#00D4FF]/30 bg-[#00D4FF]/10' : 'text-cyan-700 border-cyan-200 bg-cyan-50'}`}>This Week</span>
             </div>
             <div className="grid grid-cols-1 gap-3.5 overflow-y-auto flex-1 pr-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-white/10">
-              <div className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 ${isDarkMode ? 'border-white/5 bg-white/5/30' : 'border-slate-100 bg-slate-50/50'}`}>
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Active Students</p>
-                <p className={`mt-2 text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.activeStudents ?? 0}</p>
+              <div className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${isDarkMode ? 'border-white/5 bg-[#0B1120]/40 hover:border-[#00D4FF]/25 hover:bg-[#0B1120]/60 hover:shadow-[0_8px_24px_rgba(0,212,255,0.04)]' : 'border-slate-200/60 bg-[#F8FAFC] hover:border-slate-350 shadow-sm'}`}>
+                <p className={`text-xs font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Active Students</p>
+                <p className={`mt-2 text-3xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.activeStudents ?? 0}</p>
                 <p className={`text-xs font-bold mt-1 text-emerald-500`}>{stats?.engagement?.studentEngagement?.activeStudentsChange ?? '+0%'}</p>
               </div>
-              <div className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 ${isDarkMode ? 'border-white/5 bg-white/5/30' : 'border-slate-100 bg-slate-50/50'}`}>
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Lessons Completed</p>
-                <p className={`mt-2 text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.lessonsCompleted ?? 0}</p>
-                <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Cumulative study progress</p>
+              <div className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${isDarkMode ? 'border-white/5 bg-[#0B1120]/40 hover:border-[#00D4FF]/25 hover:bg-[#0B1120]/60 hover:shadow-[0_8px_24px_rgba(0,212,255,0.04)]' : 'border-slate-200/60 bg-[#F8FAFC] hover:border-slate-350 shadow-sm'}`}>
+                <p className={`text-xs font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Lessons Completed</p>
+                <p className={`mt-2 text-3xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.lessonsCompleted ?? 0}</p>
+                <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Cumulative study progress</p>
               </div>
-              <div className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 ${isDarkMode ? 'border-white/5 bg-white/5/30' : 'border-slate-100 bg-slate-50/50'}`}>
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Study Hours</p>
-                <p className={`mt-2 text-2xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.studyHours ?? 0}</p>
-                <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Hours this month</p>
+              <div className={`rounded-3xl p-4 border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${isDarkMode ? 'border-white/5 bg-[#0B1120]/40 hover:border-[#00D4FF]/25 hover:bg-[#0B1120]/60 hover:shadow-[0_8px_24px_rgba(0,212,255,0.04)]' : 'border-slate-200/60 bg-[#F8FAFC] hover:border-slate-350 shadow-sm'}`}>
+                <p className={`text-xs font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Study Hours</p>
+                <p className={`mt-2 text-3xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{stats?.engagement?.studentEngagement?.studyHours ?? 0}</p>
+                <p className={`text-xs font-medium mt-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-655'}`}>Hours this month</p>
               </div>
             </div>
           </Card>
@@ -1453,8 +1457,8 @@ export default function EDOTDashboard() {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[...sectionsData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3).map((sec, idx) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[...sectionsData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 4).map((sec, idx) => (
               <div key={`global-sec-${idx}`} className={`rounded-3xl p-5 border backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 ${isDarkMode ? 'border-white/5 bg-white/5 shadow-md hover:shadow-[0_20px_40px_rgba(0,212,255,0.08)] hover:border-[#00D4FF]/30' : 'border-slate-200/60 bg-slate-50/50 shadow-md hover:shadow-xl hover:border-cyan-300'}`}>
                 <div className="flex items-start justify-between mb-3">
                   <p className={`text-base font-black flex items-center gap-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
