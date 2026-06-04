@@ -551,19 +551,19 @@ export default function Courses() {
          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
            <svg className="absolute w-full h-full" viewBox="0 0 1440 850" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
              {/* Cyan Dynamic Sharp Zigzag */}
-             <path d="M-100 900 L320 680 L200 480 L800 280 L680 160 L1500 -120 L1600 -120 L1600 1000 Z" fill="url(#cyanGeometricGrad)" opacity={isDarkMode ? "0.22" : "0.14"}/>
+             <path d="M-100 900 L320 680 L200 480 L800 280 L680 160 L1500 -120 L1600 -120 L1600 1000 Z" fill="url(#cyanGeometricGrad)" opacity={isDarkMode ? "0.45" : "0.32"}/>
              {/* Orange Dynamic Sharp Zigzag */}
-             <path d="M-200 1000 L270 760 L140 560 L740 360 L620 240 L1420 -60 L1500 -60 L1500 1100 Z" fill="url(#orangeGeometricGrad)" opacity={isDarkMode ? "0.18" : "0.12"}/>
+             <path d="M-200 1000 L270 760 L140 560 L740 360 L620 240 L1420 -60 L1500 -60 L1500 1100 Z" fill="url(#orangeGeometricGrad)" opacity={isDarkMode ? "0.40" : "0.28"}/>
              
              <defs>
                <linearGradient id="cyanGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
                  <stop offset="0%" stopColor="#19C2E8" />
-                 <stop offset="60%" stopColor="#00D4FF" stopOpacity="0.3" />
+                 <stop offset="60%" stopColor="#00D4FF" stopOpacity="0.65" />
                  <stop offset="100%" stopColor="#00D4FF" stopOpacity="0" />
                </linearGradient>
                <linearGradient id="orangeGeometricGrad" x1="0%" y1="100%" x2="100%" y2="0%">
                  <stop offset="0%" stopColor="#FF6A00" />
-                 <stop offset="60%" stopColor="#FFB700" stopOpacity="0.3" />
+                 <stop offset="60%" stopColor="#FFB700" stopOpacity="0.65" />
                  <stop offset="100%" stopColor="#FFB700" stopOpacity="0" />
                </linearGradient>
              </defs>
@@ -571,7 +571,7 @@ export default function Courses() {
          </div>
 
          {/* Subtle decorative grid overlay */}
-         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
+         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808022_1px,transparent_1px),linear-gradient(to_bottom,#80808022_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
 
          <div className={`relative z-10 max-w-[1000px] mx-auto mt-8 overflow-hidden rounded-[40px] border border-transparent bg-white/90 shadow-[0_28px_80px_-40px_rgba(15,23,42,0.35)] transition-colors duration-500 ${isDarkMode ? 'dark:bg-[#111827]/90 dark:shadow-none' : ''}`}>
             <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-center text-center lg:text-left px-8 py-12">
