@@ -269,6 +269,7 @@ const CourseCard = ({ course, setHoveredCourse, isDarkMode }) => {
   const catColor = categoryInfo.color;
   const CatIcon = categoryInfo.icon;
   const IconComponent = CAT_ICONS[normalized] || BookOpen;
+  const contrastTextColor = catColor === "#FFD700" ? "#0F172A" : "#FFFFFF";
 
   const instructorName = course.instructor?.name || "EDOT Instructor";
   const rating = course.rating || 4.6;
@@ -333,7 +334,10 @@ const CourseCard = ({ course, setHoveredCourse, isDarkMode }) => {
 
             {/* Status Badge in lowercase pill border shape */}
             <div className="absolute top-4 right-4 z-20">
-              <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
+              <span 
+                className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-bold border"
+                style={{ backgroundColor: catColor, color: contrastTextColor, borderColor: 'transparent' }}
+              >
                 {(course.status || 'published').toLowerCase()}
               </span>
             </div>

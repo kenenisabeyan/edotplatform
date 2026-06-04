@@ -364,6 +364,7 @@ export default function AdminCourseApprovals() {
                             const normalized = normalizeCategory(c.mainCategory || c.category);
                             const catInfo = CAT_COLORS[normalized] || DEFAULT_COLOR;
                             const IconComponent = CAT_ICONS[normalized] || BookOpen;
+                            const contrastTextColor = catInfo.main === "#FFD700" ? "#0F172A" : "#FFFFFF";
                             return (
                               <motion.div 
                                 layout
@@ -400,7 +401,10 @@ export default function AdminCourseApprovals() {
                                       />
                                     )}
                                     <div className="absolute top-3 right-3 z-20">
-                                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
+                                      <span 
+                                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold border"
+                                        style={{ backgroundColor: catInfo.main, color: contrastTextColor, borderColor: 'transparent' }}
+                                      >
                                         {(c.status || 'pending').toLowerCase()}
                                       </span>
                                     </div>

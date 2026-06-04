@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { 
   FolderOpen, Edit3, Clock, CheckCircle2, 
   XSquare, PlayCircle, Send, Users, Sparkles, X, LayoutGrid, Star,
-  Globe, Calculator, BookOpen, Rocket, Target, UserCheck
+  Globe, Calculator, BookOpen, Rocket, Target, UserCheck, List
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
@@ -103,6 +103,7 @@ export default function InstructorManageCourses() {
   const [courseStudents, setCourseStudents] = useState([]);
   const [loadingStudents, setLoadingStudents] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [viewMode, setViewMode] = useState('grid');
 
   const { data: courses = [], isLoading: loading, refetch: fetchCourses } = useQuery({
     queryKey: ['manageCourses', isAdmin],
@@ -122,6 +123,13 @@ export default function InstructorManageCourses() {
     });
     return grouped;
   }, [courses]);
+
+  const filteredCoursesList = useMemo(() => {
+    return courses.filter(c => {
+      const cat = c.mainCategory || c.category || 'General Overview';
+      return selectedCategory === 'All' || cat === selectedCategory;
+    });
+  }, [courses, selectedCategory]);
 
   const openLessons = (course) => {
     setActiveCourse(course);
@@ -187,48 +195,80 @@ export default function InstructorManageCourses() {
         </button>
       </div>
       
-      {/* Category Filter Tabs */}
+      {/* Category Filter Tabs and View Mode Switcher */}
       {courses.length > 0 && (
-        <div className="mb-6">
-          <label className={`block text-xs font-bold uppercase tracking-wider mb-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Filter by Category</label>
-          <div className="flex flex-wrap gap-2.5 pb-2 overflow-x-auto scrollbar-thin">
-            <button 
-              onClick={() => setSelectedCategory('All')}
-              className={`px-5 py-2.5 rounded-full text-xs font-bold border transition-all duration-300 ${
-                selectedCategory === 'All'
-                  ? 'bg-[#00D4FF] border-[#00D4FF] text-slate-900 shadow-[0_4px_20px_rgba(0,212,255,0.25)]'
-                  : isDarkMode
-                    ? 'bg-[#0B1120] border-white/10 text-slate-300 hover:border-white/20'
-                    : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 shadow-sm'
-              }`}
-            >
-              All Categories
-            </button>
-            {Object.keys(coursesByCategory).sort().map(cat => {
-              const normalized = normalizeCategory(cat);
-              const catInfo = CATEGORY_MAP[normalized] || DEFAULT_CAT;
-              const isActive = selectedCategory === cat;
-              return (
-                <button 
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-5 py-2.5 rounded-full text-xs font-bold border transition-all duration-300 flex items-center gap-2 ${
-                    isActive
-                      ? `text-white shadow-lg`
-                      : isDarkMode
-                        ? 'bg-[#0B1120] border-white/10 text-slate-300 hover:border-white/20'
-                        : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 shadow-sm'
-                  }`}
-                  style={isActive ? {
-                    backgroundColor: catInfo.color,
-                    borderColor: catInfo.color,
-                    boxShadow: `0 4px 20px ${catInfo.color}40`
-                  } : {}}
-                >
-                  {cat}
-                </button>
-              );
-            })}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6">
+          <div className="flex-1 min-w-0">
+            <label className={`block text-xs font-bold uppercase tracking-wider mb-3 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Filter by Category</label>
+            <div className="flex flex-wrap gap-2.5 pb-2 overflow-x-auto scrollbar-thin">
+              <button 
+                onClick={() => setSelectedCategory('All')}
+                className={`px-5 py-2.5 rounded-full text-xs font-bold border transition-all duration-300 ${
+                  selectedCategory === 'All'
+                    ? 'bg-[#00D4FF] border-[#00D4FF] text-slate-900 shadow-[0_4px_20px_rgba(0,212,255,0.25)]'
+                    : isDarkMode
+                      ? 'bg-[#0B1120] border-white/10 text-slate-300 hover:border-white/20'
+                      : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 shadow-sm'
+                }`}
+              >
+                All Categories
+              </button>
+              {Object.keys(coursesByCategory).sort().map(cat => {
+                const normalized = normalizeCategory(cat);
+                const catInfo = CATEGORY_MAP[normalized] || DEFAULT_CAT;
+                const isActive = selectedCategory === cat;
+                return (
+                  <button 
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`px-5 py-2.5 rounded-full text-xs font-bold border transition-all duration-300 flex items-center gap-2 ${
+                      isActive
+                        ? `text-white shadow-lg`
+                        : isDarkMode
+                          ? 'bg-[#0B1120] border-white/10 text-slate-300 hover:border-white/20'
+                          : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 shadow-sm'
+                    }`}
+                    style={isActive ? {
+                      backgroundColor: catInfo.color,
+                      borderColor: catInfo.color,
+                      boxShadow: `0 4px 20px ${catInfo.color}40`
+                    } : {}}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex flex-col items-start lg:items-end gap-2 shrink-0">
+            <label className={`block text-xs font-bold uppercase tracking-wider mb-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>View Mode</label>
+            <div className={`flex items-center gap-1.5 p-1 rounded-full border transition-colors ${isDarkMode ? 'bg-[#0F172A] border-white/10' : 'bg-[#F8FAFC] border-slate-200'}`}>
+              <button
+                type="button"
+                onClick={() => setViewMode('grid')}
+                className={`p-2.5 rounded-full transition-all ${
+                  viewMode === 'grid' 
+                    ? (isDarkMode ? 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]' : 'bg-[#e0f7ff] text-[#0088cc] border border-[#00D4FF] shadow-sm') 
+                    : 'text-slate-400 hover:text-slate-600 border border-transparent'
+                }`}
+                title="Grid Card View"
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('table')}
+                className={`p-2.5 rounded-full transition-all ${
+                  viewMode === 'table' 
+                    ? (isDarkMode ? 'bg-[#00D4FF]/20 text-[#00D4FF] border border-[#00D4FF]' : 'bg-[#e0f7ff] text-[#0088cc] border border-[#00D4FF] shadow-sm') 
+                    : 'text-slate-400 hover:text-slate-600 border border-transparent'
+                }`}
+                title="Table List View"
+              >
+                <List className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -249,6 +289,7 @@ export default function InstructorManageCourses() {
             </button>
           </div>
       ) : (
+        viewMode === 'grid' ? (
           <div className="space-y-12">
             {Object.keys(coursesByCategory)
                .filter(cat => selectedCategory === 'All' || cat === selectedCategory)
@@ -320,7 +361,10 @@ export default function InstructorManageCourses() {
 
                                {/* Status Badge in lowercase pill border shape */}
                                <div className="absolute top-4 right-4 z-20">
-                                 <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
+                                 <span 
+                                   className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-bold border"
+                                   style={{ backgroundColor: catInfo.color, color: contrastTextColor, borderColor: 'transparent' }}
+                                 >
                                    {(c.status || 'draft').toLowerCase()}
                                  </span>
                                </div>
@@ -336,7 +380,7 @@ export default function InstructorManageCourses() {
                              {c.title}
                            </h4>
 
-                            {/* Info Row (styled as solid interactive buttons/pills in category colors) */}
+                            {/* Info Row (styled as solid interactive pills in category colors) */}
                             <div className="flex flex-wrap items-center gap-2.5 mb-4">
                               {/* Duration (non-clickable pill) */}
                               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold border transition-colors shadow-sm"
@@ -386,7 +430,7 @@ export default function InstructorManageCourses() {
                                  backgroundColor: catInfo.color,
                                  borderColor: catInfo.color,
                                  color: contrastTextColor
-                               }}
+                                }}
                              >
                                {c.level || 'Beginner'}
                              </span>
@@ -435,14 +479,153 @@ export default function InstructorManageCourses() {
                               </button>
                            </div>
                          </div>
-                       </motion.div>
-                     );
-                   })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                        </motion.div>
+                      );
+                       })}
+                     </div>
+                   </div>
+                 );
+               })}
+          </div>
+        ) : (
+          /* Table list view mode */
+          <div className={`rounded-[2.5rem] p-8 border backdrop-blur-2xl shadow-2xl overflow-hidden relative transition-all duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/80' : 'border-slate-200 bg-white/90 hover:border-[#00D4FF]/30'}`}>
+            <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
+            <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none mix-blend-screen"></div>
+
+            {filteredCoursesList.length === 0 ? (
+              <p className={`text-sm italic font-medium p-4 border border-dashed rounded-2xl text-center ${isDarkMode ? 'text-slate-400 border-white/10' : 'text-slate-500 border-slate-200'}`}>
+                No courses match selected category.
+              </p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse min-w-[900px]">
+                  <thead>
+                    <tr className={`text-xs font-black uppercase tracking-wider ${isDarkMode ? 'bg-[#0B1120]/40 text-slate-400' : 'bg-slate-100/80 text-slate-500'} border-b ${isDarkMode ? 'border-[#00D4FF]/20' : 'border-[#00D4FF]/10'}`}>
+                      <th className="px-6 py-4 rounded-tl-2xl">Course Details</th>
+                      <th className="px-6 py-4">Level</th>
+                      <th className="px-6 py-4">Category</th>
+                      <th className="px-6 py-4">Total Students</th>
+                      <th className="px-6 py-4">Status</th>
+                      <th className="px-6 py-4 rounded-tr-2xl text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className={`divide-y text-sm font-bold ${isDarkMode ? 'divide-white/5 text-slate-300' : 'divide-slate-200 text-slate-700'}`}>
+                    {filteredCoursesList.map(c => {
+                      const normalized = normalizeCategory(c.mainCategory || c.category);
+                      const catInfo = CATEGORY_MAP[normalized] || DEFAULT_CAT;
+                      const contrastTextColor = catInfo.color === "#FFD700" ? "#0F172A" : "#FFFFFF";
+
+                      return (
+                        <tr key={c.id} className={`transition-colors duration-300 ${isDarkMode ? 'hover:bg-[#00D4FF]/5' : 'hover:bg-[#00D4FF]/5'}`}>
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-16 h-10 rounded overflow-hidden shrink-0 relative bg-[#030303] flex items-center justify-center">
+                                {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
+                                  <img src={c.thumbnail} alt={c.title} className="w-full h-full object-cover" />
+                                ) : (
+                                  <div className="absolute w-[260px] h-[220px] scale-[0.15] origin-center flex items-center justify-center">
+                                    <CourseFallbackThumbnail 
+                                      color={catInfo.color} 
+                                      darkColor={catInfo.color} 
+                                      ribbon={c.mainCategory} 
+                                      fallbackId={c.id} 
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="min-w-0">
+                                <div className={`font-black text-sm truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</div>
+                                <div className="text-xs text-slate-400 font-medium line-clamp-1">{c.description || 'No description provided.'}</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span 
+                              className="px-2.5 py-1 rounded-full text-[10px] font-bold border transition-colors shadow-sm"
+                              style={{
+                                backgroundColor: catInfo.color,
+                                borderColor: catInfo.color,
+                                color: contrastTextColor
+                              }}
+                            >
+                              {c.level || 'Beginner'}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase" style={{ color: catInfo.color }}>
+                              {c.mainCategory || c.category || 'General'}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <button 
+                              onClick={() => openStudents(c)}
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-extrabold border transition-all duration-300 shadow-md cursor-pointer hover:brightness-110 active:scale-95"
+                              style={{
+                                backgroundColor: catInfo.color,
+                                borderColor: catInfo.color,
+                                color: contrastTextColor
+                              }}
+                            >
+                              <Users className="w-3.5 h-3.5" />
+                              <span>{c.totalStudents || 0} Students</span>
+                            </button>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span 
+                              className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-bold border"
+                              style={{ backgroundColor: catInfo.color, color: contrastTextColor, borderColor: 'transparent' }}
+                            >
+                              {(c.status || 'draft').toLowerCase()}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <div className="flex gap-2 justify-end">
+                              {!isAdmin && (c.status === 'draft' || c.status === 'rejected') && (
+                                <button 
+                                  onClick={() => handleSubmitReview(c.id)} 
+                                  className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold rounded-xl hover:shadow-md transition-all text-xs"
+                                >
+                                  <Send className="w-3 h-3" /> Submit for Review
+                                </button>
+                              )}
+                              
+                              {c.status !== 'pending' && (
+                                <button 
+                                  onClick={() => navigate('/dashboard/builder/' + c.id)} 
+                                  className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 font-bold rounded-xl border transition-all duration-300 text-xs hover:brightness-110 shadow-md"
+                                  style={{
+                                    backgroundColor: catInfo.color,
+                                    borderColor: catInfo.color,
+                                    color: contrastTextColor
+                                  }}
+                                >
+                                  <Edit3 className="w-3 h-3" /> Edit Content
+                                </button>
+                              )}
+                              
+                              <button 
+                                onClick={() => navigate('/dashboard/library', { state: { courseId: c.id } })} 
+                                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 font-bold rounded-xl border transition-all duration-300 text-xs hover:bg-slate-100 dark:hover:bg-white/5"
+                                style={{
+                                  borderColor: catInfo.color,
+                                  color: catInfo.color,
+                                  backgroundColor: 'transparent'
+                                }}
+                              >
+                                <FolderOpen className="w-3 h-3" /> Course Resources
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )
       )}
 
       {/* Modals remain mostly unchanged but fit aesthetic */}
