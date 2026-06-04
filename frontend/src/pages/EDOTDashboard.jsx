@@ -1318,7 +1318,20 @@ export default function EDOTDashboard() {
                   <div className="flex items-center justify-between gap-3">
                     <div>
                       <p className={`font-black text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{inst.name}</p>
-                      <p className={`text-xs font-semibold ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>{coursesCount} courses · {studentCount} students</p>
+                      <div className="flex flex-wrap items-center gap-2 mt-2">
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); navigate('/courses'); }}
+                          className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider bg-[#00D4FF] hover:bg-[#00B2D6] text-[#0B1120] rounded-full shadow-sm hover:shadow transition-all active:scale-95 cursor-pointer"
+                        >
+                          {coursesCount} courses
+                        </button>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); alert(`Instructor ${inst.name} has ${studentCount} enrolled students.`); }}
+                          className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider bg-[#F97316] hover:bg-[#EA580C] text-white rounded-full shadow-sm hover:shadow transition-all active:scale-95 cursor-pointer"
+                        >
+                          {studentCount} students
+                        </button>
+                      </div>
                     </div>
                     <span className={`text-xs font-extrabold px-2.5 py-1 rounded-full border ${isDarkMode ? 'bg-[#00D4FF]/10 text-[#00D4FF] border-[#00D4FF]/25' : 'bg-[#00B2D6]/10 text-[#00B2D6] border-[#00B2D6]/20'}`}>{inst.performanceScore ?? 0}%</span>
                   </div>
