@@ -347,11 +347,37 @@ const CourseCard = ({ course, setHoveredCourse, isDarkMode }) => {
         {/* Content - Coursera Style */}
         <div className={`p-5 flex flex-col flex-1 relative z-10 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}>
           {/* Logo and Instructor */}
-          <div className="flex items-center gap-3 mb-3">
-             <div className="w-8 h-8 rounded bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center shrink-0 p-1 overflow-hidden shadow-sm">
-                <img src={edotLogo} alt="EDOT" className="w-full h-full object-contain" />
-             </div>
-             <span className={`text-[13px] font-medium truncate ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>EDOT Platform</span>
+          <div className="flex items-center gap-2.5 mb-3">
+            {course.instructor ? (
+              <>
+                <div className="w-7 h-7 rounded-full overflow-hidden shrink-0 border border-slate-200 dark:border-white/10 shadow-sm flex items-center justify-center bg-slate-100 dark:bg-slate-800">
+                  {course.instructor.avatar && course.instructor.avatar !== 'default-avatar.png' ? (
+                    <img 
+                      src={course.instructor.avatar.startsWith('http') ? course.instructor.avatar : `http://localhost:5000${course.instructor.avatar.startsWith('/') ? '' : '/'}${course.instructor.avatar}`} 
+                      alt={course.instructor.name} 
+                      className="w-full h-full object-cover" 
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                  ) : null}
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 flex items-center justify-center w-full h-full">
+                    {course.instructor.name ? course.instructor.name.charAt(0) : '?'}
+                  </span>
+                </div>
+                <span className={`text-[12.5px] font-bold truncate ${isDarkMode ? 'text-slate-300' : 'text-slate-700'}`}>
+                  {course.instructor.name}
+                </span>
+              </>
+            ) : (
+              <>
+                <div className="w-7 h-7 rounded-full bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center shrink-0 p-1 overflow-hidden shadow-sm">
+                   <img src={edotLogo} alt="EDOT" className="w-full h-full object-contain" />
+                </div>
+                <span className={`text-[12.5px] font-bold truncate ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>EDOT Instructor</span>
+              </>
+            )}
           </div>
           
           {/* Title */}

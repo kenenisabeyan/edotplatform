@@ -714,7 +714,7 @@ router.delete('/users/:id', async (req, res) => {
 
 router.get('/courses', async (req, res) => {
     try {
-        const courses = await prisma.course.findMany({ include: { instructor: { select: { name: true, email: true } } } });
+        const courses = await prisma.course.findMany({ include: { instructor: { select: { name: true, email: true, avatar: true } } } });
         res.status(200).json({ success: true, count: courses.length, data: courses });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server error', error: error.message });
@@ -725,7 +725,7 @@ router.get('/courses/pending', async (req, res) => {
     try {
         const courses = await prisma.course.findMany({
             where: { status: 'pending' },
-            include: { instructor: { select: { name: true, email: true } } }
+            include: { instructor: { select: { name: true, email: true, avatar: true } } }
         });
         res.status(200).json({ success: true, count: courses.length, data: courses });
     } catch (error) {

@@ -122,11 +122,34 @@ const EnrolledCourseCard = ({ enrolled, isDarkMode, navigate, handleSelfAttendan
 
       <div className="p-6 flex flex-col flex-1">
         <h3 
-          className={`text-lg font-bold mb-2 line-clamp-2 transition-colors duration-300 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}
+          className={`text-lg font-bold mb-1 line-clamp-2 transition-colors duration-300 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}
           style={{ color: isHovered ? catInfo.main : undefined }}
         >
           {enrolled.course?.title || 'Unknown Course'}
         </h3>
+
+        {/* Enrolled Course Creator/Instructor Row */}
+        <div className="flex items-center gap-2 mt-2 mb-2">
+          <div className="w-6 h-6 rounded-full overflow-hidden shrink-0 border border-slate-200 dark:border-white/10 shadow-sm flex items-center justify-center bg-slate-100 dark:bg-slate-800">
+            {enrolled.course?.instructor && enrolled.course.instructor.avatar && enrolled.course.instructor.avatar !== 'default-avatar.png' ? (
+              <img 
+                src={enrolled.course.instructor.avatar.startsWith('http') ? enrolled.course.instructor.avatar : `http://localhost:5000${enrolled.course.instructor.avatar.startsWith('/') ? '' : '/'}${enrolled.course.instructor.avatar}`} 
+                alt={enrolled.course.instructor.name || 'Instructor'} 
+                className="w-full h-full object-cover" 
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+            ) : null}
+            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 flex items-center justify-center w-full h-full">
+              {enrolled.course?.instructor?.name ? enrolled.course.instructor.name.charAt(0) : '?'}
+            </span>
+          </div>
+          <span className={`text-[12px] font-bold truncate ${isDarkMode ? 'text-slate-350' : 'text-slate-600'}`}>
+            {enrolled.course?.instructor?.name || 'EDOT Instructor'}
+          </span>
+        </div>
 
         <div className="mt-auto pt-4 space-y-3">
           <div className="flex justify-between text-xs font-bold">

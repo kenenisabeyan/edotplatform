@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
         const courses = await prisma.course.findMany({
             where: query,
             include: {
-                instructor: { select: { name: true, email: true } },
+                instructor: { select: { name: true, email: true, avatar: true } },
                 lessons: true
             },
             orderBy: Object.keys(orderBy).length ? orderBy : undefined,
@@ -69,7 +69,7 @@ router.get('/categorized', async (req, res) => {
     try {
         const courses = await prisma.course.findMany({
             where: { isPublished: true, status: 'approved' },
-            include: { instructor: { select: { name: true, email: true } } }
+            include: { instructor: { select: { name: true, email: true, avatar: true } } }
         });
 
         const grouped = {};
@@ -181,7 +181,7 @@ router.get('/my-courses', protect, authorize('instructor', 'admin'), async (req,
         const courses = await prisma.course.findMany({
             where: query,
             include: {
-                instructor: { select: { name: true, email: true } },
+                instructor: { select: { name: true, email: true, avatar: true } },
                 lessons: true
             },
             orderBy: { createdAt: 'desc' }

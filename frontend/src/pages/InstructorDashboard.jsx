@@ -430,6 +430,30 @@ export default function InstructorDashboard() {
                              </span>
                            </div>
 
+                            {/* Course Creator/Instructor Row */}
+                            <div className="flex items-center gap-2 mb-4">
+                              <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 border border-slate-200 dark:border-white/10 shadow-sm flex items-center justify-center bg-slate-100 dark:bg-slate-800">
+                                {c.instructor && c.instructor.avatar && c.instructor.avatar !== 'default-avatar.png' ? (
+                                  <img 
+                                    src={c.instructor.avatar.startsWith('http') ? c.instructor.avatar : `http://localhost:5000${c.instructor.avatar.startsWith('/') ? '' : '/'}${c.instructor.avatar}`} 
+                                    alt={c.instructor.name || 'Instructor'} 
+                                    className="w-full h-full object-cover" 
+                                    onError={(e) => {
+                                      e.target.style.display = 'none';
+                                      e.target.nextSibling.style.display = 'flex';
+                                    }}
+                                  />
+                                ) : null}
+                                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center justify-center w-full h-full">
+                                  {c.instructor?.name ? c.instructor.name.charAt(0) : '?'}
+                                </span>
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-none">Instructor</p>
+                                <p className={`text-[13px] font-bold truncate leading-snug ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{c.instructor?.name || 'EDOT Creator'}</p>
+                              </div>
+                            </div>
+
                            {/* Level and Rating Row */}
                            <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-white/5 mt-auto mb-6">
                              <span className="text-xs font-bold px-3 py-1.5 rounded-full border transition-all shadow-sm"

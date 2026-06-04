@@ -13,7 +13,10 @@ router.get('/courses', async (req, res) => {
         const userId = req.user.id;
         const courses = await prisma.course.findMany({
             where: { instructorId: userId },
-            include: { lessons: true },
+            include: { 
+                lessons: true,
+                instructor: { select: { name: true, email: true, avatar: true } }
+            },
             orderBy: { createdAt: 'desc' }
         });
         res.status(200).json({ success: true, count: courses.length, data: courses });

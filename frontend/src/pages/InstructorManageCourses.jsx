@@ -290,203 +290,213 @@ export default function InstructorManageCourses() {
           </div>
       ) : (
         viewMode === 'grid' ? (
-          <div className="space-y-12">
-            {Object.keys(coursesByCategory)
-               .filter(cat => selectedCategory === 'All' || cat === selectedCategory)
-               .sort()
-               .map((category) => {
-                 const normalized = normalizeCategory(category);
-                 const catInfo = CATEGORY_MAP[normalized] || DEFAULT_CAT;
-                 const IconComponent = catInfo.icon;
-                 
-                 return (
-                   <div key={category}>
-                     <div className="flex items-center gap-4 mb-6">
-                       <h3 className="text-2xl font-bold flex items-center gap-3" style={{ color: catInfo.color }}>
-                         <FolderOpen className="w-6 h-6" style={{ color: catInfo.color }} />
-                         {category}
-                       </h3>
-                       <div className="h-px flex-1 bg-gradient-to-r" style={{
-                         backgroundImage: `linear-gradient(to right, ${catInfo.color}40, transparent)`
-                       }}></div>
-                     </div>
+          filteredCoursesList.length === 0 ? (
+            <div className={`p-16 text-center rounded-3xl border shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center relative overflow-hidden group ${isDarkMode ? 'border-white/10 bg-[#0B1120]/90' : 'border-slate-200 bg-white/95'}`}>
+              <FolderOpen className="w-12 h-12 text-slate-500 mx-auto mb-4" />
+              <h3 className={`text-2xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>No courses found</h3>
+              <p className={`font-medium max-w-md mx-auto ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>We couldn't find any courses matching your filter.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+              {filteredCoursesList.map(c => {
+                const normalized = normalizeCategory(c.mainCategory || c.category);
+                const catInfo = CATEGORY_MAP[normalized] || DEFAULT_CAT;
+                
+                // Calculate display time
+                const totalMins = c.lessons?.reduce((acc, l) => acc + (l.duration || 0), 0) || 0;
+                const hasLessons = Array.isArray(c.lessons) && c.lessons.length > 0;
+                const displayTime = hasLessons && totalMins > 0 
+                  ? (totalMins >= 60 ? `${Math.floor(totalMins/60)}h ${totalMins%60}m` : `${totalMins}m`) 
+                  : `${c.duration || 0}h`;
 
-                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                       {coursesByCategory[category].map(c => {
-                         // Calculate display time
-                     const totalMins = c.lessons?.reduce((acc, l) => acc + (l.duration || 0), 0) || 0;
-                     const hasLessons = Array.isArray(c.lessons) && c.lessons.length > 0;
-                     const displayTime = hasLessons && totalMins > 0 
-                       ? (totalMins >= 60 ? `${Math.floor(totalMins/60)}h ${totalMins%60}m` : `${totalMins}m`) 
-                       : `${c.duration || 0}h`;
+                // Stable ratings based on course ID
+                const ratingSeed = (c.id.charCodeAt(0) + c.id.charCodeAt(c.id.length - 1)) % 10;
+                const courseRating = (4.5 + (ratingSeed / 20)).toFixed(1);
+                const reviewsSeed = (c.id.charCodeAt(1) + c.id.charCodeAt(c.id.length - 2)) * 3 % 200 + 40;
+                const contrastTextColor = catInfo.color === "#FFD700" ? "#0F172A" : "#FFFFFF";
 
-                     // Stable ratings based on course ID
-                     const ratingSeed = (c.id.charCodeAt(0) + c.id.charCodeAt(c.id.length - 1)) % 10;
-                     const courseRating = (4.5 + (ratingSeed / 20)).toFixed(1);
-                     const reviewsSeed = (c.id.charCodeAt(1) + c.id.charCodeAt(c.id.length - 2)) * 3 % 200 + 40;
-                     const contrastTextColor = catInfo.color === "#FFD700" ? "#0F172A" : "#FFFFFF";
+                return (
+                  <motion.div 
+                    whileHover={{ y: -8 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    key={c.id} 
+                    className={`rounded-[32px] border shadow-2xl flex flex-col group transition-all duration-300 h-full relative overflow-hidden ${
+                      isDarkMode 
+                        ? `border-white/5 bg-[#0B1120]/80 ${catInfo.hoverGlow}` 
+                        : `border-slate-200/60 bg-white ${catInfo.hoverGlow}`
+                    }`}
+                    style={{
+                      '--cat-color': catInfo.color,
+                      borderTop: `6px solid ${catInfo.color}`
+                    }}
+                  >
+                    {/* Thumbnail Wrapper */}
+                    <div className="p-4 pb-0 shrink-0">
+                      <div className="w-full h-[200px] relative overflow-hidden bg-slate-900 flex items-center justify-center rounded-2xl">
+                         {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
+                           <img 
+                             src={c.thumbnail} 
+                             alt={c.title} 
+                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                           />
+                         ) : (
+                           <CourseFallbackThumbnail 
+                             color={catInfo.color} 
+                             darkColor={catInfo.color} 
+                             ribbon={c.mainCategory} 
+                             fallbackId={c.id} 
+                           />
+                         )}
 
-                     return (
-                        <motion.div 
-                          whileHover={{ y: -8 }}
-                          transition={{ duration: 0.3, ease: 'easeOut' }}
-                          key={c.id} 
-                          className={`rounded-[32px] border shadow-2xl flex flex-col group transition-all duration-300 h-full relative overflow-hidden ${
-                            isDarkMode 
-                              ? `border-white/5 bg-[#0B1120]/80 ${catInfo.hoverGlow}` 
-                              : `border-slate-200/60 bg-white ${catInfo.hoverGlow}`
-                          }`}
+                         {/* Status Badge in lowercase pill border shape */}
+                         <div className="absolute top-4 right-4 z-20">
+                           <span 
+                             className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-bold border"
+                             style={{ backgroundColor: catInfo.color, color: contrastTextColor, borderColor: 'transparent' }}
+                           >
+                             {(c.status || 'draft').toLowerCase()}
+                           </span>
+                         </div>
+                      </div>
+                    </div>
+
+                    {/* Card Content */}
+                    <div className="p-6 flex flex-col flex-1">
+                      {/* Title */}
+                      <h4 className="text-lg font-bold font-display leading-snug line-clamp-2 mb-2 transition-colors duration-300"
+                        style={{ color: catInfo.color }}
+                      >
+                        {c.title}
+                      </h4>
+
+                      {/* Info Row (styled as solid interactive pills in category colors) */}
+                      <div className="flex flex-wrap items-center gap-2.5 mb-4">
+                        {/* Duration (non-clickable pill) */}
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold border transition-colors shadow-sm"
                           style={{
-                            '--cat-color': catInfo.color,
-                            borderTop: `6px solid ${catInfo.color}`
+                            backgroundColor: catInfo.color,
+                            borderColor: catInfo.color,
+                            color: contrastTextColor
                           }}
                         >
-                          {/* Thumbnail Wrapper */}
-                          <div className="p-4 pb-0 shrink-0">
-                            <div className="w-full h-[200px] relative overflow-hidden bg-slate-900 flex items-center justify-center rounded-2xl">
-                               {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
-                                 <img 
-                                   src={c.thumbnail} 
-                                   alt={c.title} 
-                                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                                 />
-                               ) : (
-                                 <CourseFallbackThumbnail 
-                                   color={catInfo.color} 
-                                   darkColor={catInfo.color} 
-                                   ribbon={c.mainCategory} 
-                                   fallbackId={c.id} 
-                                 />
-                               )}
+                          <Clock className="w-3.5 h-3.5 opacity-90" />
+                          {displayTime}
+                        </span>
+                        
+                        {/* Lessons Button (clickable pill styled by category color) */}
+                        <button 
+                          onClick={() => openLessons(c)} 
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-extrabold border transition-all duration-300 shadow-md cursor-pointer hover:brightness-110 active:scale-95"
+                          style={{
+                            backgroundColor: catInfo.color,
+                            borderColor: catInfo.color,
+                            color: contrastTextColor,
+                          }}
+                        >
+                          <PlayCircle className="w-3.5 h-3.5" />
+                          {c.lessons?.length || 0} Lessons
+                        </button>
+                        
+                        {/* Students Button (clickable pill styled by category color) */}
+                        <button 
+                          onClick={() => openStudents(c)} 
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-extrabold border transition-all duration-300 shadow-md cursor-pointer hover:brightness-110 active:scale-95"
+                          style={{
+                            backgroundColor: catInfo.color,
+                            borderColor: catInfo.color,
+                            color: contrastTextColor,
+                          }}
+                        >
+                          <Users className="w-3.5 h-3.5" />
+                          {c.totalStudents || 0} Students
+                        </button>
+                      </div>
 
-                               {/* Status Badge in lowercase pill border shape */}
-                               <div className="absolute top-4 right-4 z-20">
-                                 <span 
-                                   className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-bold border"
-                                   style={{ backgroundColor: catInfo.color, color: contrastTextColor, borderColor: 'transparent' }}
-                                 >
-                                   {(c.status || 'draft').toLowerCase()}
-                                 </span>
-                               </div>
-                            </div>
-                          </div>
+                      {/* Course Creator/Instructor Row */}
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 border border-slate-200 dark:border-white/10 shadow-sm flex items-center justify-center bg-slate-100 dark:bg-slate-800">
+                          {c.instructor && c.instructor.avatar && c.instructor.avatar !== 'default-avatar.png' ? (
+                            <img 
+                              src={c.instructor.avatar.startsWith('http') ? c.instructor.avatar : `http://localhost:5000${c.instructor.avatar.startsWith('/') ? '' : '/'}${c.instructor.avatar}`} 
+                              alt={c.instructor.name || 'Instructor'} 
+                              className="w-full h-full object-cover" 
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.nextSibling.style.display = 'flex';
+                              }}
+                            />
+                          ) : null}
+                          <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center justify-center w-full h-full">
+                            {c.instructor?.name ? c.instructor.name.charAt(0) : '?'}
+                          </span>
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-none">Instructor</p>
+                          <p className={`text-[13px] font-bold truncate leading-snug ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>{c.instructor?.name || 'EDOT Creator'}</p>
+                        </div>
+                      </div>
 
-                         {/* Card Content */}
-                         <div className="p-6 flex flex-col flex-1">
-                           {/* Title */}
-                           <h4 className="text-lg font-bold font-display leading-snug line-clamp-2 mb-2 transition-colors duration-300"
-                             style={{ color: catInfo.color }}
-                           >
-                             {c.title}
-                           </h4>
+                      {/* Level and Rating Row */}
+                      <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-white/5 mt-auto mb-6">
+                        <span className="text-xs font-bold px-3 py-1.5 rounded-full border transition-all shadow-sm"
+                          style={{
+                            backgroundColor: catInfo.color,
+                            borderColor: catInfo.color,
+                            color: contrastTextColor
+                          }}
+                        >
+                          {c.level || 'Beginner'}
+                        </span>
+                        <div className="flex items-center gap-1 text-xs font-bold text-amber-500">
+                          <Star className="w-3.5 h-3.5 fill-current" />
+                          <span>{courseRating}</span>
+                          <span className="text-slate-400 dark:text-slate-500 font-semibold">({reviewsSeed})</span>
+                        </div>
+                      </div>
 
-                            {/* Info Row (styled as solid interactive pills in category colors) */}
-                            <div className="flex flex-wrap items-center gap-2.5 mb-4">
-                              {/* Duration (non-clickable pill) */}
-                              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold border transition-colors shadow-sm"
-                                style={{
-                                  backgroundColor: catInfo.color,
-                                  borderColor: catInfo.color,
-                                  color: contrastTextColor
-                                }}
-                              >
-                                <Clock className="w-3.5 h-3.5 opacity-90" />
-                                {displayTime}
-                              </span>
-                              
-                              {/* Lessons Button (clickable pill styled by category color) */}
-                              <button 
-                                onClick={() => openLessons(c)} 
-                                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-extrabold border transition-all duration-300 shadow-md cursor-pointer hover:brightness-110 active:scale-95"
-                                style={{
-                                  backgroundColor: catInfo.color,
-                                  borderColor: catInfo.color,
-                                  color: contrastTextColor,
-                                }}
-                              >
-                                <PlayCircle className="w-3.5 h-3.5" />
-                                {c.lessons?.length || 0} Lessons
-                              </button>
-                              
-                              {/* Students Button (clickable pill styled by category color) */}
-                              <button 
-                                onClick={() => openStudents(c)} 
-                                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-extrabold border transition-all duration-300 shadow-md cursor-pointer hover:brightness-110 active:scale-95"
-                                style={{
-                                  backgroundColor: catInfo.color,
-                                  borderColor: catInfo.color,
-                                  color: contrastTextColor,
-                                }}
-                              >
-                                <Users className="w-3.5 h-3.5" />
-                                {c.totalStudents || 0} Students
-                              </button>
-                            </div>
-
-                           {/* Level and Rating Row */}
-                           <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-white/5 mt-auto mb-6">
-                             <span className="text-xs font-bold px-3 py-1.5 rounded-full border transition-all shadow-sm"
-                               style={{
-                                 backgroundColor: catInfo.color,
-                                 borderColor: catInfo.color,
-                                 color: contrastTextColor
-                                }}
-                             >
-                               {c.level || 'Beginner'}
-                             </span>
-                             <div className="flex items-center gap-1 text-xs font-bold text-amber-500">
-                               <Star className="w-3.5 h-3.5 fill-current" />
-                               <span>{courseRating}</span>
-                               <span className="text-slate-400 dark:text-slate-500 font-semibold">({reviewsSeed})</span>
-                             </div>
-                           </div>
-
-                           {/* Action Buttons */}
-                           <div className="flex flex-col gap-2.5">
-                             {!isAdmin && (c.status === 'draft' || c.status === 'rejected') && (
-                               <button 
-                                 onClick={() => handleSubmitReview(c.id)} 
-                                 className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold rounded-2xl hover:shadow-[0_6px_20px_rgba(16,185,129,0.3)] transition-all text-xs"
-                               >
-                                 <Send className="w-3.5 h-3.5" /> Submit for Review
-                               </button>
-                             )}
-                             
-                             {c.status !== 'pending' && (
-                                <button 
-                                  onClick={() => navigate('/dashboard/builder/' + c.id)} 
-                                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 font-bold rounded-2xl border transition-all duration-300 text-xs cursor-pointer shadow-md hover:brightness-110"
-                                  style={{
-                                    backgroundColor: catInfo.color,
-                                    borderColor: catInfo.color,
-                                    color: contrastTextColor
-                                  }}
-                                >
-                                  <Edit3 className="w-3.5 h-3.5" /> Edit Content
-                                </button>
-                              )}
-                              
-                              <button 
-                                onClick={() => navigate('/dashboard/library', { state: { courseId: c.id } })} 
-                                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 font-bold rounded-2xl border transition-all duration-300 text-xs cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5"
-                                style={{
-                                  borderColor: catInfo.color,
-                                  color: catInfo.color,
-                                  backgroundColor: 'transparent'
-                                }}
-                              >
-                                 <FolderOpen className="w-3.5 h-3.5" /> Course Resources
-                              </button>
-                           </div>
-                         </div>
-                        </motion.div>
-                      );
-                       })}
-                     </div>
-                   </div>
-                 );
-               })}
-          </div>
+                      {/* Action Buttons */}
+                      <div className="flex flex-col gap-2.5">
+                        {!isAdmin && (c.status === 'draft' || c.status === 'rejected') && (
+                          <button 
+                            onClick={() => handleSubmitReview(c.id)} 
+                            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold rounded-2xl hover:shadow-[0_6px_20px_rgba(16,185,129,0.3)] transition-all text-xs"
+                          >
+                            <Send className="w-3.5 h-3.5" /> Submit for Review
+                          </button>
+                        )}
+                        
+                        {c.status !== 'pending' && (
+                          <button 
+                            onClick={() => navigate('/dashboard/builder/' + c.id)} 
+                            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 font-bold rounded-2xl border transition-all duration-300 text-xs cursor-pointer shadow-md hover:brightness-110"
+                            style={{
+                              backgroundColor: catInfo.color,
+                              borderColor: catInfo.color,
+                              color: contrastTextColor
+                            }}
+                          >
+                            <Edit3 className="w-3.5 h-3.5" /> Edit Content
+                          </button>
+                        )}
+                        
+                        <button 
+                          onClick={() => navigate('/dashboard/library', { state: { courseId: c.id } })} 
+                          className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 font-bold rounded-2xl border transition-all duration-300 text-xs cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5"
+                          style={{
+                            borderColor: catInfo.color,
+                            color: catInfo.color,
+                            backgroundColor: 'transparent'
+                          }}
+                        >
+                          <FolderOpen className="w-3.5 h-3.5" /> Course Resources
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )
         ) : (
           /* Table list view mode */
           <div className={`rounded-[2.5rem] p-8 border backdrop-blur-2xl shadow-2xl overflow-hidden relative transition-all duration-500 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/80' : 'border-slate-200 bg-white/90 hover:border-[#00D4FF]/30'}`}>
@@ -535,7 +545,26 @@ export default function InstructorManageCourses() {
                                 )}
                               </div>
                               <div className="min-w-0">
-                                <div className={`font-black text-sm truncate ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</div>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 border border-slate-200 dark:border-white/10 shadow-sm flex items-center justify-center bg-slate-100 dark:bg-slate-800">
+                                    {c.instructor && c.instructor.avatar && c.instructor.avatar !== 'default-avatar.png' ? (
+                                      <img 
+                                        src={c.instructor.avatar.startsWith('http') ? c.instructor.avatar : `http://localhost:5000${c.instructor.avatar.startsWith('/') ? '' : '/'}${c.instructor.avatar}`} 
+                                        alt={c.instructor.name || 'Instructor'} 
+                                        className="w-full h-full object-cover" 
+                                        onError={(e) => {
+                                          e.target.style.display = 'none';
+                                          e.target.nextSibling.style.display = 'flex';
+                                        }}
+                                      />
+                                    ) : null}
+                                    <span className="text-[8px] font-bold text-slate-500 dark:text-slate-400 flex items-center justify-center w-full h-full">
+                                      {c.instructor?.name ? c.instructor.name.charAt(0) : '?'}
+                                    </span>
+                                  </div>
+                                  <span className={`text-[11px] font-bold truncate ${isDarkMode ? 'text-slate-350' : 'text-slate-600'}`}>{c.instructor?.name || 'EDOT Creator'}</span>
+                                </div>
+                                <div className={`font-black text-sm truncate mt-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{c.title}</div>
                                 <div className="text-xs text-slate-400 font-medium line-clamp-1">{c.description || 'No description provided.'}</div>
                               </div>
                             </div>
