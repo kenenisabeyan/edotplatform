@@ -10,6 +10,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import UserAvatar from '../components/UserAvatar';
+import CourseFallbackThumbnail from '../components/CourseFallbackThumbnail';
 
 const CAT_COLORS = {
   "Social Science": { main: "#F97316", dark: "#C2410C" }, 
@@ -377,8 +378,7 @@ export default function AdminCourseApprovals() {
                                 }`}
                               >
                                 <div 
-                                  className="w-full h-40 relative flex items-center justify-center overflow-hidden shrink-0"
-                                  style={{ background: `linear-gradient(135deg, ${catInfo.main}, ${catInfo.dark || catInfo.main})` }}
+                                  className="w-full h-40 relative flex items-center justify-center overflow-hidden shrink-0 bg-[#030303]"
                                 >
                                   {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
                                     <img 
@@ -387,9 +387,12 @@ export default function AdminCourseApprovals() {
                                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" 
                                     />
                                   ) : (
-                                    <div className="w-12 h-12 rounded-[14px] bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
-                                      <IconComponent className="w-6 h-6 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" />
-                                    </div>
+                                    <CourseFallbackThumbnail 
+                                      color={catInfo.main} 
+                                      darkColor={catInfo.dark || catInfo.main} 
+                                      ribbon={c.mainCategory} 
+                                      fallbackId={c.id} 
+                                    />
                                   )}
                                   <div className="absolute top-3 right-3 z-20">
                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
@@ -675,12 +678,17 @@ export default function AdminCourseApprovals() {
                               <tr key={c.id} className={`transition-colors duration-300 ${isDarkMode ? 'hover:bg-blue-500/5' : 'hover:bg-blue-50/50'}`}>
                                 <td className="px-6 py-4">
                                   <div className="flex items-center gap-3">
-                                    <div className="w-12 h-8 rounded overflow-hidden shrink-0" style={{ background: `linear-gradient(135deg, ${catInfo.main}, ${catInfo.dark})` }}>
+                                    <div className="w-12 h-8 rounded overflow-hidden shrink-0 relative bg-[#030303] flex items-center justify-center">
                                       {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
                                         <img src={c.thumbnail} alt={c.title} className="w-full h-full object-cover" />
                                       ) : (
-                                        <div className="w-full h-full flex items-center justify-center">
-                                          <IconComponent className="w-4 h-4 text-white" />
+                                        <div className="absolute w-[260px] h-[220px] scale-[0.15] origin-center flex items-center justify-center">
+                                          <CourseFallbackThumbnail 
+                                            color={catInfo.main} 
+                                            darkColor={catInfo.dark || catInfo.main} 
+                                            ribbon={c.mainCategory} 
+                                            fallbackId={c.id} 
+                                          />
                                         </div>
                                       )}
                                     </div>

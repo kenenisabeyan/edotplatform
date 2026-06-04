@@ -21,6 +21,7 @@ import PackageCard from '../components/student/PackageCard';
 import StudentOverview from '../components/student/StudentOverview';
 import ThemeDropdown from '../components/ThemeDropdown';
 import useThemeMode from '../hooks/useThemeMode';
+import CourseFallbackThumbnail from '../components/CourseFallbackThumbnail';
 import { PACKAGES } from '../constants/packages';
 
 import LibraryView from './LibraryView';
@@ -88,7 +89,7 @@ const EnrolledCourseCard = ({ enrolled, isDarkMode, navigate, handleSelfAttendan
     >
       <div 
         className="w-full h-40 relative flex items-center justify-center shrink-0 overflow-hidden" 
-        style={{ background: `linear-gradient(135deg, ${catInfo.main}, ${catInfo.dark || catInfo.main})` }}
+        style={{ backgroundColor: '#030303' }}
       >
         {enrolled.course?.thumbnail && enrolled.course.thumbnail !== 'default-course.jpg' ? (
           <img 
@@ -97,10 +98,12 @@ const EnrolledCourseCard = ({ enrolled, isDarkMode, navigate, handleSelfAttendan
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
           />
         ) : (
-          /* Centered Category Icon inside a bordered rounded square container */
-          <div className="w-14 h-14 rounded-[18px] bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
-            <IconComponent className="w-7 h-7 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" />
-          </div>
+          <CourseFallbackThumbnail 
+            color={catInfo.main} 
+            darkColor={catInfo.dark || catInfo.main} 
+            ribbon={enrolled.course?.mainCategory || enrolled.course?.category} 
+            fallbackId={enrolled.course?.id} 
+          />
         )}
 
         {/* Status Badge in lowercase pill border shape */}

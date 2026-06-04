@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import api from '../utils/api';
 import { PlusCircle, Search, BookOpen, Globe, Calculator, Rocket, Target, UserCheck } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import CourseFallbackThumbnail from '../components/CourseFallbackThumbnail';
 
 const CATEGORY_MAP = {
   "Social Science": {
@@ -150,15 +151,12 @@ export default function InstructorClasses() {
                         className="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity transform group-hover:scale-105 duration-500" 
                       />
                     ) : (
-                      <>
-                        {/* Background Gradient */}
-                        <div className={`absolute inset-0 bg-gradient-to-br ${catInfo.bannerGradient} opacity-90 transition-opacity group-hover:opacity-100`}></div>
-                        
-                        {/* Centered Category Icon inside a bordered rounded square container */}
-                        <div className="relative z-10 w-14 h-14 rounded-[18px] bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
-                          <IconComponent className="w-7 h-7 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" />
-                        </div>
-                      </>
+                      <CourseFallbackThumbnail 
+                        color={catInfo.color} 
+                        darkColor={catInfo.color} 
+                        ribbon={course.mainCategory} 
+                        fallbackId={course.id} 
+                      />
                     )}
                   </div>
                   

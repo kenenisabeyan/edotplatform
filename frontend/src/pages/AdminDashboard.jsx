@@ -19,6 +19,7 @@ import { CircleDollarSign, ArrowDownRight } from 'lucide-react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDashboardStats } from '../hooks/useDashboardStats';
 import PremiumModal from '../components/PremiumModal';
+import CourseFallbackThumbnail from '../components/CourseFallbackThumbnail';
 
 const CAT_COLORS = {
   "Social Science": { main: "#F97316", dark: "#C2410C" }, 
@@ -775,8 +776,7 @@ export default function AdminDashboard() {
                            style={{ borderTopColor: catInfo.main, borderTopWidth: '4px' }}>
                         
                         <div 
-                          className="w-full md:w-64 h-48 md:h-auto shrink-0 relative flex items-center justify-center overflow-hidden"
-                          style={{ background: `linear-gradient(135deg, ${catInfo.main}, ${catInfo.dark || catInfo.main})` }}
+                          className="w-full md:w-64 h-48 md:h-auto shrink-0 relative flex items-center justify-center overflow-hidden bg-[#030303]"
                         >
                           {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
                             <img 
@@ -785,10 +785,12 @@ export default function AdminDashboard() {
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                             />
                           ) : (
-                            /* Centered Category Icon inside a bordered rounded square container */
-                            <div className="w-14 h-14 rounded-[18px] bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
-                              <IconComponent className="w-7 h-7 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" />
-                            </div>
+                            <CourseFallbackThumbnail 
+                              color={catInfo.main} 
+                              darkColor={catInfo.dark || catInfo.main} 
+                              ribbon={c.mainCategory} 
+                              fallbackId={c.id} 
+                            />
                           )}
 
                           {/* Status Badge in lowercase pill border shape */}

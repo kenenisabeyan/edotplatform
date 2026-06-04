@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import useThemeMode from '../hooks/useThemeMode';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import CourseFallbackThumbnail from '../components/CourseFallbackThumbnail';
 
 const CAT_COLORS = {
   "Social Science": { main: "#F97316", dark: "#C2410C", banner: "from-orange-500 to-red-600" }, 
@@ -196,7 +197,7 @@ export default function CourseDetails() {
                      <div className={`relative border rounded-2xl p-4 shadow-2xl ${isDarkMode ? 'border-white/10 bg-[#151a26]/80 backdrop-blur-md' : 'border-slate-200 bg-white/80 backdrop-blur-md'}`}>
                         <div 
                           className="w-full aspect-[4/3] relative overflow-hidden rounded-xl flex items-center justify-center"
-                          style={(course.thumbnail && course.thumbnail !== 'default-course.jpg') ? { backgroundColor: '#030303' } : { background: `linear-gradient(135deg, ${catInfo.main}, ${catInfo.dark || catInfo.main})` }}
+                          style={{ backgroundColor: '#030303' }}
                         >
                           {course.thumbnail && course.thumbnail !== 'default-course.jpg' ? (
                             <img 
@@ -205,10 +206,12 @@ export default function CourseDetails() {
                               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                             />
                           ) : (
-                            /* Centered Category Icon inside a bordered rounded square container */
-                            <div className="w-16 h-16 rounded-[20px] bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
-                              <IconComponent className="w-8 h-8 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" />
-                            </div>
+                            <CourseFallbackThumbnail 
+                              color={catInfo.main} 
+                              darkColor={catInfo.dark || catInfo.main} 
+                              ribbon={course.mainCategory} 
+                              fallbackId={course.id} 
+                            />
                           )}
 
                           {/* Status Badge in lowercase pill border shape */}

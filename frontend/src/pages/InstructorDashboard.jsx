@@ -19,6 +19,7 @@ import ProfileView from './ProfileView';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import PremiumModal from '../components/PremiumModal';
+import CourseFallbackThumbnail from '../components/CourseFallbackThumbnail';
 
 const CATEGORY_MAP = {
   "Social Science": {
@@ -359,15 +360,12 @@ export default function InstructorDashboard() {
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                               />
                             ) : (
-                              <>
-                                {/* Background Gradient */}
-                                <div className={`absolute inset-0 bg-gradient-to-br ${catInfo.bannerGradient} opacity-90 transition-opacity group-hover:opacity-100`}></div>
-                                
-                                {/* Centered Category Icon inside a bordered rounded square container */}
-                                <div className="relative z-10 w-16 h-16 rounded-[20px] bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.1)] group-hover:scale-110 transition-transform duration-500">
-                                  <IconComponent className="w-8 h-8 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" />
-                                </div>
-                              </>
+                              <CourseFallbackThumbnail 
+                                color={catInfo.color} 
+                                darkColor={catInfo.color} 
+                                ribbon={c.mainCategory} 
+                                fallbackId={c.id} 
+                              />
                             )}
 
                             {/* Status Badge in lowercase pill border shape */}
