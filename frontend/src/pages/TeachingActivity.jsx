@@ -116,7 +116,7 @@ export default function TeachingActivity() {
           {activityData && activityData.length > 0 && activityData.some(d => d.hours > 0 || d.engagements > 0) ? (
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={activityData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.1} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? "#ffffff" : "#000000"} strokeOpacity={0.22} />
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} dy={10} />
                 <YAxis yAxisId="left" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12, fontWeight: 'bold'}} />
                 <YAxis yAxisId="right" orientation="right" axisLine={false} tickLine={false} tick={{fill: '#00D4FF', fontSize: 12, fontWeight: 'bold'}} />

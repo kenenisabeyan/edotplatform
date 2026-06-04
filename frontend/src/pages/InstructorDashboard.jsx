@@ -245,7 +245,7 @@ export default function InstructorDashboard() {
                 <div className="h-[250px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={revenueData} margin={{ top: 5, right: 0, bottom: 0, left: -10 }}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.05} />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? "#ffffff" : "#000000"} strokeOpacity={0.22} />
                       <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 11, fontWeight: 500}} dy={15} />
                       <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 11, fontWeight: 500}} tickFormatter={(value) => `$${value}`} />
                       <RechartsTooltip 
@@ -263,7 +263,7 @@ export default function InstructorDashboard() {
                 <div className="h-[250px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={engagementData} margin={{ top: 5, right: 0, bottom: 0, left: -25 }}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.05} />
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? "#ffffff" : "#000000"} strokeOpacity={0.22} />
                       <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 11, fontWeight: 500}} dy={15} />
                       <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 11, fontWeight: 500}} />
                       <RechartsTooltip 

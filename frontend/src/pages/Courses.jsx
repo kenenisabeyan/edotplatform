@@ -627,7 +627,7 @@ export default function Courses() {
         {/* TOP CATEGORIES SECTION */}
         <section className={`px-6 py-16 border-y backdrop-blur-3xl relative overflow-hidden transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120]/60 border-white/5' : 'bg-white/40 border-slate-200'}`}>
            {/* Subtle background tech pattern to enhance the infographic vibe */}
-           <div className={`absolute inset-0 bg-[size:40px_40px] pointer-events-none ${isDarkMode ? 'opacity-20 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)]' : 'opacity-30 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)]'}`}></div>
+           <div className={`absolute inset-0 bg-[size:40px_40px] pointer-events-none ${isDarkMode ? 'opacity-50 bg-[linear-gradient(rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)]' : 'opacity-65 bg-[linear-gradient(rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.06)_1px,transparent_1px)]'}`}></div>
 
            <div className="max-w-7xl mx-auto relative z-10">
               <div className="text-center mb-28 md:mb-36 relative z-50">

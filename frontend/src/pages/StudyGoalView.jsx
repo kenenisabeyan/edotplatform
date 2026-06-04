@@ -275,7 +275,7 @@ export default function StudyGoalView() {
           <div className="h-72 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={weeklyStudyData} margin={{ top: 20, right: 0, left: -25, bottom: 0 }} barSize={32}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? '#ffffff' : '#000000'} strokeOpacity={0.05} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? '#ffffff' : '#000000'} strokeOpacity={0.22} />
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: isDarkMode ? '#64748b' : '#94a3b8', fontSize: 11, fontWeight: 'bold'}} dy={10} />
                 <YAxis axisLine={false} tickLine={false} tick={{fill: isDarkMode ? '#64748b' : '#94a3b8', fontSize: 11, fontWeight: 'bold'}} />
                 <RechartsTooltip cursor={{fill: isDarkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'}} contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', background: isDarkMode ? '#1E293B' : '#fff', color: isDarkMode ? '#fff' : '#000', fontWeight: 'bold'}} />
