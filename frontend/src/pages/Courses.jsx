@@ -303,38 +303,40 @@ const CourseCard = ({ course, setHoveredCourse, isDarkMode }) => {
     >
       <Link 
         to={`/course/${course.id}`} 
-        className={`group flex flex-col h-full border rounded-2xl overflow-hidden transition-all duration-300 w-full relative ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100 hover:border-slate-200'}`}
-        style={{ boxShadow: isHovered ? `0 8px 30px ${catColor}25` : (isDarkMode ? 'none' : '0 4px 20px rgba(0,0,0,0.05)') }}
+        className={`group flex flex-col h-full border rounded-[32px] overflow-hidden transition-all duration-300 w-full relative ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-100 hover:border-slate-200'}`}
+        style={{ 
+          boxShadow: isHovered ? `0 8px 30px ${catColor}25` : (isDarkMode ? 'none' : '0 4px 20px rgba(0,0,0,0.05)'),
+          borderTop: `6px solid ${catColor || '#6366f1'}`
+        }}
       >
-        {/* Theme Top Border */}
-        <div className="absolute top-0 left-0 right-0 h-1.5 z-50" style={{ backgroundColor: catColor || '#6366f1' }}></div>
-        
-        {/* Thumbnail */}
-        <div 
-          className="w-full h-[220px] relative overflow-hidden flex items-center justify-center"
-          style={{ backgroundColor: '#030303' }}
-        >
-          {(course.thumbnail && !imgError && course.thumbnail !== 'default-course.jpg') ? (
-            <img 
-              src={course.thumbnail.startsWith('http') ? course.thumbnail : `http://localhost:5000${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}`} 
-              alt={course.title} 
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-              onError={() => setImgError(true)}
-            />
-          ) : (
-            <CourseFallbackThumbnail 
-              color={catColor} 
-              darkColor={categoryInfo.darkColor || catColor} 
-              ribbon={categoryInfo.ribbon || course.mainCategory} 
-              fallbackId={course.id} 
-            />
-          )}
+        {/* Thumbnail Wrapper */}
+        <div className="p-4 pb-0 shrink-0">
+          <div 
+            className="w-full h-[220px] relative overflow-hidden flex items-center justify-center rounded-2xl"
+            style={{ backgroundColor: '#030303' }}
+          >
+            {(course.thumbnail && !imgError && course.thumbnail !== 'default-course.jpg') ? (
+              <img 
+                src={course.thumbnail.startsWith('http') ? course.thumbnail : `http://localhost:5000${course.thumbnail.startsWith('/') ? '' : '/'}${course.thumbnail}`} 
+                alt={course.title} 
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                onError={() => setImgError(true)}
+              />
+            ) : (
+              <CourseFallbackThumbnail 
+                color={catColor} 
+                darkColor={categoryInfo.darkColor || catColor} 
+                ribbon={categoryInfo.ribbon || course.mainCategory} 
+                fallbackId={course.id} 
+              />
+            )}
 
-          {/* Status Badge in lowercase pill border shape */}
-          <div className="absolute top-4 right-4 z-20">
-            <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
-              {(course.status || 'published').toLowerCase()}
-            </span>
+            {/* Status Badge in lowercase pill border shape */}
+            <div className="absolute top-4 right-4 z-20">
+              <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
+                {(course.status || 'published').toLowerCase()}
+              </span>
+            </div>
           </div>
         </div>
 

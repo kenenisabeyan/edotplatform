@@ -338,41 +338,44 @@ export default function InstructorDashboard() {
                      const contrastTextColor = catInfo.color === "#FFD700" ? "#0F172A" : "#FFFFFF";
 
                      return (
-                       <motion.div 
-                         whileHover={{ y: -8 }}
-                         transition={{ duration: 0.3, ease: 'easeOut' }}
-                         key={c.id} 
-                         className={`rounded-[32px] border shadow-2xl flex flex-col group transition-all duration-300 h-full relative overflow-hidden ${
-                           isDarkMode 
-                             ? `border-white/5 bg-[#0B1120]/80 ${catInfo.hoverGlow}` 
-                             : `border-slate-200/60 bg-white ${catInfo.hoverGlow}`
-                         }`}
-                         style={{
-                           '--cat-color': catInfo.color,
-                         }}
-                       >
-                          {/* Top Banner (Category-colored background with overlay thumbnail) */}
-                          <div className="w-full h-44 relative overflow-hidden bg-slate-900 shrink-0 flex items-center justify-center">
-                            {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
-                              <img 
-                                src={c.thumbnail} 
-                                alt={c.title} 
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                              />
-                            ) : (
-                              <CourseFallbackThumbnail 
-                                color={catInfo.color} 
-                                darkColor={catInfo.color} 
-                                ribbon={c.mainCategory} 
-                                fallbackId={c.id} 
-                              />
-                            )}
+                        <motion.div 
+                          whileHover={{ y: -8 }}
+                          transition={{ duration: 0.3, ease: 'easeOut' }}
+                          key={c.id} 
+                          className={`rounded-[32px] border shadow-2xl flex flex-col group transition-all duration-300 h-full relative overflow-hidden ${
+                            isDarkMode 
+                              ? `border-white/5 bg-[#0B1120]/80 ${catInfo.hoverGlow}` 
+                              : `border-slate-200/60 bg-white ${catInfo.hoverGlow}`
+                          }`}
+                          style={{
+                            '--cat-color': catInfo.color,
+                            borderTop: `6px solid ${catInfo.color}`
+                          }}
+                        >
+                          {/* Thumbnail Wrapper */}
+                          <div className="p-4 pb-0 shrink-0">
+                            <div className="w-full h-[200px] relative overflow-hidden bg-slate-900 flex items-center justify-center rounded-2xl">
+                               {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
+                                 <img 
+                                   src={c.thumbnail} 
+                                   alt={c.title} 
+                                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                                 />
+                               ) : (
+                                 <CourseFallbackThumbnail 
+                                   color={catInfo.color} 
+                                   darkColor={catInfo.color} 
+                                   ribbon={c.mainCategory} 
+                                   fallbackId={c.id} 
+                                 />
+                               )}
 
-                            {/* Status Badge in lowercase pill border shape */}
-                            <div className="absolute top-4 right-4 z-20">
-                              <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
-                                {(c.status || 'draft').toLowerCase()}
-                              </span>
+                               {/* Status Badge in lowercase pill border shape */}
+                               <div className="absolute top-4 right-4 z-20">
+                                 <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
+                                   {(c.status || 'draft').toLowerCase()}
+                                 </span>
+                               </div>
                             </div>
                           </div>
 

@@ -138,12 +138,15 @@ export default function InstructorClasses() {
               return (
                 <div 
                   key={course.id} 
-                  className={`backdrop-blur-xl rounded-3xl border shadow-2xl overflow-hidden flex flex-col md:flex-row p-6 items-start md:items-center gap-6 hover:border-[#00D4FF]/30 transition-all relative group ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}
+                  className={`backdrop-blur-xl rounded-[32px] border shadow-2xl overflow-hidden flex flex-col md:flex-row p-6 items-start md:items-center gap-6 hover:border-[#00D4FF]/30 transition-all relative group ${isDarkMode ? 'bg-[#0B1120]/90 border-white/10' : 'bg-white/95 border-slate-200'}`}
+                  style={{
+                    borderTop: `6px solid ${catInfo.color}`
+                  }}
                 >
                   <div className="absolute top-0 right-0 w-32 h-32 bg-[#00D4FF] opacity-5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform"></div>
                   
                   {/* Thumbnail / Fallback Gradient Banner */}
-                  <div className="w-full md:w-48 h-48 md:h-32 rounded-2xl bg-[#0B1120] shrink-0 overflow-hidden relative flex items-center justify-center">
+                  <div className="w-full md:w-48 h-48 md:h-40 rounded-2xl bg-[#0B1120] shrink-0 overflow-hidden relative flex items-center justify-center">
                     {course.thumbnail && course.thumbnail !== 'default-course.jpg' ? (
                       <img 
                         src={course.thumbnail} 

@@ -371,33 +371,39 @@ export default function AdminCourseApprovals() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.9 }}
                                 key={c.id} 
-                                className={`rounded-3xl border shadow-lg hover:shadow-2xl overflow-hidden flex flex-col group transition-all duration-500 ${
+                                className={`rounded-[32px] border shadow-lg hover:shadow-2xl overflow-hidden flex flex-col group transition-all duration-500 ${
                                   isDarkMode 
                                     ? 'border-blue-500/20 bg-[#0B1120]/60 hover:bg-[#0B1120] hover:border-blue-500 hover:shadow-[0_10px_30px_rgba(37,99,235,0.12)]' 
                                     : 'border-slate-200 bg-white hover:border-blue-500 hover:shadow-[0_10px_30px_rgba(37,99,235,0.08)]'
                                 }`}
+                                style={{
+                                  borderTop: `6px solid ${catInfo.main}`
+                                }}
                               >
-                                <div 
-                                  className="w-full h-40 relative flex items-center justify-center overflow-hidden shrink-0 bg-[#030303]"
-                                >
-                                  {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
-                                    <img 
-                                      src={c.thumbnail} 
-                                      alt={c.title} 
-                                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" 
-                                    />
-                                  ) : (
-                                    <CourseFallbackThumbnail 
-                                      color={catInfo.main} 
-                                      darkColor={catInfo.dark || catInfo.main} 
-                                      ribbon={c.mainCategory} 
-                                      fallbackId={c.id} 
-                                    />
-                                  )}
-                                  <div className="absolute top-3 right-3 z-20">
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
-                                      {(c.status || 'pending').toLowerCase()}
-                                    </span>
+                                {/* Thumbnail Wrapper */}
+                                <div className="p-4 pb-0 shrink-0">
+                                  <div 
+                                    className="w-full h-[200px] relative flex items-center justify-center rounded-2xl overflow-hidden bg-[#030303]"
+                                  >
+                                    {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
+                                      <img 
+                                        src={c.thumbnail} 
+                                        alt={c.title} 
+                                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out" 
+                                      />
+                                    ) : (
+                                      <CourseFallbackThumbnail 
+                                        color={catInfo.main} 
+                                        darkColor={catInfo.dark || catInfo.main} 
+                                        ribbon={c.mainCategory} 
+                                        fallbackId={c.id} 
+                                      />
+                                    )}
+                                    <div className="absolute top-3 right-3 z-20">
+                                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
+                                        {(c.status || 'pending').toLowerCase()}
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
 

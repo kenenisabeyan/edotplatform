@@ -286,41 +286,44 @@ export default function InstructorManageCourses() {
                      const contrastTextColor = catInfo.color === "#FFD700" ? "#0F172A" : "#FFFFFF";
 
                      return (
-                       <motion.div 
-                         whileHover={{ y: -8 }}
-                         transition={{ duration: 0.3, ease: 'easeOut' }}
-                         key={c.id} 
-                         className={`rounded-[32px] border shadow-2xl flex flex-col group transition-all duration-300 h-full relative overflow-hidden ${
-                           isDarkMode 
-                             ? `border-white/5 bg-[#0B1120]/80 ${catInfo.hoverGlow}` 
-                             : `border-slate-200/60 bg-white ${catInfo.hoverGlow}`
-                         }`}
-                         style={{
-                           '--cat-color': catInfo.color,
-                         }}
-                       >
-                         {/* Top Banner (Category-colored background with overlay thumbnail) */}
-                         <div className="w-full h-44 relative overflow-hidden bg-slate-900 shrink-0 flex items-center justify-center">
-                            {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
-                              <img 
-                                src={c.thumbnail} 
-                                alt={c.title} 
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                              />
-                            ) : (
-                              <CourseFallbackThumbnail 
-                                color={catInfo.color} 
-                                darkColor={catInfo.color} 
-                                ribbon={c.mainCategory} 
-                                fallbackId={c.id} 
-                              />
-                            )}
+                        <motion.div 
+                          whileHover={{ y: -8 }}
+                          transition={{ duration: 0.3, ease: 'easeOut' }}
+                          key={c.id} 
+                          className={`rounded-[32px] border shadow-2xl flex flex-col group transition-all duration-300 h-full relative overflow-hidden ${
+                            isDarkMode 
+                              ? `border-white/5 bg-[#0B1120]/80 ${catInfo.hoverGlow}` 
+                              : `border-slate-200/60 bg-white ${catInfo.hoverGlow}`
+                          }`}
+                          style={{
+                            '--cat-color': catInfo.color,
+                            borderTop: `6px solid ${catInfo.color}`
+                          }}
+                        >
+                          {/* Thumbnail Wrapper */}
+                          <div className="p-4 pb-0 shrink-0">
+                            <div className="w-full h-[200px] relative overflow-hidden bg-slate-900 flex items-center justify-center rounded-2xl">
+                               {c.thumbnail && c.thumbnail !== 'default-course.jpg' ? (
+                                 <img 
+                                   src={c.thumbnail} 
+                                   alt={c.title} 
+                                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                                 />
+                               ) : (
+                                 <CourseFallbackThumbnail 
+                                   color={catInfo.color} 
+                                   darkColor={catInfo.color} 
+                                   ribbon={c.mainCategory} 
+                                   fallbackId={c.id} 
+                                 />
+                               )}
 
-                            {/* Status Badge in lowercase pill border shape */}
-                            <div className="absolute top-4 right-4 z-20">
-                              <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
-                                {(c.status || 'draft').toLowerCase()}
-                              </span>
+                               {/* Status Badge in lowercase pill border shape */}
+                               <div className="absolute top-4 right-4 z-20">
+                                 <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
+                                   {(c.status || 'draft').toLowerCase()}
+                                 </span>
+                               </div>
                             </div>
                           </div>
 
@@ -406,28 +409,30 @@ export default function InstructorManageCourses() {
                              )}
                              
                              {c.status !== 'pending' && (
-                               <button 
-                                 onClick={() => navigate('/dashboard/builder/' + c.id)} 
-                                 className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 font-bold rounded-2xl border transition-all duration-300 text-xs ${
-                                   isDarkMode 
-                                     ? 'bg-white/5 text-white border-white/10' 
-                                     : 'bg-slate-50 text-slate-800 border-slate-200'
-                                 } ${catInfo.buttonHover}`}
-                               >
-                                 <Edit3 className="w-3.5 h-3.5" /> Edit Content
-                               </button>
-                             )}
-                             
-                             <button 
-                               onClick={() => navigate('/dashboard/library', { state: { courseId: c.id } })} 
-                               className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 font-bold rounded-2xl border transition-all duration-300 text-xs ${
-                                 isDarkMode 
-                                   ? 'bg-white/5 border-white/10 text-slate-300' 
-                                   : 'bg-slate-50 border-slate-200 text-slate-700'
-                               } ${catInfo.buttonHover}`}
-                             >
-                                <FolderOpen className="w-3.5 h-3.5" /> Course Resources
-                             </button>
+                                <button 
+                                  onClick={() => navigate('/dashboard/builder/' + c.id)} 
+                                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 font-bold rounded-2xl border transition-all duration-300 text-xs cursor-pointer shadow-md hover:brightness-110"
+                                  style={{
+                                    backgroundColor: catInfo.color,
+                                    borderColor: catInfo.color,
+                                    color: contrastTextColor
+                                  }}
+                                >
+                                  <Edit3 className="w-3.5 h-3.5" /> Edit Content
+                                </button>
+                              )}
+                              
+                              <button 
+                                onClick={() => navigate('/dashboard/library', { state: { courseId: c.id } })} 
+                                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 font-bold rounded-2xl border transition-all duration-300 text-xs cursor-pointer hover:bg-slate-100 dark:hover:bg-white/5"
+                                style={{
+                                  borderColor: catInfo.color,
+                                  color: catInfo.color,
+                                  backgroundColor: 'transparent'
+                                }}
+                              >
+                                 <FolderOpen className="w-3.5 h-3.5" /> Course Resources
+                              </button>
                            </div>
                          </div>
                        </motion.div>

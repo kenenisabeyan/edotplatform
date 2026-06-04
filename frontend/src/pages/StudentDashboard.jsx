@@ -81,36 +81,39 @@ const EnrolledCourseCard = ({ enrolled, isDarkMode, navigate, handleSelfAttendan
     <div 
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`rounded-[24px] glass-panel border shadow-lg flex flex-col h-full transition-all relative group hover:-translate-y-1 overflow-hidden ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}
+      className={`rounded-[32px] glass-panel border shadow-lg flex flex-col h-full transition-all relative group hover:-translate-y-1 overflow-hidden ${isDarkMode ? 'bg-[#0B1120] border-slate-700' : 'bg-white border-slate-200'}`}
       style={{ 
         borderColor: isHovered ? catInfo.main : undefined,
-        boxShadow: isHovered ? `0 8px 30px ${catInfo.main}25` : undefined
+        boxShadow: isHovered ? `0 8px 30px ${catInfo.main}25` : undefined,
+        borderTop: `6px solid ${catInfo.main}`
       }}
     >
-      <div 
-        className="w-full h-40 relative flex items-center justify-center shrink-0 overflow-hidden" 
-        style={{ backgroundColor: '#030303' }}
-      >
-        {enrolled.course?.thumbnail && enrolled.course.thumbnail !== 'default-course.jpg' ? (
-          <img 
-            src={enrolled.course.thumbnail} 
-            alt={enrolled.course.title} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-          />
-        ) : (
-          <CourseFallbackThumbnail 
-            color={catInfo.main} 
-            darkColor={catInfo.dark || catInfo.main} 
-            ribbon={enrolled.course?.mainCategory || enrolled.course?.category} 
-            fallbackId={enrolled.course?.id} 
-          />
-        )}
+      <div className="p-4 pb-0 shrink-0">
+        <div 
+          className="w-full h-[200px] relative flex items-center justify-center rounded-2xl overflow-hidden" 
+          style={{ backgroundColor: '#030303' }}
+        >
+          {enrolled.course?.thumbnail && enrolled.course.thumbnail !== 'default-course.jpg' ? (
+            <img 
+              src={enrolled.course.thumbnail} 
+              alt={enrolled.course.title} 
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+            />
+          ) : (
+            <CourseFallbackThumbnail 
+              color={catInfo.main} 
+              darkColor={catInfo.dark || catInfo.main} 
+              ribbon={enrolled.course?.mainCategory || enrolled.course?.category} 
+              fallbackId={enrolled.course?.id} 
+            />
+          )}
 
-        {/* Status Badge in lowercase pill border shape */}
-        <div className="absolute top-4 right-4 z-20">
-          <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
-            {(enrolled.status || (enrolled.progress === 100 ? 'completed' : 'active')).toLowerCase()}
-          </span>
+          {/* Status Badge in lowercase pill border shape */}
+          <div className="absolute top-4 right-4 z-20">
+            <span className="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-normal text-white border border-white/40 bg-white/10 backdrop-blur-md">
+              {(enrolled.status || (enrolled.progress === 100 ? 'completed' : 'active')).toLowerCase()}
+            </span>
+          </div>
         </div>
       </div>
 
