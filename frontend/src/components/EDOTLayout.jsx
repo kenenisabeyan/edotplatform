@@ -299,7 +299,12 @@ export default function EDOTLayout() {
       {/* Mobile Header */}
       <div 
         className={`md:hidden rounded-none p-3 flex items-center justify-between sticky top-0 z-50 transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
-        style={{ borderBottom: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#E2E8F0'}`, boxShadow: isDarkMode ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.02)' }}
+        style={{ 
+          borderBottom: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#E2E8F0'}`, 
+          boxShadow: isDarkMode 
+            ? '0 10px 30px -8px rgba(0, 0, 0, 0.8), 0 4px 12px -8px rgba(0, 212, 255, 0.3), 0 1px 0px rgba(255, 255, 255, 0.1)' 
+            : '0 10px 30px -8px rgba(15, 23, 42, 0.18), 0 4px 12px -8px rgba(15, 23, 42, 0.1), 0 1px 0px rgba(15, 23, 42, 0.06)'
+        }}
       >
         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={`dark:text-slate-200 p-2 rounded-lg hover:bg-white/5/5 backdrop-blur-xl/30 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
           <Menu className="w-6 h-6" />
@@ -320,7 +325,12 @@ export default function EDOTLayout() {
         ${mobileMenuOpen ? 'translate-x-0 w-64 bg-[#0B1120]/95 text-white' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
         ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-64 md:w-56'}
       `}
-        style={{ borderRight: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#E2E8F0'}`, boxShadow: isDarkMode ? 'none' : '2px 0 8px rgba(0, 0, 0, 0.01)' }}
+        style={{ 
+          borderRight: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#E2E8F0'}`, 
+          boxShadow: isDarkMode 
+            ? '10px 0 30px -8px rgba(0, 0, 0, 0.85), 1px 0 0 rgba(255, 255, 255, 0.1)' 
+            : '10px 0 30px -8px rgba(15, 23, 42, 0.15), 1px 0 0 rgba(15, 23, 42, 0.05)' 
+        }}
       >
         {mobileMenuOpen && (
           <button onClick={() => setMobileMenuOpen(false)} className={`absolute top-3 right-3 md:hidden dark:text-slate-300 p-1.5 rounded-lg hover:bg-white/5/5 backdrop-blur-xl/40 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
@@ -444,7 +454,12 @@ export default function EDOTLayout() {
         {/* Top Header */}
         <header 
           className={`h-[96px] px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
-          style={{ borderBottom: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#E2E8F0'}`, boxShadow: isDarkMode ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.02)' }}
+          style={{ 
+            borderBottom: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#E2E8F0'}`, 
+            boxShadow: isDarkMode 
+              ? '0 10px 30px -8px rgba(0, 0, 0, 0.8), 0 4px 12px -8px rgba(0, 212, 255, 0.3), 0 1px 0px rgba(255, 255, 255, 0.1)' 
+              : '0 10px 30px -8px rgba(15, 23, 42, 0.18), 0 4px 12px -8px rgba(15, 23, 42, 0.1), 0 1px 0px rgba(15, 23, 42, 0.06)'
+          }}
         >
           
           <div className="hidden md:block w-96 relative">
@@ -457,7 +472,7 @@ export default function EDOTLayout() {
           </div>
           
           {/* Right side actions */}
-          <div className="flex items-center gap-4 ml-auto">
+          <div className="flex items-center gap-7 ml-auto">
             
             {/* Quick Actions (Admin/Instructor) */}
             {quickActions.length > 0 && (
@@ -489,13 +504,14 @@ export default function EDOTLayout() {
             )}
 
             {/* Theme Toggle */}
+            {/* Theme Dropdown has custom layout spacing */}
             <ThemeDropdown />
 
             {/* Notifications */}
             <NotificationBell />
 
             {/* Profile Dropdown */}
-            <div className={`relative pl-3 border-l ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`} ref={profileDropdownRef}>
+            <div className={`relative pl-6 border-l ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`} ref={profileDropdownRef}>
               <button 
                 onClick={() => setProfileOpen(!profileOpen)}
                 className="flex items-center gap-3 focus:outline-none cursor-pointer group"

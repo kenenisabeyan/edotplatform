@@ -54,7 +54,7 @@ export default function Navbar() {
 
   const headerStyle = isDarkMode ? {
     borderBottom: 'none',
-    boxShadow: 'none',
+    boxShadow: isScrolled ? '0 15px 40px -10px rgba(0, 0, 0, 0.95), 0 6px 18px -8px rgba(0, 212, 255, 0.5), 0 1px 0px rgba(255, 255, 255, 0.15)' : 'none',
     background: isScrolled ? 'rgba(11, 17, 32, 0.95)' : 'transparent',
     backdropFilter: isScrolled ? 'blur(12px)' : 'none',
     paddingTop: isScrolled ? '20px' : '32px',
@@ -62,7 +62,7 @@ export default function Navbar() {
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   } : {
     borderBottom: 'none',
-    boxShadow: isScrolled ? '0 2px 8px rgba(0, 0, 0, 0.02)' : 'none',
+    boxShadow: isScrolled ? '0 15px 40px -10px rgba(15, 23, 42, 0.38), 0 6px 18px -8px rgba(15, 23, 42, 0.25), 0 1px 0px rgba(15, 23, 42, 0.1)' : 'none',
     background: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'transparent',
     backdropFilter: isScrolled ? 'blur(12px)' : 'none',
     paddingTop: isScrolled ? '20px' : '32px',
