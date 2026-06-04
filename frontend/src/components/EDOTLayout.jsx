@@ -112,6 +112,13 @@ export default function EDOTLayout() {
   const profileDropdownRef = useRef(null);
   const quickActionsRef = useRef(null);
   
+  // Live global search states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchContainerRef = useRef(null);
+  
   const { data: metricsData } = useQuery({
     queryKey: ['dashboardMetrics'],
     queryFn: async () => {
@@ -149,6 +156,9 @@ export default function EDOTLayout() {
     if (quickActionsRef.current && !quickActionsRef.current.contains(event.target)) {
       setQuickActionsOpen(false);
     }
+    if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+      setSearchOpen(false);
+    }
   };
 
   useEffect(() => {
@@ -156,6 +166,46 @@ export default function EDOTLayout() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, []);
+
+  // Debounced live search logic
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      setSearchOpen(false);
+      return;
+    }
+
+    const delayDebounce = setTimeout(async () => {
+      setSearchLoading(true);
+      setSearchOpen(true);
+      try {
+        const { data } = await api.get(`/search/global?q=${encodeURIComponent(searchQuery)}`);
+        if (data.success) {
+          setSearchResults(data.data || []);
+        } else {
+          setSearchResults([]);
+        }
+      } catch (error) {
+        console.error('Search error:', error);
+        setSearchResults([]);
+      } finally {
+        setSearchLoading(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchQuery]);
+
+  // Close search on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setSearchOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const handleLogout = async () => {
@@ -462,13 +512,130 @@ export default function EDOTLayout() {
           }}
         >
           
-          <div className="hidden md:block w-96 relative">
+          <div className="hidden md:block w-96 relative" ref={searchContainerRef}>
              <Search className={`w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`} />
              <input 
-               type="text" 
-               placeholder="Search courses, lessons..." 
-               className={`w-full !pl-12 pr-4 py-2.5 rounded-full text-sm font-medium transition-colors outline-none focus:ring-2 focus:ring-[#00D4FF]/50 ${isDarkMode ? 'bg-[#121A2F] text-white placeholder-slate-500' : 'bg-slate-100/50 text-slate-900 placeholder-slate-400 focus:bg-white'}`}
+                type="text" 
+                placeholder="Search courses, lessons..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => { if (searchQuery.trim()) setSearchOpen(true); }}
+                className={`w-full !pl-12 pr-10 py-2.5 rounded-full text-sm font-medium transition-colors outline-none focus:ring-2 focus:ring-[#00D4FF]/50 ${isDarkMode ? 'bg-[#121A2F] text-white placeholder-slate-500' : 'bg-slate-100/50 text-slate-900 placeholder-slate-400 focus:bg-white'}`}
              />
+             {searchQuery && (
+               <button 
+                 onClick={() => { setSearchQuery(''); setSearchResults([]); setSearchOpen(false); }}
+                 className={`absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
+               >
+                 <X className="w-3.5 h-3.5" />
+               </button>
+             )}
+             
+             {searchOpen && (
+               <div 
+                 className={`absolute left-0 right-0 mt-3 w-[450px] max-h-[380px] overflow-y-auto z-[150] rounded-2xl border backdrop-blur-xl shadow-2xl transition-all duration-300 ${
+                   isDarkMode 
+                     ? 'bg-slate-950/95 border-white/10 shadow-black/85' 
+                     : 'bg-white/95 border-slate-200 shadow-slate-200/50'
+                 }`}
+               >
+                 {searchLoading ? (
+                   <div className="p-6 flex items-center justify-center gap-3">
+                     <svg className="animate-spin h-5 w-5 text-[#00D4FF]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                     </svg>
+                     <span className={`text-sm font-semibold ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Searching EDOT...</span>
+                   </div>
+                 ) : searchResults.length === 0 ? (
+                   <div className="p-6 text-center">
+                     <p className={`text-sm font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                       No results found for <span className="font-bold text-[#00D4FF]">"{searchQuery}"</span>
+                     </p>
+                   </div>
+                 ) : (
+                   <div className="p-3 space-y-3">
+                     {/* Group results by category */}
+                     {['Course', 'Notice', 'User'].map((groupType) => {
+                       const groupResults = searchResults.filter(item => {
+                         if (groupType === 'User') {
+                           return ['System', 'Instructor', 'Parent', 'Student'].includes(item.type);
+                         }
+                         return item.type === groupType;
+                       });
+                       
+                       if (groupResults.length === 0) return null;
+                       
+                       return (
+                         <div key={groupType} className="space-y-1">
+                           <h4 className={`px-3 py-1 text-[11px] font-bold uppercase tracking-wider ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                             {groupType === 'User' ? 'People' : groupType === 'Notice' ? 'Announcements' : 'Courses'}
+                           </h4>
+                           
+                           {groupResults.map((item) => {
+                             // Dynamic details based on group type
+                             let icon = <BookOpen className="w-4 h-4" />;
+                             let itemPath = item.path;
+                             if (item.type === 'Notice') {
+                               icon = <BellRing className="w-4 h-4" />;
+                             } else if (['System', 'Instructor', 'Parent', 'Student'].includes(item.type)) {
+                               icon = <User className="w-4 h-4" />;
+                             }
+                             
+                             // If it's a course, navigate to /course/:id instead of a generic path
+                             if (item.type === 'Course') {
+                               itemPath = `/course/${item.id}`;
+                             }
+                             
+                             return (
+                               <button
+                                 key={`${item.type}-${item.id}`}
+                                 onClick={() => {
+                                   setSearchQuery('');
+                                   setSearchResults([]);
+                                   setSearchOpen(false);
+                                   navigate(itemPath);
+                                 }}
+                                 className={`w-full flex items-start gap-3 p-2.5 rounded-xl text-left transition-colors group ${
+                                   isDarkMode ? 'hover:bg-white/5 text-slate-200' : 'hover:bg-slate-50 text-slate-700'
+                                 }`}
+                               >
+                                 <div className={`p-2 rounded-lg shrink-0 transition-colors ${
+                                   isDarkMode ? 'bg-[#121A2F] text-[#00D4FF] group-hover:bg-[#00D4FF] group-hover:text-white' : 'bg-slate-100 text-[#2563EB] group-hover:bg-[#2563EB] group-hover:text-white'
+                                 }`}>
+                                   {icon}
+                                 </div>
+                                 <div className="min-w-0 flex-1">
+                                   <div className="flex items-center justify-between gap-2">
+                                     <span className={`text-sm font-bold truncate group-hover:text-[#00D4FF] transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                                       {item.title}
+                                     </span>
+                                     <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase shrink-0 ${
+                                       item.type === 'Course'
+                                         ? 'bg-blue-500/10 text-blue-500'
+                                         : item.type === 'Notice'
+                                         ? 'bg-amber-500/10 text-amber-500'
+                                         : 'bg-emerald-500/10 text-emerald-500'
+                                     }`}>
+                                       {item.type}
+                                     </span>
+                                   </div>
+                                   {item.subtitle && (
+                                     <p className={`text-xs mt-0.5 truncate ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                                       {item.subtitle}
+                                     </p>
+                                   )}
+                                 </div>
+                               </button>
+                             );
+                           })}
+                         </div>
+                       );
+                     })}
+                   </div>
+                 )}
+               </div>
+             )}
           </div>
           
           {/* Right side actions */}
@@ -517,8 +684,8 @@ export default function EDOTLayout() {
                 className="flex items-center gap-3 focus:outline-none cursor-pointer group"
               >
                 <div className="hidden lg:block text-right">
-                  <p className={`text-sm font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.name || 'Test User'}</p>
-                  <p className={`text-xs font-medium capitalize ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>{user?.role || role}</p>
+                  <p className={`text-sm font-bold transition-colors !m-0 !leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.name || 'Test User'}</p>
+                  <p className={`text-xs font-medium capitalize !m-0 !leading-tight !mt-0.5 ${isDarkMode ? 'text-slate-200' : 'text-slate-500'}`}>{user?.role || role}</p>
                 </div>
                 <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-[#008A32] to-[#00D4FF] p-0.5 shadow-md shadow-[#008A32]/20 group-hover:shadow-[#00D4FF]/40 transition-shadow">
                   <UserAvatar user={user} className="w-full h-full text-base border-2 border-white" />

@@ -293,10 +293,19 @@ button, .btn, .cta {
 }
 
 /* Inputs */
-[data-theme="light"] input, [data-theme="light"] textarea, [data-theme="light"] select {
+[data-theme="light"] input, [data-theme="light"] select {
   background: #fff;
   border: 1px solid var(--gray-200);
-  border-radius: 8px;
+  border-radius: 9999px !important;
+  color: var(--text-main);
+  transition: var(--transition-main);
+  padding: 0.75rem 1.25rem;
+}
+
+[data-theme="light"] textarea {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 16px !important;
   color: var(--text-main);
   transition: var(--transition-main);
   padding: 0.75rem 1rem;
@@ -306,6 +315,20 @@ button, .btn, .cta {
   border-color: var(--brand-primary);
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
   outline: none;
+}
+
+/* High contrast input/textarea placeholders globally */
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #475569 !important; /* High contrast text-slate-600 */
+  opacity: 1 !important;
+}
+[data-theme="extra-dark"] input::placeholder,
+[data-theme="extra-dark"] textarea::placeholder,
+[data-theme="extra-dark"] select::placeholder {
+  color: #94A3B8 !important; /* Clear text-slate-400 */
+  opacity: 1 !important;
 }
 
 /* Links */
@@ -451,8 +474,11 @@ button, .btn, .cta {
     cursor: pointer !important;
   }
 
-  input, textarea, select {
-    @apply placeholder:text-slate-500 rounded-full;
+  input, select {
+    @apply rounded-full;
+  }
+  textarea {
+    @apply rounded-2xl;
   }
 
   .glass-panel {
@@ -766,8 +792,11 @@ button, .btn, .cta {
     @apply bg-[#0B1120] text-slate-300 border-white/10 hover:bg-white/5;
   }
 
-  .form-control, .form-group input:not([type="checkbox"]):not([type="radio"]), .form-group select, .form-group textarea {
-    @apply w-full px-3.5 py-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent placeholder-slate-400 text-[15px];
+  .form-control, .form-group input:not([type="checkbox"]):not([type="radio"]), .form-group select {
+    @apply w-full px-5 py-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent text-[15px];
+  }
+  .form-group textarea {
+    @apply w-full px-5 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent text-[15px];
   }
 
   /* Shared Auth Cards */
