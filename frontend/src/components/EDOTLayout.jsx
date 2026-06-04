@@ -299,7 +299,7 @@ export default function EDOTLayout() {
       {/* Mobile Header */}
       <div 
         className={`md:hidden rounded-none p-3 flex items-center justify-between sticky top-0 z-50 transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
-        style={{ borderBottom: '2px solid #475569', boxShadow: '0px 12px 30px rgba(71, 85, 105, 0.4)' }}
+        style={{ borderBottom: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#E2E8F0'}`, boxShadow: isDarkMode ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.02)' }}
       >
         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={`dark:text-slate-200 p-2 rounded-lg hover:bg-white/5/5 backdrop-blur-xl/30 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
           <Menu className="w-6 h-6" />
@@ -317,10 +317,10 @@ export default function EDOTLayout() {
       {/* Sidebar */}
       <aside 
         className={`dashboard-sidebar tilet-border-sidebar fixed md:sticky top-0 left-0 h-screen md:h-full z-60 transition-colors duration-300
-        ${mobileMenuOpen ? 'translate-x-0 w-56 bg-[#0B1120]/95 text-white' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-[#F8FAFC]'}`}
-        ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-56 md:w-48'}
+        ${mobileMenuOpen ? 'translate-x-0 w-64 bg-[#0B1120]/95 text-white' : `-translate-x-full md:translate-x-0 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
+        ${sidebarCollapsed ? 'md:w-[88px] w-20' : 'w-64 md:w-56'}
       `}
-        style={{ borderRight: '2px solid #475569', boxShadow: '12px 0px 30px rgba(71, 85, 105, 0.4)' }}
+        style={{ borderRight: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#E2E8F0'}`, boxShadow: isDarkMode ? 'none' : '2px 0 8px rgba(0, 0, 0, 0.01)' }}
       >
         {mobileMenuOpen && (
           <button onClick={() => setMobileMenuOpen(false)} className={`absolute top-3 right-3 md:hidden dark:text-slate-300 p-1.5 rounded-lg hover:bg-white/5/5 backdrop-blur-xl/40 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`}>
@@ -329,7 +329,7 @@ export default function EDOTLayout() {
         )}
         <div 
           className={`p-4 pt-6 pb-3 flex flex-col items-center justify-center gap-2 relative ${mobileMenuOpen ? 'items-center' : ''}`}
-          style={{ borderBottom: '2px solid #475569', boxShadow: '0px 12px 30px rgba(71, 85, 105, 0.3)' }}
+          style={{ borderBottom: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#E2E8F0'}` }}
         >
            <NavLink to="/">
              <div className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center border-4 border-slate-100 overflow-hidden shadow-sm mx-auto">
@@ -341,7 +341,7 @@ export default function EDOTLayout() {
                {dashboardTitle.split(' ').map((word, i) => (
                   <React.Fragment key={i}>
                     {word}
-                    {i === 0 && <br/>}
+                    {i === 0 ? <br/> : ' '}
                   </React.Fragment>
                ))}
              </div>
@@ -418,7 +418,7 @@ export default function EDOTLayout() {
         {/* Bottom area (Logout) */}
         <div 
           className="p-3 mt-auto"
-          style={{ borderTop: '2px solid #475569' }}
+          style={{ borderTop: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#E2E8F0'}` }}
         >
           <button 
             onClick={handleLogout}
@@ -443,8 +443,8 @@ export default function EDOTLayout() {
         
         {/* Top Header */}
         <header 
-          className={`h-[88px] px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
-          style={{ borderBottom: '2px solid #475569', boxShadow: '0px 12px 30px rgba(71, 85, 105, 0.4)' }}
+          className={`h-[96px] px-8 flex items-center justify-between shrink-0 sticky top-0 z-20 ${isDarkMode ? 'bg-[#0B1120]' : 'bg-white'}`}
+          style={{ borderBottom: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#E2E8F0'}`, boxShadow: isDarkMode ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.02)' }}
         >
           
           <div className="hidden md:block w-96 relative">
