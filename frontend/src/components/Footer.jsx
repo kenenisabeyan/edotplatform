@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import useThemeMode from '../hooks/useThemeMode';
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Linkedin, Send, Facebook, Youtube, Instagram, Heart } from 'lucide-react';
@@ -45,23 +45,23 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="rounded-[32px] border border-slate-200 bg-white p-8 shadow-sm">
-            <p className="text-sm font-black uppercase tracking-[0.18em] text-slate-900">Platform support</p>
-            <p className="mt-4 text-sm leading-7 text-slate-600">
+          <div className={`rounded-[32px] border p-8 shadow-sm transition-colors duration-350 ${isDarkMode ? 'border-white/10 bg-[#111827]' : 'border-slate-200 bg-white'}`}>
+            <p className={`text-sm font-black uppercase tracking-[0.18em] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Platform support</p>
+            <p className={`mt-4 text-sm leading-7 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
               Get direct assistance for enrollment, sponsorship connections, course management, and instructor coordination.
             </p>
             <Link
               to="/contact"
-              className="mt-8 inline-flex items-center justify-center rounded-full border border-slate-200 bg-[#0d6efd] px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-slate-900/5 transition hover:bg-[#0b5ed7]"
+              className={`mt-8 inline-flex items-center justify-center rounded-full border px-8 py-4 text-sm font-semibold text-white shadow-lg transition duration-200 ${isDarkMode ? 'border-white/10 bg-[#0d6efd] hover:bg-[#0b5ed7]' : 'border-slate-200 bg-[#0d6efd] hover:bg-[#0b5ed7]'}`}
             >
               Contact Us
             </Link>
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-[32px] border border-slate-200 bg-white p-8">
-              <h4 className="text-sm font-black uppercase tracking-[0.18em] text-slate-900">Connect</h4>
-              <div className="mt-6 space-y-4 text-sm text-slate-600">
+            <div className={`rounded-[32px] border p-8 transition-colors duration-350 ${isDarkMode ? 'border-white/10 bg-[#111827]' : 'border-slate-200 bg-white'}`}>
+              <h4 className={`text-sm font-black uppercase tracking-[0.18em] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Connect</h4>
+              <div className={`mt-6 space-y-4 text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                 <div className="flex items-center gap-3">
                   <Phone className="w-4 h-4 text-[#0d6efd]" />
                   <span>+251 941 177 566</span>
@@ -80,13 +80,13 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-            <div className="rounded-[32px] border border-slate-200 bg-white p-6">
+            <div className={`rounded-[32px] border p-6 transition-colors duration-350 ${isDarkMode ? 'border-white/10 bg-[#111827]' : 'border-slate-200 bg-white'}`}>
               <div className="flex flex-wrap items-center gap-3">
                 {[{ icon: Facebook, href: '#' }, { icon: Youtube, href: '#' }, { icon: Linkedin, href: '#' }, { icon: Instagram, href: '#' }, { icon: Send, href: '#' }].map((social, idx) => (
                   <a
                     key={idx}
                     href={social.href}
-                    className="grid h-11 w-11 place-items-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-[#0d6efd] hover:bg-[#0d6efd] hover:text-white"
+                    className={`grid h-11 w-11 place-items-center rounded-full border transition hover:border-[#0d6efd] hover:bg-[#0d6efd] hover:text-white ${isDarkMode ? 'border-white/10 bg-[#111827] text-slate-300' : 'border-slate-200 bg-white text-slate-600'}`}
                   >
                     <social.icon className="h-5 w-5" />
                   </a>
@@ -96,13 +96,13 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-slate-200 pt-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between text-sm text-slate-600">
+        <div className={`mt-10 border-t pt-6 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+          <div className={`flex flex-col gap-4 md:flex-row md:items-center md:justify-between text-sm ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
             <div className="flex flex-wrap items-center gap-5">
               <span>+251 941 177 566</span>
               <span>+251 962 343 967</span>
             </div>
-            <div className="text-slate-500">© 2024 EDOT, Education for All. Transforming learning, creating opportunities.</div>
+            <div className={isDarkMode ? 'text-slate-400' : 'text-slate-500'}>© 2024 EDOT, Education for All. Transforming learning, creating opportunities.</div>
           </div>
         </div>
       </div>

@@ -151,7 +151,7 @@ export default function AuthLayout({ defaultIsRegister = false }) {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen w-full flex flex-col items-center justify-center px-4 py-8 md:py-16 auth-page-bg relative overflow-hidden font-sans pt-24 pb-12 z-10">
+      <div className="min-h-screen w-full flex flex-col items-center justify-center px-4 py-8 md:py-16 auth-page-bg relative overflow-hidden font-sans pt-36 pb-12 z-10">
         
         {/* Soft background ambient glowing orbs */}
         <div className="absolute top-[-10%] left-[-10%] w-[55%] h-[55%] rounded-full bg-[#FF5A00]/5 blur-3xl pointer-events-none -z-10"></div>

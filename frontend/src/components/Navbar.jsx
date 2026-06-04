@@ -53,20 +53,20 @@ export default function Navbar() {
   }, [location.pathname]);
 
   const headerStyle = isDarkMode ? {
-    borderBottom: isScrolled ? '2px solid rgba(25, 194, 232, 0.35)' : 'none',
-    boxShadow: isScrolled ? '0 8px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(25, 194, 232, 0.1)' : 'none',
+    borderBottom: 'none',
+    boxShadow: 'none',
     background: isScrolled ? 'rgba(11, 17, 32, 0.95)' : 'transparent',
     backdropFilter: isScrolled ? 'blur(12px)' : 'none',
-    paddingTop: isScrolled ? '12px' : '20px',
-    paddingBottom: isScrolled ? '12px' : '20px',
+    paddingTop: isScrolled ? '20px' : '32px',
+    paddingBottom: isScrolled ? '20px' : '32px',
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   } : {
-    borderBottom: isScrolled ? '2px solid rgba(25, 194, 232, 0.2)' : 'none',
-    boxShadow: isScrolled ? '0 8px 24px rgba(15, 23, 42, 0.05), 0 4px 12px rgba(25, 194, 232, 0.02)' : 'none',
+    borderBottom: 'none',
+    boxShadow: isScrolled ? '0 2px 8px rgba(0, 0, 0, 0.02)' : 'none',
     background: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'transparent',
     backdropFilter: isScrolled ? 'blur(12px)' : 'none',
-    paddingTop: isScrolled ? '12px' : '20px',
-    paddingBottom: isScrolled ? '12px' : '20px',
+    paddingTop: isScrolled ? '20px' : '32px',
+    paddingBottom: isScrolled ? '20px' : '32px',
     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   };
  
