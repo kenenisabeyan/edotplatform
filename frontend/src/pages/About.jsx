@@ -47,9 +47,6 @@ export default function About() {
            </svg>
          </div>
 
-         {/* Subtle decorative grid overlay */}
-         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080803c_1px,transparent_1px),linear-gradient(to_bottom,#8080803c_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
-
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
             <h1 className={`text-5xl md:text-6xl lg:text-[4.5rem] font-black mb-8 leading-[1.1] tracking-tight text-[#0F172A] dark:text-white`}>
                Building a Better Future Through <br className="hidden md:block" />

@@ -570,8 +570,7 @@ export default function Courses() {
            </svg>
          </div>
 
-         {/* Subtle decorative grid overlay */}
-         <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080803c_1px,transparent_1px),linear-gradient(to_bottom,#8080803c_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
+
 
          <div className={`relative z-10 max-w-[1000px] mx-auto mt-8 overflow-hidden rounded-[40px] border border-transparent bg-white/90 shadow-[0_28px_80px_-40px_rgba(15,23,42,0.35)] transition-colors duration-500 ${isDarkMode ? 'dark:bg-[#111827]/90 dark:shadow-none' : ''}`}>
             <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-center text-center lg:text-left px-8 py-12">
@@ -626,8 +625,7 @@ export default function Courses() {
 
         {/* TOP CATEGORIES SECTION */}
         <section className={`px-6 py-16 border-y backdrop-blur-3xl relative overflow-hidden transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120]/60 border-white/5' : 'bg-white/40 border-slate-200'}`}>
-           {/* Subtle background tech pattern to enhance the infographic vibe */}
-           <div className={`absolute inset-0 bg-[size:40px_40px] pointer-events-none ${isDarkMode ? 'opacity-50 bg-[linear-gradient(rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)]' : 'opacity-65 bg-[linear-gradient(rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.06)_1px,transparent_1px)]'}`}></div>
+
 
            <div className="max-w-7xl mx-auto relative z-10">
               <div className="text-center mb-28 md:mb-36 relative z-50">
