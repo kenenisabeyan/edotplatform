@@ -190,25 +190,25 @@ export default function Home() {
       }`}>
         
         {/* Soft graph-paper grid background */}
-        <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808022_1px,transparent_1px),linear-gradient(to_bottom,#80808022_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+        <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080803c_1px,transparent_1px),linear-gradient(to_bottom,#8080803c_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
         
         {/* Diagonal premium background gradients */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
           <svg className="absolute w-full h-full" viewBox="0 0 1440 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
             {/* Soft cyan gradient on bottom-left */}
-            <path d="M-200 900 L200 700 L0 400 L500 200 L300 0 L-200 0 Z" fill="url(#cyanGeomSoft)" opacity={isDarkMode ? "0.40" : "0.26"}/>
+            <path d="M-200 900 L200 700 L0 400 L500 200 L300 0 L-200 0 Z" fill="url(#cyanGeomSoft)" opacity={isDarkMode ? "0.65" : "0.48"}/>
             {/* Soft orange gradient on top-right */}
-            <path d="M1600 -100 L1200 100 L1400 400 L900 600 L1100 800 L1600 800 Z" fill="url(#orangeGeomSoft)" opacity={isDarkMode ? "0.35" : "0.22"}/>
+            <path d="M1600 -100 L1200 100 L1400 400 L900 600 L1100 800 L1600 800 Z" fill="url(#orangeGeomSoft)" opacity={isDarkMode ? "0.60" : "0.42"}/>
             
             <defs>
               <linearGradient id="cyanGeomSoft" x1="0%" y1="100%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#19C2E8" />
-                <stop offset="60%" stopColor="#00D4FF" stopOpacity="0.65" />
+                <stop offset="60%" stopColor="#00D4FF" stopOpacity="0.85" />
                 <stop offset="100%" stopColor="#00D4FF" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="orangeGeomSoft" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#FF6A00" />
-                <stop offset="60%" stopColor="#FFB700" stopOpacity="0.65" />
+                <stop offset="60%" stopColor="#FFB700" stopOpacity="0.85" />
                 <stop offset="100%" stopColor="#FFB700" stopOpacity="0" />
               </linearGradient>
             </defs>
@@ -687,7 +687,7 @@ export default function Home() {
       <section id="about" className={`relative w-full pt-32 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10 bg-gradient-to-b from-[#0B1120] to-[#111827]' : 'border-slate-200 bg-gradient-to-b from-[#FAFAFA] to-white'}`}>
          {/* Premium CSS Background */}
          <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120]/50 to-[#111827]/50' : 'bg-gradient-to-b from-[#FAFAFA] to-white'}`}>
-            <div className={`absolute inset-0 bg-[linear-gradient(to_right,#80808022_1px,transparent_1px),linear-gradient(to_bottom,#80808022_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]`}></div>
+            <div className={`absolute inset-0 bg-[linear-gradient(to_right,#8080803c_1px,transparent_1px),linear-gradient(to_bottom,#8080803c_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]`}></div>
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#00D4FF]/10 dark:bg-[#00D4FF]/10 blur-[120px] rounded-full pointer-events-none"></div>
          </div>
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
@@ -1440,7 +1440,7 @@ export default function Home() {
       <section className={`py-32 px-6 relative overflow-hidden border-t transition-colors duration-500 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          {/* Premium Abstract Background */}
          <div className="absolute inset-0 z-0">
-            <div className={`absolute inset-0 bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] ${isDarkMode ? 'bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)]' : 'bg-[linear-gradient(to_right,#8080800c_1px,transparent_1px),linear-gradient(to_bottom,#8080800c_1px,transparent_1px)]'}`}></div>
+            <div className={`absolute inset-0 bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] ${isDarkMode ? 'bg-[linear-gradient(to_right,#ffffff22_1px,transparent_1px),linear-gradient(to_bottom,#ffffff22_1px,transparent_1px)]' : 'bg-[linear-gradient(to_right,#8080803c_1px,transparent_1px),linear-gradient(to_bottom,#8080803c_1px,transparent_1px)]'}`}></div>
             <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none"></div>
             <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none"></div>
          </div>
