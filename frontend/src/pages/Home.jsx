@@ -189,8 +189,7 @@ export default function Home() {
         isDarkMode ? 'bg-[#0B1120] text-white border-white/5' : 'bg-[#F8FAFC] text-slate-900 border-slate-200'
       }`}>
         
-        {/* Soft graph-paper grid background */}
-        <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#8080803c_1px,transparent_1px),linear-gradient(to_bottom,#8080803c_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+
         
         {/* Diagonal premium background gradients */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
@@ -687,7 +686,7 @@ export default function Home() {
       <section id="about" className={`relative w-full pt-32 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10 bg-gradient-to-b from-[#0B1120] to-[#111827]' : 'border-slate-200 bg-gradient-to-b from-[#FAFAFA] to-white'}`}>
          {/* Premium CSS Background */}
          <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120]/50 to-[#111827]/50' : 'bg-gradient-to-b from-[#FAFAFA] to-white'}`}>
-            <div className={`absolute inset-0 bg-[linear-gradient(to_right,#8080803c_1px,transparent_1px),linear-gradient(to_bottom,#8080803c_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]`}></div>
+
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#00D4FF]/10 dark:bg-[#00D4FF]/10 blur-[120px] rounded-full pointer-events-none"></div>
          </div>
          <div className="relative z-10 max-w-[1000px] mx-auto mt-8">
@@ -1440,7 +1439,7 @@ export default function Home() {
       <section className={`py-32 px-6 relative overflow-hidden border-t transition-colors duration-500 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          {/* Premium Abstract Background */}
          <div className="absolute inset-0 z-0">
-            <div className={`absolute inset-0 bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] ${isDarkMode ? 'bg-[linear-gradient(to_right,#ffffff22_1px,transparent_1px),linear-gradient(to_bottom,#ffffff22_1px,transparent_1px)]' : 'bg-[linear-gradient(to_right,#8080803c_1px,transparent_1px),linear-gradient(to_bottom,#8080803c_1px,transparent_1px)]'}`}></div>
+
             <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none"></div>
             <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[#00D4FF]/10 blur-[100px] rounded-full pointer-events-none"></div>
          </div>
