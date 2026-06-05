@@ -185,9 +185,9 @@ export default function Home() {
       <HeroSection />
 
       {/* ===== PREMIUM REDESIGNED FUTURISTIC DECK INTERACTIVE CONSOLE ===== */}
-      <section className={`relative w-full overflow-hidden py-24 transition-colors duration-500 border-b ${
-        isDarkMode ? 'bg-[#0B1120] text-white border-white/5' : 'bg-[#F8FAFC] text-slate-900 border-slate-200'
-      }`}>
+         <section className={`relative w-full overflow-hidden py-24 transition-colors duration-500 border-b ${
+            isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-[#F8FAFC] text-slate-900 border-slate-200'
+         }`}>
         
 
         
@@ -707,7 +707,7 @@ export default function Home() {
       </section>
 
       {/* 2. THE REALITY OF EDUCATION TODAY */}
-      <section className={`relative pt-48 pb-32 px-6 border-t ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120] to-[#0B1120] border-white/5' : 'bg-gradient-to-b from-slate-50 to-white border-slate-200'}`}>
+      <section className={`relative pt-48 pb-32 px-6 ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120] to-[#0B1120]' : 'bg-gradient-to-b from-slate-50 to-white'}`}>
          {/* Green accent line divider */}
          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#10B981] to-transparent opacity-30"></div>
          <div className="max-w-[1200px] mx-auto">
@@ -775,7 +775,7 @@ export default function Home() {
       </section>
 
       {/* 3. A BETTER WAY TO LEARN */}
-      <section id="solution" className={`py-32 px-6 ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120] via-[#10B981]/5 to-[#0B1120]' : 'bg-gradient-to-b from-white via-[#10B981]/5 to-white'}`}>
+      <section id="solution" className={`py-32 px-6 border-t-4 border-b-4 ${isDarkMode ? 'border-white/30 bg-gradient-to-b from-[#0B1120] via-[#10B981]/5 to-[#0B1120]' : 'border-slate-400 bg-gradient-to-b from-white via-[#10B981]/5 to-white'}`}>
          <div className="max-w-[1200px] mx-auto">
             <motion.div
                initial={{ opacity: 0, y: 30 }}
@@ -841,8 +841,13 @@ export default function Home() {
          </div>
       </section>
 
+      {/* Divider Line Between Sections */}
+      <div className={`relative w-full h-1 overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-50'}`}>
+         <div className="absolute inset-0 bg-gradient-to-r from-[#38BDF8] via-[#10B981] to-[#F97316] opacity-90" />
+      </div>
+
       {/* 4. EXPLORE LEARNING CATEGORIES */}
-      <section id="courses" className={`relative py-32 px-6 border-t ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120] to-[#111827] border-white/5' : 'bg-gradient-to-b from-slate-50 to-[#F0FDF4] border-slate-200'}`}>
+      <section id="courses" className={`relative py-32 px-6 border-t ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120] to-[#111827] border-white/10' : 'bg-gradient-to-b from-slate-50 to-[#F0FDF4] border-slate-200'}`}>
          {/* Green accent line divider */}
          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#10B981] to-transparent opacity-40"></div>
          <div className="max-w-[1200px] mx-auto text-center">

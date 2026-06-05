@@ -74,7 +74,7 @@ export default function Contact() {
         </section>
 
         {/* 2. MAIN CONTACT SECTION (Form + Info) */}
-        <section className={`py-24 px-6 border-b ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-200'}`}>
+        <section className={`py-24 px-6 border-b ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
           <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
              
              {/* LEFT: Contact Form */}
@@ -262,7 +262,7 @@ export default function Contact() {
         </section>
 
         {/* 3. PARTNERSHIP & QUICK HELP (Split Grid) */}
-        <section className={`py-24 px-6 border-b ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+        <section className={`py-24 px-6 border-b ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-slate-50 border-slate-200'}`}>
            <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
               
               {/* Partnership */}

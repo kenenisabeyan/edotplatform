@@ -20,9 +20,9 @@ export default function About() {
     <div className={`min-h-screen w-full transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-white text-slate-900'}`}>
       
       {/* 1. HERO SECTION */}
-      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b transition-colors duration-500 ${
-        isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'
-      }`}>
+         <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b transition-colors duration-500 ${
+            isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'
+         }`}>
          
          {/* Dynamic Bold Sharp Geometric Zigzag Structures cutting bottom-left to top-right */}
          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
@@ -63,7 +63,7 @@ export default function About() {
       </section>
 
       {/* 2. OUR STORY */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 border-b ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-16 items-center">
             <div className="flex-1 w-full relative">
                <div className="grid grid-cols-2 gap-4 relative z-10">
@@ -133,7 +133,7 @@ export default function About() {
       </section>
 
       {/* 4. OUR SOLUTION */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto flex flex-col lg:flex-row-reverse gap-16 items-center">
             <div className="flex-1 text-left">
                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold text-sm mb-6 uppercase tracking-wider">
@@ -206,7 +206,7 @@ export default function About() {
       </section>
 
       {/* 6. WHAT MAKES EDOT DIFFERENT */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto text-center">
             <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                Our <span className="text-[#19C2E8]">Unique Approach</span>
@@ -270,7 +270,7 @@ export default function About() {
       </section>
 
        {/* 8. OUR TEAM & FOUNDERS */}
-       <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-[#F8FAFC] border-slate-200'}`}>
+      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-[#F8FAFC] border-slate-200'}`}>
           <div className="max-w-[1200px] mx-auto">
              <div className="text-center mb-24">
                 <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
@@ -326,7 +326,7 @@ export default function About() {
       </section>
 
        {/* 9. CLOSING SECTION */}
-       <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-gradient-to-b from-white to-slate-50 border-slate-200'}`}>
           <div className="max-w-[1000px] mx-auto text-center">
              <h2 className={`text-5xl md:text-6xl lg:text-7xl font-black mb-10 leading-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                 Education That Creates <span className="text-[#FF6A00]">Opportunity</span>

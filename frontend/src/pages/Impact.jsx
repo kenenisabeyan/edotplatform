@@ -15,9 +15,9 @@ export default function Impact() {
     <div className={`min-h-screen w-full font-sans overflow-x-hidden relative transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120] text-slate-100' : 'bg-[#ffffff] text-slate-800'}`}>
       
       {/* 1. HERO SECTION */}
-      <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b transition-colors duration-500 ${
-        isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'
-      }`}>
+         <section className={`relative w-full pt-40 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b transition-colors duration-500 ${
+            isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'
+         }`}>
          
          {/* Dynamic Bold Sharp Geometric Zigzag Structures cutting bottom-left to top-right */}
          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
@@ -60,7 +60,7 @@ export default function Impact() {
       </section>
 
       {/* 2. THE REALITY WE ARE CHANGING */}
-      <section className={`py-32 px-6 border-y ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 border-b ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 relative rounded-[40px] overflow-hidden shadow-2xl h-[500px]">
                <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80" alt="Education inequality" className="w-full h-full object-cover" />
@@ -97,7 +97,7 @@ export default function Impact() {
       </section>
 
       {/* 3. WHAT EDOT CHANGES */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-200'}`}>
+      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/10' : 'bg-white border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto text-center">
             <h2 className={`text-4xl md:text-5xl font-black mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>From Fragmented Learning to <span className="text-[#19C2E8]">Structured Growth</span></h2>
             <p className={`text-xl max-w-3xl mx-auto mb-16 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>

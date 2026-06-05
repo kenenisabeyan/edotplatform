@@ -594,7 +594,7 @@ export default function Courses() {
       </section>
 
       {/* 2. LEARNING PHILOSOPHY */}
-      <section className={`py-32 px-6 border-y ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 border-t border-b ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="rounded-[40px] overflow-hidden shadow-2xl h-[400px] lg:h-[500px] relative border-8 border-white dark:border-[#111827]">
                <div className="grid grid-cols-1 md:grid-cols-2 h-full">
@@ -624,7 +624,7 @@ export default function Courses() {
       <div className="relative z-10">
 
         {/* TOP CATEGORIES SECTION */}
-        <section className={`px-6 py-16 border-y backdrop-blur-3xl relative overflow-hidden transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120]/60 border-white/5' : 'bg-white/40 border-slate-200'}`}>
+        <section className={`px-6 py-16 border-t border-b backdrop-blur-3xl relative overflow-hidden transition-colors duration-300 ${isDarkMode ? 'bg-[#0B1120]/60 border-white/5' : 'bg-white/40 border-slate-200'}`}>
 
 
            <div className="max-w-7xl mx-auto relative z-10">
