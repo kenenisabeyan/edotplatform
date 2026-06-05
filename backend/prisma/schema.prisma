@@ -697,6 +697,8 @@ model LiveClass {
   id               String   @id @default(uuid())
   courseId         String
   course           Course   @relation(fields: [courseId], references: [id])
+  sectionId        String?
+  section          Section? @relation(fields: [sectionId], references: [id])
   instructorId     String
   instructor       User     @relation("LiveClassInstructor", fields: [instructorId], references: [id])
   title            String
@@ -715,6 +717,7 @@ model LiveClass {
   updatedAt        DateTime @updatedAt
   
   @@index([courseId])
+  @@index([sectionId])
   @@index([instructorId])
 }
 

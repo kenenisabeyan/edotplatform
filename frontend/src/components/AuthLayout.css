@@ -60,7 +60,7 @@
   background: #F1F5F9 !important;
   border-radius: 2.5rem 2.5rem 0 0 !important;
   width: 100% !important;
-  border-bottom: 1.5px solid rgba(148, 163, 184, 0.12) !important;
+  border-bottom: 0 !important;
 }
 
 [data-theme="extra-dark"] .auth-header-bar {

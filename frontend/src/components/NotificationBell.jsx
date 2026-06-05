@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useThemeMode from '../hooks/useThemeMode';
-import { Bell, Clock, Award, CheckCircle2, ClipboardCheck } from 'lucide-react';
+import { Bell, Clock, Award, CheckCircle2, ClipboardCheck, Play } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { formatDistanceToNow } from 'date-fns';
 import api from '../utils/api';
 
 export default function NotificationBell() {
@@ -25,74 +26,29 @@ export default function NotificationBell() {
   }, []);
 
   useEffect(() => {
+    const iconMap = {
+      live_class_scheduled: <Clock className="w-5 h-5 text-[#00D4FF]" />,
+      live_class_started: <Play className="w-5 h-5 text-emerald-400" />,
+      live_class_ended: <CheckCircle2 className="w-5 h-5 text-[#38bdf8]" />,
+      attendance_update: <ClipboardCheck className="w-5 h-5 text-[#f59e0b]" />,
+      course_update: <CheckCircle2 className="w-5 h-5 text-[#00D4FF]" />,
+      enrollment_update: <Award className="w-5 h-5 text-[#4338ca]" />,
+      default: <Bell className={`w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />
+    };
+
+    const adaptNotification = (notif) => ({
+      ...notif,
+      icon: iconMap[notif.type] || iconMap.default,
+      time: notif.createdAt ? formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true }) : 'Just now',
+      unread: !notif.isRead
+    });
+
     const fetchNotifications = async () => {
       try {
-        let notifs = [];
-        const role = user?.role || 'student';
-        
-        if (role === 'admin') {
-          const { data } = await api.get('/admin/courses/pending');
-          if (data.count > 0) {
-            notifs.push({
-              id: 'admin_pending',
-              title: 'Action Required',
-              message: `There are ${data.count} pending courses requiring your approval.`,
-              icon: <ClipboardCheck className="w-5 h-5 text-[#00D4FF]" />,
-              link: '/dashboard/approvals',
-              time: 'Just now',
-              unread: true
-            });
-          }
-        } else if (role === 'instructor') {
-          const { data } = await api.get('/instructor/courses');
-          const pending = data.data.filter(c => c.status === 'pending');
-          const approved = data.data.filter(c => c.status === 'approved');
-          
-          if (pending.length > 0) {
-            notifs.push({
-              id: 'inst_pending',
-              title: 'Courses Under Review',
-              message: `You have ${pending.length} courses waiting for admin approval.`,
-              icon: <Clock className="w-5 h-5 text-[#00D4FF]" />,
-              link: '/dashboard/my-courses',
-              time: 'Recently',
-              unread: true
-            });
-          }
-          if (approved.length > 0) {
-             notifs.push({
-              id: 'inst_approved_mock', // Usually we'd check timestamps, just mocking a recent approval
-              title: 'Course Approved!',
-              message: `Good news! One of your courses has gone live.`,
-              icon: <CheckCircle2 className="w-5 h-5 text-emerald-500" />,
-              link: '/dashboard/my-courses',
-              time: '1 hr ago',
-              unread: false
-            });
-          }
-        } else {
-          notifs.push({
-            id: 'stu_cert',
-            title: 'New Certificate Available',
-            message: 'You successfully completed Introduction to React! View your certificate.',
-            icon: <Award className="w-5 h-5 text-[#4338ca]" />,
-            link: '/dashboard/certificates',
-            time: '2 hrs ago',
-            unread: true
-          });
-          notifs.push({
-            id: 'stu_course',
-            title: 'Welcome to EDOT Platform',
-            message: 'Explore our digital library and enroll in new courses today.',
-            icon: <Bell className={`w-5 h-5 ${isDarkMode ? 'text-slate-300' : 'text-slate-500'}`} />,
-            link: '/dashboard/courses',
-            time: '1 day ago',
-            unread: false
-          });
-        }
-
+        const { data } = await api.get('/users/notifications');
+        const notifs = Array.isArray(data.data) ? data.data.map(adaptNotification) : [];
         setNotifications(notifs);
-        setUnreadCount(notifs.filter(n => n.unread).length);
+        setUnreadCount(notifs.filter((n) => n.unread).length);
       } catch (err) {
         console.error('Failed to fetch notifications', err);
       }
@@ -100,19 +56,24 @@ export default function NotificationBell() {
 
     if (user) {
       fetchNotifications();
-      const intervalId = setInterval(fetchNotifications, 5000); // Poll notifications same as sidebar metrics
+      const intervalId = setInterval(fetchNotifications, 5000);
       return () => clearInterval(intervalId);
     }
-  }, [user]);
+  }, [user, isDarkMode]);
 
-  const handleNotificationClick = (link) => {
+  const handleNotificationClick = (actionUrl) => {
     setIsOpen(false);
-    if (link) navigate(link);
+    if (actionUrl) navigate(actionUrl);
   };
 
-  const markAllAsRead = () => {
-    setUnreadCount(0);
-    setNotifications(notifications.map(n => ({ ...n, unread: false })));
+  const markAllAsRead = async () => {
+    try {
+      await api.put('/users/notifications/read-all');
+      setNotifications(notifications.map((n) => ({ ...n, unread: false, isRead: true })));
+      setUnreadCount(0);
+    } catch (err) {
+      console.error('Failed to mark notifications read', err);
+    }
   };
 
   return (
@@ -156,7 +117,7 @@ export default function NotificationBell() {
                 {notifications.map(notif => (
                   <button 
                     key={notif.id}
-                    onClick={() => handleNotificationClick(notif.link)}
+                    onClick={() => handleNotificationClick(notif.actionUrl)}
                     className={`p-4 border-b text-left transition-colors flex gap-4 group ${notif.unread ? 'bg-[#0B1120]/5 hover:bg-white/5/10' : 'hover:bg-white/5/5'} ${isDarkMode ? 'border-white/5' : 'border-slate-100'}`}
                   >
                     <div className={`w-10 h-10 rounded-full shrink-0 flex items-center justify-center border transition-colors ${notif.unread ? 'bg-[#00D4FF]/10 border-[#00D4FF]/30 shadow-[0_0_15px_rgba(255,215,0,0.1)]' : 'bg-[#0B1120]/5 group-hover:border-white/20'} ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>

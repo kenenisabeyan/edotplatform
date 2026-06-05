@@ -185,8 +185,8 @@ export default function Home() {
       <HeroSection />
 
       {/* ===== PREMIUM REDESIGNED FUTURISTIC DECK INTERACTIVE CONSOLE ===== */}
-         <section className={`relative w-full overflow-hidden py-24 transition-colors duration-500 border-b ${
-            isDarkMode ? 'bg-[#0B1120] text-white border-white/10' : 'bg-[#F8FAFC] text-slate-900 border-slate-200'
+         <section className={`relative w-full overflow-hidden py-24 transition-colors duration-500 ${
+            isDarkMode ? 'bg-[#0B1120] text-white' : 'bg-[#F8FAFC] text-slate-900'
          }`}>
         
 
@@ -683,7 +683,7 @@ export default function Home() {
 
 
       {/* ABOUT SECTION */}
-      <section id="about" className={`relative w-full pt-32 pb-32 px-6 overflow-hidden flex flex-col items-center text-center border-b ${isDarkMode ? 'border-white/10 bg-gradient-to-b from-[#0B1120] to-[#111827]' : 'border-slate-200 bg-gradient-to-b from-[#FAFAFA] to-white'}`}>
+      <section id="about" className={`relative w-full pt-32 pb-32 px-6 overflow-hidden flex flex-col items-center text-center ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120] to-[#111827]' : 'bg-gradient-to-b from-[#FAFAFA] to-white'}`}>
          {/* Premium CSS Background */}
          <div className={`absolute inset-0 z-0 ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120]/50 to-[#111827]/50' : 'bg-gradient-to-b from-[#FAFAFA] to-white'}`}>
 
@@ -775,7 +775,7 @@ export default function Home() {
       </section>
 
       {/* 3. A BETTER WAY TO LEARN */}
-      <section id="solution" className={`py-32 px-6 border-t-4 border-b-4 ${isDarkMode ? 'border-white/30 bg-gradient-to-b from-[#0B1120] via-[#10B981]/5 to-[#0B1120]' : 'border-slate-400 bg-gradient-to-b from-white via-[#10B981]/5 to-white'}`}>
+      <section id="solution" className={`py-32 px-6 ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120] via-[#10B981]/5 to-[#0B1120]' : 'bg-gradient-to-b from-white via-[#10B981]/5 to-white'}`}>
          <div className="max-w-[1200px] mx-auto">
             <motion.div
                initial={{ opacity: 0, y: 30 }}
@@ -841,13 +841,8 @@ export default function Home() {
          </div>
       </section>
 
-      {/* Divider Line Between Sections */}
-      <div className={`relative w-full h-1 overflow-hidden ${isDarkMode ? 'bg-[#0B1120]' : 'bg-slate-50'}`}>
-         <div className="absolute inset-0 bg-gradient-to-r from-[#38BDF8] via-[#10B981] to-[#F97316] opacity-90" />
-      </div>
-
       {/* 4. EXPLORE LEARNING CATEGORIES */}
-      <section id="courses" className={`relative py-32 px-6 border-t ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120] to-[#111827] border-white/10' : 'bg-gradient-to-b from-slate-50 to-[#F0FDF4] border-slate-200'}`}>
+      <section id="courses" className={`relative py-32 px-6 ${isDarkMode ? 'bg-gradient-to-b from-[#0B1120] to-[#111827] border-white/10' : 'bg-gradient-to-b from-slate-50 to-[#F0FDF4] border-slate-200'}`}>
          {/* Green accent line divider */}
          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#10B981] to-transparent opacity-40"></div>
          <div className="max-w-[1200px] mx-auto text-center">
@@ -873,7 +868,7 @@ export default function Home() {
       </section>
 
       {/* 5. BUILT FOR EVERYONE IN EDUCATION */}
-      <section id="audience" className={`py-32 relative z-20 overflow-hidden border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section id="audience" className={`py-32 relative z-20 overflow-hidden ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto px-6">
             <motion.div
                initial={{ opacity: 0, y: 20 }}
@@ -1314,7 +1309,7 @@ export default function Home() {
       </section>
 
       {/* 6. SUPPORT A LEARNER. CHANGE A LIFE. */}
-      <section id="impact" className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-[#FFF8F0] border-orange-100'}`}>
+      <section id="impact" className={`py-32 px-6 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-[#FFF8F0] border-orange-100'}`}>
          <div className="max-w-[1200px] mx-auto">
             <motion.div
                initial={{ opacity: 0, y: 30 }}
@@ -1396,7 +1391,7 @@ export default function Home() {
       </section>
 
       {/* 7. BUILT FOR REAL LEARNING */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto text-center">
             <motion.div
                initial={{ opacity: 0, y: 20 }}
@@ -1441,7 +1436,7 @@ export default function Home() {
       </section>
 
       {/* 8. REAL IMPACT, MEASURABLE GROWTH */}
-      <section className={`py-32 px-6 relative overflow-hidden border-t transition-colors duration-500 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 relative overflow-hidden transition-colors duration-500 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          {/* Premium Abstract Background */}
          <div className="absolute inset-0 z-0">
 
@@ -1489,7 +1484,7 @@ export default function Home() {
       </section>
 
       {/* 9. FROM IDEA TO IMPACT */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[900px] mx-auto text-center">
             <motion.div
                initial={{ opacity: 0, scale: 0.9 }}
@@ -1531,7 +1526,7 @@ export default function Home() {
       </section>
 
       {/* 10. REAL VOICES, REAL CHANGE (TESTIMONIALS) */}
-      <section className={`py-32 px-6 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-200'}`}>
+      <section className={`py-32 px-6 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-white border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto">
             <motion.div
                initial={{ opacity: 0, y: 20 }}
@@ -1576,7 +1571,7 @@ export default function Home() {
       </section>
 
       {/* 11. FINAL CALL TO ACTION */}
-      <section className={`py-32 px-6 relative z-20 border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-slate-50 border-slate-200'}`}>
+      <section className={`py-32 px-6 relative z-20 ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-gradient-to-b from-white to-slate-50 border-slate-200'}`}>
          <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <motion.div
                initial={{ opacity: 0, scale: 0.8 }}
@@ -1649,7 +1644,7 @@ export default function Home() {
             </motion.div>
          </motion.div>
       </section>
-      <footer className={`border-t ${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
+      <footer className={`${isDarkMode ? 'bg-[#0B1120] border-white/5' : 'bg-slate-50 border-slate-200'}`}>
          <div className="max-w-[1200px] mx-auto px-6 py-16">
             <motion.div
                initial={{ opacity: 0, y: 20 }}

@@ -977,7 +977,7 @@ select::placeholder {
 
 .desktop-user-dropdown-header {
   background-color: rgba(255, 255, 255, 0.03) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-bottom: 0 !important;
 }
 
 .desktop-user-dropdown-name {
@@ -1007,7 +1007,7 @@ select::placeholder {
 
 [data-theme="light"] .desktop-user-dropdown-header {
   background-color: #F8FAFC !important;
-  border-bottom: 1px solid #E2E8F0 !important;
+  border-bottom: 0 !important;
 }
 
 [data-theme="light"] .desktop-user-dropdown-name {
@@ -1026,6 +1026,58 @@ select::placeholder {
   color: #0B1120 !important;
   background-color: rgba(0, 0, 0, 0.03) !important;
 }
+
+
+/* === Hero / About hairline softening === */
+
+/* Ensure the section directly following the hero shows no top border or hairline */
+.premium-hero-wrap + section,
+.premium-hero-wrap + section *,
+section#about,
+section#about * {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+
+/* Hide thin hr elements inside the about area */
+.premium-hero-wrap + section hr,
+section#about hr {
+  height: 0 !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Force zero-width borders on the first Home page sections */
+section#solution,
+section#courses,
+section#audience,
+section#impact,
+section#about,
+.premium-hero-wrap + section {
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+}
+
+section#solution *,
+section#courses *,
+section#audience *,
+section#impact *,
+section#about *,
+.premium-hero-wrap + section * {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Fallback: fade any remaining 1px borders to near-transparent */
+section#about, .premium-hero-wrap + section {
+  border-color: rgba(2,6,23,0.02) !important;
+}
+
 
 
 

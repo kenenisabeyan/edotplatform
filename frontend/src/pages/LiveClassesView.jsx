@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Video, Calendar as CalendarIcon, Clock, Users, Plus, X, Link as LinkIcon, CheckCircle2, Play, UploadCloud, Lock, Unlock, FileVideo } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -15,6 +15,8 @@ export default function LiveClassesView() {
   const [classes, setClasses] = useState([]);
   const [recordings, setRecordings] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [sections, setSections] = useState([]);
+  const [selectedSectionId, setSelectedSectionId] = useState('');
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   
@@ -37,6 +39,20 @@ export default function LiveClassesView() {
 
   const isInstructor = user?.role === 'instructor' || user?.role === 'admin';
 
+  const groupedCoursesByCategory = useMemo(() => {
+    const categoryGroups = courses.reduce((groups, course) => {
+      const category = course.mainCategory || course.category || 'Uncategorized';
+      if (!groups[category]) groups[category] = [];
+      groups[category].push(course);
+      return groups;
+    }, {});
+
+    return Object.keys(categoryGroups).sort().reduce((sorted, category) => {
+      sorted[category] = categoryGroups[category].sort((a, b) => a.title.localeCompare(b.title));
+      return sorted;
+    }, {});
+  }, [courses]);
+
   useEffect(() => {
     fetchClasses();
     if (isInstructor) {
@@ -49,6 +65,27 @@ export default function LiveClassesView() {
       fetchCourses();
     }
   }, [showModal, isInstructor, courses.length]);
+
+  useEffect(() => {
+    const fetchSections = async () => {
+      if (!formData.courseId) {
+        setSections([]);
+        setSelectedSectionId('');
+        return;
+      }
+      try {
+        const { data } = await axios.get(`/api/sections?courseId=${formData.courseId}`, { withCredentials: true });
+        setSections(Array.isArray(data.data) ? data.data : []);
+        setSelectedSectionId('');
+      } catch (error) {
+        console.error('Failed to load sections for course', error);
+        setSections([]);
+        setSelectedSectionId('');
+      }
+    };
+
+    fetchSections();
+  }, [formData.courseId]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -88,7 +125,7 @@ export default function LiveClassesView() {
       if (user?.role === 'admin') {
         coursePromise = axios.get('/api/admin/courses', { withCredentials: true }).catch(() => ({ data: {} }));
       } else if (user?.role === 'instructor') {
-        coursePromise = axios.get('/api/courses/my-courses', { withCredentials: true }).catch(() => ({ data: {} }));
+        coursePromise = axios.get('/api/instructor/courses', { withCredentials: true }).catch(() => ({ data: {} }));
       } else {
         coursePromise = axios.get('/api/users/mycourses', { withCredentials: true }).catch(() => ({ data: {} }));
       }
@@ -96,16 +133,16 @@ export default function LiveClassesView() {
       const [coursesRes, groupsRes] = await Promise.all([coursePromise, groupPromise]);
 
       let fetchedCourses = [];
-      if (user?.role === 'admin') {
-        fetchedCourses = coursesRes.data?.data || [];
-      } else if (user?.role === 'instructor') {
-        fetchedCourses = coursesRes.data?.courses || [];
-      } else {
-        const enrolledCourses = coursesRes.data?.enrolledCourses || [];
-        fetchedCourses = enrolledCourses.map((enrollment) => enrollment.course).filter(Boolean);
+      if (Array.isArray(coursesRes.data?.data)) {
+        fetchedCourses = coursesRes.data.data;
+      } else if (Array.isArray(coursesRes.data?.courses)) {
+        fetchedCourses = coursesRes.data.courses;
+      } else if (Array.isArray(coursesRes.data?.enrolledCourses)) {
+        fetchedCourses = coursesRes.data.enrolledCourses.map((enrollment) => enrollment.course).filter(Boolean);
       }
 
-      setCourses(Array.isArray(fetchedCourses) ? fetchedCourses : []);
+      if (!Array.isArray(fetchedCourses)) fetchedCourses = [];
+      setCourses(fetchedCourses);
       if (groupsRes.data?.success) setGroups(groupsRes.data.data);
     } catch (error) {
       console.error('Failed to fetch course data:', error);
@@ -118,10 +155,12 @@ export default function LiveClassesView() {
   const handleScheduleClass = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('/api/live-classes', formData, { withCredentials: true });
+      const { data } = await axios.post('/api/live-classes', { ...formData, sectionId: selectedSectionId || undefined }, { withCredentials: true });
       if (data.success) {
         toast.success('Live class scheduled!');
         setCreatedClass(data.liveClass);
+        setSelectedSectionId('');
+        setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60, platform: 'studio', meetLink: '' });
         fetchClasses();
       }
     } catch (error) {
@@ -226,8 +265,8 @@ export default function LiveClassesView() {
   };
 
   return (
-    <div className={`p-8 min-h-screen ${isDarkMode ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-900'}`}>
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className={`px-4 py-6 md:px-8 md:py-10 min-h-screen ${isDarkMode ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-900'}`}>
+      <div className="max-w-6xl mx-auto w-full space-y-8">
         
         {/* Header */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6">
@@ -237,7 +276,7 @@ export default function LiveClassesView() {
               Hybrid Learning Engine. Stream live or catch up via secure VOD replay.
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <div className={`flex p-1 rounded-full border ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}`}>
                <button 
                  onClick={() => setActiveTab('live')}
@@ -337,11 +376,16 @@ export default function LiveClassesView() {
                         </div>
                       )}
                       
-                      <div className="mt-8 mb-4 pr-16">
+                      <div className="mt-8 mb-4 pr-0 md:pr-16">
                         <span className={`text-[10px] font-black tracking-widest uppercase flex items-center gap-1.5 ${isDarkMode ? 'text-orange-400' : 'text-orange-600'}`}>
                           <CalendarIcon className="w-3 h-3" /> {c.course?.title || 'General Session'}
                         </span>
                         <h3 className="text-xl font-bold mt-2 line-clamp-2 leading-tight">{c.title}</h3>
+                        {c.section && (
+                          <p className={`text-xs mt-2 font-semibold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                            Section: {c.section.name || c.section.sectionCode || 'Unnamed section'}
+                          </p>
+                        )}
                       </div>
                       
                       <p className={`text-sm mb-6 line-clamp-2 font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -482,7 +526,7 @@ export default function LiveClassesView() {
         )}
 
         {/* Schedule Modal */}
-        <PremiumModal isOpen={showModal} onClose={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60, platform: 'studio', meetLink: '' }); }} maxWidth="max-w-lg">
+        <PremiumModal isOpen={showModal} onClose={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60, platform: 'studio', meetLink: '' }); }} maxWidth="max-w-full">
                  <div className="flex flex-col w-full h-full p-6 md:p-8">
                  {/* Brand Background Decorative Elements */}
                  <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#00D4FF]/10 to-transparent pointer-events-none z-0"></div>
@@ -522,7 +566,7 @@ export default function LiveClassesView() {
                     </div>
 
                     <div className="pt-4 flex flex-col gap-3">
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <select 
                           value={selectedGroupId} 
                           onChange={(e) => setSelectedGroupId(e.target.value)}
@@ -543,7 +587,7 @@ export default function LiveClassesView() {
                         </button>
                       </div>
                       <button 
-                        onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60, platform: 'studio', meetLink: '' }); }}
+                        onClick={() => { setShowModal(false); setCreatedClass(null); setSelectedSectionId(''); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60, platform: 'studio', meetLink: '' }); }}
                         className={`w-full px-5 py-3 rounded-full font-bold text-sm transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-slate-200 hover:bg-slate-300 text-slate-900'}`}
                       >
                         Done
@@ -556,13 +600,37 @@ export default function LiveClassesView() {
                       <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Target Course</label>
                       <select required value={formData.courseId} onChange={(e) => setFormData({...formData, courseId: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}>
                         <option value="">Select a course mapping...</option>
-                        {courses.map(course => (
-                          <option key={course.id} value={course.id}>{course.title}</option>
+                        {Object.entries(groupedCoursesByCategory).map(([category, categoryCourses]) => (
+                          <optgroup key={category} label={category}>
+                            {categoryCourses.map(course => (
+                              <option key={course.id} value={course.id}>{course.title}</option>
+                            ))}
+                          </optgroup>
                         ))}
                       </select>
                       {courses.length === 0 && (
                         <p className={`text-xs mt-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                           No courses found for your current role. Create, manage, or enroll in a course first, then refresh.
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Target Section</label>
+                      <select
+                        value={selectedSectionId}
+                        onChange={(e) => setSelectedSectionId(e.target.value)}
+                        disabled={sections.length === 0}
+                        className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}
+                      >
+                        <option value="">All sections within this course</option>
+                        {sections.map(section => (
+                          <option key={section.id} value={section.id}>{section.name || section.sectionCode || 'Unnamed section'}</option>
+                        ))}
+                      </select>
+                      {formData.courseId && sections.length === 0 && (
+                        <p className={`text-xs mt-2 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                          No sections exist for the selected course yet. Create a section in the Sections page to target one specifically.
                         </p>
                       )}
                     </div>
@@ -648,7 +716,7 @@ export default function LiveClassesView() {
                       )}
                     </AnimatePresence>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Date & Time</label>
                         <input required type="datetime-local" value={formData.scheduledAt} onChange={(e) => setFormData({...formData, scheduledAt: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent focus:border-[#00D4FF]/50' : 'bg-slate-100 focus:bg-white border-transparent border focus:border-[#00D4FF]/50'}`}/>
@@ -659,7 +727,7 @@ export default function LiveClassesView() {
                       </div>
                     </div>
 
-                    <div className="pt-6 flex items-center justify-end gap-3">
+                    <div className="pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3">
                       <button type="button" onClick={() => { setShowModal(false); setCreatedClass(null); setFormData({ courseId: '', title: '', description: '', scheduledAt: '', durationMinutes: 60, platform: 'studio', meetLink: '' }); }} className={`px-6 py-3.5 rounded-[32px] font-bold text-sm transition-colors ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-100'}`}>Cancel</button>
                       <button type="submit" className="bg-[#00D4FF] hover:bg-orange-600 text-white px-8 py-3.5 rounded-[32px] font-bold text-sm transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">Deploy Engine</button>
                     </div>
@@ -669,7 +737,7 @@ export default function LiveClassesView() {
         </PremiumModal>
 
         {/* Upload Recording Modal */}
-        <PremiumModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} maxWidth="max-w-xl">
+        <PremiumModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} maxWidth="max-w-full">
                  <div className="flex flex-col w-full h-full p-6 md:p-8">
                  {/* Brand Background Decorative Elements */}
                  <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-indigo-500/10 to-transparent pointer-events-none z-0"></div>
@@ -684,7 +752,7 @@ export default function LiveClassesView() {
                 </div>
                 
                 <form onSubmit={handleUploadRecording} className="p-8 space-y-6 relative z-10">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                      <div>
                        <label className="block text-xs font-black mb-2 uppercase tracking-widest opacity-60">Course</label>
                        <select required value={uploadForm.courseId} onChange={(e) => setUploadForm({...uploadForm, courseId: e.target.value})} className={`w-full px-5 py-3.5 rounded-[32px] text-sm font-medium outline-none transition-all ${isDarkMode ? 'bg-[#151B2B] focus:bg-[#1E2638] border-transparent' : 'bg-slate-100 border-transparent border'}`}>
@@ -733,7 +801,7 @@ export default function LiveClassesView() {
                      </label>
                   </div>
 
-                  <div className="pt-6 flex items-center justify-end gap-3 border-t dark:border-white/5">
+                  <div className="pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3 border-t dark:border-white/5">
                     <button type="button" disabled={uploadingVideo} onClick={() => setShowUploadModal(false)} className={`px-6 py-3.5 rounded-[32px] font-bold text-sm transition-colors ${isDarkMode ? 'hover:bg-white/5' : 'hover:bg-slate-100'}`}>Cancel</button>
                     <button type="submit" disabled={uploadingVideo} className={`px-8 py-3.5 rounded-[32px] font-bold text-sm transition-all text-white flex items-center gap-2 ${uploadingVideo ? 'bg-indigo-400 cursor-not-allowed' : 'bg-indigo-500 hover:bg-indigo-600 shadow-[0_0_20px_rgba(99,102,241,0.3)]'}`}>
                       {uploadingVideo ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"/> : <UploadCloud className="w-4 h-4" />}

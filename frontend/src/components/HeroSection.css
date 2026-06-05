@@ -565,7 +565,7 @@
 .keycap-cream {
   background: #F1EFE7;
   color: #334155;
-  border-bottom: 2.5px solid #C4C2B9;
+  border-bottom: 0 !important;
   box-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 .keycap-cream:active {
@@ -577,7 +577,7 @@
 .keycap-charcoal {
   background: #334155;
   color: #94A3B8;
-  border-bottom: 2.5px solid #1E293B;
+  border-bottom: 0 !important;
   box-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 .keycap-charcoal:active {
@@ -589,7 +589,7 @@
 .keycap-orange {
   background: #FF6A00;
   color: white;
-  border-bottom: 2.5px solid #C25100;
+  border-bottom: 0 !important;
   box-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 .keycap-orange:active {
@@ -601,7 +601,7 @@
 .keycap-cyan {
   background: #19C2E8;
   color: #0F172A;
-  border-bottom: 2.5px solid #1096B4;
+  border-bottom: 0 !important;
   box-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 .keycap-cyan:active {
@@ -1005,7 +1005,7 @@
 [data-theme="light"] .keycap-charcoal {
   background: #475569 !important;
   color: #ffffff !important;
-  border-bottom: 2.5px solid #1e293b !important;
+  border-bottom: 0 !important;
   box-shadow: 0 2px 3px rgba(0,0,0,0.1) !important;
 }
 
@@ -1016,7 +1016,7 @@
 [data-theme="light"] .keycap-cream {
   background: #ffffff !important;
   color: #334155 !important;
-  border-bottom: 2.5px solid #cbd5e1 !important;
+  border-bottom: 0 !important;
   box-shadow: 0 2px 3px rgba(0,0,0,0.08) !important;
 }
 
@@ -1027,7 +1027,7 @@
 [data-theme="light"] .keycap-cyan {
   background: #19C2E8 !important; /* Brand Cyan */
   color: #ffffff !important;
-  border-bottom: 2.5px solid #00a5cc !important;
+  border-bottom: 0 !important;
   box-shadow: 0 2px 3px rgba(25, 194, 232, 0.2) !important;
 }
 
@@ -1038,7 +1038,7 @@
 [data-theme="light"] .keycap-orange {
   background: #FF6A00 !important; /* Brand Orange */
   color: #ffffff !important;
-  border-bottom: 2.5px solid #cc5500 !important;
+  border-bottom: 0 !important;
   box-shadow: 0 2px 3px rgba(255, 106, 0, 0.2) !important;
 }
 
@@ -1074,6 +1074,32 @@
   z-index: 10;
   padding: 8rem 2rem 4rem 2rem;
   transition: all 0.5s ease;
+}
+
+/* Remove any thin divider on the section directly following the hero */
+.premium-hero-wrap + section {
+  border-top: 0 !important;
+}
+
+/* Hide common hairline dividers directly after the hero */
+.premium-hero-wrap + section,
+.premium-hero-wrap + section .border-b,
+.premium-hero-wrap + section .border-t,
+.premium-hero-wrap + section hr,
+.premium-hero-wrap + section::before,
+.premium-hero-wrap + section::after {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  display: block;
+}
+
+.premium-hero-wrap + section hr {
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
 }
 
 /* Fluid Gorgeous Background Gradient based on the mockup */

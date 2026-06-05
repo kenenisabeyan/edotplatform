@@ -28,6 +28,81 @@ const isValidZoomUrl = (url) => {
   return /^https:\/\/([\w.-]+\.)?zoom\.us\/(j|my)\/[A-Za-z0-9?=&#%_\-./]+$/.test(url.trim());
 };
 
+const createLiveClassNotificationForRecipients = async ({ req, userIds, title, message, actionUrl, liveClassId, type = 'live_class' }) => {
+  if (!Array.isArray(userIds) || userIds.length === 0) return;
+
+  const notificationData = userIds.map((userId) => ({
+    userId,
+    type,
+    title,
+    message,
+    relatedEntityType: 'liveClass',
+    relatedEntityId: liveClassId,
+    actionUrl
+  }));
+
+  try {
+    await prisma.notification.createMany({ data: notificationData });
+  } catch (error) {
+    console.error('Failed to persist live class notifications:', error);
+  }
+
+  if (req.io) {
+    userIds.forEach((userId) => {
+      req.io.to(`user_${userId}`).emit('notification', {
+        title,
+        message,
+        type,
+        actionUrl,
+        relatedEntityType: 'liveClass',
+        relatedEntityId: liveClassId
+      });
+    });
+  }
+};
+
+const notifyCourseStudents = async (req, liveClass, event) => {
+  const enrollmentRecords = await prisma.enrollment.findMany({
+    where: {
+      courseId: liveClass.courseId,
+      status: 'active'
+    },
+    select: { studentId: true }
+  });
+
+  const studentIds = enrollmentRecords.map((record) => record.studentId);
+  if (studentIds.length === 0) return;
+
+  let title = '';
+  let message = '';
+  let actionUrl = `/dashboard/live-classes`;
+
+  if (event === 'scheduled') {
+    title = `Live class scheduled: ${liveClass.title}`;
+    message = `A new session is scheduled for ${new Date(liveClass.scheduledAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}. Join from your dashboard.`;
+    actionUrl = `/dashboard/live-classes?join=${liveClass.id}`;
+  } else if (event === 'started') {
+    title = `Live session started: ${liveClass.title}`;
+    message = `Your class is now live. Join the session from your dashboard.`;
+    actionUrl = `/dashboard/live-classes?join=${liveClass.id}`;
+  } else if (event === 'ended') {
+    title = `Live session ended: ${liveClass.title}`;
+    message = `The session has finished. Check the replay or classroom updates.`;
+  } else {
+    return;
+  }
+
+  await createLiveClassNotificationForRecipients({
+    req,
+    userIds: studentIds,
+    title,
+    message,
+    actionUrl,
+    liveClassId: liveClass.id,
+    type: `live_class_${event}`
+  });
+};
+
 export const getLiveClasses = async (req, res) => {
   try {
     const liveClasses = await prisma.liveClass.findMany({
@@ -42,6 +117,9 @@ export const getLiveClasses = async (req, res) => {
             instructorId: true,
             instructor: { select: { id: true, name: true, avatar: true, email: true } }
           }
+        },
+        section: {
+          select: { id: true, name: true, sectionCode: true }
         },
         attendances: {
           include: {
@@ -61,7 +139,7 @@ export const getLiveClasses = async (req, res) => {
 
 export const createLiveClass = async (req, res) => {
   try {
-    const { courseId, title, description, scheduledAt, durationMinutes, platform, meetLink } = req.body;
+    const { courseId, sectionId, title, description, scheduledAt, durationMinutes, platform, meetLink } = req.body;
     const instructorId = req.user.id;
 
     if (!courseId) {
@@ -90,6 +168,21 @@ export const createLiveClass = async (req, res) => {
     let finalMeetLink = null;
     let googleEventId = null;
     const chosenPlatform = platform || 'studio';
+    let validatedSectionId = null;
+
+    if (sectionId) {
+      const section = await prisma.section.findUnique({ where: { id: sectionId } });
+      if (!section) {
+        return res.status(404).json({ success: false, message: 'Selected section not found.' });
+      }
+      if (section.courseId !== courseId) {
+        return res.status(400).json({ success: false, message: 'Selected section does not belong to the chosen course.' });
+      }
+      if (req.user.role === 'instructor' && section.instructorId !== instructorId) {
+        return res.status(403).json({ success: false, message: 'You can only schedule live classes for sections you manage.' });
+      }
+      validatedSectionId = sectionId;
+    }
 
     if (chosenPlatform === 'google_meet') {
       if (meetLink && meetLink.trim()) {
@@ -164,6 +257,7 @@ export const createLiveClass = async (req, res) => {
     const liveClass = await prisma.liveClass.create({
       data: {
         courseId,
+        sectionId: validatedSectionId,
         instructorId,
         title,
         description,
@@ -187,6 +281,8 @@ export const createLiveClass = async (req, res) => {
         }
       }
     });
+
+    await notifyCourseStudents(req, liveClass, 'scheduled');
 
     res.status(201).json({ success: true, liveClass });
   } catch (error) {
@@ -230,6 +326,35 @@ export const joinLiveClass = async (req, res) => {
         data: { status: 'live' }
       });
       if (req.io) req.io.emit('live_class_started', { classId: id, courseId: liveClass.courseId });
+      await notifyCourseStudents(req, liveClass, 'started');
+    }
+
+    if (req.user.role === 'student' && liveClass.instructorId) {
+      const instructorNotification = {
+        userId: liveClass.instructorId,
+        type: 'attendance_update',
+        title: `Student joined your live class`,
+        message: `${req.user.name || 'A student'} joined "${liveClass.title}".`,
+        relatedEntityType: 'liveClass',
+        relatedEntityId: liveClass.id,
+        actionUrl: `/dashboard/live-classes?join=${liveClass.id}`
+      };
+
+      try {
+        await prisma.notification.create({ data: instructorNotification });
+        if (req.io) {
+          req.io.to(`user_${liveClass.instructorId}`).emit('notification', {
+            title: instructorNotification.title,
+            message: instructorNotification.message,
+            type: instructorNotification.type,
+            actionUrl: instructorNotification.actionUrl,
+            relatedEntityType: instructorNotification.relatedEntityType,
+            relatedEntityId: instructorNotification.relatedEntityId
+          });
+        }
+      } catch (notifError) {
+        console.error('Failed to notify instructor of student join:', notifError);
+      }
     }
 
     if (req.io) req.io.emit('attendance_update', { classId: id, studentId });
@@ -304,6 +429,7 @@ export const markClassCompleted = async (req, res) => {
     });
 
     if (req.io) req.io.emit('live_class_ended', { classId: id, courseId: liveClass.courseId });
+    await notifyCourseStudents(req, liveClass, 'ended');
 
     res.json({ success: true, liveClass: updated });
   } catch (error) {

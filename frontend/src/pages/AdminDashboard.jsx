@@ -390,7 +390,7 @@ export default function AdminDashboard() {
         
         return (
           <div className="animate-in fade-in flex flex-col space-y-8 min-h-screen -mx-4 md:-mx-8 lg:-mx-12 -mt-4 md:-mt-8 p-6 md:p-10">
-            <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 ${isDarkMode ? 'border-white/10' : 'border-slate-200'}`}>
+            <div className={`flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b pb-6 pt-2 mb-8 rounded-[32px] transition-all duration-300 ${isDarkMode ? 'border-white/10 bg-[#0B1120]/90 shadow-[0_20px_60px_rgba(0,0,0,0.55)]' : 'border-slate-200 bg-white/90 shadow-[0_20px_60px_rgba(15,23,42,0.12)]'}`}>
               <div>
                 <h1 className={`text-4xl font-display font-black flex items-center gap-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                   <Activity className="w-8 h-8 text-[#00D4FF]" />
